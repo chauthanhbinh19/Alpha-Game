@@ -307,6 +307,15 @@ public static class ImageConstants
         public const string SKILL_MAIN_bACKGROUND_URL = "UI/Background4/Skill/Skill_Main_Background";
         public const string SKILL_FORCES_BACKGROUND_URL = "UI/Background4/Skill/Skill_Forces_Background";
         public const string SKILL_TRANSCENDENCE_BACKGROUND_URL = "UI/Background4/Skill/Skill_Transcendence_Background";
+
+        public const string CARD_HERO_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_5";
+        public const string CARD_CAPTAIN_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_6";
+        public const string CARD_COLONEL_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_7";
+        public const string CARD_GENERAL_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_8";
+        public const string CARD_ADMIRAL_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_11";
+        public const string CARD_MONSTER_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_9";
+        public const string CARD_MILITARY_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_10";
+        public const string CARD_SPELL_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_5";
     }
     public static class Currency
     {

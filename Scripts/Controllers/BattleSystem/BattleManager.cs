@@ -13,16 +13,16 @@ public class BattleManager : MonoBehaviour
     public GameObject CardModelPrefab;
     [SerializeField] private int maxTurn = 10;
     // Cần gán các GameObject Slot này vào Inspector
-    private LoadTeams _loadTeamService;
+    private TeamSetupService teamSetupService;
+    [SerializeField] private CardDisplayManager cardDisplayManager;
     private TurnManager turnManager;
     private PlayerController attacker;
     private PlayerController defender;
-
-    private void Awake()
+    void Awake()
     {
-        // Khởi tạo service khi game bắt đầu
-        _loadTeamService = new LoadTeams();
+        teamSetupService = new TeamSetupService();
     }
+
     private void Start()
     {
         InitializeBattle();
@@ -84,13 +84,13 @@ public class BattleManager : MonoBehaviour
         attacker = new PlayerController();
         defender = new PlayerController();
 
-        turnManager = new TurnManager(maxTurn);
+        turnManager = new TurnManager(maxTurn, cardDisplayManager);
 
         // var teams = TeamsService.Create().GetUserTeams(User.CurrentUserId);
         string userId = "638957884856698071";
         var teams = TeamsService.Create().GetUserTeams(userId);
         var firstTeam = teams.FirstOrDefault(t => t.TeamNumber == 1);
-        SetupPlayerTeam(userId, firstTeam.TeamId);
+        teamSetupService.SetupPlayerTeam(userId, firstTeam.TeamId);
 
         // Giả lập thêm vài lá bài vào field
         // attacker.AddCard(new DummyCard("🔥 Attacker Card A"));
@@ -136,17 +136,7 @@ public class BattleManager : MonoBehaviour
         return selectedCards;
     }
 
-    public void SetupPlayerTeam(string userId, string teamId)
-    {
-        // 1. Gọi Service để lấy các đối tượng CardBase đã được ánh xạ
-        List<CardBase> allLoadedCards = _loadTeamService.LoadPlayerTeamCard(userId, teamId);
-
-        // 2. Gán từng Card vào vị trí vật lý trên sân
-        List<CardBase> selectedCards = SelectUniquePositionCards(allLoadedCards, 5);
-
-        // 3. Gán thẻ vào vị trí trên sân
-        AssignCardsToSlots(selectedCards, AllySlots);
-    }
+    
 
     // Logic gán và Instantiate
     private void AssignCardsToSlots(List<CardBase> cardsToPlace, CardSlot[] slots)

@@ -11,5 +11,6 @@ public static class AudioConstants
         public const string STAR_UP = "StarUp1";
         public const string SWITCH_CLICK = "SwitchClick";
         public const string CAN_OPENING = "CanOpening";
+        public const string APPEAR = "Appear";
     }
 }

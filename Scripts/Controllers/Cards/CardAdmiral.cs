@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 public class CardAdmiral : CardBase
 {
     public void Initialize(CardAdmirals cardAdmirals)
     {
         // copy thuộc tính từ CardBase
+        this.Id = cardAdmirals.Id;
         this.CardName = cardAdmirals.Name;
         this.Image = cardAdmirals.Image;
         this.Type = cardAdmirals.Type;
@@ -59,6 +61,7 @@ public class CardAdmiral : CardBase
         this.SkillDamageRate = cardAdmirals.SkillDamageRate;
         this.SkillResistanceRate = cardAdmirals.SkillResistanceRate;
         this.Position = cardAdmirals.Position;
+        this.IsAlive = true;
 
         this.CurrentHealth = cardAdmirals.Health;
         this.CurrentPhysicalAttack = cardAdmirals.PhysicalAttack;
@@ -117,5 +120,70 @@ public class CardAdmiral : CardBase
             this.MainPosition = int.Parse(parts[0]);
             this.SubIndex = int.Parse(parts[1]);
         }
+    }
+    public void ApplyPenalty(float penaltyPercent)
+    {
+        // Hệ số nhân giảm giá trị. Ví dụ: 10% penalty -> multiplier = 1 - (10 / 100) = 0.9
+        float multiplier = 1f - (penaltyPercent / 100f);
+
+        // Đảm bảo multiplier không âm (trừ khi bạn cho phép chỉ số tăng khi bị phạt)
+        if (multiplier < 0) multiplier = 0; 
+
+        this.CurrentHealth = Math.Max(0, this.CurrentHealth * multiplier);
+        this.CurrentMana = Mathf.Max(0, this.CurrentMana * multiplier);
+        
+        // Chỉ số Tấn công và Phòng thủ
+        this.CurrentPhysicalAttack *= multiplier;
+        this.CurrentPhysicalDefense *= multiplier;
+        this.CurrentMagicalAttack *= multiplier;
+        this.CurrentMagicalDefense *= multiplier;
+        this.CurrentChemicalAttack *= multiplier;
+        this.CurrentChemicalDefense *= multiplier;
+        this.CurrentAtomicAttack *= multiplier;
+        this.CurrentAtomicDefense *= multiplier;
+        this.CurrentMentalAttack *= multiplier;
+        this.CurrentMentalDefense *= multiplier;
+        
+        // Chỉ số Tỷ lệ (Rates) và các chỉ số khác
+        this.CurrentSpeed *= multiplier;
+        this.CurrentCriticalDamageRate *= multiplier;
+        this.CurrentCriticalRate *= multiplier;
+        this.CurrentCriticalResistanceRate *= multiplier;
+        this.CurrentIgnoreCriticalRate *= multiplier;
+        this.CurrentPenetrationRate *= multiplier;
+        this.CurrentPenetrationResistanceRate *= multiplier;
+        this.CurrentEvasionRate *= multiplier;
+        this.CurrentDamageAbsorptionRate *= multiplier;
+        this.CurrentAbsorbedDamageRate *= multiplier;
+        this.CurrentIgnoreDamageAbsorptionRate *= multiplier;
+        this.CurrentVitalityRegenerationRate *= multiplier;
+        this.CurrentVitalityRegenerationResistanceRate *= multiplier;
+        this.CurrentAccuracyRate *= multiplier;
+        this.CurrentLifestealRate *= multiplier;
+        this.CurrentManaRegenerationRate *= multiplier;
+        this.CurrentShieldStrength *= multiplier;
+        this.CurrentTenacity *= multiplier;
+        this.CurrentResistanceRate *= multiplier;
+        this.CurrentComboRate *= multiplier;
+        this.CurrentIgnoreComboRate *= multiplier;
+        this.CurrentComboDamageRate *= multiplier;
+        this.CurrentComboResistanceRate *= multiplier;
+        this.CurrentStunRate *= multiplier;
+        this.CurrentIgnoreStunRate *= multiplier;
+        this.CurrentReflectionRate *= multiplier;
+        this.CurrentIgnoreReflectionRate *= multiplier;
+        this.CurrentReflectionDamageRate *= multiplier;
+        this.CurrentReflectionResistanceRate *= multiplier;
+        this.CurrentDamageToDifferentFactionRate *= multiplier;
+        this.CurrentResistanceToDifferentFactionRate *= multiplier;
+        this.CurrentDamageToSameFactionRate *= multiplier;
+        this.CurrentResistanceToSameFactionRate *= multiplier;
+        this.CurrentNormalDamageRate *= multiplier;
+        this.CurrentNormalResistanceRate *= multiplier;
+        this.CurrentSkillDamageRate *= multiplier;
+        this.CurrentSkillResistanceRate *= multiplier;
+        
+        // Tùy chọn: Gọi hàm tính lại chỉ số Power nếu cần
+        // RecalculatePower();
     }
 }

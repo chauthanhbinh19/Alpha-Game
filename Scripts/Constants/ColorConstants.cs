@@ -22,7 +22,23 @@ public static class ColorConstants
     public const string LIGHT_GRAY_COLOR = "#D3D3D3";
     public const string DARK_GRAY_COLOR  = "#A9A9A9";
     public const string BLACK_COLOR     = "#000000";
-    public const string WHITE_COLOR     = "#FFFFFF";
+    public const string WHITE_COLOR = "#FFFFFF";
+    
+    public const string RED_TRANSPARENT_COLOR       = "#c51313cc"; 
+    public const string GREEN_TRANSPARENT_COLOR     = "#27b327cc";
+    public const string BLUE_TRANSPARENT_COLOR      = "#1616becc";
+    public const string YELLOW_TRANSPARENT_COLOR    = "#c8c81bcc";
+    public const string CYAN_TRANSPARENT_COLOR      = "#19d1d1cc";
+    public const string MAGENTA_TRANSPARENT_COLOR   = "#b016b0cc";
+    public const string ORANGE_TRANSPARENT_COLOR    = "#be841acc";
+    public const string PURPLE_TRANSPARENT_COLOR    = "#b51ab5cc";
+    public const string PINK_TRANSPARENT_COLOR      = "#eb2c9fcc";
+    public const string BROWN_TRANSPARENT_COLOR     = "#771a1acc";
+    public const string GRAY_TRANSPARENT_COLOR      = "#808080CC";
+    public const string LIGHT_GRAY_TRANSPARENT_COLOR= "#D3D3D3CC";
+    public const string DARK_GRAY_TRANSPARENT_COLOR = "#A9A9A9CC";
+    public const string BLACK_TRANSPARENT_COLOR     = "#000000CC";
+    public const string WHITE_TRANSPARENT_COLOR     = "#FFFFFFCC";
     public static VertexGradient PhysicalGradient = new VertexGradient(
         new Color32(255, 99, 71, 255),   // Top Left - Tomato
         new Color32(255, 69, 0, 255),    // Top Right - OrangeRed
@@ -60,14 +76,5 @@ public static class ColorConstants
     public static class HexColor
     {
         public const string descriptionColor = "#F9EED9";
-    }
-
-    // Thêm các màu khác nếu cần
-
-    public static Color ToColor(string hex)
-    {
-        if (ColorUtility.TryParseHtmlString(hex, out Color color))
-            return color;
-        return Color.white;
     }
 }

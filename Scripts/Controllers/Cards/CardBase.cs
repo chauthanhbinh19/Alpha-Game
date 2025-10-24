@@ -4,116 +4,118 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 
-public abstract class CardBase : MonoBehaviour
+public abstract class CardBase
 {
-    [SerializeField] public string CardName { get; set; }
-    [SerializeField] public string Image { get; set; }
-    [SerializeField] public string Type { get; set; }
-    [SerializeField] public string Rare { get; set; }
-    [SerializeField] public double Power { get; set; } = 0;
+    public string Id { get; set; }
+    public string CardName { get; set; }
+    public string Image { get; set; }
+    public string Type { get; set; }
+    public string Rare { get; set; }
+    public double Power { get; set; } = 0;
     //Base
-    [SerializeField] public double Health { get; set; } = 0;
-    [SerializeField] public double PhysicalAttack { get; set; } = 0;
-    [SerializeField] public double PhysicalDefense { get; set; } = 0;
-    [SerializeField] public double MagicalAttack { get; set; } = 0;
-    [SerializeField] public double MagicalDefense { get; set; } = 0;
-    [SerializeField] public double ChemicalAttack { get; set; } = 0;
-    [SerializeField] public double ChemicalDefense { get; set; } = 0;
-    [SerializeField] public double AtomicAttack { get; set; } = 0;
-    [SerializeField] public double AtomicDefense { get; set; } = 0;
-    [SerializeField] public double MentalAttack { get; set; } = 0;
-    [SerializeField] public double MentalDefense { get; set; } = 0;
-    [SerializeField] public double Speed { get; set; } = 0;
-    [SerializeField] public double CriticalDamageRate { get; set; } = 0;
-    [SerializeField] public double CriticalRate { get; set; } = 0;
-    [SerializeField] public double CriticalResistanceRate { get; set; } = 0;
-    [SerializeField] public double IgnoreCriticalRate { get; set; } = 0;
-    [SerializeField] public double PenetrationRate { get; set; } = 0;
-    [SerializeField] public double PenetrationResistanceRate { get; set; } = 0;
-    [SerializeField] public double EvasionRate { get; set; } = 0;
-    [SerializeField] public double DamageAbsorptionRate { get; set; } = 0;
-    [SerializeField] public double IgnoreDamageAbsorptionRate { get; set; } = 0;
-    [SerializeField] public double AbsorbedDamageRate { get; set; } = 0;
-    [SerializeField] public double VitalityRegenerationRate { get; set; } = 0;
-    [SerializeField] public double VitalityRegenerationResistanceRate { get; set; } = 0;
-    [SerializeField] public double AccuracyRate { get; set; } = 0;
-    [SerializeField] public double LifestealRate { get; set; } = 0;
-    [SerializeField] public float Mana { get; set; } = 0;
-    [SerializeField] public double ManaRegenerationRate { get; set; } = 0;
-    [SerializeField] public double ShieldStrength { get; set; } = 0;
-    [SerializeField] public double Tenacity { get; set; } = 0;
-    [SerializeField] public double ResistanceRate { get; set; } = 0;
-    [SerializeField] public double ComboRate { get; set; } = 0;
-    [SerializeField] public double IgnoreComboRate { get; set; } = 0;
-    [SerializeField] public double ComboDamageRate { get; set; } = 0;
-    [SerializeField] public double ComboResistanceRate { get; set; } = 0;
-    [SerializeField] public double StunRate { get; set; } = 0;
-    [SerializeField] public double IgnoreStunRate { get; set; } = 0;
-    [SerializeField] public double ReflectionRate { get; set; } = 0;
-    [SerializeField] public double IgnoreReflectionRate { get; set; } = 0;
-    [SerializeField] public double ReflectionDamageRate { get; set; } = 0;
-    [SerializeField] public double ReflectionResistanceRate { get; set; } = 0;
-    [SerializeField] public double DamageToDifferentFactionRate { get; set; } = 0;
-    [SerializeField] public double ResistanceToDifferentFactionRate { get; set; } = 0;
-    [SerializeField] public double DamageToSameFactionRate { get; set; } = 0;
-    [SerializeField] public double ResistanceToSameFactionRate { get; set; } = 0;
-    [SerializeField] public double NormalDamageRate { get; set; } = 0;
-    [SerializeField] public double NormalResistanceRate { get; set; } = 0;
-    [SerializeField] public double SkillDamageRate { get; set; } = 0;
-    [SerializeField] public double SkillResistanceRate { get; set; } = 0;
+    public double Health { get; set; } = 0;
+    public double PhysicalAttack { get; set; } = 0;
+    public double PhysicalDefense { get; set; } = 0;
+    public double MagicalAttack { get; set; } = 0;
+    public double MagicalDefense { get; set; } = 0;
+    public double ChemicalAttack { get; set; } = 0;
+    public double ChemicalDefense { get; set; } = 0;
+    public double AtomicAttack { get; set; } = 0;
+    public double AtomicDefense { get; set; } = 0;
+    public double MentalAttack { get; set; } = 0;
+    public double MentalDefense { get; set; } = 0;
+    public double Speed { get; set; } = 0;
+    public double CriticalDamageRate { get; set; } = 0;
+    public double CriticalRate { get; set; } = 0;
+    public double CriticalResistanceRate { get; set; } = 0;
+    public double IgnoreCriticalRate { get; set; } = 0;
+    public double PenetrationRate { get; set; } = 0;
+    public double PenetrationResistanceRate { get; set; } = 0;
+    public double EvasionRate { get; set; } = 0;
+    public double DamageAbsorptionRate { get; set; } = 0;
+    public double IgnoreDamageAbsorptionRate { get; set; } = 0;
+    public double AbsorbedDamageRate { get; set; } = 0;
+    public double VitalityRegenerationRate { get; set; } = 0;
+    public double VitalityRegenerationResistanceRate { get; set; } = 0;
+    public double AccuracyRate { get; set; } = 0;
+    public double LifestealRate { get; set; } = 0;
+    public float Mana { get; set; } = 0;
+    public double ManaRegenerationRate { get; set; } = 0;
+    public double ShieldStrength { get; set; } = 0;
+    public double Tenacity { get; set; } = 0;
+    public double ResistanceRate { get; set; } = 0;
+    public double ComboRate { get; set; } = 0;
+    public double IgnoreComboRate { get; set; } = 0;
+    public double ComboDamageRate { get; set; } = 0;
+    public double ComboResistanceRate { get; set; } = 0;
+    public double StunRate { get; set; } = 0;
+    public double IgnoreStunRate { get; set; } = 0;
+    public double ReflectionRate { get; set; } = 0;
+    public double IgnoreReflectionRate { get; set; } = 0;
+    public double ReflectionDamageRate { get; set; } = 0;
+    public double ReflectionResistanceRate { get; set; } = 0;
+    public double DamageToDifferentFactionRate { get; set; } = 0;
+    public double ResistanceToDifferentFactionRate { get; set; } = 0;
+    public double DamageToSameFactionRate { get; set; } = 0;
+    public double ResistanceToSameFactionRate { get; set; } = 0;
+    public double NormalDamageRate { get; set; } = 0;
+    public double NormalResistanceRate { get; set; } = 0;
+    public double SkillDamageRate { get; set; } = 0;
+    public double SkillResistanceRate { get; set; } = 0;
     //Current
-    [SerializeField] public double CurrentHealth { get; set; } = 0;
-    [SerializeField] public double CurrentPhysicalAttack { get; set; } = 0;
-    [SerializeField] public double CurrentPhysicalDefense { get; set; } = 0;
-    [SerializeField] public double CurrentMagicalAttack { get; set; } = 0;
-    [SerializeField] public double CurrentMagicalDefense { get; set; } = 0;
-    [SerializeField] public double CurrentChemicalAttack { get; set; } = 0;
-    [SerializeField] public double CurrentChemicalDefense { get; set; } = 0;
-    [SerializeField] public double CurrentAtomicAttack { get; set; } = 0;
-    [SerializeField] public double CurrentAtomicDefense { get; set; } = 0;
-    [SerializeField] public double CurrentMentalAttack { get; set; } = 0;
-    [SerializeField] public double CurrentMentalDefense { get; set; } = 0;
-    [SerializeField] public double CurrentSpeed { get; set; } = 0;
-    [SerializeField] public double CurrentCriticalDamageRate { get; set; } = 0;
-    [SerializeField] public double CurrentCriticalRate { get; set; } = 0;
-    [SerializeField] public double CurrentCriticalResistanceRate { get; set; } = 0;
-    [SerializeField] public double CurrentIgnoreCriticalRate { get; set; } = 0;
-    [SerializeField] public double CurrentPenetrationRate { get; set; } = 0;
-    [SerializeField] public double CurrentPenetrationResistanceRate { get; set; } = 0;
-    [SerializeField] public double CurrentEvasionRate { get; set; } = 0;
-    [SerializeField] public double CurrentDamageAbsorptionRate { get; set; } = 0;
-    [SerializeField] public double CurrentIgnoreDamageAbsorptionRate { get; set; } = 0;
-    [SerializeField] public double CurrentAbsorbedDamageRate { get; set; } = 0;
-    [SerializeField] public double CurrentVitalityRegenerationRate { get; set; } = 0;
-    [SerializeField] public double CurrentVitalityRegenerationResistanceRate { get; set; } = 0;
-    [SerializeField] public double CurrentAccuracyRate { get; set; } = 0;
-    [SerializeField] public double CurrentLifestealRate { get; set; } = 0;
-    [SerializeField] public float CurrentMana { get; set; } = 0;
-    [SerializeField] public double CurrentManaRegenerationRate { get; set; } = 0;
-    [SerializeField] public double CurrentShieldStrength { get; set; } = 0;
-    [SerializeField] public double CurrentTenacity { get; set; } = 0;
-    [SerializeField] public double CurrentResistanceRate { get; set; } = 0;
-    [SerializeField] public double CurrentComboRate { get; set; } = 0;
-    [SerializeField] public double CurrentIgnoreComboRate { get; set; } = 0;
-    [SerializeField] public double CurrentComboDamageRate { get; set; } = 0;
-    [SerializeField] public double CurrentComboResistanceRate { get; set; } = 0;
-    [SerializeField] public double CurrentStunRate { get; set; } = 0;
-    [SerializeField] public double CurrentIgnoreStunRate { get; set; } = 0;
-    [SerializeField] public double CurrentReflectionRate { get; set; } = 0;
-    [SerializeField] public double CurrentIgnoreReflectionRate { get; set; } = 0;
-    [SerializeField] public double CurrentReflectionDamageRate { get; set; } = 0;
-    [SerializeField] public double CurrentReflectionResistanceRate { get; set; } = 0;
-    [SerializeField] public double CurrentDamageToDifferentFactionRate { get; set; } = 0;
-    [SerializeField] public double CurrentResistanceToDifferentFactionRate { get; set; } = 0;
-    [SerializeField] public double CurrentDamageToSameFactionRate { get; set; } = 0;
-    [SerializeField] public double CurrentResistanceToSameFactionRate { get; set; } = 0;
-    [SerializeField] public double CurrentNormalDamageRate { get; set; } = 0;
-    [SerializeField] public double CurrentNormalResistanceRate { get; set; } = 0;
-    [SerializeField] public double CurrentSkillDamageRate { get; set; } = 0;
-    [SerializeField] public double CurrentSkillResistanceRate { get; set; } = 0;
-    [SerializeField] public string Position { get; set; }
-    [SerializeField] public int MainPosition { get; set; }
-    [SerializeField] public int SubIndex { get; set; }
+    public double CurrentHealth { get; set; } = 0;
+    public double CurrentPhysicalAttack { get; set; } = 0;
+    public double CurrentPhysicalDefense { get; set; } = 0;
+    public double CurrentMagicalAttack { get; set; } = 0;
+    public double CurrentMagicalDefense { get; set; } = 0;
+    public double CurrentChemicalAttack { get; set; } = 0;
+    public double CurrentChemicalDefense { get; set; } = 0;
+    public double CurrentAtomicAttack { get; set; } = 0;
+    public double CurrentAtomicDefense { get; set; } = 0;
+    public double CurrentMentalAttack { get; set; } = 0;
+    public double CurrentMentalDefense { get; set; } = 0;
+    public double CurrentSpeed { get; set; } = 0;
+    public double CurrentCriticalDamageRate { get; set; } = 0;
+    public double CurrentCriticalRate { get; set; } = 0;
+    public double CurrentCriticalResistanceRate { get; set; } = 0;
+    public double CurrentIgnoreCriticalRate { get; set; } = 0;
+    public double CurrentPenetrationRate { get; set; } = 0;
+    public double CurrentPenetrationResistanceRate { get; set; } = 0;
+    public double CurrentEvasionRate { get; set; } = 0;
+    public double CurrentDamageAbsorptionRate { get; set; } = 0;
+    public double CurrentIgnoreDamageAbsorptionRate { get; set; } = 0;
+    public double CurrentAbsorbedDamageRate { get; set; } = 0;
+    public double CurrentVitalityRegenerationRate { get; set; } = 0;
+    public double CurrentVitalityRegenerationResistanceRate { get; set; } = 0;
+    public double CurrentAccuracyRate { get; set; } = 0;
+    public double CurrentLifestealRate { get; set; } = 0;
+    public float CurrentMana { get; set; } = 0;
+    public double CurrentManaRegenerationRate { get; set; } = 0;
+    public double CurrentShieldStrength { get; set; } = 0;
+    public double CurrentTenacity { get; set; } = 0;
+    public double CurrentResistanceRate { get; set; } = 0;
+    public double CurrentComboRate { get; set; } = 0;
+    public double CurrentIgnoreComboRate { get; set; } = 0;
+    public double CurrentComboDamageRate { get; set; } = 0;
+    public double CurrentComboResistanceRate { get; set; } = 0;
+    public double CurrentStunRate { get; set; } = 0;
+    public double CurrentIgnoreStunRate { get; set; } = 0;
+    public double CurrentReflectionRate { get; set; } = 0;
+    public double CurrentIgnoreReflectionRate { get; set; } = 0;
+    public double CurrentReflectionDamageRate { get; set; } = 0;
+    public double CurrentReflectionResistanceRate { get; set; } = 0;
+    public double CurrentDamageToDifferentFactionRate { get; set; } = 0;
+    public double CurrentResistanceToDifferentFactionRate { get; set; } = 0;
+    public double CurrentDamageToSameFactionRate { get; set; } = 0;
+    public double CurrentResistanceToSameFactionRate { get; set; } = 0;
+    public double CurrentNormalDamageRate { get; set; } = 0;
+    public double CurrentNormalResistanceRate { get; set; } = 0;
+    public double CurrentSkillDamageRate { get; set; } = 0;
+    public double CurrentSkillResistanceRate { get; set; } = 0;
+    public string Position { get; set; }
+    public int MainPosition { get; set; }
+    public int SubIndex { get; set; }
+    public bool IsAlive { get; set; }
     public GameObject damagePopupPrefab;
     public HealthBar healthBar;
     public virtual void PerformAction(PlayerController opponent)
@@ -132,81 +134,76 @@ public abstract class CardBase : MonoBehaviour
         // Có thể thêm hiệu ứng hoặc sự kiện khi bị tấn công ở đây
         // ShowDamagePopup(amount); // Hiển thị popup sát thương
     }
-    protected void ShowDamagePopup(double damage, VertexGradient colorGradient, float popupFactor = 1f)
-    {
-        if (damagePopupPrefab == null)
-        {
-            Debug.Log(MessageHelper.PrefabConstants.PrefabIsNull);
-            return;
-        }
+    // protected void ShowDamagePopup(double damage, VertexGradient colorGradient, float popupFactor = 1f)
+    // {
+    //     if (damagePopupPrefab == null)
+    //     {
+    //         Debug.Log(MessageHelper.PrefabConstants.PrefabIsNull);
+    //         return;
+    //     }
 
-        GameObject newPopup = Instantiate(damagePopupPrefab, transform);
+    //     GameObject newPopup = Instantiate(damagePopupPrefab, transform);
 
-        // Hướng bay lên theo local Y của chính popup (có thể bị xoay bởi billboard)
-        Vector3 worldUp = Camera.main.transform.up;
-        Vector3 localUp = newPopup.transform.InverseTransformDirection(worldUp);
+    //     // Hướng bay lên theo local Y của chính popup (có thể bị xoay bởi billboard)
+    //     Vector3 worldUp = Camera.main.transform.up;
+    //     Vector3 localUp = newPopup.transform.InverseTransformDirection(worldUp);
 
-        // Tính offset cao ban đầu + tăng theo chỉ số popupIndex
-        float baseHeight = 0f;
-        float offset = baseHeight + popupFactor * 2.5f;
+    //     // Tính offset cao ban đầu + tăng theo chỉ số popupIndex
+    //     float baseHeight = 0f;
+    //     float offset = baseHeight + popupFactor * 2.5f;
 
-        // Đặt vị trí local khởi tạo theo hướng "up"
-        newPopup.transform.localPosition = localUp * offset + new Vector3(
-            UnityEngine.Random.Range(-1.0f, 1.0f),
-            0f,
-            UnityEngine.Random.Range(-1.0f, 1.0f)
-        );
+    //     // Đặt vị trí local khởi tạo theo hướng "up"
+    //     newPopup.transform.localPosition = localUp * offset + new Vector3(
+    //         UnityEngine.Random.Range(-1.0f, 1.0f),
+    //         0f,
+    //         UnityEngine.Random.Range(-1.0f, 1.0f)
+    //     );
 
-        var text = newPopup.GetComponentInChildren<TextMeshProUGUI>();
-        if (text != null)
-        {
-            text.text = "-" + damage.ToString();
-            text.colorGradient = colorGradient;
-        }
-
-
-        StartCoroutine(DamagePopupEffect(newPopup));
-
-    }
+    //     var text = newPopup.GetComponentInChildren<TextMeshProUGUI>();
+    //     if (text != null)
+    //     {
+    //         text.text = "-" + damage.ToString();
+    //         text.colorGradient = colorGradient;
+    //     }
 
 
-    public virtual bool IsAlive()
-    {
-        return CurrentHealth > 0;
-    }
-    public IEnumerator DamagePopupEffect(GameObject popup)
-    {
-        float duration = 1f;
-        float elapsed = 0f;
+    //     StartCoroutine(DamagePopupEffect(newPopup));
 
-        //Lấy vị trí đã được đẩy lên sau vòng foreach
-        Vector3 startPos = popup.transform.localPosition;
-        Vector3 upDirection = popup.transform.up;
-        Vector3 endPos = startPos + upDirection * 2.5f;
+    // }
 
-        Vector3 startScale = Vector3.one * 0.07f;
-        Vector3 midScale = Vector3.one * 0.07f;
-        Vector3 endScale = Vector3.one * 0.07f;
+    // public IEnumerator DamagePopupEffect(GameObject popup)
+    // {
+    //     float duration = 1f;
+    //     float elapsed = 0f;
 
-        popup.transform.localScale = startScale;
+    //     //Lấy vị trí đã được đẩy lên sau vòng foreach
+    //     Vector3 startPos = popup.transform.localPosition;
+    //     Vector3 upDirection = popup.transform.up;
+    //     Vector3 endPos = startPos + upDirection * 2.5f;
 
-        while (elapsed < duration)
-        {
-            float t = elapsed / duration;
+    //     Vector3 startScale = Vector3.one * 0.07f;
+    //     Vector3 midScale = Vector3.one * 0.07f;
+    //     Vector3 endScale = Vector3.one * 0.07f;
 
-            popup.transform.localPosition = Vector3.Lerp(startPos, endPos, t);
+    //     popup.transform.localScale = startScale;
 
-            if (t < 0.3f)
-                popup.transform.localScale = Vector3.Lerp(startScale, midScale, t / 0.3f);
-            else
-                popup.transform.localScale = Vector3.Lerp(midScale, endScale, (t - 0.3f) / 0.7f);
+    //     while (elapsed < duration)
+    //     {
+    //         float t = elapsed / duration;
 
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
+    //         popup.transform.localPosition = Vector3.Lerp(startPos, endPos, t);
 
-        Destroy(popup);
-    }
+    //         if (t < 0.3f)
+    //             popup.transform.localScale = Vector3.Lerp(startScale, midScale, t / 0.3f);
+    //         else
+    //             popup.transform.localScale = Vector3.Lerp(midScale, endScale, (t - 0.3f) / 0.7f);
+
+    //         elapsed += Time.deltaTime;
+    //         yield return null;
+    //     }
+
+    //     Destroy(popup);
+    // }
 
     public void Attack(CardBase enemyCard)
     {
@@ -221,7 +218,7 @@ public abstract class CardBase : MonoBehaviour
     public void CausePhysicalAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(PhysicalAttack, enemyCard.PhysicalAttack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.PhysicalGradient, 1f);
+        // enemyCard.ShowDamagePopup(damage, ColorConstants.PhysicalGradient, 1f);
         Debug.Log("Physical damage " + damage);
         enemyCard.TakeDamage(damage);
     }
@@ -229,7 +226,7 @@ public abstract class CardBase : MonoBehaviour
     public void CauseMagicalAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(MagicalAttack, enemyCard.MagicalAttack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.MagicGradient, 2f);
+        // enemyCard.ShowDamagePopup(damage, ColorConstants.MagicGradient, 2f);
         Debug.Log("Magical damage " + damage);
         enemyCard.TakeDamage(damage);
     }
@@ -237,7 +234,7 @@ public abstract class CardBase : MonoBehaviour
     public void CauseChemicalAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(ChemicalAttack, enemyCard.ChemicalAttack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.ChemicalGradient, 3f);
+        // enemyCard.ShowDamagePopup(damage, ColorConstants.ChemicalGradient, 3f);
         Debug.Log("Chemical damage " + damage);
         enemyCard.TakeDamage(damage);
     }
@@ -245,7 +242,7 @@ public abstract class CardBase : MonoBehaviour
     public void CauseAtomicAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(AtomicAttack, enemyCard.AtomicAttack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.AtomicGradient, 4f);
+        // enemyCard.ShowDamagePopup(damage, ColorConstants.AtomicGradient, 4f);
         Debug.Log("Atomic damage " + damage);
         enemyCard.TakeDamage(damage);
     }
@@ -253,7 +250,7 @@ public abstract class CardBase : MonoBehaviour
     public void CauseMentalAttack(CardBase enemyCard)
     {
         double damage = CalculateDamage(MentalAttack, enemyCard.MentalAttack, enemyCard);
-        enemyCard.ShowDamagePopup(damage, ColorConstants.MentalGradient, 5f);
+        // enemyCard.ShowDamagePopup(damage, ColorConstants.MentalGradient, 5f);
         Debug.Log("Mental damage " + damage);
         enemyCard.TakeDamage(damage);
     }
