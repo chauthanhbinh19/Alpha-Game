@@ -90,6 +90,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                     animeStats.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
                     animeStats.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -323,6 +324,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                         }
                     }
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -473,6 +475,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                         }
                     }
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {

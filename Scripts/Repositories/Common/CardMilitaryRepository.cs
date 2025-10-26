@@ -21,6 +21,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -125,6 +127,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
 
                     CardMilitaryList.Add(CardMilitary);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -148,7 +151,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -237,6 +240,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
 
                     CardMilitaryList.Add(CardMilitary);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -325,6 +329,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
 
                     CardMilitaryList.Add(CardMilitary);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -411,6 +416,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -501,7 +507,8 @@ public class CardMilitaryRepository : ICardMilitaryRepository
                         SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         Description = reader.GetString("description")
                     };
-                    CardMilitary.Currency = new Currencies{
+                    CardMilitary.Currency = new Currencies
+                    {
                         Id = reader.GetString("currency_id"),
                         Image = reader.GetString("currency_image"),
                         Quantity = reader.GetInt32("price")
@@ -509,6 +516,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
 
                     CardMilitaryList.Add(CardMilitary);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -534,7 +542,7 @@ public class CardMilitaryRepository : ICardMilitaryRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {

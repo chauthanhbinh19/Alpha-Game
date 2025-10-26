@@ -22,6 +22,7 @@ public class EquipmentsRepository : IEquipmentsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -40,6 +41,7 @@ public class EquipmentsRepository : IEquipmentsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -138,6 +140,7 @@ public class EquipmentsRepository : IEquipmentsRepository
 
                     equipmentList.Add(equipments);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -166,15 +169,11 @@ public class EquipmentsRepository : IEquipmentsRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
             }
         }
         return count;
@@ -274,32 +273,14 @@ public class EquipmentsRepository : IEquipmentsRepository
 
                     equipmentList.Add(equipments);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                connection.Close();
-            }
-
         }
         return equipmentList;
-    }
-    private int GetMaxSequence(MySqlConnection connection, string equipment_id)
-    {
-        string query = "SELECT MAX(sequence) FROM user_equipments ue where ue.equipment_id=@equipment_id and ue.user_id=@user_id";
-        MySqlCommand command = new MySqlCommand(query, connection);
-        command.Parameters.AddWithValue("@equipment_id", equipment_id);
-        command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-        object result = command.ExecuteScalar();
-
-        if (result != DBNull.Value)
-        {
-            return Convert.ToInt32(result);
-        }
-        return 0; // Nếu bảng rỗng, trả về 0
     }
     public List<String> GetEquipmentsSet(string type)
     {
@@ -320,14 +301,11 @@ public class EquipmentsRepository : IEquipmentsRepository
                 {
                     typeList.Add(reader.GetString(0));
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
             }
         }
         return typeList;
@@ -422,7 +400,7 @@ public class EquipmentsRepository : IEquipmentsRepository
                         Description = reader.GetString("description"),
                     };
                 }
-                return equipments;
+                connection.Close();
             }
             catch (MySqlException ex)
             {

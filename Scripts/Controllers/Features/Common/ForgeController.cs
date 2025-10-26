@@ -153,9 +153,9 @@ public class ForgeController : MonoBehaviour
         TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
         buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
         // Lấy thuộc tính `Id` và `Image` từ object
-        var idProperty = obj.GetType().GetProperty("id");
-        var imageProperty = obj.GetType().GetProperty("image");
-        var currencyProperty = obj.GetType().GetProperty("currency");
+        var idProperty = obj.GetType().GetProperty(AppConstants.StatFields.ID);
+        var imageProperty = obj.GetType().GetProperty(AppConstants.StatFields.IMAGE);
+        var currencyProperty = obj.GetType().GetProperty(AppConstants.MainType.CURRENCY);
 
         priceText.text = originPrice.ToString();
         double price = originPrice;
@@ -173,7 +173,7 @@ public class ForgeController : MonoBehaviour
             if (currencyObject != null)
             {
                 // Lấy thuộc tính "image" từ currencyObject
-                var currencyImageProperty = currencyObject.GetType().GetProperty("image");
+                var currencyImageProperty = currencyObject.GetType().GetProperty(AppConstants.StatFields.IMAGE);
                 if (currencyImageProperty != null)
                 {
                     string currencyImageValue = (string)currencyImageProperty.GetValue(currencyObject);

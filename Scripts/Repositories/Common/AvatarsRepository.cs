@@ -22,6 +22,7 @@ public class AvatarsRepository : IAvatarsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -116,6 +117,7 @@ public class AvatarsRepository : IAvatarsRepository
 
                     avatars.Add(avatar);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -138,7 +140,7 @@ public class AvatarsRepository : IAvatarsRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -236,7 +238,8 @@ public class AvatarsRepository : IAvatarsRepository
                         PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
                         Description = reader.GetString("description")
                     };
-                    border.Currency = new Currencies{
+                    border.Currency = new Currencies
+                    {
                         Id = reader.GetString("currency_id"),
                         Image = reader.GetString("currency_image"),
                         Quantity = reader.GetInt32("price")
@@ -244,6 +247,7 @@ public class AvatarsRepository : IAvatarsRepository
 
                     Avatars.Add(border);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -268,7 +272,7 @@ public class AvatarsRepository : IAvatarsRepository
                 MySqlCommand command = new MySqlCommand(query, connection);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -352,6 +356,7 @@ public class AvatarsRepository : IAvatarsRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -397,7 +402,7 @@ public class AvatarsRepository : IAvatarsRepository
                         sumAvatars.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

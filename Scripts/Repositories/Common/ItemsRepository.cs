@@ -21,6 +21,7 @@ public class ItemsRepository : IItemsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class ItemsRepository : IItemsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -66,6 +68,7 @@ public class ItemsRepository : IItemsRepository
                 };
                 items.Add(item);
             }
+            connection.Close();
         }
         return items;
     }

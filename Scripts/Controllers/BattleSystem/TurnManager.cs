@@ -9,7 +9,7 @@ public class TurnManager
     private int currentTurn;
     private int maxTurn;
 
-    public TurnManager(int maxTurn, ICardDisplayManager displayManager)
+    public TurnManager(PlayerController attacker, PlayerController defender,int maxTurn, ICardDisplayManager displayManager)
     {
         this.maxTurn = maxTurn;
         this.currentTurn = 1;

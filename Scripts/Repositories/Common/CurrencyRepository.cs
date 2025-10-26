@@ -29,6 +29,7 @@ public class CurrencyRepository : ICurrencyRepository
 
                     currencies.Add(currency);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {

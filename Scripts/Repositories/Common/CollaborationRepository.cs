@@ -21,6 +21,7 @@ public class CollaborationRepository : ICollaborationRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -115,6 +116,7 @@ public class CollaborationRepository : ICollaborationRepository
 
                     collaborationList.Add(collaboration);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -137,7 +139,7 @@ public class CollaborationRepository : ICollaborationRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -235,7 +237,8 @@ public class CollaborationRepository : ICollaborationRepository
                         PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
                         Description = reader.GetString("description")
                     };
-                    collaboration.Currency = new Currencies{
+                    collaboration.Currency = new Currencies
+                    {
                         Id = reader.GetString("currency_id"),
                         Image = reader.GetString("currency_image"),
                         Quantity = reader.GetInt32("price")
@@ -243,6 +246,7 @@ public class CollaborationRepository : ICollaborationRepository
 
                     collaborationList.Add(collaboration);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -267,7 +271,7 @@ public class CollaborationRepository : ICollaborationRepository
                 MySqlCommand command = new MySqlCommand(query, connection);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -350,6 +354,7 @@ public class CollaborationRepository : ICollaborationRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -395,7 +400,7 @@ public class CollaborationRepository : ICollaborationRepository
                         sumCollaborations.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

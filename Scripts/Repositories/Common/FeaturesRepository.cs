@@ -25,6 +25,7 @@ public class FeaturesRepository : IFeaturesRepository
                 int requiredLevel = reader.GetInt32(1);
                 features[featureName] = requiredLevel;
             }
+            connection.Close();
         }
         return features;
     }
@@ -47,6 +48,7 @@ public class FeaturesRepository : IFeaturesRepository
                 int requiredLevel = reader.GetInt32(1);
                 features[featureName] = requiredLevel;
             }
+            connection.Close();
         }
         return features;
     }

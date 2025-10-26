@@ -21,6 +21,7 @@ public class MedalsRepository : IMedalsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -115,6 +116,7 @@ public class MedalsRepository : IMedalsRepository
 
                     medalsList.Add(medals);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -137,7 +139,7 @@ public class MedalsRepository : IMedalsRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -235,7 +237,8 @@ public class MedalsRepository : IMedalsRepository
                         PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
                         Description = reader.GetString("description")
                     };
-                    medals.Currency = new Currencies{
+                    medals.Currency = new Currencies
+                    {
                         Id = reader.GetString("currency_id"),
                         Image = reader.GetString("currency_image"),
                         Quantity = reader.GetInt32("price")
@@ -243,6 +246,7 @@ public class MedalsRepository : IMedalsRepository
 
                     medalsList.Add(medals);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -267,7 +271,7 @@ public class MedalsRepository : IMedalsRepository
                 MySqlCommand command = new MySqlCommand(query, connection);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -350,6 +354,7 @@ public class MedalsRepository : IMedalsRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -395,7 +400,7 @@ public class MedalsRepository : IMedalsRepository
                         sumMedals.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

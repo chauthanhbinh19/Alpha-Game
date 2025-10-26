@@ -6,6 +6,8 @@ public static class AppConstants
 {
     public static class StatFields
     {
+        public const string ID = "Id";
+        public const string IMAGE = "Image";
         public const string POWER = "Power";
         public const string HEALTH = "Health";
         public const string PHYSICAL_ATTACK = "PhysicalAttack";
@@ -200,7 +202,7 @@ public static class AppConstants
 
         public const string BUY = "Buy";
         public const string PACKAGE = "Package";
-
+        public const string CURRENCY = "Currency";
     }
     public static class Skill
     {

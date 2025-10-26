@@ -20,6 +20,7 @@ public class ArenaRepository : IArenaRepository
             {
                 typeList.Add(reader.GetString(1));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class ArenaRepository : IArenaRepository
             {
                 id = reader.GetString("id");
             }
+            connection.Close();
         }
         return id;
     }
@@ -69,6 +71,7 @@ public class ArenaRepository : IArenaRepository
                         userRankings.Add(userId, rank);
                     }
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -127,6 +130,7 @@ public class ArenaRepository : IArenaRepository
                         point = reader.GetInt32("rank_point");
                     }
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -153,7 +157,8 @@ public class ArenaRepository : IArenaRepository
                 insertCommand.Parameters.AddWithValue("@user_id", user_id);
                 insertCommand.Parameters.AddWithValue("@rank_point", 1000);
                 insertCommand.ExecuteNonQuery();
-                Debug.Log($"Inserted user {user_id} into arena {arena_id}.");
+                // Debug.Log($"Inserted user {user_id} into arena {arena_id}.");
+                connection.Close();
             }
             catch (MySqlException ex)
             {

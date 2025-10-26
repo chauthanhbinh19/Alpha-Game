@@ -120,6 +120,7 @@ public class PowerManagerRepository : IPowerManagerRepository
                 command.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.PercentAllMentalAttack);
                 command.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.PercentAllMentalDefense);
                 command.ExecuteNonQuery();
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -234,6 +235,7 @@ public class PowerManagerRepository : IPowerManagerRepository
                 command.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.PercentAllMentalDefense);
 
                 command.ExecuteNonQuery();
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -325,6 +327,7 @@ public class PowerManagerRepository : IPowerManagerRepository
                         powerManager.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDouble("percent_all_mental_defense");
                     }
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {

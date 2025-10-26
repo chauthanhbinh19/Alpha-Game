@@ -22,6 +22,7 @@ public class AlchemyRepository : IAlchemyRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -40,6 +41,7 @@ public class AlchemyRepository : IAlchemyRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -135,6 +137,7 @@ public class AlchemyRepository : IAlchemyRepository
 
                     Alchemys.Add(Alchemy);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -159,7 +162,7 @@ public class AlchemyRepository : IAlchemyRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -267,6 +270,7 @@ public class AlchemyRepository : IAlchemyRepository
 
                     Alchemys.Add(Alchemy);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -292,7 +296,7 @@ public class AlchemyRepository : IAlchemyRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -378,6 +382,7 @@ public class AlchemyRepository : IAlchemyRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -423,7 +428,7 @@ public class AlchemyRepository : IAlchemyRepository
                         sumAlchemy.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

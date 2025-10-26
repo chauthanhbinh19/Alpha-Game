@@ -21,6 +21,7 @@ public class SkillsRepository : ISkillsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class SkillsRepository : ISkillsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -124,6 +126,7 @@ public class SkillsRepository : ISkillsRepository
 
                     skillsList.Add(skill);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -148,7 +151,7 @@ public class SkillsRepository : ISkillsRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -247,6 +250,7 @@ public class SkillsRepository : ISkillsRepository
 
                     skillsList.Add(skill);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -272,7 +276,7 @@ public class SkillsRepository : ISkillsRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -357,6 +361,7 @@ public class SkillsRepository : ISkillsRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {

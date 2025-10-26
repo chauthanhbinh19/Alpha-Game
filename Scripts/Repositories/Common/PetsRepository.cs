@@ -21,6 +21,7 @@ public class PetsRepository : IPetsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class PetsRepository : IPetsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -125,6 +127,7 @@ public class PetsRepository : IPetsRepository
 
                     petsList.Add(pet);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -149,7 +152,7 @@ public class PetsRepository : IPetsRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -248,6 +251,7 @@ public class PetsRepository : IPetsRepository
 
                     petsList.Add(pet);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -273,7 +277,7 @@ public class PetsRepository : IPetsRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -359,6 +363,7 @@ public class PetsRepository : IPetsRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {

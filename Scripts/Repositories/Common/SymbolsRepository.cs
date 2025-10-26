@@ -21,6 +21,7 @@ public class SymbolsRepository : ISymbolsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class SymbolsRepository : ISymbolsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -135,6 +137,7 @@ public class SymbolsRepository : ISymbolsRepository
 
                     symbolsList.Add(symbols);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -159,7 +162,7 @@ public class SymbolsRepository : ISymbolsRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -268,6 +271,7 @@ public class SymbolsRepository : ISymbolsRepository
 
                     symbolsList.Add(symbols);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -293,7 +297,7 @@ public class SymbolsRepository : ISymbolsRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -376,6 +380,7 @@ public class SymbolsRepository : ISymbolsRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -421,7 +426,7 @@ public class SymbolsRepository : ISymbolsRepository
                         sumSymbols.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

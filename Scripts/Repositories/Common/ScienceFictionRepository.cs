@@ -90,6 +90,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
                     scienceFiction.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
                     scienceFiction.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -357,6 +358,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
                         }
                     }
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -507,6 +509,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
                         }
                     }
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {

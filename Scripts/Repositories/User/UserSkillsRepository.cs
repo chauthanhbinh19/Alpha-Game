@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using MySql.Data.MySqlClient;
 using System.Xml.Linq;
+using System.Linq;
 
 public class UserSkillsRepository : IUserSkillsRepository
 {
@@ -656,6 +657,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                skillsList = LoadSkillsWithEffects(user_id,skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1349,6 +1351,82 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
 
         }
+        return skillsList;
+    }
+    public List<Skills> LoadSkillsWithEffects(string userId, List<Skills> skillsList, MySqlConnection connection)
+    {
+        // Giả định đây là hàm bạn đang làm việc.
+
+        // ------------------------------------------------------------------------
+        // BƯỚC 2: Tối ưu hóa - Load Effects cho TẤT CẢ Skills trong một truy vấn
+        // ------------------------------------------------------------------------
+
+        // Lấy tất cả Skill IDs vào một danh sách để tạo mệnh đề WHERE IN
+        var skillIds = skillsList.Select(s => s.Id).ToList();
+        if (!skillIds.Any()) return skillsList; // Thoát nếu không có kỹ năng
+
+        // Chuyển danh sách ID sang chuỗi: ('id1', 'id2', 'id3', ...)
+        string skillIdInClause = string.Join(",", skillIds.Select(id => $"'{id}'"));
+
+        string combinedQuery = $@"
+        SELECT 
+            s.id AS Skill_Id, -- Chọn Skill ID để biết Effect thuộc về Skill nào
+            e.*, 
+            ep.*, 
+            ea.*
+        FROM skills s
+        JOIN skill_effect se ON s.id = se.skill_id
+        JOIN effects e ON se.effect_id = e.id
+        JOIN effect_property_action epa ON e.id = epa.effect_id
+        JOIN effect_property ep ON epa.property_id = ep.property_id
+        JOIN effect_action ea ON epa.action_id = ea.action_id
+        WHERE s.id IN ({skillIdInClause});";
+
+        // Tạo Dictionary để ánh xạ Skill ID tới đối tượng Skill tương ứng
+        var skillDict = skillsList.ToDictionary(s => s.Id);
+
+        // Sử dụng 'using' để đảm bảo Command và Reader được đóng
+        using (MySqlCommand command = new MySqlCommand(combinedQuery, connection))
+        using (MySqlDataReader reader = command.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                // 1. Tìm Skill gốc
+                string currentSkillId = reader.GetString("Skill_Id");
+                if (!skillDict.TryGetValue(currentSkillId, out Skills currentSkill)) continue;
+
+                // 2. Tạo đối tượng Effect và các đối tượng liên quan
+                Effects newEffect = new Effects
+                {
+                    Id = reader.GetInt32("id"),
+                    Name = reader.GetString("name"),
+                    EffectType = reader.GetString("effect_type"),
+                    // Xử lý Duration có thể là NULL
+                    Duration = reader.IsDBNull(reader.GetOrdinal("duration")) ? 0 : reader.GetInt32("duration"),
+                    Description = reader.GetString("description"),
+
+                    EffectProperty = new EffectProperty
+                    {
+                        PropertyId = reader.GetInt32("property_id"),
+                        PropertyCode = reader.GetString("property_code"),
+                        PropertyName = reader.GetString("property_name"),
+                        // LƯU Ý: Nếu có nhiều cột Description, bạn phải đặt alias trong SQL để phân biệt
+                        // Ví dụ: reader.GetString("Effect_Property_Description") 
+                    },
+                    EffectAction = new EffectAction
+                    {
+                        ActionId = reader.GetInt32("action_id"),
+                        ActionCode = reader.GetString("action_code"),
+                        ActionName = reader.GetString("action_name"),
+                        // Tương tự, nếu có Description trùng tên, phải dùng alias
+                    }
+                };
+
+                // 3. Gán Effect vào Skill
+                currentSkill.Effects.Add(newEffect);
+            }
+        } // Reader và Command tự động được Dispose/Close ở đây
+
         return skillsList;
     }
     public bool InsertUserCardHeroesSkills(string userId, string cardId, string skillId, int position)

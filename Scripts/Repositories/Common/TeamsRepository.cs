@@ -28,6 +28,7 @@ public class TeamsRepository : ITeamsRepository
                     TeamBorder = reader.GetString("team_border"),
                 });
             }
+            connection.Close();
         }
         return teams;
     }
@@ -47,6 +48,7 @@ public class TeamsRepository : ITeamsRepository
             userCommand.Parameters.AddWithValue("@team_avatar", "Team/Avatar/Team_Avatar_1");
             userCommand.Parameters.AddWithValue("@team_border", "Team/Border/Team_Border_1");
             userCommand.ExecuteNonQuery();
+            connection.Close();
         }
         return true;
     }
@@ -57,6 +59,7 @@ public class TeamsRepository : ITeamsRepository
         command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
         object result = command.ExecuteScalar();
 
+        connection.Close();
         if (result != DBNull.Value)
         {
             return Convert.ToInt32(result);

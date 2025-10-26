@@ -8,7 +8,7 @@ public class StartPhase : IBattlePhase
 
     public StartPhase(ICardDisplayManager displayManager)
     {
-        _teamSetupService = new TeamSetupService(/* inject dependencies here */); 
+        _teamSetupService = new TeamSetupService(displayManager); 
         _displayManager = displayManager;
     }
     public IEnumerator ExecutePhase(PlayerController attacker, PlayerController defender)
@@ -25,6 +25,14 @@ public class StartPhase : IBattlePhase
         {
             _displayManager.DisplayCardContract(currentContract);
             _displayManager.DisplayCardPenalty(currentPenalty);
+        }
+
+        if(_teamSetupService != null)
+        {
+            var attackerAvailableCard = _teamSetupService.GetAvailableCardsForAppearance(attacker, currentContract, currentPenalty);
+            var defenderAvailableCard = _teamSetupService.GetAvailableCardsForAppearance(defender, currentContract, currentPenalty);
+            _displayManager.AssignCardsToAllySlots(attackerAvailableCard);
+            // _displayManager.AssignCardsToEnemySlots(defenderAvailableCard);
         }
 
         // 2. ÁP DỤNG LUẬT CHƠI CHO CẢ HAI PLAYER

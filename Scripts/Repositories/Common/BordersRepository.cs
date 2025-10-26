@@ -21,6 +21,7 @@ public class BordersRepository : IBordersRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -115,6 +116,7 @@ public class BordersRepository : IBordersRepository
 
                     borders.Add(border);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -138,7 +140,7 @@ public class BordersRepository : IBordersRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -245,6 +247,7 @@ public class BordersRepository : IBordersRepository
 
                     borders.Add(border);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -269,7 +272,7 @@ public class BordersRepository : IBordersRepository
                 MySqlCommand command = new MySqlCommand(query, connection);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -353,6 +356,7 @@ public class BordersRepository : IBordersRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -398,7 +402,7 @@ public class BordersRepository : IBordersRepository
                         sumBorders.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

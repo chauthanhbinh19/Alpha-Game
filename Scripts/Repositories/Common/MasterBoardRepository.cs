@@ -21,6 +21,7 @@ public class MasterBoardRepository : IMasterBoardRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }

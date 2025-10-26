@@ -21,6 +21,7 @@ public class ForgeRepository : IForgeRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class ForgeRepository : IForgeRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -134,6 +136,7 @@ public class ForgeRepository : IForgeRepository
 
                     Forges.Add(Forge);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -158,7 +161,7 @@ public class ForgeRepository : IForgeRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -266,6 +269,7 @@ public class ForgeRepository : IForgeRepository
 
                     Forges.Add(Forge);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -291,7 +295,7 @@ public class ForgeRepository : IForgeRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -377,6 +381,7 @@ public class ForgeRepository : IForgeRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -422,7 +427,7 @@ public class ForgeRepository : IForgeRepository
                         sumForge.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

@@ -6,12 +6,238 @@ using UnityEngine.UI;
 
 public class CardDisplayManager : MonoBehaviour, ICardDisplayManager
 {
+    [SerializeField] public Transform PlayerCardsField;
+    [SerializeField] public Transform EnemyCardsField;
+    [SerializeField] public CardSlot[] AllySlots = new CardSlot[10]; // 5 vị trí cho phe mình
+    [SerializeField] public CardSlot[] EnemySlots = new CardSlot[10]; // 5 vị trí cho phe địch
     [SerializeField] public GameObject CardContractPrefab;
     [SerializeField] public GameObject CardPenaltyPrefab;
     [SerializeField] public Transform CardPanel;
+    [SerializeField] public GameObject CardModelPrefab;
     void Start()
     {
-        
+
+    }
+    // ==========================================================
+    // CƠ CHẾ TỰ ĐỘNG ĐIỀN CHỈ TRONG EDITOR
+    // ==========================================================
+
+    // Hàm này chạy trong Editor (khi bạn thay đổi script, thay đổi giá trị...)
+    // Hoặc khi bạn click vào nút "Reset" trong Inspector
+    private void OnValidate()
+    {
+        // Tự động điền mảng khi script được cập nhật trong Editor
+        AutoFillSlots();
+    }
+
+    private void AutoFillSlots()
+    {
+        if (PlayerCardsField != null)
+        {
+            AllySlots = GetSlotsFromParent(PlayerCardsField);
+        }
+
+        if (EnemyCardsField != null)
+        {
+            EnemySlots = GetSlotsFromParent(EnemyCardsField);
+        }
+    }
+
+    private CardSlot[] GetSlotsFromParent(Transform parent)
+    {
+        // Lấy tất cả các con (CardPositionX)
+        List<Transform> children = new List<Transform>();
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            children.Add(parent.GetChild(i));
+        }
+
+        // Tạo mảng CardSlotReference
+        CardSlot[] slots = new CardSlot[children.Count];
+
+        for (int i = 0; i < children.Count; i++)
+        {
+            slots[i] = new CardSlot
+            {
+                // Gán GameObject con vào tham chiếu
+                positionObject = children[i].gameObject,
+                // Gán Slot Index theo thứ tự (bắt đầu từ 1)
+                slotIndex = i + 1
+            };
+        }
+        return slots;
+    }
+    public void AssignCardsToAllySlots(List<CardBase> cardsToPlace)
+    {
+        if(cardsToPlace.Count == 0)
+        {
+            return;
+        }
+        foreach (var card in cardsToPlace)
+        {
+            // Lấy vị trí MainPosition từ CardBase (đã được ánh xạ từ Entity Position "x-y")
+            // *Lưu ý: Nếu MainPosition trong CardBase là 1-based (1, 2, 3...), 
+            //         thì slotIndex của CardSlot cũng phải là 1-based (như hình bạn cung cấp)
+            int cardMainPosition = card.MainPosition;
+
+            // Tìm Slot tương ứng với MainPosition
+            CardSlot targetSlot = AllySlots
+                .FirstOrDefault(slot => slot.slotIndex == cardMainPosition);
+
+            if (targetSlot != null && targetSlot.positionObject != null)
+            {
+                // A. INSTANTIATE PREFAB MODEL CARD
+                GameObject cardInstance = Instantiate(CardModelPrefab, targetSlot.positionObject.transform);
+
+                // Đặt vị trí chính xác trong Slot (ví dụ: ở gốc (0,0,0) của Slot)
+                cardInstance.transform.localPosition = new Vector3(-5f, 10f, -10f);
+                cardInstance.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+                cardInstance.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+
+                Transform mirrorTransform = cardInstance.transform.Find("Image");
+
+                if (mirrorTransform != null)
+                {
+                    // 2. Lấy thành phần Renderer từ GameObject "Mirror"
+                    Renderer mirrorRenderer = mirrorTransform.GetComponent<Renderer>();
+
+                    if (mirrorRenderer != null)
+                    {
+                        // 3. Tải Texture từ đường dẫn (được lưu trong card.Image)
+                        Texture newTexture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(card.Image)); // *LƯU Ý: Đảm bảo đường dẫn (path) trong card.Image là chính xác*
+
+                        if (newTexture != null)
+                        {
+                            // 4. Gán Texture vào Material (sử dụng mainTexture hoặc một thuộc tính shader cụ thể)
+                            // Lấy Material đầu tiên (hoặc Material chính)
+                            Material targetMaterial = mirrorRenderer.material;
+
+                            // Gán Texture vào thuộc tính chính của Shader (thường là "_MainTex")
+                            targetMaterial.mainTexture = newTexture;
+
+                            // HOẶC nếu bạn cần gán cho một thuộc tính shader khác (ví dụ: Texture ánh sáng):
+                            // targetMaterial.SetTexture("_EmissionMap", newTexture);
+                        }
+                        else
+                        {
+                            Debug.LogError($"Không thể tải Texture từ đường dẫn: {card.Image}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("GameObject 'Mirror' không có component Renderer.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Không tìm thấy GameObject con tên là 'Mirror' trong CardModelPrefab.");
+                }
+
+                // B. GẮN ĐỐI TƯỢNG LOGIC VÀO GAMEOBJECT VỪA TẠO
+                // *Giả sử Prefab CardModelPrefab có script CardVisual/CardController*
+
+                // Lấy script quản lý model từ GameObject
+                // CardVisualController visualController = cardInstance.GetComponent<CardVisualController>();
+                // if (visualController != null)
+                // {
+                //     // Gán dữ liệu CardBase logic vào Model
+                //     visualController.Initialize(card); 
+                // }
+
+                // C. Cập nhật trạng thái Slot (Nếu bạn có component CardSlot trên positionObject)
+                // targetSlot.positionObject.GetComponent<CardSlotComponent>().PlaceCard(card);
+            }
+            else
+            {
+                Debug.LogWarning($"Không tìm thấy Slot với index {cardMainPosition} hoặc Slot Object bị null.");
+            }
+        }
+    }
+    public void AssignCardsToEnemySlots(List<CardBase> cardsToPlace)
+    {
+        if(cardsToPlace.Count == 0)
+        {
+            return;
+        }
+        foreach (var card in cardsToPlace)
+        {
+            // Lấy vị trí MainPosition từ CardBase (đã được ánh xạ từ Entity Position "x-y")
+            // *Lưu ý: Nếu MainPosition trong CardBase là 1-based (1, 2, 3...), 
+            //         thì slotIndex của CardSlot cũng phải là 1-based (như hình bạn cung cấp)
+            int cardMainPosition = card.MainPosition;
+
+            // Tìm Slot tương ứng với MainPosition
+            CardSlot targetSlot = EnemySlots
+                .FirstOrDefault(slot => slot.slotIndex == cardMainPosition);
+
+            if (targetSlot != null && targetSlot.positionObject != null)
+            {
+                // A. INSTANTIATE PREFAB MODEL CARD
+                GameObject cardInstance = Instantiate(CardModelPrefab, targetSlot.positionObject.transform);
+
+                // Đặt vị trí chính xác trong Slot (ví dụ: ở gốc (0,0,0) của Slot)
+                cardInstance.transform.localPosition = new Vector3(-5f, 10f, -10f);
+                cardInstance.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+                cardInstance.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+
+                Transform mirrorTransform = cardInstance.transform.Find("Image");
+
+                if (mirrorTransform != null)
+                {
+                    // 2. Lấy thành phần Renderer từ GameObject "Mirror"
+                    Renderer mirrorRenderer = mirrorTransform.GetComponent<Renderer>();
+
+                    if (mirrorRenderer != null)
+                    {
+                        // 3. Tải Texture từ đường dẫn (được lưu trong card.Image)
+                        Texture newTexture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(card.Image)); // *LƯU Ý: Đảm bảo đường dẫn (path) trong card.Image là chính xác*
+
+                        if (newTexture != null)
+                        {
+                            // 4. Gán Texture vào Material (sử dụng mainTexture hoặc một thuộc tính shader cụ thể)
+                            // Lấy Material đầu tiên (hoặc Material chính)
+                            Material targetMaterial = mirrorRenderer.material;
+
+                            // Gán Texture vào thuộc tính chính của Shader (thường là "_MainTex")
+                            targetMaterial.mainTexture = newTexture;
+
+                            // HOẶC nếu bạn cần gán cho một thuộc tính shader khác (ví dụ: Texture ánh sáng):
+                            // targetMaterial.SetTexture("_EmissionMap", newTexture);
+                        }
+                        else
+                        {
+                            Debug.LogError($"Không thể tải Texture từ đường dẫn: {card.Image}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("GameObject 'Mirror' không có component Renderer.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Không tìm thấy GameObject con tên là 'Mirror' trong CardModelPrefab.");
+                }
+
+                // B. GẮN ĐỐI TƯỢNG LOGIC VÀO GAMEOBJECT VỪA TẠO
+                // *Giả sử Prefab CardModelPrefab có script CardVisual/CardController*
+
+                // Lấy script quản lý model từ GameObject
+                // CardVisualController visualController = cardInstance.GetComponent<CardVisualController>();
+                // if (visualController != null)
+                // {
+                //     // Gán dữ liệu CardBase logic vào Model
+                //     visualController.Initialize(card); 
+                // }
+
+                // C. Cập nhật trạng thái Slot (Nếu bạn có component CardSlot trên positionObject)
+                // targetSlot.positionObject.GetComponent<CardSlotComponent>().PlaceCard(card);
+            }
+            else
+            {
+                Debug.LogWarning($"Không tìm thấy Slot với index {cardMainPosition} hoặc Slot Object bị null.");
+            }
+        }
     }
     public void DisplayCardContract(CardContract cardContract)
     {
@@ -30,7 +256,7 @@ public class CardDisplayManager : MonoBehaviour, ICardDisplayManager
         TextMeshProUGUI titleText = contractDisplayObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         titleText.name = cardContract.Name;
 
-        AudioManager.Instance.PlaySFX(AudioConstants.SFX.APPEAR);
+        // AudioManager.Instance.PlaySFX(AudioConstants.SFX.APPEAR);
 
         contractDisplayObject.transform.localPosition = Vector3.zero;
         contractDisplayObject.transform.localScale = Vector3.one;
@@ -74,7 +300,6 @@ public class CardDisplayManager : MonoBehaviour, ICardDisplayManager
             }
         }
     }
-
     public void DisplayCardPenalty(CardPenalty cardPenalty)
     {
         if (CardPenaltyPrefab == null)
@@ -92,7 +317,7 @@ public class CardDisplayManager : MonoBehaviour, ICardDisplayManager
         TextMeshProUGUI titleText = penaltyDisplayObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         titleText.name = cardPenalty.Name;
 
-        AudioManager.Instance.PlaySFX(AudioConstants.SFX.APPEAR);
+        // AudioManager.Instance.PlaySFX(AudioConstants.SFX.APPEAR);
 
         penaltyDisplayObject.transform.localPosition = Vector3.zero;
         penaltyDisplayObject.transform.localScale = Vector3.one;

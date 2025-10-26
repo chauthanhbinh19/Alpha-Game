@@ -22,6 +22,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -40,6 +41,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -126,6 +128,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
 
                     CardCaptainsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -150,7 +153,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -239,6 +242,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
 
                     CardCaptainsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -327,6 +331,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
 
                     CardCaptainsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -413,6 +418,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -512,6 +518,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
 
                     CardCaptainsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -537,7 +544,7 @@ public class CardCaptainsRepository:ICardCaptainsRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {

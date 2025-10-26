@@ -23,6 +23,8 @@ public class Skills : BaseEntity
     public int Quantity { get; set; }
     public string Description { get; set; }
     public string Status { get; set; }
+    public string TargetType { get; set; }
+    public int TargetCount { get; set; }
     public double PercentAllHealth { get; set; }
     public double PercentAllPhysicalAttack { get; set; }
     public double PercentAllPhysicalDefense { get; set; }
@@ -35,6 +37,7 @@ public class Skills : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    public List<Effects> Effects{ get; set; } = new List<Effects>();
     public Skills()
     {
         PercentAllHealth = -1;

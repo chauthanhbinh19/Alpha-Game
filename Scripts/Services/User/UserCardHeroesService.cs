@@ -751,7 +751,15 @@ public class UserCardHeroesService : IUserCardHeroesService
         );
         return cardHeroes;
     }
-
+    public List<CardHeroes> GetSkills(string user_id, List<CardHeroes> CardHeroesList)
+    {
+        foreach(CardHeroes cardHeroes in CardHeroesList)
+        {
+            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardHeroes.Id);
+            cardHeroes.skills = skills;
+        }
+        return CardHeroesList;
+    }
     public List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardHeroes> list = _userCardHeroesRepository.GetUserCardHeroes(user_id, type, pageSize, offset, rare);

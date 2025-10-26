@@ -21,6 +21,7 @@ public class CardHeroesRepository:ICardHeroesRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class CardHeroesRepository:ICardHeroesRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -125,6 +127,7 @@ public class CardHeroesRepository:ICardHeroesRepository
 
                     CardHeroesList.Add(card);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -149,7 +152,7 @@ public class CardHeroesRepository:ICardHeroesRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -238,6 +241,7 @@ public class CardHeroesRepository:ICardHeroesRepository
 
                     CardHeroesList.Add(card);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -326,6 +330,7 @@ public class CardHeroesRepository:ICardHeroesRepository
 
                     CardHeroesList.Add(card);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -352,8 +357,10 @@ public class CardHeroesRepository:ICardHeroesRepository
                 object result = command.ExecuteScalar();
                 if (result != DBNull.Value)
                 {
+                    connection.Close();
                     return Convert.ToInt32(result);
                 }
+                connection.Close();
                 return 0; // Nếu bảng rỗng, trả về 0
             }
             catch (MySqlException ex)
@@ -440,6 +447,7 @@ public class CardHeroesRepository:ICardHeroesRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -540,6 +548,7 @@ public class CardHeroesRepository:ICardHeroesRepository
 
                     CardHeroesList.Add(card);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -565,7 +574,7 @@ public class CardHeroesRepository:ICardHeroesRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {

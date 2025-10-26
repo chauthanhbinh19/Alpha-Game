@@ -22,6 +22,7 @@ public class CardColonelsRepository : ICardColonelsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -40,6 +41,7 @@ public class CardColonelsRepository : ICardColonelsRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -58,7 +60,7 @@ public class CardColonelsRepository : ICardColonelsRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -150,6 +152,7 @@ public class CardColonelsRepository : ICardColonelsRepository
 
                     CardColonelsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -239,6 +242,7 @@ public class CardColonelsRepository : ICardColonelsRepository
 
                     CardColonelsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -327,6 +331,7 @@ public class CardColonelsRepository : ICardColonelsRepository
 
                     CardColonelsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -413,6 +418,7 @@ public class CardColonelsRepository : ICardColonelsRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -503,7 +509,8 @@ public class CardColonelsRepository : ICardColonelsRepository
                         SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         Description = reader.GetString("description")
                     };
-                    captain.Currency = new Currencies{
+                    captain.Currency = new Currencies
+                    {
                         Id = reader.GetString("currency_id"),
                         Image = reader.GetString("currency_image"),
                         Quantity = reader.GetInt32("price")
@@ -511,6 +518,7 @@ public class CardColonelsRepository : ICardColonelsRepository
 
                     CardColonelsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -536,7 +544,7 @@ public class CardColonelsRepository : ICardColonelsRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {

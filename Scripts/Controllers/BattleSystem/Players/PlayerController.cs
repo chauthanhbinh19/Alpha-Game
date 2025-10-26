@@ -5,21 +5,23 @@ using System;
 
 public class PlayerController
 {
-    private List<CardBase> fieldCards;
+    private List<CardBase> allCards;
+    private LoadTeams _loadTeamService;
 
     public PlayerController()
     {
-        fieldCards = new List<CardBase>();
+        allCards = new List<CardBase>();
+        _loadTeamService = new LoadTeams();
     }
 
-    public void AddCard(CardBase card)
+    public void GetPlayerCard(string userId, string teamId)
     {
-        fieldCards.Add(card);
+        allCards = _loadTeamService.LoadPlayerTeamCard(userId, teamId);
     }
 
     public void Attack(PlayerController opponent)
     {
-        foreach (var card in fieldCards)
+        foreach (var card in allCards)
         {
             card.PerformAction(opponent);
         }
@@ -27,11 +29,11 @@ public class PlayerController
 
     public bool IsFieldEmpty()
     {
-        return fieldCards.Count == 0;
+        return allCards.Count == 0;
     }
 
-    public List<CardBase> GetFieldCards()
+    public List<CardBase> GetCards()
     {
-        return fieldCards;
+        return allCards;
     }
 }

@@ -21,6 +21,7 @@ public class CardSpellRepository : ICardSpellRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -39,6 +40,7 @@ public class CardSpellRepository : ICardSpellRepository
             {
                 typeList.Add(reader.GetString(0));
             }
+            connection.Close();
         }
         return typeList;
     }
@@ -125,6 +127,7 @@ public class CardSpellRepository : ICardSpellRepository
 
                     CardSpellList.Add(CardSpell);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -149,7 +152,7 @@ public class CardSpellRepository : ICardSpellRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -238,6 +241,7 @@ public class CardSpellRepository : ICardSpellRepository
 
                     CardSpellList.Add(CardSpell);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -326,6 +330,7 @@ public class CardSpellRepository : ICardSpellRepository
 
                     CardSpellList.Add(CardSpell);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -412,6 +417,7 @@ public class CardSpellRepository : ICardSpellRepository
                         Description = reader.GetString("description")
                     };
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -511,6 +517,7 @@ public class CardSpellRepository : ICardSpellRepository
 
                     CardSpellList.Add(CardSpell);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -536,7 +543,7 @@ public class CardSpellRepository : ICardSpellRepository
                 command.Parameters.AddWithValue("@type", type);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
