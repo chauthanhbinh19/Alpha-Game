@@ -105,6 +105,10 @@ public class UserBordersRepository : IUserBordersRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return borders;
@@ -131,6 +135,10 @@ public class UserBordersRepository : IUserBordersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -276,6 +284,10 @@ public class UserBordersRepository : IUserBordersRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -424,6 +436,10 @@ public class UserBordersRepository : IUserBordersRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -467,7 +483,7 @@ public class UserBordersRepository : IUserBordersRepository
                 string query = @"Select ub.*, b.image, b.rare from user_borders ub, borders b 
                 where ub.border_id=b.id and ub.is_used=true and ub.user_id =  @user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", user_id);   
+                command.Parameters.AddWithValue("@user_id", user_id);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -535,6 +551,10 @@ public class UserBordersRepository : IUserBordersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -665,6 +685,10 @@ public class UserBordersRepository : IUserBordersRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumBorders;

@@ -106,6 +106,10 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return avatars;
@@ -132,6 +136,10 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -278,6 +286,10 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -427,6 +439,10 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -511,6 +527,10 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -666,6 +686,10 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumAvatars;

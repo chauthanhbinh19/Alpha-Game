@@ -102,6 +102,10 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return CardMilitaryList;
@@ -126,6 +130,10 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -624,6 +632,10 @@ public class CardMilitaryGalleryRepository : ICardMilitaryGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumCardMilitary;

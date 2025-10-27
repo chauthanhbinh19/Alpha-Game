@@ -110,6 +110,10 @@ public class MedalsGalleryRepository : IMedalsGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return medalsList;
@@ -133,6 +137,10 @@ public class MedalsGalleryRepository : IMedalsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -631,6 +639,10 @@ public class MedalsGalleryRepository : IMedalsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumMedals;

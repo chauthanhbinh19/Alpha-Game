@@ -111,6 +111,10 @@ public class UserPuppetRepository : IUserPuppetRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return Puppets;
@@ -138,6 +142,10 @@ public class UserPuppetRepository : IUserPuppetRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -304,6 +312,10 @@ public class UserPuppetRepository : IUserPuppetRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -405,6 +417,10 @@ public class UserPuppetRepository : IUserPuppetRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -508,6 +524,10 @@ public class UserPuppetRepository : IUserPuppetRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -592,7 +612,10 @@ public class UserPuppetRepository : IUserPuppetRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-
+            finally
+            {
+                connection.Close();
+            }
         }
         return card;
     }
@@ -721,6 +744,10 @@ public class UserPuppetRepository : IUserPuppetRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumPuppet;

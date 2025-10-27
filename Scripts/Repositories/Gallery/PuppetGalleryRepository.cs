@@ -111,6 +111,10 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return Puppets;
@@ -135,6 +139,10 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -633,6 +641,10 @@ public class PuppetGalleryRepository : IPuppetGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumPuppet;

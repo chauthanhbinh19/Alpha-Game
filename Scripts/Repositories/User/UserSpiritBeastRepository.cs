@@ -110,6 +110,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritBeastList;
@@ -215,6 +219,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritBeastList;
@@ -241,6 +249,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -344,6 +356,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -449,6 +465,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return spiritBeast;
@@ -552,6 +572,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -657,6 +681,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return spiritBeast;
@@ -760,6 +788,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -865,6 +897,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return spiritBeast;
@@ -969,6 +1005,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return spiritBeast;
@@ -1072,6 +1112,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1218,6 +1262,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1319,6 +1367,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -1422,6 +1474,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -1479,6 +1535,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1539,6 +1599,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1597,6 +1661,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1657,6 +1725,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1715,6 +1787,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1775,6 +1851,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1834,6 +1914,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1892,6 +1976,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2011,6 +2099,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritBeastList;
@@ -2128,6 +2220,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2247,6 +2343,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritBeastList;
@@ -2364,6 +2464,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2483,6 +2587,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritBeastList;
@@ -2600,6 +2708,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2719,6 +2831,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritBeastList;
@@ -2837,6 +2953,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritBeastList;
@@ -2877,6 +2997,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2919,6 +3043,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -2959,6 +3087,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -3001,6 +3133,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -3041,6 +3177,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -3083,6 +3223,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -3124,6 +3268,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -3164,6 +3312,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -3249,6 +3401,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -3380,6 +3536,10 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumSpiritBeast;

@@ -112,6 +112,10 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return symbolsList;
@@ -284,6 +288,10 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -385,6 +393,10 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -488,6 +500,10 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -571,6 +587,10 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -701,6 +721,10 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumSymbols;

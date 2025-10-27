@@ -104,6 +104,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
 
                     borders.Add(border);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -127,7 +128,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -625,7 +626,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
                         sumBorders.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

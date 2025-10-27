@@ -646,6 +646,10 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return sumEquipments;
     }

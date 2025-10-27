@@ -104,6 +104,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return skillsList;
@@ -131,6 +135,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -276,6 +284,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -377,6 +389,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -480,6 +496,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -563,6 +583,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -657,11 +681,15 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                skillsList = LoadSkillsWithEffects(user_id,skillsList, connection);
+                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -761,6 +789,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return skillsList;
@@ -858,6 +890,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -957,6 +993,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return skillsList;
@@ -1054,6 +1094,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1153,6 +1197,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return skillsList;
@@ -1251,6 +1299,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return skillsList;
@@ -1348,6 +1400,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1471,6 +1527,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1516,6 +1576,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1563,6 +1627,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1608,6 +1676,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1655,6 +1727,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1700,6 +1776,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1747,6 +1827,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1793,6 +1877,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1822,6 +1910,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1853,6 +1945,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1882,6 +1978,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1913,6 +2013,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1942,6 +2046,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1973,6 +2081,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -2003,6 +2115,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -2032,6 +2148,10 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }

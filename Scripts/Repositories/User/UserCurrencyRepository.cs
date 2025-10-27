@@ -40,6 +40,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -78,6 +82,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -115,6 +123,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -185,6 +197,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currencies;
@@ -223,6 +239,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -260,6 +280,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -300,6 +324,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -338,6 +366,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -378,6 +410,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -416,6 +452,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -456,6 +496,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -494,6 +538,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -534,6 +582,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -572,6 +624,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -612,6 +668,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -650,6 +710,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -690,6 +754,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -728,6 +796,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -768,6 +840,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -806,6 +882,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -846,6 +926,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -884,6 +968,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -924,6 +1012,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -962,6 +1054,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1002,6 +1098,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -1040,6 +1140,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1080,6 +1184,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -1118,6 +1226,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1158,6 +1270,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -1196,6 +1312,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1236,6 +1356,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -1274,6 +1398,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1314,6 +1442,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -1352,6 +1484,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1392,6 +1528,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return currency;
@@ -1427,6 +1567,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -1464,6 +1608,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1499,6 +1647,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -1536,6 +1688,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1571,6 +1727,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -1608,6 +1768,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1644,6 +1808,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1678,6 +1846,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -1715,6 +1887,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1751,6 +1927,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1785,6 +1965,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -1822,6 +2006,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1856,6 +2044,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -1893,6 +2085,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1929,6 +2125,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -1963,6 +2163,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -2000,6 +2204,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -2035,6 +2243,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -2072,6 +2284,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -2108,6 +2324,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -2142,6 +2362,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -2179,6 +2403,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -2214,6 +2442,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -2251,6 +2483,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -2286,6 +2522,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;
@@ -2323,6 +2563,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -2359,6 +2603,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -2394,6 +2642,10 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return currencies;
     }
@@ -2422,11 +2674,16 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                         Quantity = reader.GetInt32("quantity"),
                     };
                     currencies.Add(currency);
-                };
+                }
+                ;
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return currencies;

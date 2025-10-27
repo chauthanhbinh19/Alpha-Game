@@ -111,6 +111,10 @@ public class UserRelicsRepository : IUserRelicsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return relicsList;
@@ -138,6 +142,10 @@ public class UserRelicsRepository : IUserRelicsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -410,6 +418,10 @@ public class UserRelicsRepository : IUserRelicsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -513,6 +525,10 @@ public class UserRelicsRepository : IUserRelicsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -596,6 +612,10 @@ public class UserRelicsRepository : IUserRelicsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -726,6 +746,10 @@ public class UserRelicsRepository : IUserRelicsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumRelics;

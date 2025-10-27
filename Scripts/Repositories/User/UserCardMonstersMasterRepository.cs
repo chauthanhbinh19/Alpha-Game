@@ -97,6 +97,10 @@ public class UserCardMonstersMasterRepository : IUserCardMonstersMasterRepositor
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return master;
@@ -355,6 +359,10 @@ public class UserCardMonstersMasterRepository : IUserCardMonstersMasterRepositor
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     public Master GetSumCardMonstersMaster(string user_id, string card_id)
@@ -504,6 +512,10 @@ public class UserCardMonstersMasterRepository : IUserCardMonstersMasterRepositor
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return master;

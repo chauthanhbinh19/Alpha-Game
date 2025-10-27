@@ -96,6 +96,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
 
                     CardAdmiralsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -120,7 +121,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -618,7 +619,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                         sumCardAdmirals.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

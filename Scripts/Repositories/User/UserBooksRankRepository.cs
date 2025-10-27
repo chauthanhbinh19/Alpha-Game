@@ -96,6 +96,10 @@ public class UserBooksRankRepository : IUserBooksRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return rank;
@@ -366,6 +370,10 @@ public class UserBooksRankRepository : IUserBooksRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     public Rank GetSumBooksRank(string user_id, string card_id)
@@ -516,6 +524,10 @@ public class UserBooksRankRepository : IUserBooksRankRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return rank;

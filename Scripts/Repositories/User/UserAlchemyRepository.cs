@@ -111,6 +111,10 @@ public class UserAlchemyRepository : IUserAlchemyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return Alchemys;
@@ -138,6 +142,10 @@ public class UserAlchemyRepository : IUserAlchemyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -305,7 +313,10 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
-
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -406,6 +417,10 @@ public class UserAlchemyRepository : IUserAlchemyRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -509,6 +524,10 @@ public class UserAlchemyRepository : IUserAlchemyRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -592,6 +611,10 @@ public class UserAlchemyRepository : IUserAlchemyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -722,6 +745,10 @@ public class UserAlchemyRepository : IUserAlchemyRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumAlchemy;

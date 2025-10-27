@@ -112,6 +112,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritCardList;
@@ -218,6 +222,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritCardList;
@@ -245,6 +253,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -349,6 +361,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -455,6 +471,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return spiritBeast;
@@ -559,6 +579,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -665,6 +689,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return spiritBeast;
@@ -769,6 +797,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -875,6 +907,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return spiritBeast;
@@ -980,6 +1016,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return spiritBeast;
@@ -1084,6 +1124,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1230,6 +1274,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1331,6 +1379,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -1434,6 +1486,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -1491,6 +1547,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1551,6 +1611,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1609,6 +1673,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1669,6 +1737,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1727,6 +1799,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -1787,6 +1863,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1846,6 +1926,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -1904,6 +1988,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2024,6 +2112,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritCardList;
@@ -2142,6 +2234,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2262,6 +2358,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritCardList;
@@ -2380,6 +2480,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2500,6 +2604,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritCardList;
@@ -2618,6 +2726,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2738,6 +2850,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritCardList;
@@ -2857,6 +2973,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritCardList;
@@ -2897,6 +3017,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -2939,6 +3063,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -2979,6 +3107,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -3021,6 +3153,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -3061,6 +3197,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -3103,6 +3243,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -3144,6 +3288,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -3184,6 +3332,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -3269,6 +3421,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -3400,6 +3556,10 @@ public class UserSpiritCardRepository : IUserSpiritCardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumSpiritCard;

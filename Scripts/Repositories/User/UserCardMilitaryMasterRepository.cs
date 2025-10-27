@@ -96,6 +96,10 @@ public class UserCardMilitaryMasterRepository : IUserCardMilitaryMasterRepositor
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return master;
@@ -354,6 +358,10 @@ public class UserCardMilitaryMasterRepository : IUserCardMilitaryMasterRepositor
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     public Master GetSumCardMilitaryMaster(string user_id, string card_id)
@@ -504,6 +512,10 @@ public class UserCardMilitaryMasterRepository : IUserCardMilitaryMasterRepositor
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return master;

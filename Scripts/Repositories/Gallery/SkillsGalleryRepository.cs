@@ -101,6 +101,10 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return skillsList;
@@ -125,6 +129,10 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -623,6 +631,10 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumSkills;

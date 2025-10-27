@@ -102,6 +102,10 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return collaborationEquipmentList;
@@ -129,6 +133,10 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -377,6 +385,10 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -479,6 +491,10 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -562,6 +578,10 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -692,6 +712,10 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumCollaborationEquipments;

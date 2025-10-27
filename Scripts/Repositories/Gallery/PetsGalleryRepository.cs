@@ -102,6 +102,10 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return petsList;
@@ -126,6 +130,10 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -624,6 +632,10 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumPets;

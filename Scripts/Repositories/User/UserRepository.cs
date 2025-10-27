@@ -36,6 +36,7 @@ public class UserRepository : IUserRepository
                     };
                 }
             }
+            connection.Close();
         }
 
         return null; // Không tìm thấy
@@ -172,10 +173,12 @@ public class UserRepository : IUserRepository
                     Currencies = currencies
                 };
                 // Debug.Log(user.name);
+                connection.Close();
                 return user;
             }
             else
             {
+                connection.Close();
                 return null;
             }
         }
@@ -243,10 +246,12 @@ public class UserRepository : IUserRepository
                     Border = "",
                     Currencies = currencies
                 };
+                connection.Close();
                 return user;
             }
             else
             {
+                connection.Close();
                 return null; // Đăng nhập thất bại
             }
         }
@@ -265,6 +270,7 @@ public class UserRepository : IUserRepository
             command.ExecuteNonQuery();
             // namePanel.SetActive(false);
             AuthenticationManager.Instance.deleteCreateNamePanel();
+            connection.Close();
         }
     }
     public void createUserCurrency(string Id)
@@ -283,6 +289,7 @@ public class UserRepository : IUserRepository
 
                 command.ExecuteNonQuery();
             }
+            connection.Close();
         }
     }
 }

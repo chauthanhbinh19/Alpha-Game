@@ -96,6 +96,10 @@ public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return rank;
@@ -353,6 +357,10 @@ public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     public Rank GetSumEquipmentsRank(string user_id, string card_id)
@@ -503,6 +511,10 @@ public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return rank;

@@ -111,6 +111,10 @@ public class UserTalismanRepository : IUserTalismanRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return talismanList;
@@ -138,6 +142,10 @@ public class UserTalismanRepository : IUserTalismanRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -304,6 +312,10 @@ public class UserTalismanRepository : IUserTalismanRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -405,6 +417,10 @@ public class UserTalismanRepository : IUserTalismanRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -508,6 +524,10 @@ public class UserTalismanRepository : IUserTalismanRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -591,6 +611,10 @@ public class UserTalismanRepository : IUserTalismanRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -721,6 +745,10 @@ public class UserTalismanRepository : IUserTalismanRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumTalisman;

@@ -96,6 +96,10 @@ public class UserCardSpellRankRepository : IUserCardSpellRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return rank;
@@ -354,6 +358,10 @@ public class UserCardSpellRankRepository : IUserCardSpellRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     public Rank GetSumCardSpellRank(string user_id, string card_id)
@@ -504,6 +512,10 @@ public class UserCardSpellRankRepository : IUserCardSpellRankRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return rank;

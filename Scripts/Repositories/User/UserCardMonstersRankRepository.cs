@@ -97,6 +97,10 @@ public class UserCardMonstersRankRepository : IUserCardMonstersRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return rank;
@@ -355,6 +359,10 @@ public class UserCardMonstersRankRepository : IUserCardMonstersRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     public Rank GetSumCardMonstersRank(string user_id, string card_id)
@@ -504,6 +512,10 @@ public class UserCardMonstersRankRepository : IUserCardMonstersRankRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return rank;

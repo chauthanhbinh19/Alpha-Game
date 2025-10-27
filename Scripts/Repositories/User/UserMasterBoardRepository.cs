@@ -104,6 +104,10 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return masterBoards;
@@ -239,6 +243,10 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
     }
@@ -367,6 +375,10 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }

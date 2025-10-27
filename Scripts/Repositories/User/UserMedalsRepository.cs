@@ -110,6 +110,10 @@ public class UserMedalsRepository : IUserMedalsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return medalsList;
@@ -136,6 +140,10 @@ public class UserMedalsRepository : IUserMedalsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -281,6 +289,10 @@ public class UserMedalsRepository : IUserMedalsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -382,6 +394,10 @@ public class UserMedalsRepository : IUserMedalsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -485,6 +501,10 @@ public class UserMedalsRepository : IUserMedalsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -568,6 +588,10 @@ public class UserMedalsRepository : IUserMedalsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -698,6 +722,10 @@ public class UserMedalsRepository : IUserMedalsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumMedals;

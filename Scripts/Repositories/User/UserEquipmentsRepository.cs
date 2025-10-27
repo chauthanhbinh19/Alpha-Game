@@ -336,6 +336,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return card;
@@ -576,6 +580,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -677,6 +685,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;

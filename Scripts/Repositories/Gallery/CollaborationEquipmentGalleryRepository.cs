@@ -102,6 +102,10 @@ public class CollaborationEquipmentGalleryRepository : ICollaborationEquipmentGa
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return collaborationEquipmentList;
@@ -126,6 +130,10 @@ public class CollaborationEquipmentGalleryRepository : ICollaborationEquipmentGa
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -624,6 +632,10 @@ public class CollaborationEquipmentGalleryRepository : ICollaborationEquipmentGa
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumCollaborationEquipments;

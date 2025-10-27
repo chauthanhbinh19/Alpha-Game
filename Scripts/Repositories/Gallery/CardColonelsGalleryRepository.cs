@@ -102,6 +102,10 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return CardColonelsList;
@@ -126,6 +130,10 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -624,6 +632,10 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumCardColonels;

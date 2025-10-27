@@ -110,6 +110,10 @@ public class SpiritBeastGalleryRepository : ISpiritBeastGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritBeastList;
@@ -133,6 +137,10 @@ public class SpiritBeastGalleryRepository : ISpiritBeastGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -633,6 +641,10 @@ public class SpiritBeastGalleryRepository : ISpiritBeastGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumSpiritBeast;

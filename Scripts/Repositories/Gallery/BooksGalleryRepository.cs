@@ -96,6 +96,7 @@ public class BooksGalleryRepository : IBooksGalleryRepository
 
                     bookslist.Add(book);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -120,7 +121,7 @@ public class BooksGalleryRepository : IBooksGalleryRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -261,14 +262,11 @@ public class BooksGalleryRepository : IBooksGalleryRepository
                     command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
                     command.ExecuteNonQuery();
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
             }
         }
     }
@@ -286,14 +284,11 @@ public class BooksGalleryRepository : IBooksGalleryRepository
                 command.Parameters.AddWithValue("@book_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
                 command.ExecuteNonQuery();
+                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
             }
         }
     }
@@ -333,14 +328,11 @@ public class BooksGalleryRepository : IBooksGalleryRepository
                         updateCommand.ExecuteNonQuery();
                     }
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
             }
         }
     }
@@ -488,14 +480,11 @@ public class BooksGalleryRepository : IBooksGalleryRepository
                 command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
                 command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
                 command.ExecuteNonQuery();
+                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
             }
         }
     }
@@ -618,7 +607,7 @@ public class BooksGalleryRepository : IBooksGalleryRepository
                         sumBooks.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
                     }
                 }
-
+                connection.Close();
             }
             catch (MySqlException ex)
             {

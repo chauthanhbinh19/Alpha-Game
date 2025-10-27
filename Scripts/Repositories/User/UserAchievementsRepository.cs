@@ -110,6 +110,10 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return achievementsList;
@@ -136,6 +140,10 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -282,6 +290,10 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -384,6 +396,10 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -488,6 +504,10 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -572,6 +592,10 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -703,6 +727,10 @@ public class UserAchievementsRepository : IUserAchievementsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumAchievements;

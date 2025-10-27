@@ -110,6 +110,10 @@ public class CollaborationGalleryRepository : ICollaborationGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return collaborationList;
@@ -133,6 +137,10 @@ public class CollaborationGalleryRepository : ICollaborationGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -631,6 +639,10 @@ public class CollaborationGalleryRepository : ICollaborationGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumCollaborations;

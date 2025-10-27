@@ -111,6 +111,10 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return magicFormationCircles;
@@ -135,6 +139,10 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -633,6 +641,10 @@ public class MagicFormationCircleGalleryRepository : IMagicFormationCircleGaller
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumMagicFormationCircle;

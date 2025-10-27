@@ -97,6 +97,10 @@ public class UserPetsRankRepository : IUserPetsRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return rank;
@@ -356,6 +360,10 @@ public class UserPetsRankRepository : IUserPetsRankRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     
@@ -507,6 +515,10 @@ public class UserPetsRankRepository : IUserPetsRankRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return rank;

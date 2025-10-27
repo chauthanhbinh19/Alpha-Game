@@ -111,6 +111,10 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return talismanList;
@@ -135,6 +139,10 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -633,6 +641,10 @@ public class TalismanGalleryRepository : ITalismanGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumTalisman;

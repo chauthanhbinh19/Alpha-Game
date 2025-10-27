@@ -34,7 +34,7 @@ public class UserItemsRepository : IUserItemsRepository
                         Name = reader.GetString("name"),
                         Image = reader.GetString("image"),
                         Quantity = reader.GetInt32("quantity"),
-                        
+
                     };
 
                     Items.Add(item);
@@ -43,6 +43,10 @@ public class UserItemsRepository : IUserItemsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -70,6 +74,10 @@ public class UserItemsRepository : IUserItemsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -99,6 +107,7 @@ public class UserItemsRepository : IUserItemsRepository
                                  ? Convert.ToInt32(reader["quantity"])
                                  : 0; // Gán giá trị cột 'quantity'
             }
+            connection.Close();
 
         }
         return items;
@@ -137,6 +146,10 @@ public class UserItemsRepository : IUserItemsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -171,7 +184,7 @@ public class UserItemsRepository : IUserItemsRepository
             command.Parameters.AddWithValue("@item_id", items.Id);
             command.Parameters.AddWithValue("@quantity", quantity);
             command.ExecuteNonQuery();
-
+            connection.Close();
         }
         return items;
     }

@@ -32,6 +32,10 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     public void UpdateUserDailyCheckin(string userId, string dailyCheckinId)
@@ -56,6 +60,10 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }
@@ -119,6 +127,10 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return false;
     }
@@ -162,6 +174,10 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return userDailyCheckins;

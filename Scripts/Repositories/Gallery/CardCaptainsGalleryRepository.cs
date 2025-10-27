@@ -97,6 +97,7 @@ public class CardCaptainsGalleryRepository : ICardCaptainsGalleryRepository
 
                     CardCaptainsList.Add(captain);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -121,7 +122,7 @@ public class CardCaptainsGalleryRepository : ICardCaptainsGalleryRepository
                 command.Parameters.AddWithValue("@rare", rare);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
-                return count;
+                connection.Close();
             }
             catch (MySqlException ex)
             {
@@ -624,6 +625,10 @@ public class CardCaptainsGalleryRepository : ICardCaptainsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumCardCaptains;

@@ -111,6 +111,10 @@ public class UserArtworkRepository : IUserArtworkRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return Artworks;
@@ -138,6 +142,10 @@ public class UserArtworkRepository : IUserArtworkRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -305,6 +313,10 @@ public class UserArtworkRepository : IUserArtworkRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -406,6 +418,10 @@ public class UserArtworkRepository : IUserArtworkRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -509,6 +525,10 @@ public class UserArtworkRepository : IUserArtworkRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -592,6 +612,10 @@ public class UserArtworkRepository : IUserArtworkRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
 
         }
@@ -722,6 +746,10 @@ public class UserArtworkRepository : IUserArtworkRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumArtwork;

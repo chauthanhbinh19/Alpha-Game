@@ -112,6 +112,10 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return symbolsList;
@@ -136,6 +140,10 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -634,6 +642,10 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumSymbols;

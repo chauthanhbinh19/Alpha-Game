@@ -96,6 +96,10 @@ public class UserCardAdmiralsMasterRepository : IUserCardAdmiralsMasterRepositor
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return master;
@@ -366,6 +370,10 @@ public class UserCardAdmiralsMasterRepository : IUserCardAdmiralsMasterRepositor
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     public Master GetSumCardAdmiralsMaster(string user_id, string card_id)
@@ -516,6 +524,10 @@ public class UserCardAdmiralsMasterRepository : IUserCardAdmiralsMasterRepositor
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return master;

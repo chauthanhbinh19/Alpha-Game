@@ -162,6 +162,10 @@ public class UserBooksRepository : IUserBooksRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return bookslist;
@@ -317,6 +321,10 @@ public class UserBooksRepository : IUserBooksRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return bookslist;
@@ -345,6 +353,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 result[type] = number;
             }
+            connection.Close();
         }
         return result;
     }
@@ -371,6 +380,10 @@ public class UserBooksRepository : IUserBooksRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -516,6 +529,10 @@ public class UserBooksRepository : IUserBooksRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return true;
@@ -617,6 +634,10 @@ public class UserBooksRepository : IUserBooksRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -720,6 +741,10 @@ public class UserBooksRepository : IUserBooksRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         return true;
     }
@@ -746,6 +771,10 @@ public class UserBooksRepository : IUserBooksRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return true;
@@ -885,6 +914,10 @@ public class UserBooksRepository : IUserBooksRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return card;
@@ -973,62 +1006,63 @@ public class UserBooksRepository : IUserBooksRepository
                     Description = reader.GetString("description"),
 
                     BaseStats = new BaseStats
-                        {
-                            Power = reader.GetDouble("power"),
-                            Health = reader.GetDouble("health"),
-                            PhysicalAttack = reader.GetDouble("physical_attack"),
-                            PhysicalDefense = reader.GetDouble("physical_defense"),
-                            MagicalAttack = reader.GetDouble("magical_attack"),
-                            MagicalDefense = reader.GetDouble("magical_defense"),
-                            ChemicalAttack = reader.GetDouble("chemical_attack"),
-                            ChemicalDefense = reader.GetDouble("chemical_defense"),
-                            AtomicAttack = reader.GetDouble("atomic_attack"),
-                            AtomicDefense = reader.GetDouble("atomic_defense"),
-                            MentalAttack = reader.GetDouble("mental_attack"),
-                            MentalDefense = reader.GetDouble("mental_defense"),
-                            Speed = reader.GetDouble("speed"),
-                            CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                            CriticalRate = reader.GetDouble("critical_rate"),
-                            CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                            IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                            PenetrationRate = reader.GetDouble("penetration_rate"),
-                            PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                            EvasionRate = reader.GetDouble("evasion_rate"),
-                            DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                            IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                            AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                            VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                            VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                            AccuracyRate = reader.GetDouble("accuracy_rate"),
-                            LifestealRate = reader.GetDouble("lifesteal_rate"),
-                            ShieldStrength = reader.GetDouble("shield_strength"),
-                            Tenacity = reader.GetDouble("tenacity"),
-                            ResistanceRate = reader.GetDouble("resistance_rate"),
-                            ComboRate = reader.GetDouble("combo_rate"),
-                            IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                            ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                            ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                            StunRate = reader.GetDouble("stun_rate"),
-                            IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                            ReflectionRate = reader.GetDouble("reflection_rate"),
-                            IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                            ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                            ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                            Mana = reader.GetFloat("mana"),
-                            ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                            DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                            ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                            DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                            ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                            NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                            NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                            SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                            SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        }
+                    {
+                        Power = reader.GetDouble("power"),
+                        Health = reader.GetDouble("health"),
+                        PhysicalAttack = reader.GetDouble("physical_attack"),
+                        PhysicalDefense = reader.GetDouble("physical_defense"),
+                        MagicalAttack = reader.GetDouble("magical_attack"),
+                        MagicalDefense = reader.GetDouble("magical_defense"),
+                        ChemicalAttack = reader.GetDouble("chemical_attack"),
+                        ChemicalDefense = reader.GetDouble("chemical_defense"),
+                        AtomicAttack = reader.GetDouble("atomic_attack"),
+                        AtomicDefense = reader.GetDouble("atomic_defense"),
+                        MentalAttack = reader.GetDouble("mental_attack"),
+                        MentalDefense = reader.GetDouble("mental_defense"),
+                        Speed = reader.GetDouble("speed"),
+                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                        CriticalRate = reader.GetDouble("critical_rate"),
+                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDouble("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDouble("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDouble("accuracy_rate"),
+                        LifestealRate = reader.GetDouble("lifesteal_rate"),
+                        ShieldStrength = reader.GetDouble("shield_strength"),
+                        Tenacity = reader.GetDouble("tenacity"),
+                        ResistanceRate = reader.GetDouble("resistance_rate"),
+                        ComboRate = reader.GetDouble("combo_rate"),
+                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                        StunRate = reader.GetDouble("stun_rate"),
+                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDouble("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                        Mana = reader.GetFloat("mana"),
+                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                    }
                 };
 
                 books.Add(book);
             }
+            connection.Close();
         }
         return books;
     }

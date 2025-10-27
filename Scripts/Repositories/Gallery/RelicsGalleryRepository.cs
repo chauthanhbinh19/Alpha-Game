@@ -111,6 +111,10 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return relicsList;
@@ -135,6 +139,10 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -633,6 +641,10 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumRelics;

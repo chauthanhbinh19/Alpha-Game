@@ -102,6 +102,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
                     achievementsList.Add(achievement);
                 }
+                connection.Close();
             }
             catch (MySqlException ex)
             {

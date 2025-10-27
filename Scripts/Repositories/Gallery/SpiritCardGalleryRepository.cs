@@ -112,6 +112,10 @@ public class SpiritCardGalleryRepository : ISpiritCardGalleryRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return SpiritCardList;
@@ -136,6 +140,10 @@ public class SpiritCardGalleryRepository : ISpiritCardGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return count;
@@ -636,6 +644,10 @@ public class SpiritCardGalleryRepository : ISpiritCardGalleryRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return sumSpiritCard;

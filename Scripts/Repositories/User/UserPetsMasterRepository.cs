@@ -97,6 +97,10 @@ public class UserPetsMasterRepository : IUserPetsMasterRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
 
         }
         return master;
@@ -356,6 +360,10 @@ public class UserPetsMasterRepository : IUserPetsMasterRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
     
@@ -507,6 +515,10 @@ public class UserPetsMasterRepository : IUserPetsMasterRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         return master;
