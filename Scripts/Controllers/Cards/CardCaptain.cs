@@ -62,6 +62,7 @@ public class CardCaptain : CardBase
         this.SkillResistanceRate = cardCaptains.SkillResistanceRate;
         this.Position = cardCaptains.Position;
         this.IsAlive = true;
+        this.Skills = cardCaptains.Skills;
 
         this.CurrentHealth = cardCaptains.Health;
         this.CurrentPhysicalAttack = cardCaptains.PhysicalAttack;

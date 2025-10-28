@@ -183,7 +183,7 @@ public class UserMedalsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Medals currentCard = new Medals();
                 currentCard = UserMedalsService.Create().GetUserMedalsById(User.CurrentUserId, medal.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -209,7 +209,7 @@ public class UserMedalsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Medals currentCard = UserMedalsService.Create().GetUserMedalsById(User.CurrentUserId, medal.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -289,8 +289,8 @@ public class UserMedalsController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = medal.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = medal.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng huy chương
                 bool hasEnoughMedals = medal.Quantity >= requiredQuantity;
@@ -312,7 +312,7 @@ public class UserMedalsController : MonoBehaviour
                     else
                     {
                         // Nếu huy chương không đủ, dùng cả huy chương + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - medal.Quantity;
+                        double remainingRequired = requiredQuantity - medal.Quantity;
                         medal.Quantity = 0; // Dùng hết huy chương
 
                         foreach (Items items1 in items)

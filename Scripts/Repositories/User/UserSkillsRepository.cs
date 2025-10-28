@@ -42,8 +42,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -397,7 +397,7 @@ public class UserSkillsRepository : IUserSkillsRepository
         }
         return true;
     }
-    public bool UpdateSkillsBreakthrough(Skills skills, int star, int quantity)
+    public bool UpdateSkillsBreakthrough(Skills skills, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -525,7 +525,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Id = reader.GetString("skills_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
+                        Experiment = reader.GetDouble("experiment"),
                         Star = reader.GetInt32("star"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
@@ -603,8 +603,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_heroes_skills chs
-                on chs.card_hero_id = @card_hero_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId
+                on chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_hero_id = @card_hero_id
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -624,8 +624,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetInt32("level"),
                         Position = reader.GetInt32("position"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -681,6 +681,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                reader.Close();
                 skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
@@ -706,8 +707,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_captains_skills chs
-                on chs.card_captain_id = @card_captain_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId
+                on chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_captain_id = @card_captain_id
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -727,8 +728,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetInt32("level"),
                         Position = reader.GetInt32("position"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -784,6 +785,8 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                reader.Close();
+                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -808,8 +811,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_colonels_skills chs
-                on chs.card_colonel_id = @card_colonel_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId
+                on chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_colonel_id = @card_colonel_id
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -829,8 +832,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetInt32("level"),
                         Position = reader.GetInt32("position"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -886,6 +889,8 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                reader.Close();
+                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -910,8 +915,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_generals_skills chs
-                on chs.card_general_id = @card_general_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId
+                on chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_general_id = @card_general_id
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -931,8 +936,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetInt32("level"),
                         Position = reader.GetInt32("position"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -988,6 +993,8 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                reader.Close();
+                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1012,8 +1019,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_admirals_skills chs
-                on chs.card_admiral_id = @card_admiral_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId
+                on chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_admiral_id = @card_admiral_id
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -1033,8 +1040,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetInt32("level"),
                         Position = reader.GetInt32("position"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -1090,6 +1097,8 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                reader.Close();
+                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1114,8 +1123,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_military_skills chs
-                on chs.card_military_id = @card_military_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId
+                on chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_military_id = @card_military_id
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -1135,8 +1144,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetInt32("level"),
                         Position = reader.GetInt32("position"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -1192,6 +1201,8 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                reader.Close();
+                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1216,8 +1227,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_monsters_skills chs
-                on chs.card_monster_id = @card_monster_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId
+                on chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_monster_id = @card_monster_id
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -1237,8 +1248,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetInt32("level"),
                         Position = reader.GetInt32("position"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -1294,6 +1305,8 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                reader.Close();
+                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1318,8 +1331,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_spell_skills chs 
-                on chs.card_spell_id = @card_spell_id AND chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId
+                on chs.skill_id = us.skill_id
+                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_spell_id = @card_spell_id
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -1339,8 +1352,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetInt32("level"),
                         Position = reader.GetInt32("position"),
                         SkillType = reader.GetString("skill_type"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -1396,6 +1409,8 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
+                reader.Close();
+                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {

@@ -532,21 +532,21 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
 
     }
-    public bool UpOneLevelCondition(List<Items> items, int currentLevel, int userMaxLevel, int maxLevel, int experimentCondition, int totalExperiment)
+    public bool UpOneLevelCondition(List<Items> items, int currentLevel, int userMaxLevel, int maxLevel, int experimentCondition, double totalExperiment)
     {
         bool status = false;
         if (currentLevel < userMaxLevel && currentLevel < maxLevel)
         {
-            int requiredExp = experimentCondition - totalExperiment; // EXP cần để lên cấp
+            double requiredExp = experimentCondition - totalExperiment; // EXP cần để lên cấp
             bool canLevelUp = false;
 
             foreach (Items items1 in items)
             {
-                int expPerBottle = EvaluateExperiment.GetItemExp(items1.Name);
+                double expPerBottle = EvaluateExperiment.GetItemExp(items1.Name);
 
                 if (expPerBottle > 0 && items1.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                 {
-                    int totalExpFromThisItem = expPerBottle * items1.Quantity;
+                    double totalExpFromThisItem = expPerBottle * items1.Quantity;
 
                     if (requiredExp <= totalExpFromThisItem)
                     {
@@ -580,21 +580,21 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         return status;
     }
-    public bool UpMaxLevelCondition(List<Items> items, ref int currentLevel, int userMaxLevel, int maxLevel, int experimentCondition, int totalExperiment)
+    public bool UpMaxLevelCondition(List<Items> items, ref int currentLevel, int userMaxLevel, int maxLevel, int experimentCondition, double totalExperiment)
     {
         bool status = false;
         while (currentLevel < userMaxLevel && currentLevel < maxLevel)
         {
-            int requiredExp = experimentCondition - totalExperiment; // EXP cần để lên cấp
+            double requiredExp = experimentCondition - totalExperiment; // EXP cần để lên cấp
             bool canLevelUp = false;
 
             foreach (Items items1 in items)
             {
-                int expPerBottle = EvaluateExperiment.GetItemExp(items1.Name);
+                double expPerBottle = EvaluateExperiment.GetItemExp(items1.Name);
 
                 if (expPerBottle > 0 && items1.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                 {
-                    int totalExpFromThisItem = expPerBottle * items1.Quantity;
+                    double totalExpFromThisItem = expPerBottle * items1.Quantity;
 
                     if (requiredExp <= totalExpFromThisItem)
                     {

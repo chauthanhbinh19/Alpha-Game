@@ -147,7 +147,7 @@ public class UserAchievementsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Achievements currentCard = new Achievements();
                 currentCard = UserAchievementsService.Create().GetUserAchievementsById(User.CurrentUserId, achievements.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -173,7 +173,7 @@ public class UserAchievementsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Achievements currentCard = UserAchievementsService.Create().GetUserAchievementsById(User.CurrentUserId, achievements.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -253,8 +253,8 @@ public class UserAchievementsController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = achievements.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = achievements.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thành tích
                 bool hasEnoughAchievements = achievements.Quantity >= requiredQuantity;
@@ -276,7 +276,7 @@ public class UserAchievementsController : MonoBehaviour
                     else
                     {
                         // Nếu thành tích không đủ, dùng cả thành tích + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - achievements.Quantity;
+                        double remainingRequired = requiredQuantity - achievements.Quantity;
                         achievements.Quantity = 0; // Dùng hết thành tích
 
                         foreach (Items items1 in items)

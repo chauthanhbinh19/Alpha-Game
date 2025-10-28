@@ -38,8 +38,8 @@ public class UserForgeRepository : IUserForgeRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -425,7 +425,7 @@ public class UserForgeRepository : IUserForgeRepository
         }
         return true;
     }
-    public bool UpdateForgeBreakthrough(Forges Forge, int star, int quantity)
+    public bool UpdateForgeBreakthrough(Forges Forge, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -553,7 +553,7 @@ public class UserForgeRepository : IUserForgeRepository
                         Id = reader.GetString("forge_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
+                        Experiment = reader.GetDouble("experiment"),
                         Star = reader.GetInt32("star"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),

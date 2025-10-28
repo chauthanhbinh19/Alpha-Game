@@ -227,7 +227,7 @@ public class ReactorNumber1Manager : MonoBehaviour
             CreateReactorPanel();
         });
     }
-    public void CreateMaterialUI(RawImage image, TextMeshProUGUI quantityText, string itemImage, int level = 0, int userMaterialQuantity = 0)
+    public void CreateMaterialUI(RawImage image, TextMeshProUGUI quantityText, string itemImage, int level = 0, double userMaterialQuantity = 0)
     {
         int levelsPerSkill = 1000;
         int materialQuantity = (level == 0) ? 1 : (level % levelsPerSkill == 0 ? levelsPerSkill : level % levelsPerSkill);

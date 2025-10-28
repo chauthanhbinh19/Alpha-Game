@@ -203,7 +203,7 @@ public class UserTitlesService : IUserTitlesService
         return _userTitlesRepository.UpdateTitlesLevel(titles, cardLevel);
     }
 
-    public bool UpdateTitlesBreakthrough(Titles titles, int star, int quantity)
+    public bool UpdateTitlesBreakthrough(Titles titles, int star, double quantity)
     {
         return _userTitlesRepository.UpdateTitlesBreakthrough(titles, star, quantity);
     }

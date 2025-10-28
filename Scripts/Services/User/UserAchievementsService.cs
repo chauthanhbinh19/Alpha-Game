@@ -209,7 +209,7 @@ public class UserAchievementsService : IUserAchievementsService
         return _userAchievementsRepository.UpdateAchievementLevel(achievements, cardLevel);
     }
 
-    public bool UpdateAchievementsBreakthrough(Achievements achievements, int star, int quantity)
+    public bool UpdateAchievementsBreakthrough(Achievements achievements, int star, double quantity)
     {
         return _userAchievementsRepository.UpdateAchievementsBreakthrough(achievements, star, quantity);
     }

@@ -133,14 +133,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -209,14 +209,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -289,14 +289,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -366,14 +366,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -446,14 +446,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -523,14 +523,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -603,14 +603,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -680,14 +680,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -760,14 +760,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -837,14 +837,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -917,14 +917,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -994,14 +994,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -1074,14 +1074,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -1151,14 +1151,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -1231,14 +1231,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -1308,14 +1308,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -1388,14 +1388,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -1465,14 +1465,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)
@@ -1545,14 +1545,14 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
             int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
@@ -1622,14 +1622,14 @@ public class MainMenuAffinityManager : MonoBehaviour
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
             int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
-            int totalExp = 0;
+            double totalExp = 0;
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                int itemExp = EvaluateExperiment.GetItemExp(item.Name);
-                int availableQuantity = item.Quantity;
+                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
                 while (availableQuantity > 0)

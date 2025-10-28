@@ -751,7 +751,15 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         );
         return cardGenerals;
     }
-
+    public List<CardGenerals> GetSkills(string user_id, List<CardGenerals> CardGeneralsList)
+    {
+        foreach(CardGenerals cardGeneral in CardGeneralsList)
+        {
+            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardGeneral.Id);
+            cardGeneral.Skills = skills;
+        }
+        return CardGeneralsList;
+    }
     public List<CardGenerals> GetUserCardGenerals(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardGenerals> list = _userCardGeneralsRepository.GetUserCardGenerals(user_id, type, pageSize, offset, rare);
@@ -763,6 +771,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -777,6 +786,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -791,6 +801,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -829,7 +840,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         return _userCardGeneralsRepository.UpdateCardGeneralsLevel(cardGenerals, cardLevel);
     }
 
-    public bool UpdateCardGeneralsBreakthrough(CardGenerals cardGenerals, int star, int quantity)
+    public bool UpdateCardGeneralsBreakthrough(CardGenerals cardGenerals, int star, double quantity)
     {
         return _userCardGeneralsRepository.UpdateCardGeneralsBreakthrough(cardGenerals, star, quantity);
     }
@@ -850,7 +861,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
-
+        list = GetSkills(user_id, list);
         return list.FirstOrDefault();
     }
 
@@ -865,6 +876,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 }

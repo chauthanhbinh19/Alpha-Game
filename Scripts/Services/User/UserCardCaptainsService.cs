@@ -751,7 +751,15 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         );
         return cardCaptains;
     }
-
+    public List<CardCaptains> GetSkills(string user_id, List<CardCaptains> CardCaptainsList)
+    {
+        foreach(CardCaptains cardCaptain in CardCaptainsList)
+        {
+            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardCaptain.Id);
+            cardCaptain.Skills = skills;
+        }
+        return CardCaptainsList;
+    }
     public List<CardCaptains> GetUserCardCaptains(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardCaptains> list = _userCardCaptainsRepository.GetUserCardCaptains(user_id, type, pageSize, offset, rare);
@@ -760,8 +768,10 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -773,8 +783,10 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -786,8 +798,10 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -826,7 +840,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         return _userCardCaptainsRepository.UpdateCardCaptainsLevel(cardCaptains, cardLevel);
     }
 
-    public bool UpdateCardCaptainsBreakthrough(CardCaptains cardCaptains, int star, int quantity)
+    public bool UpdateCardCaptainsBreakthrough(CardCaptains cardCaptains, int star, double quantity)
     {
         return _userCardCaptainsRepository.UpdateCardCaptainsBreakthrough(cardCaptains, star, quantity);
     }
@@ -844,9 +858,10 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
-
+        list = GetSkills(user_id, list);
         return list.FirstOrDefault();
     }
 
@@ -858,8 +873,10 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = GetFinalPower(user_id, list);
         list = GetAllEquipmentPower(user_id, list);
         list = GetAllRankPower(user_id, list);
+        list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 }

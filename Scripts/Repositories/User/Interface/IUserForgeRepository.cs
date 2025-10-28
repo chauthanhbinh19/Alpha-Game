@@ -6,7 +6,7 @@ public interface IUserForgeRepository
     int GetUserForgeCount(string user_id, string type, string rare);
     bool InsertUserForge(Forges Forge);
     bool UpdateForgeLevel(Forges Forge, int cardLevel);
-    bool UpdateForgeBreakthrough(Forges Forge, int star, int quantity);
+    bool UpdateForgeBreakthrough(Forges Forge, int star, double quantity);
     Forges GetUserForgeById(string user_id, string Id);
     Forges SumPowerUserForge();
 }

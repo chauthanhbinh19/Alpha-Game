@@ -203,7 +203,7 @@ public class UserCollaborationService : IUserCollaborationService
         return _userCollaborationRepository.UpdateCollaborationsLevel(collaboration, cardLevel);
     }
 
-    public bool UpdateCollaborationsBreakthrough(Collaborations collaboration, int star, int quantity)
+    public bool UpdateCollaborationsBreakthrough(Collaborations collaboration, int star, double quantity)
     {
         return _userCollaborationRepository.UpdateCollaborationsBreakthrough(collaboration, star, quantity);
     }

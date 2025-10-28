@@ -37,8 +37,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -146,8 +146,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -287,8 +287,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     spiritBeast.Quality = reader.GetInt32("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
-                    spiritBeast.Experiment = reader.GetInt32("experiment");
-                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Experiment = reader.GetDouble("experiment");
+                    spiritBeast.Quantity = reader.GetDouble("quantity");
                     spiritBeast.Power = reader.GetDouble("power");
                     spiritBeast.Health = reader.GetDouble("health");
                     spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
@@ -395,8 +395,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     spiritBeast.Quality = reader.GetInt32("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
-                    spiritBeast.Experiment = reader.GetInt32("experiment");
-                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Experiment = reader.GetDouble("experiment");
+                    spiritBeast.Quantity = reader.GetDouble("quantity");
                     spiritBeast.Power = reader.GetDouble("power");
                     spiritBeast.Health = reader.GetDouble("health");
                     spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
@@ -503,8 +503,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     spiritBeast.Quality = reader.GetInt32("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
-                    spiritBeast.Experiment = reader.GetInt32("experiment");
-                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Experiment = reader.GetDouble("experiment");
+                    spiritBeast.Quantity = reader.GetDouble("quantity");
                     spiritBeast.Power = reader.GetDouble("power");
                     spiritBeast.Health = reader.GetDouble("health");
                     spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
@@ -611,8 +611,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     spiritBeast.Quality = reader.GetInt32("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
-                    spiritBeast.Experiment = reader.GetInt32("experiment");
-                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Experiment = reader.GetDouble("experiment");
+                    spiritBeast.Quantity = reader.GetDouble("quantity");
                     spiritBeast.Power = reader.GetDouble("power");
                     spiritBeast.Health = reader.GetDouble("health");
                     spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
@@ -719,8 +719,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     spiritBeast.Quality = reader.GetInt32("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
-                    spiritBeast.Experiment = reader.GetInt32("experiment");
-                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Experiment = reader.GetDouble("experiment");
+                    spiritBeast.Quantity = reader.GetDouble("quantity");
                     spiritBeast.Power = reader.GetDouble("power");
                     spiritBeast.Health = reader.GetDouble("health");
                     spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
@@ -827,8 +827,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     spiritBeast.Quality = reader.GetInt32("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
-                    spiritBeast.Experiment = reader.GetInt32("experiment");
-                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Experiment = reader.GetDouble("experiment");
+                    spiritBeast.Quantity = reader.GetDouble("quantity");
                     spiritBeast.Power = reader.GetDouble("power");
                     spiritBeast.Health = reader.GetDouble("health");
                     spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
@@ -935,8 +935,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     spiritBeast.Quality = reader.GetInt32("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
-                    spiritBeast.Experiment = reader.GetInt32("experiment");
-                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Experiment = reader.GetDouble("experiment");
+                    spiritBeast.Quantity = reader.GetDouble("quantity");
                     spiritBeast.Power = reader.GetDouble("power");
                     spiritBeast.Health = reader.GetDouble("health");
                     spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
@@ -1043,8 +1043,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                     spiritBeast.Quality = reader.GetInt32("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
-                    spiritBeast.Experiment = reader.GetInt32("experiment");
-                    spiritBeast.Quantity = reader.GetInt32("quantity");
+                    spiritBeast.Experiment = reader.GetDouble("experiment");
+                    spiritBeast.Quantity = reader.GetDouble("quantity");
                     spiritBeast.Power = reader.GetDouble("power");
                     spiritBeast.Health = reader.GetDouble("health");
                     spiritBeast.PhysicalAttack = reader.GetDouble("physical_attack");
@@ -1375,7 +1375,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
         }
         return true;
     }
-    public bool UpdateSpiritBeastBreakthrough(SpiritBeasts SpiritBeast, int star, int quantity)
+    public bool UpdateSpiritBeastBreakthrough(SpiritBeasts SpiritBeast, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2027,8 +2027,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -2149,8 +2149,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -2271,8 +2271,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -2393,8 +2393,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -2515,8 +2515,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -2637,8 +2637,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -2759,8 +2759,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -2881,8 +2881,8 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Quality = reader.GetInt32("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -3343,7 +3343,7 @@ public class UserSpiritBeastRepository : IUserSpiritBeastRepository
                         Id = reader.GetString("spirit_beast_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
+                        Experiment = reader.GetDouble("experiment"),
                         Star = reader.GetInt32("star"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),

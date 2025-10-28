@@ -12,7 +12,7 @@ public interface IUserCardAdmiralsRepository
     int GetUserCardAdmiralsTeamsCount(string user_id, string team_id);
     bool InsertUserCardAdmirals(CardAdmirals CardAdmirals);
     bool UpdateCardAdmiralsLevel(CardAdmirals cardAdmirals, int cardLevel);
-    bool UpdateCardAdmiralsBreakthrough(CardAdmirals cardAdmirals, int star, int quantity);
+    bool UpdateCardAdmiralsBreakthrough(CardAdmirals cardAdmirals, int star, double quantity);
     CardAdmirals GetUserCardAdmiralsById(string user_id, string Id);
     List<CardAdmirals> GetAllUserCardAdmiralsInTeam(string user_id);
 }

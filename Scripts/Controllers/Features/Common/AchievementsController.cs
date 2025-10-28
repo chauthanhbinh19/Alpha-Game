@@ -94,7 +94,7 @@ public class AchievementsController : MonoBehaviour
         currencies = UserCurrencyService.Create().GetAchievementsCurrency();
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
     }
-    public void GetQuantity(int originPrice, object obj, Transform popupPanel, Transform currencyPanel)
+    public void GetQuantity(double originPrice, object obj, Transform popupPanel, Transform currencyPanel)
     {
         GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
 

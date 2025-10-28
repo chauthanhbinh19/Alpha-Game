@@ -6,7 +6,7 @@ public interface IUserSymbolsRepository
     int GetUserSymbolsCount(string user_id, string type, string rare);
     bool InsertUserSymbols(Symbols symbols);
     bool UpdateSymbolsLevel(Symbols symbols, int cardLevel);
-    bool UpdateSymbolsBreakthrough(Symbols symbols, int star, int quantity);
+    bool UpdateSymbolsBreakthrough(Symbols symbols, int star, double quantity);
     Symbols GetUserSymbolsById(string user_id, string id);
     Symbols SumPowerUserSymbols();
 }

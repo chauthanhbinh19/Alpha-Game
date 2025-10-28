@@ -204,7 +204,7 @@ public class UserAlchemyService : IUserAlchemyService
         return _userAlchemyRepository.UpdateAlchemyLevel(alchemy, cardLevel);
     }
 
-    public bool UpdateAlchemyBreakthrough(Alchemies alchemy, int star, int quantity)
+    public bool UpdateAlchemyBreakthrough(Alchemies alchemy, int star, double quantity)
     {
         return _userAlchemyRepository.UpdateAlchemyBreakthrough(alchemy, star, quantity);
     }

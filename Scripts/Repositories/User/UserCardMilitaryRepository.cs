@@ -43,8 +43,8 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                         Type = reader.GetString("type"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Block = reader.GetBoolean("block"),
                         TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
                         Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
@@ -203,8 +203,8 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                         Type = reader.GetString("type"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Block = reader.GetBoolean("block"),
                         TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
                         Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
@@ -361,8 +361,8 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                         Type = reader.GetString("type"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Block = reader.GetBoolean("block"),
                         TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetString("team_id"),
                         Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetString("position"),
@@ -893,7 +893,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
         }
         return true;
     }
-    public bool UpdateCardMilitaryBreakthrough(CardMilitaries cardMilitary, int star, int quantity)
+    public bool UpdateCardMilitaryBreakthrough(CardMilitaries cardMilitary, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1025,7 +1025,7 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                         Image = reader.GetString("image"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
+                        Experiment = reader.GetDouble("experiment"),
                         Star = reader.GetInt32("star"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),

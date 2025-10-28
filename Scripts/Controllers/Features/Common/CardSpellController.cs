@@ -129,7 +129,7 @@ public class CardSpellController : MonoBehaviour
         FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void GetQuantity(int originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
+    public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {
         GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
 

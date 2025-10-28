@@ -11,7 +11,7 @@ public interface IUserCardMonstersRepository
     int GetUserCardMonstersTeamsCount(string user_id, string team_id);
     bool InsertUserCardMonsters(CardMonsters CardMonsters);
     bool UpdateCardMonstersLevel(CardMonsters cardMonsters, int cardLevel);
-    bool UpdateCardMonstersBreakthrough(CardMonsters cardMonsters, int star, int quantity);
+    bool UpdateCardMonstersBreakthrough(CardMonsters cardMonsters, int star, double quantity);
     bool UpdateTeamCardMonsters(string team_id, string position, string card_id);
     CardMonsters GetUserCardMonstersById(string user_id, string Id);
     List<CardMonsters> GetAllUserCardMonstersInTeam(string user_id);

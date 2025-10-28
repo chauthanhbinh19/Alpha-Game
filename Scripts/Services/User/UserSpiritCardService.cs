@@ -210,7 +210,7 @@ public class UserSpiritCardService : IUserSpiritCardService
         return _userSpiritCardRepository.UpdateSpiritCardLevel(SpiritCard, cardLevel);
     }
 
-    public bool UpdateSpiritCardBreakthrough(SpiritCards SpiritCard, int star, int quantity)
+    public bool UpdateSpiritCardBreakthrough(SpiritCards SpiritCard, int star, double quantity)
     {
         return _userSpiritCardRepository.UpdateSpiritCardBreakthrough(SpiritCard, star, quantity);
     }

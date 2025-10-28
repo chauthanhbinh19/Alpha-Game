@@ -272,7 +272,7 @@ public class UserBooksController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Books currentCard = new Books();
                 currentCard = UserBooksService.Create().GetUserBooksById(User.CurrentUserId, book.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -298,7 +298,7 @@ public class UserBooksController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Books currentCard = UserBooksService.Create().GetUserBooksById(User.CurrentUserId, book.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -378,8 +378,8 @@ public class UserBooksController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = book.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = book.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
                 bool hasEnoughCards = book.Quantity >= requiredQuantity;
@@ -401,7 +401,7 @@ public class UserBooksController : MonoBehaviour
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - book.Quantity;
+                        double remainingRequired = requiredQuantity - book.Quantity;
                         book.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)

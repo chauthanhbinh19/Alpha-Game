@@ -7,7 +7,7 @@ public interface IUserSpiritBeastRepository
     int GetUserSpiritBeastCount(string user_id, string rare);
     bool InsertUserSpiritBeast(SpiritBeasts SpiritBeast);
     bool UpdateSpiritBeastLevel(SpiritBeasts SpiritBeast, int cardLevel);
-    bool UpdateSpiritBeastBreakthrough(SpiritBeasts SpiritBeast, int star, int quantity);
+    bool UpdateSpiritBeastBreakthrough(SpiritBeasts SpiritBeast, int star, double quantity);
     SpiritBeasts GetUserCardHeroesSpiritBeast(string userId, CardHeroes cardHeroes);
     SpiritBeasts GetUserCardCaptainsSpiritBeast(string userId, CardCaptains cardCaptains);
     SpiritBeasts GetUserCardColonelsSpiritBeast(string userId, CardColonels cardColonels);

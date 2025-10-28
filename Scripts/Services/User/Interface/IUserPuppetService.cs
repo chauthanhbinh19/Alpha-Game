@@ -8,7 +8,7 @@ public interface IUserPuppetService
     int GetUserPuppetCount(string user_id, string type, string rare);
     bool InsertUserPuppet(Puppets Puppet);
     bool UpdatePuppetLevel(Puppets Puppet, int cardLevel);
-    bool UpdatePuppetBreakthrough(Puppets Puppet, int star, int quantity);
+    bool UpdatePuppetBreakthrough(Puppets Puppet, int star, double quantity);
     Puppets GetUserPuppetById(string user_id, string Id);
     Puppets SumPowerUserPuppet();
 }

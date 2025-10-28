@@ -756,7 +756,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         foreach(CardHeroes cardHeroes in CardHeroesList)
         {
             var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardHeroes.Id);
-            cardHeroes.skills = skills;
+            cardHeroes.Skills = skills;
         }
         return CardHeroesList;
     }
@@ -771,6 +771,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -785,6 +786,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -799,6 +801,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -832,7 +835,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         return _userCardHeroesRepository.UpdateCardHeroesLevel(cardHeroes, cardLevel);
     }
 
-    public bool UpdateCardHeroesBreakthrough(CardHeroes cardHeroes, int star, int quantity)
+    public bool UpdateCardHeroesBreakthrough(CardHeroes cardHeroes, int star, double quantity)
     {
         return _userCardHeroesRepository.UpdateCardHeroesBreakthrough(cardHeroes, star, quantity);
     }
@@ -858,7 +861,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
-
+        list = GetSkills(user_id, list);
         return list.FirstOrDefault();
     }
 
@@ -873,6 +876,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 }

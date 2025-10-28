@@ -210,7 +210,7 @@ public class UserSpiritBeastService : IUserSpiritBeastService
         return _userSpiritBeastRepository.UpdateSpiritBeastLevel(SpiritBeast, cardLevel);
     }
 
-    public bool UpdateSpiritBeastBreakthrough(SpiritBeasts SpiritBeast, int star, int quantity)
+    public bool UpdateSpiritBeastBreakthrough(SpiritBeasts SpiritBeast, int star, double quantity)
     {
         return _userSpiritBeastRepository.UpdateSpiritBeastBreakthrough(SpiritBeast, star, quantity);
     }

@@ -62,6 +62,7 @@ public class CardColonel : CardBase
         this.SkillResistanceRate = cardColonels.SkillResistanceRate;
         this.Position = cardColonels.Position;
         this.IsAlive = true;
+        this.Skills = cardColonels.Skills;
 
         this.CurrentHealth = cardColonels.Health;
         this.CurrentPhysicalAttack = cardColonels.PhysicalAttack;

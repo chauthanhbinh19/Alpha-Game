@@ -11,7 +11,7 @@ public interface IUserCardColonelsRepository
     int GetUserCardColonelsTeamsCount(string user_id, string team_id);
     bool InsertUserCardColonels(CardColonels CardColonels);
     bool UpdateCardColonelsLevel(CardColonels cardColonels, int cardLevel);
-    bool UpdateCardColonelsBreakthrough(CardColonels cardColonels, int star, int quantity);
+    bool UpdateCardColonelsBreakthrough(CardColonels cardColonels, int star, double quantity);
     bool UpdateTeamCardColonels(string team_id, string position, string card_id);
     CardColonels GetUserCardColonelsById(string user_id, string Id);
     List<CardColonels> GetAllUserCardColonelsInTeam(string user_id);

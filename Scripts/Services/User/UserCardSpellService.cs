@@ -751,7 +751,15 @@ public class UserCardSpellService : IUserCardSpellService
         );
         return cardSpell;
     }
-
+    public List<CardSpells> GetSkills(string user_id, List<CardSpells> CardSpellList)
+    {
+        foreach(CardSpells cardSpell in CardSpellList)
+        {
+            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardSpell.Id);
+            cardSpell.Skills = skills;
+        }
+        return CardSpellList;
+    }
     public List<CardSpells> GetUserCardSpell(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardSpells> list = _userCardSpellRepository.GetUserCardSpell(user_id, type, pageSize, offset, rare);
@@ -763,6 +771,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -777,6 +786,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -791,6 +801,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -829,7 +840,7 @@ public class UserCardSpellService : IUserCardSpellService
         return _userCardSpellRepository.UpdateCardSpellLevel(cardSpell, cardLevel);
     }
 
-    public bool UpdateCardSpellBreakthrough(CardSpells cardSpell, int star, int quantity)
+    public bool UpdateCardSpellBreakthrough(CardSpells cardSpell, int star, double quantity)
     {
         return _userCardSpellRepository.UpdateCardSpellBreakthrough(cardSpell, star, quantity);
     }
@@ -850,6 +861,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list.FirstOrDefault();
     }
 
@@ -864,6 +876,7 @@ public class UserCardSpellService : IUserCardSpellService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 }

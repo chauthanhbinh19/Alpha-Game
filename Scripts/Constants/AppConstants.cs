@@ -7,7 +7,16 @@ public static class AppConstants
     public static class StatFields
     {
         public const string ID = "Id";
+        public const string NAME = "Name";
+        public const string RARE = "Rare";
+        public const string TYPE = "Type";
+        public const string STAR = "Star";
+        public const string LEVEL = "Level";
         public const string IMAGE = "Image";
+        public const string QUANTITY = "Quantity";
+        public const string BLOCK = "Block";
+        public const string STATUS = "Status";
+        public const string EXPERIMENT = "Experiment";
         public const string POWER = "Power";
         public const string HEALTH = "Health";
         public const string PHYSICAL_ATTACK = "PhysicalAttack";
@@ -58,6 +67,7 @@ public static class AppConstants
         public const string NORMAL_RESISTANCE_RATE = "NormalResistanceRate";
         public const string SKILL_DAMAGE_RATE = "SkillDamageRate";
         public const string SKILL_RESISTANCE_RATE = "SkillResistanceRate";
+        public const string DESCRIPTION = "Description";
     }
     public static class Rare
     {

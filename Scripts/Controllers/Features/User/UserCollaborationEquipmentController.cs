@@ -185,7 +185,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CollaborationEquipments currentCard = new CollaborationEquipments();
                 currentCard = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentsById(User.CurrentUserId, collaborationEquipment.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -211,7 +211,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CollaborationEquipments currentCard = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentsById(User.CurrentUserId, collaborationEquipment.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -291,8 +291,8 @@ public class UserCollaborationEquipmentController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = collaborationEquipment.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = collaborationEquipment.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
                 bool hasEnoughCards = collaborationEquipment.Quantity >= requiredQuantity;
@@ -314,7 +314,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - collaborationEquipment.Quantity;
+                        double remainingRequired = requiredQuantity - collaborationEquipment.Quantity;
                         collaborationEquipment.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)

@@ -39,8 +39,8 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
                         Type = reader.GetString("type"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Block = reader.GetBoolean("block"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
@@ -392,7 +392,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
         }
         return true;
     }
-    public bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipments collaborationEquipment, int star, int quantity)
+    public bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipments collaborationEquipment, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -520,7 +520,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
                         Id = reader.GetString("collaboration_equipment_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
+                        Experiment = reader.GetDouble("experiment"),
                         Star = reader.GetInt32("star"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),

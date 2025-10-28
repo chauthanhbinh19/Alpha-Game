@@ -203,7 +203,7 @@ public class UserSkillsService : IUserSkillsService
         return _userSkillsRepository.UpdateSkillsLevel(skills, cardLevel);
     }
 
-    public bool UpdateSkillsBreakthrough(Skills skills, int star, int quantity)
+    public bool UpdateSkillsBreakthrough(Skills skills, int star, double quantity)
     {
         return _userSkillsRepository.UpdateSkillsBreakthrough(skills, star, quantity);
     }

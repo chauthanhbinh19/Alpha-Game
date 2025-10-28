@@ -751,7 +751,15 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         );
         return cardMilitary;
     }
-
+    public List<CardMilitaries> GetSkills(string user_id, List<CardMilitaries> CardMilitaryList)
+    {
+        foreach(CardMilitaries cardMilitary in CardMilitaryList)
+        {
+            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardMilitary.Id);
+            cardMilitary.Skills = skills;
+        }
+        return CardMilitaryList;
+    }
     public List<CardMilitaries> GetUserCardMilitary(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardMilitaries> list = _userCardMilitaryRepository.GetUserCardMilitary(user_id, type, pageSize, offset, rare);
@@ -763,6 +771,7 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -777,6 +786,7 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -791,6 +801,7 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -829,7 +840,7 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         return _userCardMilitaryRepository.UpdateCardMilitaryLevel(cardMilitary, cardLevel);
     }
 
-    public bool UpdateCardMilitaryBreakthrough(CardMilitaries cardMilitary, int star, int quantity)
+    public bool UpdateCardMilitaryBreakthrough(CardMilitaries cardMilitary, int star, double quantity)
     {
         return _userCardMilitaryRepository.UpdateCardMilitaryBreakthrough(cardMilitary, star, quantity);
     }
@@ -850,7 +861,7 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
-
+        list = GetSkills(user_id, list);
         return list.FirstOrDefault();
     }
 
@@ -865,6 +876,7 @@ public class UserCardMilitaryService : IUserCardMilitaryService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 }

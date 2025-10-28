@@ -8,6 +8,7 @@ public interface IUserCardGeneralsService
     List<CardGenerals> GetAllAnimeStatsPower(string user_id, List<CardGenerals> CardGeneralsList);
     CardGenerals GetNewLevelPower(CardGenerals c, double coefficient);
     CardGenerals GetNewBreakthroughPower(CardGenerals c, double coefficient);
+    List<CardGenerals> GetSkills(string user_id, List<CardGenerals> CardGeneralsList);
     List<CardGenerals> GetUserCardGenerals(string user_id, string type, int pageSize, int offset, string rare);
     List<CardGenerals> GetUserCardGeneralsTeam(string user_id, string teamId, string position);
     List<CardGenerals> GetUserCardGeneralsTeamWithoutPosition(string user_id, string teamId);
@@ -18,7 +19,7 @@ public interface IUserCardGeneralsService
     int GetUserCardGeneralsTeamsCount(string user_id, string team_id);
     bool InsertUserCardGenerals(CardGenerals CardGenerals);
     bool UpdateCardGeneralsLevel(CardGenerals cardGenerals, int cardLevel);
-    bool UpdateCardGeneralsBreakthrough(CardGenerals cardGenerals, int star, int quantity);
+    bool UpdateCardGeneralsBreakthrough(CardGenerals cardGenerals, int star, double quantity);
     CardGenerals GetUserCardGeneralsById(string user_id, string Id);
     List<CardGenerals> GetAllUserCardGeneralsInTeam(string user_id);
 }

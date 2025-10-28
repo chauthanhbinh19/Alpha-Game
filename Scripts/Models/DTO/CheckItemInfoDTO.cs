@@ -1,9 +1,9 @@
 public class CheckinItemInfoDTO
 {
     public string Image;
-    public int Quantity;
+    public double Quantity;
 
-    public CheckinItemInfoDTO(string image, int quantity)
+    public CheckinItemInfoDTO(string image, double quantity)
     {
         this.Image = image;
         this.Quantity = quantity;

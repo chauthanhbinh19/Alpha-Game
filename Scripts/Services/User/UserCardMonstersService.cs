@@ -751,7 +751,15 @@ public class UserCardMonstersService : IUserCardMonstersService
         );
         return cardMonsters;
     }
-
+    public List<CardMonsters> GetSkills(string user_id, List<CardMonsters> CardMonstersList)
+    {
+        foreach(CardMonsters cardMonster in CardMonstersList)
+        {
+            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardMonster.Id);
+            cardMonster.Skills = skills;
+        }
+        return CardMonstersList;
+    }
     public List<CardMonsters> GetUserCardMonsters(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardMonsters> list = _userCardMonstersRepository.GetUserCardMonsters(user_id, type, pageSize, offset, rare);
@@ -763,6 +771,7 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -777,6 +786,7 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -791,6 +801,7 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -824,7 +835,7 @@ public class UserCardMonstersService : IUserCardMonstersService
         return _userCardMonstersRepository.UpdateCardMonstersLevel(cardMonsters, cardLevel);
     }
 
-    public bool UpdateCardMonstersBreakthrough(CardMonsters cardMonsters, int star, int quantity)
+    public bool UpdateCardMonstersBreakthrough(CardMonsters cardMonsters, int star, double quantity)
     {
         return _userCardMonstersRepository.UpdateCardMonstersBreakthrough(cardMonsters, star, quantity);
     }
@@ -850,6 +861,7 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list.FirstOrDefault();
     }
 
@@ -864,6 +876,7 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 }

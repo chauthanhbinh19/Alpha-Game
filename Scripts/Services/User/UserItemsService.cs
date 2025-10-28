@@ -28,7 +28,7 @@ public class UserItemsService : IUserItemsService
         return _userItemsRepository.GetUserItemByName(itemName);
     }
 
-    public bool InsertUserItems(Items items, int quantity)
+    public bool InsertUserItems(Items items, double quantity)
     {
         return _userItemsRepository.InsertUserItems(items, quantity);
     }
@@ -37,7 +37,7 @@ public class UserItemsService : IUserItemsService
     {
         return _userItemsRepository.UpdateUserItemsQuantity(items);
     }
-    public Items UpdateUserItemsQuantity(Items items, int quantity)
+    public Items UpdateUserItemsQuantity(Items items, double quantity)
     {
         return _userItemsRepository.UpdateUserItemsQuantity(items, quantity);
     }

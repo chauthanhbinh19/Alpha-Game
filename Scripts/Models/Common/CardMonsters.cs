@@ -17,8 +17,8 @@ public class CardMonsters : BaseEntity
     public int TempStar { get; set; }
     public int Star { get; set; }
     public int Level { get; set; }
-    public int Experiment { get; set; }
-    public int Quantity { get; set; }
+    public double Experiment { get; set; }
+    public double Quantity { get; set; }
     public bool Block { get; set; }
     public string Position { get; set; }
     public string Description { get; set; }
@@ -37,7 +37,7 @@ public class CardMonsters : BaseEntity
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
     public BaseStats BaseStats { get; set; } = new BaseStats();
-    public List<Skills> skills{ get; set; }= new List<Skills>();
+    public List<Skills> Skills{ get; set; }= new List<Skills>();
     public CardMonsters()
     {
         Power = -1;

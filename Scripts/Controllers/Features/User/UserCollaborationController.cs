@@ -193,7 +193,7 @@ public class UserCollaborationController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Collaborations currentCard = new Collaborations();
                 currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -219,7 +219,7 @@ public class UserCollaborationController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Collaborations currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -299,8 +299,8 @@ public class UserCollaborationController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = collaboration.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = collaboration.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
                 bool hasEnoughCards = collaboration.Quantity >= requiredQuantity;
@@ -322,7 +322,7 @@ public class UserCollaborationController : MonoBehaviour
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - collaboration.Quantity;
+                        double remainingRequired = requiredQuantity - collaboration.Quantity;
                         collaboration.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)

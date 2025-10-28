@@ -223,7 +223,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         Id = reader.GetString("equipment_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
+                        Experiment = reader.GetDouble("experiment"),
                         Star = reader.GetInt32("star"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
@@ -587,7 +587,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return true;
     }
-    public bool UpdateEquipmentsBreakthrough(Equipments equipments, int star, int quantity)
+    public bool UpdateEquipmentsBreakthrough(Equipments equipments, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))

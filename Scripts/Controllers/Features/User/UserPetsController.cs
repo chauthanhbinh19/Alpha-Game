@@ -217,7 +217,7 @@ public class UserPetsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Pets currentCard = new Pets();
                 currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -243,7 +243,7 @@ public class UserPetsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Pets currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -323,8 +323,8 @@ public class UserPetsController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = pet.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = pet.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
                 bool hasEnoughCards = pet.Quantity >= requiredQuantity;
@@ -346,7 +346,7 @@ public class UserPetsController : MonoBehaviour
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - pet.Quantity;
+                        double remainingRequired = requiredQuantity - pet.Quantity;
                         pet.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)

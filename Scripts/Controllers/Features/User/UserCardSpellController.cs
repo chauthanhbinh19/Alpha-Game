@@ -260,7 +260,7 @@ public class UserCardSpellController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardSpells currentCard = new CardSpells();
                 currentCard = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -286,7 +286,7 @@ public class UserCardSpellController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardSpells currentCard = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -593,8 +593,8 @@ public class UserCardSpellController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = cardSpell.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = cardSpell.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
                 bool hasEnoughCards = cardSpell.Quantity >= requiredQuantity;
@@ -616,7 +616,7 @@ public class UserCardSpellController : MonoBehaviour
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - cardSpell.Quantity;
+                        double remainingRequired = requiredQuantity - cardSpell.Quantity;
                         cardSpell.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)

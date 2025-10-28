@@ -713,7 +713,7 @@ public class UserBooksService : IUserBooksService
         return _userBooksRepository.UpdateBooksLevel(books, cardLevel);
     }
 
-    public bool UpdateBooksBreakthrough(Books books, int star, int quantity)
+    public bool UpdateBooksBreakthrough(Books books, int star, double quantity)
     {
         return _userBooksRepository.UpdateBooksBreakthrough(books, star, quantity);
     }

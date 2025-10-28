@@ -6,7 +6,7 @@ public interface IUserTitlesRepository
     int GetUserTitlesCount(string user_id, string rare);
     bool InsertUserTitles(Titles titles);
     bool UpdateTitlesLevel(Titles titles, int cardLevel);
-    bool UpdateTitlesBreakthrough(Titles titles, int star, int quantity);
+    bool UpdateTitlesBreakthrough(Titles titles, int star, double quantity);
     Titles GetUserTitlesById(string user_id, string Id);
     Titles SumPowerUserTitles();
 }

@@ -6,7 +6,7 @@ public interface IUserMagicFormationCircleRepository
     int GetUserMagicFormationCircleCount(string user_id, string type, string rare);
     bool InsertUserMagicFormationCircle(MagicFormationCircles magicFormationCircle); // Corrected typo
     bool UpdateMagicFormationCircleLevel(MagicFormationCircles magicFormationCircle, int cardLevel);
-    bool UpdateMagicFormationCircleBreakthrough(MagicFormationCircles magicFormationCircle, int star, int quantity);
+    bool UpdateMagicFormationCircleBreakthrough(MagicFormationCircles magicFormationCircle, int star, double quantity);
     MagicFormationCircles GetUserMagicFormationCircleById(string user_id, string Id);
     MagicFormationCircles SumPowerUserMagicFormationCircle();
 }

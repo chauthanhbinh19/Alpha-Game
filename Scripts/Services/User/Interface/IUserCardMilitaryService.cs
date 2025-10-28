@@ -8,6 +8,7 @@ public interface IUserCardMilitaryService
     List<CardMilitaries> GetAllAnimeStatsPower(string user_id, List<CardMilitaries> CardMilitaryList);
     CardMilitaries GetNewLevelPower(CardMilitaries c, double coefficient);
     CardMilitaries GetNewBreakthroughPower(CardMilitaries c, double coefficient);
+    List<CardMilitaries> GetSkills(string user_id, List<CardMilitaries> CardMilitaryList);
     List<CardMilitaries> GetUserCardMilitary(string user_id, string type, int pageSize, int offset, string rare);
     List<CardMilitaries> GetUserCardMilitaryTeam(string user_id, string teamId, string position);
     List<CardMilitaries> GetUserCardMilitaryTeamWithoutPosition(string user_id, string teamId);
@@ -18,7 +19,7 @@ public interface IUserCardMilitaryService
     int GetUserCardMilitaryTeamsCount(string user_id, string team_id);
     bool InsertUserCardMilitary(CardMilitaries CardMilitary);
     bool UpdateCardMilitaryLevel(CardMilitaries cardMilitary, int cardLevel);
-    bool UpdateCardMilitaryBreakthrough(CardMilitaries cardMilitary, int star, int quantity);
+    bool UpdateCardMilitaryBreakthrough(CardMilitaries cardMilitary, int star, double quantity);
     CardMilitaries GetUserCardMilitaryById(string user_id, string Id);
     List<CardMilitaries> GetAllUserCardMilitaryInTeam(string user_id);
 }

@@ -204,7 +204,7 @@ public class UserArtworkService : IUserArtworkService
         return _userArtworkRepository.UpdateArtworkLevel(Artwork, cardLevel);
     }
 
-    public bool UpdateArtworkBreakthrough(Artworks Artwork, int star, int quantity)
+    public bool UpdateArtworkBreakthrough(Artworks Artwork, int star, double quantity)
     {
         return _userArtworkRepository.UpdateArtworkBreakthrough(Artwork, star, quantity);
     }

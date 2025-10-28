@@ -203,7 +203,7 @@ public class UserCardLifeService : IUserCardLifeService
         return _userCardLifeRepository.UpdateCardLifeLevel(cardLife, cardLevel);
     }
 
-    public bool UpdateCardLifeBreakthrough(CardLives cardLife, int star, int quantity)
+    public bool UpdateCardLifeBreakthrough(CardLives cardLife, int star, double quantity)
     {
         return _userCardLifeRepository.UpdateCardLifeBreakthrough(cardLife, star, quantity);
     }

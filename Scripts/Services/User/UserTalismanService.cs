@@ -203,7 +203,7 @@ public class UserTalismanService : IUserTalismanService
         return _userTalismanRepository.UpdateTalismanLevel(talisman, level);
     }
 
-    public bool UpdateTalismanBreakthrough(Talismans talisman, int star, int quantity)
+    public bool UpdateTalismanBreakthrough(Talismans talisman, int star, double quantity)
     {
         return _userTalismanRepository.UpdateTalismanBreakthrough(talisman, star, quantity);
     }

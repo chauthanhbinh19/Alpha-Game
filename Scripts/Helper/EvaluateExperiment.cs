@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 public static class EvaluateExperiment
 {
-    public static int GetItemExp(string item)
+    public static double GetItemExp(string item)
     {
-        int expPerBottle = 0;
+        double expPerBottle = 0;
         if (item.Equals(ItemConstants.Experiment.EXP_BOTTOLE_LV1))
         {
             expPerBottle = 100;

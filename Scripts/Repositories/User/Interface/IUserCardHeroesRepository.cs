@@ -11,7 +11,7 @@ public interface IUserCardHeroesRepository
     int GetUserCardHeroesTeamsCount(string user_id, string team_id);
     bool InsertUserCardHeroes(CardHeroes CardHeroes);
     bool UpdateCardHeroesLevel(CardHeroes cardHeroes, int cardLevel);
-    bool UpdateCardHeroesBreakthrough(CardHeroes cardHeroes, int star, int quantity);
+    bool UpdateCardHeroesBreakthrough(CardHeroes cardHeroes, int star, double quantity);
     bool UpdateTeamCardHeroes(string team_id, string position, string card_id);
     CardHeroes GetUserCardHeroesById(string user_id, string Id);
     List<CardHeroes> GetAllUserCardHeroesInTeam(string user_id);

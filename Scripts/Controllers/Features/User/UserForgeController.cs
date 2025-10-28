@@ -188,7 +188,7 @@ public class UserForgeController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Forges currentCard = new Forges();
                 currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -214,7 +214,7 @@ public class UserForgeController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Forges currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -294,8 +294,8 @@ public class UserForgeController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = forge.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = forge.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
                 bool hasEnoughMagicFormation = forge.Quantity >= requiredQuantity;
@@ -317,7 +317,7 @@ public class UserForgeController : MonoBehaviour
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - forge.Quantity;
+                        double remainingRequired = requiredQuantity - forge.Quantity;
                         forge.Quantity = 0; // Dùng hết vòng phép
 
                         foreach (Items items1 in items)

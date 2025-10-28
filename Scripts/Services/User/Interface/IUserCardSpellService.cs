@@ -8,6 +8,7 @@ public interface IUserCardSpellService
     List<CardSpells> GetAllAnimeStatsPower(string user_id, List<CardSpells> CardSpellList);
     CardSpells GetNewLevelPower(CardSpells c, double coefficient);
     CardSpells GetNewBreakthroughPower(CardSpells c, double coefficient);
+    List<CardSpells> GetSkills(string user_id, List<CardSpells> CardSpellList);
     List<CardSpells> GetUserCardSpell(string user_id, string type, int pageSize, int offset, string rare);
     List<CardSpells> GetUserCardSpellTeam(string user_id, string teamId, string position);
     List<CardSpells> GetUserCardSpellTeamWithoutPosition(string user_id, string teamId);
@@ -18,7 +19,7 @@ public interface IUserCardSpellService
     int GetUserCardSpellTeamsCount(string user_id, string team_id);
     bool InsertUserCardSpell(CardSpells CardSpell);
     bool UpdateCardSpellLevel(CardSpells cardSpell, int cardLevel);
-    bool UpdateCardSpellBreakthrough(CardSpells cardSpell, int star, int quantity);
+    bool UpdateCardSpellBreakthrough(CardSpells cardSpell, int star, double quantity);
     CardSpells GetUserCardSpellById(string user_id, string Id);
     List<CardSpells> GetAllUserCardSpellInTeam(string user_id);
 }

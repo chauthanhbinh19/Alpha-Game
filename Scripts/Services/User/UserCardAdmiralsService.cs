@@ -835,7 +835,15 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         );
         return cardAdmirals;
     }
-
+    public List<CardAdmirals> GetSkills(string user_id, List<CardAdmirals> CardAdmiralsList)
+    {
+        foreach(CardAdmirals cardAdmiral in CardAdmiralsList)
+        {
+            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardAdmiral.Id);
+            cardAdmiral.Skills = skills;
+        }
+        return CardAdmiralsList;
+    }
     public List<CardAdmirals> GetUserCardAdmirals(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<CardAdmirals> list = _userCardAdmiralsRepository.GetUserCardAdmirals(user_id, type, pageSize, offset, rare);
@@ -847,6 +855,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -861,6 +870,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -875,6 +885,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 
@@ -913,7 +924,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         return _userCardAdmiralsRepository.UpdateCardAdmiralsLevel(cardAdmirals, cardLevel);
     }
 
-    public bool UpdateCardAdmiralsBreakthrough(CardAdmirals cardAdmirals, int star, int quantity)
+    public bool UpdateCardAdmiralsBreakthrough(CardAdmirals cardAdmirals, int star, double quantity)
     {
         return _userCardAdmiralsRepository.UpdateCardAdmiralsBreakthrough(cardAdmirals, star, quantity);
     }
@@ -934,7 +945,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
-
+        list = GetSkills(user_id, list);
         return list.FirstOrDefault();
     }
 
@@ -949,6 +960,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         list = GetAllMasterPower(user_id, list);
         list = GetAllAnimeStatsPower(user_id, list);
         list = GetScienceFictionPower(user_id, list);
+        list = GetSkills(user_id, list);
         return list;
     }
 }

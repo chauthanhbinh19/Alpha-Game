@@ -188,7 +188,7 @@ public class UserRelicsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Relics currentCard = new Relics();
                 currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -214,7 +214,7 @@ public class UserRelicsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Relics currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -294,8 +294,8 @@ public class UserRelicsController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = relics.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = relics.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng di vật
                 bool hasEnoughRelics = relics.Quantity >= requiredQuantity;
@@ -317,7 +317,7 @@ public class UserRelicsController : MonoBehaviour
                     else
                     {
                         // Nếu di vật không đủ, dùng cả di vật + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - relics.Quantity;
+                        double remainingRequired = requiredQuantity - relics.Quantity;
                         relics.Quantity = 0; // Dùng hết di vật
 
                         foreach (Items items1 in items)

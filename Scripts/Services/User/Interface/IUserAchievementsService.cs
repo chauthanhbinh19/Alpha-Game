@@ -13,7 +13,7 @@ public interface IUserAchievementsService
     int GetUserCollaborationCount(string user_id, string rare);
     bool InsertUserAchievements(Achievements Achievements);
     bool UpdateAchievementLevel(Achievements achievements, int cardLevel);
-    bool UpdateAchievementsBreakthrough(Achievements achievements, int star, int quantity);
+    bool UpdateAchievementsBreakthrough(Achievements achievements, int star, double quantity);
     Achievements GetUserAchievementsById(string user_id, string Id);
     Achievements SumPowerUserAchievements();
 }

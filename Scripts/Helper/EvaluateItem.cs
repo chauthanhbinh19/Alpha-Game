@@ -29,7 +29,7 @@ public static class EvaluateItem
 
         return totalMaterialUsed; // Tổng số material có thể sử dụng
     }
-    public static int CalculateMaxMaterialLevel(int materialQuantity, int currentLevel)
+    public static int CalculateMaxMaterialLevel(double materialQuantity, int currentLevel)
     {
         int levelsPerSkill = 1000;
         int maxLevel = 10000; // Giới hạn level tối đa
@@ -72,11 +72,11 @@ public static class EvaluateItem
         }
         return total;
     }
-    public static (int materialLeft, int currencyLeft, int levelsGained, int totalMaterialUsed, int totalCurrencyUsed, string message)
-    CalculateLevelUp(int itemQuantity, int currencyQuantity, int materialPerLevel, int currencyPerLevel, int currentLevel, bool isMaxLevel, int maxLevel)
+    public static (double materialLeft, double currencyLeft, int levelsGained, int totalMaterialUsed, int totalCurrencyUsed, string message)
+    CalculateLevelUp(double itemQuantity, double currencyQuantity, int materialPerLevel, int currencyPerLevel, int currentLevel, bool isMaxLevel, int maxLevel)
     {
-        int materialLeft = itemQuantity;
-        int currencyLeft = currencyQuantity;
+        double materialLeft = itemQuantity;
+        double currencyLeft = currencyQuantity;
         int levelsGained = 0;
         int totalMaterialUsed = 0;
         int totalCurrencyUsed = 0;

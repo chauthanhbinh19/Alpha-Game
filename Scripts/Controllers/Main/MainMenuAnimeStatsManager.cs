@@ -271,7 +271,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         LevelText.text = level.ToString();
     }
-    public void SetMaterialUI(GameObject gameObject, string type, Items item, int currencyQuantity, int rankLevel)
+    public void SetMaterialUI(GameObject gameObject, string type, Items item, double currencyQuantity, int rankLevel)
     {
         Transform currencyPanel = gameObject.transform.Find("DictionaryCards/Currency");
         List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency();

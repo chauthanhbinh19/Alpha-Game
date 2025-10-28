@@ -203,7 +203,7 @@ public class UserCollaborationEquipmentService : IUserCollaborationEquipmentServ
         return _userCollabEquipmentsRepo.UpdateCollaborationEquipmentsLevel(collaborationEquipment, cardLevel);
     }
 
-    public bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipments collaborationEquipment, int star, int quantity)
+    public bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipments collaborationEquipment, int star, double quantity)
     {
         return _userCollabEquipmentsRepo.UpdateCollaborationEquipmentsBreakthrough(collaborationEquipment, star, quantity);
     }

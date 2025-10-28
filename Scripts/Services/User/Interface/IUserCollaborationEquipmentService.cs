@@ -8,7 +8,7 @@ public interface IUserCollaborationEquipmentService
     int GetUserCollaborationEquipmentCount(string user_id, string type, string rare);
     bool InsertUserCollaborationEquipments(CollaborationEquipments collaborationEquipment);
     bool UpdateCollaborationEquipmentsLevel(CollaborationEquipments collaborationEquipment, int cardLevel);
-    bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipments collaborationEquipment, int star, int quantity);
+    bool UpdateCollaborationEquipmentsBreakthrough(CollaborationEquipments collaborationEquipment, int star, double quantity);
     CollaborationEquipments GetUserCollaborationEquipmentsById(string user_id, string Id);
     CollaborationEquipments SumPowerUserCollaborationEquipments();
 }

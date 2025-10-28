@@ -17,10 +17,10 @@ public class Equipments : BaseEntity
     public int TempStar { get; set; }
     public string Set { get; set; }
     public int Star { get; set; }
-    public int Sequence { get; set; }
+    public double Sequence { get; set; }
     public int Level { get; set; }
-    public int Experiment { get; set; }
-    public int Quantity { get; set; }
+    public double Experiment { get; set; }
+    public double Quantity { get; set; }
     public int Block { get; set; }
     public double SpecialHealth { get; set; }
     public double SpecialPhysicalAttack { get; set; }

@@ -175,7 +175,7 @@ public class UserSkillsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Skills currentCard = new Skills();
                 currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -201,7 +201,7 @@ public class UserSkillsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Skills currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -281,8 +281,8 @@ public class UserSkillsController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = skill.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = skill.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng kỹ năng
                 bool hasEnoughSkills = skill.Quantity >= requiredQuantity;
@@ -304,7 +304,7 @@ public class UserSkillsController : MonoBehaviour
                     else
                     {
                         // Nếu kỹ năng không đủ, dùng cả kỹ năng + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - skill.Quantity;
+                        double remainingRequired = requiredQuantity - skill.Quantity;
                         skill.Quantity = 0; // Dùng hết kỹ năng
 
                         foreach (Items items1 in items)

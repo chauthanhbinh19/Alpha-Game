@@ -17,8 +17,8 @@ public class Artworks : BaseEntity
     public int TempStar { get; set; }
     public int Star { get; set; }
     public int Level { get; set; }
-    public int Experiment { get; set; }
-    public int Quantity { get; set; }
+    public double Experiment { get; set; }
+    public double Quantity { get; set; }
     public string Description { get; set; }
     public string Status { get; set; }
     public double PercentAllHealth { get; set; }

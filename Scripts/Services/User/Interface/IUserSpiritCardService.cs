@@ -9,7 +9,7 @@ public interface IUserSpiritCardService
     int GetUserSpiritCardCount(string user_id, string type, string rare);
     bool InsertUserSpiritCard(SpiritCards SpiritCard);
     bool UpdateSpiritCardLevel(SpiritCards SpiritCard, int cardLevel);
-    bool UpdateSpiritCardBreakthrough(SpiritCards SpiritCard, int star, int quantity);
+    bool UpdateSpiritCardBreakthrough(SpiritCards SpiritCard, int star, double quantity);
     SpiritCards GetUserCardHeroesSpiritCard(string userId, CardHeroes cardHeroes);
     SpiritCards GetUserCardCaptainsSpiritCard(string userId, CardCaptains cardCaptains);
     SpiritCards GetUserCardColonelsSpiritCard(string userId, CardColonels cardColonels);

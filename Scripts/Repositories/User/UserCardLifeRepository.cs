@@ -38,8 +38,8 @@ public class UserCardLifeRepository : IUserCardLifeRepository
                         Level = reader.GetInt32("level"),
                         Rare = reader.GetString("rare"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -426,7 +426,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
         }
         return true;
     }
-    public bool UpdateCardLifeBreakthrough(CardLives CardLife, int star, int quantity)
+    public bool UpdateCardLifeBreakthrough(CardLives CardLife, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -554,7 +554,7 @@ public class UserCardLifeRepository : IUserCardLifeRepository
                         Id = reader.GetString("card_life_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
+                        Experiment = reader.GetDouble("experiment"),
                         Star = reader.GetInt32("star"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),

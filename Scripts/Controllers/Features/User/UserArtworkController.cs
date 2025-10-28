@@ -187,7 +187,7 @@ public class UserArtworkController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Artworks currentCard = new Artworks();
                 currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -213,7 +213,7 @@ public class UserArtworkController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Artworks currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -293,8 +293,8 @@ public class UserArtworkController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = Artwork.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = Artwork.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
                 bool hasEnoughMagicFormation = Artwork.Quantity >= requiredQuantity;
@@ -316,7 +316,7 @@ public class UserArtworkController : MonoBehaviour
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - Artwork.Quantity;
+                        double remainingRequired = requiredQuantity - Artwork.Quantity;
                         Artwork.Quantity = 0; // Dùng hết vòng phép
 
                         foreach (Items items1 in items)

@@ -33,7 +33,7 @@ public class UserItemsRepository : IUserItemsRepository
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
                         Image = reader.GetString("image"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Quantity = reader.GetDouble("quantity"),
 
                     };
 
@@ -104,7 +104,7 @@ public class UserItemsRepository : IUserItemsRepository
                 items.Name = reader["itemName"]?.ToString() ?? string.Empty; // Gán giá trị cột 'name'
                 items.Image = reader["itemImage"]?.ToString() ?? string.Empty;
                 items.Quantity = reader["quantity"] != DBNull.Value
-                                 ? Convert.ToInt32(reader["quantity"])
+                                 ? Convert.ToDouble(reader["quantity"])
                                  : 0; // Gán giá trị cột 'quantity'
             }
             connection.Close();
@@ -112,7 +112,7 @@ public class UserItemsRepository : IUserItemsRepository
         }
         return items;
     }
-    public bool InsertUserItems(Items items, int quantity)
+    public bool InsertUserItems(Items items, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -171,7 +171,7 @@ public class UserItemsRepository : IUserItemsRepository
         }
         return items;
     }
-    public Items UpdateUserItemsQuantity(Items items, int quantity)
+    public Items UpdateUserItemsQuantity(Items items, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))

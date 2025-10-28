@@ -1198,7 +1198,7 @@ public class UIManager : MonoBehaviour
         TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         LevelText.text = level.ToString();
     }
-    public void SetMaterialUI(GameObject gameobject, string itemImage, int itemQuantity, int currencyQuantity, int rankLevel, int maxLevel)
+    public void SetMaterialUI(GameObject gameobject, string itemImage, double itemQuantity, double currencyQuantity, int rankLevel, int maxLevel)
     {
         Transform currencyPanel = gameobject.transform.Find("DictionaryCards/Currency");
         List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency();
@@ -1320,12 +1320,13 @@ public class UIManager : MonoBehaviour
         // Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
         // Transform element2PopupPanel = elementDetails2Object.transform.Find("ElementDetails");
         // Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
-        if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-                && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-                && !property.Name.Equals("status") && !property.Name.Equals("name")
-                && !property.Name.Equals("image"))
+        if (!property.Name.Equals(AppConstants.StatFields.ID) && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+                && !property.Name.Equals(AppConstants.StatFields.EXPERIMENT) && !property.Name.Equals(AppConstants.StatFields.QUANTITY) 
+                && !property.Name.Equals(AppConstants.StatFields.BLOCK)
+                && !property.Name.Equals(AppConstants.StatFields.STATUS) && !property.Name.Equals(AppConstants.StatFields.NAME)
+                && !property.Name.Equals(AppConstants.StatFields.IMAGE))
         {
-            if (property.Name.Equals("description"))
+            if (property.Name.Equals(AppConstants.StatFields.DESCRIPTION))
             {
                 // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
                 GameObject descriptionTextObject = new GameObject("DescriptionText");
@@ -1357,8 +1358,9 @@ public class UIManager : MonoBehaviour
                     gridLayout.cellSize = new Vector2(670, 800);
                 }
             }
-            else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-            || property.Name.Equals("star") || property.Name.Equals("level") || property.Name.Equals("all_power"))
+            else if (property.Name.Equals(AppConstants.StatFields.POWER) 
+            || property.Name.Equals(AppConstants.StatFields.RARE) || property.Name.Equals(AppConstants.StatFields.TYPE)
+            || property.Name.Equals(AppConstants.StatFields.STAR) || property.Name.Equals(AppConstants.StatFields.LEVEL))
             {
                 if (value != null)
                 {

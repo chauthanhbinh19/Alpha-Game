@@ -203,7 +203,7 @@ public class UserMagicFormationCircleService : IUserMagicFormationCircleService
         return _userMagicFormationCircleRepository.UpdateMagicFormationCircleLevel(magicFormationCircle, cardLevel);
     }
 
-    public bool UpdateMagicFormationCircleBreakthrough(MagicFormationCircles magicFormationCircle, int star, int quantity)
+    public bool UpdateMagicFormationCircleBreakthrough(MagicFormationCircles magicFormationCircle, int star, double quantity)
     {
         return _userMagicFormationCircleRepository.UpdateMagicFormationCircleBreakthrough(magicFormationCircle, star, quantity);
     }

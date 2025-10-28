@@ -8,7 +8,7 @@ public interface IUserCollaborationService
     int GetUserCollaborationCount(string user_id, string rare);
     bool InsertUserCollaborations(Collaborations collaboration);
     bool UpdateCollaborationsLevel(Collaborations collaboration, int cardLevel);
-    bool UpdateCollaborationsBreakthrough(Collaborations collaboration, int star, int quantity);
+    bool UpdateCollaborationsBreakthrough(Collaborations collaboration, int star, double quantity);
     Collaborations GetUserCollaborationsById(string user_id, string Id);
     Collaborations SumPowerUserCollaborations();
 }

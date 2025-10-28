@@ -191,7 +191,7 @@ public class UserSpiritBeastController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 SpiritBeasts currentCard = new SpiritBeasts();
                 currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -217,7 +217,7 @@ public class UserSpiritBeastController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 SpiritBeasts currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -297,8 +297,8 @@ public class UserSpiritBeastController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = spiritBeast.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = spiritBeast.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
                 bool hasEnoughSpiritBeast = spiritBeast.Quantity >= requiredQuantity;
@@ -320,7 +320,7 @@ public class UserSpiritBeastController : MonoBehaviour
                     else
                     {
                         // Nếu danh hiệu không đủ, dùng cả danh hiệu + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - spiritBeast.Quantity;
+                        double remainingRequired = requiredQuantity - spiritBeast.Quantity;
                         spiritBeast.Quantity = 0; // Dùng hết danh hiệu
 
                         foreach (Items items1 in items)

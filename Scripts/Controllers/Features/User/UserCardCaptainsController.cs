@@ -266,7 +266,7 @@ public class UserCardCaptainsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardCaptains currentCard = new CardCaptains();
                 currentCard = UserCardCaptainsService.Create().GetUserCardCaptainsById(User.CurrentUserId, cardCaptains.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -292,7 +292,7 @@ public class UserCardCaptainsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 CardCaptains currentCard = UserCardCaptainsService.Create().GetUserCardCaptainsById(User.CurrentUserId, cardCaptains.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -599,8 +599,8 @@ public class UserCardCaptainsController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = cardCaptains.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = cardCaptains.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
                 bool hasEnoughCards = cardCaptains.Quantity >= requiredQuantity;
@@ -622,7 +622,7 @@ public class UserCardCaptainsController : MonoBehaviour
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - cardCaptains.Quantity;
+                        double remainingRequired = requiredQuantity - cardCaptains.Quantity;
                         cardCaptains.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items items1 in items)

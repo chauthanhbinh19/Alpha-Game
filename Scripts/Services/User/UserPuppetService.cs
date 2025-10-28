@@ -203,7 +203,7 @@ public class UserPuppetService : IUserPuppetService
         return _userPuppetRepository.UpdatePuppetLevel(puppet, cardLevel);
     }
 
-    public bool UpdatePuppetBreakthrough(Puppets puppet, int star, int quantity)
+    public bool UpdatePuppetBreakthrough(Puppets puppet, int star, double quantity)
     {
         return _userPuppetRepository.UpdatePuppetBreakthrough(puppet, star, quantity);
     }

@@ -9,6 +9,6 @@ public class DailyCheckin
     public int Year { get; set; }
     public string Type { get; set; }
     public string ObjectId { get; set; }
-    public int Quantity { get; set; }
+    public double Quantity { get; set; }
     public UserDailyCheckin UserDailyCheckin { get; set; }
 }

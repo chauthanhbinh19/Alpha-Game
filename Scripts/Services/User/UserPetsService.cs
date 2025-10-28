@@ -713,7 +713,7 @@ public class UserPetsService : IUserPetsService
         return _userPetsRepository.UpdatePetsLevel(pets, cardLevel);
     }
 
-    public bool UpdatePetsBreakthrough(Pets pets, int star, int quantity)
+    public bool UpdatePetsBreakthrough(Pets pets, int star, double quantity)
     {
         return _userPetsRepository.UpdatePetsBreakthrough(pets, star, quantity);
     }

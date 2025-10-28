@@ -8,7 +8,7 @@ public interface IUserMedalsService
     int GetUserMedalsCount(string user_id, string rare);
     bool InsertUserMedals(Medals medals);
     bool UpdateMedalsLevel(Medals medals, int cardLevel);
-    bool UpdateMedalsBreakthrough(Medals medals, int star, int quantity);
+    bool UpdateMedalsBreakthrough(Medals medals, int star, double quantity);
     Medals GetUserMedalsById(string user_id, string Id);
     Medals SumPowerUserMedals();
 

@@ -8,7 +8,7 @@ public interface IUserTalismanService
     int GetUserTalismanCount(string user_id, string type, string rare);
     bool InsertUserTalisman(Talismans talisman);
     bool UpdateTalismanLevel(Talismans talisman, int level);
-    bool UpdateTalismanBreakthrough(Talismans talisman, int star, int quantity);
+    bool UpdateTalismanBreakthrough(Talismans talisman, int star, double quantity);
     Talismans GetUserTalismanById(string user_id, string Id);
     Talismans SumPowerUserTalisman();
 

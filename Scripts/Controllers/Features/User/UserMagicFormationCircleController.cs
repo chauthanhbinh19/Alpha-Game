@@ -188,7 +188,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MagicFormationCircles currentCard = new MagicFormationCircles();
                 currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -214,7 +214,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 MagicFormationCircles currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -294,8 +294,8 @@ public class UserMagicFormationCircleController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = magicFormationCircle.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = magicFormationCircle.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
                 bool hasEnoughMagicFormation = magicFormationCircle.Quantity >= requiredQuantity;
@@ -317,7 +317,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - magicFormationCircle.Quantity;
+                        double remainingRequired = requiredQuantity - magicFormationCircle.Quantity;
                         magicFormationCircle.Quantity = 0; // Dùng hết vòng phép
 
                         foreach (Items items1 in items)

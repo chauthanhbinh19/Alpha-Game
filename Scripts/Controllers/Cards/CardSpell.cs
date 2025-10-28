@@ -62,6 +62,7 @@ public class CardSpell : CardBase
         this.SkillResistanceRate = cardSpell.SkillResistanceRate;
         this.Position = cardSpell.Position;
         this.IsAlive = true;
+        this.Skills = cardSpell.Skills;
 
         this.CurrentHealth = cardSpell.Health;
         this.CurrentPhysicalAttack = cardSpell.PhysicalAttack;

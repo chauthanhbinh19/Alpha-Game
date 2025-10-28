@@ -297,7 +297,7 @@ public class UserEquipmentsService : IUserEquipmentsService
         return _userEquipmentsRepository.UpdateEquipmentsLevel(equipments, cardLevel);
     }
 
-    public bool UpdateEquipmentsBreakthrough(Equipments equipments, int star, int quantity)
+    public bool UpdateEquipmentsBreakthrough(Equipments equipments, int star, double quantity)
     {
         return _userEquipmentsRepository.UpdateEquipmentsBreakthrough(equipments, star, quantity);
     }

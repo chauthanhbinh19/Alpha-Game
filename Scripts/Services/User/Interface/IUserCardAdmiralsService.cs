@@ -8,6 +8,7 @@ public interface IUserCardAdmiralsService
     List<CardAdmirals> GetAllAnimeStatsPower(string user_id, List<CardAdmirals> cardAdmirals);
     CardAdmirals GetNewLevelPower(CardAdmirals c, double coefficient);
     CardAdmirals GetNewBreakthroughPower(CardAdmirals c, double coefficient);
+    List<CardAdmirals> GetSkills(string user_id, List<CardAdmirals> CardAdmiralsList);
     List<CardAdmirals> GetUserCardAdmirals(string user_id, string type, int pageSize, int offset, string rare);
     List<CardAdmirals> GetUserCardAdmiralsTeam(string user_id, string teamId, string position);
     List<CardAdmirals> GetUserCardAdmiralsTeamWithoutPosition(string user_id, string teamId);
@@ -18,7 +19,7 @@ public interface IUserCardAdmiralsService
     int GetUserCardAdmiralsTeamsCount(string user_id, string team_id);
     bool InsertUserCardAdmirals(CardAdmirals CardAdmirals);
     bool UpdateCardAdmiralsLevel(CardAdmirals cardAdmirals, int cardLevel);
-    bool UpdateCardAdmiralsBreakthrough(CardAdmirals cardAdmirals, int star, int quantity);
+    bool UpdateCardAdmiralsBreakthrough(CardAdmirals cardAdmirals, int star, double quantity);
     CardAdmirals GetUserCardAdmiralsById(string user_id, string Id);
     List<CardAdmirals> GetAllUserCardAdmiralsInTeam(string user_id);
 }

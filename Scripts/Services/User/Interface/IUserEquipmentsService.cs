@@ -10,7 +10,7 @@ public interface IUserEquipmentsService
     Equipments GetUserEquipmentsById(string user_id, string Id);
     bool BuyEquipment(string Id);
     bool UpdateEquipmentsLevel(Equipments equipments, int cardLevel);
-    bool UpdateEquipmentsBreakthrough(Equipments equipments, int star, int quantity);
+    bool UpdateEquipmentsBreakthrough(Equipments equipments, int star, double quantity);
     void UpdateUserCurrency(string Id);
     void InsertCardHeroesEquipments(string Id, Equipments equipments, int position);
     void InsertCardCaptainsEquipments(string Id, Equipments equipments, int position);

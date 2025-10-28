@@ -240,7 +240,7 @@ public class DailyCheckinManager : MonoBehaviour
         {
             string type = userDailyCheckin.DailyCheckin.Type;
             string objectId = userDailyCheckin.DailyCheckin.ObjectId;
-            int quantity = userDailyCheckin.DailyCheckin.Quantity;
+            double quantity = userDailyCheckin.DailyCheckin.Quantity;
 
             if (DailyCheckinResolvers.TryGetValue(type, out var resolver))
             {
@@ -254,7 +254,7 @@ public class DailyCheckinManager : MonoBehaviour
 
         }
     }
-    public void CreateDailyCheckinUI(string image, int quantity)
+    public void CreateDailyCheckinUI(string image, double quantity)
     {
         GameObject dailyCheckinComponent = Instantiate(DailyCheckinComponentPrefab, DailyCheckinPanel);
         RawImage dailyCheckinImage = dailyCheckinComponent.transform.Find("Image").GetComponent<RawImage>();

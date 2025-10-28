@@ -39,8 +39,8 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                         Type = reader.GetString("type"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
-                        Experiment = reader.GetInt32("experiment"),
-                        Quantity = reader.GetInt32("quantity"),
+                        Experiment = reader.GetDouble("experiment"),
+                        Quantity = reader.GetDouble("quantity"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -401,7 +401,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
         }
         return true;
     }
-    public bool UpdateSymbolsBreakthrough(Symbols symbols, int star, int quantity)
+    public bool UpdateSymbolsBreakthrough(Symbols symbols, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -529,7 +529,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                         Id = reader.GetString("symbol_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetInt32("experiment"),
+                        Experiment = reader.GetDouble("experiment"),
                         Star = reader.GetInt32("star"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),

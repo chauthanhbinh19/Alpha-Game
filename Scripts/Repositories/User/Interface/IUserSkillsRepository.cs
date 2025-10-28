@@ -6,7 +6,7 @@ public interface IUserSkillsRepository
     int GetUserSkillsCount(string user_id, string type, string rare);
     bool InsertUserSkills(Skills skills);
     bool UpdateSkillsLevel(Skills skills, int cardLevel);
-    bool UpdateSkillsBreakthrough(Skills skills, int star, int quantity);
+    bool UpdateSkillsBreakthrough(Skills skills, int star, double quantity);
     Skills GetUserSkillsById(string user_id, string id);
     List<Skills> GetUserCardHeroesSkills(string user_id, string cardId);
     List<Skills> GetUserCardCaptainsSkills(string user_id, string cardId);

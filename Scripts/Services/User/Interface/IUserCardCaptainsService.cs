@@ -8,6 +8,7 @@ public interface IUserCardCaptainsService
     List<CardCaptains> GetAllAnimeStatsPower(string user_id, List<CardCaptains> CardCaptainsList);
     CardCaptains GetNewLevelPower(CardCaptains c, double coefficient);
     CardCaptains GetNewBreakthroughPower(CardCaptains c, double coefficient);
+    List<CardCaptains> GetSkills(string user_id, List<CardCaptains> CardCaptainsList);
     List<CardCaptains> GetUserCardCaptains(string user_id, string type, int pageSize, int offset, string rare);
     List<CardCaptains> GetUserCardCaptainsTeam(string user_id, string teamId, string position);
     List<CardCaptains> GetUserCardCaptainsTeamWithoutPosition(string user_id, string teamId);
@@ -18,7 +19,7 @@ public interface IUserCardCaptainsService
     int GetUserCardCaptainsTeamsCount(string user_id, string team_id);
     bool InsertUserCardCaptains(CardCaptains CardCaptains);
     bool UpdateCardCaptainsLevel(CardCaptains cardCaptains, int cardLevel);
-    bool UpdateCardCaptainsBreakthrough(CardCaptains cardCaptains, int star, int quantity);
+    bool UpdateCardCaptainsBreakthrough(CardCaptains cardCaptains, int star, double quantity);
     CardCaptains GetUserCardCaptainsById(string user_id, string Id);
     List<CardCaptains> GetAllUserCardCaptainsInTeam(string user_id);
 }

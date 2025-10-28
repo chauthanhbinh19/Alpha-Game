@@ -148,7 +148,7 @@ public class UserEquipmentsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Equipments currentCard = new Equipments();
                 currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -174,7 +174,7 @@ public class UserEquipmentsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Equipments currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -254,8 +254,8 @@ public class UserEquipmentsController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = equipments.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = equipments.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng trang bị
                 bool hasEnoughEquipments = equipments.Quantity >= requiredQuantity;
@@ -277,7 +277,7 @@ public class UserEquipmentsController : MonoBehaviour
                     else
                     {
                         // Nếu trang bị không đủ, dùng cả trang bị + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - equipments.Quantity;
+                        double remainingRequired = requiredQuantity - equipments.Quantity;
                         equipments.Quantity = 0; // Dùng hết trang bị
 
                         foreach (Items items1 in items)

@@ -12,7 +12,7 @@ public interface IUserCardSpellRepository
     int GetUserCardSpellTeamsCount(string user_id, string team_id);
     bool InsertUserCardSpell(CardSpells CardSpell);
     bool UpdateCardSpellLevel(CardSpells cardSpell, int cardLevel);
-    bool UpdateCardSpellBreakthrough(CardSpells cardSpell, int star, int quantity);
+    bool UpdateCardSpellBreakthrough(CardSpells cardSpell, int star, double quantity);
     CardSpells GetUserCardSpellById(string user_id, string Id);
     List<CardSpells> GetAllUserCardSpellInTeam(string user_id);
 }

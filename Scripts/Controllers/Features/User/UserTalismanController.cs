@@ -188,7 +188,7 @@ public class UserTalismanController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Talismans currentCard = new Talismans();
                 currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -214,7 +214,7 @@ public class UserTalismanController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Talismans currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -294,8 +294,8 @@ public class UserTalismanController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = talisman.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = talisman.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
                 bool hasEnoughMagicFormation = talisman.Quantity >= requiredQuantity;
@@ -317,7 +317,7 @@ public class UserTalismanController : MonoBehaviour
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - talisman.Quantity;
+                        double remainingRequired = requiredQuantity - talisman.Quantity;
                         talisman.Quantity = 0; // Dùng hết vòng phép
 
                         foreach (Items items1 in items)

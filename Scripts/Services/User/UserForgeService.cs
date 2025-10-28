@@ -203,7 +203,7 @@ public class UserForgeService : IUserForgeService
         return _userForgeRepository.UpdateForgeLevel(forge, cardLevel);
     }
 
-    public bool UpdateForgeBreakthrough(Forges forge, int star, int quantity)
+    public bool UpdateForgeBreakthrough(Forges forge, int star, double quantity)
     {
         return _userForgeRepository.UpdateForgeBreakthrough(forge, star, quantity);
     }

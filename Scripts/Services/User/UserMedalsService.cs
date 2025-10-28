@@ -203,7 +203,7 @@ public class UserMedalsService : IUserMedalsService
         return _userMedalsRepository.UpdateMedalsLevel(medals, cardLevel);
     }
 
-    public bool UpdateMedalsBreakthrough(Medals medals, int star, int quantity)
+    public bool UpdateMedalsBreakthrough(Medals medals, int star, double quantity)
     {
         return _userMedalsRepository.UpdateMedalsBreakthrough(medals, star, quantity);
     }

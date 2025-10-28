@@ -191,7 +191,7 @@ public class UserSymbolsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Symbols currentCard = new Symbols();
                 currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
@@ -217,7 +217,7 @@ public class UserSymbolsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                 Symbols currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
-                int totalExperiment = currentCard.Experiment;
+                double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -297,8 +297,8 @@ public class UserSymbolsController : MonoBehaviour
             breakthroughButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                int requiredQuantity = symbol.Star + 1;
-                int totalItemQuantity = 0;
+                double requiredQuantity = symbol.Star + 1;
+                double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng biểu tượng
                 bool hasEnoughSymbols = symbol.Quantity >= requiredQuantity;
@@ -320,7 +320,7 @@ public class UserSymbolsController : MonoBehaviour
                     else
                     {
                         // Nếu biểu tượng không đủ, dùng cả biểu tượng + vật phẩm để bù vào
-                        int remainingRequired = requiredQuantity - symbol.Quantity;
+                        double remainingRequired = requiredQuantity - symbol.Quantity;
                         symbol.Quantity = 0; // Dùng hết biểu tượng
 
                         foreach (Items items1 in items)

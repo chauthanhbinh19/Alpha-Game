@@ -12,7 +12,7 @@ public interface IUserCardGeneralsRepository
     int GetUserCardGeneralsTeamsCount(string user_id, string team_id);
     bool InsertUserCardGenerals(CardGenerals CardGenerals);
     bool UpdateCardGeneralsLevel(CardGenerals cardGenerals, int cardLevel);
-    bool UpdateCardGeneralsBreakthrough(CardGenerals cardGenerals, int star, int quantity);
+    bool UpdateCardGeneralsBreakthrough(CardGenerals cardGenerals, int star, double quantity);
     CardGenerals GetUserCardGeneralsById(string user_id, string Id);
     List<CardGenerals> GetAllUserCardGeneralsInTeam(string user_id);
 }

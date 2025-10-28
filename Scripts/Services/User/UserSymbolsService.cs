@@ -203,7 +203,7 @@ public class UserSymbolsService : IUserSymbolsService
         return _userSymbolsRepository.UpdateSymbolsLevel(symbols, cardLevel);
     }
 
-    public bool UpdateSymbolsBreakthrough(Symbols symbols, int star, int quantity)
+    public bool UpdateSymbolsBreakthrough(Symbols symbols, int star, double quantity)
     {
         return _userSymbolsRepository.UpdateSymbolsBreakthrough(symbols, star, quantity);
     }

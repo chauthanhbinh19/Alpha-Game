@@ -12,7 +12,7 @@ public interface IUserCardMilitaryRepository
     int GetUserCardMilitaryTeamsCount(string user_id, string team_id);
     bool InsertUserCardMilitary(CardMilitaries CardMilitary);
     bool UpdateCardMilitaryLevel(CardMilitaries cardMilitary, int cardLevel);
-    bool UpdateCardMilitaryBreakthrough(CardMilitaries cardMilitary, int star, int quantity);
+    bool UpdateCardMilitaryBreakthrough(CardMilitaries cardMilitary, int star, double quantity);
     CardMilitaries GetUserCardMilitaryById(string user_id, string Id);
     List<CardMilitaries> GetAllUserCardMilitaryInTeam(string user_id);
 }

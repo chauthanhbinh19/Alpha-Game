@@ -13,7 +13,7 @@ public interface IUserAlchemyService
     int GetUserAlchemyCount(string user_id, string type, string rare);
     bool InsertUserAlchemy(Alchemies Alchemy);
     bool UpdateAlchemyLevel(Alchemies Alchemy, int cardLevel);
-    bool UpdateAlchemyBreakthrough(Alchemies Alchemy, int star, int quantity);
+    bool UpdateAlchemyBreakthrough(Alchemies Alchemy, int star, double quantity);
     Alchemies GetUserAlchemyById(string user_id, string Id);
     Alchemies SumPowerUserAlchemy();
 }

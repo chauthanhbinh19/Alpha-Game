@@ -12,7 +12,7 @@ public class Borders : BaseEntity
     public string Image { get; set; }
     public string Rare { get; set; }
     public int Quality { get; set; }
-    public int Quantity { get; set; }
+    public double Quantity { get; set; }
     public int CurrentStar { get; set; }
     public int TempStar { get; set; }
     public string Description { get; set; }

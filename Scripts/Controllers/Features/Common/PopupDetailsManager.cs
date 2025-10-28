@@ -1474,12 +1474,12 @@ public class PopupDetailsManager : MonoBehaviour
     }
     public void CreatePropertyUI(int status, PropertyInfo property, object value)
     {
-        if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-            && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
-            && !property.Name.Equals("status") && !property.Name.Equals("name")
-            && !property.Name.Equals("image"))
+        if (!property.Name.Equals(AppConstants.StatFields.ID) && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
+            && !property.Name.Equals(AppConstants.StatFields.EXPERIMENT) && !property.Name.Equals(AppConstants.StatFields.QUANTITY) && !property.Name.Equals(AppConstants.StatFields.BLOCK)
+            && !property.Name.Equals(AppConstants.StatFields.STATUS) && !property.Name.Equals(AppConstants.StatFields.NAME)
+            && !property.Name.Equals(AppConstants.StatFields.IMAGE))
         {
-            if (property.Name.Equals("description"))
+            if (property.Name.Equals(AppConstants.StatFields.DESCRIPTION))
             {
                 // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
                 GameObject descriptionTextObject = new GameObject("DescriptionText");
@@ -1506,8 +1506,9 @@ public class PopupDetailsManager : MonoBehaviour
                 rectTransform.sizeDelta = new Vector2(600, 100);
                 rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
             }
-            else if (property.Name.Equals("power") || property.Name.Equals("rare") || property.Name.Equals("type")
-            || property.Name.Equals("star") || property.Name.Equals("level"))
+            else if (property.Name.Equals(AppConstants.StatFields.POWER) || property.Name.Equals(AppConstants.StatFields.RARE) 
+            || property.Name.Equals(AppConstants.StatFields.TYPE)
+            || property.Name.Equals(AppConstants.StatFields.STAR) || property.Name.Equals(AppConstants.StatFields.LEVEL))
             {
                 // Tạo một element mới từ prefab
                 GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);

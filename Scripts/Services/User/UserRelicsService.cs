@@ -203,7 +203,7 @@ public class UserRelicsService : IUserRelicsService
         return _userRelicsRepository.UpdateRelicsLevel(relics, cardLevel);
     }
 
-    public bool UpdateRelicsBreakthrough(Relics relics, int star, int quantity)
+    public bool UpdateRelicsBreakthrough(Relics relics, int star, double quantity)
     {
         return _userRelicsRepository.UpdateRelicsBreakthrough(relics, star, quantity);
     }
