@@ -157,10 +157,11 @@ public class UserAchievementsController : MonoBehaviour
                 {
                     Achievements newCard = new Achievements();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserAchievementsService.Create().GetNewLevelPower(achievements, increasePerLevel);
                     UserAchievementsService.Create().UpdateAchievementLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -188,10 +189,11 @@ public class UserAchievementsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Achievements newCard = UserAchievementsService.Create().GetNewLevelPower(achievements, levelsGained * increasePerLevel);
                     UserAchievementsService.Create().UpdateAchievementLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -303,10 +305,11 @@ public class UserAchievementsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Achievements newAchievements = new Achievements();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newAchievements = UserAchievementsService.Create().GetNewBreakthroughPower(achievements, increasePerUpgrade);
                     UserAchievementsService.Create().UpdateAchievementsBreakthrough(newAchievements, achievements.Star + 1, achievements.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện

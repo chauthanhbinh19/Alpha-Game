@@ -194,10 +194,11 @@ public class UserCardLifeController : MonoBehaviour
                 {
                     CardLives newCard = new CardLives();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardLifeService.Create().GetNewLevelPower(cardLife, increasePerLevel);
                     UserCardLifeService.Create().UpdateCardLifeLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -225,10 +226,11 @@ public class UserCardLifeController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardLives newCard = UserCardLifeService.Create().GetNewLevelPower(cardLife, levelsGained * increasePerLevel);
                     UserCardLifeService.Create().UpdateCardLifeLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -340,10 +342,11 @@ public class UserCardLifeController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardLives newCardLife = new CardLives();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCardLife = UserCardLifeService.Create().GetNewBreakthroughPower(cardLife, increasePerUpgrade);
                     UserCardLifeService.Create().UpdateCardLifeBreakthrough(newCardLife, cardLife.Star + 1, cardLife.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     CardLifeGalleryService.Create().UpdateStarCardLifeGallery(cardLife.Id, cardLife.Star + 1);

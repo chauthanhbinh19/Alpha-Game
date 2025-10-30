@@ -198,10 +198,11 @@ public class UserMagicFormationCircleController : MonoBehaviour
                 {
                     MagicFormationCircles newCard = new MagicFormationCircles();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserMagicFormationCircleService.Create().GetNewLevelPower(magicFormationCircle, increasePerLevel);
                     UserMagicFormationCircleService.Create().UpdateMagicFormationCircleLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -229,10 +230,11 @@ public class UserMagicFormationCircleController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     MagicFormationCircles newCard = UserMagicFormationCircleService.Create().GetNewLevelPower(magicFormationCircle, levelsGained * increasePerLevel);
                     UserMagicFormationCircleService.Create().UpdateMagicFormationCircleLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -344,10 +346,11 @@ public class UserMagicFormationCircleController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     MagicFormationCircles newMagicFormationCircle = new MagicFormationCircles();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newMagicFormationCircle = UserMagicFormationCircleService.Create().GetNewBreakthroughPower(magicFormationCircle, increasePerUpgrade);
                     UserMagicFormationCircleService.Create().UpdateMagicFormationCircleBreakthrough(newMagicFormationCircle, magicFormationCircle.Star + 1, magicFormationCircle.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     MagicFormationCircleGalleryService.Create().UpdateStarMagicFormationCircleGallery(magicFormationCircle.Id, magicFormationCircle.Star + 1);

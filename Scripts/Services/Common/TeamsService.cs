@@ -43,6 +43,8 @@ public class TeamsService : ITeamsService
         totalPower += UserBooksService.Create().GetAllUserBooksInTeam(user_id).Sum(c => c.Power);
         totalPower += UserPetsService.Create().GetAllUserPetsInTeam(user_id).Sum(c => c.Power);
 
+        UserService.Create().UpdateUserPower(user_id, totalPower);
+
         return totalPower;
     }
 }

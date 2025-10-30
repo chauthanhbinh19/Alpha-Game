@@ -201,10 +201,11 @@ public class UserTitlesController : MonoBehaviour
                 {
                     Titles newCard = new Titles();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserTitlesService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserTitlesService.Create().UpdateTitlesLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -232,10 +233,11 @@ public class UserTitlesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Titles newCard = UserTitlesService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserTitlesService.Create().UpdateTitlesLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -347,10 +349,11 @@ public class UserTitlesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Titles newTitle = new Titles();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newTitle = UserTitlesService.Create().GetNewBreakthroughPower(title, increasePerUpgrade);
                     UserTitlesService.Create().UpdateTitlesBreakthrough(newTitle, title.Star + 1, title.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     TitlesGalleryService.Create().UpdateStarTitlesGallery(title.Id, title.Star + 1);

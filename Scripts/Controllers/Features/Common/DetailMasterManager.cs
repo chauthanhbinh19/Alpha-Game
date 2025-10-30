@@ -78,10 +78,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardHeroes, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardHeroesEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardHeroes);
             }
@@ -99,10 +101,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardHeroes, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardHeroesEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardHeroes);
             }
@@ -149,10 +153,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(books, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateBooksEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, books);
             }
@@ -170,10 +176,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(books, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateBooksEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, books);
             }
@@ -220,10 +228,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, 1);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardCaptains, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardCaptainsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardCaptains);
             }
@@ -241,10 +251,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardCaptains, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardCaptainsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardCaptains);
             }
@@ -291,10 +303,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, 1);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(pets, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreatePetsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, pets);
             }
@@ -311,11 +325,13 @@ public class DetailMasterManager : MonoBehaviour
                 Master newMaster = new Master();
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
-                
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
+
                 MasterService.UpLevel(pets, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreatePetsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, pets);
             }
@@ -362,10 +378,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardMilitary, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardMilitaryEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMilitary);
             }
@@ -383,10 +401,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardMilitary, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardMilitaryEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMilitary);
             }
@@ -433,10 +453,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardSpell, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardSpellEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardSpell);
             }
@@ -454,10 +476,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardSpell, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardSpellEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardSpell);
             }
@@ -504,10 +528,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardMonsters, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardMonstersEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMonsters);
             }
@@ -525,10 +551,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardMonsters, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardMonstersEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMonsters);
             }
@@ -575,10 +603,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardColonels, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardColonelsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardColonels);
             }
@@ -596,10 +626,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardColonels, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardColonelsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardColonels);
             }
@@ -646,10 +678,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardGenerals, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardGeneralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardGenerals);
             }
@@ -667,10 +701,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardGenerals, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardGeneralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardGenerals);
             }
@@ -717,10 +753,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardAdmirals, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardAdmiralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardAdmirals);
             }
@@ -738,10 +776,12 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
                 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 MasterService.UpLevel(cardAdmirals, newMaster, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+
                 Destroy(slotObject);
                 CreateCardAdmiralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardAdmirals);
             }

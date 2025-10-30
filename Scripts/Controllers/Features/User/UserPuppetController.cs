@@ -198,10 +198,11 @@ public class UserPuppetController : MonoBehaviour
                 {
                     Puppets newCard = new Puppets();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserPuppetService.Create().GetNewLevelPower(puppet, increasePerLevel);
                     UserPuppetService.Create().UpdatePuppetLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -229,10 +230,11 @@ public class UserPuppetController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Puppets newCard = UserPuppetService.Create().GetNewLevelPower(puppet, levelsGained * increasePerLevel);
                     UserPuppetService.Create().UpdatePuppetLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -344,10 +346,11 @@ public class UserPuppetController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Puppets newpuppet = new Puppets();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newpuppet = UserPuppetService.Create().GetNewBreakthroughPower(puppet, increasePerUpgrade);
                     UserPuppetService.Create().UpdatePuppetBreakthrough(newpuppet, puppet.Star + 1, puppet.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     PuppetGalleryService.Create().UpdateStarPuppetGallery(puppet.Id, puppet.Star + 1);

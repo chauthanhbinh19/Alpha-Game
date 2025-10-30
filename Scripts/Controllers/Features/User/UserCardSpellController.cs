@@ -285,10 +285,11 @@ public class UserCardSpellController : MonoBehaviour
                 {
                     CardSpells newCard = new CardSpells();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, increasePerLevel);
                     UserCardSpellService.Create().UpdateCardSpellLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -316,10 +317,11 @@ public class UserCardSpellController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardSpells newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, levelsGained * increasePerLevel);
                     UserCardSpellService.Create().UpdateCardSpellLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -658,10 +660,11 @@ public class UserCardSpellController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardSpells newCard = new CardSpells();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardSpellService.Create().GetNewBreakthroughPower(cardSpell, increasePerUpgrade);
                     UserCardSpellService.Create().UpdateCardSpellBreakthrough(newCard, cardSpell.Star + 1, cardSpell.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     CardSpellGalleryService.Create().UpdateStarCardSpellGallery(cardSpell.Id, cardSpell.Star + 1);
@@ -802,7 +805,6 @@ public class UserCardSpellController : MonoBehaviour
                 Destroy(popupSpiritBeastObject);
                 if (data is CardSpells cardSpell)
                 {
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     UserSpiritBeastService.Create().InsertOrUpdateUserCardSpellSpiritBeast(User.CurrentUserId, cardSpell, spiritBeast);
 
                     RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
@@ -812,6 +814,8 @@ public class UserCardSpellController : MonoBehaviour
                     spiritBeastImage.texture = texture;
 
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     var card = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);

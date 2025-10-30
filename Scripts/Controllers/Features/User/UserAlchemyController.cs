@@ -198,10 +198,11 @@ public class UserAlchemyController : MonoBehaviour
                 {
                     Alchemies newCard = new Alchemies();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserAlchemyService.Create().GetNewLevelPower(alchemy, increasePerLevel);
                     UserAlchemyService.Create().UpdateAlchemyLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -229,10 +230,11 @@ public class UserAlchemyController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Alchemies newCard = UserAlchemyService.Create().GetNewLevelPower(alchemy, levelsGained * increasePerLevel);
                     UserAlchemyService.Create().UpdateAlchemyLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -344,10 +346,11 @@ public class UserAlchemyController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Alchemies newalchemy = new Alchemies();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newalchemy = UserAlchemyService.Create().GetNewBreakthroughPower(alchemy, increasePerUpgrade);
                     UserAlchemyService.Create().UpdateAlchemyBreakthrough(newalchemy, alchemy.Star + 1, alchemy.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     AlchemyGalleryService.Create().UpdateStarAlchemyGallery(alchemy.Id, alchemy.Star + 1);

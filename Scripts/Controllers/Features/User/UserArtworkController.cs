@@ -197,10 +197,11 @@ public class UserArtworkController : MonoBehaviour
                 {
                     Artworks newCard = new Artworks();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserArtworkService.Create().GetNewLevelPower(Artwork, increasePerLevel);
                     UserArtworkService.Create().UpdateArtworkLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -228,10 +229,11 @@ public class UserArtworkController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Artworks newCard = UserArtworkService.Create().GetNewLevelPower(Artwork, levelsGained * increasePerLevel);
                     UserArtworkService.Create().UpdateArtworkLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -343,10 +345,11 @@ public class UserArtworkController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Artworks newArtwork = new Artworks();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newArtwork = UserArtworkService.Create().GetNewBreakthroughPower(Artwork, increasePerUpgrade);
                     UserArtworkService.Create().UpdateArtworkBreakthrough(newArtwork, Artwork.Star + 1, Artwork.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ArtworkGalleryService.Create().UpdateStarArtworkGallery(Artwork.Id, Artwork.Star + 1);

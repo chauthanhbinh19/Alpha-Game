@@ -169,6 +169,11 @@ public class UserService : IUserService
         _userRepository.UpdateUserName(user_id, new_name);
     }
 
+    public void UpdateUserPower(string user_id, double power)
+    {
+        _userRepository.UpdateUserPower(user_id, power);
+    }
+
     public void createUserCurrency(string Id)
     {
         _userRepository.createUserCurrency(Id);

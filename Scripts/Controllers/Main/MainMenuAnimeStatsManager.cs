@@ -183,9 +183,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 newanimeStats = EnhanceAnimeStats(animeStats, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 UpLevel(newanimeStats, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateAnimeStats();
@@ -204,9 +205,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 newanimeStats = EnhanceAnimeStats(animeStats, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 UpLevel(newanimeStats, mainType);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateAnimeStats();

@@ -166,11 +166,11 @@ public class ReactorNumber1Manager : MonoBehaviour
 
                 ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, 1);
 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 // rankService.UpLevel(cardHeroes, newRank, mainType);
                 ScienceFictionService.Create().InsertOrUpdateScienceFiction(newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
-
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(currentObject);
@@ -217,10 +217,10 @@ public class ReactorNumber1Manager : MonoBehaviour
             // Nâng cấp scienceFiction
             ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, finalLevel);
 
-            double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
             ScienceFictionService.Create().InsertOrUpdateScienceFiction(newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
-
+            double currentPower = User.CurrentUserPower;
+            User.CurrentUserPower = newPower;
             FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
             Destroy(currentObject);

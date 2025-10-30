@@ -202,10 +202,11 @@ public class UserSpiritCardController : MonoBehaviour
                 {
                     SpiritCards newCard = new SpiritCards();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserSpiritCardService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserSpiritCardService.Create().UpdateSpiritCardLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -233,10 +234,11 @@ public class UserSpiritCardController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     SpiritCards newCard = UserSpiritCardService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserSpiritCardService.Create().UpdateSpiritCardLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -348,10 +350,11 @@ public class UserSpiritCardController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     SpiritCards newTitle = new SpiritCards();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newTitle = UserSpiritCardService.Create().GetNewBreakthroughPower(spiritBeast, increasePerUpgrade);
                     UserSpiritCardService.Create().UpdateSpiritCardBreakthrough(newTitle, spiritBeast.Star + 1, spiritBeast.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     SpiritCardGalleryService.Create().UpdateStarSpiritCardGallery(spiritBeast.Id, spiritBeast.Star + 1);

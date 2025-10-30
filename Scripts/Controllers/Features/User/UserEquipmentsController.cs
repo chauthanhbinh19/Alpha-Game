@@ -158,10 +158,11 @@ public class UserEquipmentsController : MonoBehaviour
                 {
                     Equipments newCard = new Equipments();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserEquipmentsService.Create().GetNewLevelPower(equipment, increasePerLevel);
                     UserEquipmentsService.Create().UpdateEquipmentsLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -189,10 +190,11 @@ public class UserEquipmentsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Equipments newCard = UserEquipmentsService.Create().GetNewLevelPower(equipment, levelsGained * increasePerLevel);
                     UserEquipmentsService.Create().UpdateEquipmentsLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -304,10 +306,11 @@ public class UserEquipmentsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Equipments newEquipment = new Equipments();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newEquipment = UserEquipmentsService.Create().GetNewBreakthroughPower(equipments, increasePerUpgrade);
                     UserEquipmentsService.Create().UpdateEquipmentsBreakthrough(newEquipment, equipments.Star + 1, equipments.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     EquipmentsGalleryService.Create().UpdateStarEquipmentsGallery(equipments.Id, equipments.Star + 1);

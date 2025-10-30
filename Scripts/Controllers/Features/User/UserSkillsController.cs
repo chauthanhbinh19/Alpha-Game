@@ -185,10 +185,11 @@ public class UserSkillsController : MonoBehaviour
                 {
                     Skills newCard = new Skills();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserSkillsService.Create().GetNewLevelPower(skill, increasePerLevel);
                     UserSkillsService.Create().UpdateSkillsLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -216,10 +217,11 @@ public class UserSkillsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Skills newCard = UserSkillsService.Create().GetNewLevelPower(skill, levelsGained * increasePerLevel);
                     UserSkillsService.Create().UpdateSkillsLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -331,10 +333,11 @@ public class UserSkillsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Skills newSkill = new Skills();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newSkill = UserSkillsService.Create().GetNewBreakthroughPower(skill, increasePerUpgrade);
                     UserSkillsService.Create().UpdateSkillsBreakthrough(newSkill, skill.Star + 1, skill.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     SkillsGalleryService.Create().UpdateStarSkillsGallery(skill.Id, skill.Star + 1);

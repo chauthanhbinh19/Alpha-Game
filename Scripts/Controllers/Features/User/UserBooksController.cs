@@ -282,10 +282,11 @@ public class UserBooksController : MonoBehaviour
                 {
                     Books newCard = new Books();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserBooksService.Create().GetNewLevelPower(book, increasePerLevel);
                     UserBooksService.Create().UpdateBooksLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -313,10 +314,11 @@ public class UserBooksController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Books newCard = UserBooksService.Create().GetNewLevelPower(book, levelsGained * increasePerLevel);
                     UserBooksService.Create().UpdateBooksLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -428,10 +430,11 @@ public class UserBooksController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Books newCard = new Books();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserBooksService.Create().GetNewBreakthroughPower(book, increasePerUpgrade);
                     UserBooksService.Create().UpdateBooksBreakthrough(newCard, book.Star + 1, book.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     BooksGalleryService.Create().UpdateStarBooksGallery(book.Id, book.Star + 1);

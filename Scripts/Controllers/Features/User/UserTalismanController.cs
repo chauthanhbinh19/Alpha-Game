@@ -198,10 +198,11 @@ public class UserTalismanController : MonoBehaviour
                 {
                     Talismans newCard = new Talismans();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserTalismanService.Create().GetNewLevelPower(talisman, increasePerLevel);
                     UserTalismanService.Create().UpdateTalismanLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -229,10 +230,11 @@ public class UserTalismanController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Talismans newCard = UserTalismanService.Create().GetNewLevelPower(talisman, levelsGained * increasePerLevel);
                     UserTalismanService.Create().UpdateTalismanLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -344,10 +346,11 @@ public class UserTalismanController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Talismans newtalisman = new Talismans();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newtalisman = UserTalismanService.Create().GetNewBreakthroughPower(talisman, increasePerUpgrade);
                     UserTalismanService.Create().UpdateTalismanBreakthrough(newtalisman, talisman.Star + 1, talisman.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     TalismanGalleryService.Create().UpdateStarTalismanGallery(talisman.Id, talisman.Star + 1);

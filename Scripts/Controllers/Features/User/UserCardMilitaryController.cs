@@ -291,10 +291,11 @@ public class UserCardMilitaryController : MonoBehaviour
                 {
                     CardMilitaries newCard = new CardMilitaries();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardMilitaryService.Create().GetNewLevelPower(cardMilitary, increasePerLevel);
                     UserCardMilitaryService.Create().UpdateCardMilitaryLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -322,10 +323,11 @@ public class UserCardMilitaryController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardMilitaries newCard = UserCardMilitaryService.Create().GetNewLevelPower(cardMilitary, levelsGained * increasePerLevel);
                     UserCardMilitaryService.Create().UpdateCardMilitaryLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -664,10 +666,11 @@ public class UserCardMilitaryController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardMilitaries newCard = new CardMilitaries();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardMilitaryService.Create().GetNewBreakthroughPower(cardMilitary, increasePerUpgrade);
                     UserCardMilitaryService.Create().UpdateCardMilitaryBreakthrough(newCard, cardMilitary.Star + 1, cardMilitary.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     CardMilitaryGalleryService.Create().UpdateStarCardMilitaryGallery(cardMilitary.Id, cardMilitary.Star + 1);
@@ -807,7 +810,6 @@ public class UserCardMilitaryController : MonoBehaviour
                 Destroy(popupSpiritBeastObject);
                 if (data is CardMilitaries cardMilitary)
                 {
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     UserSpiritBeastService.Create().InsertOrUpdateUserCardMilitarySpiritBeast(User.CurrentUserId, cardMilitary, spiritBeast);
 
                     RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
@@ -817,6 +819,8 @@ public class UserCardMilitaryController : MonoBehaviour
                     spiritBeastImage.texture = texture;
 
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     var card = UserCardMilitaryService.Create().GetUserCardMilitaryById(User.CurrentUserId, cardMilitary.Id);

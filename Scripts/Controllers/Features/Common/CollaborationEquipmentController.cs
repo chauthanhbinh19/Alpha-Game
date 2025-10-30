@@ -307,9 +307,10 @@ public class CollaborationEquipmentController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else

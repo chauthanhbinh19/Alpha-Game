@@ -285,10 +285,11 @@ public class UserCardAdmiralsController : MonoBehaviour
                 {
                     CardAdmirals newCard = new CardAdmirals();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardAdmiralsService.Create().GetNewLevelPower(cardAdmirals, increasePerLevel);
                     UserCardAdmiralsService.Create().UpdateCardAdmiralsLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -316,10 +317,11 @@ public class UserCardAdmiralsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     CardAdmirals newCard = UserCardAdmiralsService.Create().GetNewLevelPower(cardAdmirals, levelsGained * increasePerLevel);
                     UserCardAdmiralsService.Create().UpdateCardAdmiralsLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -658,10 +660,11 @@ public class UserCardAdmiralsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardAdmirals newCard = new CardAdmirals();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserCardAdmiralsService.Create().GetNewBreakthroughPower(cardAdmirals, increasePerUpgrade);
                     UserCardAdmiralsService.Create().UpdateCardAdmiralsBreakthrough(newCard, cardAdmirals.Star + 1, cardAdmirals.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     CardAdmiralsGalleryService.Create().UpdateStarCardAdmiralsGallery(cardAdmirals.Id, cardAdmirals.Star + 1);
@@ -801,7 +804,6 @@ public class UserCardAdmiralsController : MonoBehaviour
                 Destroy(popupSpiritBeastObject);
                 if (data is CardAdmirals cardAdmirals)
                 {
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     UserSpiritBeastService.Create().InsertOrUpdateUserCardAdmiralsSpiritBeast(User.CurrentUserId, cardAdmirals, spiritBeast);
 
                     RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
@@ -811,6 +813,8 @@ public class UserCardAdmiralsController : MonoBehaviour
                     spiritBeastImage.texture = texture;
 
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     var card = UserCardAdmiralsService.Create().GetUserCardAdmiralsById(User.CurrentUserId, cardAdmirals.Id);

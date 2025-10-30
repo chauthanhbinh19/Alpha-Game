@@ -198,10 +198,11 @@ public class UserRelicsController : MonoBehaviour
                 {
                     Relics newCard = new Relics();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserRelicsService.Create().GetNewLevelPower(relics, increasePerLevel);
                     UserRelicsService.Create().UpdateRelicsLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -229,10 +230,11 @@ public class UserRelicsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Relics newCard = UserRelicsService.Create().GetNewLevelPower(relics, levelsGained * increasePerLevel);
                     UserRelicsService.Create().UpdateRelicsLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -344,10 +346,11 @@ public class UserRelicsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Relics newRelics = new Relics();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newRelics = UserRelicsService.Create().GetNewBreakthroughPower(relics, increasePerUpgrade);
                     UserRelicsService.Create().UpdateRelicsBreakthrough(newRelics, relics.Star + 1, relics.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     RelicsGalleryService.Create().UpdateStarRelicsGallery(relics.Id, relics.Star + 1);

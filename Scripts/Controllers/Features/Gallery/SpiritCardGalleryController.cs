@@ -100,9 +100,11 @@ public class SpiritCardGalleryController : MonoBehaviour
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
+
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 

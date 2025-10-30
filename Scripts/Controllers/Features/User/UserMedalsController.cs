@@ -193,10 +193,11 @@ public class UserMedalsController : MonoBehaviour
                 {
                     Medals newCard = new Medals();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserMedalsService.Create().GetNewLevelPower(medal, increasePerLevel);
                     UserMedalsService.Create().UpdateMedalsLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -224,10 +225,11 @@ public class UserMedalsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Medals newCard = UserMedalsService.Create().GetNewLevelPower(medal, levelsGained * increasePerLevel);
                     UserMedalsService.Create().UpdateMedalsLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -339,10 +341,11 @@ public class UserMedalsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Medals newMedal = new Medals();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newMedal = UserMedalsService.Create().GetNewBreakthroughPower(medal, increasePerUpgrade);
                     UserMedalsService.Create().UpdateMedalsBreakthrough(newMedal, medal.Star + 1, medal.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     MedalsGalleryService.Create().UpdateStarMedalsGallery(medal.Id, medal.Star + 1);

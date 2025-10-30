@@ -201,10 +201,11 @@ public class UserSymbolsController : MonoBehaviour
                 {
                     Symbols newCard = new Symbols();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newCard = UserSymbolsService.Create().GetNewLevelPower(symbol, increasePerLevel);
                     UserSymbolsService.Create().UpdateSymbolsLevel(newCard, currentLevel + 1);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -232,10 +233,11 @@ public class UserSymbolsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     Symbols newCard = UserSymbolsService.Create().GetNewLevelPower(symbol, levelsGained * increasePerLevel);
                     UserSymbolsService.Create().UpdateSymbolsLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
@@ -347,10 +349,11 @@ public class UserSymbolsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Symbols newSymbol = new Symbols();
 
-                    double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     newSymbol = UserSymbolsService.Create().GetNewBreakthroughPower(symbol, increasePerUpgrade);
                     UserSymbolsService.Create().UpdateSymbolsBreakthrough(newSymbol, symbol.Star + 1, symbol.Quantity);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     SymbolsGalleryService.Create().UpdateStarSymbolsGallery(symbol.Id, symbol.Star + 1);

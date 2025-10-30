@@ -14,7 +14,7 @@ public class User
     public string Image;
     public string Border;
     public int Level;
-    public int Experiment;
+    public double Experiment;
     public int Vip;
     public double Power;
     public string Username { get; set; }
@@ -23,6 +23,7 @@ public class User
     public static int CurrentUserLevel { get; set; }
     public static string CurrentUserAvatar { get; set; }
     public static string CurrentUserBorder { get; set; }
+    public static double CurrentUserPower { get; set; }
     public static string SavedUsername;
     public static string SavedPassword;
     public List<Currencies> Currencies { get; set; }

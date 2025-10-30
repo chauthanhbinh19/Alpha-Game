@@ -48,195 +48,300 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             }
             object obj = draggedCard.obj;
             string position = draggedCard.mainPosition + "-" + position_id;
+            double currentPower = User.CurrentUserPower;
             if (obj is CardHeroes cardHeroes)
             {
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 if (!string.IsNullOrEmpty(card_id))
                 {
                     userCardHeroesService.UpdateTeamCardHeroes(null, null, card_id);
                     userCardHeroesService.UpdateTeamCardHeroes(draggedCard.team_id, position, cardHeroes.Id);
                     if (cardHeroes.Power >= card_power)
                     {
-                        double newPower = cardHeroes.Power - card_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                        double diffPower = cardHeroes.Power - card_power;
+                        double updatedPower = currentPower + diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
                     {
-                        double newPower = card_power - cardHeroes.Power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                        double diffPower = card_power - cardHeroes.Power;
+                        double updatedPower = currentPower - diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
                 else
                 {
                     userCardHeroesService.UpdateTeamCardHeroes(draggedCard.team_id, position, cardHeroes.Id);
+                    double updatedPower = currentPower + cardHeroes.Power;
+                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    User.CurrentUserPower = updatedPower;
+                
                     FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.Power, 1);
                 }
             }
             else if (obj is CardCaptains cardCaptains)
             {
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 if (!string.IsNullOrEmpty(card_id))
                 {
                     userCardCaptainsService.UpdateTeamCardCaptains(null, null, card_id);
                     userCardCaptainsService.UpdateTeamCardCaptains(draggedCard.team_id, position, cardCaptains.Id);
                     if (cardCaptains.Power >= card_power)
                     {
-                        double newPower = cardCaptains.Power - card_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                        double diffPower = cardCaptains.Power - card_power;
+                        double updatedPower = currentPower + diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
                     {
-                        double newPower = card_power - cardCaptains.Power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                        double diffPower = card_power - cardCaptains.Power;
+                        double updatedPower = currentPower - diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
                 else
                 {
                     userCardCaptainsService.UpdateTeamCardCaptains(draggedCard.team_id, position, cardCaptains.Id);
+                    double updatedPower = currentPower + cardCaptains.Power;
+                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    User.CurrentUserPower = updatedPower;
+
                     FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.Power, 1);
                 }
             }
             else if (obj is CardColonels cardColonels)
             {
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 if (!string.IsNullOrEmpty(card_id))
                 {
                     userCardColonelsService.UpdateTeamCardColonels(null, null, card_id);
                     userCardColonelsService.UpdateTeamCardColonels(draggedCard.team_id, position, cardColonels.Id);
                     if (cardColonels.Power >= card_power)
                     {
-                        double newPower = cardColonels.Power - card_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                        double diffPower = cardColonels.Power - card_power;
+                        double updatedPower = currentPower + diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
                     {
-                        double newPower = card_power - cardColonels.Power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                        double diffPower = card_power - cardColonels.Power;
+                        double updatedPower = currentPower - diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
                 else
                 {
                     userCardColonelsService.UpdateTeamCardColonels(draggedCard.team_id, position, cardColonels.Id);
+                    double updatedPower = currentPower + cardColonels.Power;
+                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    User.CurrentUserPower = updatedPower;
+
                     FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.Power, 1);
                 }
             }
             else if (obj is CardGenerals cardGenerals)
             {
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 if (!string.IsNullOrEmpty(card_id))
                 {
                     userCardGeneralsService.UpdateTeamCardGenerals(null, null, card_id);
                     userCardGeneralsService.UpdateTeamCardGenerals(draggedCard.team_id, position, cardGenerals.Id);
                     if (cardGenerals.Power >= card_power)
                     {
-                        double newPower = cardGenerals.Power - card_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                        double diffPower = cardGenerals.Power - card_power;
+                        double updatedPower = currentPower + diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
                     {
-                        double newPower = card_power - cardGenerals.Power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                        double diffPower = card_power - cardGenerals.Power;
+                        double updatedPower = currentPower - diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
                 else
                 {
                     userCardGeneralsService.UpdateTeamCardGenerals(draggedCard.team_id, position, cardGenerals.Id);
+                    double updatedPower = currentPower + cardGenerals.Power;
+                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    User.CurrentUserPower = updatedPower;
+
                     FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.Power, 1);
                 }
             }
             else if (obj is CardAdmirals cardAdmirals)
             {
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 if (!string.IsNullOrEmpty(card_id))
                 {
                     userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, card_id);
                     userCardAdmiralsService.UpdateTeamCardAdmirals(draggedCard.team_id, position, cardAdmirals.Id);
                     if (cardAdmirals.Power >= card_power)
                     {
-                        double newPower = cardAdmirals.Power - card_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                        double diffPower = cardAdmirals.Power - card_power;
+                        double updatedPower = currentPower + diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
                     {
-                        double newPower = card_power - cardAdmirals.Power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                        double diffPower = card_power - cardAdmirals.Power;
+                        double updatedPower = currentPower - diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
                 else
                 {
                     userCardAdmiralsService.UpdateTeamCardAdmirals(draggedCard.team_id, position, cardAdmirals.Id);
+                    double updatedPower = currentPower + cardAdmirals.Power;
+                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    User.CurrentUserPower = updatedPower;
+
                     FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.Power, 1);
                 }
             }
             else if (obj is CardMonsters cardMonsters)
             {
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 if (!string.IsNullOrEmpty(card_id))
                 {
                     userCardMonstersService.UpdateTeamCardMonsters(null, null, card_id);
                     userCardMonstersService.UpdateTeamCardMonsters(draggedCard.team_id, position, cardMonsters.Id);
                     if (cardMonsters.Power >= card_power)
                     {
-                        double newPower = cardMonsters.Power - card_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                        double diffPower = cardMonsters.Power - card_power;
+                        double updatedPower = currentPower + diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
                     {
-                        double newPower = card_power - cardMonsters.Power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                        double diffPower = card_power - cardMonsters.Power;
+                        double updatedPower = currentPower - diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
                 else
                 {
                     userCardMonstersService.UpdateTeamCardMonsters(draggedCard.team_id, position, cardMonsters.Id);
+                    double updatedPower = currentPower + cardMonsters.Power;
+                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    User.CurrentUserPower = updatedPower;
+
                     FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.Power, 1);
                 }
             }
             else if (obj is CardMilitaries cardMilitary)
             {
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 if (!string.IsNullOrEmpty(card_id))
                 {
                     userCardMilitaryService.UpdateTeamCardMilitary(null, null, card_id);
                     userCardMilitaryService.UpdateTeamCardMilitary(draggedCard.team_id, position, cardMilitary.Id);
                     if (cardMilitary.Power >= card_power)
                     {
-                        double newPower = cardMilitary.Power - card_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                        double diffPower = cardMilitary.Power - card_power;
+                        double updatedPower = currentPower + diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
                     {
-                        double newPower = card_power - cardMilitary.Power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                        double diffPower = card_power - cardMilitary.Power;
+                        double updatedPower = currentPower - diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
                 else
                 {
                     userCardMilitaryService.UpdateTeamCardMilitary(draggedCard.team_id, position, cardMilitary.Id);
+                    double updatedPower = currentPower + cardMilitary.Power;
+                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    User.CurrentUserPower = updatedPower;
+
                     FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.Power, 1);
                 }
             }
             else if (obj is CardSpells cardSpell)
             {
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 if (!string.IsNullOrEmpty(card_id))
                 {
                     userCardSpellService.UpdateTeamCardSpell(null, null, card_id);
                     userCardSpellService.UpdateTeamCardSpell(draggedCard.team_id, position, cardSpell.Id);
                     if (cardSpell.Power >= card_power)
                     {
-                        double newPower = cardSpell.Power - card_power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 1);
+                        double diffPower = cardSpell.Power - card_power;
+                        double updatedPower = currentPower + diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
                     {
-                        double newPower = card_power - cardSpell.Power;
-                        FindObjectOfType<Power>().ShowPower(currentPower, newPower, 0);
+                        double diffPower = card_power - cardSpell.Power;
+                        double updatedPower = currentPower - diffPower;
+
+                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        User.CurrentUserPower = updatedPower;
+                    
+                        FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
                 else
                 {
                     userCardSpellService.UpdateTeamCardSpell(draggedCard.team_id, position, cardSpell.Id);
+                    double updatedPower = currentPower + cardSpell.Power;
+                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    User.CurrentUserPower = updatedPower;
+
                     FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.Power, 1);
                 }
             }

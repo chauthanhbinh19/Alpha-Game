@@ -125,13 +125,14 @@ public class UserRepository : IUserRepository
                 string Password = reader.GetString("password");
                 int Level = reader.GetInt32("level");
                 int Vip = reader.GetInt32("vip");
-                int Power = reader.GetInt32("power");
-                int Experiment = reader.GetInt32("experiment");
+                double Power = reader.GetDouble("power");
+                double Experiment = reader.GetDouble("experiment");
 
                 User.CurrentUserId = userId;
                 User.SavedUsername = Username;
                 User.SavedPassword = Password;
                 User.CurrentUserLevel = Level;
+                User.CurrentUserPower = Power;
 
                 reader.Close();
 
@@ -147,7 +148,7 @@ public class UserRepository : IUserRepository
                     string image = currencyReader.GetString("image");
                     string name = currencyReader.GetString("name");
                     string currencyId = currencyReader.GetString("currency_id");
-                    int quantity = currencyReader.GetInt32("quantity");
+                    double quantity = currencyReader.GetDouble("quantity");
                     currencies.Add(new Currencies
                     {
                         Id = currencyId,
@@ -270,6 +271,21 @@ public class UserRepository : IUserRepository
             command.ExecuteNonQuery();
             // namePanel.SetActive(false);
             AuthenticationManager.Instance.deleteCreateNamePanel();
+            connection.Close();
+        }
+    }
+    public void UpdateUserPower(string user_id, double power)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            string updateQuery = "UPDATE Users SET power = @power WHERE id = @id";
+            MySqlCommand command = new MySqlCommand(updateQuery, connection);
+            command.Parameters.AddWithValue("@power", power);
+            command.Parameters.AddWithValue("@id", user_id);
+
+            command.ExecuteNonQuery();
             connection.Close();
         }
     }
