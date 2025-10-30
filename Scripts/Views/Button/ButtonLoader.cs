@@ -68,6 +68,7 @@ public class ButtonLoader : MonoBehaviour
         Transform summonPanel = mainObject.transform.Find("SummonPanel");
         Transform mainMenuCampaignPanel = mainObject.transform.Find("MainMenu/MenuCampaignBackground/MenuCampaign");
         Transform mainMenuSubButtonGroupPanel = mainObject.transform.Find("SubMainPanel");
+
         CreateButton(1, AppConstants.MainType.CAMPAIGNS, Resources.Load<Texture2D>($"UI/Background4/Background_V4_110"), Resources.Load<Texture2D>($"UI/UI/Campaign"), mainMenuCampaignPanel);
         //Main menu
         CreateButton(1, AppConstants.MainType.CARD_HEROES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.CARD_HERO_URL), mainMenuButtonPanel);
@@ -581,6 +582,7 @@ public class ButtonLoader : MonoBehaviour
     {
         GameObject popUpPanelGameObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
         Transform content = popUpPanelGameObject.transform.Find("Scroll View/Viewport/Content");
+        content.gameObject.SetActive(true);
         GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
         gridLayout.cellSize = new Vector2(280, 450);
         // content.position = new Vector3(transform.position.x, 200f, transform.position.z);

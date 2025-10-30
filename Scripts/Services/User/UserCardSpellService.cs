@@ -755,7 +755,8 @@ public class UserCardSpellService : IUserCardSpellService
     {
         foreach(CardSpells cardSpell in CardSpellList)
         {
-            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardSpell.Id);
+            var skills = UserSkillsService.Create().GetUserCardSpellSkills(user_id, cardSpell.Id);
+            skills = skills.Where(x => x.Position != 0).ToList();
             cardSpell.Skills = skills;
         }
         return CardSpellList;

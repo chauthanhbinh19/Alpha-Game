@@ -2,24 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 public class TurnManager
 {
-    private ICardDisplayManager _displayManager;
     private List<IBattlePhase> phases;
     private int currentTurn;
     private int maxTurn;
 
-    public TurnManager(PlayerController attacker, PlayerController defender,int maxTurn, ICardDisplayManager displayManager)
+    public TurnManager(PlayerController attacker, PlayerController defender, int maxTurn)
     {
         this.maxTurn = maxTurn;
         this.currentTurn = 1;
-        this._displayManager = displayManager;
 
         phases = new List<IBattlePhase>
         {
-            new StartPhase(displayManager),
-            // new BattlePhase(),
-            // new EndPhase()
+            new StartPhase(),
+            new BattlePhase(),
+            new EndPhase()
         };
     }
 
@@ -35,15 +34,21 @@ public class TurnManager
             }
 
             // Kiểm tra thắng thua
-            if (attacker.IsFieldEmpty())
+            List<CardBase> attackerCards = attacker.GetCards();
+            List<CardBase> defenderCards = defender.GetCards();
+            // Đếm số thẻ còn sống
+            int aliveAttackerCount = attackerCards.Count(card => card.IsAlive);
+            int aliveDefenderCount = defenderCards.Count(card => card.IsAlive);
+
+            if (aliveAttackerCount <= 0)
             {
-                // Debug.Log("Attacker has no cards left. Defender wins!");
+                // Debug.Log("⚔️ Attacker has no alive cards left. Defender wins!");
                 yield break;
             }
 
-            if (defender.IsFieldEmpty())
+            if (aliveDefenderCount <= 0)
             {
-                // Debug.Log("Defender has no cards left. Attacker wins!");
+                // Debug.Log("🛡️ Defender has no alive cards left. Attacker wins!");
                 yield break;
             }
 

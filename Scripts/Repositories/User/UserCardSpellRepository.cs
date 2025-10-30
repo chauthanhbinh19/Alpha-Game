@@ -17,9 +17,10 @@ public class UserCardSpellRepository : IUserCardSpellRepository
             try
             {
                 connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.type, s.description
+                string query = @"Select us.*, s.name, s.image, s.type, s.description, COALESCE(t.team_number, 0) AS team_number
                 FROM user_card_spell us
                 LEFT JOIN card_spell s ON us.card_spell_id = s.id 
+                LEFT JOIN teams t on t.team_id = uc.team_id
                 WHERE us.user_id = @userId AND s.type = @type AND (@rare = 'All' or s.rare = @rare)
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name 
                 limit @limit offset @offset";
@@ -99,6 +100,11 @@ public class UserCardSpellRepository : IUserCardSpellRepository
                         SkillDamageRate = reader.GetDouble("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         Description = reader.GetString("description"),
+
+                        Team = new Teams
+                        {
+                            TeamNumber = reader.GetInt32("team_number")  
+                        },
 
                         BaseStats = new BaseStats
                         {

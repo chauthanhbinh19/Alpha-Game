@@ -17,9 +17,10 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT um.*, m.name, m.image, m.type, m.description
+                string query = @"SELECT um.*, m.name, m.image, m.type, m.description, COALESCE(t.team_number, 0) AS team_number
                 FROM user_card_military um
                 LEFT JOIN card_military m ON um.card_military_id = m.id 
+                LEFT JOIN teams t on t.team_id = uc.team_id
                 WHERE um.user_id = @userId AND m.type = @type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
                 LIMIT @limit OFFSET @offset;
@@ -100,6 +101,11 @@ public class UserCardMilitaryRepository : IUserCardMilitaryRepository
                         SkillDamageRate = reader.GetDouble("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
                         Description = reader.GetString("description"),
+
+                        Team = new Teams
+                        {
+                            TeamNumber = reader.GetInt32("team_number")  
+                        },
 
                         BaseStats = new BaseStats
                         {

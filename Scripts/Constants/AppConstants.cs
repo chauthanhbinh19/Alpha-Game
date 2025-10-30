@@ -69,6 +69,89 @@ public static class AppConstants
         public const string SKILL_RESISTANCE_RATE = "SkillResistanceRate";
         public const string DESCRIPTION = "Description";
     }
+    public static class Target
+    {
+        public const string SELF = "self";
+        public const string ENEMY = "enemy";
+        public const string ALLY = "ally";
+    }
+    public static class EffectProperty
+    {
+        public const string HEALTH = "HEALTH"; // Lượng máu hiện tại hoặc tối đa của nhân vật
+        public const string PHYSICAL_ATTACK = "PHYSICAL_ATTACK"; // Sức tấn công vật lý
+        public const string PHYSICAL_DEFENSE = "PHYSICAL_DEFENSE"; // Khả năng phòng thủ vật lý
+        public const string MAGICAL_ATTACK = "MAGICAL_ATTACK"; // Sức tấn công phép thuật
+        public const string MAGICAL_DEFENSE = "MAGICAL_DEFENSE"; // Khả năng phòng thủ phép thuật
+        public const string CHEMICAL_ATTACK = "CHEMICAL_ATTACK"; // Sức tấn công hóa học
+        public const string CHEMICAL_DEFENSE = "CHEMICAL_DEFENSE"; // Khả năng phòng thủ hóa học
+        public const string ATOMIC_ATTACK = "ATOMIC_ATTACK"; // Sức tấn công nguyên tử
+        public const string ATOMIC_DEFENSE = "ATOMIC_DEFENSE"; // Khả năng phòng thủ nguyên tử
+        public const string MENTAL_ATTACK = "MENTAL_ATTACK"; // Sức tấn công tinh thần
+        public const string MENTAL_DEFENSE = "MENTAL_DEFENSE"; // Khả năng phòng thủ tinh thần
+        public const string SPEED = "SPEED"; // Tốc độ hành động hoặc di chuyển
+        public const string CRITICAL_DAMAGE_RATE = "CRITICAL_DAMAGE_RATE"; // Tỷ lệ sát thương bạo kích
+        public const string CRITICAL_RATE = "CRITICAL_RATE"; // Tỷ lệ ra đòn bạo kích
+        public const string CRITICAL_RESISTANCE_RATE = "CRITICAL_RESISTANCE_RATE"; // Tỷ lệ kháng bạo kích
+        public const string IGNORE_CRITICAL_RATE = "IGNORE_CRITICAL_RATE"; // Tỷ lệ bỏ qua kháng bạo kích
+        public const string PENETRATION_RATE = "PENETRATION_RATE"; // Tỷ lệ xuyên giáp hoặc xuyên kháng
+        public const string PENETRATION_RESISTANCE_RATE = "PENETRATION_RESISTANCE_RATE"; // Tỷ lệ kháng xuyên giáp hoặc xuyên kháng
+        public const string EVASION_RATE = "EVASION_RATE"; // Tỷ lệ né tránh
+        public const string DAMAGE_ABSORPTION_RATE = "DAMAGE_ABSORPTION_RATE"; // Tỷ lệ hấp thụ sát thương
+        public const string IGNORE_DAMAGE_ABSORPTION_RATE = "IGNORE_DAMAGE_ABSORPTION_RATE"; // Tỷ lệ bỏ qua hấp thụ sát thương
+        public const string ABSORBED_DAMAGE_RATE = "ABSORBED_DAMAGE_RATE"; // Tỷ lệ sát thương đã hấp thụ
+        public const string VITALITY_REGENERATION_RATE = "VITALITY_REGENERATION_RATE"; // Tỷ lệ hồi phục sinh lực
+        public const string VITALITY_REGENERATION_RESISTANCE_RATE = "VITALITY_REGENERATION_RESISTANCE_RATE"; // Tỷ lệ kháng hồi phục sinh lực
+        public const string ACCURACY_RATE = "ACCURACY_RATE"; // Tỷ lệ chính xác
+        public const string LIFESTEAL_RATE = "LIFESTEAL_RATE"; // Tỷ lệ hút máu
+        public const string MANA = "MANA"; // Năng lượng sử dụng kỹ năng
+        public const string MANA_REGENERATION_RATE = "MANA_REGENERATION_RATE"; // Tỷ lệ hồi năng lượng
+        public const string SHIELD_STRENGTH = "SHIELD_STRENGTH"; // Sức mạnh lá chắn
+        public const string TENACITY = "TENACITY"; // Chỉ số kiên cường hoặc giảm thời gian hiệu ứng bất lợi
+        public const string RESISTANCE_RATE = "RESISTANCE_RATE"; // Tỷ lệ kháng tất cả loại sát thương hoặc hiệu ứng
+        public const string COMBO_RATE = "COMBO_RATE"; // Tỷ lệ kích hoạt đòn liên hoàn
+        public const string IGNORE_COMBO_RATE = "IGNORE_COMBO_RATE"; // Tỷ lệ bỏ qua khả năng combo của đối thủ
+        public const string COMBO_DAMAGE_RATE = "COMBO_DAMAGE_RATE"; // Tỷ lệ sát thương từ đòn combo
+        public const string COMBO_RESISTANCE_RATE = "COMBO_RESISTANCE_RATE"; // Tỷ lệ kháng sát thương combo
+        public const string STUN_RATE = "STUN_RATE"; // Tỷ lệ gây choáng
+        public const string IGNORE_STUN_RATE = "IGNORE_STUN_RATE"; // Tỷ lệ bỏ qua kháng choáng
+        public const string REFLECTION_RATE = "REFLECTION_RATE"; // Tỷ lệ phản đòn hoặc phản sát thương
+        public const string IGNORE_REFLECTION_RATE = "IGNORE_REFLECTION_RATE"; // Tỷ lệ bỏ qua khả năng phản đòn của đối thủ
+        public const string REFLECTION_DAMAGE_RATE = "REFLECTION_DAMAGE_RATE"; // Tỷ lệ sát thương phản lại
+        public const string REFLECTION_RESISTANCE_RATE = "REFLECTION_RESISTANCE_RATE"; // Tỷ lệ kháng sát thương phản lại
+        public const string DAMAGE_TO_DIFFERENT_FACTION_RATE = "DAMAGE_TO_DIFFERENT_FACTION_RATE"; // Tỷ lệ sát thương gây lên phe khác
+        public const string RESISTANCE_TO_DIFFERENT_FACTION_RATE = "RESISTANCE_TO_DIFFERENT_FACTION_RATE"; // Tỷ lệ kháng sát thương từ phe khác
+        public const string DAMAGE_TO_SAME_FACTION_RATE = "DAMAGE_TO_SAME_FACTION_RATE"; // Tỷ lệ sát thương gây lên cùng phe
+        public const string RESISTANCE_TO_SAME_FACTION_RATE = "RESISTANCE_TO_SAME_FACTION_RATE"; // Tỷ lệ kháng sát thương từ cùng phe
+        public const string NORMAL_DAMAGE_RATE = "NORMAL_DAMAGE_RATE"; // Tỷ lệ sát thương từ đòn đánh thường
+        public const string NORMAL_RESISTANCE_RATE = "NORMAL_RESISTANCE_RATE"; // Tỷ lệ kháng sát thương từ đòn đánh thường
+        public const string SKILL_DAMAGE_RATE = "SKILL_DAMAGE_RATE"; // Tỷ lệ sát thương từ kỹ năng
+        public const string SKILL_RESISTANCE_RATE = "SKILL_RESISTANCE_RATE"; // Tỷ lệ kháng sát thương từ kỹ năng
+        public const string CONTROL_STATE = "CONTROL_STATE"; // Trạng thái khống chế hành động của nhân vật
+    }
+    public static class EffectAction
+    {
+        public const string INCREASE = "INCREASE";
+        public const string DECREASE = "DECREASE";
+        public const string RESTORE = "RESTORE";
+        public const string LOCK = "LOCK";
+        public const string BREAK = "BREAK";
+        public const string CONVERT = "CONVERT";
+        public const string PREVENT = "PREVENT";
+        public const string SET = "SET";
+        public const string IMMUNITY = "IMMUNITY";
+        public const string STEAL = "STEAL";
+        public const string COPY = "COPY";
+        public const string TRANSFER = "TRANSFER";
+        public const string REVERSE = "REVERSE";
+        public const string REFLECT = "REFLECT";
+        public const string APPLY = "APPLY";
+        public const string REMOVE = "REMOVE";
+        public const string EXTEND = "EXTEND";
+        public const string SHORTEN = "SHORTEN";
+        public const string LIMIT_ACTION = "LIMIT_ACTION";
+        public const string DAMAGE = "DAMAGE";
+        public const string HEAL = "HEAL";
+    }
     public static class Rare
     {
         public const string ALL = "All";

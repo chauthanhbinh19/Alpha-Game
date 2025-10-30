@@ -755,7 +755,8 @@ public class UserCardMonstersService : IUserCardMonstersService
     {
         foreach(CardMonsters cardMonster in CardMonstersList)
         {
-            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardMonster.Id);
+            var skills = UserSkillsService.Create().GetUserCardMonstersSkills(user_id, cardMonster.Id);
+            skills = skills.Where(x => x.Position != 0).ToList();
             cardMonster.Skills = skills;
         }
         return CardMonstersList;

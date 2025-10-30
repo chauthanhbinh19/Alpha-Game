@@ -4,11 +4,11 @@ using System.Linq;
 public class TeamSetupService
 {
     private LoadTeams _loadTeamService;
-    private ICardDisplayManager _displayManager;
-    public TeamSetupService(ICardDisplayManager displayManager)
+    // private ICardDisplayManager _displayManager;
+    public TeamSetupService()
     {
         _loadTeamService = new LoadTeams();
-        _displayManager = displayManager;
+        // _displayManager = displayManager;
     }
     private CardType GetCardBaseType(CardBase card)
     {

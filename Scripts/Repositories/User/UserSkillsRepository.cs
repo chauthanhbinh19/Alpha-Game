@@ -603,8 +603,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_heroes_skills chs
-                on chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_hero_id = @card_hero_id
+                on chs.skill_id = us.skill_id AND chs.card_hero_id = @card_hero_id
+                where s.id=us.skill_id AND us.user_id=@userId
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -707,8 +707,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_captains_skills chs
-                on chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_captain_id = @card_captain_id
+                on chs.skill_id = us.skill_id AND chs.card_captain_id = @card_captain_id
+                where s.id=us.skill_id AND us.user_id=@userId
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -811,8 +811,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_colonels_skills chs
-                on chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_colonel_id = @card_colonel_id
+                on chs.skill_id = us.skill_id AND chs.card_colonel_id = @card_colonel_id
+                where s.id=us.skill_id AND us.user_id=@userId
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -915,8 +915,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_generals_skills chs
-                on chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_general_id = @card_general_id
+                on chs.skill_id = us.skill_id AND chs.card_general_id = @card_general_id
+                where s.id=us.skill_id AND us.user_id=@userId
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -1019,8 +1019,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_admirals_skills chs
-                on chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_admiral_id = @card_admiral_id
+                on chs.skill_id = us.skill_id AND chs.card_admiral_id = @card_admiral_id
+                where s.id=us.skill_id AND us.user_id=@userId
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -1123,8 +1123,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_military_skills chs
-                on chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_military_id = @card_military_id
+                on chs.skill_id = us.skill_id AND chs.card_military_id = @card_military_id
+                where s.id=us.skill_id AND us.user_id=@userId
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -1227,8 +1227,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_monsters_skills chs
-                on chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_monster_id = @card_monster_id
+                on chs.skill_id = us.skill_id AND chs.card_monster_id = @card_monster_id
+                where s.id=us.skill_id AND us.user_id=@userId
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -1331,8 +1331,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                 connection.Open();
                 string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
                 from Skills s, user_skills us left join card_spell_skills chs 
-                on chs.skill_id = us.skill_id
-                where s.id=us.skill_id AND us.user_id=@userId AND chs.card_spell_id = @card_spell_id
+                on chs.skill_id = us.skill_id AND chs.card_spell_id = @card_spell_id
+                where s.id=us.skill_id AND us.user_id=@userId 
                 ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);

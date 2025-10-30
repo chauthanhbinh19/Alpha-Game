@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
+    public static BattleManager Instance { get; private set; }
     [SerializeField] private int maxTurn = 10;
     // Cần gán các GameObject Slot này vào Inspector
     // private TeamSetupService teamSetupService;
@@ -18,7 +19,16 @@ public class BattleManager : MonoBehaviour
     private PlayerController defender;
     void Awake()
     {
-        // teamSetupService = new TeamSetupService();
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
     }
 
     private void Start()
@@ -29,10 +39,10 @@ public class BattleManager : MonoBehaviour
     private IEnumerator BattleSequence()
     {
         Debug.Log("--- Bắt đầu Battle Sequence ---");
-        
+
         // 1. GỌI INTIALIZE OPENING (Thực hiện animation)
         InitializeOpening();
-        
+
         Debug.Log("Đang chạy Opening Animation...");
 
         // 2. CHỜ ĐỢI 3 GIÂY
@@ -42,10 +52,10 @@ public class BattleManager : MonoBehaviour
         displayPanel.gameObject.SetActive(true);
 
         Debug.Log("Opening Animation hoàn tất. Bắt đầu Battle.");
-        
+
         // 3. KHỞI TẠO VÀ BẮT ĐẦU TRẬN ĐẤU
         InitializeBattle();
-        
+
         // 4. BẮT ĐẦU VÒNG CHƠI (chỉ bắt đầu sau khi Battle được Initialize)
         StartCoroutine(turnManager.RunTurns(attacker, defender));
     }
@@ -64,7 +74,7 @@ public class BattleManager : MonoBehaviour
         attacker.GetPlayerCard(userId, firstTeam.TeamId);
         defender = new PlayerController();
 
-        turnManager = new TurnManager(attacker, defender, maxTurn, cardDisplayManager);
+        turnManager = new TurnManager(attacker, defender, maxTurn);
 
         // var teams = TeamsService.Create().GetUserTeams(User.CurrentUserId);
 
@@ -75,6 +85,16 @@ public class BattleManager : MonoBehaviour
         // defender.AddCard(new DummyCard("🧱 Defender Card Y"));
 
         Debug.Log("Battle initialized successfully!");
+    }
+    public void ToggleDisplayManager()
+    {
+        if (displayPanel != null)
+        {
+            bool currentState = displayPanel.gameObject.activeSelf;
+            displayPanel.gameObject.SetActive(!currentState);
+
+            // Debug.Log($"DisplayManager state changed to {!currentState}");
+        }
     }
 
     private List<CardBase> SelectUniquePositionCards(List<CardBase> allLoadedCards, int count)
@@ -112,8 +132,8 @@ public class BattleManager : MonoBehaviour
         return selectedCards;
     }
 
-    
+
 
     // Logic gán và Instantiate
-    
+
 }

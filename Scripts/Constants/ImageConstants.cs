@@ -56,6 +56,15 @@ public static class ImageConstants
         public const string EMAIL_URL = "UI/Button/Mail";
         public const string CHAT_URL = "UI/Button/Chat";
     }
+    public static class Team
+    {
+        public const string TEAM_BACKGROUND_1 = "UI/Background4/Team/Team_Background_1";
+        public const string TEAM_BACKGROUND_2 = "UI/Background4/Team/Team_Background_2";
+        public const string TEAM_BACKGROUND_3 = "UI/Background4/Team/Team_Background_3";
+        public const string TEAM_BACKGROUND_4 = "UI/Background4/Team/Team_Background_4";
+        public const string TEAM_BACKGROUND_5 = "UI/Background4/Team/Team_Background_5";
+        public const string TEAM_BACKGROUND_6 = "UI/Background4/Team/Team_Background_6";
+    }
     public static class Market
     {
         public const string RARE_MARKET_URL = "UI/Button/Rare_Market";

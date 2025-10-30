@@ -755,7 +755,8 @@ public class UserCardGeneralsService : IUserCardGeneralsService
     {
         foreach(CardGenerals cardGeneral in CardGeneralsList)
         {
-            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardGeneral.Id);
+            var skills = UserSkillsService.Create().GetUserCardGeneralsSkills(user_id, cardGeneral.Id);
+            skills = skills.Where(x => x.Position != 0).ToList();
             cardGeneral.Skills = skills;
         }
         return CardGeneralsList;

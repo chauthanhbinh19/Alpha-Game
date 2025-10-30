@@ -14,6 +14,20 @@ public class CardDisplayManager : MonoBehaviour, ICardDisplayManager
     [SerializeField] public GameObject CardPenaltyPrefab;
     [SerializeField] public Transform CardPanel;
     [SerializeField] public GameObject CardModelPrefab;
+    public static CardDisplayManager Instance { get; private set; }
+    void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
     void Start()
     {
 
@@ -91,7 +105,7 @@ public class CardDisplayManager : MonoBehaviour, ICardDisplayManager
 
                 // Đặt vị trí chính xác trong Slot (ví dụ: ở gốc (0,0,0) của Slot)
                 cardInstance.transform.localPosition = new Vector3(-5f, 10f, -10f);
-                cardInstance.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+                cardInstance.transform.localScale = new Vector3(0.17f, 0.15f, 0.15f);
                 cardInstance.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
                 Transform mirrorTransform = cardInstance.transform.Find("Image");
@@ -177,7 +191,7 @@ public class CardDisplayManager : MonoBehaviour, ICardDisplayManager
 
                 // Đặt vị trí chính xác trong Slot (ví dụ: ở gốc (0,0,0) của Slot)
                 cardInstance.transform.localPosition = new Vector3(-5f, 10f, -10f);
-                cardInstance.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+                cardInstance.transform.localScale = new Vector3(0.17f, 0.15f, 0.15f);
                 cardInstance.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
                 Transform mirrorTransform = cardInstance.transform.Find("Image");

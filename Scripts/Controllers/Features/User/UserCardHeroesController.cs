@@ -94,6 +94,21 @@ public class UserCardHeroesController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
             rareImage.texture = rareTexture;
 
+            Transform teamPanel = cardObject.transform.Find("Team");
+            if(card.Team.TeamNumber != 0)
+            {
+                teamPanel.gameObject.SetActive(true);
+                RawImage teamBackgroundImage = cardObject.transform.Find("Team/Background").GetComponent<RawImage>();
+                TextMeshProUGUI teamTitleText = cardObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
+                Texture teamBackgroundTexture = Resources.Load<Texture>(ImageConstants.Team.TEAM_BACKGROUND_1);
+                teamBackgroundImage.texture = teamBackgroundTexture;
+                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + card.Team.TeamNumber.ToString();
+            }
+            else
+            {
+                teamPanel.gameObject.SetActive(false);
+            }
+
             Button button = cardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -377,6 +392,7 @@ public class UserCardHeroesController : MonoBehaviour
         int passiveSkill2Position = 3;
 
         List<string> uniqueTypes = TypeManager.GetUniqueTypes(AppConstants.MainType.SKILL);
+        var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
         for (int i = 0; i < uniqueTypes.Count; i++)
         {
             string currentType = uniqueTypes[i];
@@ -394,11 +410,10 @@ public class UserCardHeroesController : MonoBehaviour
             Button passiveSkillButton1 = skillGroupObject.transform.Find("PassiveSkillButton1").GetComponent<Button>();
             Button passiveSkillButton2 = skillGroupObject.transform.Find("PassiveSkillButton2").GetComponent<Button>();
 
-            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
-            skills = skills.Where(x => x.Type.Equals(currentType)).ToList();
-            var activeSkill = skills.FirstOrDefault(x => x.Position == activeSkillPosition);
-            var passiveSkill1 = skills.FirstOrDefault(x => x.Position == passiveSkill1Position);
-            var passiveSkill2 = skills.FirstOrDefault(x => x.Position == passiveSkill2Position);
+            var tempSkills = skills.Where(x => x.Type.Equals(currentType)).ToList();
+            var activeSkill = tempSkills.FirstOrDefault(x => x.Position == activeSkillPosition);
+            var passiveSkill1 = tempSkills.FirstOrDefault(x => x.Position == passiveSkill1Position);
+            var passiveSkill2 = tempSkills.FirstOrDefault(x => x.Position == passiveSkill2Position);
 
             activeSkillButton.onClick.RemoveAllListeners();
             passiveSkillButton1.onClick.RemoveAllListeners();

@@ -755,7 +755,8 @@ public class UserCardColonelsService : IUseCardColonelsService
     {
         foreach(CardColonels cardColonel in CardColonelsList)
         {
-            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardColonel.Id);
+            var skills = UserSkillsService.Create().GetUserCardColonelsSkills(user_id, cardColonel.Id);
+            skills = skills.Where(x => x.Position != 0).ToList();
             cardColonel.Skills = skills;
         }
         return CardColonelsList;

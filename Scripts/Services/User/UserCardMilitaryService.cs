@@ -755,7 +755,8 @@ public class UserCardMilitaryService : IUserCardMilitaryService
     {
         foreach(CardMilitaries cardMilitary in CardMilitaryList)
         {
-            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardMilitary.Id);
+            var skills = UserSkillsService.Create().GetUserCardMilitarySkills(user_id, cardMilitary.Id);
+            skills = skills.Where(x => x.Position != 0).ToList();
             cardMilitary.Skills = skills;
         }
         return CardMilitaryList;

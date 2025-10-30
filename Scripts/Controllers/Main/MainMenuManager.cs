@@ -109,6 +109,7 @@ public class MainMenuManager : MonoBehaviour
         currentObject = Instantiate(MainPanelPrefab, RootPanel);
         ButtonLoader.Instance.CreateMainButton(currentObject);
         GetMainButtonEvent();
+        GetPrimaryButtonEvent();
     }
     public GameObject GetMainPanel()
     {
@@ -187,6 +188,11 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType(AppConstants.Market.ULTRA_RARE_MARKET));
         ButtonEvent.Instance.AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType(AppConstants.Market.LEGENDARY_MARKET));
         ButtonEvent.Instance.AssignButtonEvent("Button_36", SummonMainMenuPanel, () => GetType(AppConstants.Market.MYSTIC_MARKET));
+    }
+    public void GetPrimaryButtonEvent()
+    {
+        Transform mainButtonGroupPanel = currentObject.transform.Find("MainPanel/MainButtonGroup");
+        mainButtonGroupPanel.gameObject.SetActive(true);
     }
     public void GetMoreButtonEvent(Transform moreMenuPanel)
     {

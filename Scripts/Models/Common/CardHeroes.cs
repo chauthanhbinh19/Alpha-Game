@@ -37,7 +37,8 @@ public class CardHeroes : BaseEntity
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
     public BaseStats BaseStats { get; set; } = new BaseStats();
-    public List<Skills> Skills{ get; set; }= new List<Skills>();
+    public List<Skills> Skills { get; set; } = new List<Skills>();
+    public Teams Team { get; set; } = new Teams();
     public CardHeroes()
     {
         Power = -1;

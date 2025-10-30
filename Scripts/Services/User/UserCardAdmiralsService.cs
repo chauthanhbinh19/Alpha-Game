@@ -839,7 +839,8 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
     {
         foreach(CardAdmirals cardAdmiral in CardAdmiralsList)
         {
-            var skills = UserSkillsService.Create().GetUserCardHeroesSkills(user_id, cardAdmiral.Id);
+            var skills = UserSkillsService.Create().GetUserCardAdmiralsSkills(user_id, cardAdmiral.Id);
+            skills = skills.Where(x => x.Position != 0).ToList();
             cardAdmiral.Skills = skills;
         }
         return CardAdmiralsList;

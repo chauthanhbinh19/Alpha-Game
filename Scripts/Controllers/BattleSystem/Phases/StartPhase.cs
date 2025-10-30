@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class StartPhase : IBattlePhase
 {
-    private TeamSetupService _teamSetupService; 
-    private ICardDisplayManager _displayManager;
+    private TeamSetupService _teamSetupService;
 
-    public StartPhase(ICardDisplayManager displayManager)
+    public StartPhase()
     {
-        _teamSetupService = new TeamSetupService(displayManager); 
-        _displayManager = displayManager;
+        _teamSetupService = new TeamSetupService();
     }
     public IEnumerator ExecutePhase(PlayerController attacker, PlayerController defender)
     {
@@ -19,21 +17,22 @@ public class StartPhase : IBattlePhase
         var currentContract = TeamSetupService.CreateRandomContract("Contract");
         // Penalty: Ngẫu nhiên các mức phạt, ví dụ: CardHeroes luôn là thẻ phạt nhẹ nhất (0)
         var currentPenalty = TeamSetupService.CreateRandomPenalty("Penalty");
-        Debug.Log($"Luật Chơi Mới: Contract '{currentContract.Name}' và Penalty '{currentPenalty.Name}' đã được tạo.");
+        // Debug.Log($"Luật Chơi Mới: Contract '{currentContract.Name}' và Penalty '{currentPenalty.Name}' đã được tạo.");
 
-        if (_displayManager != null)
-        {
-            _displayManager.DisplayCardContract(currentContract);
-            _displayManager.DisplayCardPenalty(currentPenalty);
-        }
+        CardDisplayManager.Instance.DisplayCardContract(currentContract);
+        CardDisplayManager.Instance.DisplayCardPenalty(currentPenalty);
 
-        if(_teamSetupService != null)
+        if (_teamSetupService != null)
         {
             var attackerAvailableCard = _teamSetupService.GetAvailableCardsForAppearance(attacker, currentContract, currentPenalty);
             var defenderAvailableCard = _teamSetupService.GetAvailableCardsForAppearance(defender, currentContract, currentPenalty);
-            _displayManager.AssignCardsToAllySlots(attackerAvailableCard);
+            CardDisplayManager.Instance.AssignCardsToAllySlots(attackerAvailableCard);
             // _displayManager.AssignCardsToEnemySlots(defenderAvailableCard);
         }
+
+        yield return new WaitForSeconds(2.0f);
+        
+        BattleManager.Instance.ToggleDisplayManager();
 
         // 2. ÁP DỤNG LUẬT CHƠI CHO CẢ HAI PLAYER
         
@@ -46,7 +45,7 @@ public class StartPhase : IBattlePhase
         //     currentPenalty, 
         //     attacker.AllySlots // Slots (vị trí) của người chơi
         // );
-        Debug.Log("Attacker Team Setup Complete.");
+        // Debug.Log("Attacker Team Setup Complete.");
 
         // Thiết lập đội hình cho Phòng thủ
         // _teamSetupService.SetupPlayerTeam(
@@ -56,7 +55,7 @@ public class StartPhase : IBattlePhase
         //     currentPenalty, 
         //     defender.AllySlots // Slots (vị trí) của người chơi
         // );
-        Debug.Log("Defender Team Setup Complete.");
+        // Debug.Log("Defender Team Setup Complete.");
 
         yield return new WaitForSeconds(0.5f);
         Debug.Log("Start Phase Complete");
