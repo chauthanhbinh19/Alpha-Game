@@ -67,15 +67,15 @@ public class ReactorNumber1Manager : MonoBehaviour
             Destroy(currentObject);
         });
 
-        RawImage leftSideCounduit1Image = currentObject.transform.Find("DictionaryCards/LeftSideConduit1/LeftSideConduiltImage").GetComponent<RawImage>();
-        RawImage leftSideCounduit2Image = currentObject.transform.Find("DictionaryCards/LeftSideConduit2/LeftSideConduiltImage").GetComponent<RawImage>();
-        RawImage rightSideCounduit1Image = currentObject.transform.Find("DictionaryCards/RightSideConduit1/RightSideConduiltImage").GetComponent<RawImage>();
-        RawImage rightSideCounduit2Image = currentObject.transform.Find("DictionaryCards/RightSideConduit2/RightSideConduiltImage").GetComponent<RawImage>();
-        RawImage MainReactorBackgroundImage = currentObject.transform.Find("DictionaryCards/MainReactorBackgroundCircle/MainReactorImage").GetComponent<RawImage>();
-        RawImage MainReactorImage = currentObject.transform.Find("DictionaryCards/MainReactor/MainReactorImage").GetComponent<RawImage>();
-        RawImage MainReactorCoreImage = currentObject.transform.Find("DictionaryCards/MainReactorBackgroundCore/MainReactorCoreImage").GetComponent<RawImage>();
-        TextMeshProUGUI ReactorLevelText = currentObject.transform.Find("DictionaryCards/ReactorLevel/ReactorLevelText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI ReactorNumberText = currentObject.transform.Find("DictionaryCards/ReactorLevel/ReactorNumberText").GetComponent<TextMeshProUGUI>();
+        RawImage leftSideCounduit1Image = currentObject.transform.Find("DictionaryCards/Reactor/LeftSideConduit1/LeftSideConduiltImage").GetComponent<RawImage>();
+        RawImage leftSideCounduit2Image = currentObject.transform.Find("DictionaryCards/Reactor/LeftSideConduit2/LeftSideConduiltImage").GetComponent<RawImage>();
+        RawImage rightSideCounduit1Image = currentObject.transform.Find("DictionaryCards/Reactor/RightSideConduit1/RightSideConduiltImage").GetComponent<RawImage>();
+        RawImage rightSideCounduit2Image = currentObject.transform.Find("DictionaryCards/Reactor/RightSideConduit2/RightSideConduiltImage").GetComponent<RawImage>();
+        RawImage MainReactorBackgroundImage = currentObject.transform.Find("DictionaryCards/Reactor/MainReactorBackgroundCircle/MainReactorImage").GetComponent<RawImage>();
+        RawImage MainReactorImage = currentObject.transform.Find("DictionaryCards/Reactor/MainReactor/MainReactorImage").GetComponent<RawImage>();
+        RawImage MainReactorCoreImage = currentObject.transform.Find("DictionaryCards/Reactor/MainReactorBackgroundCore/MainReactorCoreImage").GetComponent<RawImage>();
+        TextMeshProUGUI ReactorLevelText = currentObject.transform.Find("DictionaryCards/Reactor/ReactorLevel/ReactorLevelText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ReactorNumberText = currentObject.transform.Find("DictionaryCards/Reactor/ReactorLevel/ReactorNumberText").GetComponent<TextMeshProUGUI>();
         Button UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         Button UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Transform material1Group = currentObject.transform.Find("DictionaryCards/MaterialNumber1");
@@ -84,6 +84,7 @@ public class ReactorNumber1Manager : MonoBehaviour
         RawImage material2Image = currentObject.transform.Find("DictionaryCards/MaterialNumber2/MaterialImage").GetComponent<RawImage>();
         TextMeshProUGUI quantity1Text = currentObject.transform.Find("DictionaryCards/MaterialNumber1/QuantityText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI quantity2Text = currentObject.transform.Find("DictionaryCards/MaterialNumber2/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -94,7 +95,7 @@ public class ReactorNumber1Manager : MonoBehaviour
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
+        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_MAX_LEVEL);
 
         UpLevelButton.AddComponent<SlideBottomToTopAnimation>();
         UpMaxLevelButton.AddComponent<SlideBottomToTopAnimation>();
@@ -102,6 +103,7 @@ public class ReactorNumber1Manager : MonoBehaviour
         material2Group.AddComponent<SlideBottomToTopAnimation>();
 
         ReactorNumberText.text = "01";
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_1);
 
         Texture conduitTexture = Resources.Load<Texture>("UI/Background2/Conduit_1");
         leftSideCounduit1Image.texture = conduitTexture;
@@ -127,17 +129,19 @@ public class ReactorNumber1Manager : MonoBehaviour
         items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.REACTOR_MATERIAL_NUMBER_1));
         items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.REACTOR_MATERIAL_NUMBER_2));
 
+        ReactorLevelText.text = scienceFiction.Level.ToString();
+
         for (int i = 0; i < items.Count; i++)
         {
             Items item = items[i];
 
             if (i == 0)
             {
-                CreateMaterialUI(material1Image, quantity1Text, item.Image, scienceFiction.Level,item.Quantity);
+                CreateMaterialUI(material1Image, quantity1Text, item.Image, scienceFiction.Level, item.Quantity);
             }
             else if (i == 1)
             {
-                CreateMaterialUI(material2Image, quantity2Text, item.Image, scienceFiction.Level,item.Quantity);
+                CreateMaterialUI(material2Image, quantity2Text, item.Image, scienceFiction.Level, item.Quantity);
             }
         }
         UpLevelButton.onClick.RemoveAllListeners();
@@ -145,29 +149,26 @@ public class ReactorNumber1Manager : MonoBehaviour
 
         UpLevelButton.onClick.AddListener(() =>
         {
-            int levelsPerSkill = 1000;
-            int materialQuantity = (scienceFiction.Level == 0)
-                ? 1
-                : (scienceFiction.Level % levelsPerSkill == 0 ? levelsPerSkill : scienceFiction.Level % levelsPerSkill);
+            int materialRequired = GetMaterialRequired(scienceFiction.Level);
 
             // Check nếu đã max level thì dừng
             if (scienceFiction.Level >= maxLevel) return;
 
             // Kiểm tra xem tất cả items đều đủ số lượng
-            bool hasAllMaterials = items.All(i => i.Quantity >= materialQuantity);
+            bool hasAllMaterials = items.All(i => i.Quantity >= materialRequired);
 
             if (hasAllMaterials)
             {
                 foreach (var i in items)
                 {
-                    i.Quantity -= materialQuantity;
+                    i.Quantity -= materialRequired;
                     userItemsService.UpdateUserItemsQuantity(i);
                 }
 
-                ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, 1);
+                ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, 1, 10);
 
                 // rankService.UpLevel(cardHeroes, newRank, mainType);
-                ScienceFictionService.Create().InsertOrUpdateScienceFiction(newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
+                ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId,newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -179,8 +180,6 @@ public class ReactorNumber1Manager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int levelsPerSkill = 1000; // giả sử 1000, hoặc load từ config
-
             int finalLevel = int.MaxValue;
 
             // Tính số level tối đa có thể nâng cho tất cả items
@@ -200,24 +199,24 @@ public class ReactorNumber1Manager : MonoBehaviour
             }
 
             // Kiểm tra & trừ nguyên liệu cho finalLevel
-            foreach (var i in items)
-            {
-                int consume = EvaluateItem.CalculateRequiredQuantityForLevel(scienceFiction.Level, finalLevel, levelsPerSkill);
+            // foreach (var i in items)
+            // {
+            //     // int consume = EvaluateItem.CalculateRequiredQuantityForLevel(scienceFiction.Level, finalLevel, levelsPerSkill);
 
-                if (i.Quantity < consume)
-                {
-                    // Không đủ nguyên liệu thì dừng
-                    return;
-                }
+            //     if (i.Quantity < consume)
+            //     {
+            //         // Không đủ nguyên liệu thì dừng
+            //         return;
+            //     }
 
-                i.Quantity -= consume;
-                userItemsService.UpdateUserItemsQuantity(i);
-            }
+            //     i.Quantity -= consume;
+            //     userItemsService.UpdateUserItemsQuantity(i);
+            // }
 
             // Nâng cấp scienceFiction
             ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, finalLevel);
 
-            ScienceFictionService.Create().InsertOrUpdateScienceFiction(newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
+            ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
@@ -229,11 +228,16 @@ public class ReactorNumber1Manager : MonoBehaviour
     }
     public void CreateMaterialUI(RawImage image, TextMeshProUGUI quantityText, string itemImage, int level = 0, double userMaterialQuantity = 0)
     {
-        int levelsPerSkill = 1000;
-        int materialQuantity = (level == 0) ? 1 : (level % levelsPerSkill == 0 ? levelsPerSkill : level % levelsPerSkill);
+        int materialQuantity = GetMaterialRequired(level);
         quantityText.text = userMaterialQuantity + "/" + materialQuantity;
 
         Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         image.texture = texture;
+    }
+    private int GetMaterialRequired(int level)
+    {
+        int material = 10 + (level / 100);
+
+        return material;
     }
 }

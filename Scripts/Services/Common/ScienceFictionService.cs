@@ -23,8 +23,8 @@ public class ScienceFictionService : IScienceFictionService
         return _scienceFictionRepository.GetSumScienceFiction(user_id);
     }
 
-    public void InsertOrUpdateScienceFiction(ScienceFiction scienceFiction, string type)
+    public void InsertOrUpdateScienceFiction(string userId, ScienceFiction scienceFiction, string type)
     {
-        _scienceFictionRepository.InsertOrUpdateScienceFiction(scienceFiction, type);
+        _scienceFictionRepository.InsertOrUpdateScienceFiction(userId, scienceFiction, type);
     }
 }

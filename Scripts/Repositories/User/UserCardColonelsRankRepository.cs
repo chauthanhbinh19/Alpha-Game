@@ -129,7 +129,7 @@ public class UserCardColonelsRankRepository : IUserCardColonelsRankRepository
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE user_card_colonels_rank
-                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                        SET rank_level = @rank_level, power = @power, health = @health, 
                             physical_attack = @physical_attack, physical_defense = @physical_defense, 
                             magical_attack = @magical_attack, magical_defense = @magical_defense, 
                             chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
@@ -143,7 +143,7 @@ public class UserCardColonelsRankRepository : IUserCardColonelsRankRepository
                             vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
                             accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
                             tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                            combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                            combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
                             stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
                             reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
                             reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,

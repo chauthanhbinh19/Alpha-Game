@@ -5,5 +5,5 @@ using MySql.Data.MySqlClient;
 
 public static class DatabaseConfig
 {
-    public static string ConnectionString => "server=localhost;port=3306;database=alpha;user=root;password=binh123456";
+    public static string ConnectionString => "Server=localhost; Port=3306; Database=alpha; User=root; Password=binh123456; Pooling=true; Max Pool Size=100;";
 }

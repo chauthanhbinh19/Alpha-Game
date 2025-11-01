@@ -100,7 +100,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
         }
         return scienceFiction;
     }
-    public void InsertOrUpdateScienceFiction(ScienceFiction scienceFiction, string type)
+    public void InsertOrUpdateScienceFiction(string userId, ScienceFiction scienceFiction, string type)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -114,7 +114,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
 
                 using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, connection))
                 {
-                    checkCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCmd.Parameters.AddWithValue("@user_id", userId);
                     checkCmd.Parameters.AddWithValue("@rank_type", type);
 
                     int count = Convert.ToInt32(checkCmd.ExecuteScalar());
@@ -124,7 +124,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
                         // Nếu tồn tại, thực hiện UPDATE
                         string updateQuery = @"
                         UPDATE science_fiction
-                        SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                        SET rank_level = @rank_level, power = @power, health = @health,
                             physical_attack = @physical_attack, physical_defense = @physical_defense, 
                             magical_attack = @magical_attack, magical_defense = @magical_defense, 
                             chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
@@ -138,7 +138,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
                             vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
                             accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
                             tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                            combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                            combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
                             stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
                             reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
                             reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
@@ -160,7 +160,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
 
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
-                            updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCmd.Parameters.AddWithValue("@user_id", userId);
                             updateCmd.Parameters.AddWithValue("@rank_type", type);
                             updateCmd.Parameters.AddWithValue("@rank_level", scienceFiction.Level);
                             updateCmd.Parameters.AddWithValue("@power", scienceFiction.Power);
@@ -290,7 +290,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
                             // Thêm các tham số như trên
-                            insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCmd.Parameters.AddWithValue("@user_id", userId);
                             insertCmd.Parameters.AddWithValue("@rank_type", type);
                             insertCmd.Parameters.AddWithValue("@rank_level", scienceFiction.Level == 0 ? 1 : scienceFiction.Level);
                             insertCmd.Parameters.AddWithValue("@power", scienceFiction.Power);
@@ -358,11 +358,14 @@ public class ScienceFictionRepository : IScienceFictionRepository
                         }
                     }
                 }
-                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

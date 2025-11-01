@@ -145,7 +145,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
                             vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
                             accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
                             tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                            combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                            combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
                             stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
                             reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
                             reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,

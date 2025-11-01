@@ -160,7 +160,7 @@ public class UserItemsRepository : IUserItemsRepository
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
-            string query = @"Update user_items set quantity = quantity + @quantity
+            string query = @"Update user_items set quantity = @quantity
             where user_id=@user_id and item_id=@item_id";
             MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);

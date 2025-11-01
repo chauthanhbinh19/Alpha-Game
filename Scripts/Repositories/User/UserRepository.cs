@@ -32,7 +32,7 @@ public class UserRepository : IUserRepository
                         Level = Convert.ToInt32(reader["level"]),
                         Experiment = Convert.ToInt32(reader["experiment"]),
                         Vip = Convert.ToInt32(reader["vip"]),
-                        Power = Convert.ToInt32(reader["power"])
+                        Power = reader.GetDouble("power")
                     };
                 }
             }

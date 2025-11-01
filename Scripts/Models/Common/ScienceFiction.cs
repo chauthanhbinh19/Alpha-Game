@@ -7,7 +7,7 @@ using System;
 public class ScienceFiction : BaseEntity
 {
     public string Type { get; set; }
-    public int Level { get; set; }
+    public int Level { get; set; } = 0;
     public double PercentAllHealth { get; set; }
     public double PercentAllPhysicalAttack { get; set; }
     public double PercentAllPhysicalDefense { get; set; }
