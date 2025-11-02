@@ -119,7 +119,7 @@ public class UserCardColonelsController : MonoBehaviour
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 250);
+            gridLayout.cellSize = new Vector2(280, 350);
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
