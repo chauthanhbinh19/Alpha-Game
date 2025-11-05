@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 public static class EvaluateItem
 {
     public static int CalculateMaxMaterialQuantity(int materialQuantity, int currentLevel)
@@ -97,7 +98,7 @@ public static class EvaluateItem
             // đảm bảo requiredMaterial tối thiểu là 1 (không được là 0)
             int requiredMaterial = Math.Max(1, targetLevel * materialPerLevel);
             int requiredCurrency = Math.Max(0, targetLevel * currencyPerLevel);
-            
+
             totalMaterialUsed += requiredMaterial;
             totalCurrencyUsed += requiredCurrency;
 
@@ -144,5 +145,61 @@ public static class EvaluateItem
         return (materialLeft, currencyLeft, levelsGained, totalMaterialUsed, totalCurrencyUsed, levelsGained > 0
             ? AppConstants.Status.SUCCESS
             : AppConstants.Status.NOT_ENOUGH_RESOURCE);
+    }
+    public static double CalculateToMaterialRequiredForOneUpgrade(int level)
+    {
+        double material = 10 + (level / 100);
+        return material;
+    }
+    // Thay đổi kiểu trả về thành double
+    public static double CalculateTotalMaterialRequiredForMaxUpgrade(int currentLevel, int maxLevel, List<Items> availableItems)
+    {
+        // 1. Tìm số lượng vật liệu ít nhất (double)
+        if (availableItems == null || availableItems.Count == 0) return 0.0;
+
+        // Sử dụng i.Quantity (double) để tìm min
+        double minAvailableMaterial = availableItems.Min(i => i.Quantity);
+
+        if (minAvailableMaterial <= 0) return 0.0;
+
+        double totalMaterialRequired = 0.0; // Chi phí tích lũy là double
+        int current = currentLevel;
+
+        while (current < maxLevel)
+        {
+            // Cost per Level vẫn là int
+            double costPerLevel = CalculateToMaterialRequiredForOneUpgrade(current);
+
+            // ... (Logic tính toán stepLimit)
+            int nextCostStep = (current / 100 + 1) * 100;
+            int stepLimit = Math.Min(nextCostStep, maxLevel);
+
+            int levelsInStep = stepLimit - current;
+            double totalCostForStep = (double)costPerLevel * levelsInStep; // Nhân với double
+
+            if (totalMaterialRequired + totalCostForStep <= minAvailableMaterial)
+            {
+                // Đủ vật liệu để hoàn thành toàn bộ bậc chi phí này
+                totalMaterialRequired += totalCostForStep;
+                current = stepLimit;
+
+                if (current >= maxLevel) break;
+            }
+            else
+            {
+                // Hết vật liệu. remainingNeeded là double.
+                double remainingNeeded = minAvailableMaterial - totalMaterialRequired;
+
+                // Tính số level có thể mua được (int)
+                int levelsPossible = (int)(remainingNeeded / costPerLevel);
+
+                // Tính chi phí chính xác cho số level có thể mua
+                totalMaterialRequired += (double)levelsPossible * costPerLevel;
+                break;
+            }
+        }
+
+        // Trả về tổng số lượng vật liệu cần thiết (double)
+        return totalMaterialRequired;
     }
 }

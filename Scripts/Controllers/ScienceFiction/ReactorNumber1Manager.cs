@@ -149,7 +149,7 @@ public class ReactorNumber1Manager : MonoBehaviour
 
         UpLevelButton.onClick.AddListener(() =>
         {
-            int materialRequired = GetMaterialRequired(scienceFiction.Level);
+            double materialRequired = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(scienceFiction.Level);
 
             // Check nếu đã max level thì dừng
             if (scienceFiction.Level >= maxLevel) return;
@@ -168,7 +168,7 @@ public class ReactorNumber1Manager : MonoBehaviour
                 ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, 1, 10);
 
                 // rankService.UpLevel(cardHeroes, newRank, mainType);
-                ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId,newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
+                ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -180,41 +180,47 @@ public class ReactorNumber1Manager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            int finalLevel = int.MaxValue;
+            double totalMaterialRequired = EvaluateItem.CalculateTotalMaterialRequiredForMaxUpgrade(scienceFiction.Level, maxLevel, items);
 
-            // Tính số level tối đa có thể nâng cho tất cả items
+            if (totalMaterialRequired <= 0.0)
+            {
+                return;
+            }
+
+            // 2. TÍNH TOÁN SỐ LƯỢNG LEVEL NÂNG CẤP (upgradeAmount)
+            // Vòng lặp này cần chạy để xác định số level (int) tương ứng với chi phí (double)
+            int currentLevel = scienceFiction.Level;
+            double tempCost = 0.0; // Sử dụng double cho chi phí tạm thời
+            int upgradeAmount = 0;
+
+            // Vòng lặp để xác định N level
+            while (tempCost < totalMaterialRequired && currentLevel < maxLevel)
+            {
+                double cost = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(currentLevel);
+                if (tempCost + cost <= totalMaterialRequired)
+                {
+                    tempCost += cost;
+                    currentLevel++;
+                    upgradeAmount++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            // 3. TRỪ VẬT LIỆU VÀ CẬP NHẬT DATABASE
             foreach (var i in items)
             {
-                int maxLevelForItem = EvaluateItem.CalculateMaxMaterialLevel(i.Quantity, scienceFiction.Level);
-                finalLevel = Math.Min(finalLevel, maxLevelForItem);
+                // Trừ tổng chi phí (double) khỏi Quantity (double)
+                i.Quantity -= totalMaterialRequired;
+
+                // Cập nhật Database
+                userItemsService.UpdateUserItemsQuantity(i);
             }
-
-            // Nếu không đủ nguyên liệu để nâng thì dừng
-            if (finalLevel <= 0) return;
-
-            // Giới hạn không vượt quá 10000
-            if (scienceFiction.Level + finalLevel > maxLevel)
-            {
-                finalLevel = maxLevel - scienceFiction.Level;
-            }
-
-            // Kiểm tra & trừ nguyên liệu cho finalLevel
-            // foreach (var i in items)
-            // {
-            //     // int consume = EvaluateItem.CalculateRequiredQuantityForLevel(scienceFiction.Level, finalLevel, levelsPerSkill);
-
-            //     if (i.Quantity < consume)
-            //     {
-            //         // Không đủ nguyên liệu thì dừng
-            //         return;
-            //     }
-
-            //     i.Quantity -= consume;
-            //     userItemsService.UpdateUserItemsQuantity(i);
-            // }
 
             // Nâng cấp scienceFiction
-            ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, finalLevel);
+            ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, upgradeAmount, 10);
 
             ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_1);
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -228,16 +234,11 @@ public class ReactorNumber1Manager : MonoBehaviour
     }
     public void CreateMaterialUI(RawImage image, TextMeshProUGUI quantityText, string itemImage, int level = 0, double userMaterialQuantity = 0)
     {
-        int materialQuantity = GetMaterialRequired(level);
+        double materialQuantity = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(level);
         quantityText.text = userMaterialQuantity + "/" + materialQuantity;
 
         Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         image.texture = texture;
     }
-    private int GetMaterialRequired(int level)
-    {
-        int material = 10 + (level / 100);
 
-        return material;
-    }
 }
