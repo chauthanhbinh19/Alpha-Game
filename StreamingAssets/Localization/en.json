@@ -374,5 +374,26 @@
   { "key": "Master.MasterOfChemical", "value": "Master Of Chemical" },
   { "key": "Master.MasterOfPhysical", "value": "Master Of Physical" },
   { "key": "Master.MasterOfAtomic", "value": "Master Of Atomic" },
-  { "key": "Master.MasterOfMental", "value": "Master Of Mental" }
+  { "key": "Master.MasterOfMental", "value": "Master Of Mental" },
+
+  { "key": "ScienceFiction.ReactorNumber1", "value": "Reactor Number 1" },
+  { "key": "ScienceFiction.ReactorNumber2", "value": "Reactor Number 2" },
+  { "key": "ScienceFiction.ReactorNumber3", "value": "Reactor Number 3" },
+  { "key": "ScienceFiction.ReactorNumber4", "value": "Reactor Number 4" },
+  { "key": "ScienceFiction.ReactorNumber5", "value": "Reactor Number 5" },
+  { "key": "ScienceFiction.ReactorNumber6", "value": "Reactor Number 6" },
+  { "key": "ScienceFiction.ReactorNumber7", "value": "Reactor Number 7" },
+  { "key": "ScienceFiction.ReactorNumber8", "value": "Reactor Number 8" },
+  { "key": "ScienceFiction.ReactorNumber9", "value": "Reactor Number 9" },
+  { "key": "ScienceFiction.ReactorNumber10", "value": "Reactor Number 10" },
+  { "key": "ScienceFiction.ReactorNumber11", "value": "Reactor Number 11" },
+  { "key": "ScienceFiction.ReactorNumber12", "value": "Reactor Number 12" },
+  { "key": "ScienceFiction.ReactorNumber13", "value": "Reactor Number 13" },
+  { "key": "ScienceFiction.ReactorNumber14", "value": "Reactor Number 14" },
+  { "key": "ScienceFiction.ReactorNumber15", "value": "Reactor Number 15" },
+  { "key": "ScienceFiction.ReactorNumber16", "value": "Reactor Number 16" },
+  { "key": "ScienceFiction.ReactorNumber17", "value": "Reactor Number 17" },
+  { "key": "ScienceFiction.ReactorNumber18", "value": "Reactor Number 18" },
+  { "key": "ScienceFiction.ReactorNumber19", "value": "Reactor Number 19" },
+  { "key": "ScienceFiction.ReactorNumber20", "value": "Reactor Number 20" }
 ]

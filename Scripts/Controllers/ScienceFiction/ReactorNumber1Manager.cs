@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class ReactorNumber1Manager : MonoBehaviour
 {
     private Transform MainPanel;
-    public GameObject ReactorPanelNumberPrefab;
+    private GameObject ReactorPanelNumberPrefab;
     private TMP_FontAsset EuroStyleNormalFont;
     private int fontSize;
     TeamsService teamsService;
@@ -80,10 +80,20 @@ public class ReactorNumber1Manager : MonoBehaviour
         Button UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Transform material1Group = currentObject.transform.Find("DictionaryCards/MaterialNumber1");
         Transform material2Group = currentObject.transform.Find("DictionaryCards/MaterialNumber2");
+        Transform material3Group = currentObject.transform.Find("DictionaryCards/MaterialNumber3");
+        Transform material4Group = currentObject.transform.Find("DictionaryCards/MaterialNumber4");
         RawImage material1Image = currentObject.transform.Find("DictionaryCards/MaterialNumber1/MaterialImage").GetComponent<RawImage>();
         RawImage material2Image = currentObject.transform.Find("DictionaryCards/MaterialNumber2/MaterialImage").GetComponent<RawImage>();
-        TextMeshProUGUI quantity1Text = currentObject.transform.Find("DictionaryCards/MaterialNumber1/QuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI quantity2Text = currentObject.transform.Find("DictionaryCards/MaterialNumber2/QuantityText").GetComponent<TextMeshProUGUI>();
+        RawImage material3Image = currentObject.transform.Find("DictionaryCards/MaterialNumber3/MaterialImage").GetComponent<RawImage>();
+        RawImage material4Image = currentObject.transform.Find("DictionaryCards/MaterialNumber4/MaterialImage").GetComponent<RawImage>();
+        TextMeshProUGUI availableQuantity1Text = currentObject.transform.Find("DictionaryCards/MaterialNumber1/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI availableQuantity2Text = currentObject.transform.Find("DictionaryCards/MaterialNumber2/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI availableQuantity3Text = currentObject.transform.Find("DictionaryCards/MaterialNumber3/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI availableQuantity4Text = currentObject.transform.Find("DictionaryCards/MaterialNumber4/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredQuantity1Text = currentObject.transform.Find("DictionaryCards/MaterialNumber1/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredQuantity2Text = currentObject.transform.Find("DictionaryCards/MaterialNumber2/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredQuantity3Text = currentObject.transform.Find("DictionaryCards/MaterialNumber3/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredQuantity4Text = currentObject.transform.Find("DictionaryCards/MaterialNumber4/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
 
         TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -101,6 +111,8 @@ public class ReactorNumber1Manager : MonoBehaviour
         UpMaxLevelButton.AddComponent<SlideBottomToTopAnimation>();
         material1Group.AddComponent<SlideBottomToTopAnimation>();
         material2Group.AddComponent<SlideBottomToTopAnimation>();
+        material3Group.AddComponent<SlideBottomToTopAnimation>();
+        material4Group.AddComponent<SlideBottomToTopAnimation>();
 
         ReactorNumberText.text = "01";
         titleText.text = LocalizationManager.Get(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_1);
@@ -131,17 +143,22 @@ public class ReactorNumber1Manager : MonoBehaviour
 
         ReactorLevelText.text = scienceFiction.Level.ToString();
 
+        double oneMaterialQuantity = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(scienceFiction.Level);
+        double maxMaterialQuantity = EvaluateItem.CalculateTotalMaterialRequiredForMaxUpgrade(scienceFiction.Level, maxLevel, items);
+
         for (int i = 0; i < items.Count; i++)
         {
             Items item = items[i];
 
             if (i == 0)
             {
-                CreateMaterialUI(material1Image, quantity1Text, item.Image, scienceFiction.Level, item.Quantity);
+                CreateMaterialForOneLevel(material1Image, availableQuantity1Text, requiredQuantity1Text, item.Image, scienceFiction.Level, item.Quantity, oneMaterialQuantity);
+                CreateMaterialForMaxLevel(material3Image, availableQuantity3Text, requiredQuantity3Text, item.Image, scienceFiction.Level, item.Quantity, maxMaterialQuantity);
             }
             else if (i == 1)
             {
-                CreateMaterialUI(material2Image, quantity2Text, item.Image, scienceFiction.Level, item.Quantity);
+                CreateMaterialForOneLevel(material2Image, availableQuantity2Text, requiredQuantity2Text, item.Image, scienceFiction.Level, item.Quantity, oneMaterialQuantity);
+                CreateMaterialForMaxLevel(material4Image, availableQuantity4Text, requiredQuantity4Text, item.Image, scienceFiction.Level, item.Quantity, maxMaterialQuantity);
             }
         }
         UpLevelButton.onClick.RemoveAllListeners();
@@ -232,13 +249,33 @@ public class ReactorNumber1Manager : MonoBehaviour
             CreateReactorPanel();
         });
     }
-    public void CreateMaterialUI(RawImage image, TextMeshProUGUI quantityText, string itemImage, int level = 0, double userMaterialQuantity = 0)
+    public void CreateMaterialForOneLevel(RawImage image, TextMeshProUGUI availableQuantityText, TextMeshProUGUI requiredQuantityText, string itemImage, int level = 0, double userMaterialQuantity = 0, double materialQuantity = 0)
     {
-        double materialQuantity = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(level);
-        quantityText.text = userMaterialQuantity + "/" + materialQuantity;
+        availableQuantityText.text = userMaterialQuantity.ToString();
+        requiredQuantityText.text = materialQuantity.ToString();
 
         Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         image.texture = texture;
+
+        if (level >= maxLevel)
+        {
+            requiredQuantityText.text = "MAX";
+            return;
+        }
+    }
+    public void CreateMaterialForMaxLevel(RawImage image, TextMeshProUGUI availableQuantityText, TextMeshProUGUI requiredQuantityText, string itemImage, int level = 0, double userMaterialQuantity = 0, double materialQuantity = 0)
+    {
+        availableQuantityText.text = userMaterialQuantity.ToString();
+        requiredQuantityText.text = materialQuantity.ToString();
+
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
+        image.texture = texture;
+
+        if (level >= maxLevel)
+        {
+            requiredQuantityText.text = "MAX";
+            return;
+        }
     }
 
 }
