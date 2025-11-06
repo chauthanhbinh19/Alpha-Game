@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     public GameObject DictionaryPanel;
     public GameObject TabButton;
     public GameObject ItemPrefab;
+    public GameObject MainButtonPrefab;
     public GameObject MainPanelPrefab;
     public GameObject MainMenuPanel;
     public GameObject MainMenuShopPanel;
@@ -84,6 +85,7 @@ public class UIManager : MonoBehaviour
     public GameObject Skill1Prefab;
     public GameObject Skill2Prefab;
     public GameObject PopupSkillDetailPrefab;
+    public GameObject PopupButtonPrefab;
     public GameObject CardContractPrefab;
     public GameObject CardPenaltyPrefab;
     [Header("Science Fiction")]
@@ -410,6 +412,8 @@ public class UIManager : MonoBehaviour
                 return TabButton;
             case "ItemPrefab":
                 return ItemPrefab;
+            case "MainButtonPrefab":
+                return MainButtonPrefab;
             case "MainMenuPanel":
                 return MainMenuPanel;
             case "MainPanelPrefab":
@@ -600,6 +604,8 @@ public class UIManager : MonoBehaviour
                 return TabButton5;
             case "TabButton6":
                 return TabButton6;
+            case "PopupButtonPrefab":
+                return PopupButtonPrefab;
             case "AdvancedButtonFirst":
                 return AdvancedButtonFirst;
             default:

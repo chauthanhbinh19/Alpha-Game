@@ -174,36 +174,36 @@ public class RankService : IRankService
 
             if (lvl >= 0 && lvl <= 500)
             {
-                scienceFiction.Health += 10000000 * statMultiplier;
+                scienceFiction.Health += 100000000 * statMultiplier;
             }
             else if (lvl > 500 && lvl <= 1000)
             {
-                scienceFiction.PhysicalAttack += 1500000 * statMultiplier;
-                scienceFiction.PhysicalDefense += 1500000 * statMultiplier;
+                scienceFiction.PhysicalAttack += 15000000 * statMultiplier;
+                scienceFiction.PhysicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1000 && lvl <= 1500)
             {
-                scienceFiction.MagicalAttack += 1500000 * statMultiplier;
-                scienceFiction.MagicalDefense += 1500000 * statMultiplier;
+                scienceFiction.MagicalAttack += 15000000 * statMultiplier;
+                scienceFiction.MagicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 1500 && lvl <= 2000)
             {
-                scienceFiction.ChemicalAttack += 1500000 * statMultiplier;
-                scienceFiction.ChemicalDefense += 1500000 * statMultiplier;
+                scienceFiction.ChemicalAttack += 15000000 * statMultiplier;
+                scienceFiction.ChemicalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2000 && lvl <= 2500)
             {
-                scienceFiction.AtomicAttack += 1500000 * statMultiplier;
-                scienceFiction.AtomicDefense += 1500000 * statMultiplier;
+                scienceFiction.AtomicAttack += 15000000 * statMultiplier;
+                scienceFiction.AtomicDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 2500 && lvl <= 3000)
             {
-                scienceFiction.MentalAttack += 1500000 * statMultiplier;
-                scienceFiction.MentalDefense += 1500000 * statMultiplier;
+                scienceFiction.MentalAttack += 15000000 * statMultiplier;
+                scienceFiction.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 3000 && lvl <= 3500)
             {
-                scienceFiction.Speed += 1500000 * statMultiplier;
+                scienceFiction.Speed += 15000000 * statMultiplier;
                 scienceFiction.CriticalDamageRate += 0.1 * statMultiplier;
                 scienceFiction.CriticalRate += 0.1 * statMultiplier;
                 scienceFiction.CriticalResistanceRate += 0.1 * statMultiplier;
@@ -224,9 +224,9 @@ public class RankService : IRankService
             else if (lvl > 4000 && lvl <= 4500)
             {
                 scienceFiction.LifestealRate += 0.1 * statMultiplier;
-                scienceFiction.Mana += 1500000 * statMultiplier;
+                scienceFiction.Mana += 15000000 * statMultiplier;
                 scienceFiction.ManaRegenerationRate += 0.1 * statMultiplier;
-                scienceFiction.ShieldStrength += 1500000 * statMultiplier;
+                scienceFiction.ShieldStrength += 15000000 * statMultiplier;
             }
             else if (lvl > 4500 && lvl <= 5000)
             {
@@ -282,23 +282,23 @@ public class RankService : IRankService
             }
             else if (lvl > 8500 && lvl <= 9000)
             {
-                scienceFiction.PhysicalAttack += 1500000 * statMultiplier;
-                scienceFiction.MagicalAttack += 1500000 * statMultiplier;
-                scienceFiction.ChemicalAttack += 1500000 * statMultiplier;
-                scienceFiction.AtomicAttack += 1500000 * statMultiplier;
-                scienceFiction.MentalAttack += 1500000 * statMultiplier;
+                scienceFiction.PhysicalAttack += 15000000 * statMultiplier;
+                scienceFiction.MagicalAttack += 15000000 * statMultiplier;
+                scienceFiction.ChemicalAttack += 15000000 * statMultiplier;
+                scienceFiction.AtomicAttack += 15000000 * statMultiplier;
+                scienceFiction.MentalAttack += 15000000 * statMultiplier;
             }
             else if (lvl > 9000 && lvl <= 9500)
             {
-                scienceFiction.PhysicalDefense += 1500000 * statMultiplier;
-                scienceFiction.MagicalDefense += 1500000 * statMultiplier;
-                scienceFiction.ChemicalDefense += 1500000 * statMultiplier;
-                scienceFiction.AtomicDefense += 1500000 * statMultiplier;
-                scienceFiction.MentalDefense += 1500000 * statMultiplier;
+                scienceFiction.PhysicalDefense += 15000000 * statMultiplier;
+                scienceFiction.MagicalDefense += 15000000 * statMultiplier;
+                scienceFiction.ChemicalDefense += 15000000 * statMultiplier;
+                scienceFiction.AtomicDefense += 15000000 * statMultiplier;
+                scienceFiction.MentalDefense += 15000000 * statMultiplier;
             }
             else if (lvl > 9500 && lvl <= 10000)
             {
-                scienceFiction.Speed += 1500000 * statMultiplier;
+                scienceFiction.Speed += 15000000 * statMultiplier;
                 scienceFiction.CriticalDamageRate += 0.1 * statMultiplier;
                 scienceFiction.CriticalRate += 0.1 * statMultiplier;
                 scienceFiction.PenetrationRate += 0.1 * statMultiplier;
@@ -307,9 +307,9 @@ public class RankService : IRankService
                 scienceFiction.VitalityRegenerationRate += 0.1 * statMultiplier;
                 scienceFiction.AccuracyRate += 0.1 * statMultiplier;
                 scienceFiction.LifestealRate += 0.1 * statMultiplier;
-                scienceFiction.Mana += 1500000 * statMultiplier;
+                scienceFiction.Mana += 15000000 * statMultiplier;
                 scienceFiction.ManaRegenerationRate += 0.1 * statMultiplier;
-                scienceFiction.ShieldStrength += 1500000 * statMultiplier;
+                scienceFiction.ShieldStrength += 15000000 * statMultiplier;
                 scienceFiction.Tenacity += 0.5 * statMultiplier;
                 scienceFiction.ResistanceRate += 0.1 * statMultiplier;
                 scienceFiction.ComboRate += 0.1 * statMultiplier;

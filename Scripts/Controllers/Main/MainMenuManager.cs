@@ -11,8 +11,6 @@ using Unity.VisualScripting;
 public class MainMenuManager : MonoBehaviour
 {
     private Transform RootPanel;
-    private Transform mainMenuPanel;
-    private Transform mainMenuCampaignPanel;
     private GameObject MainPanelPrefab;
     private GameObject buttonPrefab;
     private GameObject DictionaryPanel;
@@ -21,6 +19,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject AnimePanelPrefab;
     private GameObject ReactorPanelPrefab;
     private GameObject MasterBoardPanelPrefab;
+    private GameObject PopupButtonPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private Button CloseButton;
@@ -35,7 +34,6 @@ public class MainMenuManager : MonoBehaviour
     private GameObject SummonPanel;
     private Transform PositionPanel;
     private GameObject summonObject;
-    private Transform SummonMainMenuPanel;
     private Transform CurrencyPanel;
     private GameObject currentObject;
     //Variable for pagination
@@ -88,6 +86,7 @@ public class MainMenuManager : MonoBehaviour
         rare = AppConstants.Rare.ALL;
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         MainPanelPrefab = UIManager.Instance.GetGameObject("MainPanelPrefab");
+        PopupButtonPrefab = UIManager.Instance.GetGameObject("PopupButtonPrefab");
         // mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
@@ -107,13 +106,57 @@ public class MainMenuManager : MonoBehaviour
     public void CreateMainPanel()
     {
         currentObject = Instantiate(MainPanelPrefab, RootPanel);
-        ButtonLoader.Instance.CreateMainButton(currentObject);
-        GetMainButtonEvent();
+        // ButtonLoader.Instance.CreateMainButton(currentObject);
+        // GetMainButtonEvent();
         GetPrimaryButtonEvent();
-    }
-    public GameObject GetMainPanel()
-    {
-        return currentObject;
+
+        Button inventoryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/InventoryButton").GetComponent<Button>();
+        Button eventButton = currentObject.transform.Find("MainPanel/MainButtonGroup/EventButton").GetComponent<Button>();
+        Button campaignButton = currentObject.transform.Find("MainPanel/MainButtonGroup/CampaignButton").GetComponent<Button>();
+        Button shopButton = currentObject.transform.Find("MainPanel/MainButtonGroup/ShopButton").GetComponent<Button>();
+
+        inventoryButton.onClick.AddListener(() =>
+        {
+            GameObject popupButtonPanel = Instantiate(PopupButtonPrefab, MainPanel);
+            CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                Destroy(popupButtonPanel);
+            });
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                Close(MainPanel);
+            });
+            ButtonLoader.Instance.CreateInventoryButton(popupButtonPanel);
+            GetMainButtonEvent(popupButtonPanel);
+        });
+
+        eventButton.onClick.AddListener(() =>
+        {
+            GameObject popupButtonPanel = Instantiate(PopupButtonPrefab, MainPanel);
+            CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                Destroy(popupButtonPanel);
+            });
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                Close(MainPanel);
+            });
+            ButtonLoader.Instance.CreateEventButton(popupButtonPanel);
+            GetEventButtonEvent(popupButtonPanel);
+        });
+
+        shopButton.onClick.AddListener(() =>
+        {
+            ShopManager.Instance.CreateShopButton();
+        });
     }
     public Transform GetSummonPanel()
     {
@@ -143,77 +186,72 @@ public class MainMenuManager : MonoBehaviour
 
         FindObjectOfType<CurrencyManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
     }
-    public void GetMainButtonEvent()
+    public void GetMainButtonEvent(GameObject popupButtonObject)
     {
-        mainMenuPanel = currentObject.transform.Find("MainPanel/MainMenuButton");
-        mainMenuCampaignPanel = currentObject.transform.Find("MainMenu/MenuCampaignBackground/MenuCampaign");
-        SummonMainMenuPanel = currentObject.transform.Find("SummonPanel");
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuCampaignPanel, () => loadScence());
-
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_HERO));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", mainMenuPanel, () => GetType(AppConstants.MainType.BOOK));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", mainMenuPanel, () => GetType(AppConstants.MainType.PET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_CAPTAIN));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_COLONEL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_GENERAL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_ADMIRAL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_MILITARY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_SPELL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", mainMenuPanel, () => GetType(AppConstants.MainType.CARD_MONSTER));
+        Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => GetType(AppConstants.MainType.CARD_HERO));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => GetType(AppConstants.MainType.BOOK));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => GetType(AppConstants.MainType.PET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => GetType(AppConstants.MainType.CARD_CAPTAIN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => GetType(AppConstants.MainType.CARD_COLONEL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => GetType(AppConstants.MainType.CARD_GENERAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, () => GetType(AppConstants.MainType.CARD_ADMIRAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, () => GetType(AppConstants.MainType.CARD_MILITARY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, () => GetType(AppConstants.MainType.CARD_SPELL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.CARD_MONSTER));
         // Button_13 Equipments có thể được thêm lại nếu cần
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", mainMenuPanel, () => GetType(AppConstants.MainType.ITEM));
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", mainMenuPanel, () => GetType(AppConstants.MainType.TEAMS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", mainMenuPanel, () => GetType(AppConstants.MainType.MORE));
-
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_HEROES));
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_BOOKS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_CAPTAINS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MONSTERS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MILITARY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_SPELLS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_COLONELS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_GENERALS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", SummonMainMenuPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_ADMIRALS));
-
-        ButtonEvent.Instance.AssignButtonEvent("Button_24", SummonMainMenuPanel, () => GetType(AppConstants.MainType.GALLERY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_25", SummonMainMenuPanel, () => GetType(AppConstants.MainType.COLLECTION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_26", SummonMainMenuPanel, () => GetType(AppConstants.MainType.EQUIPMENT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_27", SummonMainMenuPanel, () => GetType(AppConstants.MainType.ANIME));
-        ButtonEvent.Instance.AssignButtonEvent("Button_28", SummonMainMenuPanel, () => GetType(AppConstants.MainType.ARENA));
-        ButtonEvent.Instance.AssignButtonEvent("Button_29", SummonMainMenuPanel, () => GetType(AppConstants.MainType.GUILD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_30", SummonMainMenuPanel, () => GetType(AppConstants.MainType.TOWER));
-        ButtonEvent.Instance.AssignButtonEvent("Button_31", SummonMainMenuPanel, () => GetType(AppConstants.MainType.EVENT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_32", SummonMainMenuPanel, () => GetType(AppConstants.MainType.DAILY_CHECKIN));
-        ButtonEvent.Instance.AssignButtonEvent("Button_33", SummonMainMenuPanel, () => GetType(AppConstants.Market.RARE_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_34", SummonMainMenuPanel, () => GetType(AppConstants.Market.ULTRA_RARE_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_35", SummonMainMenuPanel, () => GetType(AppConstants.Market.LEGENDARY_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_36", SummonMainMenuPanel, () => GetType(AppConstants.Market.MYSTIC_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.ITEM));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, () => GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, () => GetType(AppConstants.MainType.COLLABORATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, () => GetType(AppConstants.MainType.MEDAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, () => GetType(AppConstants.MainType.SKILL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, () => GetType(AppConstants.MainType.SYMBOL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, () => GetType(AppConstants.MainType.TITLE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, () => GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, () => GetType(AppConstants.MainType.RELIC));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, () => GetType(AppConstants.MainType.TALISMAN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, () => GetType(AppConstants.MainType.PUPPET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, () => GetType(AppConstants.MainType.ALCHEMY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, () => GetType(AppConstants.MainType.FORGE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_24", contentPanel, () => GetType(AppConstants.MainType.CARD_LIFE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.MASTER_BOARD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, () => GetType(AppConstants.MainType.ARTWORK));
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.SCIENCE_FICTION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_30", contentPanel, () => GetType(AppConstants.MainType.TEAMS));  
     }
     public void GetPrimaryButtonEvent()
     {
         Transform mainButtonGroupPanel = currentObject.transform.Find("MainPanel/MainButtonGroup");
         mainButtonGroupPanel.gameObject.SetActive(true);
     }
-    public void GetMoreButtonEvent(Transform moreMenuPanel)
+    public void GetEventButtonEvent(GameObject popupButtonObject)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", moreMenuPanel, () => GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", moreMenuPanel, () => GetType(AppConstants.MainType.COLLABORATION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", moreMenuPanel, () => GetType(AppConstants.MainType.MEDAL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", moreMenuPanel, () => GetType(AppConstants.MainType.SKILL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", moreMenuPanel, () => GetType(AppConstants.MainType.SYMBOL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", moreMenuPanel, () => GetType(AppConstants.MainType.TITLE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", moreMenuPanel, () => GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", moreMenuPanel, () => GetType(AppConstants.MainType.RELIC));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", moreMenuPanel, () => GetType(AppConstants.MainType.TALISMAN));
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", moreMenuPanel, () => GetType(AppConstants.MainType.PUPPET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", moreMenuPanel, () => GetType(AppConstants.MainType.ALCHEMY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", moreMenuPanel, () => GetType(AppConstants.MainType.FORGE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", moreMenuPanel, () => GetType(AppConstants.MainType.CARD_LIFE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", moreMenuPanel, () => GetType(AppConstants.MainType.MASTER_BOARD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", moreMenuPanel, () => GetType(AppConstants.MainType.ARTWORK));
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", moreMenuPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", moreMenuPanel, () => GetType(AppConstants.MainType.SCIENCE_FICTION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", moreMenuPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD));
+        Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_HEROES));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => GetType(AppConstants.MainType.SUMMON_BOOKS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_CAPTAINS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MONSTERS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MILITARY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_SPELLS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_COLONELS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_GENERALS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_ADMIRALS));
+
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.GALLERY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.COLLECTION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, () => GetType(AppConstants.MainType.EQUIPMENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, () => GetType(AppConstants.MainType.ANIME));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, () => GetType(AppConstants.MainType.ARENA));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, () => GetType(AppConstants.MainType.GUILD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, () => GetType(AppConstants.MainType.TOWER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, () => GetType(AppConstants.MainType.EVENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, () => GetType(AppConstants.MainType.DAILY_CHECKIN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, () => GetType(AppConstants.Market.RARE_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, () => GetType(AppConstants.Market.ULTRA_RARE_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, () => GetType(AppConstants.Market.LEGENDARY_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, () => GetType(AppConstants.Market.MYSTIC_MARKET));
     }
     public void GetType(string type)
     {
@@ -246,7 +284,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                ClosePanel();
+                Destroy(summonObject);
             });
             HomeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
@@ -337,7 +375,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
+                Destroy(popupObject);
             });
             ButtonLoader.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
@@ -353,7 +391,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
+                Destroy(popupObject);
             });
             ButtonLoader.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
@@ -369,7 +407,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
+                Destroy(popupObject);
             });
             ButtonLoader.Instance.CreateEquipmentsButton(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
@@ -384,7 +422,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
+                Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
@@ -403,7 +441,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
+                Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
@@ -423,7 +461,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
+                Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
@@ -453,7 +491,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
+                Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
@@ -476,7 +514,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
+                Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
@@ -492,23 +530,6 @@ public class MainMenuManager : MonoBehaviour
         {
             canUseRareButton = false;
             TeamsManager.Instance.CreateTeams();
-        }
-        else if (mainType.Equals(AppConstants.MainType.MORE))
-        {
-            canUseRareButton = false;
-            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
-            TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = LocalizationManager.Get(AppConstants.MainType.MORE);
-            CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-                Close(MainPanel);
-            });
-            Transform scrollView = popupObject.transform.Find("Scroll View");
-            scrollView.gameObject.SetActive(false);
-            ButtonLoader.Instance.CreateMoreButton(popupObject.transform.Find("Content"));
-            GetMoreButtonEvent(popupObject.transform.Find("Content"));
         }
         else if (mainType.Equals(AppConstants.MainType.DAILY_CHECKIN))
         {

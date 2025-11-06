@@ -22,6 +22,8 @@ public class ShopManager : MonoBehaviour
     private GameObject buttonPrefab;
     private GameObject equipmentsShopPrefab;
     private Transform popupPanel;
+    private RawImage firstDecorationImage;
+    private RawImage secondDecorationImage;
     private Button CloseButton;
     private Button HomeButton;
     private int offset;
@@ -35,6 +37,20 @@ public class ShopManager : MonoBehaviour
     private string subType;
     private Text titleText;
     private string rare;
+    public static ShopManager Instance { get; private set; }
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +70,6 @@ public class ShopManager : MonoBehaviour
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
-        AssignButtonEvent("Button_23", SummonMainMenuPanel, () => CreateShopButton());
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {
@@ -64,7 +79,7 @@ public class ShopManager : MonoBehaviour
             Button button = buttonTransform.GetComponent<Button>();
             if (button != null)
             {
-                button.onClick.AddListener(()=>
+                button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
                     action();
@@ -193,6 +208,8 @@ public class ShopManager : MonoBehaviour
         currentContent = equipmentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         TabButtonPanel = equipmentObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
+        firstDecorationImage = equipmentObject.transform.Find("DictionaryCards/FirstDecorationImage").GetComponent<RawImage>();
+        secondDecorationImage = equipmentObject.transform.Find("DictionaryCards/SecondDecorationImage").GetComponent<RawImage>();
         PageText = equipmentObject.transform.Find("Pagination/Page").GetComponent<Text>();
         NextButton = equipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
@@ -209,12 +226,12 @@ public class ShopManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
             Close(MainPanel);
         });
-        NextButton.onClick.AddListener(()=>
+        NextButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangeNextPage();
         });
-        PreviousButton.onClick.AddListener(()=>
+        PreviousButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
             ChangePreviousPage();
@@ -263,6 +280,10 @@ public class ShopManager : MonoBehaviour
             int totalRecord = 0;
             if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_47_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_48_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
                 List<Collaborations> collaborations = CollaborationService.Create().GetCollaborationWithPrice(pageSize, offset);
                 CollaborationController.Instance.CreateCollaborationTrade(collaborations, subType, currentContent, currencyPanel, popupPanel);
 
@@ -270,6 +291,10 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_49_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_50_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
                 List<Medals> medals = MedalsService.Create().GetMedalsWithPrice(pageSize, offset);
                 MedalsController.Instance.CreateMedalsTrade(medals, subType, currentContent, currencyPanel, popupPanel);
 
@@ -277,6 +302,10 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_51_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_52_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
                 List<Titles> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
                 TitlesController.Instance.CreateTitlesTrade(titles, subType, currentContent, currencyPanel, popupPanel);
 
@@ -284,6 +313,10 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.BORDER))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_53_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_54_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
                 List<Borders> borders = BordersService.Create().GetBordersWithPrice(pageSize, offset);
                 BordersController.Instance.CreateBordersTrade(borders, subType, currentContent, currencyPanel, popupPanel);
 
@@ -291,6 +324,10 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_55_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_56_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
                 List<Achievements> achievements = AchievementsService.Create().GetAchievementsWithPrice(pageSize, offset);
                 AchievementsController.Instance.CreateAchievementsTrade(achievements, subType, currentContent, currencyPanel, popupPanel);
 
@@ -298,6 +335,10 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_45_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_46_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
                 List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
                 SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, subType, currentContent, currencyPanel, popupPanel);
 
@@ -335,6 +376,10 @@ public class ShopManager : MonoBehaviour
 
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_1_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_2_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesWithPrice(type, pageSize, offset);
             CardHeroesController.Instance.CreateCardHeroesTrade(cardHeroes, type, currentContent, currencyPanel, popupPanel);
 
@@ -342,6 +387,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.BOOK))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_3_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_4_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Books> books = BooksService.Create().GetBooksWithPrice(type, pageSize, offset);
             BooksController.Instance.CreateBooksTrade(books, type, currentContent, currencyPanel, popupPanel);
 
@@ -349,6 +398,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_5_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_6_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsWithPrice(type, pageSize, offset);
             CardCaptainsController.Instance.CreateCardCaptainsTrade(cardCaptains, type, currentContent, currencyPanel, popupPanel);
 
@@ -356,6 +409,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_7_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_8_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CollaborationEquipments> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPrice(type, pageSize, offset);
             CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsTrade(collaborationEquipments, type, currentContent, currencyPanel, popupPanel);
 
@@ -363,6 +420,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_9_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_10_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Equipments> equipments = EquipmentsService.Create().GetEquipments(type, pageSize, offset, rare);
             createEquipments(equipments);
 
@@ -370,6 +431,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.PET))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_11_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_12_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Pets> pets = PetsService.Create().GetPetsWithPrice(type, pageSize, offset);
             PetsController.Instance.CreatePetsTrade(pets, type, currentContent, currencyPanel, popupPanel);
 
@@ -377,6 +442,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SKILL))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_13_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_14_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Skills> skills = SkillsService.Create().GetSkillsWithPrice(type, pageSize, offset);
             SkillsController.Instance.CreateSkillsTrade(skills, type, currentContent, currencyPanel, popupPanel);
 
@@ -384,6 +453,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SYMBOL))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_15_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_16_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Symbols> symbols = SymbolsService.Create().GetSymbolsWithPrice(type, pageSize, offset);
             SymbolsController.Instance.CreateSymbolsTrade(symbols, type, currentContent, currencyPanel, popupPanel);
 
@@ -391,6 +464,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_17_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_18_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardMilitaries> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryWithPrice(type, pageSize, offset);
             CardMilitaryController.Instance.CreateCardMilitaryTrade(cardMilitaries, type, currentContent, currencyPanel, popupPanel);
 
@@ -398,6 +475,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_19_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_20_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardSpells> cardSpells = CardSpellService.Create().GetCardSpellWithPrice(type, pageSize, offset);
             CardSpellController.Instance.CreateCardSpellTrade(cardSpells, type, currentContent, currencyPanel, popupPanel);
 
@@ -405,6 +486,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_21_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_22_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<MagicFormationCircles> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircleWithPrice(type, pageSize, offset);
             MagicFormationCircleController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, type, currentContent, currencyPanel, popupPanel);
 
@@ -412,6 +497,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.RELIC))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_23_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_24_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Relics> relics = RelicsService.Create().GetRelicsWithPrice(type, pageSize, offset);
             RelicsController.Instance.CreateRelicsTrade(relics, type, currentContent, currencyPanel, popupPanel);
 
@@ -419,6 +508,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_25_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_26_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersWithPrice(type, pageSize, offset);
             CardMonstersController.Instance.CreateCardMonstersTrade(cardMonsters, type, currentContent, currencyPanel, popupPanel);
 
@@ -426,6 +519,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_27_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_28_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsWithPrice(type, pageSize, offset);
             CardColonelsController.Instance.CreateCardColonelsTrade(cardColonels, type, currentContent, currencyPanel, popupPanel);
 
@@ -433,6 +530,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_29_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_30_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsWithPrice(type, pageSize, offset);
             CardGeneralsController.Instance.CreateCardGeneralsTrade(cardGenerals, type, currentContent, currencyPanel, popupPanel);
 
@@ -440,6 +541,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_31_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_32_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsWithPrice(type, pageSize, offset);
             CardAdmiralsController.Instance.CreateCardAdmiralsTrade(cardAdmirals, type, currentContent, currencyPanel, popupPanel);
 
@@ -447,6 +552,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_33_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_34_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Talismans> talismans = TalismanService.Create().GetTalismanWithPrice(type, pageSize, offset);
             TalismanController.Instance.CreateTalismanTrade(talismans, type, currentContent, currencyPanel, popupPanel);
 
@@ -454,6 +563,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_35_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_36_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Puppets> puppets = PuppetService.Create().GetPuppetWithPrice(type, pageSize, offset);
             PuppetController.Instance.CreatePuppetTrade(puppets, type, currentContent, currencyPanel, popupPanel);
 
@@ -461,6 +574,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_37_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_38_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Alchemies> alchemies = AlchemyService.Create().GetAlchemyWithPrice(type, pageSize, offset);
             AlchemyController.Instance.CreateAlchemyTrade(alchemies, type, currentContent, currencyPanel, popupPanel);
 
@@ -468,6 +585,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_39_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_40_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Forges> forges = ForgeService.Create().GetForgeWithPrice(type, pageSize, offset);
             ForgeController.Instance.CreateForgeTrade(forges, type, currentContent, currencyPanel, popupPanel);
 
@@ -475,6 +596,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_41_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_42_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<CardLives> cardLives = CardLifeService.Create().GetCardLifeWithPrice(type, pageSize, offset);
             CardLifeController.Instance.CreateCardLifeTrade(cardLives, type, currentContent, currencyPanel, popupPanel);
 
@@ -482,6 +607,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_43_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_44_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<Artworks> artworks = ArtworkService.Create().GetArtworkWithPrice(type, pageSize, offset);
             ArtworkController.Instance.CreateArtworkTrade(artworks, type, currentContent, currencyPanel, popupPanel);
 
@@ -489,6 +618,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_45_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_46_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
             List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
             SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
 
@@ -580,6 +713,11 @@ public class ShopManager : MonoBehaviour
 
             if (mainType.Equals(AppConstants.MainType.CARD_HERO))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_1_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_2_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -589,6 +727,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.BOOK))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_3_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_4_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = BooksService.Create().GetBookssWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -598,6 +741,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_5_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_6_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardCaptainsService.Create().GetCardCaptainsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -607,6 +755,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_7_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_8_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -616,6 +769,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_47_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_48_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -625,6 +783,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_9_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_10_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -634,6 +797,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_49_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_50_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = MedalsService.Create().GetMedalsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -643,6 +811,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_25_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_26_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardMonstersService.Create().GetCardMonstersWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -652,6 +825,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.PET))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_11_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_12_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = PetsService.Create().GetPetsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -661,6 +839,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SKILL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_13_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_14_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = SkillsService.Create().GetSkillsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -670,6 +853,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SYMBOL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_15_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_16_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = SymbolsService.Create().GetSkillsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -679,6 +867,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_51_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_52_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -688,6 +881,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_17_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_18_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardMilitaryService.Create().GetCardMilitaryWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -697,6 +895,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_19_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_20_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardSpellService.Create().GetCardSpellWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -706,6 +909,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_21_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_22_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -715,6 +923,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.RELIC))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_23_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_24_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = RelicsService.Create().GetRelicsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -724,6 +937,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.BORDER))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_53_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_54_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = BordersService.Create().GetBordersWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -733,6 +951,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_55_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_56_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -742,6 +965,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_27_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_28_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardColonelsService.Create().GetCardColonelsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -751,6 +979,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_29_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_30_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardGeneralsService.Create().GetCardGeneralsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -760,6 +993,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_31_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_32_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardAdmiralsService.Create().GetCardAdmiralsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -769,6 +1007,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.TALISMAN))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_33_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_34_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = TalismanService.Create().GetTalismanWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -778,6 +1021,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.PUPPET))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_35_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_36_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = PuppetService.Create().GetPuppetWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -787,6 +1035,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_37_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_38_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = AlchemyService.Create().GetAlchemyWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -796,6 +1049,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.FORGE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_39_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_40_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = ForgeService.Create().GetForgeWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -805,6 +1063,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_41_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_42_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardLifeService.Create().GetCardLifeWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -814,6 +1077,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.ARTWORK))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_43_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_44_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -823,6 +1091,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_45_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_46_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
@@ -844,6 +1117,11 @@ public class ShopManager : MonoBehaviour
 
             if (mainType.Equals(AppConstants.MainType.CARD_HERO))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_1_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_2_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -853,6 +1131,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.BOOK))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_3_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_4_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = BooksService.Create().GetBookssWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -862,6 +1145,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_5_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_6_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardCaptainsService.Create().GetCardCaptainsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -871,6 +1159,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_7_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_8_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -880,6 +1173,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_47_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_48_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -889,6 +1187,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_9_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_10_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -898,6 +1201,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_49_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_50_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = MedalsService.Create().GetMedalsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -907,6 +1215,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_25_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_26_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardMonstersService.Create().GetCardMonstersWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -916,6 +1229,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.PET))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_11_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_12_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = PetsService.Create().GetPetsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -925,6 +1243,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SKILL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_13_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_14_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = SkillsService.Create().GetSkillsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -934,6 +1257,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SYMBOL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_15_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_16_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = SymbolsService.Create().GetSkillsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -943,6 +1271,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_51_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_52_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -952,6 +1285,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_17_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_18_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardMilitaryService.Create().GetCardMilitaryWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -961,6 +1299,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_19_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_20_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardSpellService.Create().GetCardSpellWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -970,6 +1313,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_21_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_22_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -979,6 +1327,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.RELIC))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_23_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_24_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = RelicsService.Create().GetRelicsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -988,6 +1341,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.BORDER))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_53_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_54_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = BordersService.Create().GetBordersWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -997,6 +1355,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_55_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_56_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1006,6 +1369,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_27_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_28_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardColonelsService.Create().GetCardColonelsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1015,6 +1383,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_29_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_30_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardGeneralsService.Create().GetCardGeneralsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1024,6 +1397,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_31_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_32_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardAdmiralsService.Create().GetCardAdmiralsWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1033,6 +1411,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.TALISMAN))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_33_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_34_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = TalismanService.Create().GetTalismanWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1042,6 +1425,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.PUPPET))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_35_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_36_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = PuppetService.Create().GetPuppetWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1051,6 +1439,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_37_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_38_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = AlchemyService.Create().GetAlchemyWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1060,6 +1453,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.FORGE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_39_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_40_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 Forges forgeManager = new Forges();
                 totalRecord = ForgeService.Create().GetForgeWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -1070,6 +1468,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_41_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_42_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = CardLifeService.Create().GetCardLifeWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1079,6 +1482,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.ARTWORK))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_43_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_44_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+
                 totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(subType);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
@@ -1088,6 +1496,11 @@ public class ShopManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_45_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_46_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+                
                 totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;

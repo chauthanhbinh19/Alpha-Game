@@ -13519,7 +13519,8 @@ MonoBehaviour:
   notificationPrefab: {fileID: 4396780963310463639, guid: 374ea8fa5bec11a42aa4f2b6abdb31a7, type: 3}
   DictionaryPanel: {fileID: 2811263719116212137, guid: f34ea97fb5ef75c499afec85e84a2afd, type: 3}
   TabButton: {fileID: 5647053732788993068, guid: fb806378af4ab344ea79beff738865a1, type: 3}
-  ItemPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
+  ItemPrefab: {fileID: 1661859481911484232, guid: da6a2647873a3be48bff01f1c99302df, type: 3}
+  MainButtonPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
   MainPanelPrefab: {fileID: 5286951834573874977, guid: d422d932e40851742a4d8236e81d901b, type: 3}
   MainMenuPanel: {fileID: 5745659240395072349, guid: 8ec5c1f07054d9a40b65cba0c5fc841c, type: 3}
   MainMenuShopPanel: {fileID: 5745659240395072349, guid: 067511f2229109143b46b3a4bb085c43, type: 3}
@@ -13574,6 +13575,7 @@ MonoBehaviour:
   Skill1Prefab: {fileID: 8708252175272485654, guid: f2a7a0f5ff32afa48acda33085c7f966, type: 3}
   Skill2Prefab: {fileID: 8708252175272485654, guid: c4b9bc5c069c4314bb79b8986a261d16, type: 3}
   PopupSkillDetailPrefab: {fileID: 3471210453278062185, guid: d966586c80a6df74592c783cb04e1bcc, type: 3}
+  PopupButtonPrefab: {fileID: 5286951834573874977, guid: 6b30a081db788f64ea05a8ef003c9c36, type: 3}
   CardContractPrefab: {fileID: 8708252175272485654, guid: 55d6289042d670f4d9ba76815eec6f6d, type: 3}
   CardPenaltyPrefab: {fileID: 8708252175272485654, guid: 76e547406ff76e448b3741e657f46dd2, type: 3}
   ReactorPanelPrefab: {fileID: 5745659240395072349, guid: 4631e5596c21e6a41877541d96a4241d, type: 3}
