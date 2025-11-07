@@ -55,7 +55,7 @@ public class MedalsGalleryController : MonoBehaviour
             Button button = medalObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(medal, MainPanel);
             });
 
@@ -87,7 +87,7 @@ public class MedalsGalleryController : MonoBehaviour
             rareBackgroundImage.gameObject.SetActive(false);
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var medalGalleryService = MedalsGalleryService.Create();
                 medalGalleryService.UpdateStatusMedalsGallery(medal.Id);
                 blockImage.gameObject.SetActive(false);
@@ -116,7 +116,7 @@ public class MedalsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MedalsGalleryService.Create().UpdateMedalsGalleryPower(medal.Id);
             });
         }

@@ -89,7 +89,7 @@ public class UserPetsController : MonoBehaviour
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
@@ -214,7 +214,7 @@ public class UserPetsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Pets currentCard = new Pets();
                 currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -242,7 +242,7 @@ public class UserPetsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Pets currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -324,7 +324,7 @@ public class UserPetsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = pet.Star + 1;
                 double totalItemQuantity = 0;
 

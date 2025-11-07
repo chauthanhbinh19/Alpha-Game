@@ -65,7 +65,7 @@ public class UserSymbolsController : MonoBehaviour
             Button button = symbolObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(symbol, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -188,7 +188,7 @@ public class UserSymbolsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Symbols currentCard = new Symbols();
                 currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -216,7 +216,7 @@ public class UserSymbolsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Symbols currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -298,7 +298,7 @@ public class UserSymbolsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = symbol.Star + 1;
                 double totalItemQuantity = 0;
 

@@ -57,7 +57,7 @@ public class AvatarsGalleryController : MonoBehaviour
             Button button = AvatarObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(Avatar, MainPanel);
             });
 
@@ -90,7 +90,7 @@ public class AvatarsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var AvatarGalleryService = AvatarsGalleryService.Create();
                 AvatarGalleryService.UpdateStatusAvatarsGallery(Avatar.Id);
                 blockImage.gameObject.SetActive(false);
@@ -119,7 +119,7 @@ public class AvatarsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 AvatarsGalleryService.Create().UpdateAvatarsGalleryPower(Avatar.Id);
             });
         }

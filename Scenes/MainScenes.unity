@@ -3853,18 +3853,20 @@ MonoBehaviour:
   - name: FantasyAmbient
     clip: {fileID: 8300000, guid: 2123c5b73e814de4bb1399cf1e9542c5, type: 3}
   sfxSounds:
-  - name: ButtonClick1
+  - name: ButtonClickSound
     clip: {fileID: 8300000, guid: 697dfbddee478474e8737d5a218bd37b, type: 3}
-  - name: LevelUp1
+  - name: LevelUpSound
     clip: {fileID: 8300000, guid: 395db1bae751c924a8409ef1e562cef6, type: 3}
-  - name: StarUp1
+  - name: StarUpSound
     clip: {fileID: 8300000, guid: 7ad5cbc50ccee2c4994ade689f053e4e, type: 3}
-  - name: CanOpening
+  - name: CanOpeningSound
     clip: {fileID: 8300000, guid: 50289a96800fbec4ba188b23de63bbc7, type: 3}
-  - name: SwitchClick
+  - name: SwitchClickSound
     clip: {fileID: 8300000, guid: 2d8309aef7aed3447a15139aa09c2471, type: 3}
-  - name: Appear
+  - name: AppearSound
     clip: {fileID: 8300000, guid: 62a4f4c95570e124082098637e1273fc, type: 3}
+  - name: GearSound
+    clip: {fileID: 8300000, guid: 24b2e04c02868d04f9ad49ba61f2dcff, type: 3}
   musicSource: {fileID: 990023841}
   sfxSource: {fileID: 1537485152}
 --- !u!1 &560472407
@@ -5290,7 +5292,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -12342,7 +12344,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -13514,7 +13516,7 @@ MonoBehaviour:
   SignInPanel: {fileID: 8077603324956915409, guid: ffba330ce17dad94f8e50c5acf8aa0fd, type: 3}
   SignUpPanel: {fileID: 9111842742865002696, guid: e2dcc82f04bde2143a10aa3f21a8f143, type: 3}
   CreateNamePanel: {fileID: 3409556556158698642, guid: 5d3625d0bb95b67469c547c6eadc579b, type: 3}
-  buttonPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
+  buttonPrefab: {fileID: 1661859481911484232, guid: da6a2647873a3be48bff01f1c99302df, type: 3}
   itemSecondPrefab: {fileID: 1661859481911484232, guid: 049c4c347ebb9e946984782d8bfa770a, type: 3}
   notificationPrefab: {fileID: 4396780963310463639, guid: 374ea8fa5bec11a42aa4f2b6abdb31a7, type: 3}
   DictionaryPanel: {fileID: 2811263719116212137, guid: f34ea97fb5ef75c499afec85e84a2afd, type: 3}

@@ -58,7 +58,7 @@ public class AuthenticationManager : MonoBehaviour
 
         startButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
             MainMenuManager.Instance.CreateMainPanel();
             MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
@@ -66,7 +66,7 @@ public class AuthenticationManager : MonoBehaviour
         });
         createSignInButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             createSignInPanel();
         });
         if (string.IsNullOrEmpty(User.CurrentUserId))
@@ -182,18 +182,18 @@ public class AuthenticationManager : MonoBehaviour
         SI_ErrorPassword = currentObject.transform.Find("ErrorPassword").GetComponent<Text>();
         SI_signUpButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SI_signUpButtonClicked();
         });
         SI_signInButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SI_signInButtonClicked();
         });
         SI_closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
         SI_closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
 
@@ -215,18 +215,18 @@ public class AuthenticationManager : MonoBehaviour
         SU_ErrorConfirmPassword = currentObject.transform.Find("ErrorConfirmPassword").GetComponent<Text>();
         SU_signUpButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SU_signUpButtonClicked();
         });
         SU_signInButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SU_signInButtonClicked();
         });
         SU_closeButton = signUpPanel.transform.Find("CloseButton").GetComponent<Button>();
         SU_closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
 
@@ -244,7 +244,7 @@ public class AuthenticationManager : MonoBehaviour
 
         startButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             IUserRepository _userRepository = new UserRepository();
             UserService _userService = new UserService(_userRepository);

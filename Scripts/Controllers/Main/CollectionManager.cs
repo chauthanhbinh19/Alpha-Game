@@ -93,7 +93,7 @@ public class CollectionManager : MonoBehaviour
             {
                 button.onClick.AddListener(()=>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     action();
                 });
             }
@@ -123,23 +123,23 @@ public class CollectionManager : MonoBehaviour
         CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePanel();
         });
         HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
         NextButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangeNextPage();
         });
         PreviousButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangePreviousPage();
         });
 
@@ -165,7 +165,7 @@ public class CollectionManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     OnRareTabButtonClick(button, rareTemp);
                 });
 
@@ -196,7 +196,7 @@ public class CollectionManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     OnButtonClick(button, subType);
                 });
 

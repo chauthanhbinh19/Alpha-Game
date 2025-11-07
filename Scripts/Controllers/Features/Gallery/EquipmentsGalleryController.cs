@@ -55,7 +55,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             Button button = equipmentsPrefab.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(equipment, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -86,7 +86,7 @@ public class EquipmentsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var equipmentGalleryService = EquipmentsGalleryService.Create();
                 equipmentGalleryService.UpdateStatusEquipmentsGallery(equipment.Id);
                 blockImage.gameObject.SetActive(false);
@@ -115,7 +115,7 @@ public class EquipmentsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 EquipmentsGalleryService.Create().UpdateEquipmentsGalleryPower(equipment.Id);
             });
         }

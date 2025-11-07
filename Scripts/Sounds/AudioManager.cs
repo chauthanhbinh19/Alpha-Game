@@ -23,28 +23,41 @@ public class AudioManager : MonoBehaviour
     public void PlayMusic(string name)
     {
         Sound s = Array.Find(musicSounds, x => x.name == name);
-
         if (s == null)
         {
-            Debug.Log("Sound Not Found");
+            Debug.Log("Music Not Found");
+            return;
         }
-        else
-        {
-            musicSource.clip = s.clip;
-            musicSource.Play();
-        }
+
+        musicSource.clip = s.clip;
+        musicSource.Play();
     }
     public void PlaySFX(string name)
     {
         Sound s = Array.Find(sfxSounds, x => x.name == name);
-
         if (s == null)
         {
-            Debug.Log("Sound Not Found");
+            Debug.Log("SFX Not Found");
+            return;
         }
-        else
+
+        // Gán clip vào sfxSource để có thể stop sau này
+        sfxSource.clip = s.clip;
+        if (!sfxSource.isPlaying)
+            sfxSource.Play();
+    }
+    public void StopSFX(string name)
+    {
+        Sound s = Array.Find(sfxSounds, x => x.name == name);
+        if (s == null)
         {
-            musicSource.PlayOneShot(s.clip);
+            Debug.Log("SFX Not Found");
+            return;
+        }
+
+        if (sfxSource.isPlaying && sfxSource.clip == s.clip)
+        {
+            sfxSource.Stop();
         }
     }
 }

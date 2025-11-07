@@ -55,7 +55,7 @@ public class EquipmentsController : MonoBehaviour
             Button button = equipmentObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(equipment, MainPanel);
             });
             // cardImage.SetNativeSize();

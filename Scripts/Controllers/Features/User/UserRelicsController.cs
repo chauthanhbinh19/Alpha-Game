@@ -65,7 +65,7 @@ public class UserRelicsController : MonoBehaviour
             Button button = relicObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(relic, MainPanel);
             });
 
@@ -185,7 +185,7 @@ public class UserRelicsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Relics currentCard = new Relics();
                 currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -213,7 +213,7 @@ public class UserRelicsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Relics currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -295,7 +295,7 @@ public class UserRelicsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = relics.Star + 1;
                 double totalItemQuantity = 0;
 

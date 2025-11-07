@@ -65,7 +65,7 @@ public class UserAlchemyController : MonoBehaviour
             Button button = alchemyObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(alchemy, MainPanel);
             });
 
@@ -185,7 +185,7 @@ public class UserAlchemyController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Alchemies currentCard = new Alchemies();
                 currentCard = UserAlchemyService.Create().GetUserAlchemyById(User.CurrentUserId, alchemy.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -213,7 +213,7 @@ public class UserAlchemyController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Alchemies currentCard = UserAlchemyService.Create().GetUserAlchemyById(User.CurrentUserId, alchemy.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -295,7 +295,7 @@ public class UserAlchemyController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = alchemy.Star + 1;
                 double totalItemQuantity = 0;
 

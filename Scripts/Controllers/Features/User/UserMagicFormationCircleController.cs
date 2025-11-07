@@ -65,7 +65,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             Button button = magicFormationCircleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(magicFormationCircle, MainPanel);
             });
 
@@ -185,7 +185,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MagicFormationCircles currentCard = new MagicFormationCircles();
                 currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -213,7 +213,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MagicFormationCircles currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -295,7 +295,7 @@ public class UserMagicFormationCircleController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = magicFormationCircle.Star + 1;
                 double totalItemQuantity = 0;
 

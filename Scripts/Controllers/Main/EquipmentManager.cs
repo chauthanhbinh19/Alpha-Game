@@ -77,7 +77,7 @@ public class EquipmentManager : MonoBehaviour
             int localCount = count;
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 OnButtonClick(buttonName, localCount);
             });
             count = count + 1;
@@ -111,26 +111,26 @@ public class EquipmentManager : MonoBehaviour
             Button bagBtn = gridLayout.transform.Find("Bag").GetComponent<Button>();
             bagBtn.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 GetBag(type);
             });
             Button shopBtn = gridLayout.transform.Find("Shop").GetComponent<Button>();
             shopBtn.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 GetShop(type);
             });
             Button enhancementBtn = gridLayout.transform.Find("Enhancement").GetComponent<Button>();
             enhancementBtn.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 GetEnhancement(type);
             });
             Button missionBtn = gridLayout.transform.Find("Mission").GetComponent<Button>();
             Button campaignBtn = gridLayout.transform.Find("Campaign").GetComponent<Button>();
             campaignBtn.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 GetCampaign(type);
             });
         }
@@ -367,7 +367,7 @@ public class EquipmentManager : MonoBehaviour
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
                 offset = 0;
                 currentPage = 1;
@@ -376,7 +376,7 @@ public class EquipmentManager : MonoBehaviour
             Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
 
@@ -393,13 +393,13 @@ public class EquipmentManager : MonoBehaviour
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();
             NextButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangeNextPage(1, PageText, content, type);
             });
             Button PreviousButton = button.transform.Find("Previous").GetComponent<Button>();
             PreviousButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangePreviousPage(1, PageText, content, type);
             });
         }
@@ -426,7 +426,7 @@ public class EquipmentManager : MonoBehaviour
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
                 offset = 0;
                 currentPage = 1;
@@ -435,7 +435,7 @@ public class EquipmentManager : MonoBehaviour
             Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
         }
@@ -449,13 +449,13 @@ public class EquipmentManager : MonoBehaviour
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();
             NextButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangeNextPage(2, PageText, content, type);
             });
             Button PreviousButton = button.transform.Find("Previous").GetComponent<Button>();
             PreviousButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangePreviousPage(2, PageText, content, type);
             });
         }
@@ -801,7 +801,7 @@ public class EquipmentManager : MonoBehaviour
 
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             Destroy(popupObject);
         });
         titleText.text = campaignDetail.Name;

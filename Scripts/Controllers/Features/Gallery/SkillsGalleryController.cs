@@ -55,7 +55,7 @@ public class SkillsGalleryController : MonoBehaviour
             Button button = skillObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(skill, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -86,7 +86,7 @@ public class SkillsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var skillGalleryService = SkillsGalleryService.Create();
                 skillGalleryService.UpdateStatusSkillsGallery(skill.Id);
                 blockImage.gameObject.SetActive(false);
@@ -115,7 +115,7 @@ public class SkillsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 SkillsGalleryService.Create().UpdateSkillsGalleryPower(skill.Id);
             });
         }

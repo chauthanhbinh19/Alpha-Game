@@ -65,7 +65,7 @@ public class UserTalismanController : MonoBehaviour
             Button button = talismanObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(talisman, MainPanel);
             });
 
@@ -185,7 +185,7 @@ public class UserTalismanController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Talismans currentCard = new Talismans();
                 currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -213,7 +213,7 @@ public class UserTalismanController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Talismans currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -295,7 +295,7 @@ public class UserTalismanController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = talisman.Star + 1;
                 double totalItemQuantity = 0;
 

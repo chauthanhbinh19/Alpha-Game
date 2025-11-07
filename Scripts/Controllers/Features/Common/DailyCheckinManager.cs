@@ -163,13 +163,13 @@ public class DailyCheckinManager : MonoBehaviour
         Button CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
-            ButtonEvent.Instance.Close(MainPanel);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(popupObject);
         });
         Button HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
         });
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.DAILY_CHECKIN);
@@ -191,7 +191,7 @@ public class DailyCheckinManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     OnButtonClick(button, subType);
                 });
 

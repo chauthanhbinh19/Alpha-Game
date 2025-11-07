@@ -55,7 +55,7 @@ public class CardMonstersGalleryController : MonoBehaviour
             Button button = monstersObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(monster, MainPanel);
             });
 
@@ -83,7 +83,7 @@ public class CardMonstersGalleryController : MonoBehaviour
             }
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var monsterGalleryService = CardMonstersGalleryService.Create();
                 monsterGalleryService.UpdateStatusCardMonstersGallery(monster.Id);
                 blockImage.gameObject.SetActive(false);
@@ -112,7 +112,7 @@ public class CardMonstersGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardMonstersGalleryService.Create().UpdateCardMonstersGalleryPower(monster.Id);
             });
         }

@@ -58,7 +58,7 @@ public class ForgeGalleryController : MonoBehaviour
             Button button = forgeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(forge, MainPanel);
             });
 
@@ -87,7 +87,7 @@ public class ForgeGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var forgeGalleryService = ForgeGalleryService.Create();
                 forgeGalleryService.UpdateStatusForgeGallery(forge.Id);
                 blockImage.gameObject.SetActive(false);
@@ -116,7 +116,7 @@ public class ForgeGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ForgeGalleryService.Create().UpdateForgeGalleryPower(forge.Id);
             });
         }

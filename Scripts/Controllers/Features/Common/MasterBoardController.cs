@@ -68,7 +68,7 @@ public class MasterBoardController : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     OnButtonClick(button, name);
                 });
 
@@ -148,7 +148,7 @@ public class MasterBoardController : MonoBehaviour
         Button CloseButton = popup.transform.Find("CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popup);
         });
         Button buyButton = popup.transform.Find("Buy").GetComponent<Button>();
@@ -176,7 +176,7 @@ public class MasterBoardController : MonoBehaviour
 
         buyButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (masterBoard.Status.Equals("block"))
             {
 

@@ -68,13 +68,13 @@ public class LegendaryMarketManager : MonoBehaviour
         CloseButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(LegendaryMarketManagerObject);
         });
         HomeButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
 
@@ -98,7 +98,7 @@ public class LegendaryMarketManager : MonoBehaviour
             Button currencyButton = currencyObject.GetComponent<Button>();
             currencyButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CreateLegendaryMarketItemUI(currency);
             });
         }
@@ -117,23 +117,23 @@ public class LegendaryMarketManager : MonoBehaviour
         CloseButton = LegendaryMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(LegendaryMarketObject);
         });
         HomeButton = LegendaryMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
         NextButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangeNextPage();
         });
         PreviousButton.onClick.AddListener(()=>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangePreviousPage();
         });
 

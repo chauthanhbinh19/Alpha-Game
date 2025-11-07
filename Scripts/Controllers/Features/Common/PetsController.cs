@@ -88,7 +88,7 @@ public class PetsController : MonoBehaviour
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
@@ -146,7 +146,7 @@ public class PetsController : MonoBehaviour
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
@@ -172,7 +172,7 @@ public class PetsController : MonoBehaviour
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             buy.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 GetQuantity(pet.Currency.Quantity, pet, subType, popupPanel, currencyPanel);
             });
         }
@@ -258,7 +258,7 @@ public class PetsController : MonoBehaviour
             price = originPrice * quantity;
             quantityText.text = quantity.ToString();
             priceText.text = price.ToString();
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
         decreaseButton.onClick.AddListener(() =>
         {
@@ -269,7 +269,7 @@ public class PetsController : MonoBehaviour
                 quantityText.text = quantity.ToString();
                 priceText.text = price.ToString();
             }
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
         increase10Button.onClick.AddListener(() =>
         {
@@ -277,7 +277,7 @@ public class PetsController : MonoBehaviour
             price = originPrice * quantity;
             quantityText.text = quantity.ToString();
             priceText.text = price.ToString();
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
         decrease10Button.onClick.AddListener(() =>
         {
@@ -288,7 +288,7 @@ public class PetsController : MonoBehaviour
                 quantityText.text = quantity.ToString();
                 priceText.text = price.ToString();
             }
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
         maxButton.onClick.AddListener(() =>
         {
@@ -303,23 +303,23 @@ public class PetsController : MonoBehaviour
             price = originPrice * max;
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
         minButton.onClick.AddListener(() =>
         {
             quantityText.text = "1";
             price = originPrice * 1;
             priceText.text = price.ToString();
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
         confirmButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 

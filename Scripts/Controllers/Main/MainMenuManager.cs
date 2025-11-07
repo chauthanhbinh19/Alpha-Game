@@ -110,24 +110,28 @@ public class MainMenuManager : MonoBehaviour
         // GetMainButtonEvent();
         GetPrimaryButtonEvent();
 
-        Button inventoryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/InventoryButton").GetComponent<Button>();
-        Button eventButton = currentObject.transform.Find("MainPanel/MainButtonGroup/EventButton").GetComponent<Button>();
-        Button campaignButton = currentObject.transform.Find("MainPanel/MainButtonGroup/CampaignButton").GetComponent<Button>();
-        Button shopButton = currentObject.transform.Find("MainPanel/MainButtonGroup/ShopButton").GetComponent<Button>();
+        Transform content = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondCircleImage");
+        Button inventoryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/InventoryButton").GetComponent<Button>();
+        Button eventButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/EventButton").GetComponent<Button>();
+        Button campaignButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/CampaignButton").GetComponent<Button>();
+        Button shopButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/ShopButton").GetComponent<Button>();
+
+        content.AddComponent<RotateAnimation>();
 
         inventoryButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GameObject popupButtonPanel = Instantiate(PopupButtonPrefab, MainPanel);
             CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
             HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateInventoryButton(popupButtonPanel);
@@ -136,17 +140,18 @@ public class MainMenuManager : MonoBehaviour
 
         eventButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GameObject popupButtonPanel = Instantiate(PopupButtonPrefab, MainPanel);
             CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
             HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateEventButton(popupButtonPanel);
@@ -155,6 +160,7 @@ public class MainMenuManager : MonoBehaviour
 
         shopButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ShopManager.Instance.CreateShopButton();
         });
     }
@@ -283,13 +289,13 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(summonObject);
             });
             HomeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             // SummonAreaPanel = summonObject.transform.Find("SummonArea");
@@ -374,7 +380,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
             ButtonLoader.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
@@ -390,7 +396,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
             ButtonLoader.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
@@ -406,7 +412,7 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
             ButtonLoader.Instance.CreateEquipmentsButton(popupObject.transform.Find("Content"));
@@ -421,13 +427,13 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
@@ -440,13 +446,13 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
@@ -460,13 +466,13 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
@@ -490,13 +496,13 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateTowerButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
@@ -513,13 +519,13 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
             HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             titleTMPText.text = LocalizationManager.Get(AppConstants.MainType.MASTER_BOARD);
@@ -571,23 +577,24 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ClosePanel();
+                Destroy(mainMenuObject);
             });
             HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
             NextButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangeNextPage();
             });
             PreviousButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangePreviousPage();
             });
 
@@ -615,7 +622,7 @@ public class MainMenuManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     OnRareTabButtonClick(button, rareTemp);
                 });
 
@@ -661,7 +668,7 @@ public class MainMenuManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     OnButtonClick(button, subType);
                 });
 
@@ -1006,7 +1013,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1025,7 +1032,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1058,7 +1065,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1076,7 +1083,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1109,7 +1116,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1127,7 +1134,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1160,7 +1167,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1178,7 +1185,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1211,7 +1218,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1229,7 +1236,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1262,7 +1269,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1280,7 +1287,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1313,7 +1320,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1331,7 +1338,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1364,7 +1371,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1382,7 +1389,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -1415,7 +1422,7 @@ public class MainMenuManager : MonoBehaviour
 
             SummonButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
                 {
                     if (success)
@@ -1433,7 +1440,7 @@ public class MainMenuManager : MonoBehaviour
             });
             Summon10Button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
                 {
                     if (success)
@@ -2124,10 +2131,6 @@ public class MainMenuManager : MonoBehaviour
         ClearAllPrefabs();
         offset = 0;
         currentPage = 1;
-        foreach (Transform child in MainPanel)
-        {
-            Destroy(child.gameObject);
-        }
     }
     public void Close(Transform content)
     {

@@ -68,7 +68,7 @@ public class UserSpiritCardController : MonoBehaviour
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(title, MainPanel);
             });
 
@@ -189,7 +189,7 @@ public class UserSpiritCardController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 SpiritCards currentCard = new SpiritCards();
                 currentCard = UserSpiritCardService.Create().GetUserSpiritCardById(User.CurrentUserId, title.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -217,7 +217,7 @@ public class UserSpiritCardController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 SpiritCards currentCard = UserSpiritCardService.Create().GetUserSpiritCardById(User.CurrentUserId, title.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -299,7 +299,7 @@ public class UserSpiritCardController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = spiritBeast.Star + 1;
                 double totalItemQuantity = 0;
 

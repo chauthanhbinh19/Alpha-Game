@@ -55,7 +55,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
             Button button = spellObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(admiral, MainPanel);
             });
 
@@ -84,7 +84,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var admiralGalleryService = CardAdmiralsGalleryService.Create();
                 admiralGalleryService.UpdateStatusCardAdmiralsGallery(admiral.Id);
                 blockImage.gameObject.SetActive(false);
@@ -113,7 +113,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardAdmiralsGalleryService.Create().UpdateCardAdmiralsGalleryPower(admiral.Id);
             });
         }

@@ -58,7 +58,7 @@ public class TalismanGalleryController : MonoBehaviour
             Button button = talismanObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(talisman, MainPanel);
             });
 
@@ -87,7 +87,7 @@ public class TalismanGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var talismanGalleryService = TalismanGalleryService.Create();
                 talismanGalleryService.UpdateStatusTalismanGallery(talisman.Id);
                 blockImage.gameObject.SetActive(false);
@@ -116,7 +116,7 @@ public class TalismanGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 TalismanGalleryService.Create().UpdateTalismanGalleryPower(talisman.Id);
             });
         }

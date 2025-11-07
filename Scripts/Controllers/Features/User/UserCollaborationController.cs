@@ -69,7 +69,7 @@ public class UserCollaborationController : MonoBehaviour
             Button button = collaborationObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(collaboration, MainPanel);
             });
 
@@ -190,7 +190,7 @@ public class UserCollaborationController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Collaborations currentCard = new Collaborations();
                 currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -218,7 +218,7 @@ public class UserCollaborationController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Collaborations currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -300,7 +300,7 @@ public class UserCollaborationController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = collaboration.Star + 1;
                 double totalItemQuantity = 0;
 

@@ -65,7 +65,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
             Button button = collaborationEquipmentObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(collaborationEquipment, MainPanel);
             });
 
@@ -182,7 +182,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CollaborationEquipments currentCard = new CollaborationEquipments();
                 currentCard = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentsById(User.CurrentUserId, collaborationEquipment.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -210,7 +210,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CollaborationEquipments currentCard = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentsById(User.CurrentUserId, collaborationEquipment.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -292,7 +292,7 @@ public class UserCollaborationEquipmentController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = collaborationEquipment.Star + 1;
                 double totalItemQuantity = 0;
 

@@ -58,7 +58,7 @@ public class SpiritCardGalleryController : MonoBehaviour
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
             });
 
@@ -91,7 +91,7 @@ public class SpiritCardGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var titleGalleryService = SpiritCardGalleryService.Create();
                 titleGalleryService.UpdateStatusSpiritCardGallery(title.Id);
                 blockImage.gameObject.SetActive(false);
@@ -120,7 +120,7 @@ public class SpiritCardGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 TitlesGalleryService.Create().UpdateTitlesGalleryPower(title.Id);
             });
         }

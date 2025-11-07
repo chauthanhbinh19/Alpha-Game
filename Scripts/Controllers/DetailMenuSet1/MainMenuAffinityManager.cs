@@ -49,12 +49,12 @@ public class MainMenuAffinityManager : MonoBehaviour
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
 
@@ -127,7 +127,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -206,7 +206,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -286,7 +286,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -365,7 +365,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -445,7 +445,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -524,7 +524,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -604,7 +604,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -683,7 +683,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -763,7 +763,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -842,7 +842,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -922,7 +922,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1001,7 +1001,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1081,7 +1081,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1160,7 +1160,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1241,7 +1241,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1320,7 +1320,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1400,7 +1400,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1479,7 +1479,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1559,7 +1559,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1638,7 +1638,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 

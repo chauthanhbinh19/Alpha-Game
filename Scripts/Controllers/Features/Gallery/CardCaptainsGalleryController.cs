@@ -55,7 +55,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             Button button = captainsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(captain, MainPanel);
             });
 
@@ -83,7 +83,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             }
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var cardCaptainsGalleryService = CardCaptainsGalleryService.Create();
                 cardCaptainsGalleryService.UpdateStatusCardCaptainsGallery(captain.Id);
                 blockImage.gameObject.SetActive(false);
@@ -112,7 +112,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardCaptainsGalleryService.Create().UpdateCardCaptainsGalleryPower(captain.Id);
             });
         }

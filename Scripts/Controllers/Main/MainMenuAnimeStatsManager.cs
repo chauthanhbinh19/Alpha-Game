@@ -48,7 +48,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             string buttonName = button.name; // Lưu lại giá trị cục bộ để tránh lỗi closure
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CreateMainMenuAnimeStatsManager(buttonName);
             });
         }
@@ -67,12 +67,12 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
         });
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
 
@@ -97,7 +97,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 Button btn = button.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     OnButtonClick(button, subtype, value);
                 });
 
@@ -172,7 +172,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, animeStats.Level, false, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
@@ -194,7 +194,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, animeStats.Level, true, maxLevel);
             if (result.message.Equals(AppConstants.Status.SUCCESS))

@@ -103,7 +103,7 @@ public class TeamsManager : MonoBehaviour
         CloseButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             foreach (Transform child in MainPanel)
             {
                 Destroy(child.gameObject);
@@ -112,7 +112,7 @@ public class TeamsManager : MonoBehaviour
         HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
 
@@ -258,7 +258,7 @@ public class TeamsManager : MonoBehaviour
             string tempTeamId = team.TeamId;
             changeCardButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 teamId = tempTeamId;
                 CreatePopupTeamFirstPanel();
             });
@@ -275,14 +275,14 @@ public class TeamsManager : MonoBehaviour
         CloseButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(teamsObject);
             CreateTeams();
         });
         HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
 
@@ -358,14 +358,14 @@ public class TeamsManager : MonoBehaviour
         CloseButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(teamsObject);
             CreatePopupTeamFirstPanel();
         });
         HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
         // RawImage arrowUp = teamsObject.transform.Find("DictionaryCards/ScrollViewArrowUp").GetComponent<RawImage>();
@@ -457,7 +457,7 @@ public class TeamsManager : MonoBehaviour
 
         nextButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (page < totalPage)
             {
                 teamOffset = teamOffset + teamLimit;
@@ -468,7 +468,7 @@ public class TeamsManager : MonoBehaviour
         });
         previousButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (page > 1)
             {
                 teamOffset = teamOffset - teamLimit;
@@ -714,7 +714,7 @@ public class TeamsManager : MonoBehaviour
 
                     popupButton.onClick.AddListener(() =>
                     {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         position = tempPosition.ToString();
                         CreatePopupTeamSecondPanel();
                     });
@@ -730,7 +730,7 @@ public class TeamsManager : MonoBehaviour
 
                     popupButton.onClick.AddListener(() =>
                     {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         position = tempPosition.ToString();
                         CreatePopupTeamSecondPanel();
                     });
@@ -746,7 +746,7 @@ public class TeamsManager : MonoBehaviour
 
                     popupButton.onClick.AddListener(() =>
                     {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         position = tempPosition.ToString();
                         CreatePopupTeamSecondPanel();
                     });
@@ -762,7 +762,7 @@ public class TeamsManager : MonoBehaviour
 
                     popupButton.onClick.AddListener(() =>
                     {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         position = tempPosition.ToString();
                         CreatePopupTeamSecondPanel();
                     });
@@ -778,7 +778,7 @@ public class TeamsManager : MonoBehaviour
 
                     popupButton.onClick.AddListener(() =>
                     {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         position = tempPosition.ToString();
                         CreatePopupTeamSecondPanel();
                     });
@@ -794,7 +794,7 @@ public class TeamsManager : MonoBehaviour
 
                     popupButton.onClick.AddListener(() =>
                     {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         position = tempPosition.ToString();
                         CreatePopupTeamSecondPanel();
                     });
@@ -810,7 +810,7 @@ public class TeamsManager : MonoBehaviour
 
                     popupButton.onClick.AddListener(() =>
                     {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         position = tempPosition.ToString();
                         CreatePopupTeamSecondPanel();
                     });
@@ -826,7 +826,7 @@ public class TeamsManager : MonoBehaviour
 
                     popupButton.onClick.AddListener(() =>
                     {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         position = tempPosition.ToString();
                         CreatePopupTeamSecondPanel();
                     });
@@ -896,7 +896,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardHeroesService.UpdateTeamCardHeroes(null, null, matchingCardHero.Id);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -980,7 +980,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardCaptainsService.UpdateTeamCardCaptains(null, null, matchingCardCaptain.Id);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -1064,7 +1064,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardColonelsService.UpdateTeamCardColonels(null, null, matchingCardColonel.Id);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -1148,7 +1148,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardGeneralsService.UpdateTeamCardGenerals(null, null, matchingCardGeneral.Id);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -1232,7 +1232,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, matchingCardAdmiral.Id);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -1316,7 +1316,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardMonstersService.UpdateTeamCardMonsters(null, null, matchingCardMonster.Id);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -1400,7 +1400,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardMilitaryService.UpdateTeamCardMilitary(null, null, matchingCardMilitary.Id);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
@@ -1484,7 +1484,7 @@ public class TeamsManager : MonoBehaviour
 
                 leaveButton.onClick.AddListener(() =>
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardSpellService.UpdateTeamCardSpell(null, null, matchingCardSpell.Id);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);

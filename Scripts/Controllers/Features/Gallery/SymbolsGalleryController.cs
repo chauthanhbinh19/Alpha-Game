@@ -55,7 +55,7 @@ public class SymbolsGalleryController : MonoBehaviour
             Button button = symbolObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(symbol, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -90,7 +90,7 @@ public class SymbolsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var symbolGalleryService = SymbolsGalleryService.Create();
                 symbolGalleryService.UpdateStatusSymbolsGallery(symbol.Id);
                 blockImage.gameObject.SetActive(false);
@@ -119,7 +119,7 @@ public class SymbolsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 SymbolsGalleryService.Create().UpdateSymbolsGalleryPower(symbol.Id);
             });
         }

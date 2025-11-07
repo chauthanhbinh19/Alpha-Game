@@ -65,7 +65,7 @@ public class UserSkillsController : MonoBehaviour
             Button button = skillObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(skill, MainPanel);
             });
             // cardImage.SetNativeSize();
@@ -172,7 +172,7 @@ public class UserSkillsController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Skills currentCard = new Skills();
                 currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -200,7 +200,7 @@ public class UserSkillsController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Skills currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -282,7 +282,7 @@ public class UserSkillsController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = skill.Star + 1;
                 double totalItemQuantity = 0;
 

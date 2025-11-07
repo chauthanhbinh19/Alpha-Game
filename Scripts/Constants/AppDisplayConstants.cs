@@ -186,35 +186,35 @@ public static class AppDisplayConstants
     }
     public static class Collection
     {
-        public const string CARD_HEROES_COLLECTION = "Collection.CardHeroesCollection";
-        public const string BOOKS_COLLECTION = "Collection.BooksCollection";
-        public const string PETS_COLLECTION = "Collection.PetsCollection";
-        public const string CARD_CAPTAINS_COLLECTION = "Collection.CardCaptainsCollection";
-        public const string COLLABORATION_EQUIPMENTS_COLLECTION = "Collection.CollaborationEquipmentsCollection";
-        public const string CARD_MILITARIES_COLLECTION = "Collection.CardMilitaryCollection";
-        public const string CARD_SPELLS_COLLECTION = "Collection.CardSpellCollection";
-        public const string COLLABORATIONS_COLLECTION = "Collection.CollaborationsCollection";
-        public const string CARD_MONSTERS_COLLECTION = "Collection.CardMonstersCollection";
-        public const string EQUIPMENTS_COLLECTION = "Collection.EquipmentsCollection";
-        public const string MEDALS_COLLECTION = "Collection.MedalsCollection";
-        public const string SKILLS_COLLECTION = "Collection.SkillsCollection";
-        public const string SYMBOLS_COLLECTION = "Collection.SymbolsCollection";
-        public const string TITLES_COLLECTION = "Collection.TitlesCollection";
-        public const string MAGIC_FORMATION_CIRCLES_COLLECTION = "Collection.MagicFormationCircleCollection";
-        public const string RELICS_COLLECTION = "Collection.RelicsCollection";
-        public const string CARD_COLONELS_COLLECTION = "Collection.CardColonelsCollection";
-        public const string CARD_GENERALS_COLLECTION = "Collection.CardGeneralsCollection";
-        public const string CARD_ADMIRALS_COLLECTION = "Collection.CardAdmiralsCollection";
-        public const string BORDERS_COLLECTION = "Collection.BordersCollection";
-        public const string TALISMANS_COLLECTION = "Collection.TalismanCollection";
-        public const string PUPPETS_COLLECTION = "Collection.PuppetCollection";
-        public const string ALCHEMIES_COLLECTION = "Collection.AlchemyCollection";
-        public const string FORGES_COLLECTION = "Collection.ForgeCollection";
-        public const string CARD_LIVES_COLLECTION = "Collection.LifeCollection";
-        public const string ARTWORKS_COLLECTION = "Collection.ArtworkCollection";
-        public const string SPIRIT_BEASTS_COLLECTION = "Collection.SpiritBeastCollection";
+        public const string CARD_HEROES_COLLECTION = "Collection.CardHeroes";
+        public const string BOOKS_COLLECTION = "Collection.Books";
+        public const string PETS_COLLECTION = "Collection.Pets";
+        public const string CARD_CAPTAINS_COLLECTION = "Collection.CardCaptains";
+        public const string COLLABORATION_EQUIPMENTS_COLLECTION = "Collection.CollaborationEquipments";
+        public const string CARD_MILITARIES_COLLECTION = "Collection.CardMilitary";
+        public const string CARD_SPELLS_COLLECTION = "Collection.CardSpell";
+        public const string COLLABORATIONS_COLLECTION = "Collection.Collaborations";
+        public const string CARD_MONSTERS_COLLECTION = "Collection.CardMonsters";
+        public const string EQUIPMENTS_COLLECTION = "Collection.Equipments";
+        public const string MEDALS_COLLECTION = "Collection.Medals";
+        public const string SKILLS_COLLECTION = "Collection.Skills";
+        public const string SYMBOLS_COLLECTION = "Collection.Symbols";
+        public const string TITLES_COLLECTION = "Collection.Titles";
+        public const string MAGIC_FORMATION_CIRCLES_COLLECTION = "Collection.MagicFormationCircle";
+        public const string RELICS_COLLECTION = "Collection.Relics";
+        public const string CARD_COLONELS_COLLECTION = "Collection.CardColonels";
+        public const string CARD_GENERALS_COLLECTION = "Collection.CardGenerals";
+        public const string CARD_ADMIRALS_COLLECTION = "Collection.CardAdmirals";
+        public const string BORDERS_COLLECTION = "Collection.Borders";
+        public const string TALISMANS_COLLECTION = "Collection.Talisman";
+        public const string PUPPETS_COLLECTION = "Collection.Puppet";
+        public const string ALCHEMIES_COLLECTION = "Collection.Alchemy";
+        public const string FORGES_COLLECTION = "Collection.Forge";
+        public const string CARD_LIVES_COLLECTION = "Collection.Life";
+        public const string ARTWORKS_COLLECTION = "Collection.Artwork";
+        public const string SPIRIT_BEASTS_COLLECTION = "Collection.SpiritBeast";
         public const string AVATARS_COLLECTION = "Collection.Avatars";
-        public const string SPIRIT_CARDS_COLLECTION = "Collection.SpiritCardCollection";
+        public const string SPIRIT_CARDS_COLLECTION = "Collection.SpiritCard";
     }
     public static class Anime
     {

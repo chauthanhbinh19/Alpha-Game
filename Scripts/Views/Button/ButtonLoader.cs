@@ -7,6 +7,7 @@ using TMPro;
 public class ButtonLoader : MonoBehaviour
 {
     private GameObject buttonPrefab; // Prefab của button
+    private GameObject MainButtonPrefab;
     private GameObject TabButton4;
     private GameObject TabButton3;
     private GameObject TabButton6;
@@ -47,6 +48,7 @@ public class ButtonLoader : MonoBehaviour
     public void Initialize()
     {
         buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
+        MainButtonPrefab = UIManager.Instance.GetGameObject("MainButtonPrefab");
         TabButton4 = UIManager.Instance.GetGameObject("TabButton4");
         TabButton3 = UIManager.Instance.GetGameObject("TabButton3");
         TabButton6 = UIManager.Instance.GetGameObject("TabButton6");
@@ -146,7 +148,7 @@ public class ButtonLoader : MonoBehaviour
     private void CreateButton(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(buttonPrefab, panel);
+        GameObject newButton = Instantiate(MainButtonPrefab, panel);
         newButton.name = "Button_" + index;
 
         // Gán màu cho itemBackground
@@ -194,7 +196,7 @@ public class ButtonLoader : MonoBehaviour
         TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
-            nameText.text = LocalizationManager.Get(itemName);
+            nameText.text = LocalizationManager.Get(itemName.Replace("_", ""));
         }
     }
     public List<string> GetUniqueTypes()
@@ -301,74 +303,128 @@ public class ButtonLoader : MonoBehaviour
     public void CreateGalleryButton(Transform galleryMenuPanel)
     {
         //Gallery menu
-        CreateButton(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_HERO_URL), galleryMenuPanel);
-        CreateButton(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BOOK_URL), galleryMenuPanel);
-        CreateButton(3, AppDisplayConstants.Gallery.PETS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.PET_URL), galleryMenuPanel);
-        CreateButton(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_CAPTAIN_URL), galleryMenuPanel);
-        CreateButton(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.COLLABORATION_EQUIPMENT_URL), galleryMenuPanel);
-        CreateButton(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_MILITARY_URL), galleryMenuPanel);
-        CreateButton(7, AppDisplayConstants.Gallery.CARD_SPELL_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_SPELL_URL), galleryMenuPanel);
-        CreateButton(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.COLLABORATION_URL), galleryMenuPanel);
-        CreateButton(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_MONSTER_URL), galleryMenuPanel);
-        CreateButton(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.EQUIPMENT_URL), galleryMenuPanel);
-        CreateButton(11, AppDisplayConstants.Gallery.MEDALS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.MEDAL_URL), galleryMenuPanel);
-        CreateButton(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SKILL_URL), galleryMenuPanel);
-        CreateButton(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SYMBOL_URL), galleryMenuPanel);
-        CreateButton(14, AppDisplayConstants.Gallery.TITLES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.TITLE_URL), galleryMenuPanel);
-        CreateButton(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CRICLES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL), galleryMenuPanel);
-        CreateButton(16, AppDisplayConstants.Gallery.RELICS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.RELIC_URL), galleryMenuPanel);
-        CreateButton(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_COLONEL_URL), galleryMenuPanel);
-        CreateButton(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_GENERAL_URL), galleryMenuPanel);
-        CreateButton(19, AppDisplayConstants.Gallery.CARD_ADMIRALS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_ADMIRAL_URL), galleryMenuPanel);
-        CreateButton(20, AppDisplayConstants.Gallery.BORDERS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BORDER_URL), galleryMenuPanel);
-        CreateButton(21, AppDisplayConstants.Gallery.TALISMANS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.TALISMAN_URL), galleryMenuPanel);
-        CreateButton(22, AppDisplayConstants.Gallery.PUPPETS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.PUPPET_URL), galleryMenuPanel);
-        CreateButton(23, AppDisplayConstants.Gallery.ALCHEMIES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ALCHEMY_URL), galleryMenuPanel);
-        CreateButton(24, AppDisplayConstants.Gallery.FORGES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.FORGE_URL), galleryMenuPanel);
-        CreateButton(25, AppDisplayConstants.Gallery.CARD_LIVES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.LIFE_URL), galleryMenuPanel);
-        CreateButton(26, AppDisplayConstants.Gallery.ARTWORKS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ARTWORK_URL), galleryMenuPanel);
-        CreateButton(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SPIRIT_BEAST_URL), galleryMenuPanel);
-        CreateButton(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.AVATAR_URL), galleryMenuPanel);
-        CreateButton(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SPIRIT_CARD_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_HERO_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BOOK_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(3, AppDisplayConstants.Gallery.PETS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.PET_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_CAPTAIN_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.COLLABORATION_EQUIPMENT_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_MILITARY_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELL_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_SPELL_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.COLLABORATION_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_MONSTER_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.EQUIPMENT_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(11, AppDisplayConstants.Gallery.MEDALS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.MEDAL_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SKILL_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SYMBOL_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(14, AppDisplayConstants.Gallery.TITLES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.TITLE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CRICLES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(16, AppDisplayConstants.Gallery.RELICS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.RELIC_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_COLONEL_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_GENERAL_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(19, AppDisplayConstants.Gallery.CARD_ADMIRALS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_ADMIRAL_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(20, AppDisplayConstants.Gallery.BORDERS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BORDER_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(21, AppDisplayConstants.Gallery.TALISMANS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.TALISMAN_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(22, AppDisplayConstants.Gallery.PUPPETS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.PUPPET_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(23, AppDisplayConstants.Gallery.ALCHEMIES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ALCHEMY_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(24, AppDisplayConstants.Gallery.FORGES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.FORGE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(25, AppDisplayConstants.Gallery.CARD_LIVES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.LIFE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(26, AppDisplayConstants.Gallery.ARTWORKS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ARTWORK_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SPIRIT_BEAST_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.AVATAR_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SPIRIT_CARD_URL), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
+    private void CreateGalleryButtonUI(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(buttonPrefab, panel);
+        newButton.name = "Button_" + index;
+
+        // Gán màu cho itemBackground
+        RawImage background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        if (background != null && itemBackground != null)
+        {
+            background.texture = itemBackground;
+        }
+
+        // Gán hình ảnh cho itemImage
+        RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = LocalizationManager.Get(itemName);
+        }
+    }
     public void CreateCollectionButton(Transform collectionMenuPanel)
     {
         //Collection menu
-        CreateButton(1, AppDisplayConstants.Collection.CARD_HEROES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_HERO_URL), collectionMenuPanel);
-        CreateButton(2, AppDisplayConstants.Collection.BOOKS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BOOK_URL), collectionMenuPanel);
-        CreateButton(3, AppDisplayConstants.Collection.PETS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.PET_URL), collectionMenuPanel);
-        CreateButton(4, AppDisplayConstants.Collection.CARD_CAPTAINS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_CAPTAIN_URL), collectionMenuPanel);
-        CreateButton(5, AppDisplayConstants.Collection.COLLABORATION_EQUIPMENTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.COLLABORATION_EQUIPMENT_URL), collectionMenuPanel);
-        CreateButton(6, AppDisplayConstants.Collection.CARD_MILITARIES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_MILITARY_URL), collectionMenuPanel);
-        CreateButton(7, AppDisplayConstants.Collection.CARD_SPELLS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_SPELL_URL), collectionMenuPanel);
-        CreateButton(8, AppDisplayConstants.Collection.COLLABORATIONS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.COLLABORATION_URL), collectionMenuPanel);
-        CreateButton(9, AppDisplayConstants.Collection.CARD_MONSTERS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_MONSTER_URL), collectionMenuPanel);
-        CreateButton(10, AppDisplayConstants.Collection.EQUIPMENTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.EQUIPMENT_URL), collectionMenuPanel);
-        CreateButton(11, AppDisplayConstants.Collection.MEDALS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.MEDAL_URL), collectionMenuPanel);
-        CreateButton(12, AppDisplayConstants.Collection.SKILLS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SKILL_URL), collectionMenuPanel);
-        CreateButton(13, AppDisplayConstants.Collection.SYMBOLS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SYMBOL_URL), collectionMenuPanel);
-        CreateButton(14, AppDisplayConstants.Collection.TITLES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.TITLE_URL), collectionMenuPanel);
-        CreateButton(15, AppDisplayConstants.Collection.MAGIC_FORMATION_CIRCLES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.MAGIC_FORMATION_CIRCLE_URL), collectionMenuPanel);
-        CreateButton(16, AppDisplayConstants.Collection.RELICS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.RELIC_URL), collectionMenuPanel);
-        CreateButton(17, AppDisplayConstants.Collection.CARD_COLONELS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_COLONEL_URL), collectionMenuPanel);
-        CreateButton(18, AppDisplayConstants.Collection.CARD_GENERALS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_GENERAL_URL), collectionMenuPanel);
-        CreateButton(19, AppDisplayConstants.Collection.CARD_ADMIRALS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_ADMIRAL_URL), collectionMenuPanel);
-        CreateButton(20, AppDisplayConstants.Collection.BORDERS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BORDER_URL), collectionMenuPanel);
-        CreateButton(21, AppDisplayConstants.Collection.TALISMANS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.TALISMAN_URL), collectionMenuPanel);
-        CreateButton(22, AppDisplayConstants.Collection.PUPPETS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.PUPPET_URL), collectionMenuPanel);
-        CreateButton(23, AppDisplayConstants.Collection.ALCHEMIES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ALCHEMY_URL), collectionMenuPanel);
-        CreateButton(24, AppDisplayConstants.Collection.FORGES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.FORGE_URL), collectionMenuPanel);
-        CreateButton(25, AppDisplayConstants.Collection.CARD_LIVES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.LIFE_URL), collectionMenuPanel);
-        CreateButton(26, AppDisplayConstants.Collection.ARTWORKS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ARTWORK_URL), collectionMenuPanel);
-        CreateButton(27, AppDisplayConstants.Collection.SPIRIT_BEASTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SPIRIT_BEAST_URL), collectionMenuPanel);
-        CreateButton(28, AppDisplayConstants.Collection.AVATARS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.AVATAR_URL), collectionMenuPanel);
-        CreateButton(29, AppDisplayConstants.Collection.SPIRIT_CARDS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SPIRIT_CARD_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(1, AppDisplayConstants.Collection.CARD_HEROES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_HERO_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(2, AppDisplayConstants.Collection.BOOKS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BOOK_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(3, AppDisplayConstants.Collection.PETS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.PET_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(4, AppDisplayConstants.Collection.CARD_CAPTAINS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_CAPTAIN_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(5, AppDisplayConstants.Collection.COLLABORATION_EQUIPMENTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.COLLABORATION_EQUIPMENT_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(6, AppDisplayConstants.Collection.CARD_MILITARIES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_MILITARY_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(7, AppDisplayConstants.Collection.CARD_SPELLS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_SPELL_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(8, AppDisplayConstants.Collection.COLLABORATIONS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.COLLABORATION_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(9, AppDisplayConstants.Collection.CARD_MONSTERS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_MONSTER_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(10, AppDisplayConstants.Collection.EQUIPMENTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.EQUIPMENT_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(11, AppDisplayConstants.Collection.MEDALS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.MEDAL_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(12, AppDisplayConstants.Collection.SKILLS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SKILL_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(13, AppDisplayConstants.Collection.SYMBOLS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SYMBOL_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(14, AppDisplayConstants.Collection.TITLES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.TITLE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(15, AppDisplayConstants.Collection.MAGIC_FORMATION_CIRCLES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.MAGIC_FORMATION_CIRCLE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(16, AppDisplayConstants.Collection.RELICS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.RELIC_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(17, AppDisplayConstants.Collection.CARD_COLONELS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_COLONEL_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(18, AppDisplayConstants.Collection.CARD_GENERALS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_GENERAL_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(19, AppDisplayConstants.Collection.CARD_ADMIRALS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_ADMIRAL_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(20, AppDisplayConstants.Collection.BORDERS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BORDER_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(21, AppDisplayConstants.Collection.TALISMANS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.TALISMAN_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(22, AppDisplayConstants.Collection.PUPPETS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.PUPPET_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(23, AppDisplayConstants.Collection.ALCHEMIES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ALCHEMY_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(24, AppDisplayConstants.Collection.FORGES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.FORGE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(25, AppDisplayConstants.Collection.CARD_LIVES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.LIFE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(26, AppDisplayConstants.Collection.ARTWORKS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ARTWORK_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(27, AppDisplayConstants.Collection.SPIRIT_BEASTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SPIRIT_BEAST_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(28, AppDisplayConstants.Collection.AVATARS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.AVATAR_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(29, AppDisplayConstants.Collection.SPIRIT_CARDS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SPIRIT_CARD_URL), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    private void CreateCollectionButtonUI(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(buttonPrefab, panel);
+        newButton.name = "Button_" + index;
+
+        // Gán màu cho itemBackground
+        RawImage background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        if (background != null && itemBackground != null)
+        {
+            background.texture = itemBackground;
+        }
+
+        // Gán hình ảnh cho itemImage
+        RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = LocalizationManager.Get(itemName);
+        }
     }
     public void CreateEquipmentsButton(Transform equipmentMenuPanel)
     {
@@ -534,7 +590,7 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         CreateButtonGroup(data);
                     });
                 }
@@ -544,7 +600,7 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         CreateButtonGroup(data);
                     });
                 }
@@ -554,7 +610,7 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         CreateButtonGroup(data);
                     });
                 }
@@ -564,7 +620,7 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         CreateButtonGroup(data);
                     });
                 }
@@ -574,7 +630,7 @@ public class ButtonLoader : MonoBehaviour
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                         CreateButtonGroup(data);
                     });
                 }
@@ -596,7 +652,7 @@ public class ButtonLoader : MonoBehaviour
         Button CloseButton = popUpPanelGameObject.transform.Find("CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popUpPanelGameObject);
         });
 

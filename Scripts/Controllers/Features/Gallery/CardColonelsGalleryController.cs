@@ -55,7 +55,7 @@ public class CardColonelsGalleryController : MonoBehaviour
             Button button = spellObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(colonel, MainPanel);
             });
 
@@ -84,7 +84,7 @@ public class CardColonelsGalleryController : MonoBehaviour
 
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var colonelGalleryService = CardColonelsGalleryService.Create();
                 colonelGalleryService.UpdateStatusCardColonelsGallery(colonel.Id);
                 blockImage.gameObject.SetActive(false);
@@ -113,7 +113,7 @@ public class CardColonelsGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardColonelsGalleryService.Create().UpdateCardColonelsGalleryPower(colonel.Id);
             });
         }

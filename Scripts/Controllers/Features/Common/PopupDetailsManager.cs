@@ -245,7 +245,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -296,7 +296,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -332,7 +332,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -388,7 +388,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -440,7 +440,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -476,7 +476,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -512,7 +512,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -548,7 +548,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -584,7 +584,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -636,7 +636,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
@@ -687,7 +687,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -732,7 +732,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -775,7 +775,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -827,7 +827,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -879,7 +879,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -931,7 +931,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -983,7 +983,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1035,7 +1035,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1071,7 +1071,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1107,7 +1107,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1143,7 +1143,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1195,7 +1195,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1247,7 +1247,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1299,7 +1299,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1351,7 +1351,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1387,7 +1387,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1423,7 +1423,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
@@ -1459,7 +1459,7 @@ public class PopupDetailsManager : MonoBehaviour
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 

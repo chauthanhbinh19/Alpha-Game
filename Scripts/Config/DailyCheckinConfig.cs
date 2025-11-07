@@ -51,7 +51,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         Date = currentDate,
                         Month = currentDate.Month,
                         Year = currentDate.Year,
-                        Type = AppConstants.MainType.CARD_HEROES,
+                        Type = AppConstants.MainType.CARD_HERO,
                         ObjectId = randomItem,
                         Quantity = 5000
                     };

@@ -69,7 +69,7 @@ public class UserCardLifeController : MonoBehaviour
             Button button = cardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
             });
 
@@ -181,7 +181,7 @@ public class UserCardLifeController : MonoBehaviour
             upMaxLevelButton.onClick.RemoveAllListeners();
             up1LevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardLives currentCard = new CardLives();
                 currentCard = UserCardLifeService.Create().GetUserCardLifeById(User.CurrentUserId, cardLife.Id);
                 double totalExperiment = currentCard.Experiment;
@@ -209,7 +209,7 @@ public class UserCardLifeController : MonoBehaviour
             });
             upMaxLevelButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardLives currentCard = UserCardLifeService.Create().GetUserCardLifeById(User.CurrentUserId, cardLife.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -291,7 +291,7 @@ public class UserCardLifeController : MonoBehaviour
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = cardLife.Star + 1;
                 double totalItemQuantity = 0;
 

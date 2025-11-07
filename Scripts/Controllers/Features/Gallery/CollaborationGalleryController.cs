@@ -55,7 +55,7 @@ public class CollaborationGalleryController : MonoBehaviour
             Button button = collaborationObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(collaboration, MainPanel);
             });
 
@@ -86,7 +86,7 @@ public class CollaborationGalleryController : MonoBehaviour
             }
             Unlock.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var collaborationGalleryService = CollaborationGalleryService.Create();
                 collaborationGalleryService.UpdateStatusCollaborationsGallery(collaboration.Id);
                 blockImage.gameObject.SetActive(false);
@@ -115,7 +115,7 @@ public class CollaborationGalleryController : MonoBehaviour
 
             Upgrade.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CollaborationGalleryService.Create().UpdateCollaborationsGalleryPower(collaboration.Id);
             });
         }
