@@ -2,16 +2,16 @@ public static class ImageConstants
 {
     public static class Main
     {
-        public const string CARD_HERO_URL = "UI/UI/Cards";
-        public const string BOOK_URL = "UI/UI/Books";
-        public const string PET_URL = "UI/UI/Pets";
-        public const string CARD_CAPTAIN_URL = "UI/UI/Captains";
-        public const string CARD_COLONEL_URL = "UI/Button/philosophies_of_conflict";
-        public const string CARD_GENERAL_URL = "UI/Button/philosophies_of_contention";
-        public const string CARD_ADMIRAL_URL = "UI/Button/philosophies_of_diligence";
-        public const string CARD_MILITARY_URL = "UI/UI/Military";
-        public const string CARD_SPELL_URL = "UI/UI/Spell";
-        public const string CARD_MONSTER_URL = "UI/UI/Monsters";
+        public const string CARD_HERO_URL = "UI/Button/Main/CardHeroes";
+        public const string BOOK_URL = "UI/Button/Main/Books";
+        public const string PET_URL = "UI/Button/Main/Pets";
+        public const string CARD_CAPTAIN_URL = "UI/Button/Main/CardCaptains";
+        public const string CARD_COLONEL_URL = "UI/Button/Main/CardColonels";
+        public const string CARD_GENERAL_URL = "UI/Button/Main/CardGenerals";
+        public const string CARD_ADMIRAL_URL = "UI/Button/Main/CardAdmirals";
+        public const string CARD_MILITARY_URL = "UI/Button/Main/CardMilitaries";
+        public const string CARD_SPELL_URL = "UI/Button/Main/CardSpells";
+        public const string CARD_MONSTER_URL = "UI/Button/Main/CardMonsters";
         public const string BAG_URL = "UI/UI/Bag";
         public const string TEAM_URL = "UI/UI/Teams";
         public const string MORE_URL = "UI/UI/Teams";
@@ -24,24 +24,24 @@ public static class ImageConstants
         public const string SUMMON_CARD_MILITARY_URL = "UI/UI/SummonMilitary";
         public const string SUMMON_CARD_SPELL_URL = "UI/UI/SummonSpell";
         public const string SUMMON_CARD_MONSTER_URL = "UI/UI/SummonMonsters";
-        public const string COLLABORATION_EQUIPMENT_URL = "UI/UI/CollaborationEquipments";
-        public const string COLLABORATION_URL = "UI/UI/Collaboration";
-        public const string MEDAL_URL = "UI/UI/Bag";
-        public const string SKILL_URL = "UI/UI/Skills";
-        public const string SYMBOL_URL = "UI/UI/Symbols";
-        public const string TITLE_URL = "UI/UI/Titles";
-        public const string MAGIC_FORMATION_CIRCLE_URL = "UI/Button/MagicFormationCircle";
-        public const string RELIC_URL = "UI/Button/Relics";
-        public const string TALISMAN_URL = "UI/UI/Talisman";
-        public const string PUPPET_URL = "UI/UI/Puppet";
-        public const string ALCHEMY_URL = "UI/UI/Alchemy";
-        public const string FORGE_URL = "UI/UI/Forge";
-        public const string CARD_LIFE_URL = "UI/UI/Life";
+        public const string COLLABORATION_EQUIPMENT_URL = "UI/Button/Main/CollaborationEquipments";
+        public const string COLLABORATION_URL = "UI/Button/Main/Collaborations";
+        public const string MEDAL_URL = "UI/Button/Main/Medals";
+        public const string SKILL_URL = "UI/Button/Main/Skills";
+        public const string SYMBOL_URL = "UI/Button/Main/Symbols";
+        public const string TITLE_URL = "UI/Button/Main/Titles";
+        public const string MAGIC_FORMATION_CIRCLE_URL = "UI/Button/Main/MagicFormationCircle";
+        public const string RELIC_URL = "UI/Button/Main/Relics";
+        public const string TALISMAN_URL = "UI/Button/Main/Talisman";
+        public const string PUPPET_URL = "UI/Button/Main/Puppet";
+        public const string ALCHEMY_URL = "UI/Button/Main/Alchemy";
+        public const string FORGE_URL = "UI/Button/Main/Forge";
+        public const string CARD_LIFE_URL = "UI/Button/Main/CardLife";
         public const string MASTER_BOARD_URL = "UI/Button/Master_Board";
-        public const string ARTWORK_URL = "UI/Button/Artwork";
-        public const string SPIRIT_BEAST_URL = "UI/Button/SpiritBeast";
+        public const string ARTWORK_URL = "UI/Button/Main/Artworks";
+        public const string SPIRIT_BEAST_URL = "UI/Button/Main/SpiritBeasts";
         public const string SCIENCE_FICTION_URL = "UI/Button/ScienceFiction";
-        public const string SPIRIT_CARD_URL = "UI/Button/SpiritCard";
+        public const string SPIRIT_CARD_URL = "UI/Button/Main/SpiritCards";
         public const string SHOP_URL = "UI/UI/Shop";
         public const string GALLERY_URL = "UI/Button/Gallery";
         public const string COLLECTION_URL = "UI/Button/Collection";
@@ -190,15 +190,15 @@ public static class ImageConstants
     }
     public static class Gallery
     {
-        public const string CARD_HERO_URL = "UI/Button/Gallery/CardsGallery";
+        public const string CARD_HERO_URL = "UI/Button/Gallery/CardHeroesGallery";
         public const string BOOK_URL = "UI/Button/Gallery/BooksGallery";
         public const string PET_URL = "UI/Button/Gallery/PetsGallery";
-        public const string CARD_CAPTAIN_URL = "UI/Button/Gallery/CaptainsGallery";
+        public const string CARD_CAPTAIN_URL = "UI/Button/Gallery/CardCaptainsGallery";
         public const string COLLABORATION_EQUIPMENT_URL = "UI/Button/Gallery/CollaborationEquipmentsGallery";
-        public const string CARD_MILITARY_URL = "UI/Button/Gallery/MilitaryGallery";
-        public const string CARD_SPELL_URL = "UI/Button/Gallery/SpellGallery";
+        public const string CARD_MILITARY_URL = "UI/Button/Gallery/CardMilitariesGallery";
+        public const string CARD_SPELL_URL = "UI/Button/Gallery/CardSpellsGallery";
         public const string COLLABORATION_URL = "UI/Button/Gallery/CollaborationsGallery";
-        public const string CARD_MONSTER_URL = "UI/Button/Gallery/MonstersGallery";
+        public const string CARD_MONSTER_URL = "UI/Button/Gallery/CardMonstersGallery";
         public const string EQUIPMENT_URL = "UI/Button/Gallery/EquipmentsGallery";
         public const string MEDAL_URL = "UI/Button/Gallery/MedalsGallery";
         public const string SKILL_URL = "UI/Button/Gallery/SkillsGallery";
@@ -206,31 +206,31 @@ public static class ImageConstants
         public const string TITLE_URL = "UI/Button/Gallery/TitlesGallery";
         public const string MAGIC_FORMATION_CIRCLE_URL = "UI/Button/Gallery/MagicFormationCircleGallery";
         public const string RELIC_URL = "UI/Button/Gallery/RelicsGallery";
-        public const string CARD_COLONEL_URL = "UI/Button/Gallery/ColonelsGallery";
-        public const string CARD_GENERAL_URL = "UI/Button/Gallery/GeneralsGallery";
-        public const string CARD_ADMIRAL_URL = "UI/Button/Gallery/AdmiralsGallery";
-        public const string BORDER_URL = "UI/Button/Gallery/BorderGallery";
+        public const string CARD_COLONEL_URL = "UI/Button/Gallery/CardColonelsGallery";
+        public const string CARD_GENERAL_URL = "UI/Button/Gallery/CardGeneralsGallery";
+        public const string CARD_ADMIRAL_URL = "UI/Button/Gallery/CardAdmiralsGallery";
+        public const string BORDER_URL = "UI/Button/Gallery/BordersGallery";
         public const string TALISMAN_URL = "UI/Button/Gallery/TalismanGallery";
         public const string PUPPET_URL = "UI/Button/Gallery/PuppetGallery";
         public const string ALCHEMY_URL = "UI/Button/Gallery/AlchemyGallery";
         public const string FORGE_URL = "UI/Button/Gallery/ForgeGallery";
-        public const string LIFE_URL = "UI/Button/Gallery/LifeGallery";
-        public const string ARTWORK_URL = "UI/Button/Gallery/ArtworkGallery";
-        public const string SPIRIT_BEAST_URL = "UI/Button/Gallery/SpiritBeastGallery";
+        public const string LIFE_URL = "UI/Button/Gallery/CardLifeGallery";
+        public const string ARTWORK_URL = "UI/Button/Gallery/ArtworksGallery";
+        public const string SPIRIT_BEAST_URL = "UI/Button/Gallery/SpiritBeastsGallery";
         public const string AVATAR_URL = "UI/Button/Gallery/AvatarsGallery";
-        public const string SPIRIT_CARD_URL = "UI/Button/Gallery/SpiritCardGallery";
+        public const string SPIRIT_CARD_URL = "UI/Button/Gallery/SpiritCardsGallery";
     }
     public static class Collection
     {
-        public const string CARD_HERO_URL = "UI/Button/Collection/CardsCollection";
+        public const string CARD_HERO_URL = "UI/Button/Collection/CardHeroesCollection";
         public const string BOOK_URL = "UI/Button/Collection/BooksCollection";
         public const string PET_URL = "UI/Button/Collection/PetsCollection";
-        public const string CARD_CAPTAIN_URL = "UI/Button/Collection/CaptainsCollection";
+        public const string CARD_CAPTAIN_URL = "UI/Button/Collection/CardCaptainsCollection";
         public const string COLLABORATION_EQUIPMENT_URL = "UI/Button/Collection/CollaborationEquipmentsCollection";
-        public const string CARD_MILITARY_URL = "UI/Button/Collection/MilitaryCollection";
-        public const string CARD_SPELL_URL = "UI/Button/Collection/SpellCollection";
+        public const string CARD_MILITARY_URL = "UI/Button/Collection/CardMilitariesCollection";
+        public const string CARD_SPELL_URL = "UI/Button/Collection/CardSpellsCollection";
         public const string COLLABORATION_URL = "UI/Button/Collection/CollaborationsCollection";
-        public const string CARD_MONSTER_URL = "UI/Button/Collection/MonstersCollection";
+        public const string CARD_MONSTER_URL = "UI/Button/Collection/CardMonstersCollection";
         public const string EQUIPMENT_URL = "UI/Button/Collection/EquipmentsCollection";
         public const string MEDAL_URL = "UI/Button/Collection/MedalsCollection";
         public const string SKILL_URL = "UI/Button/Collection/SkillsCollection";
@@ -238,19 +238,19 @@ public static class ImageConstants
         public const string TITLE_URL = "UI/Button/Collection/TitlesCollection";
         public const string MAGIC_FORMATION_CIRCLE_URL = "UI/Button/Collection/MagicFormationCircleCollection";
         public const string RELIC_URL = "UI/Button/Collection/RelicsCollection";
-        public const string CARD_COLONEL_URL = "UI/Button/Collection/ColonelsCollection";
-        public const string CARD_GENERAL_URL = "UI/Button/Collection/GeneralsCollection";
-        public const string CARD_ADMIRAL_URL = "UI/Button/Collection/AdmiralsCollection";
-        public const string BORDER_URL = "UI/Button/Collection/BorderCollection";
+        public const string CARD_COLONEL_URL = "UI/Button/Collection/CardColonelsCollection";
+        public const string CARD_GENERAL_URL = "UI/Button/Collection/CardGeneralsCollection";
+        public const string CARD_ADMIRAL_URL = "UI/Button/Collection/CardAdmiralsCollection";
+        public const string BORDER_URL = "UI/Button/Collection/BordersCollection";
         public const string TALISMAN_URL = "UI/Button/Collection/TalismanCollection";
         public const string PUPPET_URL = "UI/Button/Collection/PuppetCollection";
         public const string ALCHEMY_URL = "UI/Button/Collection/AlchemyCollection";
         public const string FORGE_URL = "UI/Button/Collection/ForgeCollection";
-        public const string LIFE_URL = "UI/Button/Collection/LifeCollection";
-        public const string ARTWORK_URL = "UI/Button/Collection/ArtworkCollection";
-        public const string SPIRIT_BEAST_URL = "UI/Button/Collection/SpiritBeastCollection";
+        public const string LIFE_URL = "UI/Button/Collection/CardLifeCollection";
+        public const string ARTWORK_URL = "UI/Button/Collection/ArtworksCollection";
+        public const string SPIRIT_BEAST_URL = "UI/Button/Collection/SpiritBeastsCollection";
         public const string AVATAR_URL = "UI/Button/Collection/AvatarsCollection";
-        public const string SPIRIT_CARD_URL = "UI/Button/Collection/SpiritCardCollection";
+        public const string SPIRIT_CARD_URL = "UI/Button/Collection/SpiritCardsCollection";
     }
     public static class Rune
     {

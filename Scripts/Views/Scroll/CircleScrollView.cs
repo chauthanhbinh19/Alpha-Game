@@ -85,7 +85,7 @@ public class CircleScrollView : MonoBehaviour
         if (count == 0) return;
 
         // Nếu startFromTop = true => góc bắt đầu từ 90° (tức là trên)
-        float startOffset = startFromTop ? 130f : 0f;
+        float startOffset = startFromTop ? 90f : 0f;
 
         // Chiều quay: clockwise = +1, counterclockwise = -1
         float direction = isClockwise ? 1f : -1f;

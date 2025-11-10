@@ -115,6 +115,7 @@ public class MainMenuManager : MonoBehaviour
         Button eventButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/EventButton").GetComponent<Button>();
         Button campaignButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/CampaignButton").GetComponent<Button>();
         Button shopButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/ShopButton").GetComponent<Button>();
+        Button teamButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/TeamButton").GetComponent<Button>();
 
         content.AddComponent<RotateAnimation>();
 
@@ -162,6 +163,12 @@ public class MainMenuManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ShopManager.Instance.CreateShopButton();
+        });
+
+        teamButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            GetType(AppConstants.MainType.TEAMS);
         });
     }
     public Transform GetSummonPanel()
@@ -224,8 +231,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, () => GetType(AppConstants.MainType.ARTWORK));
         ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
         ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.SCIENCE_FICTION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_30", contentPanel, () => GetType(AppConstants.MainType.TEAMS));  
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD)); 
     }
     public void GetPrimaryButtonEvent()
     {
