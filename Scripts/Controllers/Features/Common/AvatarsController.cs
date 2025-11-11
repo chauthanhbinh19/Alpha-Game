@@ -46,7 +46,7 @@ public class AvatarsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateAvatarsGallery(List<Avatars> avatars, Transform DictionaryContentPanel)
+    public void CreateAvatarsGallery(List<Achievements> avatars, Transform DictionaryContentPanel)
     {
         foreach (var avatar in avatars)
         {
@@ -84,7 +84,7 @@ public class AvatarsController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateAvatarsTrade(List<Avatars> avatars, string subType, Transform currentContent,
+    public void CreateAvatarsTrade(List<Achievements> avatars, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var avatar in avatars)
@@ -269,16 +269,16 @@ public class AvatarsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
-        confirmButton.onClick.AddListener(() =>
+        confirmButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Avatars avatars)
+            if (obj is Achievements avatars)
             {
                 avatars.Quantity = avatars.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(avatars.Currency.Id, price);
+                UserCurrencyService.Create().UpdateUserCurrency((string)avatars.Currency.Id, price);
                 bool success = UserAvatarsService.Create().InsertUserAvatars(avatars);
                 if (!success)
                 {
@@ -292,9 +292,9 @@ public class AvatarsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    AvatarsGalleryService.Create().InsertAvatarsGallery(avatars.Id);
+                    AvatarsGalleryService.Create().InsertAvatarsGallery((string)avatars.Id);
                     currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(avatars.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension((string)avatars.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
@@ -324,6 +324,6 @@ public class AvatarsController : MonoBehaviour
                     FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
                 }
             }
-        });
+        }));
     }
 }

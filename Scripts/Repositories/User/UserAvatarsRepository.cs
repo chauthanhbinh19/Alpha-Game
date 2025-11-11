@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class UserAvatarsRepository : IUserAvatarsRepository
 {
-    public List<Avatars> GetUserAvatars(string user_id, int pageSize, int offset, string rare)
+    public List<Achievements> GetUserAvatars(string user_id, int pageSize, int offset, string rare)
     {
-        List<Avatars> avatars = new List<Avatars>();
+        List<Achievements> avatars = new List<Achievements>();
         // string user_id=User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -28,7 +28,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Avatars avatar = new Avatars
+                    Achievements avatar = new Achievements
                     {
                         Id = reader.GetString("avatar_id"),
                         Name = reader.GetString("name"),
@@ -144,7 +144,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
         }
         return count;
     }
-    public bool InsertUserAvatars(Avatars avatars)
+    public bool InsertUserAvatars(Achievements avatars)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -295,7 +295,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
         }
         return true;
     }
-    public bool InsertUserAvatarsById(string Id, Avatars Avatars)
+    public bool InsertUserAvatarsById(string Id, Achievements Avatars)
     {
         // Avatars Avatars = new Avatars();
         // Avatars = GetAvatarsById(Id);
@@ -313,7 +313,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@avatar_id", Avatars.Id);
+                checkCommand.Parameters.AddWithValue("@avatar_id", (object)Avatars.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
@@ -357,12 +357,12 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 ";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@avatar_id", Avatars.Id);
-                    command.Parameters.AddWithValue("@rare", Avatars.Id);
+                    command.Parameters.AddWithValue("@avatar_id", (object)Avatars.Id);
+                    command.Parameters.AddWithValue("@rare", (object)Avatars.Id);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Avatars.Rare));
+                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality((string)Avatars.Rare));
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@is_used", false);
                     command.Parameters.AddWithValue("@quantity", 1);
@@ -428,7 +428,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@avatar_id", Avatars.Id);
+                    updateCommand.Parameters.AddWithValue("@avatar_id", (object)Avatars.Id);
 
                     updateCommand.ExecuteNonQuery();
                 }
@@ -447,9 +447,9 @@ public class UserAvatarsRepository : IUserAvatarsRepository
         }
         return true;
     }
-    public Avatars GetAvatarsByUsed(string user_id)
+    public Achievements GetAvatarsByUsed(string user_id)
     {
-        Avatars Avatars = new Avatars();
+        Achievements Avatars = new Achievements();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -463,7 +463,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Avatars = new Avatars
+                    Avatars = new Achievements
                     {
                         Id = reader.GetString("avatar_id"),
                         // name = reader.GetString("name"),
@@ -561,9 +561,9 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             }
         }
     }
-    public Avatars SumPowerUserAvatars()
+    public Achievements SumPowerUserAvatars()
     {
-        Avatars sumAvatars = new Avatars();
+        Achievements sumAvatars = new Achievements();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

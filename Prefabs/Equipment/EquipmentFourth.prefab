@@ -1260,6 +1260,7 @@ GameObject:
   - component: {fileID: 5586115432017939623}
   - component: {fileID: 5486549512700767140}
   - component: {fileID: 1768388952755001120}
+  - component: {fileID: 3750727685704454761}
   m_Layer: 5
   m_Name: FrameImage
   m_TagString: Untagged
@@ -1322,3 +1323,18 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &3750727685704454761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8766063371916203419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1

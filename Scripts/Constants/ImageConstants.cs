@@ -219,6 +219,7 @@ public static class ImageConstants
         public const string SPIRIT_BEAST_URL = "UI/Button/Gallery/SpiritBeastsGallery";
         public const string AVATAR_URL = "UI/Button/Gallery/AvatarsGallery";
         public const string SPIRIT_CARD_URL = "UI/Button/Gallery/SpiritCardsGallery";
+        public const string ACHIEVEMENT_URL = "UI/Button/Gallery/AchievementsGallery";
     }
     public static class Collection
     {
@@ -251,6 +252,7 @@ public static class ImageConstants
         public const string SPIRIT_BEAST_URL = "UI/Button/Collection/SpiritBeastsCollection";
         public const string AVATAR_URL = "UI/Button/Collection/AvatarsCollection";
         public const string SPIRIT_CARD_URL = "UI/Button/Collection/SpiritCardsCollection";
+        public const string ACHIEVEMENT_URL = "UI/Button/Collection/AchievementsCollection";
     }
     public static class Rune
     {

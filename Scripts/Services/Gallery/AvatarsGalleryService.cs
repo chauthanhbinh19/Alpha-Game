@@ -14,7 +14,7 @@ public class AvatarsGalleryService : IAvatarsGalleryService
         return new AvatarsGalleryService(new AvatarsGalleryRepository());
     }
 
-    public List<Avatars> GetAvatarsCollection(int pageSize, int offset, string rare)
+    public List<Achievements> GetAvatarsCollection(int pageSize, int offset, string rare)
     {
         return _avatarsGalleryRepository.GetAvatarsCollection(pageSize, offset, rare);
     }
@@ -36,7 +36,7 @@ public class AvatarsGalleryService : IAvatarsGalleryService
         _avatarsGalleryRepository.UpdateStatusAvatarsGallery(Id);
     }
 
-    public Avatars SumPowerAvatarsGallery()
+    public Achievements SumPowerAvatarsGallery()
     {
         return _avatarsGalleryRepository.SumPowerAvatarsGallery();
     }

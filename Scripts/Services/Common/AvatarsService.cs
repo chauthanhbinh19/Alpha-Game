@@ -14,9 +14,9 @@ public class AvatarsService : IAvatarsService
         return new AvatarsService(new AvatarsRepository());
     }
 
-    public List<Avatars> GetAvatars(int pageSize, int offset, string rare)
+    public List<Achievements> GetAvatars(int pageSize, int offset, string rare)
     {
-        List<Avatars> list = _avatarsRepository.GetAvatars(pageSize, offset, rare);
+        List<Achievements> list = _avatarsRepository.GetAvatars(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -26,9 +26,9 @@ public class AvatarsService : IAvatarsService
         return _avatarsRepository.GetAvatarsCount(rare);
     }
 
-    public List<Avatars> GetAvatarsWithPrice(int pageSize, int offset)
+    public List<Achievements> GetAvatarsWithPrice(int pageSize, int offset)
     {
-        List<Avatars> list = _avatarsRepository.GetAvatarsWithPrice(pageSize, offset);
+        List<Achievements> list = _avatarsRepository.GetAvatarsWithPrice(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,12 +38,12 @@ public class AvatarsService : IAvatarsService
         return _avatarsRepository.GetAvatarsWithPriceCount();
     }
 
-    public Avatars GetAvatarsById(string Id)
+    public Achievements GetAvatarsById(string Id)
     {
         return _avatarsRepository.GetAvatarsById(Id);
     }
 
-    public Avatars SumPowerAvatarsPercent()
+    public Achievements SumPowerAvatarsPercent()
     {
         return _avatarsRepository.SumPowerAvatarsPercent();
     }

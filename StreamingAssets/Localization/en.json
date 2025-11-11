@@ -138,6 +138,7 @@
   { "key": "Gallery.SpiritBeast", "value": "Spirit Beast Gallery" },
   { "key": "Gallery.Avatars", "value": "Avatars Gallery" },
   { "key": "Gallery.SpiritCard", "value": "Spirit Card Gallery" },
+  { "key": "Gallery.Achievements", "value": "Achievements Gallery" },
 
   { "key": "Collection.CardHeroes", "value": "Card Heroes Collection" },
   { "key": "Collection.Books", "value": "Books Collection" },
@@ -168,6 +169,7 @@
   { "key": "Collection.SpiritBeast", "value": "Spirit Beast Collection" },
   { "key": "Collection.Avatars", "value": "Avatars Collection" },
   { "key": "Collection.SpiritCard", "value": "Spirit Card Collection" },
+  { "key": "Collection.Achievements", "value": "Achievements Collection" },
 
   { "key": "CardHeroes", "value": "Card Heroes" },
   { "key": "Books", "value": "Books" },

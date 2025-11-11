@@ -38,7 +38,7 @@ public class AvatarsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateAvatarsGallery(List<Avatars> Avatars, Transform DictionaryContentPanel)
+    public void CreateAvatarsGallery(List<Achievements> Avatars, Transform DictionaryContentPanel)
     {
         foreach (var Avatar in Avatars)
         {

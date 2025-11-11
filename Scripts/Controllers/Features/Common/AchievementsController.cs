@@ -9,6 +9,7 @@ public class AchievementsController : MonoBehaviour
 {
     public static AchievementsController Instance { get; private set; }
     private Transform MainPanel;
+    private GameObject equipmentsPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -40,10 +41,49 @@ public class AchievementsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+    }
+    public void CreateAchievementsGallery(List<Achievements> achievements, Transform DictionaryContentPanel)
+    {
+        foreach (var achievement in achievements)
+        {
+            GameObject avatarObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = avatarObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = achievement.Name.Replace("_", " ");
+
+            RawImage Image = avatarObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texture;
+            Image.SetNativeSize();
+            Image.rectTransform.sizeDelta = new Vector2(128, 128);
+
+            Button button = avatarObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);
+            });
+
+            RawImage rareImage = avatarObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievement.Rare}");
+            rareImage.texture = rareTexture;
+
+            RawImage rareBackgroundImage = avatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            rareImage.gameObject.SetActive(false);
+            rareBackgroundImage.gameObject.SetActive(false);
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 230);
+        }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateAchievementsTrade(List<Achievements> achievements, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

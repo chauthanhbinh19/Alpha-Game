@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class AvatarsGalleryRepository : IAvatarsGalleryRepository
 {
-    public List<Avatars> GetAvatarsCollection(int pageSize, int offset, string rare)
+    public List<Achievements> GetAvatarsCollection(int pageSize, int offset, string rare)
     {
-        List<Avatars> avatars = new List<Avatars>();
+        List<Achievements> avatars = new List<Achievements>();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -29,7 +29,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Avatars avatar = new Avatars
+                    Achievements avatar = new Achievements
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -138,7 +138,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
         }
         return count;
     }
-    public void InsertAvatarsGallery(string Id, Avatars AvatarFromDB)
+    public void InsertAvatarsGallery(string Id, Achievements AvatarFromDB)
     {
         // Avatars BorderFromDB = GetAvatarsById(Id);
         int percent = 20;
@@ -347,7 +347,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
             }
         }
     }
-    public void UpdateAvatarsGalleryPower(string Id, Avatars AvatarFromDB)
+    public void UpdateAvatarsGalleryPower(string Id, Achievements AvatarFromDB)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -499,9 +499,9 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
             }
         }
     }
-    public Avatars SumPowerAvatarsGallery()
+    public Achievements SumPowerAvatarsGallery()
     {
-        Avatars sumAvatars = new Avatars();
+        Achievements sumAvatars = new Achievements();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

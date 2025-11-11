@@ -14,9 +14,9 @@ public class UserAvatarsService : IUserAvatarsService
         return new UserAvatarsService(new UserAvatarsRepository());
     }
 
-    public List<Avatars> GetUserAvatars(string user_id, int pageSize, int offset, string rare)
+    public List<Achievements> GetUserAvatars(string user_id, int pageSize, int offset, string rare)
     {
-        List<Avatars> list = _userAvatarsRepository.GetUserAvatars(user_id, pageSize, offset, rare);
+        List<Achievements> list = _userAvatarsRepository.GetUserAvatars(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -26,7 +26,7 @@ public class UserAvatarsService : IUserAvatarsService
         return _userAvatarsRepository.GetUserMedalsCount(user_id, rare);
     }
 
-    public bool InsertUserAvatars(Avatars avatars)
+    public bool InsertUserAvatars(Achievements avatars)
     {
         return _userAvatarsRepository.InsertUserAvatars(avatars);
     }
@@ -38,7 +38,7 @@ public class UserAvatarsService : IUserAvatarsService
         return _userAvatarsRepository.InsertUserAvatarsById(Id, _service.GetAvatarsById(Id));
     }
 
-    public Avatars GetAvatarsByUsed(string user_id)
+    public Achievements GetAvatarsByUsed(string user_id)
     {
         return _userAvatarsRepository.GetAvatarsByUsed(user_id);
     }
@@ -48,7 +48,7 @@ public class UserAvatarsService : IUserAvatarsService
         _userAvatarsRepository.UpdateIsUsedAvatars(Id, is_used);
     }
 
-    public Avatars SumPowerUserAvatars()
+    public Achievements SumPowerUserAvatars()
     {
         return _userAvatarsRepository.SumPowerUserAvatars();
     }

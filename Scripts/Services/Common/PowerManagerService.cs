@@ -264,7 +264,7 @@ public class PowerManagerService : IPowerManagerService
         // Gallery Avatars
         IAvatarsGalleryRepository avatarsGalleryRepository = new AvatarsGalleryRepository();
         AvatarsGalleryService avatarsGalleryService = new AvatarsGalleryService(avatarsGalleryRepository);
-        Avatars galleryAvatars = avatarsGalleryService.SumPowerAvatarsGallery();
+        Achievements galleryAvatars = avatarsGalleryService.SumPowerAvatarsGallery();
 
         powerManager.Power += galleryAvatars.Power;
         powerManager.Health += galleryAvatars.Health;
@@ -314,7 +314,7 @@ public class PowerManagerService : IPowerManagerService
         // User Avatars
         IUserAvatarsRepository userAvatarsRepository = new UserAvatarsRepository();
         UserAvatarsService userAvatarsService = new UserAvatarsService(userAvatarsRepository);
-        Avatars userAvatars = userAvatarsService.SumPowerUserAvatars();
+        Achievements userAvatars = userAvatarsService.SumPowerUserAvatars();
 
         powerManager.Power += userAvatars.Power;
         powerManager.Health += userAvatars.Health;
@@ -352,7 +352,7 @@ public class PowerManagerService : IPowerManagerService
         // Percent Avatars
         IAvatarsRepository avatarsRepository = new AvatarsRepository();
         AvatarsService avatarsService = new AvatarsService(avatarsRepository);
-        Avatars percentAvatars = avatarsService.SumPowerAvatarsPercent();
+        Achievements percentAvatars = avatarsService.SumPowerAvatarsPercent();
 
         powerManager.PercentAllHealth += percentAvatars.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += percentAvatars.PercentAllPhysicalAttack;

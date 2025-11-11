@@ -6,8 +6,8 @@ public class CircleScrollView : MonoBehaviour
 {
     [Header("Setup")]
     public RectTransform content;    // GameObject chứa các button có sẵn
-    private float radius = 400f;      // Bán kính vòng tròn
-    private float scrollSpeed = 20f; // Tốc độ xoay (scroll hoặc drag)
+    private float radius = 350f;      // Bán kính vòng tròn
+    private float scrollSpeed = 50f; // Tốc độ xoay (scroll hoặc drag)
     private bool startFromTop = true; // Bắt đầu từ hướng trên
     private bool isClockwise = false;    // TRUE = xoay theo chiều kim đồng hồ
     private bool isScrolling = false;

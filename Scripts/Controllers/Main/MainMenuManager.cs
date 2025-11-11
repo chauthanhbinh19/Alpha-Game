@@ -41,7 +41,7 @@ public class MainMenuManager : MonoBehaviour
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    private Text PageText;
+    private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
     private string mainType;
@@ -116,6 +116,8 @@ public class MainMenuManager : MonoBehaviour
         Button campaignButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/CampaignButton").GetComponent<Button>();
         Button shopButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/ShopButton").GetComponent<Button>();
         Button teamButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/TeamButton").GetComponent<Button>();
+        Button masterBoardButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/MasterBoardButton").GetComponent<Button>();
+        Button scienceFictionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/ScienceFictionButton").GetComponent<Button>();
 
         content.AddComponent<RotateAnimation>();
 
@@ -170,6 +172,18 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GetType(AppConstants.MainType.TEAMS);
         });
+
+        masterBoardButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            GetType(AppConstants.MainType.MASTER_BOARD);
+        });
+
+        scienceFictionButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            GetType(AppConstants.MainType.SCIENCE_FICTION);
+        });
     }
     public Transform GetSummonPanel()
     {
@@ -180,20 +194,20 @@ public class MainMenuManager : MonoBehaviour
     {
         Transform userPanel = currentObject.transform.Find("User");
         Transform currencyPanel = currentObject.transform.Find("Currency");
-        Text nameText = userPanel.transform.Find("NameText").GetComponent<Text>();
+        TextMeshProUGUI nameText = userPanel.transform.Find("UserGroup/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = authResult.User.Name;
-        Text levelText = userPanel.transform.Find("LevelText").GetComponent<Text>();
+        TextMeshProUGUI levelText = userPanel.transform.Find("UserGroup/LevelText").GetComponent<TextMeshProUGUI>();
         levelText.text = authResult.User.Level.ToString();
-        Text powerText = userPanel.transform.Find("PowerText").GetComponent<Text>();
+        TextMeshProUGUI powerText = userPanel.transform.Find("UserGroup/PowerText").GetComponent<TextMeshProUGUI>();
         powerText.text = authResult.User.Power.ToString();
-        RawImage avatarImage = userPanel.transform.Find("AvatarImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = authResult.User.Image.Replace(".png", "");
+        RawImage avatarImage = userPanel.transform.Find("UserGroup/AvatarImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         avatarImage.texture = texture;
 
-        RawImage borderImage = userPanel.transform.Find("BorderImage").GetComponent<RawImage>();
+        RawImage borderImage = userPanel.transform.Find("UserGroup/BorderImage").GetComponent<RawImage>();
 
-        fileNameWithoutExtension = authResult.User.Border.Replace(".png", "");
+        fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
         Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 
@@ -227,11 +241,11 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, () => GetType(AppConstants.MainType.ALCHEMY));
         ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, () => GetType(AppConstants.MainType.FORGE));
         ButtonEvent.Instance.AssignButtonEvent("Button_24", contentPanel, () => GetType(AppConstants.MainType.CARD_LIFE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.MASTER_BOARD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, () => GetType(AppConstants.MainType.ARTWORK));
-        ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
-        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.SCIENCE_FICTION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD)); 
+        // ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.MASTER_BOARD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.ARTWORK));
+        ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SCIENCE_FICTION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD)); 
     }
     public void GetPrimaryButtonEvent()
     {
@@ -576,7 +590,7 @@ public class MainMenuManager : MonoBehaviour
             DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
             LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
-            PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<Text>();
+            PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
             NextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
             PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
             titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();

@@ -77,7 +77,7 @@ public class UserService : IUserService
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
             string Border = borders.Image;
 
-            Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+            Achievements avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
             string Image = avatar.Image;
 
             User.CurrentUserAvatar = Image;
@@ -152,7 +152,7 @@ public class UserService : IUserService
         Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
         string Border = borders.Image;
 
-        Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+        Achievements avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
         string Image = avatar.Image;
 
         User.CurrentUserAvatar = Image;

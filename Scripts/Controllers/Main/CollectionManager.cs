@@ -77,6 +77,7 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_27", () => GetType(AppConstants.MainType.SPIRIT_BEAST));
         AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.AVATAR));
         AssignButtonEvent("Button_29", () => GetType(AppConstants.MainType.SPIRIT_CARD));
+        AssignButtonEvent("Button_30", () => GetType(AppConstants.MainType.ACHIEVEMENT));
     }
 
     void Update()
@@ -91,7 +92,7 @@ public class CollectionManager : MonoBehaviour
             Button button = buttonTransform.GetComponent<Button>();
             if (button != null)
             {
-                button.onClick.AddListener(()=>
+                button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     action();
@@ -121,7 +122,7 @@ public class CollectionManager : MonoBehaviour
         PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(()=>
+        CloseButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePanel();
@@ -132,12 +133,12 @@ public class CollectionManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
-        NextButton.onClick.AddListener(()=>
+        NextButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangeNextPage();
         });
-        PreviousButton.onClick.AddListener(()=>
+        PreviousButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangePreviousPage();
@@ -258,10 +259,18 @@ public class CollectionManager : MonoBehaviour
             else if (mainType.Equals(AppConstants.MainType.AVATAR))
             {
                 var avatarsGalleryService = AvatarsGalleryService.Create();
-                List<Avatars> avatars = avatarsGalleryService.GetAvatarsCollection(pageSize, offset, rare);
+                List<Achievements> avatars = avatarsGalleryService.GetAvatarsCollection(pageSize, offset, rare);
                 AvatarsGalleryController.Instance.CreateAvatarsGallery(avatars, DictionaryContentPanel);
 
                 totalRecord = avatarsGalleryService.GetAvatarsCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
+            {
+                var achievementsGalleryService = AchievementsGalleryService.Create();
+                List<Achievements> achievements = achievementsGalleryService.GetAchievementCollection(pageSize, offset, rare);
+                AchievementsGalleryController.Instance.CreateAchievementsGallery(achievements, DictionaryContentPanel);
+
+                totalRecord = achievementsGalleryService.GetAchievementsCount(rare);
             }
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -550,7 +559,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.AVATAR))
         {
             var avatarsGalleryService = AvatarsGalleryService.Create();
-            List<Avatars> avatars = avatarsGalleryService.GetAvatarsCollection(pageSize, offset, rare);
+            List<Achievements> avatars = avatarsGalleryService.GetAvatarsCollection(pageSize, offset, rare);
             AvatarsGalleryController.Instance.CreateAvatarsGallery(avatars, DictionaryContentPanel);
 
             totalRecord = avatarsGalleryService.GetAvatarsCount(rare);
@@ -562,6 +571,14 @@ public class CollectionManager : MonoBehaviour
             SpiritCardGalleryController.Instance.CreateSpiritCardGallery(spiritCards, DictionaryContentPanel);
 
             totalRecord = spiritCardGalleryService.GetSpiritCardCount(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
+        {
+            var achievementsGalleryService = AchievementsGalleryService.Create();
+            List<Achievements> achievements = achievementsGalleryService.GetAchievementCollection(pageSize, offset, rare);
+            AchievementsGalleryController.Instance.CreateAchievementsGallery(achievements, DictionaryContentPanel);
+
+            totalRecord = achievementsGalleryService.GetAchievementsCount(rare);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class CurrencyManager : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class CurrencyManager : MonoBehaviour
         {
             GameObject currencyObject = Instantiate(currencyPrefab, CurrencyPanel);
 
-            Text Title = currencyObject.transform.Find("Content").GetComponent<Text>();
+            TextMeshProUGUI Title = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             Title.text = currency.Quantity.ToString();
             Title.text = NumberFormatter.FormatNumber(currency.Quantity, false);
 
@@ -45,6 +46,11 @@ public class CurrencyManager : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+        }
+        GridLayoutGroup gridLayout = CurrencyPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 100);
         }
     }
     public void createTicketsCurrency(List<Items> items, Transform itemPanel)
@@ -54,13 +60,18 @@ public class CurrencyManager : MonoBehaviour
         {
             GameObject currencyObject = Instantiate(currencyPrefab, itemPanel);
 
-            Text Title = currencyObject.transform.Find("Content").GetComponent<Text>();
+            TextMeshProUGUI Title = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             Title.text = NumberFormatter.FormatNumber(item.Quantity, false);
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+        }
+        GridLayoutGroup gridLayout = itemPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 100);
         }
     }
     public void GetEquipmentsCurrency(string type, Transform panel)

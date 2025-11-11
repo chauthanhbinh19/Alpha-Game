@@ -25,4 +25,34 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
+
+    public int GetAchievementsCount(string rare)
+    {
+        return _achievementsGalleryRepository.GetAchievementsCount(rare);
+    }
+
+    public void InsertAchievementsGallery(string Id, Achievements AchievementFromDB)
+    {
+        _achievementsGalleryRepository.InsertAchievementsGallery(Id, AchievementFromDB);
+    }
+
+    public Achievements SumPowerAchievementsGallery()
+    {
+        return _achievementsGalleryRepository.SumPowerAchievementsGallery();
+    }
+
+    public void UpdateAchievementsGalleryPower(string Id, Achievements AchievementFromDB)
+    {
+        _achievementsGalleryRepository.UpdateAchievementsGalleryPower(Id, AchievementFromDB);
+    }
+
+    public void UpdateStarAchievementsGallery(string Id, double star)
+    {
+        _achievementsGalleryRepository.UpdateStarAchievementsGallery(Id, star);
+    }
+
+    public void UpdateStatusAchievementsGallery(string Id)
+    {
+        _achievementsGalleryRepository.UpdateStatusAchievementsGallery(Id);
+    }
 }
