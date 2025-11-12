@@ -36,6 +36,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject summonObject;
     private Transform CurrencyPanel;
     private GameObject currentObject;
+    private Material UI_Red_Gradient_Radius_Mat;
     //Variable for pagination
     private int offset;
     private int currentPage;
@@ -101,6 +102,7 @@ public class MainMenuManager : MonoBehaviour
         ReactorPanelPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
+        UI_Red_Gradient_Radius_Mat = MaterialManager.Instance.GetMaterial("UI_Red_Gradient_Radius_Mat");
         fontSize = 24;
     }
     public void CreateMainPanel()
@@ -617,6 +619,11 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangePreviousPage();
             });
+
+            RawImage topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<RawImage>();
+            topBackgroundImage.material = UI_Red_Gradient_Radius_Mat;
+            TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
+            subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.INVENTORY);
 
             CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");
 

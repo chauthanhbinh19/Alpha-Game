@@ -1291,19 +1291,19 @@ public class UIManager : MonoBehaviour
     {
         Transform detailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
 
-        GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, detailsContent);
-        GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, detailsContent);
-        GameObject elementDetails2Object = Instantiate(NumberDetail3Prefab, detailsContent);
-        GameObject elementDetails3Object = Instantiate(NumberDetail3Prefab, detailsContent);
-        GameObject elementDetails4Object = Instantiate(NumberDetail3Prefab, detailsContent);
-        GameObject descriptionDetailsObject = Instantiate(NumberDetail3Prefab, detailsContent);
+        // GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, detailsContent);
+        // GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, detailsContent);
+        // GameObject elementDetails2Object = Instantiate(NumberDetail3Prefab, detailsContent);
+        // GameObject elementDetails3Object = Instantiate(NumberDetail3Prefab, detailsContent);
+        // GameObject elementDetails4Object = Instantiate(NumberDetail3Prefab, detailsContent);
+        // GameObject descriptionDetailsObject = Instantiate(NumberDetail3Prefab, detailsContent);
 
-        Transform firstPopupPanel = firstDetailsObject.transform.Find("ElementDetails");
-        Transform elementPopupPanel = elementDetailsObject.transform.Find("ElementDetails");
-        Transform element2PopupPanel = elementDetails2Object.transform.Find("ElementDetails");
-        Transform element3PopupPanel = elementDetails3Object.transform.Find("ElementDetails");
-        Transform element4PopupPanel = elementDetails4Object.transform.Find("ElementDetails");
-        Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
+        Transform generalInformationPanel = detailsContent.transform.Find("GeneralInformation");
+        Transform statsInformationPanel = detailsContent.transform.Find("StatInformation");
+        Transform descriptionInformationPanel = detailsContent.transform.Find("DescriptionInformation");
+        // Transform element3PopupPanel = elementDetails3Object.transform.Find("ElementDetails");
+        // Transform element4PopupPanel = elementDetails4Object.transform.Find("ElementDetails");
+        // Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         foreach (var property in properties)
         {
@@ -1311,11 +1311,11 @@ public class UIManager : MonoBehaviour
 
             // Gọi hàm xử lý riêng cho từng property
             CreateSinglePropertyUI(property, value,
-                firstPopupPanel, elementPopupPanel, element2PopupPanel, element3PopupPanel, element4PopupPanel, descriptionPopupPanel);
+                generalInformationPanel, statsInformationPanel, descriptionInformationPanel);
         }
     }
     public void CreateSinglePropertyUI(PropertyInfo property, object value,
-    Transform firstPopupPanel, Transform elementPopupPanel, Transform element2PopupPanel, Transform element3PopupPanel, Transform element4PopupPanel, Transform descriptionPopupPanel)
+    Transform generalInformationPanel, Transform statsInformationPanel, Transform descriptionInformationPanel)
     {
         // Transform DetailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
         // GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, DetailsContent);
@@ -1336,7 +1336,7 @@ public class UIManager : MonoBehaviour
             {
                 // Tạo đối tượng TextMeshProUGUI mới (TextMeshProUGUI cần được sử dụng thay vì Text)
                 GameObject descriptionTextObject = new GameObject("DescriptionText");
-                descriptionTextObject.transform.SetParent(descriptionPopupPanel, false); // Thêm vào panel với vị trí chính xác
+                descriptionTextObject.transform.SetParent(descriptionInformationPanel, false); // Thêm vào panel với vị trí chính xác
 
                 // Thêm component TextMeshProUGUI vào đối tượng mới
                 TextMeshProUGUI descriptionText = descriptionTextObject.AddComponent<TextMeshProUGUI>();
@@ -1356,13 +1356,13 @@ public class UIManager : MonoBehaviour
 
                 // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
                 RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
-                rectTransform.sizeDelta = new Vector2(600, 100);
-                rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
-                GridLayoutGroup gridLayout = descriptionPopupPanel.GetComponent<GridLayoutGroup>();
-                if (gridLayout != null)
-                {
-                    gridLayout.cellSize = new Vector2(670, 800);
-                }
+                rectTransform.sizeDelta = new Vector2(600, 500);
+                // rectTransform.anchoredPosition = new Vector2(20, 250); // Điều chỉnh kích thước nếu cần
+                // GridLayoutGroup gridLayout = descriptionPopupPanel.GetComponent<GridLayoutGroup>();
+                // if (gridLayout != null)
+                // {
+                //     gridLayout.cellSize = new Vector2(670, 800);
+                // }
             }
             else if (property.Name.Equals(AppConstants.StatFields.POWER) 
             || property.Name.Equals(AppConstants.StatFields.RARE) || property.Name.Equals(AppConstants.StatFields.TYPE)
@@ -1388,7 +1388,7 @@ public class UIManager : MonoBehaviour
                     if (shouldDisplay)
                     {
                         // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, firstPopupPanel);
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, generalInformationPanel);
 
                         // Gán tên thuộc tính vào TitleText
                         TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -1421,7 +1421,7 @@ public class UIManager : MonoBehaviour
                     if (value is double intValue && intValue != -1)
                     {
                         // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, elementPopupPanel);
+                        GameObject elementObject = Instantiate(ElementDetailsPrefab, statsInformationPanel);
 
                         // Gán tên thuộc tính vào TitleText
                         TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -1438,116 +1438,116 @@ public class UIManager : MonoBehaviour
                     }
                 }
             }
-            else if (property.Name.Equals(AppConstants.StatFields.SPEED)
-            || property.Name.Equals(AppConstants.StatFields.CRITICAL_DAMAGE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.CRITICAL_RATE)
-            || property.Name.Equals(AppConstants.StatFields.CRITICAL_RESISTANCE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.IGNORE_CRITICAL_RATE)
-            || property.Name.Equals(AppConstants.StatFields.PENETRATION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.PENETRATION_RESISTANCE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.EVASION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.DAMAGE_ABSORPTION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.ABSORBED_DAMAGE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE))
-            {
-                // Kiểm tra nếu value không phải null
-                if (value != null)
-                {
-                    if (value is double intValue && intValue != -1)
-                    {
-                        // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
+            // else if (property.Name.Equals(AppConstants.StatFields.SPEED)
+            // || property.Name.Equals(AppConstants.StatFields.CRITICAL_DAMAGE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.CRITICAL_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.CRITICAL_RESISTANCE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.IGNORE_CRITICAL_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.PENETRATION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.PENETRATION_RESISTANCE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.EVASION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.DAMAGE_ABSORPTION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.ABSORBED_DAMAGE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE))
+            // {
+            //     // Kiểm tra nếu value không phải null
+            //     if (value != null)
+            //     {
+            //         if (value is double intValue && intValue != -1)
+            //         {
+            //             // Tạo một element mới từ prefab
+            //             GameObject elementObject = Instantiate(ElementDetailsPrefab, element2PopupPanel);
 
-                        // Gán tên thuộc tính vào TitleText
-                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                        if (elementTitleText != null)
-                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+            //             // Gán tên thuộc tính vào TitleText
+            //             TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            //             if (elementTitleText != null)
+            //                 elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
-                        // Gán giá trị thuộc tính vào ContentText
-                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                        if (elementContentText != null)
-                            elementContentText.text = intValue.ToString();
+            //             // Gán giá trị thuộc tính vào ContentText
+            //             TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+            //             if (elementContentText != null)
+            //                 elementContentText.text = intValue.ToString();
 
-                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                        CreatePropertyRuneUI(property.Name, runeImage);
-                    }
-                }
-            }
-            else if (property.Name.Equals(AppConstants.StatFields.ACCURACY_RATE)
-            || property.Name.Equals(AppConstants.StatFields.LIFE_STEAL_RATE)
-            || property.Name.Equals(AppConstants.StatFields.SHIELD_STRENGTH)
-            || property.Name.Equals(AppConstants.StatFields.TENACITY)
-            || property.Name.Equals(AppConstants.StatFields.RESISTANCE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.COMBO_RATE)
-            || property.Name.Equals(AppConstants.StatFields.IGNORE_COMBO_RATE)
-            || property.Name.Equals(AppConstants.StatFields.COMBO_DAMAGE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.COMBO_RESISTANCE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.STUN_RATE)
-            || property.Name.Equals(AppConstants.StatFields.IGNORE_STUN_RATE)
-            || property.Name.Equals(AppConstants.StatFields.MANA)
-            || property.Name.Equals(AppConstants.StatFields.MANA_REGENERATION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.REFLECTION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.IGNORE_REFLECTION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.REFLECTION_DAMAGE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.REFLECTION_RESISTANCE_RATE))
-            {
-                // Kiểm tra nếu value không phải null
-                if (value != null)
-                {
-                    if (value is double intValue && intValue != -1)
-                    {
-                        // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element3PopupPanel);
+            //             RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+            //             CreatePropertyRuneUI(property.Name, runeImage);
+            //         }
+            //     }
+            // }
+            // else if (property.Name.Equals(AppConstants.StatFields.ACCURACY_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.LIFE_STEAL_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.SHIELD_STRENGTH)
+            // || property.Name.Equals(AppConstants.StatFields.TENACITY)
+            // || property.Name.Equals(AppConstants.StatFields.RESISTANCE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.COMBO_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.IGNORE_COMBO_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.COMBO_DAMAGE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.COMBO_RESISTANCE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.STUN_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.IGNORE_STUN_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.MANA)
+            // || property.Name.Equals(AppConstants.StatFields.MANA_REGENERATION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.REFLECTION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.IGNORE_REFLECTION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.REFLECTION_DAMAGE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.REFLECTION_RESISTANCE_RATE))
+            // {
+            //     // Kiểm tra nếu value không phải null
+            //     if (value != null)
+            //     {
+            //         if (value is double intValue && intValue != -1)
+            //         {
+            //             // Tạo một element mới từ prefab
+            //             GameObject elementObject = Instantiate(ElementDetailsPrefab, element3PopupPanel);
 
-                        // Gán tên thuộc tính vào TitleText
-                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                        if (elementTitleText != null)
-                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+            //             // Gán tên thuộc tính vào TitleText
+            //             TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            //             if (elementTitleText != null)
+            //                 elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
-                        // Gán giá trị thuộc tính vào ContentText
-                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                        if (elementContentText != null)
-                            elementContentText.text = intValue.ToString();
+            //             // Gán giá trị thuộc tính vào ContentText
+            //             TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+            //             if (elementContentText != null)
+            //                 elementContentText.text = intValue.ToString();
 
-                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                        CreatePropertyRuneUI(property.Name, runeImage);
-                    }
-                }
-            }
-            else if (property.Name.Equals(AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE)
-            || property.Name.Equals(AppConstants.StatFields.NORMAL_DAMAGE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.NORMAL_RESISTANCE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.SKILL_DAMAGE_RATE)
-            || property.Name.Equals(AppConstants.StatFields.SKILL_RESISTANCE_RATE))
-            {
-                // Kiểm tra nếu value không phải null
-                if (value != null)
-                {
-                    if (value is double intValue && intValue != -1)
-                    {
-                        // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, element4PopupPanel);
+            //             RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+            //             CreatePropertyRuneUI(property.Name, runeImage);
+            //         }
+            //     }
+            // }
+            // else if (property.Name.Equals(AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.NORMAL_DAMAGE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.NORMAL_RESISTANCE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.SKILL_DAMAGE_RATE)
+            // || property.Name.Equals(AppConstants.StatFields.SKILL_RESISTANCE_RATE))
+            // {
+            //     // Kiểm tra nếu value không phải null
+            //     if (value != null)
+            //     {
+            //         if (value is double intValue && intValue != -1)
+            //         {
+            //             // Tạo một element mới từ prefab
+            //             GameObject elementObject = Instantiate(ElementDetailsPrefab, element4PopupPanel);
 
-                        // Gán tên thuộc tính vào TitleText
-                        TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                        if (elementTitleText != null)
-                            elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
+            //             // Gán tên thuộc tính vào TitleText
+            //             TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            //             if (elementTitleText != null)
+            //                 elementTitleText.text = StringConverter.SnakeCaseToTitleCase(property.Name.Replace("all_", ""));
 
-                        // Gán giá trị thuộc tính vào ContentText
-                        TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-                        if (elementContentText != null)
-                            elementContentText.text = intValue.ToString();
+            //             // Gán giá trị thuộc tính vào ContentText
+            //             TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+            //             if (elementContentText != null)
+            //                 elementContentText.text = intValue.ToString();
 
-                        RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
-                        CreatePropertyRuneUI(property.Name, runeImage);
-                    }
-                }
-            }
+            //             RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
+            //             CreatePropertyRuneUI(property.Name, runeImage);
+            //         }
+            //     }
+            // }
         }
     }
     public void CreatePropertyRuneUI(string title, RawImage runeImage)

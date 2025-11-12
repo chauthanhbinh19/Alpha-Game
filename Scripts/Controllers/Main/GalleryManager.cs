@@ -17,6 +17,7 @@ public class GalleryManager : MonoBehaviour
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
+    private Material UI_Blue_Gradient_Radius_Mat;
     private Button CloseButton;
     private Button HomeButton;
     //Variable for pagination
@@ -24,7 +25,7 @@ public class GalleryManager : MonoBehaviour
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    private Text PageText;
+    private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
     private string mainType;
@@ -42,6 +43,7 @@ public class GalleryManager : MonoBehaviour
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        UI_Blue_Gradient_Radius_Mat = MaterialManager.Instance.GetMaterial("UI_Blue_Gradient_Radius_Mat");
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK));
@@ -109,21 +111,21 @@ public class GalleryManager : MonoBehaviour
     public void GetButtonType()
     {
         // DictionaryPanel.SetActive(true);
-        GameObject equipmentObject = Instantiate(DictionaryPanel, MainPanel);
-        DictionaryContentPanel = equipmentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
-        RightScrollViewContentPanel = equipmentObject.transform.Find("RightScrollView/Viewport/Content");
-        LeftScrollViewContentPanel = equipmentObject.transform.Find("Scroll View/Viewport/ButtonContent");
-        PageText = equipmentObject.transform.Find("Pagination/Page").GetComponent<Text>();
-        NextButton = equipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        GameObject mainMenuObject = Instantiate(DictionaryPanel, MainPanel);
+        DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
+        RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
+        LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
+        PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        NextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
+        PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+        titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePanel();
         });
-        HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -140,7 +142,12 @@ public class GalleryManager : MonoBehaviour
             ChangePreviousPage();
         });
 
-        Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
+        RawImage topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<RawImage>();
+        topBackgroundImage.material = UI_Blue_Gradient_Radius_Mat;
+        TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
+        subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GALLERY);
+
+        Transform CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetUserCurrency();
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);

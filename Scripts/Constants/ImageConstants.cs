@@ -1,5 +1,12 @@
 public static class ImageConstants
 {
+    public static class Badge
+    {
+        public const string BADGE_INVENTORY_URL = "UI/Background4/Badge/Badge_Inventory";
+        public const string BADGE_GALLERY_URL = "UI/Background4/Badge/Badge_Gallery";
+        public const string BADGE_COLLECTION_URL = "UI/Background4/Badge/Badge_Collection";
+        public const string BADGE_EQUIPMENT_URL = "UI/Background4/Badge/Badge_Equipment";
+    }
     public static class Main
     {
         public const string CARD_HERO_URL = "UI/Button/Main/CardHeroes";

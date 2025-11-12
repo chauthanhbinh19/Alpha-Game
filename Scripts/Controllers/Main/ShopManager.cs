@@ -30,7 +30,7 @@ public class ShopManager : MonoBehaviour
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    private Text PageText;
+    private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
     private string mainType;
@@ -210,7 +210,7 @@ public class ShopManager : MonoBehaviour
         currencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
         firstDecorationImage = equipmentObject.transform.Find("DictionaryCards/FirstDecorationImage").GetComponent<RawImage>();
         secondDecorationImage = equipmentObject.transform.Find("DictionaryCards/SecondDecorationImage").GetComponent<RawImage>();
-        PageText = equipmentObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        PageText = equipmentObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
         NextButton = equipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();

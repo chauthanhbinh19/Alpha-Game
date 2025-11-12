@@ -151,6 +151,8 @@ public static class AppDisplayConstants
         public const string UP_ONE_LEVEL = "MainType.UpOneLevel";
         public const string UP_MAX_LEVEL = "MainType.UpMaxLevel";
         public const string TEAM = "MainType.Team";
+
+        public const string INVENTORY = "MainType.Inventory";
     }
     public static class Gallery
     {

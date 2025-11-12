@@ -66,7 +66,7 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateInventoryButton(GameObject popupButtonObject)
     {
-        backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Badge/Badge_Inventory");
+        backgroundImage = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_INVENTORY_URL);
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
         // CreateButton(1, AppConstants.MainType.CAMPAIGNS, Resources.Load<Texture2D>($"UI/Background4/Background_V4_110"), Resources.Load<Texture2D>($"UI/UI/Campaign"), mainMenuCampaignPanel);
         //Main menu
@@ -114,6 +114,7 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateEventButton(GameObject popupButtonObject)
     {
+        backgroundImage = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_INVENTORY_URL);
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
 
         CreateButton(1, AppConstants.MainType.SUMMON_CARD_HEROES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_HERO_URL), contentPanel);
@@ -303,7 +304,7 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateGalleryButton(Transform galleryMenuPanel)
     {
-        backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Badge/Badge_Gallery");
+        backgroundImage = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_GALLERY_URL);
         //Gallery menu
         CreateGalleryButtonUI(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_HERO_URL), galleryMenuPanel);
         CreateGalleryButtonUI(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BOOK_URL), galleryMenuPanel);
@@ -368,7 +369,7 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateCollectionButton(Transform collectionMenuPanel)
     {
-        backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Badge/Badge_Collection");
+        backgroundImage = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_COLLECTION_URL);
         //Collection menu
         CreateCollectionButtonUI(1, AppDisplayConstants.Collection.CARD_HEROES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_HERO_URL), collectionMenuPanel);
         CreateCollectionButtonUI(2, AppDisplayConstants.Collection.BOOKS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BOOK_URL), collectionMenuPanel);
@@ -433,7 +434,7 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateEquipmentsButton(Transform equipmentMenuPanel)
     {
-        backgroundImage = Resources.Load<Texture2D>($"UI/Background4/Badge/Badge_Equipment");
+        backgroundImage = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_EQUIPMENT_URL);
         //Equipment menu
         List<string> uniqueTypes = GetUniqueTypes();
         if (uniqueTypes.Count > 0)

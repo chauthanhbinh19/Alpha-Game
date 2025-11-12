@@ -388,7 +388,7 @@ public class EquipmentManager : MonoBehaviour
         if (button != null)
         {
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
-            Text PageText = button.transform.Find("Page").GetComponent<Text>();
+            TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();
             NextButton.onClick.AddListener(() =>
@@ -420,7 +420,7 @@ public class EquipmentManager : MonoBehaviour
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
-            Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = DictionaryPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = LocalizationManager.Get("shop");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
@@ -444,7 +444,7 @@ public class EquipmentManager : MonoBehaviour
         if (button != null)
         {
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
-            Text PageText = button.transform.Find("Page").GetComponent<Text>();
+            TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();
             NextButton.onClick.AddListener(() =>
@@ -490,7 +490,7 @@ public class EquipmentManager : MonoBehaviour
         if (button != null)
         {
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuEnhancementContentPanel");
-            Text PageText = button.transform.Find("Page").GetComponent<Text>();
+            TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();
             NextButton.onClick.AddListener(() => ChangeNextPage(3, PageText, content, type));
@@ -541,7 +541,7 @@ public class EquipmentManager : MonoBehaviour
         currencies = currencyService.GetUserCurrency();
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
     }
-    public void ChangeNextPage(int status, Text PageText, Transform content, string subType)
+    public void ChangeNextPage(int status, TextMeshProUGUI PageText, Transform content, string subType)
     {
         if (currentPage < totalPage)
         {
@@ -583,7 +583,7 @@ public class EquipmentManager : MonoBehaviour
 
         }
     }
-    public void ChangePreviousPage(int status, Text PageText, Transform content, string subType)
+    public void ChangePreviousPage(int status, TextMeshProUGUI PageText, Transform content, string subType)
     {
         if (currentPage > 1)
         {
