@@ -114,7 +114,7 @@ public class BooksController : MonoBehaviour
         {
             GameObject bookObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = bookObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = book.Name.Replace("_", " ");
 
             RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
@@ -131,15 +131,15 @@ public class BooksController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(book, MainPanel);
             });
 
-            // RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = bookObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
+
             RawImage currencyImage = bookObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = bookObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = bookObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(book.Currency.Quantity, false);
 
             Button buy = bookObject.transform.Find("Buy").GetComponent<Button>();

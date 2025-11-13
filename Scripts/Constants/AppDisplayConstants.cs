@@ -20,8 +20,8 @@ public static class AppDisplayConstants
         public const string PASSWORD = "password";
 
 
-        public const string ACHIEVEMENT = "alchievement";
-        public const string ACHIEVEMENTS = "alchievements";
+        public const string ACHIEVEMENT = "achievement";
+        public const string ACHIEVEMENTS = "achievements";
         public const string CARD_HERO = "card_hero";
         public const string CARD_HEROES = "card_heroes";
 

@@ -86,7 +86,7 @@ public class CardMilitaryController : MonoBehaviour
         {
             GameObject militaryObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = militaryObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = military.Name.Replace("_", " ");
 
             RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
@@ -102,16 +102,15 @@ public class CardMilitaryController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(military, MainPanel);
             });
 
-            // RawImage rareImage = militaryObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = militaryObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetOrangeMaterial("UI_Orange_Radius_Mat");
 
             RawImage currencyImage = militaryObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = militaryObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = militaryObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(military.Currency.Quantity, false);
 
             Button buy = militaryObject.transform.Find("Buy").GetComponent<Button>();

@@ -88,7 +88,7 @@ public class SkillsController : MonoBehaviour
         {
             GameObject skillObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = skillObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = skillObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = skill.Name.Replace("_", " ");
 
             RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
@@ -106,15 +106,15 @@ public class SkillsController : MonoBehaviour
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            // RawImage rareImage = skillObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = skillObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetPinkMaterial("UI_Pink_Radius_Mat");
+
             RawImage currencyImage = skillObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = skillObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = skillObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(skill.Currency.Quantity, false);
 
             Button buy = skillObject.transform.Find("Buy").GetComponent<Button>();

@@ -90,7 +90,7 @@ public class MedalsController : MonoBehaviour
         {
             GameObject medalObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = medalObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = medal.Name.Replace("_", " ");
 
             RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
@@ -106,16 +106,15 @@ public class MedalsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(medal, MainPanel);
             });
 
-            // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = medalObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetGreenMaterial("UI_Green_Radius_Mat");
 
             RawImage currencyImage = medalObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = medalObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = medalObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(medal.Currency.Quantity, false);
 
             Button buy = medalObject.transform.Find("Buy").GetComponent<Button>();

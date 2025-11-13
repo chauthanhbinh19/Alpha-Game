@@ -79,6 +79,8 @@
   { "key": "spirit_beasts", "value": "Spirit Beasts" },
   { "key": "spirit_card", "value": "Spirit Card" },
   { "key": "spirit_cards", "value": "Spirit Cards" },
+  { "key": "achievement", "value": "Achievement" },
+  { "key": "achievements", "value": "Achievements" },
   { "key": "MainType.MasterBoard", "value": "Master board" },
   { "key": "enhancement", "value": "Enhancement" },
   { "key": "MainType.DailyCheckin", "value": "Daily Checkin" },

@@ -84,16 +84,16 @@ public class CardGeneralsController : MonoBehaviour
     {
         foreach (var cardGeneral in cardGenerals)
         {
-            GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject cardObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = achievementObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = cardObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = cardGeneral.Name.Replace("_", " ");
 
-            RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
-            RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage FrameImage = cardObject.transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -102,19 +102,18 @@ public class CardGeneralsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardGeneral, MainPanel);
             });
 
-            // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = cardObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
 
-            RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = cardObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = cardObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(cardGeneral.Currency.Quantity, false);
 
-            Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = cardObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             buy.onClick.AddListener(() =>

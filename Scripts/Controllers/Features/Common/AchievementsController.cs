@@ -92,7 +92,7 @@ public class AchievementsController : MonoBehaviour
         {
             GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = achievementObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = achievementObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = achievement.Name.Replace("_", " ");
 
             RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
@@ -108,8 +108,8 @@ public class AchievementsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);
             });
 
-            // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
+            RawImage topImage = achievementObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
@@ -117,7 +117,7 @@ public class AchievementsController : MonoBehaviour
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(achievement.Currency.Quantity, false);
 
             Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();

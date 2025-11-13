@@ -116,11 +116,11 @@ public class ReactorNumber7Manager : MonoBehaviour
         ReactorNumberText.text = "07";
         titleText.text = LocalizationManager.Get(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_7);
 
-        Texture conduitTexture = Resources.Load<Texture>("UI/Background2/Conduit_1");
-        leftSideCounduit1Image.texture = conduitTexture;
-        leftSideCounduit2Image.texture = conduitTexture;
-        rightSideCounduit1Image.texture = conduitTexture;
-        rightSideCounduit2Image.texture = conduitTexture;
+        // Texture conduitTexture = Resources.Load<Texture>("UI/Background2/Conduit_1");
+        // leftSideCounduit1Image.texture = conduitTexture;
+        // leftSideCounduit2Image.texture = conduitTexture;
+        // rightSideCounduit1Image.texture = conduitTexture;
+        // rightSideCounduit2Image.texture = conduitTexture;
 
         MainReactorBackgroundImage.AddComponent<RotateAnimation>();
 

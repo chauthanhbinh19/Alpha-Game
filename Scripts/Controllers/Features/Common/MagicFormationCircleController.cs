@@ -89,7 +89,7 @@ public class MagicFormationCircleController : MonoBehaviour
         {
             GameObject magicFormationCircleObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = magicFormationCircle.Name.Replace("_", " ");
 
             RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
@@ -106,15 +106,15 @@ public class MagicFormationCircleController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(magicFormationCircle, MainPanel);
             });
 
-            // RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = magicFormationCircleObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+
             RawImage currencyImage = magicFormationCircleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = magicFormationCircleObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = magicFormationCircleObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(magicFormationCircle.Currency.Quantity, false);
 
             Button buy = magicFormationCircleObject.transform.Find("Buy").GetComponent<Button>();

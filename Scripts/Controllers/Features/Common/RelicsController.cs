@@ -89,7 +89,7 @@ public class RelicsController : MonoBehaviour
         {
             GameObject relicObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = relicObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = relic.Name.Replace("_", " ");
 
             RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
@@ -106,15 +106,15 @@ public class RelicsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(relic, MainPanel);
             });
 
-            // RawImage rareImage = relicObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = relicObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetOrangeMaterial("UI_Orange_Radius_Mat");
+
             RawImage currencyImage = relicObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = relicObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = relicObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(relic.Currency.Quantity, false);
 
             Button buy = relicObject.transform.Find("Buy").GetComponent<Button>();

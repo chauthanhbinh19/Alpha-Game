@@ -4554,6 +4554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UI_Red_Gradient_Mat: {fileID: 2100000, guid: 3cd2e5bdabe39654287ded79c5479edf, type: 2}
+  UI_Red_Radius_Mat: {fileID: 2100000, guid: 85e69d4f90f8ea64aaec4092a960e663, type: 2}
   UI_Red_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: edc7a6afeabb8f74190a5cc9ad56aa06, type: 2}
   UI_Red_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: a49c98adfa825c54485c39914ce4e82a, type: 2}
   UI_Red_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: cc1d4d25736cde841afe92952d5890fd, type: 2}
@@ -4566,6 +4567,7 @@ MonoBehaviour:
   UI_Red_Gradient_Radius_Mat_MaskPercent_90: {fileID: 2100000, guid: f6a3da780223e944abdf32f703c74e78, type: 2}
   UI_Red_Gradient_Radius_Mat_MaskPercent_100: {fileID: 2100000, guid: 25fbdd57a994e18468307e140b0f5ea9, type: 2}
   UI_Green_Gradient_Mat: {fileID: 2100000, guid: beeb0577f541aa945b5df2487605e5b7, type: 2}
+  UI_Green_Radius_Mat: {fileID: 2100000, guid: 0d66c25d0cfa84140858a00d9ef2af94, type: 2}
   UI_Green_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: a922f2250dfd4ee45b9b5f213ae97e7e, type: 2}
   UI_Green_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: 4e049a0d8f42a0e4ca7daceb1cf6e2ae, type: 2}
   UI_Green_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: 33f35a02fa83c8641b92998e196a0497, type: 2}
@@ -4578,6 +4580,7 @@ MonoBehaviour:
   UI_Green_Gradient_Radius_Mat_MaskPercent_90: {fileID: 2100000, guid: 55dd6d33fcf25e548a4f5c2fed2bee6b, type: 2}
   UI_Green_Gradient_Radius_Mat_MaskPercent_100: {fileID: 2100000, guid: 6a154cee50324f649868e9ee4607a82d, type: 2}
   UI_Blue_Gradient_Mat: {fileID: 2100000, guid: d89f00ad83e229e46bd89fbc144cbeda, type: 2}
+  UI_Blue_Radius_Mat: {fileID: 2100000, guid: 2ed0cf8e18529cd40953d5fad8488f6e, type: 2}
   UI_Blue_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: a8938f7912a42b44a92ed403beda4c91, type: 2}
   UI_Blue_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: 04a9611f467d9db4babb9746d06f04b7, type: 2}
   UI_Blue_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: 1271ad9deb707c34aba2868016a2f74d, type: 2}
@@ -4590,6 +4593,7 @@ MonoBehaviour:
   UI_Blue_Gradient_Radius_Mat_MaskPercent_90: {fileID: 2100000, guid: bbf6ff91329e4bc46a7d6ce57c8b8d1c, type: 2}
   UI_Blue_Gradient_Radius_Mat_MaskPercent_100: {fileID: 2100000, guid: b7af39c3093299046b9093990babbcc3, type: 2}
   UI_Orange_Gradient_Mat: {fileID: 2100000, guid: 9a07d91352a8fcf4baedfa2182bed3b9, type: 2}
+  UI_Orange_Radius_Mat: {fileID: 2100000, guid: 28b794a14fbefc7429de9b496f000d15, type: 2}
   UI_Orange_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: 2bf8917f5e85c164093d6ba14d48332f, type: 2}
   UI_Orange_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: 4e75b3abe5c05014b92345ccfddebe09, type: 2}
   UI_Orange_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: 6cb3474bb11a5ef438df7dcdf66e06c6, type: 2}
@@ -4602,6 +4606,7 @@ MonoBehaviour:
   UI_Orange_Gradient_Radius_Mat_MaskPercent_90: {fileID: 2100000, guid: 83ebe89e93774b2419c6019d9a0c694d, type: 2}
   UI_Orange_Gradient_Radius_Mat_MaskPercent_100: {fileID: 2100000, guid: 4160a67b3852d0e428760e56fa8ed0b9, type: 2}
   UI_Purple_Gradient_Mat: {fileID: 2100000, guid: 7282565123702c04e96b00b209a06bf2, type: 2}
+  UI_Purple_Radius_Mat: {fileID: 2100000, guid: 2f43600b98d7ac14abbac0085a998d97, type: 2}
   UI_Purple_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: 631f3ada17167ae448cb415a07356418, type: 2}
   UI_Purple_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: f2008448fa859a94cb7b85d1324d2312, type: 2}
   UI_Purple_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: 716b4c8a882bbb44db860a00fc36f23b, type: 2}
@@ -4614,6 +4619,7 @@ MonoBehaviour:
   UI_Purple_Gradient_Radius_Mat_MaskPercent_90: {fileID: 2100000, guid: 75786457e394fdd4c9a7ec83df6544e3, type: 2}
   UI_Purple_Gradient_Radius_Mat_MaskPercent_100: {fileID: 2100000, guid: 6b0c40913815d084fbd71a087ebc11e1, type: 2}
   UI_Yellow_Gradient_Mat: {fileID: 2100000, guid: 4801c5c96b0f77a4b85d435dde542a92, type: 2}
+  UI_Yellow_Radius_Mat: {fileID: 2100000, guid: 8d1c50ab99cfd49449083ff84a70aa72, type: 2}
   UI_Yellow_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: b707386f4e1afee4cb11e29e994e97e7, type: 2}
   UI_Yellow_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: 08d8d8d9ef9e2c145b2555f003acebf0, type: 2}
   UI_Yellow_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: 7949aaf8158dea942a394ac73308270c, type: 2}
@@ -4626,6 +4632,7 @@ MonoBehaviour:
   UI_Yellow_Gradient_Radius_Mat_MaskPercent_90: {fileID: 2100000, guid: 4319984ee25dc0e43ae66a9159aad99c, type: 2}
   UI_Yellow_Gradient_Radius_Mat_MaskPercent_100: {fileID: 2100000, guid: e3a91ecfe577b0149a4d0566bed507eb, type: 2}
   UI_Pink_Gradient_Mat: {fileID: 2100000, guid: 142c45b914012c742b0332e88bc53e2d, type: 2}
+  UI_Pink_Radius_Mat: {fileID: 2100000, guid: e866f68c619577a4f988bf97a5735113, type: 2}
   UI_Pink_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: e0bc93715de80d4438fb26c2c7abd03a, type: 2}
   UI_Pink_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: ac02962ce8a8bc747ba8d3d533895a15, type: 2}
   UI_Pink_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: 501ae3cb4af52e541b9cbcd215e55e2e, type: 2}
@@ -4638,6 +4645,7 @@ MonoBehaviour:
   UI_Pink_Gradient_Radius_Mat_MaskPercent_90: {fileID: 2100000, guid: fe1a52a1050ade34ebec4b3b28188991, type: 2}
   UI_Pink_Gradient_Radius_Mat_MaskPercent_100: {fileID: 2100000, guid: 9c8cd99eff44c95479389e7ac6f3f5b6, type: 2}
   UI_Gray_Gradient_Mat: {fileID: 2100000, guid: 6c82693a30a8a7147ad3af344a8618a9, type: 2}
+  UI_Gray_Radius_Mat: {fileID: 2100000, guid: 4085000d1e4c26644bd5a8b35a24b7f4, type: 2}
   UI_Gray_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: 7a8e2e2b0160fba4990c47ed42aa8200, type: 2}
   UI_Gray_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: 4deca0a3915a08543be60c35172f5b5f, type: 2}
   UI_Gray_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: e02d32667db572d4e9caf7c66f444f42, type: 2}
@@ -4650,6 +4658,7 @@ MonoBehaviour:
   UI_Gray_Gradient_Radius_Mat_MaskPercent_90: {fileID: 2100000, guid: 197191902a5401c4cb90fccde3137260, type: 2}
   UI_Gray_Gradient_Radius_Mat_MaskPercent_100: {fileID: 2100000, guid: fb2c62abed513014f8a6ee3c4c16e33a, type: 2}
   UI_Black_Gradient_Mat: {fileID: 2100000, guid: 9d56077845ab49c449c091e24667eed8, type: 2}
+  UI_Black_Radius_Mat: {fileID: 2100000, guid: 6ed19b10b3c8b5f4e9d21f609e6f5d73, type: 2}
   UI_Black_Gradient_Radius_Mat_MaskPercent_Top_10: {fileID: 2100000, guid: 2122707c593f4754db72bbe9c000b11f, type: 2}
   UI_Black_Gradient_Radius_Mat_MaskPercent_Top_20: {fileID: 2100000, guid: 3ed064fadbedf0d4e93ec631ec504a5c, type: 2}
   UI_Black_Gradient_Radius_Mat_MaskPercent_Top_30: {fileID: 2100000, guid: 574d614d3f0b6c84c8b36bcff54b7f07, type: 2}
@@ -4673,6 +4682,7 @@ MonoBehaviour:
   UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_90: {fileID: 2100000, guid: d93bacecfd0a7534f864804e8e52f4a6, type: 2}
   UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_100: {fileID: 2100000, guid: fbe6f25138d9b3341ae5b572dd070605, type: 2}
   UI_White_Gradient_Mat: {fileID: 2100000, guid: ad878913dc948d54981e36ebb03d8c42, type: 2}
+  UI_White_Radius_Mat: {fileID: 2100000, guid: a562870e9f70c0844a7d944948ab811e, type: 2}
   UI_White_Gradient_Radius_Mat_MaskPercent_10: {fileID: 2100000, guid: 7335c816b010a3c428f4fef8f64cfb38, type: 2}
   UI_White_Gradient_Radius_Mat_MaskPercent_20: {fileID: 2100000, guid: 33b586ef6bc73be47adc77fd9ce8d88c, type: 2}
   UI_White_Gradient_Radius_Mat_MaskPercent_30: {fileID: 2100000, guid: a82403967a4ffec49a4e18c304bd9470, type: 2}

@@ -10,6 +10,7 @@ public class MaterialManager : MonoBehaviour
     public static MaterialManager Instance { get; private set; }
     [Header("Red")]
     public Material UI_Red_Gradient_Mat;
+    public Material UI_Red_Radius_Mat;
     public Material UI_Red_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_Red_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_Red_Gradient_Radius_Mat_MaskPercent_30;
@@ -23,6 +24,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Red_Gradient_Radius_Mat_MaskPercent_100;
     [Header("Green")]
     public Material UI_Green_Gradient_Mat;
+    public Material UI_Green_Radius_Mat;
     public Material UI_Green_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_Green_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_Green_Gradient_Radius_Mat_MaskPercent_30;
@@ -36,6 +38,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Green_Gradient_Radius_Mat_MaskPercent_100;
     [Header("Blue")]
     public Material UI_Blue_Gradient_Mat;
+    public Material UI_Blue_Radius_Mat;
     public Material UI_Blue_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_Blue_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_Blue_Gradient_Radius_Mat_MaskPercent_30;
@@ -49,6 +52,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Blue_Gradient_Radius_Mat_MaskPercent_100;
     [Header("Orange")]
     public Material UI_Orange_Gradient_Mat;
+    public Material UI_Orange_Radius_Mat;
     public Material UI_Orange_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_Orange_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_Orange_Gradient_Radius_Mat_MaskPercent_30;
@@ -62,6 +66,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Orange_Gradient_Radius_Mat_MaskPercent_100;
     [Header("Purple")]
     public Material UI_Purple_Gradient_Mat;
+    public Material UI_Purple_Radius_Mat;
     public Material UI_Purple_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_Purple_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_Purple_Gradient_Radius_Mat_MaskPercent_30;
@@ -75,6 +80,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Purple_Gradient_Radius_Mat_MaskPercent_100;
     [Header("Yellow")]
     public Material UI_Yellow_Gradient_Mat;
+    public Material UI_Yellow_Radius_Mat;
     public Material UI_Yellow_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_Yellow_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_Yellow_Gradient_Radius_Mat_MaskPercent_30;
@@ -88,6 +94,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Yellow_Gradient_Radius_Mat_MaskPercent_100;
     [Header("Pink")]
     public Material UI_Pink_Gradient_Mat;
+    public Material UI_Pink_Radius_Mat;
     public Material UI_Pink_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_Pink_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_Pink_Gradient_Radius_Mat_MaskPercent_30;
@@ -101,6 +108,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Pink_Gradient_Radius_Mat_MaskPercent_100;
     [Header("Gray")]
     public Material UI_Gray_Gradient_Mat;
+    public Material UI_Gray_Radius_Mat;
     public Material UI_Gray_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_Gray_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_Gray_Gradient_Radius_Mat_MaskPercent_30;
@@ -114,6 +122,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Gray_Gradient_Radius_Mat_MaskPercent_100;
     [Header("Black")]
     public Material UI_Black_Gradient_Mat;
+    public Material UI_Black_Radius_Mat;
     public Material UI_Black_Gradient_Radius_Mat_MaskPercent_Top_10;
     public Material UI_Black_Gradient_Radius_Mat_MaskPercent_Top_20;
     public Material UI_Black_Gradient_Radius_Mat_MaskPercent_Top_30;
@@ -138,6 +147,7 @@ public class MaterialManager : MonoBehaviour
     public Material UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_100;
     [Header("White")]
     public Material UI_White_Gradient_Mat;
+    public Material UI_White_Radius_Mat;
     public Material UI_White_Gradient_Radius_Mat_MaskPercent_10;
     public Material UI_White_Gradient_Radius_Mat_MaskPercent_20;
     public Material UI_White_Gradient_Radius_Mat_MaskPercent_30;
@@ -169,6 +179,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Red_Gradient_Mat":
                 return UI_Red_Gradient_Mat;
+            case "UI_Red_Radius_Mat":
+                return UI_Red_Radius_Mat;
             case "UI_Red_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_Red_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_Red_Gradient_Radius_Mat_MaskPercent_20":
@@ -201,6 +213,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Green_Gradient_Mat":
                 return UI_Green_Gradient_Mat;
+            case "UI_Green_Radius_Mat":
+                return UI_Green_Radius_Mat;
             case "UI_Green_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_Green_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_Green_Gradient_Radius_Mat_MaskPercent_20":
@@ -233,6 +247,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Blue_Gradient_Mat":
                 return UI_Blue_Gradient_Mat;
+            case "UI_Blue_Radius_Mat":
+                return UI_Blue_Radius_Mat;
             case "UI_Blue_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_Blue_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_Blue_Gradient_Radius_Mat_MaskPercent_20":
@@ -265,6 +281,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Orange_Gradient_Mat":
                 return UI_Orange_Gradient_Mat;
+            case "UI_Orange_Radius_Mat":
+                return UI_Orange_Radius_Mat;
             case "UI_Orange_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_Orange_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_Orange_Gradient_Radius_Mat_MaskPercent_20":
@@ -297,6 +315,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Purple_Gradient_Mat":
                 return UI_Purple_Gradient_Mat;
+            case "UI_Purple_Radius_Mat":
+                return UI_Purple_Radius_Mat;
             case "UI_Purple_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_Purple_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_Purple_Gradient_Radius_Mat_MaskPercent_20":
@@ -329,6 +349,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Pink_Gradient_Mat":
                 return UI_Pink_Gradient_Mat;
+            case "UI_Pink_Radius_Mat":
+                return UI_Pink_Radius_Mat;
             case "UI_Pink_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_Pink_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_Pink_Gradient_Radius_Mat_MaskPercent_20":
@@ -361,6 +383,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Yellow_Gradient_Mat":
                 return UI_Yellow_Gradient_Mat;
+            case "UI_Yellow_Radius_Mat":
+                return UI_Yellow_Radius_Mat;
             case "UI_Yellow_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_Yellow_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_Yellow_Gradient_Radius_Mat_MaskPercent_20":
@@ -393,6 +417,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Gray_Gradient_Mat":
                 return UI_Gray_Gradient_Mat;
+            case "UI_Gray_Radius_Mat":
+                return UI_Gray_Radius_Mat;
             case "UI_Gray_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_Gray_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_Gray_Gradient_Radius_Mat_MaskPercent_20":
@@ -425,7 +451,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_Black_Gradient_Mat":
                 return UI_Black_Gradient_Mat;
-
+            case "UI_Black_Radius_Mat":
+                return UI_Black_Radius_Mat;
             case "UI_Black_Gradient_Radius_Mat_MaskPercent_Top_10":
                 return UI_Black_Gradient_Radius_Mat_MaskPercent_Top_10;
             case "UI_Black_Gradient_Radius_Mat_MaskPercent_Top_20":
@@ -481,6 +508,8 @@ public class MaterialManager : MonoBehaviour
         {
             case "UI_White_Gradient_Mat":
                 return UI_White_Gradient_Mat;
+            case "UI_White_Radius_Mat":
+                return UI_White_Radius_Mat;
             case "UI_White_Gradient_Radius_Mat_MaskPercent_10":
                 return UI_White_Gradient_Radius_Mat_MaskPercent_10;
             case "UI_White_Gradient_Radius_Mat_MaskPercent_20":

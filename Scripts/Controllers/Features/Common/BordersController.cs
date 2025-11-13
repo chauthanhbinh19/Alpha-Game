@@ -92,7 +92,7 @@ public class BordersController : MonoBehaviour
         {
             GameObject borderObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = borderObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = borderObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = border.Name.Replace("_", " ");
 
             RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
@@ -108,16 +108,15 @@ public class BordersController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(border, MainPanel);
             });
 
-            // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = borderObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetYellowMaterial("UI_Yellow_Radius_Mat");
 
             RawImage currencyImage = borderObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = borderObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = borderObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(border.Currency.Quantity, false);
 
             Button buy = borderObject.transform.Find("Buy").GetComponent<Button>();

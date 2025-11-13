@@ -86,7 +86,7 @@ public class CardSpellController : MonoBehaviour
         {
             GameObject spellObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = spellObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = spell.Name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
@@ -102,16 +102,15 @@ public class CardSpellController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(spell, MainPanel);
             });
 
-            // RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = spellObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetYellowMaterial("UI_Yellow_Radius_Mat");
 
             RawImage currencyImage = spellObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = spellObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = spellObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(spell.Currency.Quantity, false);
 
             Button buy = spellObject.transform.Find("Buy").GetComponent<Button>();

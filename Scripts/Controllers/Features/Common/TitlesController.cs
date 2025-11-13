@@ -92,7 +92,7 @@ public class TitlesController : MonoBehaviour
         {
             GameObject titleObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = titleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = title.Name.Replace("_", " ");
 
             RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
@@ -110,16 +110,15 @@ public class TitlesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
             });
 
-            // RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = titleObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
 
             RawImage currencyImage = titleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = titleObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = titleObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(title.currency.Quantity, false);
 
             Button buy = titleObject.transform.Find("Buy").GetComponent<Button>();

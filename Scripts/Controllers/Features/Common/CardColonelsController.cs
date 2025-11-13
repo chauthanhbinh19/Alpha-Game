@@ -86,7 +86,7 @@ public class CardColonelsController : MonoBehaviour
         {
             GameObject cardColonelObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = cardColonelObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = cardColonelObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = cardColonel.Name.Replace("_", " ");
 
             RawImage Image = cardColonelObject.transform.Find("Image").GetComponent<RawImage>();
@@ -102,16 +102,15 @@ public class CardColonelsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardColonel, MainPanel);
             });
 
-            // RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = cardColonelObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetGreenMaterial("UI_Green_Radius_Mat");
 
             RawImage currencyImage = cardColonelObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonel.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = cardColonelObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = cardColonelObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(cardColonel.Currency.Quantity, false);
 
             Button buy = cardColonelObject.transform.Find("Buy").GetComponent<Button>();

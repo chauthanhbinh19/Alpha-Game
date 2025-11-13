@@ -86,7 +86,7 @@ public class CardCaptainsController : MonoBehaviour
         {
             GameObject captainsObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = captainsObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = captain.Name.Replace("_", " ");
 
             RawImage Image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
@@ -102,15 +102,15 @@ public class CardCaptainsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(captain, MainPanel);
             });
 
-            // RawImage rareImage = captainsObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = captainsObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+
             RawImage currencyImage = captainsObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = captainsObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = captainsObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(captain.Currency.Quantity, false);
 
             Button buy = captainsObject.transform.Find("Buy").GetComponent<Button>();

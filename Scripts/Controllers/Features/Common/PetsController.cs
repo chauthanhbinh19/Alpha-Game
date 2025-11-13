@@ -134,7 +134,7 @@ public class PetsController : MonoBehaviour
                 // }
             }
 
-            Text Title = petsObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = petsObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = pet.Name.Replace("_", " ");
 
             RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
@@ -156,15 +156,15 @@ public class PetsController : MonoBehaviour
             //     Image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             // }
 
-            // RawImage rareImage = petsObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = petsObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
+
             RawImage currencyImage = petsObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = petsObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = petsObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(pet.Currency.Quantity, false);
 
             Button buy = petsObject.transform.Find("Buy").GetComponent<Button>();

@@ -86,7 +86,7 @@ public class CardMonstersController : MonoBehaviour
         {
             GameObject monstersObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = monstersObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = monstersObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = monster.Name.Replace("_", " ");
 
             RawImage Image = monstersObject.transform.Find("Image").GetComponent<RawImage>();
@@ -102,15 +102,15 @@ public class CardMonstersController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(monster, MainPanel);
             });
 
-            // RawImage rareImage = monstersObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monster.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = monstersObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
+
             RawImage currencyImage = monstersObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monster.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = monstersObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = monstersObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(monster.Currency.Quantity, false);
 
             Button buy = monstersObject.transform.Find("Buy").GetComponent<Button>();

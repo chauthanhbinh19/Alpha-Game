@@ -86,7 +86,7 @@ public class CollaborationEquipmentController : MonoBehaviour
         {
             GameObject collaborationEquipmentObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = collaborationEquipment.Name.Replace("_", " ");
 
             RawImage Image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
@@ -102,15 +102,15 @@ public class CollaborationEquipmentController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(collaborationEquipment, MainPanel);
             });
 
-            // RawImage rareImage = collaborationEquipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = collaborationEquipmentObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetPinkMaterial("UI_Pink_Radius_Mat");
+
             RawImage currencyImage = collaborationEquipmentObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = collaborationEquipmentObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = collaborationEquipmentObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(collaborationEquipment.Currency.Quantity, false);
 
             Button buy = collaborationEquipmentObject.transform.Find("Buy").GetComponent<Button>();

@@ -89,7 +89,7 @@ public class CollaborationController : MonoBehaviour
         {
             GameObject collaborationObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = collaborationObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = collaboration.Name.Replace("_", " ");
 
             RawImage Image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
@@ -105,16 +105,15 @@ public class CollaborationController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(collaboration, MainPanel);
             });
 
-            // RawImage rareImage = collaborationObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = collaborationObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
 
             RawImage currencyImage = collaborationObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = collaborationObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = collaborationObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(collaboration.Currency.Quantity, false);
 
             Button buy = collaborationObject.transform.Find("Buy").GetComponent<Button>();

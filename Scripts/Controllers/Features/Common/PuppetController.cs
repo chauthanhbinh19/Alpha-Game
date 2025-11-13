@@ -89,7 +89,7 @@ public class PuppetController : MonoBehaviour
         {
             GameObject puppetObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = puppetObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = puppet.Name.Replace("_", " ");
 
             RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
@@ -106,15 +106,15 @@ public class PuppetController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(puppet, MainPanel);
             });
 
-            // RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = puppetObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
+
             RawImage currencyImage = puppetObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = puppetObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = puppetObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(puppet.Currency.Quantity, false);
 
             Button buy = puppetObject.transform.Find("Buy").GetComponent<Button>();

@@ -89,7 +89,7 @@ public class ForgeController : MonoBehaviour
         {
             GameObject forgeObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = forgeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = forge.Name.Replace("_", " ");
 
             RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
@@ -106,15 +106,15 @@ public class ForgeController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(forge, MainPanel);
             });
 
-            // RawImage rareImage = forgeObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = forgeObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetGrayMaterial("UI_Gray_Radius_Mat");
+
             RawImage currencyImage = forgeObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = forgeObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = forgeObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(forge.Currency.Quantity, false);
 
             Button buy = forgeObject.transform.Find("Buy").GetComponent<Button>();

@@ -89,7 +89,7 @@ public class AlchemyController : MonoBehaviour
         {
             GameObject alchemyObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = alchemyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = alchemy.Name.Replace("_", " ");
 
             RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
@@ -106,15 +106,15 @@ public class AlchemyController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(alchemy, MainPanel);
             });
 
-            // RawImage rareImage = alchemyObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = alchemyObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetGreenMaterial("UI_Green_Radius_Mat");
+
             RawImage currencyImage = alchemyObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = alchemyObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = alchemyObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(alchemy.Currency.Quantity, false);
 
             Button buy = alchemyObject.transform.Find("Buy").GetComponent<Button>();

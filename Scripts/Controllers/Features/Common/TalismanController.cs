@@ -89,7 +89,7 @@ public class TalismanController : MonoBehaviour
         {
             GameObject talismanObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = talismanObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = talisman.Name.Replace("_", " ");
 
             RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
@@ -106,15 +106,15 @@ public class TalismanController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(talisman, MainPanel);
             });
 
-            // RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.rare}");
-            // rareImage.texture = rareTexture;
+            RawImage topImage = talismanObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetPinkMaterial("UI_Pink_Radius_Mat");
+
             RawImage currencyImage = talismanObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyText = talismanObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyText = talismanObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(talisman.Currency.Quantity, false);
 
             Button buy = talismanObject.transform.Find("Buy").GetComponent<Button>();

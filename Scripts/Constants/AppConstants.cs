@@ -171,8 +171,8 @@ public static class AppConstants
         public const string PASSWORD = "password";
 
 
-        public const string ACHIEVEMENT = "Alchievement";
-        public const string ACHIEVEMENTS = "Alchievements";
+        public const string ACHIEVEMENT = "Achievement";
+        public const string ACHIEVEMENTS = "Achievements";
 
         public const string CARD_HERO = "Card Hero";
         public const string CARD_HEROES = "Card Heroes";
