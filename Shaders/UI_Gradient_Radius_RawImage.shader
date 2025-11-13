@@ -63,7 +63,7 @@ Shader "Unlit/UI_Gradient_Radius_RawImage"
                 fixed4 tex = tex2D(_MainTex, i.uv);
 
                 // --- Gradient
-                fixed4 grad = lerp(_BottomColor, _TopColor, i.uv.y);
+                fixed4 grad = lerp(_BottomColor, _TopColor, i.uv.x);
 
                 // --- Áp mask texture
                 grad.a *= tex.a;

@@ -17,7 +17,7 @@ public class GalleryManager : MonoBehaviour
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
-    private Material UI_Blue_Gradient_Radius_Mat;
+    private Material UI_Blue_Gradient_Radius_Mat_MaskPercent_45;
     private Button CloseButton;
     private Button HomeButton;
     //Variable for pagination
@@ -43,7 +43,7 @@ public class GalleryManager : MonoBehaviour
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UI_Blue_Gradient_Radius_Mat = MaterialManager.Instance.GetMaterial("UI_Blue_Gradient_Radius_Mat");
+        UI_Blue_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Gradient_Radius_Mat_MaskPercent_45");
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK));
@@ -124,6 +124,7 @@ public class GalleryManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePanel();
+            Destroy(mainMenuObject);
         });
         HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
@@ -143,7 +144,7 @@ public class GalleryManager : MonoBehaviour
         });
 
         RawImage topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<RawImage>();
-        topBackgroundImage.material = UI_Blue_Gradient_Radius_Mat;
+        topBackgroundImage.material = UI_Blue_Gradient_Radius_Mat_MaskPercent_45;
         TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
         subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GALLERY);
 
@@ -620,10 +621,10 @@ public class GalleryManager : MonoBehaviour
         ClearAllPrefabs();
         offset = 0;
         currentPage = 1;
-        foreach (Transform child in MainPanel)
-        {
-            Destroy(child.gameObject);
-        }
+        // foreach (Transform child in MainPanel)
+        // {
+        //     Destroy(child.gameObject);
+        // }
     }
     public void Close(Transform content)
     {
