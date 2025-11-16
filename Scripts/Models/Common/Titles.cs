@@ -32,7 +32,7 @@ public class Titles : BaseEntity
     public double PercentAllAtomicDefense { get; set; }
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
-    public Currencies currency { get; set; }
+    public Currencies Currency { get; set; }
     public Titles()
     {
         PercentAllHealth = -1;

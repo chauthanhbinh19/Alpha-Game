@@ -20,97 +20,109 @@ public static class AppDisplayConstants
         public const string PASSWORD = "password";
 
 
-        public const string ACHIEVEMENT = "achievement";
-        public const string ACHIEVEMENTS = "achievements";
-        public const string CARD_HERO = "card_hero";
-        public const string CARD_HEROES = "card_heroes";
+        public const string ACHIEVEMENT = "MainType.Achievement";
+        public const string ACHIEVEMENTS = "MainType.Achievements";
+        public const string CARD_HERO = "MainType.CardHero";
+        public const string CARD_HEROES = "MainType.CardHeroes";
 
-        public const string ALCHEMY = "alchemy";
-        public const string ALCHEMIES = "alchemies";
+        public const string ALCHEMY = "MainType.Alchemy";
+        public const string ALCHEMIES = "MainType.Alchemies";
 
-        public const string AVATAR = "avatar";
-        public const string AVATARS = "avatars";
+        public const string AVATAR = "MainType.Avatar";
+        public const string AVATARS = "MainType.Avatars";
 
-        public const string BORDER = "border";
-        public const string BORDERS = "borders";
+        public const string BORDER = "MainType.Border";
+        public const string BORDERS = "MainType.Borders";
 
-        public const string BOOK = "book";
-        public const string BOOKS = "books";
+        public const string BOOK = "MainType.Book";
+        public const string BOOKS = "MainType.Books";
 
-        public const string CARD_ADMIRAL = "card_admiral";
-        public const string CARD_ADMIRALS = "card_admirals";
+        public const string CARD_ADMIRAL = "MainType.CardAdmiral";
+        public const string CARD_ADMIRALS = "MainType.CardAdmirals";
 
-        public const string CARD_CAPTAIN = "card_captain";
-        public const string CARD_CAPTAINS = "card_captains";
+        public const string CARD_CAPTAIN = "MainType.CardCaptain";
+        public const string CARD_CAPTAINS = "MainType.CardCaptains";
 
-        public const string CARD_COLONEL = "card_colonel";
-        public const string CARD_COLONELS = "card_colonels";
+        public const string CARD_COLONEL = "MainType.CardColonel";
+        public const string CARD_COLONELS = "MainType.CardColonels";
 
-        public const string CARD_GENERAL = "card_general";
-        public const string CARD_GENERALS = "card_generals";
+        public const string CARD_GENERAL = "MainType.CardGeneral";
+        public const string CARD_GENERALS = "MainType.CardGenerals";
 
-        public const string CARD_LIFE = "card_life";
-        public const string CARD_LIVES = "card_lives";
+        public const string CARD_LIFE = "MainType.CardLife";
+        public const string CARD_LIVES = "MainType.CardLives";
 
-        public const string CARD_MILITARY = "card_military";
-        public const string CARD_MILITARIES = "card_militaries";
+        public const string CARD_MILITARY = "MainType.CardMilitary";
+        public const string CARD_MILITARIES = "MainType.CardMilitaries";
 
-        public const string CARD_MONSTER = "card_monster";
-        public const string CARD_MONSTERS = "card_monsters";
+        public const string CARD_MONSTER = "MainType.CardMonster";
+        public const string CARD_MONSTERS = "MainType.CardMonsters";
 
-        public const string CARD_SPELL = "card_spell";
-        public const string CARD_SPELLS = "card_spells";
+        public const string CARD_SPELL = "MainType.CardSpell";
+        public const string CARD_SPELLS = "MainType.CardSpells";
 
-        public const string COLLABORATION_EQUIPMENT = "collaboration_equipment";
-        public const string COLLABORATION_EQUIPMENTS = "collaboration_equipments";
+        public const string COLLABORATION_EQUIPMENT = "MainType.CollaborationEquipment";
+        public const string COLLABORATION_EQUIPMENTS = "MainType.CollaborationEquipments";
 
-        public const string COLLABORATION = "collaboration";
-        public const string COLLABORATIONS = "collaborations";
+        public const string COLLABORATION = "MainType.Collaboration";
+        public const string COLLABORATIONS = "MainType.Collaborations";
 
-        public const string EQUIPMENT = "equipment";
-        public const string EQUIPMENTS = "equipments"; // nếu bạn cho phép dạng số nhiều của uncountable
+        public const string EQUIPMENT = "MainType.Equipment";
+        public const string EQUIPMENTS = "MainType.Equipments"; // nếu bạn cho phép dạng số nhiều của uncountable
 
-        public const string FORGE = "forge";
-        public const string FORGES = "forges";
+        public const string FORGE = "MainType.Forge";
+        public const string FORGES = "MainType.Forges";
 
-        public const string MAGIC_FORMATION_CIRCLE = "magic_formation_circle";
-        public const string MAGIC_FORMATION_CIRCLES = "magic_formation_circles";
+        public const string MAGIC_FORMATION_CIRCLE = "MainType.MagicFormationCircle";
+        public const string MAGIC_FORMATION_CIRCLES = "MainType.MagicFormationCircles";
 
-        public const string MEDAL = "medal";
-        public const string MEDALS = "medals";
+        public const string MEDAL = "MainType.Medal";
+        public const string MEDALS = "MainType.Medals";
 
-        public const string PET = "pet";
-        public const string PETS = "pets";
+        public const string PET = "MainType.Pet";
+        public const string PETS = "MainType.Pets";
 
-        public const string PUPPET = "puppet";
-        public const string PUPPETS = "puppets";
+        public const string PUPPET = "MainType.Puppet";
+        public const string PUPPETS = "MainType.Puppets";
 
-        public const string RELIC = "relic";
-        public const string RELICS = "relics";
+        public const string RELIC = "MainType.Relic";
+        public const string RELICS = "MainType.Relics";
 
-        public const string SKILL = "skill";
-        public const string SKILLS = "skills";
+        public const string SKILL = "MainType.Skill";
+        public const string SKILLS = "MainType.Skills";
 
-        public const string SYMBOL = "symbol";
-        public const string SYMBOLS = "symbols";
+        public const string SYMBOL = "MainType.Symbol";
+        public const string SYMBOLS = "MainType.Symbols";
 
-        public const string TALISMAN = "talisman";
-        public const string TALISMANS = "talismans";
+        public const string TALISMAN = "MainType.Talisman";
+        public const string TALISMANS = "MainType.Talismans";
 
-        public const string TITLE = "title";
-        public const string TITLES = "titles";
+        public const string TITLE = "MainType.Title";
+        public const string TITLES = "MainType.Titles";
 
         public const string ITEM = "item";
         public const string ITEMS = "items";
 
-        public const string ARTWORK = "artwork";
-        public const string ARTWORKS = "artworks";
+        public const string ARTWORK = "MainType.Artwork";
+        public const string ARTWORKS = "MainType.Artworks";
 
-        public const string SPIRIT_BEAST = "spirit_beast";
-        public const string SPIRIT_BEASTS = "spirit_beasts";
+        public const string SPIRIT_BEAST = "MainType.SpiritBeast";
+        public const string SPIRIT_BEASTS = "MainType.SpiritBeasts";
 
-        public const string SPIRIT_CARD = "spirit_card";
-        public const string SPIRIT_CARDS = "spirit_cards";
+        public const string SPIRIT_CARD = "MainType.SpiritCard";
+        public const string SPIRIT_CARDS = "MainType.SpiritCards";
+
+        public const string ARCHITECTURE = "MainType.Architecture";
+        public const string ARCHITECTURES = "MainType.Architectures";
+
+        public const string TECHNOLOGY = "MainType.Technology";
+        public const string TECHONOLOGIES = "MainType.Technologies";
+
+        public const string VEHICLE = "MainType.Vehicle";
+        public const string VEHICLES = "MainType.Vehicles";
+
+        public const string CARD = "MainType.Card";
+        public const string CARDS = "MainType.Cards";
 
         public const string SUMMON_CARD_HEROES = "summon_card_heroes";
         public const string SUMMON_BOOKS = "summon_books";
@@ -186,6 +198,10 @@ public static class AppDisplayConstants
         public const string AVATARS_GALLERY = "Gallery.Avatars";
         public const string SPIRIT_CARDS_GALLERY = "Gallery.SpiritCard";
         public const string ACHIEVEMENTS_GALLERY = "Gallery.Achievements";
+        public const string CARDS_GALLERY = "Gallery.Cards";
+        public const string ARCHITECTURES_GALLERY = "Gallery.Architectures";
+        public const string TECHNOLOGIES_GALLERY = "Gallery.Technologies";
+        public const string VEHICLES_GALLERY = "Gallery.Vehicles";
     }
     public static class Collection
     {
@@ -219,6 +235,10 @@ public static class AppDisplayConstants
         public const string AVATARS_COLLECTION = "Collection.Avatars";
         public const string SPIRIT_CARDS_COLLECTION = "Collection.SpiritCard";
         public const string ACHIEVEMENTS_COLLECTION = "Collection.Achievements";
+        public const string CARDS_COLLECTION = "Collection.Cards";
+        public const string ARCHITECTURES_COLLECTION = "Collection.Architectures";
+        public const string TECHNOLOGIES_COLLECTION = "Collection.Technologies";
+        public const string VEHICLES_COLLECTION = "Collection.Vehicles";
     }
     public static class Anime
     {

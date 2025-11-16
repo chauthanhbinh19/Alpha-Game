@@ -1737,56 +1737,56 @@ public class PopupDetailsManager : MonoBehaviour
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CRITICAL_DAMAGE_RATE)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.DAMAGE_ABSORPTION_RATE)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CRITICAL_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_CRITICAL_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.PENETRATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PENETRATION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.PENETRATION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PENETRATION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.EVASION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PROTECTION_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.EVASION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ABSORBED_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.VITALITY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.VITALITY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ACCURACY_RATE))
@@ -1796,17 +1796,17 @@ public class PopupDetailsManager : MonoBehaviour
         }
         else if (title.Equals(AppConstants.StatFields.LIFE_STEAL_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ACCURACY_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.LIFESTEAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.SHIELD_STRENGTH))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PROTECTION_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SHIELD_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.TENACITY))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.TENACITY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.RESISTANCE_RATE))
@@ -1816,68 +1816,76 @@ public class PopupDetailsManager : MonoBehaviour
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.COMBO_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_COMBO_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.COMBO_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.COMBO_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.COMBO_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.STUN_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ACCURACY_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.STUN_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_STUN_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.STUN_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MANA))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PROTECTION_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.MANA_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MANA_REGENERATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.MANA_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_REFLECTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE) || title.Equals(AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE) ||
-         title.Equals(AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE) || title.Equals(AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE) ||
-         title.Equals(AppConstants.StatFields.NORMAL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.NORMAL_RESISTANCE_RATE) ||
-         title.Equals(AppConstants.StatFields.SKILL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.SKILL_RESISTANCE_RATE))
+         title.Equals(AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE) || title.Equals(AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE))
+        {
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.FACTION_RUNE_URL}");
+            runeImage.texture = runeTexture;
+        }
+        else if (title.Equals(AppConstants.StatFields.NORMAL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.NORMAL_RESISTANCE_RATE))
+        {
+            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.NORMAL_RUNE_URL}");
+            runeImage.texture = runeTexture;
+        }
+        else if (title.Equals(AppConstants.StatFields.SKILL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.SKILL_RESISTANCE_RATE))
         {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SKILL_RUNE_URL}");
             runeImage.texture = runeTexture;

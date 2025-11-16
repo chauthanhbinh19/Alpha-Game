@@ -49,6 +49,10 @@ public static class ImageConstants
         public const string SPIRIT_BEAST_URL = "UI/Button/Main/SpiritBeasts";
         public const string SCIENCE_FICTION_URL = "UI/Button/ScienceFiction";
         public const string SPIRIT_CARD_URL = "UI/Button/Main/SpiritCards";
+        public const string CARD_URL = "UI/Button/Main/Cards";
+        public const string ARCHITECTURE_URL = "UI/Button/Main/Architectures";
+        public const string TECHNOLOGY_URL = "UI/Button/Main/Technologies";
+        public const string VEHICLE_URL = "UI/Button/Main/Vehicles";
         public const string SHOP_URL = "UI/UI/Shop";
         public const string GALLERY_URL = "UI/Button/Gallery";
         public const string COLLECTION_URL = "UI/Button/Collection";
@@ -227,6 +231,10 @@ public static class ImageConstants
         public const string AVATAR_URL = "UI/Button/Gallery/AvatarsGallery";
         public const string SPIRIT_CARD_URL = "UI/Button/Gallery/SpiritCardsGallery";
         public const string ACHIEVEMENT_URL = "UI/Button/Gallery/AchievementsGallery";
+        public const string CARD_URL = "UI/Button/Gallery/CardsGallery";
+        public const string ARCHITECTURE_URL = "UI/Button/Gallery/ArchitecturesGallery";
+        public const string TECHNOLOGY_URL = "UI/Button/Gallery/TechnologiesGallery";
+        public const string VEHICLE_URL = "UI/Button/Gallery/VehiclesGallery";
     }
     public static class Collection
     {
@@ -260,6 +268,10 @@ public static class ImageConstants
         public const string AVATAR_URL = "UI/Button/Collection/AvatarsCollection";
         public const string SPIRIT_CARD_URL = "UI/Button/Collection/SpiritCardsCollection";
         public const string ACHIEVEMENT_URL = "UI/Button/Collection/AchievementsCollection";
+        public const string CARD_URL = "UI/Button/Collection/CardsCollection";
+        public const string ARCHITECTURE_URL = "UI/Button/Collection/ArchitecturesCollection";
+        public const string TECHNOLOGY_URL = "UI/Button/Collection/TechnologiesCollection";
+        public const string VEHICLE_URL = "UI/Button/Collection/VehiclesCollection";
     }
     public static class Rune
     {
@@ -295,6 +307,20 @@ public static class ImageConstants
         public const string ACCURACY_RUNE_URL = "UI/Rune/Accuracy_Rune";
         public const string PROTECTION_RUNE_URL = "UI/Rune/Protection_Rune";
         public const string SKILL_RUNE_URL = "UI/Rune/Skill_Rune";
+        public const string NORMAL_RUNE_URL = "UI/Rune/Normal_Rune";
+        public const string CRITICAL_RUNE_URL = "UI/Rune/Critical_Rune";
+        public const string PENETRATION_RUNE_URL = "UI/Rune/Penetration_Rune";
+        public const string EVASION_RUNE_URL = "UI/Rune/Evasion_Rune";
+        public const string SHIELD_RUNE_URL = "UI/Rune/Shield_Rune";
+        public const string COMBO_RUNE_URL = "UI/Rune/Combo_Rune";
+        public const string STUN_RUNE_URL = "UI/Rune/Stun_Rune";
+        public const string REFLECTION_RUNE_URL = "UI/Rune/Reflection_Rune";
+        public const string MANA_RUNE_URL = "UI/Rune/Mana_Rune";
+        public const string LIFESTEAL_RUNE_URL = "UI/Rune/Lifesteal_Rune";
+        public const string VITALITY_RUNE_URL = "UI/Rune/Vitality_Rune";
+        public const string TENACITY_RUNE_URL = "UI/Rune/Tenacity_Rune";
+        public const string ABSORPTION_RUNE_URL = "UI/Rune/Absorption_Rune";
+        public const string FACTION_RUNE_URL = "UI/Rune/Faction_Rune";
     }
     public static class Star
     {

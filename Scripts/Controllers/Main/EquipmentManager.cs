@@ -222,7 +222,7 @@ public class EquipmentManager : MonoBehaviour
         {
             GameObject equipmentObject = Instantiate(equipmentsShopPrefab, tempContent);
 
-            Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = equipmentObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = equipment.Name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
@@ -236,7 +236,7 @@ public class EquipmentManager : MonoBehaviour
             Texture currencyTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.CurrencyImage)}");
             currencyImage.texture = currencyTexture;
 
-            Text currencyTitle = equipmentObject.transform.Find("CurrencyText").GetComponent<Text>();
+            TextMeshProUGUI currencyTitle = equipmentObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyTitle.text = equipment.Price.ToString().Replace("_", " ");
 
             Button buy = equipmentObject.transform.Find("Buy").GetComponent<Button>();
@@ -420,8 +420,8 @@ public class EquipmentManager : MonoBehaviour
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
-            TextMeshProUGUI Title = DictionaryPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = LocalizationManager.Get("shop");
+            TextMeshProUGUI Title = DictionaryPanel.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>

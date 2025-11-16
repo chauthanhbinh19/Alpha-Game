@@ -264,6 +264,18 @@ public static class AppConstants
         public const string SPIRIT_CARD = "Spirit Card";
         public const string SPIRIT_CARDS = "Spirit Cards";
 
+        public const string ARCHITECTURE = "Architecture";
+        public const string ARCHITECTURES = "Architectures";
+
+        public const string TECHNOLOGY = "Technology";
+        public const string TECHONOLOGIES = "Technologies";
+
+        public const string VEHICLE = "Vehicle";
+        public const string VEHICLES = "Vehicles";
+
+        public const string CARD = "Card";
+        public const string CARDS = "Cards";
+
         public const string SCIENCE_FICTION = "Science Fiction";
         public const string SUMMON_CARD_HEROES = "Summon Card Heroes";
         public const string SUMMON_BOOKS = "Summon Books";

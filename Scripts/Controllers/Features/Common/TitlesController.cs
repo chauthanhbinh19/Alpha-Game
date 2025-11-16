@@ -114,12 +114,12 @@ public class TitlesController : MonoBehaviour
             topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
 
             RawImage currencyImage = titleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.currency.Image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = titleObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(title.currency.Quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(title.Currency.Quantity, false);
 
             Button buy = titleObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -127,7 +127,7 @@ public class TitlesController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(title.currency.Quantity, title, subType, popupPanel, currencyPanel);
+                GetQuantity(title.Currency.Quantity, title, subType, popupPanel, currencyPanel);
             });
         }
 
@@ -249,7 +249,7 @@ public class TitlesController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is Titles titles)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(titles.currency.Id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(titles.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -280,7 +280,7 @@ public class TitlesController : MonoBehaviour
             if (obj is Titles titles)
             {
                 titles.Quantity = titles.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(titles.currency.Id, price);
+                UserCurrencyService.Create().UpdateUserCurrency(titles.Currency.Id, price);
                 bool success = UserTitlesService.Create().InsertUserTitles(titles);
                 if (!success)
                 {

@@ -406,6 +406,7 @@ public class MainMenuSpaceManager : MonoBehaviour
         warningText.fontSize = 50;
         warningText.fontStyle = FontStyles.Bold; 
         warningText.text = MessageHelper.WaringLevel(value);
+        LevelCondition.gameObject.AddComponent<SlideBottomToTopAnimation>();
     }
     public void LoadAnimation()
     {

@@ -38,6 +38,10 @@ public interface IUserCurrencyRepository
     Currencies GetUserArtworkPrice(string Id);
     Currencies GetUserSpiritBeastPrice(string Id);
     Currencies GetUserSpiritCardPrice(string Id);
+    Currencies GetUserCardsPrice(string Id);
+    Currencies GetUserArchitecturesPrice(string Id);
+    Currencies GetUserTechnologiesPrice(string Id);
+    Currencies GetUserVehiclesPrice(string Id);
     List<Currencies> GetAchievementsCurrency();
     List<Currencies> GetBooksCurrency(string type);
     List<Currencies> GetCardHeroesCurrency(string type);
@@ -67,4 +71,8 @@ public interface IUserCurrencyRepository
     List<Currencies> GetArtworkCurrency(string type);
     List<Currencies> GetSpiritBeastCurrency(string type);
     List<Currencies> GetSpiritCardCurrency(string type);
+    List<Currencies> GetCardsCurrency(string type);
+    List<Currencies> GetArchitecturesCurrency(string type);
+    List<Currencies> GetTechnologiesCurrency(string type);
+    List<Currencies> GetVehiclesCurrency(string type);
 }

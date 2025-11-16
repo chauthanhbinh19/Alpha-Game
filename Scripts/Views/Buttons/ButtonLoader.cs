@@ -95,14 +95,13 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(22, AppConstants.MainType.ALCHEMIES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ALCHEMY_URL), contentPanel);
         CreateButton(23, AppConstants.MainType.FORGES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.FORGE_URL), contentPanel);
         CreateButton(24, AppConstants.MainType.CARD_LIVES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.CARD_LIFE_URL), contentPanel);
-        // CreateButton(25, AppConstants.MainType.MASTER_BOARD, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.MASTER_BOARD_URL), contentPanel);
         CreateButton(25, AppConstants.MainType.ARTWORK, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ARTWORK_URL), contentPanel);
         CreateButton(26, AppConstants.MainType.SPIRIT_BEAST, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.SPIRIT_BEAST_URL), contentPanel);
-        // CreateButton(27, AppConstants.MainType.SCIENCE_FICTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.SCIENCE_FICTION_URL), contentPanel);
         CreateButton(27, AppConstants.MainType.SPIRIT_CARD, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.SPIRIT_CARD_URL), contentPanel);
-        // CreateButton(30, AppConstants.MainType.TEAMS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.TEAM_URL), contentPanel);
-        // CreateButton(13, AppConstants.MainType.MORE, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.MORE_URL), mainMenuButtonPanel);
-        
+        CreateButton(28, AppConstants.MainType.CARDS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.CARD_URL), contentPanel);
+        CreateButton(29, AppConstants.MainType.ARCHITECTURES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ARCHITECTURE_URL), contentPanel);
+        CreateButton(30, AppConstants.MainType.TECHONOLOGIES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.TECHNOLOGY_URL), contentPanel);
+        CreateButton(31, AppConstants.MainType.VEHICLES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.VEHICLE_URL), contentPanel);
 
         
 
@@ -129,19 +128,19 @@ public class ButtonLoader : MonoBehaviour
 
         // CreateButton(10, AppConstants.MainType.SHOP, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.SHOP_URL), contentPanel);
 
-        CreateButton(10, AppConstants.MainType.GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.GALLERY_URL), contentPanel);
-        CreateButton(11, AppConstants.MainType.COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.COLLECTION_URL), contentPanel);
-        CreateButton(12, AppConstants.MainType.EQUIPMENTS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EQUIPMENT_URL), contentPanel);
-        CreateButton(13, AppConstants.MainType.ANIME, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ANIME_URL), contentPanel);
-        CreateButton(14, AppConstants.MainType.ARENA, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ARENA_URL), contentPanel);
-        CreateButton(15, AppConstants.MainType.GUILD, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.GUILD_URL), contentPanel);
-        CreateButton(16, AppConstants.MainType.TOWER, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.TOWER_URL), contentPanel);
-        CreateButton(17, AppConstants.MainType.EVENT, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EVENT_URL), contentPanel);
-        CreateButton(18, AppConstants.MainType.DAILY_CHECKIN, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.DAILY_CHECKIN_URL), contentPanel);
-        CreateButton(19, AppConstants.Market.RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.RARE_MARKET_URL), contentPanel);
-        CreateButton(20, AppConstants.Market.ULTRA_RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.ULTRA_RARE_MARKET_URL), contentPanel);
-        CreateButton(21, AppConstants.Market.LEGENDARY_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.LEGENDARY_MARKET_URL), contentPanel);
-        CreateButton(22, AppConstants.Market.MYSTIC_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.MYSTIC_MARKET_URL), contentPanel);
+        // CreateButton(10, AppConstants.MainType.GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.GALLERY_URL), contentPanel);
+        // CreateButton(11, AppConstants.MainType.COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.COLLECTION_URL), contentPanel);
+        // CreateButton(12, AppConstants.MainType.EQUIPMENTS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EQUIPMENT_URL), contentPanel);
+        CreateButton(10, AppConstants.MainType.ANIME, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ANIME_URL), contentPanel);
+        CreateButton(11, AppConstants.MainType.ARENA, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ARENA_URL), contentPanel);
+        CreateButton(12, AppConstants.MainType.GUILD, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.GUILD_URL), contentPanel);
+        CreateButton(13, AppConstants.MainType.TOWER, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.TOWER_URL), contentPanel);
+        CreateButton(14, AppConstants.MainType.EVENT, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EVENT_URL), contentPanel);
+        CreateButton(15, AppConstants.MainType.DAILY_CHECKIN, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.DAILY_CHECKIN_URL), contentPanel);
+        CreateButton(16, AppConstants.Market.RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.RARE_MARKET_URL), contentPanel);
+        CreateButton(17, AppConstants.Market.ULTRA_RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.ULTRA_RARE_MARKET_URL), contentPanel);
+        CreateButton(18, AppConstants.Market.LEGENDARY_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.LEGENDARY_MARKET_URL), contentPanel);
+        CreateButton(19, AppConstants.Market.MYSTIC_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.MYSTIC_MARKET_URL), contentPanel);
     }
     public void CreateMoreButton(Transform moreMenuPanel)
     {
@@ -336,6 +335,10 @@ public class ButtonLoader : MonoBehaviour
         CreateGalleryButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.AVATAR_URL), galleryMenuPanel);
         CreateGalleryButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.SPIRIT_CARD_URL), galleryMenuPanel);
         CreateGalleryButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ACHIEVEMENT_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(31, AppDisplayConstants.Gallery.CARDS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ARCHITECTURE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.TECHNOLOGY_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(34, AppDisplayConstants.Gallery.VEHICLES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.VEHICLE_URL), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -401,6 +404,10 @@ public class ButtonLoader : MonoBehaviour
         CreateCollectionButtonUI(28, AppDisplayConstants.Collection.AVATARS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.AVATAR_URL), collectionMenuPanel);
         CreateCollectionButtonUI(29, AppDisplayConstants.Collection.SPIRIT_CARDS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.SPIRIT_CARD_URL), collectionMenuPanel);
         CreateCollectionButtonUI(30, AppDisplayConstants.Collection.ACHIEVEMENTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ACHIEVEMENT_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(31, AppDisplayConstants.Collection.CARDS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(32, AppDisplayConstants.Collection.ARCHITECTURES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ARCHITECTURE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(33, AppDisplayConstants.Collection.TECHNOLOGIES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.TECHNOLOGY_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(34, AppDisplayConstants.Collection.VEHICLES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.VEHICLE_URL), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

@@ -194,6 +194,26 @@ public class UserCurrencyService : IUserCurrencyService
         return _userCurrencyRepository.GetUserSpiritCardPrice(Id);
     }
 
+    public Currencies GetUserCardsPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserCardsPrice(Id);
+    }
+
+    public Currencies GetUserArchitecturesPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserArchitecturesPrice(Id);
+    }
+
+    public Currencies GetUserTechnologiesPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserTechnologiesPrice(Id);
+    }
+
+    public Currencies GetUserVehiclesPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserVehiclesPrice(Id);
+    }
+
 
     public List<Currencies> GetAchievementsCurrency()
     {
@@ -338,5 +358,25 @@ public class UserCurrencyService : IUserCurrencyService
     public List<Currencies> GetSpiritCardCurrency(string type)
     {
         return _userCurrencyRepository.GetSpiritCardCurrency(type);
+    }
+
+    public List<Currencies> GetCardsCurrency(string type)
+    {
+        return _userCurrencyRepository.GetCardsCurrency(type);
+    }
+
+    public List<Currencies> GetArchitecturesCurrency(string type)
+    {
+        return _userCurrencyRepository.GetArchitecturesCurrency(type);
+    }
+
+    public List<Currencies> GetTechnologiesCurrency(string type)
+    {
+        return _userCurrencyRepository.GetTechnologiesCurrency(type);
+    }
+
+    public List<Currencies> GetVehiclesCurrency(string type)
+    {
+        return _userCurrencyRepository.GetVehiclesCurrency(type);
     }
 }

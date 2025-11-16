@@ -120,6 +120,9 @@ public class MainMenuManager : MonoBehaviour
         Button teamButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/TeamButton").GetComponent<Button>();
         Button masterBoardButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/MasterBoardButton").GetComponent<Button>();
         Button scienceFictionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/ScienceFictionButton").GetComponent<Button>();
+        Button galleryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/GalleryButton").GetComponent<Button>();
+        Button collectionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/CollectionButton").GetComponent<Button>();
+        Button equipmentButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/EquipmentButton").GetComponent<Button>();
 
         content.AddComponent<RotateAnimation>();
 
@@ -186,11 +189,24 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GetType(AppConstants.MainType.SCIENCE_FICTION);
         });
-    }
-    public Transform GetSummonPanel()
-    {
-        Transform summonPanel = currentObject.transform.Find("SummonPanel");
-        return summonPanel;
+
+        galleryButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            GetType(AppConstants.MainType.GALLERY);
+        });
+
+        collectionButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            GetType(AppConstants.MainType.COLLECTION);
+        });
+
+        equipmentButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            GetType(AppConstants.MainType.EQUIPMENT);
+        });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
     {
@@ -243,11 +259,13 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, () => GetType(AppConstants.MainType.ALCHEMY));
         ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, () => GetType(AppConstants.MainType.FORGE));
         ButtonEvent.Instance.AssignButtonEvent("Button_24", contentPanel, () => GetType(AppConstants.MainType.CARD_LIFE));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.MASTER_BOARD));
         ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.ARTWORK));
         ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SCIENCE_FICTION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD)); 
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.CARDS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.ARCHITECTURE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_30", contentPanel, () => GetType(AppConstants.MainType.TECHNOLOGY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_31", contentPanel, () => GetType(AppConstants.MainType.VEHICLE));
     }
     public void GetPrimaryButtonEvent()
     {
@@ -267,19 +285,16 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_GENERALS));
         ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_ADMIRALS));
 
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.GALLERY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.COLLECTION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, () => GetType(AppConstants.MainType.EQUIPMENT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, () => GetType(AppConstants.MainType.ANIME));
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, () => GetType(AppConstants.MainType.ARENA));
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, () => GetType(AppConstants.MainType.GUILD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, () => GetType(AppConstants.MainType.TOWER));
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, () => GetType(AppConstants.MainType.EVENT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, () => GetType(AppConstants.MainType.DAILY_CHECKIN));
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, () => GetType(AppConstants.Market.RARE_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, () => GetType(AppConstants.Market.ULTRA_RARE_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, () => GetType(AppConstants.Market.LEGENDARY_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, () => GetType(AppConstants.Market.MYSTIC_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.ANIME));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.ARENA));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, () => GetType(AppConstants.MainType.GUILD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, () => GetType(AppConstants.MainType.TOWER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, () => GetType(AppConstants.MainType.EVENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, () => GetType(AppConstants.MainType.DAILY_CHECKIN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, () => GetType(AppConstants.Market.RARE_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, () => GetType(AppConstants.Market.ULTRA_RARE_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, () => GetType(AppConstants.Market.LEGENDARY_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, () => GetType(AppConstants.Market.MYSTIC_MARKET));
     }
     public void GetType(string type)
     {
@@ -761,6 +776,30 @@ public class MainMenuManager : MonoBehaviour
                 listCount = spiritBeasts.Count;
 
                 totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.CARD))
+            {
+                List<Cards> cards = UserCardsService.Create().GetUserCards(User.CurrentUserId, pageSize, offset, rare);
+                UserCardsController.Instance.CreateUserCards(cards, DictionaryContentPanel);
+                listCount = cards.Count;
+
+                totalRecord = UserCardsService.Create().GetUserCardsCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+            {
+                List<Architectures> architectures = UserArchitecturesService.Create().GetUserArchitectures(User.CurrentUserId, pageSize, offset, rare);
+                UserArchitecturesController.Instance.CreateUserArchitectures(architectures, DictionaryContentPanel);
+                listCount = architectures.Count;
+
+                totalRecord = UserArchitecturesService.Create().GetUserArchitecturesCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+            {
+                List<Technologies> technologies = UserTechnologiesService.Create().GetUserTechnologies(User.CurrentUserId, pageSize, offset, rare);
+                UserTechnologiesController.Instance.CreateUserTechnologies(technologies, DictionaryContentPanel);
+                listCount = technologies.Count;
+
+                totalRecord = UserTechnologiesService.Create().GetUserTechnologiesCount(User.CurrentUserId, rare);
             }
 
             if (listCount > 0)
@@ -1556,6 +1595,39 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = UserSpiritCardService.Create().GetUserSpiritCardCount(User.CurrentUserId, type, rare);
         }
+        else if (mainType.Equals(AppConstants.MainType.CARD))
+        {
+            List<Cards> cards = UserCardsService.Create().GetUserCards(User.CurrentUserId, pageSize, offset, rare);
+            UserCardsController.Instance.CreateUserCards(cards, DictionaryContentPanel);
+            listCount = cards.Count;
+
+            totalRecord = UserCardsService.Create().GetUserCardsCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+        {
+            List<Architectures> architectures = UserArchitecturesService.Create().GetUserArchitectures(User.CurrentUserId, pageSize, offset, rare);
+            UserArchitecturesController.Instance.CreateUserArchitectures(architectures, DictionaryContentPanel);
+            listCount = architectures.Count;
+
+            totalRecord = UserArchitecturesService.Create().GetUserArchitecturesCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+        {
+            List<Technologies> technologies = UserTechnologiesService.Create().GetUserTechnologies(User.CurrentUserId, pageSize, offset, rare);
+            UserTechnologiesController.Instance.CreateUserTechnologies(technologies, DictionaryContentPanel);
+            listCount = technologies.Count;
+
+            totalRecord = UserTechnologiesService.Create().GetUserTechnologiesCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.VEHICLE))
+        {
+            List<Vehicles> vehicles = UserVehicleService.Create().GetUserVehicle(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
+            UserVehicleController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
+            listCount = vehicles.Count;
+
+            totalRecord = UserVehicleService.Create().GetUserVehicleCount(User.CurrentUserId, type, rare);
+        }
 
         if (listCount > 0)
         {
@@ -1892,6 +1964,42 @@ public class MainMenuManager : MonoBehaviour
                 List<SpiritCards> spiritCards = UserSpiritCardService.Create().GetUserSpiritCard(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSpiritCardController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
             }
+            else if (mainType.Equals(AppConstants.MainType.CARD))
+            {
+                totalRecord = UserCardsService.Create().GetUserCardsCount(User.CurrentUserId, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Cards> cards = UserCardsService.Create().GetUserCards(User.CurrentUserId, pageSize, offset, rare);
+                UserCardsController.Instance.CreateUserCards(cards, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+            {
+                totalRecord = UserArchitecturesService.Create().GetUserArchitecturesCount(User.CurrentUserId, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Architectures> architectures = UserArchitecturesService.Create().GetUserArchitectures(User.CurrentUserId, pageSize, offset, rare);
+                UserArchitecturesController.Instance.CreateUserArchitectures(architectures, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+            {
+                totalRecord = UserTechnologiesService.Create().GetUserTechnologiesCount(User.CurrentUserId, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Technologies> technologies = UserTechnologiesService.Create().GetUserTechnologies(User.CurrentUserId, pageSize, offset, rare);
+                UserTechnologiesController.Instance.CreateUserTechnologies(technologies, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.MainType.VEHICLE))
+            {
+                totalRecord = UserVehicleService.Create().GetUserVehicleCount(User.CurrentUserId, subType, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage + 1;
+                offset = offset + pageSize;
+                List<Vehicles> vehicles = UserVehicleService.Create().GetUserVehicle(User.CurrentUserId, subType, pageSize, offset, rare);
+                UserVehicleController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
+            }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -2146,6 +2254,42 @@ public class MainMenuManager : MonoBehaviour
                 offset = offset - pageSize;
                 List<SpiritCards> spiritCards = UserSpiritCardService.Create().GetUserSpiritCard(User.CurrentUserId, subType, pageSize, offset, rare);
                 UserSpiritCardController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.MainType.CARD))
+            {
+                totalRecord = UserCardsService.Create().GetUserCardsCount(User.CurrentUserId, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Cards> cards = UserCardsService.Create().GetUserCards(User.CurrentUserId, pageSize, offset, rare);
+                UserCardsController.Instance.CreateUserCards(cards, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+            {
+                totalRecord = UserArchitecturesService.Create().GetUserArchitecturesCount(User.CurrentUserId, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Architectures> architectures = UserArchitecturesService.Create().GetUserArchitectures(User.CurrentUserId, pageSize, offset, rare);
+                UserArchitecturesController.Instance.CreateUserArchitectures(architectures, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+            {
+                totalRecord = UserTechnologiesService.Create().GetUserTechnologiesCount(User.CurrentUserId, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Technologies> technologies = UserTechnologiesService.Create().GetUserTechnologies(User.CurrentUserId, pageSize, offset, rare);
+                UserTechnologiesController.Instance.CreateUserTechnologies(technologies, DictionaryContentPanel);
+            }
+            else if (mainType.Equals(AppConstants.MainType.VEHICLE))
+            {
+                totalRecord = UserVehicleService.Create().GetUserVehicleCount(User.CurrentUserId, subType, rare);
+                totalPage = CalculateTotalPages(totalRecord, pageSize);
+                currentPage = currentPage - 1;
+                offset = offset - pageSize;
+                List<Vehicles> vehicles = UserVehicleService.Create().GetUserVehicle(User.CurrentUserId, subType, pageSize, offset, rare);
+                UserVehicleController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

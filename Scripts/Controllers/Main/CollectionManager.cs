@@ -80,6 +80,10 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.AVATAR));
         AssignButtonEvent("Button_29", () => GetType(AppConstants.MainType.SPIRIT_CARD));
         AssignButtonEvent("Button_30", () => GetType(AppConstants.MainType.ACHIEVEMENT));
+        AssignButtonEvent("Button_31", () => GetType(AppConstants.MainType.CARD));
+        AssignButtonEvent("Button_32", () => GetType(AppConstants.MainType.ARCHITECTURE));
+        AssignButtonEvent("Button_33", () => GetType(AppConstants.MainType.TECHNOLOGY));
+        AssignButtonEvent("Button_34", () => GetType(AppConstants.MainType.VEHICLE));
     }
 
     void Update()
@@ -279,6 +283,30 @@ public class CollectionManager : MonoBehaviour
                 AchievementsGalleryController.Instance.CreateAchievementsGallery(achievements, DictionaryContentPanel);
 
                 totalRecord = achievementsGalleryService.GetAchievementsCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.CARD))
+            {
+                var cardsGalleryService = CardsGalleryService.Create();
+                List<Cards> cards = cardsGalleryService.GetCardsCollection(pageSize, offset, rare);
+                CardsGalleryController.Instance.CreateCardsGallery(cards, DictionaryContentPanel);
+
+                totalRecord = cardsGalleryService.GetCardsCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+            {
+                var architecturesGalleryService = ArchitecturesGalleryService.Create();
+                List<Architectures> architectures = architecturesGalleryService.GetArchitecturesCollection(pageSize, offset, rare);
+                ArchitecturesGalleryController.Instance.CreateArchitecturesGallery(architectures, DictionaryContentPanel);
+
+                totalRecord = architecturesGalleryService.GetArchitecturesCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+            {
+                var technologiesGalleryService = TechnologiesGalleryService.Create();
+                List<Technologies> technologies = technologiesGalleryService.GetTechnologiesCollection(pageSize, offset, rare);
+                TechnologiesGalleryController.Instance.CreateTechnologiesGallery(technologies, DictionaryContentPanel);
+
+                totalRecord = technologiesGalleryService.GetTechnologiesCount(rare);
             }
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -587,6 +615,38 @@ public class CollectionManager : MonoBehaviour
             AchievementsGalleryController.Instance.CreateAchievementsGallery(achievements, DictionaryContentPanel);
 
             totalRecord = achievementsGalleryService.GetAchievementsCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD))
+        {
+            var cardsGalleryService = CardsGalleryService.Create();
+            List<Cards> cards = cardsGalleryService.GetCardsCollection(pageSize, offset, rare);
+            CardsGalleryController.Instance.CreateCardsGallery(cards, DictionaryContentPanel);
+
+            totalRecord = cardsGalleryService.GetCardsCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+        {
+            var architecturesGalleryService = ArchitecturesGalleryService.Create();
+            List<Architectures> architectures = architecturesGalleryService.GetArchitecturesCollection(pageSize, offset, rare);
+            ArchitecturesGalleryController.Instance.CreateArchitecturesGallery(architectures, DictionaryContentPanel);
+
+            totalRecord = architecturesGalleryService.GetArchitecturesCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+        {
+            var technologiesGalleryService = TechnologiesGalleryService.Create();
+            List<Technologies> technologies = technologiesGalleryService.GetTechnologiesCollection(pageSize, offset, rare);
+            TechnologiesGalleryController.Instance.CreateTechnologiesGallery(technologies, DictionaryContentPanel);
+
+            totalRecord = technologiesGalleryService.GetTechnologiesCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.VEHICLE))
+        {
+            var vehiclesGalleryService = VehicleGalleryService.Create();
+            List<Vehicles> vehicles = vehiclesGalleryService.GetVehicleCollection(type, pageSize, offset, rare);
+            VehicleGalleryController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
+
+            totalRecord = vehiclesGalleryService.GetVehicleCount(type, rare);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

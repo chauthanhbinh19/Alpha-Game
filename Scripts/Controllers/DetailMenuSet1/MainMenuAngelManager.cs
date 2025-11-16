@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class MainMenuAngelManager : MonoBehaviour
 {
@@ -406,6 +407,7 @@ public class MainMenuAngelManager : MonoBehaviour
         warningText.fontSize = 50;
         warningText.fontStyle = FontStyles.Bold; 
         warningText.text = MessageHelper.WaringLevel(value);
+        LevelCondition.gameObject.AddComponent<SlideBottomToTopAnimation>();
     }
     public void LoadAnimation()
     {

@@ -238,7 +238,7 @@ public class TitlesRepository : ITitlesRepository
                         PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
                         Description = reader.GetString("description")
                     };
-                    title.currency = new Currencies
+                    title.Currency = new Currencies
                     {
                         Id = reader.GetString("currency_id"),
                         Image = reader.GetString("currency_image"),

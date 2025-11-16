@@ -75,6 +75,10 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.AVATAR));
         AssignButtonEvent("Button_29", () => GetType(AppConstants.MainType.SPIRIT_CARD));
         AssignButtonEvent("Button_30", () => GetType(AppConstants.MainType.ACHIEVEMENT));
+        AssignButtonEvent("Button_31", () => GetType(AppConstants.MainType.CARD));
+        AssignButtonEvent("Button_32", () => GetType(AppConstants.MainType.ARCHITECTURE));
+        AssignButtonEvent("Button_33", () => GetType(AppConstants.MainType.TECHNOLOGY));
+        AssignButtonEvent("Button_34", () => GetType(AppConstants.MainType.VEHICLE));
         // GetCardsType();
     }
 
@@ -267,6 +271,27 @@ public class GalleryManager : MonoBehaviour
                 AchievementsController.Instance.CreateAchievementsGallery(achievements, DictionaryContentPanel);
 
                 totalRecord = AvatarsService.Create().GetAvatarsCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.CARD))
+            {
+                List<Cards> cards = CardsService.Create().GetCards(pageSize, offset, rare);
+                CardsController.Instance.CreateCardsGallery(cards, DictionaryContentPanel);
+
+                totalRecord = CardsService.Create().GetCardsCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+            {
+                List<Architectures> architectures = ArchitecturesService.Create().GetArchitectures(pageSize, offset, rare);
+                ArchitecturesController.Instance.CreateArchitecturesGallery(architectures, DictionaryContentPanel);
+
+                totalRecord = ArchitecturesService.Create().GetArchitecturesCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+            {
+                List<Technologies> technologies = TechnologiesService.Create().GetTechnologies(pageSize, offset, rare);
+                TechnologiesController.Instance.CreateTechnologiesGallery(technologies, DictionaryContentPanel);
+
+                totalRecord = TechnologiesService.Create().GetTechnologiesCount(rare);
             }
 
             totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -564,6 +589,34 @@ public class GalleryManager : MonoBehaviour
             AchievementsController.Instance.CreateAchievementsGallery(achievements, DictionaryContentPanel);
 
             totalRecord = AvatarsService.Create().GetAvatarsCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD))
+        {
+            List<Cards> cards = CardsService.Create().GetCards(pageSize, offset, rare);
+            CardsController.Instance.CreateCardsGallery(cards, DictionaryContentPanel);
+
+            totalRecord = CardsService.Create().GetCardsCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+        {
+            List<Architectures> architectures = ArchitecturesService.Create().GetArchitectures(pageSize, offset, rare);
+            ArchitecturesController.Instance.CreateArchitecturesGallery(architectures, DictionaryContentPanel);
+
+            totalRecord = ArchitecturesService.Create().GetArchitecturesCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+        {
+            List<Technologies> technologies = TechnologiesService.Create().GetTechnologies(pageSize, offset, rare);
+            TechnologiesController.Instance.CreateTechnologiesGallery(technologies, DictionaryContentPanel);
+
+            totalRecord = TechnologiesService.Create().GetTechnologiesCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.VEHICLE))
+        {
+            List<Vehicles> vehicles = VehiclesService.Create().GetVehicles(type, pageSize, offset, rare);
+            VehicleController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
+
+            totalRecord = VehiclesService.Create().GetVehicleCount(type, rare);
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
