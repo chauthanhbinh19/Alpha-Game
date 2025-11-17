@@ -104,6 +104,12 @@ public class CollaborationEquipmentController : MonoBehaviour
 
             RawImage topImage = collaborationEquipmentObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.GetPinkMaterial("UI_Pink_Radius_Mat");
+            RawImage circleImage = collaborationEquipmentObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
+            Outline bottomOutline = collaborationEquipmentObject.transform.Find("BottomImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
+            Outline middleOutline = collaborationEquipmentObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
 
             RawImage currencyImage = collaborationEquipmentObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Currency.Image);
@@ -116,6 +122,8 @@ public class CollaborationEquipmentController : MonoBehaviour
             Button buy = collaborationEquipmentObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

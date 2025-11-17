@@ -108,6 +108,12 @@ public class ForgeController : MonoBehaviour
 
             RawImage topImage = forgeObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.GetGrayMaterial("UI_Gray_Radius_Mat");
+            RawImage circleImage = forgeObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            circleImage.color = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
+            Outline bottomOutline = forgeObject.transform.Find("BottomImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
+            Outline middleOutline = forgeObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
 
             RawImage currencyImage = forgeObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Currency.Image);
@@ -120,6 +126,8 @@ public class ForgeController : MonoBehaviour
             Button buy = forgeObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

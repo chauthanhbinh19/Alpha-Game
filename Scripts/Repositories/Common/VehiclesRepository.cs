@@ -182,7 +182,7 @@ public class VehiclesRepository : IVehiclesRepository
                 connection.Open();
                 string query = @"select t.*, tt.price, cu.image as currency_image, cu.id as currency_id
                 from vehicles t, vehicle_trade tt, currency cu
-                where t.id=tt.spirit_card_id and tt.currency_id = cu.id and t.type =@type
+                where t.id=tt.vehicle_id and tt.currency_id = cu.id and t.type =@type
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);

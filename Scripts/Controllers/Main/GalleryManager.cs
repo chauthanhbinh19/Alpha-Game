@@ -614,7 +614,7 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.VEHICLE))
         {
             List<Vehicles> vehicles = VehiclesService.Create().GetVehicles(type, pageSize, offset, rare);
-            VehicleController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
+            VehiclesController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
 
             totalRecord = VehiclesService.Create().GetVehicleCount(type, rare);
         }

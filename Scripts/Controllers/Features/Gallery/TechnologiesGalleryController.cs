@@ -40,51 +40,67 @@ public class TechnologiesGalleryController : MonoBehaviour
     }
     public void CreateTechnologiesGallery(List<Technologies> TechnologiesList, Transform DictionaryContentPanel)
     {
-        foreach (var title in TechnologiesList)
+        foreach (var technology in TechnologiesList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject technologyObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.Name.Replace("_", " ");
+            Text Title = technologyObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = technology.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
 
-            Button button = titleObject.GetComponent<Button>();
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            Button button = technologyObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
             });
 
-            RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
+            RawImage rareImage = technologyObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = titleObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = titleObject.transform.Find("Unlock").GetComponent<Button>();
-            if (title.Status.Equals("available"))
+            RawImage blockImage = technologyObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = technologyObject.transform.Find("Unlock").GetComponent<Button>();
+            if (technology.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
-            else if (title.Status.Equals("pending"))
+            else if (technology.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (title.Status.Equals("block"))
+            else if (technology.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
 
-            RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = technologyObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
@@ -92,10 +108,10 @@ public class TechnologiesGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var titleGalleryService = TechnologiesGalleryService.Create();
-                titleGalleryService.UpdateStatusTechnologiesGallery(title.Id);
+                titleGalleryService.UpdateStatusTechnologiesGallery(technology.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
@@ -107,8 +123,8 @@ public class TechnologiesGalleryController : MonoBehaviour
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = titleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((title.CurrentStar < title.TempStar) && title.Status.Equals("available"))
+            Button Upgrade = technologyObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((technology.CurrentStar < technology.TempStar) && technology.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -120,7 +136,7 @@ public class TechnologiesGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                TechnologiesGalleryService.Create().UpdateTechnologiesGalleryPower(title.Id);
+                TechnologiesGalleryService.Create().UpdateTechnologiesGalleryPower(technology.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

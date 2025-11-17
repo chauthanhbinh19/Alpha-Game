@@ -1623,7 +1623,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Vehicles> vehicles = UserVehicleService.Create().GetUserVehicle(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserVehicleController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
+            UserVehiclesController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
             listCount = vehicles.Count;
 
             totalRecord = UserVehicleService.Create().GetUserVehicleCount(User.CurrentUserId, type, rare);
@@ -1998,7 +1998,7 @@ public class MainMenuManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Vehicles> vehicles = UserVehicleService.Create().GetUserVehicle(User.CurrentUserId, subType, pageSize, offset, rare);
-                UserVehicleController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
+                UserVehiclesController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -2289,7 +2289,7 @@ public class MainMenuManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Vehicles> vehicles = UserVehicleService.Create().GetUserVehicle(User.CurrentUserId, subType, pageSize, offset, rare);
-                UserVehicleController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
+                UserVehiclesController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

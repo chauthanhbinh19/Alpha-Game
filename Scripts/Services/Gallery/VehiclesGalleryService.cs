@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class VehicleGalleryService : IVehicleGalleryService
+public class VehicleGalleryService : IVehiclesGalleryService
 {
     private readonly IVehicleGalleryRepository _VehicleGalleryRepository;
 
@@ -14,44 +14,44 @@ public class VehicleGalleryService : IVehicleGalleryService
         return new VehicleGalleryService(new VehicleGalleryRepository());
     }
 
-    public List<Vehicles> GetVehicleCollection(string type, int pageSize, int offset, string rare)
+    public List<Vehicles> GetVehiclesCollection(string type, int pageSize, int offset, string rare)
     {
-        List<Vehicles> list = _VehicleGalleryRepository.GetVehicleCollection(type, pageSize, offset, rare);
+        List<Vehicles> list = _VehicleGalleryRepository.GetVehiclesCollection(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetVehicleCount(string type, string rare)
+    public int GetVehiclesCount(string type, string rare)
     {
-        return _VehicleGalleryRepository.GetVehicleCount(type, rare);
+        return _VehicleGalleryRepository.GetVehiclesCount(type, rare);
     }
 
-    public void InsertVehicleGallery(string Id)
+    public void InsertVehiclesGallery(string Id)
     {
         IVehiclesRepository _repository = new VehiclesRepository();
         VehiclesService _service = new VehiclesService(_repository);
-        _VehicleGalleryRepository.InsertVehicleGallery(Id, _service.GetVehicleById(Id));
+        _VehicleGalleryRepository.InsertVehiclesGallery(Id, _service.GetVehicleById(Id));
     }
 
-    public void UpdateStatusVehicleGallery(string Id)
+    public void UpdateStatusVehiclesGallery(string Id)
     {
-        _VehicleGalleryRepository.UpdateStatusVehicleGallery(Id);
+        _VehicleGalleryRepository.UpdateStatusVehiclesGallery(Id);
     }
 
-    public Vehicles SumPowerVehicleGallery()
+    public Vehicles SumPowerVehiclesGallery()
     {
-        return _VehicleGalleryRepository.SumPowerVehicleGallery();
+        return _VehicleGalleryRepository.SumPowerVehiclesGallery();
     }
 
-    public void UpdateStarVehicleGallery(string Id, double star)
+    public void UpdateStarVehiclesGallery(string Id, double star)
     {
-        _VehicleGalleryRepository.UpdateStarVehicleGallery(Id, star);
+        _VehicleGalleryRepository.UpdateStarVehiclesGallery(Id, star);
     }
 
-    public void UpdateVehicleGalleryPower(string Id)
+    public void UpdateVehiclesGalleryPower(string Id)
     {
         IVehiclesRepository _repository = new VehiclesRepository();
         VehiclesService _service = new VehiclesService(_repository);
-        _VehicleGalleryRepository.UpdateVehicleGalleryPower(Id, _service.GetVehicleById(Id));
+        _VehicleGalleryRepository.UpdateVehiclesGalleryPower(Id, _service.GetVehicleById(Id));
     }
 }

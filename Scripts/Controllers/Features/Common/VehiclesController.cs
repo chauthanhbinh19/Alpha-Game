@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class VehicleController : MonoBehaviour
+public class VehiclesController : MonoBehaviour
 {
-    public static VehicleController Instance { get; private set; }
+    public static VehiclesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject equipmentsPrefab;
     private GameObject equipmentsShopPrefab;
@@ -56,10 +56,28 @@ public class VehicleController : MonoBehaviour
             Text Title = VehicleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = Vehicle.Name.Replace("_", " ");
 
-            RawImage Image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             // RawImage frameImage = VehicleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
@@ -92,10 +110,29 @@ public class VehicleController : MonoBehaviour
             TextMeshProUGUI Title = VehicleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = Vehicle.Name.Replace("_", " ");
 
-            RawImage Image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
             RawImage FrameImage = VehicleObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = VehicleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
@@ -107,7 +144,13 @@ public class VehicleController : MonoBehaviour
             });
 
             RawImage topImage = VehicleObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
+            topImage.material = MaterialManager.Instance.GetGreenMaterial("UI_Green_Radius_Mat");
+            RawImage circleImage = VehicleObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
+            Outline bottomOutline = VehicleObject.transform.Find("BottomImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
+            Outline middleOutline = VehicleObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
             RawImage currencyImage = VehicleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Currency.Image);
@@ -120,6 +163,8 @@ public class VehicleController : MonoBehaviour
             Button buy = VehicleObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -291,7 +336,7 @@ public class VehicleController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    VehicleGalleryService.Create().InsertVehicleGallery(Vehicle.Id);
+                    VehicleGalleryService.Create().InsertVehiclesGallery(Vehicle.Id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
 

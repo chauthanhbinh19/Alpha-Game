@@ -706,7 +706,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Vehicles> vehicles = VehiclesService.Create().GetVehiclesWithPrice(type, pageSize, offset);
-            VehicleController.Instance.CreateVehicleTrade(vehicles, type, currentContent, currencyPanel, popupPanel);
+            VehiclesController.Instance.CreateVehicleTrade(vehicles, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = VehiclesService.Create().GetVehicleWithPriceCount(type);
         }
@@ -1240,7 +1240,7 @@ public class ShopManager : MonoBehaviour
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
                 List<Vehicles> vehicles = VehiclesService.Create().GetVehiclesWithPrice(subType, pageSize, offset);
-                VehicleController.Instance.CreateVehicleTrade(vehicles, subType, currentContent, currencyPanel, popupPanel);
+                VehiclesController.Instance.CreateVehicleTrade(vehicles, subType, currentContent, currencyPanel, popupPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -1701,7 +1701,7 @@ public class ShopManager : MonoBehaviour
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
                 List<Vehicles> vehicles = VehiclesService.Create().GetVehiclesWithPrice(subType, pageSize, offset);
-                VehicleController.Instance.CreateVehicleTrade(vehicles, subType, currentContent, currencyPanel, popupPanel);
+                VehiclesController.Instance.CreateVehicleTrade(vehicles, subType, currentContent, currencyPanel, popupPanel);
             }
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

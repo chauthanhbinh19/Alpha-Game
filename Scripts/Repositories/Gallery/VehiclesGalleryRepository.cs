@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class VehicleGalleryRepository : IVehicleGalleryRepository
 {
-    public List<Vehicles> GetVehicleCollection(string type, int pageSize, int offset, string rare)
+    public List<Vehicles> GetVehiclesCollection(string type, int pageSize, int offset, string rare)
     {
         List<Vehicles> VehicleList = new List<Vehicles>();
         string user_id = User.CurrentUserId;
@@ -18,7 +18,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             {
                 connection.Open();
                 string query = @"SELECT t.*, tg.current_star, tg.temp_star, CASE WHEN tg.vehicle_id IS NULL THEN 'block' WHEN tg.status = 'pending' THEN 'pending' WHEN tg.status = 'available' THEN 'available' END AS status 
-                FROM vehicle t LEFT JOIN vehicle_gallery tg ON t.id = tg.vehicle_id and tg.user_id = @userId 
+                FROM vehicles t LEFT JOIN vehicle_gallery tg ON t.id = tg.vehicle_id and tg.user_id = @userId 
                 Where t.type=@type AND (@rare = 'All' or t.rare = @rare)
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -120,7 +120,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
         }
         return VehicleList;
     }
-    public int GetVehicleCount(string type, string rare)
+    public int GetVehiclesCount(string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -148,7 +148,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
         }
         return count;
     }
-    public void InsertVehicleGallery(string Id, Vehicles TitleFromDB)
+    public void InsertVehiclesGallery(string Id, Vehicles TitleFromDB)
     {
         // Vehicle TitleFromDB = GetVehicleById(Id);
         int percent = 20;
@@ -292,7 +292,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             }
         }
     }
-    public void UpdateStatusVehicleGallery(string Id)
+    public void UpdateStatusVehiclesGallery(string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -317,7 +317,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             }
         }
     }
-    public void UpdateStarVehicleGallery(string Id, double star)
+    public void UpdateStarVehiclesGallery(string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -364,7 +364,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             }
         }
     }
-    public void UpdateVehicleGalleryPower(string Id, Vehicles VehicleFromDB)
+    public void UpdateVehiclesGalleryPower(string Id, Vehicles VehicleFromDB)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -519,7 +519,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             }
         }
     }
-    public Vehicles SumPowerVehicleGallery()
+    public Vehicles SumPowerVehiclesGallery()
     {
         Vehicles sumVehicle = new Vehicles();
         string connectionString = DatabaseConfig.ConnectionString;

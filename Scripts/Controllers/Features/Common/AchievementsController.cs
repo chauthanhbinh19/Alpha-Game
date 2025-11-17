@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -110,6 +111,12 @@ public class AchievementsController : MonoBehaviour
 
             RawImage topImage = achievementObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            RawImage circleImage = achievementObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            Outline bottomOutline = achievementObject.transform.Find("BottomImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            Outline middleOutline = achievementObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
@@ -123,6 +130,8 @@ public class AchievementsController : MonoBehaviour
             Button buy = achievementObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

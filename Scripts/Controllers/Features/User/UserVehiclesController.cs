@@ -6,9 +6,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UserVehicleController : MonoBehaviour
+public class UserVehiclesController : MonoBehaviour
 {
-    public static UserVehicleController Instance { get; private set; }
+    public static UserVehiclesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject equipmentsPrefab;
     private GameObject ElementDetails2Prefab;
@@ -57,10 +57,28 @@ public class UserVehicleController : MonoBehaviour
             Text Title = VehicleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = Vehicle.Name.Replace("_", " ");
 
-            RawImage Image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = VehicleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -353,7 +371,7 @@ public class UserVehicleController : MonoBehaviour
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    VehicleGalleryService.Create().UpdateStarVehicleGallery(Vehicle.Id, Vehicle.Star + 1);
+                    VehicleGalleryService.Create().UpdateStarVehiclesGallery(Vehicle.Id, Vehicle.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);

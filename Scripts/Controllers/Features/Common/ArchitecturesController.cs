@@ -56,12 +56,28 @@ public class ArchitecturesController : MonoBehaviour
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -88,46 +104,71 @@ public class ArchitecturesController : MonoBehaviour
     public void CreateArchitecturesTrade(List<Architectures> ArchitecturesList, string subType, Transform currentContent,
     Transform CurrencyPanel, Transform popupPanel)
     {
-        foreach (var title in ArchitecturesList)
+        foreach (var architecture in ArchitecturesList)
         {
-            GameObject titleObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject architectureObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = titleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = title.Name.Replace("_", " ");
+            TextMeshProUGUI Title = architectureObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            Title.text = architecture.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage image = architectureObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            RawImage FrameImage = titleObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            RawImage FrameImage = architectureObject.transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(architecture, MainPanel);
             });
 
-            RawImage topImage = titleObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = architectureObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            RawImage circleImage = architectureObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            Outline bottomOutline = architectureObject.transform.Find("BottomImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            Outline middleOutline = architectureObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
 
-            RawImage CurrencyImage = titleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Currency.Image);
+            RawImage CurrencyImage = architectureObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Currency.Image);
             Texture CurrencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             CurrencyImage.texture = CurrencyTexture;
 
-            TextMeshProUGUI CurrencyText = titleObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            CurrencyText.text = NumberFormatter.FormatNumber(title.Currency.Quantity, false);
+            TextMeshProUGUI CurrencyText = architectureObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            CurrencyText.text = NumberFormatter.FormatNumber(architecture.Currency.Quantity, false);
 
-            Button buy = titleObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = architectureObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(title.Currency.Quantity, title, subType, popupPanel, CurrencyPanel);
+                GetQuantity(architecture.Currency.Quantity, architecture, subType, popupPanel, CurrencyPanel);
             });
         }
 

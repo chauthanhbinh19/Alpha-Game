@@ -84,16 +84,35 @@ public class CardGeneralsController : MonoBehaviour
     {
         foreach (var cardGeneral in cardGenerals)
         {
-            GameObject cardObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject cardGeneralObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = cardObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI Title = cardGeneralObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = cardGeneral.Name.Replace("_", " ");
 
-            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardGeneralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = cardObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            RawImage FrameImage = cardGeneralObject.transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -102,20 +121,28 @@ public class CardGeneralsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardGeneral, MainPanel);
             });
 
-            RawImage topImage = cardObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = cardGeneralObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
+            RawImage circleImage = cardGeneralObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
+            Outline bottomOutline = cardGeneralObject.transform.Find("BottomImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
+            Outline middleOutline = cardGeneralObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
 
-            RawImage currencyImage = cardObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = cardGeneralObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = cardObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI currencyText = cardGeneralObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(cardGeneral.Currency.Quantity, false);
 
-            Button buy = cardObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = cardGeneralObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

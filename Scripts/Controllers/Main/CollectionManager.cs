@@ -643,10 +643,10 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.VEHICLE))
         {
             var vehiclesGalleryService = VehicleGalleryService.Create();
-            List<Vehicles> vehicles = vehiclesGalleryService.GetVehicleCollection(type, pageSize, offset, rare);
-            VehicleGalleryController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
+            List<Vehicles> vehicles = vehiclesGalleryService.GetVehiclesCollection(type, pageSize, offset, rare);
+            VehiclesGalleryController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
 
-            totalRecord = vehiclesGalleryService.GetVehicleCount(type, rare);
+            totalRecord = vehiclesGalleryService.GetVehiclesCount(type, rare);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

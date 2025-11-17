@@ -56,12 +56,28 @@ public class TechnologiesController : MonoBehaviour
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -88,46 +104,71 @@ public class TechnologiesController : MonoBehaviour
     public void CreateTechnologiesTrade(List<Technologies> TechnologiesList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var title in TechnologiesList)
+        foreach (var technology in TechnologiesList)
         {
-            GameObject titleObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject technologyObject = Instantiate(equipmentsShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = titleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = title.Name.Replace("_", " ");
+            TextMeshProUGUI Title = technologyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            Title.text = technology.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            RawImage FrameImage = titleObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            RawImage FrameImage = technologyObject.transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
             });
 
-            RawImage topImage = titleObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            RawImage topImage = technologyObject.transform.Find("TopImage").GetComponent<RawImage>();
+            topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
+            RawImage circleImage = technologyObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
+            Outline bottomOutline = technologyObject.transform.Find("BottomImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
+            Outline middleOutline = technologyObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
 
-            RawImage currencyImage = titleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Currency.Image);
+            RawImage currencyImage = technologyObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = titleObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(title.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = technologyObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(technology.Currency.Quantity, false);
 
-            Button buy = titleObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = technologyObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(title.Currency.Quantity, title, subType, popupPanel, currencyPanel);
+                GetQuantity(technology.Currency.Quantity, technology, subType, popupPanel, currencyPanel);
             });
         }
 

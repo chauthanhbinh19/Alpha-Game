@@ -40,51 +40,67 @@ public class ArchitecturesGalleryController : MonoBehaviour
     }
     public void CreateArchitecturesGallery(List<Architectures> ArchitecturesList, Transform DictionaryContentPanel)
     {
-        foreach (var title in ArchitecturesList)
+        foreach (var architecture in ArchitecturesList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject architectureObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.Name.Replace("_", " ");
+            Text Title = architectureObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = architecture.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage image = architectureObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
 
-            Button button = titleObject.GetComponent<Button>();
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            Button button = architectureObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(architecture, MainPanel);
             });
 
-            RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
+            RawImage rareImage = architectureObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{architecture.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = titleObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = titleObject.transform.Find("Unlock").GetComponent<Button>();
-            if (title.Status.Equals("available"))
+            RawImage blockImage = architectureObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = architectureObject.transform.Find("Unlock").GetComponent<Button>();
+            if (architecture.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
-            else if (title.Status.Equals("pending"))
+            else if (architecture.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (title.Status.Equals("block"))
+            else if (architecture.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
 
-            RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = architectureObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
@@ -92,10 +108,10 @@ public class ArchitecturesGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var titleGalleryService = ArchitecturesGalleryService.Create();
-                titleGalleryService.UpdateStatusArchitecturesGallery(title.Id);
+                titleGalleryService.UpdateStatusArchitecturesGallery(architecture.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
@@ -107,8 +123,8 @@ public class ArchitecturesGalleryController : MonoBehaviour
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = titleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((title.CurrentStar < title.TempStar) && title.Status.Equals("available"))
+            Button Upgrade = architectureObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((architecture.CurrentStar < architecture.TempStar) && architecture.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -120,7 +136,7 @@ public class ArchitecturesGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                ArchitecturesGalleryService.Create().UpdateArchitecturesGalleryPower(title.Id);
+                ArchitecturesGalleryService.Create().UpdateArchitecturesGalleryPower(architecture.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

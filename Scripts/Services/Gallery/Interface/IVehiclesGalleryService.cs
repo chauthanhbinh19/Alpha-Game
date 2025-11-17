@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
-public interface IVehicleGalleryService
+public interface IVehiclesGalleryService
 {
-    List<Vehicles> GetVehicleCollection(string type, int pageSize, int offset, string rare);
-    int GetVehicleCount(string type, string rare);
-    void InsertVehicleGallery(string Id);
-    void UpdateStatusVehicleGallery(string Id);
-    void UpdateStarVehicleGallery(string Id, double star);
-    void UpdateVehicleGalleryPower(string Id);
-    Vehicles SumPowerVehicleGallery();
+    List<Vehicles> GetVehiclesCollection(string type, int pageSize, int offset, string rare);
+    int GetVehiclesCount(string type, string rare);
+    void InsertVehiclesGallery(string Id);
+    void UpdateStatusVehiclesGallery(string Id);
+    void UpdateStarVehiclesGallery(string Id, double star);
+    void UpdateVehiclesGalleryPower(string Id);
+    Vehicles SumPowerVehiclesGallery();
 }

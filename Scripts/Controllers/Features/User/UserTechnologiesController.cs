@@ -57,12 +57,28 @@ public class UserTechnologiesController : MonoBehaviour
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

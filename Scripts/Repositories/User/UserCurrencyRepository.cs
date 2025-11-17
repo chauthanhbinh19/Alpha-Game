@@ -2870,8 +2870,8 @@ public class UserCurrencyRepository : IUserCurrencyRepository
             {
                 connection.Open();
                 string query = @"select distinct c.id, c.image , c.name, uc.quantity 
-                from cards a, cards_trade at, currency c, user_currency uc
-                where a.id=at.cards_id and at.currency_id = c.id and c.id =uc.currency_id";
+                from cards a, card_trade at, currency c, user_currency uc
+                where a.id=at.card_id and at.currency_id = c.id and c.id =uc.currency_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
 

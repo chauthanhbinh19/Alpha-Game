@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class VehicleGalleryController : MonoBehaviour
+public class VehiclesGalleryController : MonoBehaviour
 {
-    public static VehicleGalleryController Instance { get; private set; }
+    public static VehiclesGalleryController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject equipmentsPrefab;
     private void Awake()
@@ -40,46 +40,61 @@ public class VehicleGalleryController : MonoBehaviour
     }
     public void CreateVehicleGallery(List<Vehicles> Vehicles, Transform DictionaryContentPanel)
     {
-        foreach (var Vehicle in Vehicles)
+        foreach (var vehicle in Vehicles)
         {
-            GameObject VehicleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject vehicleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
 
-            Text Title = VehicleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = Vehicle.Name.Replace("_", " ");
+            Text Title = vehicleObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = vehicle.Name.Replace("_", " ");
 
-            RawImage Image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
+            RawImage image = vehicleObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
-            // RawImage frameImage = VehicleObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            // frameImage.gameObject.SetActive(true);
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
 
-            Button button = VehicleObject.GetComponent<Button>();
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            Button button = vehicleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Vehicle, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(vehicle, MainPanel);
             });
 
-            RawImage rareImage = VehicleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Vehicle.Rare}");
+            RawImage rareImage = vehicleObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{vehicle.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = VehicleObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = VehicleObject.transform.Find("Unlock").GetComponent<Button>();
-            if (Vehicle.Status.Equals("available"))
+            RawImage blockImage = vehicleObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = vehicleObject.transform.Find("Unlock").GetComponent<Button>();
+            if (vehicle.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
-            else if (Vehicle.Status.Equals("pending"))
+            else if (vehicle.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (Vehicle.Status.Equals("block"))
+            else if (vehicle.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -88,10 +103,10 @@ public class VehicleGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                VehicleGalleryService.Create().UpdateStatusVehicleGallery(Vehicle.Id);
+                VehicleGalleryService.Create().UpdateStatusVehiclesGallery(vehicle.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
@@ -103,8 +118,8 @@ public class VehicleGalleryController : MonoBehaviour
                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = VehicleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((Vehicle.CurrentStar < Vehicle.TempStar) && Vehicle.Status.Equals("available"))
+            Button Upgrade = vehicleObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((vehicle.CurrentStar < vehicle.TempStar) && vehicle.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -116,7 +131,7 @@ public class VehicleGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                VehicleGalleryService.Create().UpdateVehicleGalleryPower(Vehicle.Id);
+                VehicleGalleryService.Create().UpdateVehiclesGalleryPower(vehicle.Id);
             });
         }
         GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();

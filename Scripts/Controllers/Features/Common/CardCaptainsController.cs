@@ -89,10 +89,29 @@ public class CardCaptainsController : MonoBehaviour
             TextMeshProUGUI Title = captainsObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = captain.Name.Replace("_", " ");
 
-            RawImage Image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
             RawImage FrameImage = captainsObject.transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = FrameImage.GetComponent<Button>();
@@ -104,6 +123,12 @@ public class CardCaptainsController : MonoBehaviour
 
             RawImage topImage = captainsObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            RawImage circleImage = captainsObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            Outline bottomOutline = captainsObject.transform.Find("BottomImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            Outline middleOutline = captainsObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
 
             RawImage currencyImage = captainsObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.Currency.Image);
@@ -116,6 +141,7 @@ public class CardCaptainsController : MonoBehaviour
             Button buy = captainsObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+            buttonText.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             buy.onClick.AddListener(() =>
             {
                 GetQuantity(captain.Currency.Quantity, captain, subType, popupPanel, currencyPanel);
