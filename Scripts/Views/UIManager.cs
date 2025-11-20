@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 
 
     // Prefab references
-    [Header("GameObject")]
+    [Header("General")]
     public GameObject SignInPanel;
     public GameObject SignUpPanel;
     public GameObject CreateNamePanel;
@@ -36,6 +36,8 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuShopPanel;
     public GameObject MainMenuEnhancementPanel;
     public GameObject MainMenuCampaignPanel;
+    public GameObject FeaturePanelPrefab;
+    public GameObject FeatureButtonPrefab;
     public GameObject quantityPopupPrefab;
     public GameObject equipmentsPrefab;
     public GameObject equipmentsShopPrefab;
@@ -608,6 +610,10 @@ public class UIManager : MonoBehaviour
                 return PopupButtonPrefab;
             case "AdvancedButtonFirst":
                 return AdvancedButtonFirst;
+            case "FeaturePanelPrefab":
+                return FeaturePanelPrefab;
+            case "FeatureButtonPrefab":
+                return FeatureButtonPrefab;
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;

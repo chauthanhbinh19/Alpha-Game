@@ -67,6 +67,21 @@ public static class ImageConstants
         public const string EMAIL_URL = "UI/Button/Mail";
         public const string CHAT_URL = "UI/Button/Chat";
     }
+    public static class Feature
+    {
+        public const string BASE_URL = "UI/Background1/Base_Background";
+        public const string BASE_ICON_URL = "UI/Icon/Cyber_Base";
+        public const string TRAIN_URL = "UI/Background1/Train_Background";
+        public const string TRAIN_ICON_URL = "UI/Icon/Cyber_Train";
+        public const string RESEARCH_URL = "UI/Background1/Research_Background";
+        public const string RESEARCH_ICON_URL = "UI/Icon/Cyber_Research";
+        public const string EMPLOYEE_URL = "UI/Background1/Employee_Background";
+        public const string EMPLOYEE_ICON_URL = "UI/Icon/Cyber_Employee";
+        public const string WORLD_URL = "UI/Background1/World_Background";
+        public const string WORLD_ICON_URL = "UI/Icon/Cyber_World";
+        public const string CITY_URL = "UI/Background1/City_Background";
+        public const string CITY_ICON_URL = "UI/Icon/Cyber_City";
+    }
     public static class Team
     {
         public const string TEAM_BACKGROUND_1 = "UI/Background4/Team/Team_Background_1";

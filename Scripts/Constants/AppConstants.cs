@@ -308,6 +308,16 @@ public static class AppConstants
         public const string BUY = "Buy";
         public const string PACKAGE = "Package";
         public const string CURRENCY = "Currency";
+        public const string FEATURE = "Feature";
+    }
+    public static class Feature
+    {
+        public const string BASE = "Base";
+        public const string TRAIN = "Train";
+        public const string RESEARCH = "Research";
+        public const string EMPLOYEE = "Employee";
+        public const string WORLD = "World";
+        public const string CITY = "City";
     }
     public static class Skill
     {

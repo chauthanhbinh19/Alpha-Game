@@ -20,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject ReactorPanelPrefab;
     private GameObject MasterBoardPanelPrefab;
     private GameObject PopupButtonPrefab;
+    private GameObject FeaturePanelPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private Button CloseButton;
@@ -101,6 +102,7 @@ public class MainMenuManager : MonoBehaviour
         AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
         ReactorPanelPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
+        FeaturePanelPrefab = UIManager.Instance.GetGameObject("FeaturePanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
         UI_Red_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.GetRedMaterial("UI_Red_Gradient_Radius_Mat_MaskPercent_45");
         fontSize = 24;
@@ -123,6 +125,7 @@ public class MainMenuManager : MonoBehaviour
         Button galleryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/GalleryButton").GetComponent<Button>();
         Button collectionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/CollectionButton").GetComponent<Button>();
         Button equipmentButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/EquipmentButton").GetComponent<Button>();
+        Button featureButton = currentObject.transform.Find("RightButtonGroup/FeatureButton").GetComponent<Button>();
 
         content.AddComponent<RotateAnimation>();
 
@@ -206,6 +209,12 @@ public class MainMenuManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GetType(AppConstants.MainType.EQUIPMENT);
+        });
+
+        featureButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            GetType(AppConstants.MainType.FEATURE);
         });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
@@ -598,6 +607,10 @@ public class MainMenuManager : MonoBehaviour
         {
             canUseRareButton = false;
             MysticMarketManager.Instance.CreateMysticMarket();
+        }
+        else if (mainType.Equals(AppConstants.MainType.FEATURE))
+        {
+            FeatureManager.Instance.CreateFeature();
         }
         else
         {

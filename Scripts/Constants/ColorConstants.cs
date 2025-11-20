@@ -8,7 +8,7 @@ public static class ColorConstants
     public const string EPIC_TEXT_COLOR = "#800080"; // Tím
     public const string LEGENDARY_TEXT_COLOR = "#FF4500"; // Cam đỏ
     public const string DISABLED_TEXT_COLOR = "#AAAAAA";
-    public const string RED_COLOR       = "#722F37";
+    public const string RED_COLOR       = "#9e2f3cff";
     public const string GREEN_COLOR     = "#064E3B";
     public const string BLUE_COLOR      = "#0B3D91";
     public const string YELLOW_COLOR    = "#B45309";

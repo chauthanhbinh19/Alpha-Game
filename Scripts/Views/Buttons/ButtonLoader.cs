@@ -15,6 +15,7 @@ public class ButtonLoader : MonoBehaviour
     private GameObject ArenaButtonPrefab;
     private GameObject AnimeButtonPrefab;
     private GameObject ReactorButtonPrefab;
+    private GameObject FeatureButtonPrefab;
     private GameObject PopupMenuPanelPrefab;
     private Transform MainPanel;
     private int set;
@@ -57,6 +58,7 @@ public class ButtonLoader : MonoBehaviour
         AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
         ReactorButtonPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorButtonPrefab");
         PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
+        FeatureButtonPrefab = UIManager.Instance.GetGameObject("FeatureButtonPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
 
         
@@ -300,6 +302,47 @@ public class ButtonLoader : MonoBehaviour
         }
 
         // RawImage borderImage = newButton.transform.Find("BorderImage").GetComponent<RawImage>();
+    }
+    public void CreateFeatureButton(Transform featureMenuPanel)
+    {
+        backgroundImage = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_GALLERY_URL);
+        //Gallery menu
+        CreateFeatureButtonUI(1, AppDisplayConstants.Feature.BASE, Resources.Load<Texture2D>(ImageConstants.Feature.BASE_URL), Resources.Load<Texture2D>(ImageConstants.Feature.BASE_ICON_URL), featureMenuPanel);
+        CreateFeatureButtonUI(2, AppDisplayConstants.Feature.TRAIN, Resources.Load<Texture2D>(ImageConstants.Feature.TRAIN_URL), Resources.Load<Texture2D>(ImageConstants.Feature.TRAIN_ICON_URL), featureMenuPanel);
+        CreateFeatureButtonUI(3, AppDisplayConstants.Feature.RESEARCH, Resources.Load<Texture2D>(ImageConstants.Feature.RESEARCH_URL), Resources.Load<Texture2D>(ImageConstants.Feature.RESEARCH_ICON_URL), featureMenuPanel);
+        CreateFeatureButtonUI(4, AppDisplayConstants.Feature.EMPLOYEE, Resources.Load<Texture2D>(ImageConstants.Feature.EMPLOYEE_URL), Resources.Load<Texture2D>(ImageConstants.Feature.EMPLOYEE_ICON_URL), featureMenuPanel);
+        CreateFeatureButtonUI(5, AppDisplayConstants.Feature.WORLD, Resources.Load<Texture2D>(ImageConstants.Feature.WORLD_URL), Resources.Load<Texture2D>(ImageConstants.Feature.BASE_ICON_URL), featureMenuPanel);
+        CreateFeatureButtonUI(6, AppDisplayConstants.Feature.CITY, Resources.Load<Texture2D>(ImageConstants.Feature.CITY_URL), Resources.Load<Texture2D>(ImageConstants.Feature.CITY_ICON_URL), featureMenuPanel);
+
+        // FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
+        featureMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    private void CreateFeatureButtonUI(int index, string itemName, Texture2D buttonBackground, Texture2D iconImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(FeatureButtonPrefab, panel);
+        newButton.name = "Button_" + index;
+
+        // Gán màu cho itemBackground
+        RawImage background = newButton.transform.Find("Background").GetComponent<RawImage>();
+        if (background != null && buttonBackground != null)
+        {
+            background.texture = buttonBackground;
+        }
+
+        // Gán hình ảnh cho itemImage
+        RawImage image = newButton.transform.Find("IconImage").GetComponent<RawImage>();
+        if (image != null && iconImage != null)
+        {
+            image.texture = iconImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = newButton.transform.Find("IconName").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = LocalizationManager.Get(itemName);
+        }
     }
     public void CreateGalleryButton(Transform galleryMenuPanel)
     {

@@ -14,11 +14,20 @@ public static class AppDisplayConstants
         public const string SLGPlus = "Rare.SLGPlus";
         public const string SP = "Rare.SP";
     }
+    public static class Feature
+    {
+        public const string BASE = "Feature.Base";
+        public const string TRAIN = "Feature.Train";
+        public const string RESEARCH = "Feature.Research";
+        public const string EMPLOYEE = "Feature.Employee";
+        public const string WORLD = "Feature.World";
+        public const string CITY = "Feature.City";
+    }
     public static class MainType
     {
         public const string USERNAME = "username";
         public const string PASSWORD = "password";
-
+        public const string FEATURE = "MainType.Feature";
 
         public const string ACHIEVEMENT = "MainType.Achievement";
         public const string ACHIEVEMENTS = "MainType.Achievements";
