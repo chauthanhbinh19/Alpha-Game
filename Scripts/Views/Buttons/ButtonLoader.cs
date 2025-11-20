@@ -41,11 +41,6 @@ public class ButtonLoader : MonoBehaviour
         Initialize();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void Initialize()
     {
         buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
@@ -134,15 +129,15 @@ public class ButtonLoader : MonoBehaviour
         // CreateButton(11, AppConstants.MainType.COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.COLLECTION_URL), contentPanel);
         // CreateButton(12, AppConstants.MainType.EQUIPMENTS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EQUIPMENT_URL), contentPanel);
         CreateButton(10, AppConstants.MainType.ANIME, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ANIME_URL), contentPanel);
-        CreateButton(11, AppConstants.MainType.ARENA, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ARENA_URL), contentPanel);
-        CreateButton(12, AppConstants.MainType.GUILD, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.GUILD_URL), contentPanel);
-        CreateButton(13, AppConstants.MainType.TOWER, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.TOWER_URL), contentPanel);
-        CreateButton(14, AppConstants.MainType.EVENT, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EVENT_URL), contentPanel);
-        CreateButton(15, AppConstants.MainType.DAILY_CHECKIN, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.DAILY_CHECKIN_URL), contentPanel);
-        CreateButton(16, AppConstants.Market.RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.RARE_MARKET_URL), contentPanel);
-        CreateButton(17, AppConstants.Market.ULTRA_RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.ULTRA_RARE_MARKET_URL), contentPanel);
-        CreateButton(18, AppConstants.Market.LEGENDARY_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.LEGENDARY_MARKET_URL), contentPanel);
-        CreateButton(19, AppConstants.Market.MYSTIC_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.MYSTIC_MARKET_URL), contentPanel);
+        // CreateButton(11, AppConstants.MainType.ARENA, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ARENA_URL), contentPanel);
+        CreateButton(11, AppConstants.MainType.GUILD, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.GUILD_URL), contentPanel);
+        CreateButton(12, AppConstants.MainType.TOWER, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.TOWER_URL), contentPanel);
+        CreateButton(13, AppConstants.MainType.EVENT, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EVENT_URL), contentPanel);
+        CreateButton(14, AppConstants.MainType.DAILY_CHECKIN, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.DAILY_CHECKIN_URL), contentPanel);
+        CreateButton(15, AppConstants.Market.RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.RARE_MARKET_URL), contentPanel);
+        CreateButton(16, AppConstants.Market.ULTRA_RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.ULTRA_RARE_MARKET_URL), contentPanel);
+        CreateButton(17, AppConstants.Market.LEGENDARY_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.LEGENDARY_MARKET_URL), contentPanel);
+        CreateButton(18, AppConstants.Market.MYSTIC_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.MYSTIC_MARKET_URL), contentPanel);
     }
     public void CreateMoreButton(Transform moreMenuPanel)
     {

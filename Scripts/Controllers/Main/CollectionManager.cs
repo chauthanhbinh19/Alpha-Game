@@ -85,11 +85,6 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_33", () => GetType(AppConstants.MainType.TECHNOLOGY));
         AssignButtonEvent("Button_34", () => GetType(AppConstants.MainType.VEHICLE));
     }
-
-    void Update()
-    {
-
-    }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
     {
         Transform buttonTransform = collectionMenuPanel.Find(buttonName);

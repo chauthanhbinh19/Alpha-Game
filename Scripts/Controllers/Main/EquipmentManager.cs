@@ -83,14 +83,6 @@ public class EquipmentManager : MonoBehaviour
             count = count + 1;
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
     public void OnButtonClick(string type, int count)
     {
         GameObject equipmentObject = Instantiate(EquipmentsPanelPrefab, MainPanel);

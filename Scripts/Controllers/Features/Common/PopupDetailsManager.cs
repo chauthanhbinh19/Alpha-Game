@@ -41,11 +41,6 @@ public class PopupDetailsManager : MonoBehaviour
         Initialize();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void Initialize()
     {
         MainMenuDetailPanelPrefab = UIManager.Instance.GetGameObject("MainMenuDetailPanelPrefab");

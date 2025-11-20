@@ -81,11 +81,6 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_34", () => GetType(AppConstants.MainType.VEHICLE));
         // GetCardsType();
     }
-
-    void Update()
-    {
-
-    }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
     {
         Transform buttonTransform = galleryMenuPanel.Find(buttonName);

@@ -32,11 +32,6 @@ public class UserEquipmentsController : MonoBehaviour
         Initialize();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void Initialize()
     {
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");

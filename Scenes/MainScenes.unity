@@ -13509,6 +13509,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1681078787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1681078788}
+  - component: {fileID: 1681078789}
+  m_Layer: 5
+  m_Name: ProfileManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1681078788
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681078787}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1739612077}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1681078789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681078787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f20ce7d717745a94f9ec57775d2f3cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1708547377
 GameObject:
   m_ObjectHideFlags: 0
@@ -13665,6 +13714,7 @@ RectTransform:
   - {fileID: 1304666530}
   - {fileID: 1797113618}
   - {fileID: 761279530}
+  - {fileID: 1681078788}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14194,6 +14244,7 @@ MonoBehaviour:
   MainMenuShopPanel: {fileID: 5745659240395072349, guid: 067511f2229109143b46b3a4bb085c43, type: 3}
   MainMenuEnhancementPanel: {fileID: 5745659240395072349, guid: 2f8c9d891eab0bf4dbbaa4852f78c5ab, type: 3}
   MainMenuCampaignPanel: {fileID: 5745659240395072349, guid: e64df2c028196fe4d86c99037c75375b, type: 3}
+  ProfilePanelPrefab: {fileID: 0}
   FeaturePanelPrefab: {fileID: 5286951834573874977, guid: 64c4810e419cbee42a325c77c2991338, type: 3}
   FeatureButtonPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
   quantityPopupPrefab: {fileID: 3471210453278062185, guid: 30aa9e5d215c91d4a9e929fd1f0c163a, type: 3}

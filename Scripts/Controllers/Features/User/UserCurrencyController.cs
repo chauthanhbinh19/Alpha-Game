@@ -24,9 +24,4 @@ public class UserCurrencyController : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -36,8 +36,12 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuShopPanel;
     public GameObject MainMenuEnhancementPanel;
     public GameObject MainMenuCampaignPanel;
+    [Header("Profile")]
+    public GameObject ProfilePanelPrefab;
+    [Header("Feature")]
     public GameObject FeaturePanelPrefab;
     public GameObject FeatureButtonPrefab;
+    [Header("General")]
     public GameObject quantityPopupPrefab;
     public GameObject equipmentsPrefab;
     public GameObject equipmentsShopPrefab;

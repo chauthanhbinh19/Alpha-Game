@@ -36,11 +36,6 @@ public class UserPetsController : MonoBehaviour
         Initialize();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");

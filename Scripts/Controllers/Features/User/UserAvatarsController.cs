@@ -24,9 +24,4 @@ public class UserAvatarsController : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
