@@ -102,7 +102,7 @@ public class MainMenuManager : MonoBehaviour
         AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
         ReactorPanelPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
-        FeaturePanelPrefab = UIManager.Instance.GetGameObject("FeaturePanelPrefab");
+        FeaturePanelPrefab = UIManager.Instance.GetFeaturePanel("FeaturePanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
         UI_Red_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.GetRedMaterial("UI_Red_Gradient_Radius_Mat_MaskPercent_45");
         fontSize = 24;
@@ -282,6 +282,12 @@ public class MainMenuManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             FeatureManager.Instance.CreateFeature();
+        });
+
+        profileButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ProfileManager.Instance.CreateProfile();
         });
 
         arenaButton.onClick.AddListener(() =>
@@ -622,7 +628,7 @@ public class MainMenuManager : MonoBehaviour
             CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");
 
             List<Currencies> currencies = new List<Currencies>();
-            currencies = UserCurrencyService.Create().GetUserCurrency();
+            currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
             FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
         }
 

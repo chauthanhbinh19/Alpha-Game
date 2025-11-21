@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 public class UserCurrencyRepository : IUserCurrencyRepository
 {
-    public List<Currencies> GetUserCurrency()
+    public List<Currencies> GetUserCurrency(string userId)
     {
         List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -18,7 +18,7 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 connection.Open();
                 string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
                 MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
-                currencyCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                currencyCommand.Parameters.AddWithValue("@userId", userId);
 
                 MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
                 while (currencyReader.Read())

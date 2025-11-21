@@ -40,7 +40,7 @@ public class FeatureManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        FeaturePanelPrefab = UIManager.Instance.GetGameObject("FeaturePanelPrefab");
+        FeaturePanelPrefab = UIManager.Instance.GetFeaturePanel("FeaturePanelPrefab");
     }
     public void CreateFeature()
     {

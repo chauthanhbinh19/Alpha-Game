@@ -109,7 +109,7 @@ public class ShopManager : MonoBehaviour
         Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetUserCurrency();
+        currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");

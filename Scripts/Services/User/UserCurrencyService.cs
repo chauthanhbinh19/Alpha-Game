@@ -14,9 +14,9 @@ public class UserCurrencyService : IUserCurrencyService
         return new UserCurrencyService(new UserCurrencyRepository());
     }
 
-    public List<Currencies> GetUserCurrency()
+    public List<Currencies> GetUserCurrency(string userId)
     {
-        return _userCurrencyRepository.GetUserCurrency();
+        return _userCurrencyRepository.GetUserCurrency(userId);
     }
 
     public Currencies GetUserCurrencyById(string Id)

@@ -155,7 +155,7 @@ public class CollectionManager : MonoBehaviour
         IUserCurrencyRepository userCurrencyRepository = new UserCurrencyRepository();
         UserCurrencyService userCurrencyService = new UserCurrencyService(userCurrencyRepository);
         List<Currencies> currencies = new List<Currencies>();
-        currencies = userCurrencyService.GetUserCurrency();
+        currencies = userCurrencyService.GetUserCurrency(User.CurrentUserId);
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         List<string> uniqueRaries = QualityEvaluator.rarities;

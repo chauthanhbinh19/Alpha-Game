@@ -8,11 +8,11 @@ using UnityEngine.UI;
 public class AuthenticationManager : MonoBehaviour
 {
     public static AuthenticationManager Instance { get; private set; }
-    private InputField SI_usernameInput;
-    private InputField SI_passwordInput;
-    private InputField SU_usernameInput;
-    private InputField SU_passwordInput;
-    private InputField SU_confirmPasswordInput;
+    private InputField signInUsernameInput;
+    private InputField signInPasswordInput;
+    private InputField signUpUsernameInput;
+    private InputField signUpPasswordInput;
+    private InputField signUpConfirmPasswordInput;
     private Button SI_signInButton;
     private Button SI_signUpButton;
     private Button SU_signInButton;
@@ -56,20 +56,25 @@ public class AuthenticationManager : MonoBehaviour
         startButton = WaitingPanel.transform.Find("StartButton").GetComponent<Button>();
         createSignInButton = WaitingPanel.transform.Find("SignInButton").GetComponent<Button>();
 
-        startButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
-            MainMenuManager.Instance.CreateMainPanel();
-            MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
-            FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, RootPanel);
-        });
         createSignInButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             createSignInPanel();
         });
-        if (string.IsNullOrEmpty(User.CurrentUserId))
+
+        if (AuthManager.IsLoggedIn())
+        {
+            authResult = UserService.Create().SignInWithoutUsernameAndPassword(AuthManager.GetUserId());
+            startButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
+                MainMenuManager.Instance.CreateMainPanel();
+                MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
+                FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, RootPanel);
+            });
+        }
+        else
         {
             // Kiểm tra xem SignInPanel đã tồn tại chưa
             Transform existingSignInPanel = WaitingPanel.Find("SignInPanel(Clone)");
@@ -86,11 +91,11 @@ public class AuthenticationManager : MonoBehaviour
     }
     public void SI_signInButtonClicked()
     {
-        string username = SI_usernameInput.text;
-        string password = SI_passwordInput.text;
+        string username = signInUsernameInput.text;
+        string password = signInPasswordInput.text;
         IUserRepository _userRepository = new UserRepository();
         UserService _userService = new UserService(_userRepository);
-        authResult = _userService.SignInUser(username, password);
+        authResult = _userService.SignInWithUsernameAndPassword(username, password);
 
         if (authResult.Success)
         {
@@ -120,9 +125,9 @@ public class AuthenticationManager : MonoBehaviour
     }
     void SU_signUpButtonClicked()
     {
-        string username = SU_usernameInput.text;
-        string password = SU_passwordInput.text;
-        string confirmPassword = SU_confirmPasswordInput.text;
+        string username = signUpUsernameInput.text;
+        string password = signUpPasswordInput.text;
+        string confirmPassword = signUpConfirmPasswordInput.text;
 
         SU_ErrorUsername.text = "";
         SU_ErrorPassword.text = "";
@@ -159,9 +164,9 @@ public class AuthenticationManager : MonoBehaviour
         }
         else
         {
-            SU_usernameInput.text = "";
-            SU_passwordInput.text = "";
-            SU_confirmPasswordInput.text = "";
+            signUpUsernameInput.text = "";
+            signUpPasswordInput.text = "";
+            signUpConfirmPasswordInput.text = "";
             SU_signInButtonClicked();
         }
         // Debug.Log(username +" "+password);
@@ -174,18 +179,18 @@ public class AuthenticationManager : MonoBehaviour
     public void createSignInPanel()
     {
         currentObject = Instantiate(signInPanel, WaitingPanel);
-        SI_usernameInput = currentObject.transform.Find("UsernameInput").GetComponent<InputField>();
-        SI_passwordInput = currentObject.transform.Find("PasswordInput").GetComponent<InputField>();
+        signInUsernameInput = currentObject.transform.Find("UsernameInput").GetComponent<InputField>();
+        signInPasswordInput = currentObject.transform.Find("PasswordInput").GetComponent<InputField>();
         SI_signInButton = currentObject.transform.Find("Sign In").GetComponent<Button>();
         SI_signUpButton = currentObject.transform.Find("Sign Up").GetComponent<Button>();
         SI_ErrorUsername = currentObject.transform.Find("ErrorUsername").GetComponent<Text>();
         SI_ErrorPassword = currentObject.transform.Find("ErrorPassword").GetComponent<Text>();
-        SI_signUpButton.onClick.AddListener(()=>
+        SI_signUpButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SI_signUpButtonClicked();
         });
-        SI_signInButton.onClick.AddListener(()=>
+        SI_signInButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SI_signInButtonClicked();
@@ -205,20 +210,20 @@ public class AuthenticationManager : MonoBehaviour
     public void createSignUpPanel()
     {
         currentObject = Instantiate(signUpPanel, WaitingPanel);
-        SU_usernameInput = currentObject.transform.Find("UsernameInput").GetComponent<InputField>();
-        SU_passwordInput = currentObject.transform.Find("PasswordInput").GetComponent<InputField>();
-        SU_confirmPasswordInput = currentObject.transform.Find("ConfirmPasswordInput").GetComponent<InputField>();
+        signUpUsernameInput = currentObject.transform.Find("UsernameInput").GetComponent<InputField>();
+        signUpPasswordInput = currentObject.transform.Find("PasswordInput").GetComponent<InputField>();
+        signUpConfirmPasswordInput = currentObject.transform.Find("ConfirmPasswordInput").GetComponent<InputField>();
         SU_signInButton = currentObject.transform.Find("Back").GetComponent<Button>();
         SU_signUpButton = currentObject.transform.Find("Sign Up").GetComponent<Button>();
         SU_ErrorUsername = currentObject.transform.Find("ErrorUsername").GetComponent<Text>();
         SU_ErrorPassword = currentObject.transform.Find("ErrorPassword").GetComponent<Text>();
         SU_ErrorConfirmPassword = currentObject.transform.Find("ErrorConfirmPassword").GetComponent<Text>();
-        SU_signUpButton.onClick.AddListener(()=>
+        SU_signUpButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SU_signUpButtonClicked();
         });
-        SU_signInButton.onClick.AddListener(()=>
+        SU_signInButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SU_signInButtonClicked();
@@ -249,7 +254,7 @@ public class AuthenticationManager : MonoBehaviour
             IUserRepository _userRepository = new UserRepository();
             UserService _userService = new UserService(_userRepository);
             _userService.UpdateUserName(User.CurrentUserId, nameInput.text);
-            authResult = _userService.SignInUser(username, password);
+            authResult = _userService.SignInWithUsernameAndPassword(username, password);
         });
     }
     public void deleteCreateNamePanel()

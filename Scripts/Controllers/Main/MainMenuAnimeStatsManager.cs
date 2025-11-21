@@ -276,7 +276,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     public void SetMaterialUI(GameObject gameObject, string type, Items item, double currencyQuantity, int rankLevel)
     {
         Transform currencyPanel = gameObject.transform.Find("DictionaryCards/Currency");
-        List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency();
+        List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
         ButtonEvent.Instance.Close(currencyPanel);
         CurrencyManager.Instance.GetMainCurrency(currencies, currencyPanel);
 

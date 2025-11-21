@@ -56,10 +56,10 @@ public class UserService : IUserService
         return userId;
     }
 
-    public AuthResult SignInUser(string username, string password)
+    public AuthResult SignInWithUsernameAndPassword(string username, string password)
     {
         User user = _userRepository.GetUserByUsername(username);
-
+        
         if (user != null)
         {
             if (!user.Password.Equals(password))
@@ -73,7 +73,8 @@ public class UserService : IUserService
                 };
             }
 
-            user = _userRepository.SignInUser(username, password);
+            user = _userRepository.SignInWithUsernameAndPassword(username, password);
+            AuthManager.SaveUserId(user.Id);
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
             string Border = borders.Image;
 
@@ -144,6 +145,66 @@ public class UserService : IUserService
         // Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket);
         // UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
     }
+    public AuthResult SignInWithoutUsernameAndPassword(string userId)
+    {
+        User user = _userRepository.SignInWithoutUsernameAndPassword(userId);
+        
+        if (user != null)
+        {
+            Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
+            string Border = borders.Image;
+
+            Achievements avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+            string Image = avatar.Image;
+
+            User.CurrentUserAvatar = Image;
+            User.CurrentUserBorder = Border;
+
+            user.Image = Image;
+            user.Border = Border;
+
+            DateTime now = DateTime.Now;
+            int year = now.Year;
+            int month = now.Month;
+            if (!UserDailyCheckinService.Create().CheckUserDailyCheckinStatus(User.CurrentUserId, month, year))
+            {
+                int daysInMonth = DateTime.DaysInMonth(year, month);
+                for (int day = 1; day <= daysInMonth; day++)
+                {
+                    DateTime currentDate = new DateTime(year, month, day);
+                    UserDailyCheckinService.Create().DeleteUserDailyCheckin(User.CurrentUserId, day.ToString());
+                    UserDailyCheckin userDailyCheckin = new UserDailyCheckin
+                    {
+                        UserId = User.CurrentUserId,
+                        DailyCheckinId = day.ToString(),
+                        Status = false,
+                        Day = currentDate,
+                        Month = month,
+                        Year = year
+                    };
+                    UserDailyCheckinService.Create().InsertUserDailyCheckin(User.CurrentUserId, userDailyCheckin);
+                }
+            }
+
+            return new AuthResult
+            {
+                Success = true,
+                ErrorField = "",
+                ErrorMessage = "",
+                User = user
+            };
+        }
+        else
+        {
+            return new AuthResult
+            {
+                Success = false,
+                ErrorField = AppConstants.MainType.USERNAME,
+                ErrorMessage = MessageConstants.USERNAME_DOES_NOT_EXIST,
+                User = null
+            };
+        }
+    }
 
     public User GetUserById(string Id)
     {
@@ -167,6 +228,7 @@ public class UserService : IUserService
     public void UpdateUserName(string user_id, string new_name)
     {
         _userRepository.UpdateUserName(user_id, new_name);
+        User.CurrentUserName = new_name;
     }
 
     public void UpdateUserPower(string user_id, double power)
@@ -177,5 +239,10 @@ public class UserService : IUserService
     public void createUserCurrency(string Id)
     {
         _userRepository.createUserCurrency(Id);
+    }
+
+    public bool CheckNameExists(string name)
+    {
+        return _userRepository.CheckNameExists(name);
     }
 }

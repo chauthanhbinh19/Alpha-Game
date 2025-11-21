@@ -14244,7 +14244,8 @@ MonoBehaviour:
   MainMenuShopPanel: {fileID: 5745659240395072349, guid: 067511f2229109143b46b3a4bb085c43, type: 3}
   MainMenuEnhancementPanel: {fileID: 5745659240395072349, guid: 2f8c9d891eab0bf4dbbaa4852f78c5ab, type: 3}
   MainMenuCampaignPanel: {fileID: 5745659240395072349, guid: e64df2c028196fe4d86c99037c75375b, type: 3}
-  ProfilePanelPrefab: {fileID: 0}
+  ProfilePanelPrefab: {fileID: 5286951834573874977, guid: 17f9e47894c283544951cdb33cc78c63, type: 3}
+  EditNamePanelPrefab: {fileID: 8708252175272485654, guid: fe1e540bcca1c9b459d3e214be4b8c8e, type: 3}
   FeaturePanelPrefab: {fileID: 5286951834573874977, guid: 64c4810e419cbee42a325c77c2991338, type: 3}
   FeatureButtonPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
   quantityPopupPrefab: {fileID: 3471210453278062185, guid: 30aa9e5d215c91d4a9e929fd1f0c163a, type: 3}

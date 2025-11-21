@@ -149,7 +149,7 @@ public class GalleryManager : MonoBehaviour
 
         Transform CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetUserCurrency();
+        currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         List<string> uniqueRaries = QualityEvaluator.rarities;

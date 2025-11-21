@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public interface IUserCurrencyService
 {
-    List<Currencies> GetUserCurrency();
+    List<Currencies> GetUserCurrency(string userId);
     Currencies GetUserCurrencyById(string Id);
     Currencies GetUserCurrencyByName(string currencyName);
     void UpdateUserCurrency(string currency_id, double price);

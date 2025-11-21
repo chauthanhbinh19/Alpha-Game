@@ -20,6 +20,7 @@ public class User
     public string Username { get; set; }
     public string Password { get; set; }
     public static string CurrentUserId { get; set; }
+    public static string CurrentUserName { get; set; }
     public static int CurrentUserLevel { get; set; }
     public static string CurrentUserAvatar { get; set; }
     public static string CurrentUserBorder { get; set; }

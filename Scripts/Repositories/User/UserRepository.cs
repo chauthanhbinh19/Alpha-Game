@@ -41,7 +41,6 @@ public class UserRepository : IUserRepository
 
         return null; // Không tìm thấy
     }
-
     public string RegisterUser(string username, string password)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -103,7 +102,7 @@ public class UserRepository : IUserRepository
     //     }
     //     return 0; // Nếu bảng rỗng, trả về 0
     // }
-    public User SignInUser(string username, string password)
+    public User SignInWithUsernameAndPassword(string username, string password)
     {
         if (string.IsNullOrEmpty(username)) username = User.SavedUsername;
         if (string.IsNullOrEmpty(password)) password = User.SavedPassword;
@@ -129,6 +128,87 @@ public class UserRepository : IUserRepository
                 double Experiment = reader.GetDouble("experiment");
 
                 User.CurrentUserId = userId;
+                User.CurrentUserName = Name;
+                User.SavedUsername = Username;
+                User.SavedPassword = Password;
+                User.CurrentUserLevel = Level;
+                User.CurrentUserPower = Power;
+
+                reader.Close();
+
+                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
+                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                currencyCommand.Parameters.AddWithValue("@userId", userId);
+
+                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
+
+                List<Currencies> currencies = new List<Currencies>();
+                while (currencyReader.Read())
+                {
+                    string image = currencyReader.GetString("image");
+                    string name = currencyReader.GetString("name");
+                    string currencyId = currencyReader.GetString("currency_id");
+                    double quantity = currencyReader.GetDouble("quantity");
+                    currencies.Add(new Currencies
+                    {
+                        Id = currencyId,
+                        Name = name,
+                        Image = image,
+                        Quantity = quantity
+                    });
+                }
+                currencyReader.Close();
+
+                User user = new User
+                {
+                    Id = userId,
+                    Name = Name,
+                    Username = username,
+                    Password = password,
+                    Level = Level,
+                    Vip = Vip,
+                    Experiment = Experiment,
+                    Power = Power,
+                    Image = "",
+                    Border = "",
+                    Currencies = currencies
+                };
+                // Debug.Log(user.name);
+                connection.Close();
+                return user;
+            }
+            else
+            {
+                connection.Close();
+                return null;
+            }
+        }
+    }
+    public User SignInWithoutUsernameAndPassword(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            string userQuery = "SELECT * FROM Users WHERE id = @id";
+            MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
+            userCommand.Parameters.AddWithValue("@id", userId);
+            MySqlDataReader reader = userCommand.ExecuteReader();
+            if (reader.Read())
+            {
+                string id = reader.GetString("id");
+                string Name = reader.GetString("name");
+                string Username = reader.GetString("username");
+                string Password = reader.GetString("password");
+                int Level = reader.GetInt32("level");
+                int Vip = reader.GetInt32("vip");
+                double Power = reader.GetDouble("power");
+                double Experiment = reader.GetDouble("experiment");
+                string username = reader.GetString("username");
+                string password = reader.GetString("password");
+
+                User.CurrentUserId = userId;
+                User.CurrentUserName = Name;
                 User.SavedUsername = Username;
                 User.SavedPassword = Password;
                 User.CurrentUserLevel = Level;
@@ -308,4 +388,24 @@ public class UserRepository : IUserRepository
             connection.Close();
         }
     }
+    public bool CheckNameExists(string name)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string query = "SELECT COUNT(*) FROM users WHERE name = @name";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@name", name);
+
+            int count = Convert.ToInt32(command.ExecuteScalar());
+
+            connection.Close();
+
+            return count > 0; // Nếu > 0 nghĩa là tồn tại Name
+        }
+    }
+
 }

@@ -530,7 +530,7 @@ public class EquipmentManager : MonoBehaviour
         Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
         var currencyService = UserCurrencyService.Create();
         List<Currencies> currencies = new List<Currencies>();
-        currencies = currencyService.GetUserCurrency();
+        currencies = currencyService.GetUserCurrency(User.CurrentUserId);
         FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
     }
     public void ChangeNextPage(int status, TextMeshProUGUI PageText, Transform content, string subType)

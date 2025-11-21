@@ -38,6 +38,8 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuCampaignPanel;
     [Header("Profile")]
     public GameObject ProfilePanelPrefab;
+    [Header("Edit Name")]
+    public GameObject EditNamePanelPrefab;
     [Header("Feature")]
     public GameObject FeaturePanelPrefab;
     public GameObject FeatureButtonPrefab;
@@ -526,31 +528,6 @@ public class UIManager : MonoBehaviour
                 return CardPenaltyPrefab;
             case "CardContractPrefab":
                 return CardContractPrefab;
-            //Market
-            case "RareMarketManagerPrefab":
-                return RareMarketManagerPrefab;
-            case "RareMarketButtonPrefab":
-                return RareMarketButtonPrefab;
-            case "RareMarketPrefab":
-                return RareMarketPrefab;
-            case "UltraRareMarketManagerPrefab":
-                return UltraRareMarketManagerPrefab;
-            case "UltraRareMarketButtonPrefab":
-                return UltraRareMarketButtonPrefab;
-            case "UltraRareMarketPrefab":
-                return UltraRareMarketPrefab;
-            case "LegendaryMarketManagerPrefab":
-                return LegendaryMarketManagerPrefab;
-            case "LegendaryMarketButtonPrefab":
-                return LegendaryMarketButtonPrefab;
-            case "LegendaryMarketPrefab":
-                return LegendaryMarketPrefab;
-            case "MysticMarketManagerPrefab":
-                return MysticMarketManagerPrefab;
-            case "MysticMarketButtonPrefab":
-                return MysticMarketButtonPrefab;
-            case "MysticMarketPrefab":
-                return MysticMarketPrefab;
 
             case "MainMenuAnimePanelPrefab":
                 return MainMenuAnimePanelPrefab;
@@ -614,13 +591,74 @@ public class UIManager : MonoBehaviour
                 return PopupButtonPrefab;
             case "AdvancedButtonFirst":
                 return AdvancedButtonFirst;
+            
+            default:
+                Debug.LogWarning($"Prefab {prefabName} not found.");
+                return null;
+        }
+    }
+    public GameObject GetMarketPanel(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "RareMarketManagerPrefab":
+                return RareMarketManagerPrefab;
+            case "RareMarketButtonPrefab":
+                return RareMarketButtonPrefab;
+            case "RareMarketPrefab":
+                return RareMarketPrefab;
+            case "UltraRareMarketManagerPrefab":
+                return UltraRareMarketManagerPrefab;
+            case "UltraRareMarketButtonPrefab":
+                return UltraRareMarketButtonPrefab;
+            case "UltraRareMarketPrefab":
+                return UltraRareMarketPrefab;
+            case "LegendaryMarketManagerPrefab":
+                return LegendaryMarketManagerPrefab;
+            case "LegendaryMarketButtonPrefab":
+                return LegendaryMarketButtonPrefab;
+            case "LegendaryMarketPrefab":
+                return LegendaryMarketPrefab;
+            case "MysticMarketManagerPrefab":
+                return MysticMarketManagerPrefab;
+            case "MysticMarketButtonPrefab":
+                return MysticMarketButtonPrefab;
+            case "MysticMarketPrefab":
+                return MysticMarketPrefab;
+            default:
+                return FeaturePanelPrefab;
+        }
+    }
+    public GameObject GetFeaturePanel(string prefabName)
+    {
+        switch (prefabName)
+        {
             case "FeaturePanelPrefab":
                 return FeaturePanelPrefab;
             case "FeatureButtonPrefab":
                 return FeatureButtonPrefab;
             default:
-                Debug.LogWarning($"Prefab {prefabName} not found.");
-                return null;
+                return FeaturePanelPrefab;
+        }
+    }
+    public GameObject GetProfilePanel(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "ProfilePanelPrefab":
+                return ProfilePanelPrefab;
+            default:
+                return ProfilePanelPrefab;
+        }
+    }
+    public GameObject GetEditNamePanel(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "EditNamePanelPrefab":
+                return EditNamePanelPrefab;
+            default:
+                return EditNamePanelPrefab;
         }
     }
     public GameObject GetGameObjectMainMenu1(string prefabName)
@@ -1217,7 +1255,7 @@ public class UIManager : MonoBehaviour
     public void SetMaterialUI(GameObject gameobject, string itemImage, double itemQuantity, double currencyQuantity, int rankLevel, int maxLevel)
     {
         Transform currencyPanel = gameobject.transform.Find("DictionaryCards/Currency");
-        List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency();
+        List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
         ButtonEvent.Instance.Close(currencyPanel);
         CurrencyManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
