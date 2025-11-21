@@ -59,12 +59,37 @@ public class AuthenticationManager : MonoBehaviour
         createSignInButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            createSignInPanel();
+            CreateSignInPanel();
         });
 
+        
+        CheckLoggedIn();
+    }
+    public void CheckLoggedIn()
+    {
         if (AuthManager.IsLoggedIn())
         {
-            authResult = UserService.Create().SignInWithoutUsernameAndPassword(AuthManager.GetUserId());
+            string savedUserId = AuthManager.GetUserId();
+
+            // Gọi login bằng ID
+            var authResult = UserService.Create().SignInWithoutUsernameAndPassword(savedUserId);
+
+            // Nếu database KHÔNG TÌM THẤY user → authResult = null
+            if (!authResult.Success)
+            {
+                Debug.LogWarning("Saved user ID is invalid. Logging out...");
+
+                AuthManager.Logout();  // Xóa userId lưu trong máy
+
+                // Tạo lại SignIn panel
+                Transform existingSignInPanel = WaitingPanel.Find("SignInPanel(Clone)");
+                if (existingSignInPanel == null)
+                {
+                    CreateSignInPanel();
+                }
+            }
+
+            // Nếu user hợp lệ → cho vào game
             startButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -76,18 +101,17 @@ public class AuthenticationManager : MonoBehaviour
         }
         else
         {
-            // Kiểm tra xem SignInPanel đã tồn tại chưa
             Transform existingSignInPanel = WaitingPanel.Find("SignInPanel(Clone)");
             if (existingSignInPanel == null)
             {
-                createSignInPanel();
+                CreateSignInPanel();
             }
         }
     }
     public void SI_signUpButtonClicked()
     {
         Destroy(currentObject);
-        createSignUpPanel();
+        CreateSignUpPanel();
     }
     public void SI_signInButtonClicked()
     {
@@ -102,7 +126,7 @@ public class AuthenticationManager : MonoBehaviour
             Destroy(currentObject);
             if (string.IsNullOrEmpty(authResult.User.Name))
             {
-                AuthenticationManager.Instance.createCreateNamePanel(username, password);
+                CreateCreateNamePanel(username, password);
                 // signInPanel.SetActive(false);
             }
 
@@ -174,9 +198,9 @@ public class AuthenticationManager : MonoBehaviour
     public void SU_signInButtonClicked()
     {
         Destroy(currentObject);
-        createSignInPanel();
+        CreateSignInPanel();
     }
-    public void createSignInPanel()
+    public void CreateSignInPanel()
     {
         currentObject = Instantiate(signInPanel, WaitingPanel);
         signInUsernameInput = currentObject.transform.Find("UsernameInput").GetComponent<InputField>();
@@ -207,7 +231,7 @@ public class AuthenticationManager : MonoBehaviour
         TextMeshProUGUI signUpButtonText = SI_signUpButton.GetComponentInChildren<TextMeshProUGUI>();
         signUpButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SIGN_UP);
     }
-    public void createSignUpPanel()
+    public void CreateSignUpPanel()
     {
         currentObject = Instantiate(signUpPanel, WaitingPanel);
         signUpUsernameInput = currentObject.transform.Find("UsernameInput").GetComponent<InputField>();
@@ -240,7 +264,7 @@ public class AuthenticationManager : MonoBehaviour
         TextMeshProUGUI signUpButtonText = SI_signUpButton.GetComponentInChildren<TextMeshProUGUI>();
         signUpButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SIGN_UP);
     }
-    public void createCreateNamePanel(string username, string password)
+    public void CreateCreateNamePanel(string username, string password)
     {
         Destroy(currentObject);
         currentObject = Instantiate(createNamePanel, WaitingPanel);
@@ -251,13 +275,20 @@ public class AuthenticationManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            IUserRepository _userRepository = new UserRepository();
-            UserService _userService = new UserService(_userRepository);
-            _userService.UpdateUserName(User.CurrentUserId, nameInput.text);
-            authResult = _userService.SignInWithUsernameAndPassword(username, password);
+            var isNameExisted = UserService.Create().CheckNameExists(nameInput.text);
+            if (!isNameExisted)
+            {
+                UserService.Create().UpdateUserName(User.CurrentUserId, nameInput.text);
+                authResult = UserService.Create().SignInWithUsernameAndPassword(username, password);
+
+                AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
+                MainMenuManager.Instance.CreateMainPanel();
+                MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
+                FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, RootPanel);
+            }
         });
     }
-    public void deleteCreateNamePanel()
+    public void DeleteCreateNamePanel()
     {
         Destroy(currentObject);
     }

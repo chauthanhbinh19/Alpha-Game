@@ -276,6 +276,15 @@ public static class AppConstants
         public const string CARD = "Card";
         public const string CARDS = "Cards";
 
+        public const string CORE = "Core";
+        public const string CORES = "Cores";
+
+        public const string WEAPON = "Weapon";
+        public const string WEAPONS = "Weapons";
+
+        public const string ROBOT = "Robot";
+        public const string ROBOTS = "Robots";
+
         public const string SCIENCE_FICTION = "Science Fiction";
         public const string SUMMON_CARD_HEROES = "Summon Card Heroes";
         public const string SUMMON_BOOKS = "Summon Books";
@@ -375,6 +384,13 @@ public static class AppConstants
         public const string SPIRIT_BEAST_GALLERY = "Spirit Beast Gallery";
         public const string AVATARS_GALLERY = "Avatars Gallery";
         public const string SPIRIT_CARD_GALLERY = "Spirit Card Gallery";
+        public const string CARD_GALLERY = "Card Gallery";
+        public const string ARCHITECTURES_GALLERY = "Architectures Gallery";
+        public const string TECHNOLOGIES_GALLERY = "Technologies Gallery";
+        public const string VEHICLES_GALLERY = "Vehicle Gallery";
+        public const string CORES_GALLERY = "Cores Gallery";
+        public const string WEAPONS_GALLERY = "Weapons Gallery";
+        public const string ROBOTS_GALLERY = "Robots Gallery";
     }
     public static class Collection
     {
@@ -407,6 +423,13 @@ public static class AppConstants
         public const string SPIRIT_BEAST_COLLECTION = "Spirit Beast Collection";
         public const string AVATARS_COLLECTION = "Avatars Collection";
         public const string SPIRIT_CARD_COLLECTION = "Spirit Card Collection";
+        public const string CARD_COLLECTION = "Card Collection";
+        public const string ARCHITECTURES_COLLECTION = "Architectures Collection";
+        public const string TECHNOLOGIES_COLLECTION = "Technologies Collection";
+        public const string VEHICLES_COLLECTION = "Vehicle Collection";
+        public const string CORES_COLLECTION = "Cores Collection";
+        public const string WEAPONS_COLLECTION = "Weapons Collection";
+        public const string ROBOTS_COLLECTION = "Robots Collection";
     }
     public static class Anime
     {

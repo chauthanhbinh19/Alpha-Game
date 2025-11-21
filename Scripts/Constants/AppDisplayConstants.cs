@@ -133,6 +133,15 @@ public static class AppDisplayConstants
         public const string CARD = "MainType.Card";
         public const string CARDS = "MainType.Cards";
 
+        public const string CORE = "MainType.Core";
+        public const string CORES = "MainType.Cores";
+
+        public const string WEAPON = "MainType.Weapon";
+        public const string WEAPONS = "MainType.Weapons";
+
+        public const string ROBOT = "MainType.Robot";
+        public const string ROBOTS = "MainType.Robots";
+
         public const string SUMMON_CARD_HEROES = "summon_card_heroes";
         public const string SUMMON_BOOKS = "summon_books";
         public const string SUMMON_CARD_CAPTAINS = "summon_card_captains";
@@ -211,6 +220,9 @@ public static class AppDisplayConstants
         public const string ARCHITECTURES_GALLERY = "Gallery.Architectures";
         public const string TECHNOLOGIES_GALLERY = "Gallery.Technologies";
         public const string VEHICLES_GALLERY = "Gallery.Vehicles";
+        public const string CORES_GALLERY = "Gallery.Cores";
+        public const string WEAPONS_GALLERY = "Gallery.Weapons";
+        public const string ROBOTS_GALLERY = "Gallery.Robots";
     }
     public static class Collection
     {
@@ -248,6 +260,9 @@ public static class AppDisplayConstants
         public const string ARCHITECTURES_COLLECTION = "Collection.Architectures";
         public const string TECHNOLOGIES_COLLECTION = "Collection.Technologies";
         public const string VEHICLES_COLLECTION = "Collection.Vehicles";
+        public const string CORES_COLLECTION = "Collection.Cores";
+        public const string WEAPOMS_COLLECTION = "Collection.Weapons";
+        public const string ROBOTS_COLLECTION = "Collection.Robots";
     }
     public static class Anime
     {

@@ -214,6 +214,20 @@ public class UserCurrencyService : IUserCurrencyService
         return _userCurrencyRepository.GetUserVehiclesPrice(Id);
     }
 
+    public Currencies GetUserCoresPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserCoresPrice(Id);
+    }
+
+    public Currencies GetUserWeaponsPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserWeaponsPrice(Id);
+    }
+
+    public Currencies GetUserRobotsPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserRobotsPrice(Id);
+    }
 
     public List<Currencies> GetAchievementsCurrency()
     {
@@ -378,5 +392,20 @@ public class UserCurrencyService : IUserCurrencyService
     public List<Currencies> GetVehiclesCurrency(string type)
     {
         return _userCurrencyRepository.GetVehiclesCurrency(type);
+    }
+
+    public List<Currencies> GetCoresCurrency(string type)
+    {
+        return _userCurrencyRepository.GetCoresCurrency(type);
+    }
+
+    public List<Currencies> GetWeaponsCurrency(string type)
+    {
+        return _userCurrencyRepository.GetWeaponsCurrency(type);
+    }
+
+    public List<Currencies> GetRobotsCurrency(string type)
+    {
+        return _userCurrencyRepository.GetRobotsCurrency(type);
     }
 }

@@ -350,7 +350,7 @@ public class UserRepository : IUserRepository
 
             command.ExecuteNonQuery();
             // namePanel.SetActive(false);
-            AuthenticationManager.Instance.deleteCreateNamePanel();
+            AuthenticationManager.Instance.DeleteCreateNamePanel();
             connection.Close();
         }
     }

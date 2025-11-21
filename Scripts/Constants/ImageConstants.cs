@@ -53,6 +53,9 @@ public static class ImageConstants
         public const string ARCHITECTURE_URL = "UI/Button/Main/Architectures";
         public const string TECHNOLOGY_URL = "UI/Button/Main/Technologies";
         public const string VEHICLE_URL = "UI/Button/Main/Vehicles";
+        public const string CORE_URL = "UI/Button/Main/Cores";
+        public const string WEAPON_URL = "UI/Button/Main/Weapons";
+        public const string ROBOT_URL = "UI/Button/Main/Robots";
         public const string SHOP_URL = "UI/UI/Shop";
         public const string GALLERY_URL = "UI/Button/Gallery";
         public const string COLLECTION_URL = "UI/Button/Collection";
@@ -250,6 +253,9 @@ public static class ImageConstants
         public const string ARCHITECTURE_URL = "UI/Button/Gallery/ArchitecturesGallery";
         public const string TECHNOLOGY_URL = "UI/Button/Gallery/TechnologiesGallery";
         public const string VEHICLE_URL = "UI/Button/Gallery/VehiclesGallery";
+        public const string CORE_URL = "UI/Button/Gallery/CoresGallery";
+        public const string WEAPON_URL = "UI/Button/Gallery/WeaponsGallery";
+        public const string ROBOT_URL = "UI/Button/Gallery/RobotsGallery";
     }
     public static class Collection
     {
@@ -287,6 +293,9 @@ public static class ImageConstants
         public const string ARCHITECTURE_URL = "UI/Button/Collection/ArchitecturesCollection";
         public const string TECHNOLOGY_URL = "UI/Button/Collection/TechnologiesCollection";
         public const string VEHICLE_URL = "UI/Button/Collection/VehiclesCollection";
+        public const string CORE_URL = "UI/Button/Collection/CoresCollection";
+        public const string WEAPON_URL = "UI/Button/Collection/WeaponsCollection";
+        public const string ROBOT_URL = "UI/Button/Collection/RobotsCollection";
     }
     public static class Rune
     {

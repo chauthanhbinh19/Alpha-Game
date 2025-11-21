@@ -34,10 +34,6 @@ public class CollectionManager : MonoBehaviour
     private string type;
     private string rare;
     public List<Button> rareTabButtons;
-    void Start()
-    {
-
-    }
     public void CreateCollection(Transform CollectionMenuPanel)
     {
         offset = 0;

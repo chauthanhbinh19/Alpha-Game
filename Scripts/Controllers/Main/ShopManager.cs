@@ -33,7 +33,7 @@ public class ShopManager : MonoBehaviour
     private Button NextButton;
     private Button PreviousButton;
     private string mainType;
-    private string subType;
+    private string type;
     private Text titleText;
     private string rare;
     public static ShopManager Instance { get; private set; }
@@ -270,9 +270,9 @@ public class ShopManager : MonoBehaviour
 
                 if (i == 0)
                 {
-                    subType = subtype;
+                    type = subtype;
                     ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                    LoadCurrentPage(subtype);
+                    LoadCurrentPage();
 
                 }
                 else
@@ -291,7 +291,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Collaborations> collaborations = CollaborationService.Create().GetCollaborationWithPrice(pageSize, offset);
-                CollaborationController.Instance.CreateCollaborationTrade(collaborations, subType, currentContent, currencyPanel, popupPanel);
+                CollaborationController.Instance.CreateCollaborationTrade(collaborations, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
             }
@@ -302,7 +302,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Medals> medals = MedalsService.Create().GetMedalsWithPrice(pageSize, offset);
-                MedalsController.Instance.CreateMedalsTrade(medals, subType, currentContent, currencyPanel, popupPanel);
+                MedalsController.Instance.CreateMedalsTrade(medals, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = MedalsService.Create().GetMedalsWithPriceCount();
             }
@@ -313,7 +313,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Titles> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
-                TitlesController.Instance.CreateTitlesTrade(titles, subType, currentContent, currencyPanel, popupPanel);
+                TitlesController.Instance.CreateTitlesTrade(titles, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
             }
@@ -324,7 +324,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Borders> borders = BordersService.Create().GetBordersWithPrice(pageSize, offset);
-                BordersController.Instance.CreateBordersTrade(borders, subType, currentContent, currencyPanel, popupPanel);
+                BordersController.Instance.CreateBordersTrade(borders, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = BordersService.Create().GetBordersWithPriceCount();
             }
@@ -335,7 +335,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Achievements> achievements = AchievementsService.Create().GetAchievementsWithPrice(pageSize, offset);
-                AchievementsController.Instance.CreateAchievementsTrade(achievements, subType, currentContent, currencyPanel, popupPanel);
+                AchievementsController.Instance.CreateAchievementsTrade(achievements, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
             }
@@ -346,7 +346,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
-                SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, subType, currentContent, currencyPanel, popupPanel);
+                SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
             }
@@ -357,7 +357,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Cards> cards = CardsService.Create().GetCardsWithPrice(pageSize, offset);
-                CardsController.Instance.CreateCardsTrade(cards, subType, currentContent, currencyPanel, popupPanel);
+                CardsController.Instance.CreateCardsTrade(cards, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = CardsService.Create().GetCardsWithPriceCount();
             }
@@ -368,7 +368,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Architectures> architectures = ArchitecturesService.Create().GetArchitecturesWithPrice(pageSize, offset);
-                ArchitecturesController.Instance.CreateArchitecturesTrade(architectures, subType, currentContent, currencyPanel, popupPanel);
+                ArchitecturesController.Instance.CreateArchitecturesTrade(architectures, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = ArchitecturesService.Create().GetArchitecturesWithPriceCount();
             }
@@ -379,7 +379,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Technologies> technologies = TechnologiesService.Create().GetTechnologiesWithPrice(pageSize, offset);
-                TechnologiesController.Instance.CreateTechnologiesTrade(technologies, subType, currentContent, currencyPanel, popupPanel);
+                TechnologiesController.Instance.CreateTechnologiesTrade(technologies, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = TechnologiesService.Create().GetTechnologiesWithPriceCount();
             }
@@ -402,14 +402,14 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        subType = type;
+        this.type = type;
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
         ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-        LoadCurrentPage(type);
+        LoadCurrentPage();
     }
-    public void LoadCurrentPage(string type)
+    public void LoadCurrentPage()
     {
         int totalRecord = 0;
 
@@ -532,7 +532,7 @@ public class ShopManager : MonoBehaviour
             List<MagicFormationCircles> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircleWithPrice(type, pageSize, offset);
             MagicFormationCircleController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, type, currentContent, currencyPanel, popupPanel);
 
-            totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(subType);
+            totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(type);
         }
         else if (mainType.Equals(AppConstants.MainType.RELIC))
         {
@@ -543,7 +543,7 @@ public class ShopManager : MonoBehaviour
             List<Relics> relics = RelicsService.Create().GetRelicsWithPrice(type, pageSize, offset);
             RelicsController.Instance.CreateRelicsTrade(relics, type, currentContent, currencyPanel, popupPanel);
 
-            totalRecord = RelicsService.Create().GetRelicsWithPriceCount(subType);
+            totalRecord = RelicsService.Create().GetRelicsWithPriceCount(type);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
@@ -673,7 +673,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Cards> cards = CardsService.Create().GetCardsWithPrice(pageSize, offset);
-            CardsController.Instance.CreateCardsTrade(cards, subType, currentContent, currencyPanel, popupPanel);
+            CardsController.Instance.CreateCardsTrade(cards, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardsService.Create().GetCardsWithPriceCount();
         }
@@ -684,7 +684,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Architectures> architectures = ArchitecturesService.Create().GetArchitecturesWithPrice(pageSize, offset);
-            ArchitecturesController.Instance.CreateArchitecturesTrade(architectures, subType, currentContent, currencyPanel, popupPanel);
+            ArchitecturesController.Instance.CreateArchitecturesTrade(architectures, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = ArchitecturesService.Create().GetArchitecturesWithPriceCount();
         }
@@ -695,7 +695,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Technologies> technologies = TechnologiesService.Create().GetTechnologiesWithPrice(pageSize, offset);
-            TechnologiesController.Instance.CreateTechnologiesTrade(technologies, subType, currentContent, currencyPanel, popupPanel);
+            TechnologiesController.Instance.CreateTechnologiesTrade(technologies, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = TechnologiesService.Create().GetTechnologiesWithPriceCount();
         }
@@ -792,456 +792,9 @@ public class ShopManager : MonoBehaviour
         if (currentPage < totalPage)
         {
             ClearAllPrefabs();
-            int totalRecord = 0;
-
-            if (mainType.Equals(AppConstants.MainType.CARD_HERO))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_1_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_2_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesWithPrice(subType, pageSize, offset);
-                CardHeroesController.Instance.CreateCardHeroesTrade(cardHeroes, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.BOOK))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_3_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_4_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = BooksService.Create().GetBookssWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Books> books = BooksService.Create().GetBooksWithPrice(subType, pageSize, offset);
-                BooksController.Instance.CreateBooksTrade(books, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_5_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_6_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardCaptainsService.Create().GetCardCaptainsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsWithPrice(subType, pageSize, offset);
-                CardCaptainsController.Instance.CreateCardCaptainsTrade(cardCaptains, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_7_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_8_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CollaborationEquipments> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPrice(subType, pageSize, offset);
-                CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsTrade(collaborationEquipments, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_47_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_48_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Collaborations> collaborations = CollaborationService.Create().GetCollaborationWithPrice(pageSize, offset);
-                CollaborationController.Instance.CreateCollaborationTrade(collaborations, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_9_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_10_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType, rare);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset, rare);
-                createEquipments(equipments);
-            }
-            else if (mainType.Equals(AppConstants.MainType.MEDAL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_49_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_50_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = MedalsService.Create().GetMedalsWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Medals> medals = MedalsService.Create().GetMedalsWithPrice(pageSize, offset);
-                MedalsController.Instance.CreateMedalsTrade(medals, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_25_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_26_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardMonstersService.Create().GetCardMonstersWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersWithPrice(subType, pageSize, offset);
-                CardMonstersController.Instance.CreateCardMonstersTrade(cardMonsters, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.PET))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_11_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_12_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = PetsService.Create().GetPetsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Pets> pets = PetsService.Create().GetPetsWithPrice(subType, pageSize, offset);
-                PetsController.Instance.CreatePetsTrade(pets, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.SKILL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_13_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_14_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = SkillsService.Create().GetSkillsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Skills> skills = SkillsService.Create().GetSkillsWithPrice(subType, pageSize, offset);
-                SkillsController.Instance.CreateSkillsTrade(skills, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.SYMBOL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_15_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_16_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = SymbolsService.Create().GetSkillsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Symbols> symbols = SymbolsService.Create().GetSymbolsWithPrice(subType, pageSize, offset);
-                SymbolsController.Instance.CreateSymbolsTrade(symbols, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TITLE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_51_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_52_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Titles> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
-                TitlesController.Instance.CreateTitlesTrade(titles, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_17_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_18_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardMilitaryService.Create().GetCardMilitaryWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardMilitaries> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryWithPrice(subType, pageSize, offset);
-                CardMilitaryController.Instance.CreateCardMilitaryTrade(cardMilitaries, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_19_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_20_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardSpellService.Create().GetCardSpellWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardSpells> cardSpells = CardSpellService.Create().GetCardSpellWithPrice(subType, pageSize, offset);
-                CardSpellController.Instance.CreateCardSpellTrade(cardSpells, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_21_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_22_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<MagicFormationCircles> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircleWithPrice(subType, pageSize, offset);
-                MagicFormationCircleController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.RELIC))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_23_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_24_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = RelicsService.Create().GetRelicsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Relics> relics = RelicsService.Create().GetRelicsWithPrice(subType, pageSize, offset);
-                RelicsController.Instance.CreateRelicsTrade(relics, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.BORDER))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_53_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_54_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = BordersService.Create().GetBordersWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Borders> borders = BordersService.Create().GetBordersWithPrice(pageSize, offset);
-                BordersController.Instance.CreateBordersTrade(borders, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_55_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_56_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Achievements> achievements = AchievementsService.Create().GetAchievementsWithPrice(pageSize, offset);
-                AchievementsController.Instance.CreateAchievementsTrade(achievements, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_27_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_28_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardColonelsService.Create().GetCardColonelsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsWithPrice(subType, pageSize, offset);
-                CardColonelsController.Instance.CreateCardColonelsTrade(cardColonels, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_29_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_30_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardGeneralsService.Create().GetCardGeneralsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsWithPrice(subType, pageSize, offset);
-                CardGeneralsController.Instance.CreateCardGeneralsTrade(cardGenerals, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_31_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_32_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardAdmiralsService.Create().GetCardAdmiralsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsWithPrice(subType, pageSize, offset);
-                CardAdmiralsController.Instance.CreateCardAdmiralsTrade(cardAdmirals, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TALISMAN))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_33_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_34_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = TalismanService.Create().GetTalismanWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Talismans> talismans = TalismanService.Create().GetTalismanWithPrice(subType, pageSize, offset);
-                TalismanController.Instance.CreateTalismanTrade(talismans, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.PUPPET))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_35_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_36_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = PuppetService.Create().GetPuppetWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Puppets> puppets = PuppetService.Create().GetPuppetWithPrice(subType, pageSize, offset);
-                PuppetController.Instance.CreatePuppetTrade(puppets, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_37_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_38_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = AlchemyService.Create().GetAlchemyWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Alchemies> alchemies = AlchemyService.Create().GetAlchemyWithPrice(subType, pageSize, offset);
-                AlchemyController.Instance.CreateAlchemyTrade(alchemies, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.FORGE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_39_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_40_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = ForgeService.Create().GetForgeWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Forges> forges = ForgeService.Create().GetForgeWithPrice(subType, pageSize, offset);
-                ForgeController.Instance.CreateForgeTrade(forges, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_41_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_42_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardLifeService.Create().GetCardLifeWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<CardLives> cardLives = CardLifeService.Create().GetCardLifeWithPrice(subType, pageSize, offset);
-                CardLifeController.Instance.CreateCardLifeTrade(cardLives, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ARTWORK))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_43_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_44_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Artworks> artworks = ArtworkService.Create().GetArtworkWithPrice(subType, pageSize, offset);
-                ArtworkController.Instance.CreateArtworkTrade(artworks, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_45_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_46_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
-                SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_57_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_58_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardsService.Create().GetCardsWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Cards> cards = CardsService.Create().GetCardsWithPrice(pageSize, offset);
-                CardsController.Instance.CreateCardsTrade(cards, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_59_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_60_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = ArchitecturesService.Create().GetArchitecturesWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Architectures> architectures = ArchitecturesService.Create().GetArchitecturesWithPrice(pageSize, offset);
-                ArchitecturesController.Instance.CreateArchitecturesTrade(architectures, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_61_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_62_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = TechnologiesService.Create().GetTechnologiesWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Technologies> technologies = TechnologiesService.Create().GetTechnologiesWithPrice(pageSize, offset);
-                TechnologiesController.Instance.CreateTechnologiesTrade(technologies, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.VEHICLE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_63_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_64_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = VehiclesService.Create().GetVehicleWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage + 1;
-                offset = offset + pageSize;
-                List<Vehicles> vehicles = VehiclesService.Create().GetVehiclesWithPrice(subType, pageSize, offset);
-                VehiclesController.Instance.CreateVehicleTrade(vehicles, subType, currentContent, currencyPanel, popupPanel);
-            }
+            currentPage = currentPage + 1;
+            offset = offset + pageSize;
+            LoadCurrentPage();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -1252,457 +805,9 @@ public class ShopManager : MonoBehaviour
         if (currentPage > 1)
         {
             ClearAllPrefabs();
-            int totalRecord = 0;
-
-            if (mainType.Equals(AppConstants.MainType.CARD_HERO))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_1_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_2_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardHeroesService.Create().GetCardHeroesWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesWithPrice(subType, pageSize, offset);
-                CardHeroesController.Instance.CreateCardHeroesTrade(cardHeroes, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.BOOK))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_3_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_4_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = BooksService.Create().GetBookssWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Books> books = BooksService.Create().GetBooksWithPrice(subType, pageSize, offset);
-                BooksController.Instance.CreateBooksTrade(books, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_5_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_6_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardCaptainsService.Create().GetCardCaptainsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsWithPrice(subType, pageSize, offset);
-                CardCaptainsController.Instance.CreateCardCaptainsTrade(cardCaptains, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_7_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_8_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CollaborationEquipments> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPrice(subType, pageSize, offset);
-                CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsTrade(collaborationEquipments, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_47_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_48_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Collaborations> collaborations = CollaborationService.Create().GetCollaborationWithPrice(pageSize, offset);
-                CollaborationController.Instance.CreateCollaborationTrade(collaborations, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_9_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_10_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = EquipmentsService.Create().GetEquipmentsCount(subType, rare);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Equipments> equipments = EquipmentsService.Create().GetEquipments(subType, pageSize, offset, rare);
-                createEquipments(equipments);
-            }
-            else if (mainType.Equals(AppConstants.MainType.MEDAL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_49_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_50_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = MedalsService.Create().GetMedalsWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Medals> medals = MedalsService.Create().GetMedalsWithPrice(pageSize, offset);
-                MedalsController.Instance.CreateMedalsTrade(medals, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_25_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_26_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardMonstersService.Create().GetCardMonstersWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersWithPrice(subType, pageSize, offset);
-                CardMonstersController.Instance.CreateCardMonstersTrade(cardMonsters, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.PET))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_11_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_12_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = PetsService.Create().GetPetsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Pets> pets = PetsService.Create().GetPetsWithPrice(subType, pageSize, offset);
-                PetsController.Instance.CreatePetsTrade(pets, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.SKILL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_13_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_14_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = SkillsService.Create().GetSkillsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Skills> skills = SkillsService.Create().GetSkillsWithPrice(subType, pageSize, offset);
-                SkillsController.Instance.CreateSkillsTrade(skills, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.SYMBOL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_15_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_16_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = SymbolsService.Create().GetSkillsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Symbols> symbols = SymbolsService.Create().GetSymbolsWithPrice(subType, pageSize, offset);
-                SymbolsController.Instance.CreateSymbolsTrade(symbols, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TITLE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_51_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_52_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Titles> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
-                TitlesController.Instance.CreateTitlesTrade(titles, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_17_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_18_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardMilitaryService.Create().GetCardMilitaryWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardMilitaries> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryWithPrice(subType, pageSize, offset);
-                CardMilitaryController.Instance.CreateCardMilitaryTrade(cardMilitaries, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_19_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_20_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardSpellService.Create().GetCardSpellWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardSpells> cardSpells = CardSpellService.Create().GetCardSpellWithPrice(subType, pageSize, offset);
-                CardSpellController.Instance.CreateCardSpellTrade(cardSpells, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_21_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_22_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<MagicFormationCircles> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircleWithPrice(subType, pageSize, offset);
-                MagicFormationCircleController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.RELIC))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_23_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_24_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = RelicsService.Create().GetRelicsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Relics> relics = RelicsService.Create().GetRelicsWithPrice(subType, pageSize, offset);
-                RelicsController.Instance.CreateRelicsTrade(relics, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.BORDER))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_53_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_54_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = BordersService.Create().GetBordersWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Borders> borders = BordersService.Create().GetBordersWithPrice(pageSize, offset);
-                BordersController.Instance.CreateBordersTrade(borders, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_55_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_56_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = AchievementsService.Create().GetAchievementsWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Achievements> achievements = AchievementsService.Create().GetAchievementsWithPrice(pageSize, offset);
-                AchievementsController.Instance.CreateAchievementsTrade(achievements, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_27_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_28_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardColonelsService.Create().GetCardColonelsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsWithPrice(subType, pageSize, offset);
-                CardColonelsController.Instance.CreateCardColonelsTrade(cardColonels, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_29_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_30_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardGeneralsService.Create().GetCardGeneralsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsWithPrice(subType, pageSize, offset);
-                CardGeneralsController.Instance.CreateCardGeneralsTrade(cardGenerals, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_31_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_32_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardAdmiralsService.Create().GetCardAdmiralsWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsWithPrice(subType, pageSize, offset);
-                CardAdmiralsController.Instance.CreateCardAdmiralsTrade(cardAdmirals, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TALISMAN))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_33_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_34_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = TalismanService.Create().GetTalismanWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Talismans> talismans = TalismanService.Create().GetTalismanWithPrice(subType, pageSize, offset);
-                TalismanController.Instance.CreateTalismanTrade(talismans, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.PUPPET))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_35_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_36_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = PuppetService.Create().GetPuppetWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Puppets> puppets = PuppetService.Create().GetPuppetWithPrice(subType, pageSize, offset);
-                PuppetController.Instance.CreatePuppetTrade(puppets, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_37_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_38_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = AlchemyService.Create().GetAlchemyWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Alchemies> alchemies = AlchemyService.Create().GetAlchemyWithPrice(subType, pageSize, offset);
-                AlchemyController.Instance.CreateAlchemyTrade(alchemies, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.FORGE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_39_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_40_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                Forges forgeManager = new Forges();
-                totalRecord = ForgeService.Create().GetForgeWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Forges> forges = ForgeService.Create().GetForgeWithPrice(subType, pageSize, offset);
-                ForgeController.Instance.CreateForgeTrade(forges, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_41_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_42_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardLifeService.Create().GetCardLifeWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<CardLives> cardLives = CardLifeService.Create().GetCardLifeWithPrice(subType, pageSize, offset);
-                CardLifeController.Instance.CreateCardLifeTrade(cardLives, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ARTWORK))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_43_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_44_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Artworks> artworks = ArtworkService.Create().GetArtworkWithPrice(subType, pageSize, offset);
-                ArtworkController.Instance.CreateArtworkTrade(artworks, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_45_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_46_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
-                SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_57_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_58_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = CardsService.Create().GetCardsWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Cards> cards = CardsService.Create().GetCardsWithPrice(pageSize, offset);
-                CardsController.Instance.CreateCardsTrade(cards, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_59_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_60_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = ArchitecturesService.Create().GetArchitecturesWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Architectures> architectures = ArchitecturesService.Create().GetArchitecturesWithPrice(pageSize, offset);
-                ArchitecturesController.Instance.CreateArchitecturesTrade(architectures, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_61_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_62_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = TechnologiesService.Create().GetTechnologiesWithPriceCount();
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Technologies> technologies = TechnologiesService.Create().GetTechnologiesWithPrice(pageSize, offset);
-                TechnologiesController.Instance.CreateTechnologiesTrade(technologies, subType, currentContent, currencyPanel, popupPanel);
-            }
-            else if (mainType.Equals(AppConstants.MainType.VEHICLE))
-            {
-                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_63_URL);
-                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_64_URL);
-                firstDecorationImage.texture = firstDecorationTexture;
-                secondDecorationImage.texture = secondDecorationTexture;
-
-                totalRecord = VehiclesService.Create().GetVehicleWithPriceCount(subType);
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                currentPage = currentPage - 1;
-                offset = offset - pageSize;
-                List<Vehicles> vehicles = VehiclesService.Create().GetVehiclesWithPrice(subType, pageSize, offset);
-                VehiclesController.Instance.CreateVehicleTrade(vehicles, subType, currentContent, currencyPanel, popupPanel);
-            }
+            currentPage = currentPage - 1;
+            offset = offset - pageSize;
+            LoadCurrentPage();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 

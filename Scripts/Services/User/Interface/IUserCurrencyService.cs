@@ -42,6 +42,9 @@ public interface IUserCurrencyService
     Currencies GetUserArchitecturesPrice(string Id);
     Currencies GetUserTechnologiesPrice(string Id);
     Currencies GetUserVehiclesPrice(string Id);
+    Currencies GetUserCoresPrice(string Id);
+    Currencies GetUserWeaponsPrice(string Id);
+    Currencies GetUserRobotsPrice(string Id);
     List<Currencies> GetAchievementsCurrency();
     List<Currencies> GetBooksCurrency(string type);
     List<Currencies> GetCardHeroesCurrency(string type);
@@ -75,4 +78,7 @@ public interface IUserCurrencyService
     List<Currencies> GetArchitecturesCurrency(string type);
     List<Currencies> GetTechnologiesCurrency(string type);
     List<Currencies> GetVehiclesCurrency(string type);
+    List<Currencies> GetCoresCurrency(string type);
+    List<Currencies> GetWeaponsCurrency(string type);
+    List<Currencies> GetRobotsCurrency(string type);
 }

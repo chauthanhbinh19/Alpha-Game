@@ -1,0 +1,144 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class CoresGalleryController : MonoBehaviour
+{
+    public static CoresGalleryController Instance { get; private set; }
+    private Transform MainPanel;
+    private GameObject equipmentsPrefab;
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+    }
+    public void CreateCoresGallery(List<Cores> CoresList, Transform DictionaryContentPanel)
+    {
+        foreach (var technology in CoresList)
+        {
+            GameObject technologyObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+
+            Text Title = technologyObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = technology.Name.Replace("_", " ");
+
+            RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            Button button = technologyObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
+            });
+
+            RawImage rareImage = technologyObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
+            rareImage.texture = rareTexture;
+
+            RawImage blockImage = technologyObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = technologyObject.transform.Find("Unlock").GetComponent<Button>();
+            if (technology.Status.Equals("available"))
+            {
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                image.color = Color.white;
+            }
+            else if (technology.Status.Equals("pending"))
+            {
+                blockImage.gameObject.SetActive(true);
+                Unlock.gameObject.SetActive(true);
+            }
+            else if (technology.Status.Equals("block"))
+            {
+                blockImage.gameObject.SetActive(true);
+                Unlock.gameObject.SetActive(false);
+            }
+
+            RawImage rareBackgroundImage = technologyObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            rareImage.gameObject.SetActive(false);
+            rareBackgroundImage.gameObject.SetActive(false);
+
+            Unlock.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                var titleGalleryService = CoresGalleryService.Create();
+                titleGalleryService.UpdateStatusCoresGallery(technology.Id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                image.color = Color.white;
+
+                var powerManagerService = PowerManagerService.Create();
+                var teamsService = TeamsService.Create();
+
+                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            });
+
+            Button Upgrade = technologyObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((technology.CurrentStar < technology.TempStar) && technology.Status.Equals("available"))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                CoresGalleryService.Create().UpdateCoresGalleryPower(technology.Id);
+            });
+        }
+        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 230);
+        }
+        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+}

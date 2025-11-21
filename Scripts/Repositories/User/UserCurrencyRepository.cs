@@ -1708,6 +1708,135 @@ public class UserCurrencyRepository : IUserCurrencyRepository
         }
         return currency;
     }
+    public Currencies GetUserCoresPrice(string Id)
+    {
+        Currencies currency = new Currencies();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                FROM cores ch
+                left JOIN core_trade et ON ch.id = et.core_id
+                left JOIN currency c ON c.id = et.currency_id
+                left JOIN user_currency uc ON uc.currency_id = c.id
+                where ch.id=@id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    currency = new Currencies
+                    {
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetDouble("trade_price"),
+                    };
+                }
+                ;
+                return currency;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+        }
+        return currency;
+    }
+    public Currencies GetUserWeaponsPrice(string Id)
+    {
+        Currencies currency = new Currencies();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                FROM weapons ch
+                left JOIN weapon_trade et ON ch.id = et.weapon_id
+                left JOIN currency c ON c.id = et.currency_id
+                left JOIN user_currency uc ON uc.currency_id = c.id
+                where ch.id=@id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    currency = new Currencies
+                    {
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetDouble("trade_price"),
+                    };
+                }
+                ;
+                return currency;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+        }
+        return currency;
+    }
+    public Currencies GetUserRobotsPrice(string Id)
+    {
+        Currencies currency = new Currencies();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                FROM robots ch
+                left JOIN robot_trade et ON ch.id = et.robot_id
+                left JOIN currency c ON c.id = et.currency_id
+                left JOIN user_currency uc ON uc.currency_id = c.id
+                where ch.id=@id;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", Id);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    currency = new Currencies
+                    {
+                        Id = reader.GetString("currency_id"),
+                        Name = reader.GetString("currency_name"),
+                        Image = reader.GetString("currency_image"),
+                        Quantity = reader.GetDouble("trade_price"),
+                    };
+                }
+                ;
+                return currency;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+        }
+        return currency;
+    }
     public List<Currencies> GetAchievementsCurrency()
     {
         List<Currencies> currencies = new List<Currencies>();
@@ -2989,6 +3118,123 @@ public class UserCurrencyRepository : IUserCurrencyRepository
                 string query = @"select distinct c.id, c.image , c.name, uc.quantity 
                 from vehicles a, vehicle_trade at, currency c, user_currency uc
                 where a.id=at.vehicle_id and at.currency_id = c.id and c.id =uc.currency_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Currencies currency = new Currencies
+                    {
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
+                    };
+                    currencies.Add(currency);
+                }
+                ;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return currencies;
+    }
+    public List<Currencies> GetCoresCurrency(string type)
+    {
+        List<Currencies> currencies = new List<Currencies>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select distinct c.id, c.image , c.name, uc.quantity 
+                from cores a, core_trade at, currency c, user_currency uc
+                where a.id=at.core_id and at.currency_id = c.id and c.id =uc.currency_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Currencies currency = new Currencies
+                    {
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
+                    };
+                    currencies.Add(currency);
+                }
+                ;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return currencies;
+    }
+    public List<Currencies> GetWeaponsCurrency(string type)
+    {
+        List<Currencies> currencies = new List<Currencies>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select distinct c.id, c.image , c.name, uc.quantity 
+                from weapons a, weapon_trade at, currency c, user_currency uc
+                where a.id=at.weapon_id and at.currency_id = c.id and c.id =uc.currency_id";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Currencies currency = new Currencies
+                    {
+                        Id = reader.GetString("id"),
+                        Name = reader.GetString("name"),
+                        Image = reader.GetString("image"),
+                        Quantity = reader.GetInt32("quantity"),
+                    };
+                    currencies.Add(currency);
+                }
+                ;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        return currencies;
+    }
+    public List<Currencies> GetRobotsCurrency(string type)
+    {
+        List<Currencies> currencies = new List<Currencies>();
+        string connectionString = DatabaseConfig.ConnectionString;
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                string query = @"select distinct c.id, c.image , c.name, uc.quantity 
+                from robots a, robot_trade at, currency c, user_currency uc
+                where a.id=at.robot_id and at.currency_id = c.id and c.id =uc.currency_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
 
