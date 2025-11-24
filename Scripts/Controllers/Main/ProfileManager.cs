@@ -247,6 +247,7 @@ public class ProfileManager : MonoBehaviour
         ChangeSettingButtonColor(soundButton, false);
         ChangeSettingButtonColor(otherButton, false);
         ChangeSettingButtonColor(languageButton, false);
+        CreateGraphic(graphicTransform.gameObject);
 
         graphicButton.onClick.AddListener(() =>
         {
@@ -260,6 +261,8 @@ public class ProfileManager : MonoBehaviour
             ChangeSettingButtonColor(soundButton, false);
             ChangeSettingButtonColor(otherButton, false);
             ChangeSettingButtonColor(languageButton, false);
+
+            CreateGraphic(graphicTransform.gameObject);
         });
 
         soundButton.onClick.AddListener(() =>
@@ -330,9 +333,14 @@ public class ProfileManager : MonoBehaviour
             frameImage.gameObject.SetActive(false);
         }
     }
-    public void CreateGraphic(GameObject settingObject)
+    public void CreateGraphic(GameObject graphicObject)
     {
+        Transform resolutionTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/Resolution");
+        Transform textureTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/Texture");
+        Transform damageFlytextTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/DamageFlytext");
+        Transform inGameCinematicTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/InGameCinematic");
 
+        CreateResolution(resolutionTransform.gameObject);
     }
     public void CreateSound(GameObject soundObject)
     {
@@ -369,6 +377,10 @@ public class ProfileManager : MonoBehaviour
             musicQuantityText.text = maxValue.ToString();
             sfxQuantityText.text = maxValue.ToString();
             voiceQuantityText.text = maxValue.ToString();
+
+            UserSettingsManager.Instance.SetInt("Sound.Music", 100);
+            UserSettingsManager.Instance.SetInt("Sound.SFX", 100);
+            UserSettingsManager.Instance.SetInt("Sound.Voice", 100);
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
@@ -452,7 +464,21 @@ public class ProfileManager : MonoBehaviour
         Button englishButton = englishObject.GetComponent<Button>();
         Button vietnameseButton = vietnameseObject.GetComponent<Button>();
 
-        ChangeLanguageButtonColor(englishButton, true);
+        string language = UserSettingsManager.Instance.GetString("Language");
+        if (language.Equals("en"))
+        {
+            ChangeLanguageButtonColor(englishButton, true);
+            ChangeLanguageButtonColor(vietnameseButton, false);
+        }
+        else if (language.Equals("vi"))
+        {
+            ChangeLanguageButtonColor(englishButton, false);
+            ChangeLanguageButtonColor(vietnameseButton, true);
+        }
+
+        defaultButton.onClick.RemoveAllListeners();
+        englishButton.onClick.RemoveAllListeners();
+        vietnameseButton.onClick.RemoveAllListeners();
 
         defaultButton.onClick.AddListener(() =>
         {
@@ -462,6 +488,7 @@ public class ProfileManager : MonoBehaviour
                 SettingKey = "Language",
                 SettingValue = "en",
             });
+            UserSettingsManager.Instance.SetString("Language", "en");
 
             ChangeLanguageButtonColor(englishButton, true);
             ChangeLanguageButtonColor(vietnameseButton, false);
@@ -475,6 +502,7 @@ public class ProfileManager : MonoBehaviour
                 SettingKey = "Language",
                 SettingValue = "en",
             });
+            UserSettingsManager.Instance.SetString("Language", "en");
 
             ChangeLanguageButtonColor(englishButton, true);
             ChangeLanguageButtonColor(vietnameseButton, false);
@@ -488,6 +516,7 @@ public class ProfileManager : MonoBehaviour
                 SettingKey = "Language",
                 SettingValue = "vi",
             });
+            UserSettingsManager.Instance.SetString("Language", "vi");
 
             ChangeLanguageButtonColor(englishButton, false);
             ChangeLanguageButtonColor(vietnameseButton, true);
@@ -509,8 +538,169 @@ public class ProfileManager : MonoBehaviour
             background.color = Color.gray;
         }
     }
-    public void CreateResolution()
+    public void CreateResolution(GameObject resolutionObject)
     {
+        Button veryLowButton = resolutionObject.transform.Find("ButtonGroup/VeryLowButton").GetComponent<Button>();
+        Button lowButton = resolutionObject.transform.Find("ButtonGroup/LowButton").GetComponent<Button>();
+        Button mediumButton = resolutionObject.transform.Find("ButtonGroup/MediumButton").GetComponent<Button>();
+        Button highButton = resolutionObject.transform.Find("ButtonGroup/HighButton").GetComponent<Button>();
+        Button veryHighButton = resolutionObject.transform.Find("ButtonGroup/VeryHighButton").GetComponent<Button>();
 
+        string resolution = UserSettingsManager.Instance.GetString("Graphic.Resolution");
+        if (resolution.Equals("Very Low"))
+        {
+            ChangeResolutionButtonColor(veryLowButton, true);
+            ChangeResolutionButtonColor(lowButton, false);
+            ChangeResolutionButtonColor(mediumButton, false);
+            ChangeResolutionButtonColor(highButton, false);
+            ChangeResolutionButtonColor(veryHighButton, false);
+        }
+        else if (resolution.Equals("Low"))
+        {
+            ChangeResolutionButtonColor(veryLowButton, false);
+            ChangeResolutionButtonColor(lowButton, true);
+            ChangeResolutionButtonColor(mediumButton, false);
+            ChangeResolutionButtonColor(highButton, false);
+            ChangeResolutionButtonColor(veryHighButton, false);
+        }
+        else if (resolution.Equals("Medium"))
+        {
+            ChangeResolutionButtonColor(veryLowButton, false);
+            ChangeResolutionButtonColor(lowButton, false);
+            ChangeResolutionButtonColor(mediumButton, true);
+            ChangeResolutionButtonColor(highButton, false);
+            ChangeResolutionButtonColor(veryHighButton, false);
+        }
+        else if (resolution.Equals("High"))
+        {
+            ChangeResolutionButtonColor(veryLowButton, false);
+            ChangeResolutionButtonColor(lowButton, false);
+            ChangeResolutionButtonColor(mediumButton, false);
+            ChangeResolutionButtonColor(highButton, true);
+            ChangeResolutionButtonColor(veryHighButton, false);
+        }
+        else if (resolution.Equals("Very High"))
+        {
+            ChangeResolutionButtonColor(veryLowButton, false);
+            ChangeResolutionButtonColor(lowButton, false);
+            ChangeResolutionButtonColor(mediumButton, false);
+            ChangeResolutionButtonColor(highButton, false);
+            ChangeResolutionButtonColor(veryHighButton, true);
+        }
+
+        veryLowButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeResolutionButtonColor(veryLowButton, true);
+            ChangeResolutionButtonColor(lowButton, false);
+            ChangeResolutionButtonColor(mediumButton, false);
+            ChangeResolutionButtonColor(highButton, false);
+            ChangeResolutionButtonColor(veryHighButton, false);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = "Graphic.Resolution",
+                SettingValue = "Very Low",
+            });
+            UserSettingsManager.Instance.SetString("Graphic.Resolution", "Very Low");
+        });
+
+        lowButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeResolutionButtonColor(veryLowButton, false);
+            ChangeResolutionButtonColor(lowButton, true);
+            ChangeResolutionButtonColor(mediumButton, false);
+            ChangeResolutionButtonColor(highButton, false);
+            ChangeResolutionButtonColor(veryHighButton, false);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = "Graphic.Resolution",
+                SettingValue = "Low",
+            });
+            UserSettingsManager.Instance.SetString("Graphic.Resolution", "Low");
+        });
+
+        mediumButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeResolutionButtonColor(veryLowButton, false);
+            ChangeResolutionButtonColor(lowButton, false);
+            ChangeResolutionButtonColor(mediumButton, true);
+            ChangeResolutionButtonColor(highButton, false);
+            ChangeResolutionButtonColor(veryHighButton, false);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = "Graphic.Resolution",
+                SettingValue = "Medium",
+            });
+            UserSettingsManager.Instance.SetString("Graphic.Resolution", "Medium");
+        });
+
+        highButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeResolutionButtonColor(veryLowButton, false);
+            ChangeResolutionButtonColor(lowButton, false);
+            ChangeResolutionButtonColor(mediumButton, false);
+            ChangeResolutionButtonColor(highButton, true);
+            ChangeResolutionButtonColor(veryHighButton, false);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = "Graphic.Resolution",
+                SettingValue = "High",
+            });
+            UserSettingsManager.Instance.SetString("Graphic.Resolution", "High");
+        });
+
+        veryHighButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeResolutionButtonColor(veryLowButton, false);
+            ChangeResolutionButtonColor(lowButton, false);
+            ChangeResolutionButtonColor(mediumButton, false);
+            ChangeResolutionButtonColor(highButton, false);
+            ChangeResolutionButtonColor(veryHighButton, true);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = "Graphic.Resolution",
+                SettingValue = "Very High",
+            });
+            UserSettingsManager.Instance.SetString("Graphic.Resolution", "Very High");
+        });
+    }
+    public void ChangeResolutionButtonColor(Button button, bool status = true)
+    {
+        TextMeshProUGUI iconText = button.transform.Find("IconText").GetComponent<TextMeshProUGUI>();
+        Image topImage = button.transform.Find("TopImage").GetComponent<Image>();
+        RawImage iconImage = button.transform.Find("IconImage").GetComponent<RawImage>();
+        Outline backgroundOutline = button.GetComponent<Outline>();
+        Outline topImageOutline = button.transform.Find("TopImage").GetComponent<Outline>();
+
+        if (status)
+        {
+            iconText.color = Color.black;
+            topImage.color = ColorHelper.ToColor("#FFB300");
+            backgroundOutline.enabled = true;
+            topImageOutline.enabled = true;
+            iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_ACTIVE_URL);
+        }
+        else
+        {
+            iconText.color = Color.white;
+            topImage.color = ColorHelper.ToColor("#646464");
+            backgroundOutline.enabled = false;
+            topImageOutline.enabled = false;
+            iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_UNACTIVE_URL);
+        }
     }
 }
