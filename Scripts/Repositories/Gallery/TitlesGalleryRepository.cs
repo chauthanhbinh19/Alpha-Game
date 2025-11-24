@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class TitlesGalleryRepository : ITitlesGalleryRepository
 {
-    public List<Titles> GetTitlesCollection(int pageSize, int offset, string rare)
+    public List<Architectures> GetTitlesCollection(int pageSize, int offset, string rare)
     {
-        List<Titles> titlesList = new List<Titles>();
+        List<Architectures> titlesList = new List<Architectures>();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -29,7 +29,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Titles title = new Titles
+                    Architectures title = new Architectures
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -145,7 +145,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
         }
         return count;
     }
-    public void InsertTitlesGallery(string Id, Titles TitleFromDB)
+    public void InsertTitlesGallery(string Id, Architectures TitleFromDB)
     {
         // Titles TitleFromDB = GetTitlesById(Id);
         int percent = 20;
@@ -361,7 +361,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
             }
         }
     }
-    public void UpdateTitlesGalleryPower(string Id, Titles TitleFromDB)
+    public void UpdateTitlesGalleryPower(string Id, Architectures TitleFromDB)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -516,9 +516,9 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
             }
         }
     }
-    public Titles SumPowerTitlesGallery()
+    public Architectures SumPowerTitlesGallery()
     {
-        Titles sumTitles = new Titles();
+        Architectures sumTitles = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

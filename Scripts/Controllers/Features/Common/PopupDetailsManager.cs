@@ -132,7 +132,7 @@ public class PopupDetailsManager : MonoBehaviour
             // Xử lý đối tượng Symbol
             ShowSymbolDetails(symbol);
         }
-        else if (data is Titles title)
+        else if (data is Architectures title)
         {
             // Xử lý đối tượng Title
             ShowTitleDetails(title);
@@ -783,7 +783,7 @@ public class PopupDetailsManager : MonoBehaviour
             CreatePropertyUI(1, property, value);
         }
     }
-    private void ShowTitleDetails(Titles titles)
+    private void ShowTitleDetails(Architectures titles)
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(titles.Image); // Lấy giá trị của image từ đối tượng Card

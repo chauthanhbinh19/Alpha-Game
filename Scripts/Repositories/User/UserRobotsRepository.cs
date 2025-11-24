@@ -18,7 +18,7 @@ public class UserRobotsRepository : IUserRobotsRepository
             {
                 connection.Open();
                 string query = @"Select ut.*, t.id, t.name, t.image, t.rare, t.description from Robots t, user_Robots ut 
-                where t.id=ut.card_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)
+                where t.id=ut.robot_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -129,7 +129,7 @@ public class UserRobotsRepository : IUserRobotsRepository
             {
                 connection.Open();
                 string query = @"Select count(*) from Robots t, user_Robots ut 
-                where t.id=ut.card_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)";
+                where t.id=ut.robot_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@rare", rare);
@@ -160,18 +160,18 @@ public class UserRobotsRepository : IUserRobotsRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) FROM user_Robots 
-                WHERE user_id = @user_id AND card_id = @card_id;";
+                WHERE user_id = @user_id AND robot_id = @robot_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@card_id", Robots.Id);
+                checkCommand.Parameters.AddWithValue("@robot_id", Robots.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
                 {
                     string query = @"
                 INSERT INTO user_Robots (
-                    user_id, card_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, robot_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -188,7 +188,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @card_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @robot_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -207,7 +207,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@card_id", Robots.Id);
+                    command.Parameters.AddWithValue("@robot_id", Robots.Id);
                     command.Parameters.AddWithValue("@rare", Robots.Rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
@@ -273,11 +273,11 @@ public class UserRobotsRepository : IUserRobotsRepository
                     string updateQuery = @"
                     UPDATE user_Robots
                     SET quantity = @quantity
-                    WHERE user_id = @user_id AND card_id = @card_id;";
+                    WHERE user_id = @user_id AND robot_id = @robot_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@card_id", Robots.Id);
+                    updateCommand.Parameters.AddWithValue("@robot_id", Robots.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", Robots.Quantity);
 
                     updateCommand.ExecuteNonQuery();
@@ -333,10 +333,10 @@ public class UserRobotsRepository : IUserRobotsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND card_id = @card_id;";
+                WHERE user_id = @user_id AND robot_id = @robot_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_id", Robots.Id);
+                command.Parameters.AddWithValue("@robot_id", Robots.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", Robots.Power);
                 command.Parameters.AddWithValue("@health", Robots.Health);
@@ -438,10 +438,10 @@ public class UserRobotsRepository : IUserRobotsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND card_id = @card_id;";
+                WHERE user_id = @user_id AND robot_id = @robot_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_id", Robots.Id);
+                command.Parameters.AddWithValue("@robot_id", Robots.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", Robots.Power);
@@ -517,7 +517,7 @@ public class UserRobotsRepository : IUserRobotsRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from user_Robots where user_Robots.card_id=@id 
+                string query = @"Select * from user_Robots where user_Robots.robot_id=@id 
                 and user_Robots.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
@@ -527,7 +527,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                 {
                     card = new Robots
                     {
-                        Id = reader.GetString("card_id"),
+                        Id = reader.GetString("robot_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
                         Experiment = reader.GetDouble("experiment"),

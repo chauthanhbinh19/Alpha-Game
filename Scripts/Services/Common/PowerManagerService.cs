@@ -35,117 +35,149 @@ public class PowerManagerService : IPowerManagerService
         PowerManager achievementsPower = GetAchievementsPower();
         AddPower(totalPower, achievementsPower);
 
-        // Lấy sức mạnh từ Avatars
+        // Lấy sức mạnh từ avatars
         PowerManager avatarsPower = GetAvatarsPower();
         AddPower(totalPower, avatarsPower);
 
-        // Lấy sức mạnh từ Books
+        // Lấy sức mạnh từ books
         PowerManager booksPower = GetBooksPower();
         AddPower(totalPower, booksPower);
 
-        // Lấy sức mạnh từ Borders
+        // Lấy sức mạnh từ borders
         PowerManager bordersPower = GetBordersPower();
         AddPower(totalPower, bordersPower);
 
-        // Lấy sức mạnh từ Card Heroes
+        // Lấy sức mạnh từ card heroes
         PowerManager cardHeroesPower = GetCardHeroesPower();
         AddPower(totalPower, cardHeroesPower);
 
-        // Lấy sức mạnh từ Card Captains
+        // Lấy sức mạnh từ card captains
         PowerManager cardCaptainsPower = GetCardCaptainsPower();
         AddPower(totalPower, cardCaptainsPower);
 
-        // Lấy sức mạnh từ Card Colonels
+        // Lấy sức mạnh từ card colonels
         PowerManager cardColonelsPower = GetCardColonelsPower();
         AddPower(totalPower, cardColonelsPower);
 
-        // Lấy sức mạnh từ Card Generals
+        // Lấy sức mạnh từ card generals
         PowerManager cardGeneralsPower = GetCardGeneralsPower();
         AddPower(totalPower, cardGeneralsPower);
 
-        // Lấy sức mạnh từ Card Admirals
+        // Lấy sức mạnh từ card admirals
         PowerManager cardAdmiralsPower = GetCardAdmiralsPower();
         AddPower(totalPower, cardAdmiralsPower);
 
-        // Lấy sức mạnh từ Card Monsters
+        // Lấy sức mạnh từ card monsters
         PowerManager cardMonstersPower = GetCardMonstersPower();
         AddPower(totalPower, cardMonstersPower);
 
-        // Lấy sức mạnh từ Card Military
-        PowerManager cardMilitaryPower = GetCardMilitaryPower();
-        AddPower(totalPower, cardMilitaryPower);
+        // Lấy sức mạnh từ card militaries
+        PowerManager cardMilitariesPower = GetCardMilitariesPower();
+        AddPower(totalPower, cardMilitariesPower);
 
-        // Lấy sức mạnh từ Card Spell
-        PowerManager cardSpellPower = GetCardSpellPower();
-        AddPower(totalPower, cardSpellPower);
+        // Lấy sức mạnh từ card spell
+        PowerManager cardSpellsPower = GetCardSpellsPower();
+        AddPower(totalPower, cardSpellsPower);
 
-        // Lấy sức mạnh từ Collaborations
+        // Lấy sức mạnh từ collaborations
         PowerManager collaborationsPower = GetCollaborationsPower();
         AddPower(totalPower, collaborationsPower);
 
-        // Lấy sức mạnh từ Collaboration Equipments
+        // Lấy sức mạnh từ collaboration equipments
         PowerManager collaborationEquipmentsPower = GetCollaborationEquipmentsPower();
         AddPower(totalPower, collaborationEquipmentsPower);
 
-        // Lấy sức mạnh từ Equipments
+        // Lấy sức mạnh từ equipments
         PowerManager equipmentsPower = GetEquipmentsPower();
         AddPower(totalPower, equipmentsPower);
 
-        // Lấy sức mạnh từ Magic Formation Circle
-        PowerManager magicFormationCirclePower = GetMagicFormationCirclePower();
-        AddPower(totalPower, magicFormationCirclePower);
+        // Lấy sức mạnh từ magic formation circles
+        PowerManager magicFormationCirclesPower = GetMagicFormationCirclesPower();
+        AddPower(totalPower, magicFormationCirclesPower);
 
-        // Lấy sức mạnh từ Relics
+        // Lấy sức mạnh từ relics
         PowerManager relicsPower = GetRelicsPower();
         AddPower(totalPower, relicsPower);
 
-        // Lấy sức mạnh từ Medals
+        // Lấy sức mạnh từ medals
         PowerManager medalsPower = GetMedalsPower();
         AddPower(totalPower, medalsPower);
 
-        // Lấy sức mạnh từ Pets
+        // Lấy sức mạnh từ pets
         PowerManager petsPower = GetPetsPower();
         AddPower(totalPower, petsPower);
 
-        // Lấy sức mạnh từ Symbols
+        // Lấy sức mạnh từ symbols
         PowerManager symbolsPower = GetSymbolsPower();
         AddPower(totalPower, symbolsPower);
 
-        // Lấy sức mạnh từ Skills
+        // Lấy sức mạnh từ skills
         PowerManager skillsPower = GetSkillsPower();
         AddPower(totalPower, skillsPower);
 
-        // Lấy sức mạnh từ Titles
+        // Lấy sức mạnh từ titles
         PowerManager titlesPower = GetTitlesPower();
         AddPower(totalPower, titlesPower);
 
-        // Lấy sức mạnh từ Talisman
-        PowerManager talismanPower = GetTalismanPower();
-        AddPower(totalPower, talismanPower);
+        // Lấy sức mạnh từ talismans
+        PowerManager talismansPower = GetTalismansPower();
+        AddPower(totalPower, talismansPower);
 
-        // Lấy sức mạnh từ Puppet
-        PowerManager puppetPower = GetPuppetPower();
-        AddPower(totalPower, puppetPower);
+        // Lấy sức mạnh từ puppets
+        PowerManager puppetsPower = GetPuppetsPower();
+        AddPower(totalPower, puppetsPower);
 
-        // Lấy sức mạnh từ Alchemy
-        PowerManager alchemyPower = GetAlchemyPower();
-        AddPower(totalPower, alchemyPower);
+        // Lấy sức mạnh từ alchemies
+        PowerManager alchemiesPower = GetAlchemiesPower();
+        AddPower(totalPower, alchemiesPower);
 
-        // Lấy sức mạnh từ Forge
-        PowerManager forgePower = GetForgePower();
-        AddPower(totalPower, forgePower);
+        // Lấy sức mạnh từ forges
+        PowerManager forgesPower = GetForgesPower();
+        AddPower(totalPower, forgesPower);
 
-        // Lấy sức mạnh từ Card Life
-        PowerManager cardLifePower = GetCardLifePower();
-        AddPower(totalPower, cardLifePower);
+        // Lấy sức mạnh từ card lives
+        PowerManager cardLivesPower = GetCardLivesPower();
+        AddPower(totalPower, cardLivesPower);
 
-        // Lấy sức mạnh từ Artwork
-        PowerManager ArtworkPower = GetArtworkPower();
-        AddPower(totalPower, ArtworkPower);
+        // Lấy sức mạnh từ artworks
+        PowerManager artworksPower = GetArtworksPower();
+        AddPower(totalPower, artworksPower);
 
-        // Lấy sức mạnh từ Spirit Beast
-        PowerManager SpiritBeastPower = GetSpiritBeastPower();
-        AddPower(totalPower, SpiritBeastPower);
+        // Lấy sức mạnh từ spirit beasts
+        PowerManager spiritBeastsPower = GetSpiritBeastsPower();
+        AddPower(totalPower, spiritBeastsPower);
+
+        // Lấy sức mạnh từ spirit cards
+        PowerManager spiritCardsPower = GetSpiritCardsPower();
+        AddPower(totalPower, spiritCardsPower);
+
+        // Lấy sức mạnh từ vehicles
+        PowerManager vehiclesPower = GetVehiclesPower();
+        AddPower(totalPower, vehiclesPower);
+
+        // Lấy sức mạnh từ architectures
+        PowerManager architecturePower = GetArchitecturesPower();
+        AddPower(totalPower, architecturePower);
+
+        // Lấy sức mạnh từ technologies
+        PowerManager techonogiesPower = GetTechnologiesPower();
+        AddPower(totalPower, techonogiesPower);
+
+        // Lấy sức mạnh từ cards
+        PowerManager cardPower = GetCardsPower();
+        AddPower(totalPower, cardPower);
+
+        // Lấy sức mạnh từ cores
+        PowerManager coresPower = GetCoresPower();
+        AddPower(totalPower, coresPower);
+
+        // Lấy sức mạnh từ weapons
+        PowerManager weaponsPower = GetWeaponsPower();
+        AddPower(totalPower, weaponsPower);
+
+        // Lấy sức mạnh từ robots
+        PowerManager robotsPower = GetRobotsPower();
+        AddPower(totalPower, robotsPower);
 
         return totalPower;
     }
@@ -876,7 +908,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardMilitaryPower()
+    public PowerManager GetCardMilitariesPower()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -933,7 +965,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardSpellPower()
+    public PowerManager GetCardSpellsPower()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -1247,7 +1279,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetMagicFormationCirclePower()
+    public PowerManager GetMagicFormationCirclesPower()
     {
         PowerManager powerManager = new PowerManager();
         // MagicFormationCircle magicFormationCircle = new MagicFormationCircle();
@@ -1803,7 +1835,7 @@ public class PowerManagerService : IPowerManagerService
         ITitlesGalleryRepository titlesGalleryRepository = new TitlesGalleryRepository();
         TitlesGalleryService titlesGalleryService = new TitlesGalleryService(titlesGalleryRepository);
         // Gallery
-        Titles titles = titlesGalleryService.SumPowerTitlesGallery();
+        Architectures titles = titlesGalleryService.SumPowerTitlesGallery();
         powerManager.Power += titles.Power;
         powerManager.Health += titles.Health;
         powerManager.PhysicalAttack += titles.PhysicalAttack;
@@ -1904,7 +1936,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetTalismanPower()
+    public PowerManager GetTalismansPower()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -2013,7 +2045,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetPuppetPower()
+    public PowerManager GetPuppetsPower()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -2122,7 +2154,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetAlchemyPower()
+    public PowerManager GetAlchemiesPower()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -2231,7 +2263,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetForgePower()
+    public PowerManager GetForgesPower()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -2340,7 +2372,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetCardLifePower()
+    public PowerManager GetCardLivesPower()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -2449,15 +2481,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetArtworkPower()
+    public PowerManager GetArtworksPower()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
         // Artwork Artwork = new Artwork();
-        IArtworkGalleryRepository ArtworkGalleryRepository = new ArtworkGalleryRepository();
-        ArtworkGalleryService ArtworkGalleryService = new ArtworkGalleryService(ArtworkGalleryRepository);
+        IArtworkGalleryRepository artworkGalleryRepository = new ArtworkGalleryRepository();
+        ArtworkGalleryService artworkGalleryService = new ArtworkGalleryService(artworkGalleryRepository);
         // Gallery
-        Artworks artwork = ArtworkGalleryService.SumPowerArtworkGallery();
+        Artworks artwork = artworkGalleryService.SumPowerArtworkGallery();
         powerManager.Power += artwork.Power;
         powerManager.Health += artwork.Health;
         powerManager.PhysicalAttack += artwork.PhysicalAttack;
@@ -2558,7 +2590,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetSpiritBeastPower()
+    public PowerManager GetSpiritBeastsPower()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -2666,5 +2698,874 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
+    public PowerManager GetSpiritCardsPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
+        ISpiritCardGalleryRepository spiritCardGalleryRepository = new SpiritCardGalleryRepository();
+        SpiritCardGalleryService spiritCardGalleryService = new SpiritCardGalleryService(spiritCardGalleryRepository);
+        // Gallery
+        SpiritCards spiritCard = spiritCardGalleryService.SumPowerSpiritCardGallery();
+        powerManager.Power += spiritCard.Power;
+        powerManager.Health += spiritCard.Health;
+        powerManager.PhysicalAttack += spiritCard.PhysicalAttack;
+        powerManager.PhysicalDefense += spiritCard.PhysicalDefense;
+        powerManager.MagicalAttack += spiritCard.MagicalAttack;
+        powerManager.MagicalDefense += spiritCard.MagicalDefense;
+        powerManager.ChemicalAttack += spiritCard.ChemicalAttack;
+        powerManager.ChemicalDefense += spiritCard.ChemicalDefense;
+        powerManager.AtomicAttack += spiritCard.AtomicAttack;
+        powerManager.AtomicDefense += spiritCard.AtomicDefense;
+        powerManager.MentalAttack += spiritCard.MentalAttack;
+        powerManager.MentalDefense += spiritCard.MentalDefense;
+        powerManager.Speed += spiritCard.Speed;
+        powerManager.CriticalDamageRate += spiritCard.CriticalDamageRate;
+        powerManager.CriticalRate += spiritCard.CriticalRate;
+        powerManager.PenetrationRate += spiritCard.PenetrationRate;
+        powerManager.EvasionRate += spiritCard.EvasionRate;
+        powerManager.DamageAbsorptionRate += spiritCard.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += spiritCard.VitalityRegenerationRate;
+        powerManager.AccuracyRate += spiritCard.AccuracyRate;
+        powerManager.LifestealRate += spiritCard.LifestealRate;
+        powerManager.ShieldStrength += spiritCard.ShieldStrength;
+        powerManager.Tenacity += spiritCard.Tenacity;
+        powerManager.ResistanceRate += spiritCard.ResistanceRate;
+        powerManager.ComboRate += spiritCard.ComboRate;
+        powerManager.ReflectionRate += spiritCard.ReflectionRate;
+        powerManager.Mana += spiritCard.Mana;
+        powerManager.ManaRegenerationRate += spiritCard.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += spiritCard.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += spiritCard.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += spiritCard.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += spiritCard.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += spiritCard.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += spiritCard.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += spiritCard.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += spiritCard.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += spiritCard.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += spiritCard.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += spiritCard.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += spiritCard.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += spiritCard.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += spiritCard.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += spiritCard.PercentAllMentalDefense;
+
+        IUserSpiritCardRepository userSpiritCardRepository = new UserSpiritCardRepository();
+        UserSpiritCardService userSpiritCardService = new UserSpiritCardService(userSpiritCardRepository);
+        // User SpiritBeast (Gallery)
+        spiritCard = userSpiritCardService.SumPowerUserSpiritCard(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
+        powerManager.Power += spiritCard.Power;
+        powerManager.Health += spiritCard.Health;
+        powerManager.PhysicalAttack += spiritCard.PhysicalAttack;
+        powerManager.PhysicalDefense += spiritCard.PhysicalDefense;
+        powerManager.MagicalAttack += spiritCard.MagicalAttack;
+        powerManager.MagicalDefense += spiritCard.MagicalDefense;
+        powerManager.ChemicalAttack += spiritCard.ChemicalAttack;
+        powerManager.ChemicalDefense += spiritCard.ChemicalDefense;
+        powerManager.AtomicAttack += spiritCard.AtomicAttack;
+        powerManager.AtomicDefense += spiritCard.AtomicDefense;
+        powerManager.MentalAttack += spiritCard.MentalAttack;
+        powerManager.MentalDefense += spiritCard.MentalDefense;
+        powerManager.Speed += spiritCard.Speed;
+        powerManager.CriticalDamageRate += spiritCard.CriticalDamageRate;
+        powerManager.CriticalRate += spiritCard.CriticalRate;
+        powerManager.PenetrationRate += spiritCard.PenetrationRate;
+        powerManager.EvasionRate += spiritCard.EvasionRate;
+        powerManager.DamageAbsorptionRate += spiritCard.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += spiritCard.VitalityRegenerationRate;
+        powerManager.AccuracyRate += spiritCard.AccuracyRate;
+        powerManager.LifestealRate += spiritCard.LifestealRate;
+        powerManager.ShieldStrength += spiritCard.ShieldStrength;
+        powerManager.Tenacity += spiritCard.Tenacity;
+        powerManager.ResistanceRate += spiritCard.ResistanceRate;
+        powerManager.ComboRate += spiritCard.ComboRate;
+        powerManager.ReflectionRate += spiritCard.ReflectionRate;
+        powerManager.Mana += spiritCard.Mana;
+        powerManager.ManaRegenerationRate += spiritCard.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += spiritCard.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += spiritCard.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += spiritCard.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += spiritCard.ResistanceToSameFactionRate;
+
+        ISpiritCardRepository spiritCardRepository = new SpiritCardRepository();
+        SpiritCardService spiritCardService = new SpiritCardService(spiritCardRepository);
+        // Percent
+        spiritCard = spiritCardService.SumPowerSpiritCardPercent(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
+        powerManager.PercentAllHealth += spiritCard.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += spiritCard.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += spiritCard.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += spiritCard.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += spiritCard.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += spiritCard.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += spiritCard.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += spiritCard.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += spiritCard.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += spiritCard.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += spiritCard.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetVehiclesPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        IVehicleGalleryRepository vehicleGalleryRepository = new VehicleGalleryRepository();
+        VehicleGalleryService vehicleGalleryService = new VehicleGalleryService(vehicleGalleryRepository);
+        // Gallery
+        Vehicles vehicle = vehicleGalleryService.SumPowerVehiclesGallery();
+        powerManager.Power += vehicle.Power;
+        powerManager.Health += vehicle.Health;
+        powerManager.PhysicalAttack += vehicle.PhysicalAttack;
+        powerManager.PhysicalDefense += vehicle.PhysicalDefense;
+        powerManager.MagicalAttack += vehicle.MagicalAttack;
+        powerManager.MagicalDefense += vehicle.MagicalDefense;
+        powerManager.ChemicalAttack += vehicle.ChemicalAttack;
+        powerManager.ChemicalDefense += vehicle.ChemicalDefense;
+        powerManager.AtomicAttack += vehicle.AtomicAttack;
+        powerManager.AtomicDefense += vehicle.AtomicDefense;
+        powerManager.MentalAttack += vehicle.MentalAttack;
+        powerManager.MentalDefense += vehicle.MentalDefense;
+        powerManager.Speed += vehicle.Speed;
+        powerManager.CriticalDamageRate += vehicle.CriticalDamageRate;
+        powerManager.CriticalRate += vehicle.CriticalRate;
+        powerManager.PenetrationRate += vehicle.PenetrationRate;
+        powerManager.EvasionRate += vehicle.EvasionRate;
+        powerManager.DamageAbsorptionRate += vehicle.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += vehicle.VitalityRegenerationRate;
+        powerManager.AccuracyRate += vehicle.AccuracyRate;
+        powerManager.LifestealRate += vehicle.LifestealRate;
+        powerManager.ShieldStrength += vehicle.ShieldStrength;
+        powerManager.Tenacity += vehicle.Tenacity;
+        powerManager.ResistanceRate += vehicle.ResistanceRate;
+        powerManager.ComboRate += vehicle.ComboRate;
+        powerManager.ReflectionRate += vehicle.ReflectionRate;
+        powerManager.Mana += vehicle.Mana;
+        powerManager.ManaRegenerationRate += vehicle.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += vehicle.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += vehicle.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += vehicle.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += vehicle.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += vehicle.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += vehicle.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += vehicle.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += vehicle.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += vehicle.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += vehicle.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += vehicle.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += vehicle.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += vehicle.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += vehicle.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += vehicle.PercentAllMentalDefense;
+
+        IUserVehicleRepository userVehicleRepository = new UserVehicleRepository();
+        UserVehicleService userVehicleService = new UserVehicleService(userVehicleRepository);
+        // User SpiritBeast (Gallery)
+        vehicle = userVehicleService.SumPowerUserVehicle(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
+        powerManager.Power += vehicle.Power;
+        powerManager.Health += vehicle.Health;
+        powerManager.PhysicalAttack += vehicle.PhysicalAttack;
+        powerManager.PhysicalDefense += vehicle.PhysicalDefense;
+        powerManager.MagicalAttack += vehicle.MagicalAttack;
+        powerManager.MagicalDefense += vehicle.MagicalDefense;
+        powerManager.ChemicalAttack += vehicle.ChemicalAttack;
+        powerManager.ChemicalDefense += vehicle.ChemicalDefense;
+        powerManager.AtomicAttack += vehicle.AtomicAttack;
+        powerManager.AtomicDefense += vehicle.AtomicDefense;
+        powerManager.MentalAttack += vehicle.MentalAttack;
+        powerManager.MentalDefense += vehicle.MentalDefense;
+        powerManager.Speed += vehicle.Speed;
+        powerManager.CriticalDamageRate += vehicle.CriticalDamageRate;
+        powerManager.CriticalRate += vehicle.CriticalRate;
+        powerManager.PenetrationRate += vehicle.PenetrationRate;
+        powerManager.EvasionRate += vehicle.EvasionRate;
+        powerManager.DamageAbsorptionRate += vehicle.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += vehicle.VitalityRegenerationRate;
+        powerManager.AccuracyRate += vehicle.AccuracyRate;
+        powerManager.LifestealRate += vehicle.LifestealRate;
+        powerManager.ShieldStrength += vehicle.ShieldStrength;
+        powerManager.Tenacity += vehicle.Tenacity;
+        powerManager.ResistanceRate += vehicle.ResistanceRate;
+        powerManager.ComboRate += vehicle.ComboRate;
+        powerManager.ReflectionRate += vehicle.ReflectionRate;
+        powerManager.Mana += vehicle.Mana;
+        powerManager.ManaRegenerationRate += vehicle.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += vehicle.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += vehicle.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += vehicle.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += vehicle.ResistanceToSameFactionRate;
+
+        IVehiclesRepository vehicleRepository = new VehiclesRepository();
+        VehiclesService vehiclesService = new VehiclesService(vehicleRepository);
+        // Percent
+        vehicle = vehiclesService.SumPowerVehiclePercent(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
+        powerManager.PercentAllHealth += vehicle.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += vehicle.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += vehicle.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += vehicle.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += vehicle.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += vehicle.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += vehicle.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += vehicle.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += vehicle.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += vehicle.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += vehicle.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetCardsPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        ICardsGalleryRepository cardsGalleryRepository = new CardsGalleryRepository();
+        CardsGalleryService cardsGalleryService = new CardsGalleryService(cardsGalleryRepository);
+        // Gallery
+        Cards card = cardsGalleryService.SumPowerCardsGallery();
+        powerManager.Power += card.Power;
+        powerManager.Health += card.Health;
+        powerManager.PhysicalAttack += card.PhysicalAttack;
+        powerManager.PhysicalDefense += card.PhysicalDefense;
+        powerManager.MagicalAttack += card.MagicalAttack;
+        powerManager.MagicalDefense += card.MagicalDefense;
+        powerManager.ChemicalAttack += card.ChemicalAttack;
+        powerManager.ChemicalDefense += card.ChemicalDefense;
+        powerManager.AtomicAttack += card.AtomicAttack;
+        powerManager.AtomicDefense += card.AtomicDefense;
+        powerManager.MentalAttack += card.MentalAttack;
+        powerManager.MentalDefense += card.MentalDefense;
+        powerManager.Speed += card.Speed;
+        powerManager.CriticalDamageRate += card.CriticalDamageRate;
+        powerManager.CriticalRate += card.CriticalRate;
+        powerManager.PenetrationRate += card.PenetrationRate;
+        powerManager.EvasionRate += card.EvasionRate;
+        powerManager.DamageAbsorptionRate += card.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += card.VitalityRegenerationRate;
+        powerManager.AccuracyRate += card.AccuracyRate;
+        powerManager.LifestealRate += card.LifestealRate;
+        powerManager.ShieldStrength += card.ShieldStrength;
+        powerManager.Tenacity += card.Tenacity;
+        powerManager.ResistanceRate += card.ResistanceRate;
+        powerManager.ComboRate += card.ComboRate;
+        powerManager.ReflectionRate += card.ReflectionRate;
+        powerManager.Mana += card.Mana;
+        powerManager.ManaRegenerationRate += card.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += card.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += card.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += card.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += card.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += card.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += card.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += card.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += card.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += card.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += card.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += card.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += card.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += card.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += card.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += card.PercentAllMentalDefense;
+
+        IUserCardsRepository userCardsRepository = new UserCardsRepository();
+        UserCardsService userCardsService = new UserCardsService(userCardsRepository);
+        // User Cards (Gallery)
+        card = userCardsService.SumPowerUserCards(); // Giả định SumPowerUserCards cũng trả về một đối tượng Cards mới hoặc đã được reset
+        powerManager.Power += card.Power;
+        powerManager.Health += card.Health;
+        powerManager.PhysicalAttack += card.PhysicalAttack;
+        powerManager.PhysicalDefense += card.PhysicalDefense;
+        powerManager.MagicalAttack += card.MagicalAttack;
+        powerManager.MagicalDefense += card.MagicalDefense;
+        powerManager.ChemicalAttack += card.ChemicalAttack;
+        powerManager.ChemicalDefense += card.ChemicalDefense;
+        powerManager.AtomicAttack += card.AtomicAttack;
+        powerManager.AtomicDefense += card.AtomicDefense;
+        powerManager.MentalAttack += card.MentalAttack;
+        powerManager.MentalDefense += card.MentalDefense;
+        powerManager.Speed += card.Speed;
+        powerManager.CriticalDamageRate += card.CriticalDamageRate;
+        powerManager.CriticalRate += card.CriticalRate;
+        powerManager.PenetrationRate += card.PenetrationRate;
+        powerManager.EvasionRate += card.EvasionRate;
+        powerManager.DamageAbsorptionRate += card.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += card.VitalityRegenerationRate;
+        powerManager.AccuracyRate += card.AccuracyRate;
+        powerManager.LifestealRate += card.LifestealRate;
+        powerManager.ShieldStrength += card.ShieldStrength;
+        powerManager.Tenacity += card.Tenacity;
+        powerManager.ResistanceRate += card.ResistanceRate;
+        powerManager.ComboRate += card.ComboRate;
+        powerManager.ReflectionRate += card.ReflectionRate;
+        powerManager.Mana += card.Mana;
+        powerManager.ManaRegenerationRate += card.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += card.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += card.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += card.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += card.ResistanceToSameFactionRate;
+
+        ICardsRepository cardsRepository = new CardsRepository();
+        CardsService cardsService = new CardsService(cardsRepository);
+        // Percent
+        card = cardsService.SumPowerCardsPercent(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
+        powerManager.PercentAllHealth += card.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += card.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += card.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += card.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += card.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += card.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += card.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += card.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += card.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += card.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += card.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetTechnologiesPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        ITechnologiesGalleryRepository technologiesGalleryRepository = new TechnologiesGalleryRepository();
+        TechnologiesGalleryService technologiesGalleryService = new TechnologiesGalleryService(technologiesGalleryRepository);
+        // Gallery
+        Technologies technology = technologiesGalleryService.SumPowerTechnologiesGallery();
+        powerManager.Power += technology.Power;
+        powerManager.Health += technology.Health;
+        powerManager.PhysicalAttack += technology.PhysicalAttack;
+        powerManager.PhysicalDefense += technology.PhysicalDefense;
+        powerManager.MagicalAttack += technology.MagicalAttack;
+        powerManager.MagicalDefense += technology.MagicalDefense;
+        powerManager.ChemicalAttack += technology.ChemicalAttack;
+        powerManager.ChemicalDefense += technology.ChemicalDefense;
+        powerManager.AtomicAttack += technology.AtomicAttack;
+        powerManager.AtomicDefense += technology.AtomicDefense;
+        powerManager.MentalAttack += technology.MentalAttack;
+        powerManager.MentalDefense += technology.MentalDefense;
+        powerManager.Speed += technology.Speed;
+        powerManager.CriticalDamageRate += technology.CriticalDamageRate;
+        powerManager.CriticalRate += technology.CriticalRate;
+        powerManager.PenetrationRate += technology.PenetrationRate;
+        powerManager.EvasionRate += technology.EvasionRate;
+        powerManager.DamageAbsorptionRate += technology.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += technology.VitalityRegenerationRate;
+        powerManager.AccuracyRate += technology.AccuracyRate;
+        powerManager.LifestealRate += technology.LifestealRate;
+        powerManager.ShieldStrength += technology.ShieldStrength;
+        powerManager.Tenacity += technology.Tenacity;
+        powerManager.ResistanceRate += technology.ResistanceRate;
+        powerManager.ComboRate += technology.ComboRate;
+        powerManager.ReflectionRate += technology.ReflectionRate;
+        powerManager.Mana += technology.Mana;
+        powerManager.ManaRegenerationRate += technology.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += technology.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += technology.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += technology.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += technology.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += technology.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += technology.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += technology.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += technology.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += technology.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += technology.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += technology.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += technology.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += technology.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += technology.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += technology.PercentAllMentalDefense;
+
+        IUserTechnologiesRepository userTechnologiesRepository = new UserTechnologiesRepository();
+        UserTechnologiesService userTechnologiesService = new UserTechnologiesService(userTechnologiesRepository);
+        // User Technologies (Gallery)
+        technology = userTechnologiesService.SumPowerUserTechnologies(); // Giả định SumPowerUserTechnologies cũng trả về một đối tượng Technologies mới hoặc đã được reset
+        powerManager.Power += technology.Power;
+        powerManager.Health += technology.Health;
+        powerManager.PhysicalAttack += technology.PhysicalAttack;
+        powerManager.PhysicalDefense += technology.PhysicalDefense;
+        powerManager.MagicalAttack += technology.MagicalAttack;
+        powerManager.MagicalDefense += technology.MagicalDefense;
+        powerManager.ChemicalAttack += technology.ChemicalAttack;
+        powerManager.ChemicalDefense += technology.ChemicalDefense;
+        powerManager.AtomicAttack += technology.AtomicAttack;
+        powerManager.AtomicDefense += technology.AtomicDefense;
+        powerManager.MentalAttack += technology.MentalAttack;
+        powerManager.MentalDefense += technology.MentalDefense;
+        powerManager.Speed += technology.Speed;
+        powerManager.CriticalDamageRate += technology.CriticalDamageRate;
+        powerManager.CriticalRate += technology.CriticalRate;
+        powerManager.PenetrationRate += technology.PenetrationRate;
+        powerManager.EvasionRate += technology.EvasionRate;
+        powerManager.DamageAbsorptionRate += technology.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += technology.VitalityRegenerationRate;
+        powerManager.AccuracyRate += technology.AccuracyRate;
+        powerManager.LifestealRate += technology.LifestealRate;
+        powerManager.ShieldStrength += technology.ShieldStrength;
+        powerManager.Tenacity += technology.Tenacity;
+        powerManager.ResistanceRate += technology.ResistanceRate;
+        powerManager.ComboRate += technology.ComboRate;
+        powerManager.ReflectionRate += technology.ReflectionRate;
+        powerManager.Mana += technology.Mana;
+        powerManager.ManaRegenerationRate += technology.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += technology.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += technology.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += technology.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += technology.ResistanceToSameFactionRate;
+
+        ITechnologiesRepository technologiesRepository = new TechnologiesRepository();
+        TechnologiesService technologiesService = new TechnologiesService(technologiesRepository);
+        // Percent
+        technology = technologiesService.SumPowerTechnologiesPercent(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
+        powerManager.PercentAllHealth += technology.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += technology.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += technology.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += technology.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += technology.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += technology.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += technology.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += technology.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += technology.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += technology.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += technology.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetArchitecturesPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        IArchitecturesGalleryRepository architecturesGalleryRepository = new ArchitecturesGalleryRepository();
+        ArchitecturesGalleryService architecturesGalleryService = new ArchitecturesGalleryService(architecturesGalleryRepository);
+        // Gallery
+        Architectures architecture = architecturesGalleryService.SumPowerArchitecturesGallery();
+        powerManager.Power += architecture.Power;
+        powerManager.Health += architecture.Health;
+        powerManager.PhysicalAttack += architecture.PhysicalAttack;
+        powerManager.PhysicalDefense += architecture.PhysicalDefense;
+        powerManager.MagicalAttack += architecture.MagicalAttack;
+        powerManager.MagicalDefense += architecture.MagicalDefense;
+        powerManager.ChemicalAttack += architecture.ChemicalAttack;
+        powerManager.ChemicalDefense += architecture.ChemicalDefense;
+        powerManager.AtomicAttack += architecture.AtomicAttack;
+        powerManager.AtomicDefense += architecture.AtomicDefense;
+        powerManager.MentalAttack += architecture.MentalAttack;
+        powerManager.MentalDefense += architecture.MentalDefense;
+        powerManager.Speed += architecture.Speed;
+        powerManager.CriticalDamageRate += architecture.CriticalDamageRate;
+        powerManager.CriticalRate += architecture.CriticalRate;
+        powerManager.PenetrationRate += architecture.PenetrationRate;
+        powerManager.EvasionRate += architecture.EvasionRate;
+        powerManager.DamageAbsorptionRate += architecture.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += architecture.VitalityRegenerationRate;
+        powerManager.AccuracyRate += architecture.AccuracyRate;
+        powerManager.LifestealRate += architecture.LifestealRate;
+        powerManager.ShieldStrength += architecture.ShieldStrength;
+        powerManager.Tenacity += architecture.Tenacity;
+        powerManager.ResistanceRate += architecture.ResistanceRate;
+        powerManager.ComboRate += architecture.ComboRate;
+        powerManager.ReflectionRate += architecture.ReflectionRate;
+        powerManager.Mana += architecture.Mana;
+        powerManager.ManaRegenerationRate += architecture.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += architecture.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += architecture.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += architecture.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += architecture.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += architecture.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += architecture.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += architecture.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += architecture.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += architecture.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += architecture.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += architecture.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += architecture.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += architecture.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += architecture.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += architecture.PercentAllMentalDefense;
+
+        IUserArchitecturesRepository userArchitecturesRepository = new UserArchitecturesRepository();
+        UserArchitecturesService userArchitecturesService = new UserArchitecturesService(userArchitecturesRepository);
+        // User Architectures (Gallery)
+        architecture = userArchitecturesService.SumPowerUserArchitectures(); // Giả định SumPowerUserArchitectures cũng trả về một đối tượng Architectures mới hoặc đã được reset
+        powerManager.Power += architecture.Power;
+        powerManager.Health += architecture.Health;
+        powerManager.PhysicalAttack += architecture.PhysicalAttack;
+        powerManager.PhysicalDefense += architecture.PhysicalDefense;
+        powerManager.MagicalAttack += architecture.MagicalAttack;
+        powerManager.MagicalDefense += architecture.MagicalDefense;
+        powerManager.ChemicalAttack += architecture.ChemicalAttack;
+        powerManager.ChemicalDefense += architecture.ChemicalDefense;
+        powerManager.AtomicAttack += architecture.AtomicAttack;
+        powerManager.AtomicDefense += architecture.AtomicDefense;
+        powerManager.MentalAttack += architecture.MentalAttack;
+        powerManager.MentalDefense += architecture.MentalDefense;
+        powerManager.Speed += architecture.Speed;
+        powerManager.CriticalDamageRate += architecture.CriticalDamageRate;
+        powerManager.CriticalRate += architecture.CriticalRate;
+        powerManager.PenetrationRate += architecture.PenetrationRate;
+        powerManager.EvasionRate += architecture.EvasionRate;
+        powerManager.DamageAbsorptionRate += architecture.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += architecture.VitalityRegenerationRate;
+        powerManager.AccuracyRate += architecture.AccuracyRate;
+        powerManager.LifestealRate += architecture.LifestealRate;
+        powerManager.ShieldStrength += architecture.ShieldStrength;
+        powerManager.Tenacity += architecture.Tenacity;
+        powerManager.ResistanceRate += architecture.ResistanceRate;
+        powerManager.ComboRate += architecture.ComboRate;
+        powerManager.ReflectionRate += architecture.ReflectionRate;
+        powerManager.Mana += architecture.Mana;
+        powerManager.ManaRegenerationRate += architecture.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += architecture.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += architecture.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += architecture.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += architecture.ResistanceToSameFactionRate;
+
+        IArchitecturesRepository architecturesRepository = new ArchitecturesRepository();
+        ArchitecturesService architecturesService = new ArchitecturesService(architecturesRepository);
+        // Percent
+        architecture = architecturesService.SumPowerArchitecturesPercent(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
+        powerManager.PercentAllHealth += architecture.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += architecture.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += architecture.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += architecture.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += architecture.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += architecture.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += architecture.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += architecture.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += architecture.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += architecture.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += architecture.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetCoresPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        ICoresGalleryRepository coresGalleryRepository = new CoresGalleryRepository();
+        CoresGalleryService coresGalleryService = new CoresGalleryService(coresGalleryRepository);
+        // Gallery
+        Cores core = coresGalleryService.SumPowerCoresGallery();
+        powerManager.Power += core.Power;
+        powerManager.Health += core.Health;
+        powerManager.PhysicalAttack += core.PhysicalAttack;
+        powerManager.PhysicalDefense += core.PhysicalDefense;
+        powerManager.MagicalAttack += core.MagicalAttack;
+        powerManager.MagicalDefense += core.MagicalDefense;
+        powerManager.ChemicalAttack += core.ChemicalAttack;
+        powerManager.ChemicalDefense += core.ChemicalDefense;
+        powerManager.AtomicAttack += core.AtomicAttack;
+        powerManager.AtomicDefense += core.AtomicDefense;
+        powerManager.MentalAttack += core.MentalAttack;
+        powerManager.MentalDefense += core.MentalDefense;
+        powerManager.Speed += core.Speed;
+        powerManager.CriticalDamageRate += core.CriticalDamageRate;
+        powerManager.CriticalRate += core.CriticalRate;
+        powerManager.PenetrationRate += core.PenetrationRate;
+        powerManager.EvasionRate += core.EvasionRate;
+        powerManager.DamageAbsorptionRate += core.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += core.VitalityRegenerationRate;
+        powerManager.AccuracyRate += core.AccuracyRate;
+        powerManager.LifestealRate += core.LifestealRate;
+        powerManager.ShieldStrength += core.ShieldStrength;
+        powerManager.Tenacity += core.Tenacity;
+        powerManager.ResistanceRate += core.ResistanceRate;
+        powerManager.ComboRate += core.ComboRate;
+        powerManager.ReflectionRate += core.ReflectionRate;
+        powerManager.Mana += core.Mana;
+        powerManager.ManaRegenerationRate += core.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += core.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += core.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += core.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += core.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += core.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += core.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += core.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += core.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += core.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += core.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += core.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += core.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += core.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += core.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += core.PercentAllMentalDefense;
+
+        IUserCoresRepository userCoresRepository = new UserCoresRepository();
+        UserCoresService userCoresService = new UserCoresService(userCoresRepository);
+        // User Cores (Gallery)
+        core = userCoresService.SumPowerUserCores(); // Giả định SumPowerUserCores cũng trả về một đối tượng Cores mới hoặc đã được reset
+        powerManager.Power += core.Power;
+        powerManager.Health += core.Health;
+        powerManager.PhysicalAttack += core.PhysicalAttack;
+        powerManager.PhysicalDefense += core.PhysicalDefense;
+        powerManager.MagicalAttack += core.MagicalAttack;
+        powerManager.MagicalDefense += core.MagicalDefense;
+        powerManager.ChemicalAttack += core.ChemicalAttack;
+        powerManager.ChemicalDefense += core.ChemicalDefense;
+        powerManager.AtomicAttack += core.AtomicAttack;
+        powerManager.AtomicDefense += core.AtomicDefense;
+        powerManager.MentalAttack += core.MentalAttack;
+        powerManager.MentalDefense += core.MentalDefense;
+        powerManager.Speed += core.Speed;
+        powerManager.CriticalDamageRate += core.CriticalDamageRate;
+        powerManager.CriticalRate += core.CriticalRate;
+        powerManager.PenetrationRate += core.PenetrationRate;
+        powerManager.EvasionRate += core.EvasionRate;
+        powerManager.DamageAbsorptionRate += core.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += core.VitalityRegenerationRate;
+        powerManager.AccuracyRate += core.AccuracyRate;
+        powerManager.LifestealRate += core.LifestealRate;
+        powerManager.ShieldStrength += core.ShieldStrength;
+        powerManager.Tenacity += core.Tenacity;
+        powerManager.ResistanceRate += core.ResistanceRate;
+        powerManager.ComboRate += core.ComboRate;
+        powerManager.ReflectionRate += core.ReflectionRate;
+        powerManager.Mana += core.Mana;
+        powerManager.ManaRegenerationRate += core.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += core.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += core.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += core.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += core.ResistanceToSameFactionRate;
+
+        ICoresRepository coresRepository = new CoresRepository();
+        CoresService coresService = new CoresService(coresRepository);
+        // Percent
+        core = coresService.SumPowerCoresPercent(); // Giả định SumPowerCoresPercent cũng trả về một đối tượng Cores mới hoặc đã được reset
+        powerManager.PercentAllHealth += core.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += core.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += core.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += core.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += core.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += core.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += core.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += core.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += core.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += core.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += core.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetWeaponsPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        IWeaponsGalleryRepository weaponsGalleryRepository = new WeaponsGalleryRepository();
+        WeaponsGalleryService weaponsGalleryService = new WeaponsGalleryService(weaponsGalleryRepository);
+        // Gallery
+        Weapons weapon = weaponsGalleryService.SumPowerWeaponsGallery();
+        powerManager.Power += weapon.Power;
+        powerManager.Health += weapon.Health;
+        powerManager.PhysicalAttack += weapon.PhysicalAttack;
+        powerManager.PhysicalDefense += weapon.PhysicalDefense;
+        powerManager.MagicalAttack += weapon.MagicalAttack;
+        powerManager.MagicalDefense += weapon.MagicalDefense;
+        powerManager.ChemicalAttack += weapon.ChemicalAttack;
+        powerManager.ChemicalDefense += weapon.ChemicalDefense;
+        powerManager.AtomicAttack += weapon.AtomicAttack;
+        powerManager.AtomicDefense += weapon.AtomicDefense;
+        powerManager.MentalAttack += weapon.MentalAttack;
+        powerManager.MentalDefense += weapon.MentalDefense;
+        powerManager.Speed += weapon.Speed;
+        powerManager.CriticalDamageRate += weapon.CriticalDamageRate;
+        powerManager.CriticalRate += weapon.CriticalRate;
+        powerManager.PenetrationRate += weapon.PenetrationRate;
+        powerManager.EvasionRate += weapon.EvasionRate;
+        powerManager.DamageAbsorptionRate += weapon.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += weapon.VitalityRegenerationRate;
+        powerManager.AccuracyRate += weapon.AccuracyRate;
+        powerManager.LifestealRate += weapon.LifestealRate;
+        powerManager.ShieldStrength += weapon.ShieldStrength;
+        powerManager.Tenacity += weapon.Tenacity;
+        powerManager.ResistanceRate += weapon.ResistanceRate;
+        powerManager.ComboRate += weapon.ComboRate;
+        powerManager.ReflectionRate += weapon.ReflectionRate;
+        powerManager.Mana += weapon.Mana;
+        powerManager.ManaRegenerationRate += weapon.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += weapon.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += weapon.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += weapon.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += weapon.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += weapon.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += weapon.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += weapon.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += weapon.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += weapon.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += weapon.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += weapon.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += weapon.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += weapon.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += weapon.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += weapon.PercentAllMentalDefense;
+
+        IUserWeaponsRepository userWeaponsRepository = new UserWeaponsRepository();
+        UserWeaponsService userWeaponsService = new UserWeaponsService(userWeaponsRepository);
+        // User Weapons (Gallery)
+        weapon = userWeaponsService.SumPowerUserWeapons(); // Giả định SumPowerUserWeapons cũng trả về một đối tượng Weapons mới hoặc đã được reset
+        powerManager.Power += weapon.Power;
+        powerManager.Health += weapon.Health;
+        powerManager.PhysicalAttack += weapon.PhysicalAttack;
+        powerManager.PhysicalDefense += weapon.PhysicalDefense;
+        powerManager.MagicalAttack += weapon.MagicalAttack;
+        powerManager.MagicalDefense += weapon.MagicalDefense;
+        powerManager.ChemicalAttack += weapon.ChemicalAttack;
+        powerManager.ChemicalDefense += weapon.ChemicalDefense;
+        powerManager.AtomicAttack += weapon.AtomicAttack;
+        powerManager.AtomicDefense += weapon.AtomicDefense;
+        powerManager.MentalAttack += weapon.MentalAttack;
+        powerManager.MentalDefense += weapon.MentalDefense;
+        powerManager.Speed += weapon.Speed;
+        powerManager.CriticalDamageRate += weapon.CriticalDamageRate;
+        powerManager.CriticalRate += weapon.CriticalRate;
+        powerManager.PenetrationRate += weapon.PenetrationRate;
+        powerManager.EvasionRate += weapon.EvasionRate;
+        powerManager.DamageAbsorptionRate += weapon.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += weapon.VitalityRegenerationRate;
+        powerManager.AccuracyRate += weapon.AccuracyRate;
+        powerManager.LifestealRate += weapon.LifestealRate;
+        powerManager.ShieldStrength += weapon.ShieldStrength;
+        powerManager.Tenacity += weapon.Tenacity;
+        powerManager.ResistanceRate += weapon.ResistanceRate;
+        powerManager.ComboRate += weapon.ComboRate;
+        powerManager.ReflectionRate += weapon.ReflectionRate;
+        powerManager.Mana += weapon.Mana;
+        powerManager.ManaRegenerationRate += weapon.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += weapon.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += weapon.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += weapon.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += weapon.ResistanceToSameFactionRate;
+
+        IWeaponsRepository weaponsRepository = new WeaponsRepository();
+        WeaponsService weaponsService = new WeaponsService(weaponsRepository);
+        // Percent
+        weapon = weaponsService.SumPowerWeaponsPercent(); // Giả định SumPowerWeaponsPercent cũng trả về một đối tượng Weapons mới hoặc đã được reset
+        powerManager.PercentAllHealth += weapon.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += weapon.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += weapon.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += weapon.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += weapon.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += weapon.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += weapon.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += weapon.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += weapon.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += weapon.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += weapon.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetRobotsPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        IRobotsGalleryRepository robotsGalleryRepository = new RobotsGalleryRepository();
+        RobotsGalleryService robotsGalleryService = new RobotsGalleryService(robotsGalleryRepository);
+        // Gallery
+        Robots robot = robotsGalleryService.SumPowerRobotsGallery();
+        powerManager.Power += robot.Power;
+        powerManager.Health += robot.Health;
+        powerManager.PhysicalAttack += robot.PhysicalAttack;
+        powerManager.PhysicalDefense += robot.PhysicalDefense;
+        powerManager.MagicalAttack += robot.MagicalAttack;
+        powerManager.MagicalDefense += robot.MagicalDefense;
+        powerManager.ChemicalAttack += robot.ChemicalAttack;
+        powerManager.ChemicalDefense += robot.ChemicalDefense;
+        powerManager.AtomicAttack += robot.AtomicAttack;
+        powerManager.AtomicDefense += robot.AtomicDefense;
+        powerManager.MentalAttack += robot.MentalAttack;
+        powerManager.MentalDefense += robot.MentalDefense;
+        powerManager.Speed += robot.Speed;
+        powerManager.CriticalDamageRate += robot.CriticalDamageRate;
+        powerManager.CriticalRate += robot.CriticalRate;
+        powerManager.PenetrationRate += robot.PenetrationRate;
+        powerManager.EvasionRate += robot.EvasionRate;
+        powerManager.DamageAbsorptionRate += robot.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += robot.VitalityRegenerationRate;
+        powerManager.AccuracyRate += robot.AccuracyRate;
+        powerManager.LifestealRate += robot.LifestealRate;
+        powerManager.ShieldStrength += robot.ShieldStrength;
+        powerManager.Tenacity += robot.Tenacity;
+        powerManager.ResistanceRate += robot.ResistanceRate;
+        powerManager.ComboRate += robot.ComboRate;
+        powerManager.ReflectionRate += robot.ReflectionRate;
+        powerManager.Mana += robot.Mana;
+        powerManager.ManaRegenerationRate += robot.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += robot.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += robot.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += robot.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += robot.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += robot.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += robot.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += robot.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += robot.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += robot.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += robot.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += robot.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += robot.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += robot.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += robot.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += robot.PercentAllMentalDefense;
+
+        IUserRobotsRepository userRobotsRepository = new UserRobotsRepository();
+        UserRobotsService userRobotsService = new UserRobotsService(userRobotsRepository);
+        // User Robots (Gallery)
+        robot = userRobotsService.SumPowerUserRobots(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
+        powerManager.Power += robot.Power;
+        powerManager.Health += robot.Health;
+        powerManager.PhysicalAttack += robot.PhysicalAttack;
+        powerManager.PhysicalDefense += robot.PhysicalDefense;
+        powerManager.MagicalAttack += robot.MagicalAttack;
+        powerManager.MagicalDefense += robot.MagicalDefense;
+        powerManager.ChemicalAttack += robot.ChemicalAttack;
+        powerManager.ChemicalDefense += robot.ChemicalDefense;
+        powerManager.AtomicAttack += robot.AtomicAttack;
+        powerManager.AtomicDefense += robot.AtomicDefense;
+        powerManager.MentalAttack += robot.MentalAttack;
+        powerManager.MentalDefense += robot.MentalDefense;
+        powerManager.Speed += robot.Speed;
+        powerManager.CriticalDamageRate += robot.CriticalDamageRate;
+        powerManager.CriticalRate += robot.CriticalRate;
+        powerManager.PenetrationRate += robot.PenetrationRate;
+        powerManager.EvasionRate += robot.EvasionRate;
+        powerManager.DamageAbsorptionRate += robot.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += robot.VitalityRegenerationRate;
+        powerManager.AccuracyRate += robot.AccuracyRate;
+        powerManager.LifestealRate += robot.LifestealRate;
+        powerManager.ShieldStrength += robot.ShieldStrength;
+        powerManager.Tenacity += robot.Tenacity;
+        powerManager.ResistanceRate += robot.ResistanceRate;
+        powerManager.ComboRate += robot.ComboRate;
+        powerManager.ReflectionRate += robot.ReflectionRate;
+        powerManager.Mana += robot.Mana;
+        powerManager.ManaRegenerationRate += robot.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += robot.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += robot.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += robot.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += robot.ResistanceToSameFactionRate;
+
+        IRobotsRepository robotsRepository = new RobotsRepository();
+        RobotsService robotsService = new RobotsService(robotsRepository);
+        // Percent
+        robot = robotsService.SumPowerRobotsPercent(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
+        powerManager.PercentAllHealth += robot.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += robot.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += robot.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += robot.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += robot.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += robot.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += robot.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += robot.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += robot.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += robot.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += robot.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
 }

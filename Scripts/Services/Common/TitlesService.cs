@@ -14,9 +14,9 @@ public class TitlesService : ITitlesService
         return new TitlesService(new TitlesRepository());
     }
 
-    public List<Titles> GetTitles(int pageSize, int offset, string rare)
+    public List<Architectures> GetTitles(int pageSize, int offset, string rare)
     {
-        List<Titles> list = _titlesRepository.GetTitles(pageSize, offset, rare);
+        List<Architectures> list = _titlesRepository.GetTitles(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -26,9 +26,9 @@ public class TitlesService : ITitlesService
         return _titlesRepository.GetTitlesCount(rare);
     }
 
-    public List<Titles> GetTitlesWithPrice(int pageSize, int offset)
+    public List<Architectures> GetTitlesWithPrice(int pageSize, int offset)
     {
-        List<Titles> list = _titlesRepository.GetTitlesWithPrice(pageSize, offset);
+        List<Architectures> list = _titlesRepository.GetTitlesWithPrice(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,12 +38,12 @@ public class TitlesService : ITitlesService
         return _titlesRepository.GetTitlesWithPriceCount();
     }
 
-    public Titles GetTitlesById(string Id)
+    public Architectures GetTitlesById(string Id)
     {
         return _titlesRepository.GetTitlesById(Id);
     }
 
-    public Titles SumPowerTitlesPercent()
+    public Architectures SumPowerTitlesPercent()
     {
         return _titlesRepository.SumPowerTitlesPercent();
     }

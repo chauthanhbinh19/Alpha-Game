@@ -17,7 +17,7 @@ public class UserVehicleRepository : IUserVehicleRepository
             try
             {
                 connection.Open();
-                string query = @"Select um.*, m.id, m.name, m.image, m.rare, m.description from Vehicle m, user_Vehicle um 
+                string query = @"Select um.*, m.id, m.name, m.image, m.rare, m.description from Vehicles m, user_Vehicles um 
                 where m.id=um.Vehicle_id and um.user_id=@userId and m.type=@type AND (@rare = 'All' or m.rare = @rare)
                 ORDER BY m.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -129,7 +129,7 @@ public class UserVehicleRepository : IUserVehicleRepository
             try
             {
                 connection.Open();
-                string query = @"Select count(*) from Vehicle m, user_Vehicle um 
+                string query = @"Select count(*) from Vehicles m, user_Vehicles um 
                 where m.id=um.Vehicle_id and um.user_id=@userId and m.type= @type AND (@rare = 'All' or m.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -161,7 +161,7 @@ public class UserVehicleRepository : IUserVehicleRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Vehicle 
+                SELECT COUNT(*) FROM user_Vehicles 
                 WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
@@ -172,7 +172,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 if (count == 0)
                 {
                     string query = @"
-                    INSERT INTO user_Vehicle (
+                    INSERT INTO user_Vehicles (
                     user_id, Vehicle_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
@@ -294,7 +294,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
-                    UPDATE user_Vehicle
+                    UPDATE user_Vehicles
                     SET quantity = @quantity
                     WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;";
 
@@ -329,7 +329,7 @@ public class UserVehicleRepository : IUserVehicleRepository
             {
                 connection.Open();
                 string query = @"
-                UPDATE user_Vehicle
+                UPDATE user_Vehicles
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -434,7 +434,7 @@ public class UserVehicleRepository : IUserVehicleRepository
             {
                 connection.Open();
                 string query = @"
-                UPDATE user_Vehicle
+                UPDATE user_Vehicles
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -540,8 +540,8 @@ public class UserVehicleRepository : IUserVehicleRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from user_Vehicle where Vehicle_id=@id 
-                and user_Vehicle.user_id=@user_id";
+                string query = @"Select * from user_Vehicles where Vehicle_id=@id 
+                and user_Vehicles.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
                 command.Parameters.AddWithValue("@user_id", user_id);
@@ -679,7 +679,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                 SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                 SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-            FROM user_Vehicle
+            FROM user_Vehicles
             WHERE user_id = @user_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);

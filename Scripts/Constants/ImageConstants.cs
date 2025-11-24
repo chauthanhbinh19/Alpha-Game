@@ -487,4 +487,9 @@ public static class ImageConstants
         public const string ADVANCED_BUTTON_SET_3_URL = "UI/Background4/Card/Geometric_3";
         public const string ADVANCED_BUTTON_SET_4_URL = "UI/Background4/Card/Geometric_4";
     }
+    public static class Icon
+    {
+        public const string ICON_UNACTIVE_URL = "UI/Icon/dry-clean";
+        public const string ICON_ACTIVE_URL = "UI/Icon/Circle";
+    }
 }

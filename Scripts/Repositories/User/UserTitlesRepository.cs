@@ -7,9 +7,9 @@ using System.Xml.Linq;
 
 public class UserTitlesRepository : IUserTitlesRepository
 {
-    public List<Titles> GetUserTitles(string user_id, int pageSize, int offset, string rare)
+    public List<Architectures> GetUserTitles(string user_id, int pageSize, int offset, string rare)
     {
-        List<Titles> titlesList = new List<Titles>();
+        List<Architectures> titlesList = new List<Architectures>();
         // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -28,7 +28,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Titles title = new Titles
+                    Architectures title = new Architectures
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -148,7 +148,7 @@ public class UserTitlesRepository : IUserTitlesRepository
         }
         return count;
     }
-    public bool InsertUserTitles(Titles titles)
+    public bool InsertUserTitles(Architectures titles)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -297,7 +297,7 @@ public class UserTitlesRepository : IUserTitlesRepository
         }
         return true;
     }
-    public bool UpdateTitlesLevel(Titles titles, int cardLevel)
+    public bool UpdateTitlesLevel(Architectures titles, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -402,7 +402,7 @@ public class UserTitlesRepository : IUserTitlesRepository
         }
         return true;
     }
-    public bool UpdateTitlesBreakthrough(Titles titles, int star, double quantity)
+    public bool UpdateTitlesBreakthrough(Architectures titles, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -508,9 +508,9 @@ public class UserTitlesRepository : IUserTitlesRepository
         }
         return true;
     }
-    public Titles GetUserTitlesById(string user_id, string Id)
+    public Architectures GetUserTitlesById(string user_id, string Id)
     {
-        Titles card = new Titles();
+        Architectures card = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -525,7 +525,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    card = new Titles
+                    card = new Architectures
                     {
                         Id = reader.GetString("title_id"),
                         Level = reader.GetInt32("level"),
@@ -597,9 +597,9 @@ public class UserTitlesRepository : IUserTitlesRepository
         }
         return card;
     }
-    public Titles SumPowerUserTitles()
+    public Architectures SumPowerUserTitles()
     {
-        Titles sumTitles = new Titles();
+        Architectures sumTitles = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

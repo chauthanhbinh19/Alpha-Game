@@ -99,9 +99,9 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(29, AppConstants.MainType.ARCHITECTURES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ARCHITECTURE_URL), contentPanel);
         CreateButton(30, AppConstants.MainType.TECHONOLOGIES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.TECHNOLOGY_URL), contentPanel);
         CreateButton(31, AppConstants.MainType.VEHICLES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.VEHICLE_URL), contentPanel);
-
-        
-
+        CreateButton(32, AppConstants.MainType.CORES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.CORE_URL), contentPanel);
+        CreateButton(33, AppConstants.MainType.WEAPONS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.WEAPON_URL), contentPanel);
+        CreateButton(34, AppConstants.MainType.ROBOTS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ROBOT_URL), contentPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
         // CreateButton(2, AppConstants.MainType.CHAT, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.CHAT_URL), mainMenuSubButtonGroupPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
@@ -369,6 +369,9 @@ public class ButtonLoader : MonoBehaviour
         CreateGalleryButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ARCHITECTURE_URL), galleryMenuPanel);
         CreateGalleryButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.TECHNOLOGY_URL), galleryMenuPanel);
         CreateGalleryButtonUI(34, AppDisplayConstants.Gallery.VEHICLES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.VEHICLE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(35, AppDisplayConstants.Gallery.CORES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CORE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(36, AppDisplayConstants.Gallery.WEAPONS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.WEAPON_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(37, AppDisplayConstants.Gallery.ROBOTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ROBOT_URL), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -438,6 +441,9 @@ public class ButtonLoader : MonoBehaviour
         CreateCollectionButtonUI(32, AppDisplayConstants.Collection.ARCHITECTURES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ARCHITECTURE_URL), collectionMenuPanel);
         CreateCollectionButtonUI(33, AppDisplayConstants.Collection.TECHNOLOGIES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.TECHNOLOGY_URL), collectionMenuPanel);
         CreateCollectionButtonUI(34, AppDisplayConstants.Collection.VEHICLES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.VEHICLE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(35, AppDisplayConstants.Collection.CORES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CORE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(36, AppDisplayConstants.Collection.WEAPOMS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.WEAPON_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(37, AppDisplayConstants.Collection.ROBOTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ROBOT_URL), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

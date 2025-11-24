@@ -308,7 +308,7 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SYMBOL);
             });
         }
-        else if (data is Titles title)
+        else if (data is Architectures title)
         {
             // Xử lý đối tượng Title
             mainType = "Titles";

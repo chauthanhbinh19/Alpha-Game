@@ -42,7 +42,7 @@ public class TitlesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateTitlesGallery(List<Titles> titlesList, Transform DictionaryContentPanel)
+    public void CreateTitlesGallery(List<Architectures> titlesList, Transform DictionaryContentPanel)
     {
         foreach (var title in titlesList)
         {
@@ -80,7 +80,7 @@ public class TitlesController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateTitlesTrade(List<Titles> titlesList, string subType, Transform currentContent,
+    public void CreateTitlesTrade(List<Architectures> titlesList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var title in titlesList)
@@ -247,12 +247,12 @@ public class TitlesController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Titles titles)
+            if (obj is Architectures titles)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(titles.Currency.Id);
+                userCurrency = UserCurrencyService.Create().GetUserCurrencyById((string)titles.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -261,7 +261,7 @@ public class TitlesController : MonoBehaviour
             quantityText.text = max.ToString();
             priceText.text = price.ToString();
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        });
+        }));
         minButton.onClick.AddListener(() =>
         {
             quantityText.text = "1";
@@ -274,16 +274,16 @@ public class TitlesController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
-        confirmButton.onClick.AddListener(() =>
+        confirmButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Titles titles)
+            if (obj is Architectures titles)
             {
                 titles.Quantity = titles.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(titles.Currency.Id, price);
+                UserCurrencyService.Create().UpdateUserCurrency((string)titles.Currency.Id, price);
                 bool success = UserTitlesService.Create().InsertUserTitles(titles);
                 if (!success)
                 {
@@ -297,9 +297,9 @@ public class TitlesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    TitlesGalleryService.Create().InsertTitlesGallery(titles.Id);
+                    TitlesGalleryService.Create().InsertTitlesGallery((string)titles.Id);
                     currencies = UserCurrencyService.Create().GetTitlesCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(titles.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension((string)titles.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
@@ -329,6 +329,6 @@ public class TitlesController : MonoBehaviour
                     FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
                 }
             }
-        });
+        }));
     }
 }

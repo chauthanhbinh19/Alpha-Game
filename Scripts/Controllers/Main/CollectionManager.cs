@@ -80,6 +80,9 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_32", () => GetType(AppConstants.MainType.ARCHITECTURE));
         AssignButtonEvent("Button_33", () => GetType(AppConstants.MainType.TECHNOLOGY));
         AssignButtonEvent("Button_34", () => GetType(AppConstants.MainType.VEHICLE));
+        AssignButtonEvent("Button_35", () => GetType(AppConstants.MainType.CORE));
+        AssignButtonEvent("Button_36", () => GetType(AppConstants.MainType.WEAPON));
+        AssignButtonEvent("Button_37", () => GetType(AppConstants.MainType.ROBOT));
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
     {
@@ -238,7 +241,7 @@ public class CollectionManager : MonoBehaviour
             else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
                 var titlesGalleryService = TitlesGalleryService.Create();
-                List<Titles> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
+                List<Architectures> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
                 TitlesGalleryController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
 
                 totalRecord = titlesGalleryService.GetTitlesCount(rare);
@@ -298,6 +301,30 @@ public class CollectionManager : MonoBehaviour
                 TechnologiesGalleryController.Instance.CreateTechnologiesGallery(technologies, DictionaryContentPanel);
 
                 totalRecord = technologiesGalleryService.GetTechnologiesCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.CORE))
+            {
+                var coresGalleryService = CoresGalleryService.Create();
+                List<Cores> cores = coresGalleryService.GetCoresCollection(pageSize, offset, rare);
+                CoresGalleryController.Instance.CreateCoresGallery(cores, DictionaryContentPanel);
+
+                totalRecord = coresGalleryService.GetCoresCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.WEAPON))
+            {
+                var weaponsGalleryService = WeaponsGalleryService.Create();
+                List<Weapons> weapons = weaponsGalleryService.GetWeaponsCollection(pageSize, offset, rare);
+                WeaponsGalleryController.Instance.CreateWeaponsGallery(weapons, DictionaryContentPanel);
+
+                totalRecord = weaponsGalleryService.GetWeaponsCount(rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.ROBOT))
+            {
+                var robotsGalleryService = RobotsGalleryService.Create();
+                List<Robots> robots = robotsGalleryService.GetRobotsCollection(pageSize, offset, rare);
+                RobotsGalleryController.Instance.CreateRobotsGallery(robots, DictionaryContentPanel);
+
+                totalRecord = robotsGalleryService.GetRobotsCount(rare);
             }
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -466,7 +493,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
             var titlesGalleryService = TitlesGalleryService.Create();
-            List<Titles> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
+            List<Architectures> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
             TitlesGalleryController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
 
             totalRecord = titlesGalleryService.GetTitlesCount(rare);
@@ -638,6 +665,30 @@ public class CollectionManager : MonoBehaviour
             VehiclesGalleryController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
 
             totalRecord = vehiclesGalleryService.GetVehiclesCount(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CORE))
+        {
+            var coresGalleryService = CoresGalleryService.Create();
+            List<Cores> cores = coresGalleryService.GetCoresCollection(pageSize, offset, rare);
+            CoresGalleryController.Instance.CreateCoresGallery(cores, DictionaryContentPanel);
+
+            totalRecord = coresGalleryService.GetCoresCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.WEAPON))
+        {
+            var weaponsGalleryService = WeaponsGalleryService.Create();
+            List<Weapons> weapons = weaponsGalleryService.GetWeaponsCollection(pageSize, offset, rare);
+            WeaponsGalleryController.Instance.CreateWeaponsGallery(weapons, DictionaryContentPanel);
+
+            totalRecord = weaponsGalleryService.GetWeaponsCount(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.ROBOT))
+        {
+            var robotsGalleryService = RobotsGalleryService.Create();
+            List<Robots> robots = robotsGalleryService.GetRobotsCollection(pageSize, offset, rare);
+            RobotsGalleryController.Instance.CreateRobotsGallery(robots, DictionaryContentPanel);
+
+            totalRecord = robotsGalleryService.GetRobotsCount(rare);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

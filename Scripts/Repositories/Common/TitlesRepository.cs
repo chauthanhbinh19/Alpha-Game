@@ -25,9 +25,9 @@ public class TitlesRepository : ITitlesRepository
         }
         return typeList;
     }
-    public List<Titles> GetTitles(int pageSize, int offset, string rare)
+    public List<Architectures> GetTitles(int pageSize, int offset, string rare)
     {
-        List<Titles> titlesList = new List<Titles>();
+        List<Architectures> titlesList = new List<Architectures>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -43,7 +43,7 @@ public class TitlesRepository : ITitlesRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Titles title = new Titles
+                    Architectures title = new Architectures
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -149,9 +149,9 @@ public class TitlesRepository : ITitlesRepository
         }
         return count;
     }
-    public List<Titles> GetTitlesWithPrice(int pageSize, int offset)
+    public List<Architectures> GetTitlesWithPrice(int pageSize, int offset)
     {
-        List<Titles> titlesList = new List<Titles>();
+        List<Architectures> titlesList = new List<Architectures>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -168,7 +168,7 @@ public class TitlesRepository : ITitlesRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Titles title = new Titles
+                    Architectures title = new Architectures
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -281,9 +281,9 @@ public class TitlesRepository : ITitlesRepository
         }
         return count;
     }
-    public Titles GetTitlesById(string Id)
+    public Architectures GetTitlesById(string Id)
     {
-        Titles titles = new Titles();
+        Architectures titles = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -296,7 +296,7 @@ public class TitlesRepository : ITitlesRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    titles = new Titles
+                    titles = new Architectures
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -366,9 +366,9 @@ public class TitlesRepository : ITitlesRepository
         }
         return titles;
     }
-    public Titles SumPowerTitlesPercent()
+    public Architectures SumPowerTitlesPercent()
     {
-        Titles sumTitles = new Titles();
+        Architectures sumTitles = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

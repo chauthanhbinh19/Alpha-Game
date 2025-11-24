@@ -18,7 +18,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             {
                 connection.Open();
                 string query = @"Select ut.*, t.id, t.name, t.image, t.rare, t.description from Weapons t, user_Weapons ut 
-                where t.id=ut.card_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)
+                where t.id=ut.weapon_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -129,7 +129,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             {
                 connection.Open();
                 string query = @"Select count(*) from Weapons t, user_Weapons ut 
-                where t.id=ut.card_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)";
+                where t.id=ut.weapon_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@rare", rare);
@@ -160,18 +160,18 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) FROM user_Weapons 
-                WHERE user_id = @user_id AND card_id = @card_id;";
+                WHERE user_id = @user_id AND weapon_id = @weapon_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@card_id", Weapons.Id);
+                checkCommand.Parameters.AddWithValue("@weapon_id", Weapons.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
                 if (count == 0)
                 {
                     string query = @"
                 INSERT INTO user_Weapons (
-                    user_id, card_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, weapon_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -188,7 +188,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @card_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @weapon_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -207,7 +207,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@card_id", Weapons.Id);
+                    command.Parameters.AddWithValue("@weapon_id", Weapons.Id);
                     command.Parameters.AddWithValue("@rare", Weapons.Rare);
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
@@ -273,11 +273,11 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     string updateQuery = @"
                     UPDATE user_Weapons
                     SET quantity = @quantity
-                    WHERE user_id = @user_id AND card_id = @card_id;";
+                    WHERE user_id = @user_id AND weapon_id = @weapon_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@card_id", Weapons.Id);
+                    updateCommand.Parameters.AddWithValue("@weapon_id", Weapons.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", Weapons.Quantity);
 
                     updateCommand.ExecuteNonQuery();
@@ -333,10 +333,10 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND card_id = @card_id;";
+                WHERE user_id = @user_id AND weapon_id = @weapon_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_id", Weapons.Id);
+                command.Parameters.AddWithValue("@weapon_id", Weapons.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
                 command.Parameters.AddWithValue("@power", Weapons.Power);
                 command.Parameters.AddWithValue("@health", Weapons.Health);
@@ -438,10 +438,10 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND card_id = @card_id;";
+                WHERE user_id = @user_id AND weapon_id = @weapon_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_id", Weapons.Id);
+                command.Parameters.AddWithValue("@weapon_id", Weapons.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
                 command.Parameters.AddWithValue("@power", Weapons.Power);
@@ -517,7 +517,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             try
             {
                 connection.Open();
-                string query = @"Select * from user_Weapons where user_Weapons.card_id=@id 
+                string query = @"Select * from user_Weapons where user_Weapons.weapon_id=@id 
                 and user_Weapons.user_id=@user_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
@@ -527,7 +527,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 {
                     card = new Weapons
                     {
-                        Id = reader.GetString("card_id"),
+                        Id = reader.GetString("weapon_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
                         Experiment = reader.GetDouble("experiment"),

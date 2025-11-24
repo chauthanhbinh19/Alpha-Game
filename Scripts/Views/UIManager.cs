@@ -38,8 +38,15 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuCampaignPanel;
     [Header("Profile")]
     public GameObject ProfilePanelPrefab;
+    [Header("Setting")]
+    public GameObject SettingPanelPrefab;
+    public GameObject SettingButtonPrefab;
+    [Header("Language")]
+    public GameObject LanguageButtonPrefab;
     [Header("Edit Name")]
     public GameObject EditNamePanelPrefab;
+    [Header("Currency")]
+    public GameObject CurrencyPanelPrefab;
     [Header("Feature")]
     public GameObject FeaturePanelPrefab;
     public GameObject FeatureButtonPrefab;
@@ -651,6 +658,16 @@ public class UIManager : MonoBehaviour
                 return ProfilePanelPrefab;
         }
     }
+    public GameObject GetCurrencyPanel(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "CurrencyPanelPrefab":
+                return CurrencyPanelPrefab;
+            default:
+                return CurrencyPanelPrefab;
+        }
+    }
     public GameObject GetEditNamePanel(string prefabName)
     {
         switch (prefabName)
@@ -659,6 +676,28 @@ public class UIManager : MonoBehaviour
                 return EditNamePanelPrefab;
             default:
                 return EditNamePanelPrefab;
+        }
+    }
+    public GameObject GetLanguagePanel(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "LanguageButtonPrefab":
+                return LanguageButtonPrefab;
+            default:
+                return LanguageButtonPrefab;
+        }
+    }
+    public GameObject GetSettingPanel(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "SettingPanelPrefab":
+                return SettingPanelPrefab;
+            case "SettingButtonPrefab":
+                return SettingButtonPrefab;
+            default:
+                return SettingPanelPrefab;
         }
     }
     public GameObject GetGameObjectMainMenu1(string prefabName)

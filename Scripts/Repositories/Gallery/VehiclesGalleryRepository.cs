@@ -18,7 +18,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             {
                 connection.Open();
                 string query = @"SELECT t.*, tg.current_star, tg.temp_star, CASE WHEN tg.vehicle_id IS NULL THEN 'block' WHEN tg.status = 'pending' THEN 'pending' WHEN tg.status = 'available' THEN 'available' END AS status 
-                FROM vehicles t LEFT JOIN vehicle_gallery tg ON t.id = tg.vehicle_id and tg.user_id = @userId 
+                FROM vehicles t LEFT JOIN vehicles_gallery tg ON t.id = tg.vehicle_id and tg.user_id = @userId 
                 Where t.type=@type AND (@rare = 'All' or t.rare = @rare)
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -129,7 +129,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             try
             {
                 connection.Open();
-                string query = "Select count(*) from vehicle Where type= @type AND (@rare = 'All' or rare = @rare)";
+                string query = "Select count(*) from vehicles Where type= @type AND (@rare = 'All' or rare = @rare)";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
@@ -162,7 +162,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM vehicle_gallery 
+                FROM vehicles_gallery 
                 WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
@@ -174,7 +174,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
                 if (recordCount == 0)
                 {
                     string query = @"
-                    INSERT INTO vehicle_gallery (
+                    INSERT INTO vehicles_gallery (
                         user_id, vehicle_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate, 
@@ -300,7 +300,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             try
             {
                 connection.Open();
-                string query = "update vehicle_gallery set status=@status where user_id=@user_id and vehicle=@vehicle_id";
+                string query = "update vehicles_gallery set status=@status where user_id=@user_id and vehicle=@vehicle_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@vehicle_id", Id);
@@ -328,7 +328,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM vehicle_gallery 
+                FROM vehicles_gallery 
                 WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
@@ -342,7 +342,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
                     var tempStar = reader.GetDouble("temp_star");
                     if (tempStar < star)
                     {
-                        string updateQuery = @"update vehicle_gallery 
+                        string updateQuery = @"update vehicles_gallery 
                         set temp_star=@temp_star 
                         where user_id=@user_id and vehicle_id=@vehicle_id";
 
@@ -372,7 +372,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"UPDATE vehicle_gallery
+                string query = @"UPDATE vehicles_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -567,7 +567,7 @@ public class VehicleGalleryRepository : IVehicleGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
-            FROM vehicle_gallery 
+            FROM vehicles_gallery 
             WHERE user_id = @user_id AND status = 'available';
             ";
                 MySqlCommand command = new MySqlCommand(query, connection);

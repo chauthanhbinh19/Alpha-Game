@@ -64,6 +64,7 @@ public class AuthenticationManager : MonoBehaviour
 
         
         CheckLoggedIn();
+        
     }
     public void CheckLoggedIn()
     {
@@ -129,7 +130,7 @@ public class AuthenticationManager : MonoBehaviour
                 CreateCreateNamePanel(username, password);
                 // signInPanel.SetActive(false);
             }
-
+            CheckLoggedIn();
             PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
         }
         else

@@ -17,8 +17,8 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT t.*, tg.current_star, tg.temp_star, CASE WHEN tg.card_id IS NULL THEN 'block' WHEN tg.status = 'pending' THEN 'pending' WHEN tg.status = 'available' THEN 'available' END AS status 
-                FROM Weapons t LEFT JOIN Weapons_gallery tg ON t.id = tg.card_id and tg.user_id = @userId 
+                string query = @"SELECT t.*, tg.current_star, tg.temp_star, CASE WHEN tg.weapon_id IS NULL THEN 'block' WHEN tg.status = 'pending' THEN 'pending' WHEN tg.status = 'available' THEN 'available' END AS status 
+                FROM Weapons t LEFT JOIN Weapons_gallery tg ON t.id = tg.weapon_id and tg.user_id = @userId 
                 Where (@rare = 'All' or t.rare = @rare)
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset";
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -160,11 +160,11 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM Weapons_gallery 
-                WHERE user_id = @user_id AND card_id = @card_id;
+                WHERE user_id = @user_id AND weapon_id = @weapon_id;
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@card_id", Id);
+                checkCommand.Parameters.AddWithValue("@weapon_id", Id);
 
                 int recordCount = Convert.ToInt32(checkCommand.ExecuteScalar());
 
@@ -172,7 +172,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
                 {
                     string query = @"
                     INSERT INTO Weapons_gallery (
-                        user_id, card_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                        user_id, weapon_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate, 
                         penetration_rate, penetration_resistance_rate, evasion_rate, 
@@ -189,7 +189,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @card_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @weapon_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate, 
                         @penetration_rate, @penetration_resistance_rate, @evasion_rate, 
@@ -210,7 +210,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
 
                     MySqlCommand command = new MySqlCommand(query, connection);
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@card_id", Id);
+                    command.Parameters.AddWithValue("@weapon_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -297,10 +297,10 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             try
             {
                 connection.Open();
-                string query = "update Weapons_gallery set status=@status where user_id=@user_id and card_id=@card_id";
+                string query = "update Weapons_gallery set status=@status where user_id=@user_id and weapon_id=@weapon_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_id", Id);
+                command.Parameters.AddWithValue("@weapon_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
                 command.ExecuteNonQuery();
             }
@@ -326,11 +326,11 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM Weapons_gallery 
-                WHERE user_id = @user_id AND card_id = @card_id;
+                WHERE user_id = @user_id AND weapon_id = @weapon_id;
                 ";
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@card_id", Id);
+                checkCommand.Parameters.AddWithValue("@weapon_id", Id);
 
                 MySqlDataReader reader = checkCommand.ExecuteReader();
                 if (reader != null)
@@ -341,11 +341,11 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
                     {
                         string updateQuery = @"update Weapons_gallery 
                         set temp_star=@temp_star 
-                        where user_id=@user_id and card_id=@card_id";
+                        where user_id=@user_id and weapon_id=@weapon_id";
 
                         MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                        updateCommand.Parameters.AddWithValue("@card_id", Id);
+                        updateCommand.Parameters.AddWithValue("@weapon_id", Id);
                         updateCommand.Parameters.AddWithValue("@temp_star", star);
                         updateCommand.ExecuteNonQuery();
                     }
@@ -435,12 +435,12 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND card_id = @card_id;
+                AND weapon_id = @weapon_id;
                 ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_id", Id);
+                command.Parameters.AddWithValue("@weapon_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", cardFromDB.Power);

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 public interface ITitlesRepository
 {
     List<string> GetUniqueTitleId();
-    List<Titles> GetTitles(int pageSize, int offset, string rare);
+    List<Architectures> GetTitles(int pageSize, int offset, string rare);
     int GetTitlesCount(string rare);
-    List<Titles> GetTitlesWithPrice(int pageSize, int offset);
+    List<Architectures> GetTitlesWithPrice(int pageSize, int offset);
     int GetTitlesWithPriceCount();
-    Titles GetTitlesById(string Id);
-    Titles SumPowerTitlesPercent();
+    Architectures GetTitlesById(string Id);
+    Architectures SumPowerTitlesPercent();
 }

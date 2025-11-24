@@ -14323,7 +14323,11 @@ MonoBehaviour:
   MainMenuEnhancementPanel: {fileID: 5745659240395072349, guid: 2f8c9d891eab0bf4dbbaa4852f78c5ab, type: 3}
   MainMenuCampaignPanel: {fileID: 5745659240395072349, guid: e64df2c028196fe4d86c99037c75375b, type: 3}
   ProfilePanelPrefab: {fileID: 5286951834573874977, guid: 17f9e47894c283544951cdb33cc78c63, type: 3}
+  SettingPanelPrefab: {fileID: 8708252175272485654, guid: b8c2d4525091fa048ba831f1ea44d91d, type: 3}
+  SettingButtonPrefab: {fileID: 1661859481911484232, guid: f4565445c6baf3846adb033aacae14d6, type: 3}
+  LanguageButtonPrefab: {fileID: 1661859481911484232, guid: e284744f05e3c4e4bb4dcd558765fb9d, type: 3}
   EditNamePanelPrefab: {fileID: 8708252175272485654, guid: fe1e540bcca1c9b459d3e214be4b8c8e, type: 3}
+  CurrencyPanelPrefab: {fileID: 8708252175272485654, guid: df8722264b8cd3b4a938d765b6910f28, type: 3}
   FeaturePanelPrefab: {fileID: 5286951834573874977, guid: 64c4810e419cbee42a325c77c2991338, type: 3}
   FeatureButtonPrefab: {fileID: 1661859481911484232, guid: e99f479f970d2784197f7605197896f1, type: 3}
   quantityPopupPrefab: {fileID: 3471210453278062185, guid: 30aa9e5d215c91d4a9e929fd1f0c163a, type: 3}

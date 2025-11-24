@@ -139,13 +139,13 @@ public class CoresController : MonoBehaviour
             });
 
             RawImage topImage = coreObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
+            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
             RawImage circleImage = coreObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
-            circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
+            circleImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
             Outline bottomOutline = coreObject.transform.Find("BottomImage").GetComponent<Outline>();
-            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
             Outline middleOutline = coreObject.transform.Find("MiddleImage").GetComponent<Outline>();
-            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
+            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
 
             RawImage currencyImage = coreObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Currency.Image);
@@ -159,7 +159,7 @@ public class CoresController : MonoBehaviour
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
-            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
+            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

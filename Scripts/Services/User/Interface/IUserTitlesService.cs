@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 public interface IUserTitlesService
 {
-    Titles GetNewLevelPower(Titles c, double coefficient);
-    Titles GetNewBreakthroughPower(Titles c, double coefficient);
-    List<Titles> GetUserTitles(string user_id, int pageSize, int offset, string rare);
+    Architectures GetNewLevelPower(Architectures c, double coefficient);
+    Architectures GetNewBreakthroughPower(Architectures c, double coefficient);
+    List<Architectures> GetUserTitles(string user_id, int pageSize, int offset, string rare);
     int GetUserTitlesCount(string user_id, string rare);
-    bool InsertUserTitles(Titles titles);
-    bool UpdateTitlesLevel(Titles titles, int cardLevel);
-    bool UpdateTitlesBreakthrough(Titles titles, int star, double quantity);
-    Titles GetUserTitlesById(string user_id, string Id);
-    Titles SumPowerUserTitles();
+    bool InsertUserTitles(Architectures titles);
+    bool UpdateTitlesLevel(Architectures titles, int cardLevel);
+    bool UpdateTitlesBreakthrough(Architectures titles, int star, double quantity);
+    Architectures GetUserTitlesById(string user_id, string Id);
+    Architectures SumPowerUserTitles();
 }

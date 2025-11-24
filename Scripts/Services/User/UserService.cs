@@ -19,39 +19,43 @@ public class UserService : IUserService
     public string RegisterUser(string username, string password)
     {
         string userId = _userRepository.RegisterUser(username, password);
-        createUserCurrency(userId);
-        User.CurrentUserId = userId;
-
-        UserBordersService.Create().InsertUserBordersById("359");
-        BordersGalleryService.Create().InsertBordersGallery("359");
-        UserBordersService.Create().UpdateIsUsedBorders("359", true);
-
-        UserAvatarsService.Create().InsertUserAvatarsById("1");
-        AvatarsGalleryService.Create().InsertAvatarsGallery("1");
-        UserAvatarsService.Create().UpdateIsUsedAvatars("1", true);
-
-        PowerManagerService.Create().InsertUserStats(userId);
-
-        Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET);
-        UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
-        Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET);
-        UserItemsService.Create().InsertUserItems(cardCaptainsTicket, 1000000);
-        Items cardMilitaryTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET);
-        UserItemsService.Create().InsertUserItems(cardMilitaryTicket, 1000000);
-        Items cardSpellTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET);
-        UserItemsService.Create().InsertUserItems(cardSpellTicket, 1000000);
-        Items cardMonstersTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET);
-        UserItemsService.Create().InsertUserItems(cardMonstersTicket, 1000000);
-        Items cardColonelsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET);
-        UserItemsService.Create().InsertUserItems(cardColonelsTicket, 1000000);
-        Items cardGeneralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET);
-        UserItemsService.Create().InsertUserItems(cardGeneralsTicket, 1000000);
-        Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET);
-        UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
-
-        for (int i = 0; i < 50; i++)
+        if (String.IsNullOrEmpty(userId))
         {
-            TeamsService.Create().InsertUserTeams(userId, i+1);
+            createUserCurrency(userId);
+            User.CurrentUserId = userId;
+
+            UserBordersService.Create().InsertUserBordersById("359");
+            BordersGalleryService.Create().InsertBordersGallery("359");
+            UserBordersService.Create().UpdateIsUsedBorders("359", true);
+
+            UserAvatarsService.Create().InsertUserAvatarsById("1");
+            AvatarsGalleryService.Create().InsertAvatarsGallery("1");
+            UserAvatarsService.Create().UpdateIsUsedAvatars("1", true);
+
+            PowerManagerService.Create().InsertUserStats(userId);
+
+            Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET);
+            UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
+            Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET);
+            UserItemsService.Create().InsertUserItems(cardCaptainsTicket, 1000000);
+            Items cardMilitaryTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET);
+            UserItemsService.Create().InsertUserItems(cardMilitaryTicket, 1000000);
+            Items cardSpellTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET);
+            UserItemsService.Create().InsertUserItems(cardSpellTicket, 1000000);
+            Items cardMonstersTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET);
+            UserItemsService.Create().InsertUserItems(cardMonstersTicket, 1000000);
+            Items cardColonelsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET);
+            UserItemsService.Create().InsertUserItems(cardColonelsTicket, 1000000);
+            Items cardGeneralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET);
+            UserItemsService.Create().InsertUserItems(cardGeneralsTicket, 1000000);
+            Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET);
+            UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
+
+            for (int i = 0; i < 50; i++)
+            {
+                TeamsService.Create().InsertUserTeams(userId, i + 1);
+            }
+            UserSettingsService.Create().CreateInitiateUserSettings(userId);
         }
         return userId;
     }
@@ -59,7 +63,7 @@ public class UserService : IUserService
     public AuthResult SignInWithUsernameAndPassword(string username, string password)
     {
         User user = _userRepository.GetUserByUsername(username);
-        
+
         if (user != null)
         {
             if (!user.Password.Equals(password))
@@ -110,6 +114,9 @@ public class UserService : IUserService
                 }
             }
 
+            var settingList = UserSettingsService.Create().GetUserSettings(User.CurrentUserId);
+            UserSettingsManager.Instance.LoadUserSettings(settingList);
+
             return new AuthResult
             {
                 Success = true,
@@ -145,10 +152,11 @@ public class UserService : IUserService
         // Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket);
         // UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
     }
+
     public AuthResult SignInWithoutUsernameAndPassword(string userId)
     {
         User user = _userRepository.SignInWithoutUsernameAndPassword(userId);
-        
+
         if (user != null)
         {
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
@@ -185,6 +193,9 @@ public class UserService : IUserService
                     UserDailyCheckinService.Create().InsertUserDailyCheckin(User.CurrentUserId, userDailyCheckin);
                 }
             }
+
+            var settingList = UserSettingsService.Create().GetUserSettings(User.CurrentUserId);
+            UserSettingsManager.Instance.LoadUserSettings(settingList);
 
             return new AuthResult
             {

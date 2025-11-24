@@ -320,6 +320,7 @@ public class MainMenuManager : MonoBehaviour
     public void CreateMainPanelUserInformation(AuthResult authResult)
     {
         Transform userPanel = currentObject.transform.Find("User");
+        Button userButton = userPanel.GetComponent<Button>();
         Transform currencyPanel = currentObject.transform.Find("Currency");
         TextMeshProUGUI nameText = userPanel.transform.Find("UserGroup/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = authResult.User.Name;
@@ -339,6 +340,12 @@ public class MainMenuManager : MonoBehaviour
         borderImage.texture = borderTexture;
 
         FindObjectOfType<CurrencyManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
+
+        userButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ProfileManager.Instance.CreateProfile();
+        });
     }
     public void GetMainButtonEvent(GameObject popupButtonObject)
     {
@@ -375,6 +382,9 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.ARCHITECTURE));
         ButtonEvent.Instance.AssignButtonEvent("Button_30", contentPanel, () => GetType(AppConstants.MainType.TECHNOLOGY));
         ButtonEvent.Instance.AssignButtonEvent("Button_31", contentPanel, () => GetType(AppConstants.MainType.VEHICLE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_32", contentPanel, () => GetType(AppConstants.MainType.CORE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_33", contentPanel, () => GetType(AppConstants.MainType.WEAPON));
+        ButtonEvent.Instance.AssignButtonEvent("Button_34", contentPanel, () => GetType(AppConstants.MainType.ROBOT));
     }
     public void GetPrimaryButtonEvent()
     {
@@ -742,7 +752,7 @@ public class MainMenuManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
-                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
+                List<Architectures> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
                 listCount = titles.Count;
 
@@ -779,6 +789,30 @@ public class MainMenuManager : MonoBehaviour
                 listCount = technologies.Count;
 
                 totalRecord = UserTechnologiesService.Create().GetUserTechnologiesCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.CORE))
+            {
+                List<Cores> cores = UserCoresService.Create().GetUserCores(User.CurrentUserId, pageSize, offset, rare);
+                UserCoresController.Instance.CreateUserCores(cores, DictionaryContentPanel);
+                listCount = cores.Count;
+
+                totalRecord = UserCoresService.Create().GetUserCoresCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.WEAPON))
+            {
+                List<Weapons> weapons = UserWeaponsService.Create().GetUserWeapons(User.CurrentUserId, pageSize, offset, rare);
+                UserWeaponsController.Instance.CreateUserWeapons(weapons, DictionaryContentPanel);
+                listCount = weapons.Count;
+
+                totalRecord = UserWeaponsService.Create().GetUserWeaponsCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.ROBOT))
+            {
+                List<Robots> robots = UserRobotsService.Create().GetUserRobots(User.CurrentUserId, pageSize, offset, rare);
+                UserRobotsController.Instance.CreateUserRobots(robots, DictionaryContentPanel);
+                listCount = robots.Count;
+
+                totalRecord = UserRobotsService.Create().GetUserRobotsCount(User.CurrentUserId, rare);
             }
 
             if (listCount > 0)
@@ -979,7 +1013,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
-            List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
+            List<Architectures> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
             listCount = titles.Count;
@@ -1606,6 +1640,30 @@ public class MainMenuManager : MonoBehaviour
             listCount = vehicles.Count;
 
             totalRecord = UserVehicleService.Create().GetUserVehicleCount(User.CurrentUserId, type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CORE))
+        {
+            List<Cores> cores = UserCoresService.Create().GetUserCores(User.CurrentUserId, pageSize, offset, rare);
+            UserCoresController.Instance.CreateUserCores(cores, DictionaryContentPanel);
+            listCount = cores.Count;
+
+            totalRecord = UserCoresService.Create().GetUserCoresCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.WEAPON))
+        {
+            List<Weapons> weapons = UserWeaponsService.Create().GetUserWeapons(User.CurrentUserId, pageSize, offset, rare);
+            UserWeaponsController.Instance.CreateUserWeapons(weapons, DictionaryContentPanel);
+            listCount = weapons.Count;
+
+            totalRecord = UserWeaponsService.Create().GetUserWeaponsCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.ROBOT))
+        {
+            List<Robots> robots = UserRobotsService.Create().GetUserRobots(User.CurrentUserId, pageSize, offset, rare);
+            UserRobotsController.Instance.CreateUserRobots(robots, DictionaryContentPanel);
+            listCount = robots.Count;
+
+            totalRecord = UserRobotsService.Create().GetUserRobotsCount(User.CurrentUserId, rare);
         }
 
         if (listCount > 0)

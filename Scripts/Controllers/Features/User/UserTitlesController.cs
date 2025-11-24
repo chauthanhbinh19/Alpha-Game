@@ -43,7 +43,7 @@ public class UserTitlesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserTitles(List<Titles> titlesList, Transform DictionaryContentPanel)
+    public void CreateUserTitles(List<Architectures> titlesList, Transform DictionaryContentPanel)
     {
         foreach (var title in titlesList)
         {
@@ -82,7 +82,7 @@ public class UserTitlesController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowTitlesDetails(Titles titles, GameObject currentObject, int buttonType = 1)
+    public void ShowTitlesDetails(Architectures titles, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -133,7 +133,7 @@ public class UserTitlesController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Titles title)
+        if (obj is Architectures title)
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image); // Lấy giá trị của image từ đối tượng Card
@@ -169,7 +169,7 @@ public class UserTitlesController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Titles title)
+        if (obj is Architectures title)
         {
             PropertyInfo[] properties = title.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
@@ -184,7 +184,7 @@ public class UserTitlesController : MonoBehaviour
             up1LevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Titles currentCard = new Titles();
+                Architectures currentCard = new Architectures();
                 currentCard = UserTitlesService.Create().GetUserTitlesById(User.CurrentUserId, title.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
@@ -194,7 +194,7 @@ public class UserTitlesController : MonoBehaviour
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Titles newCard = new Titles();
+                    Architectures newCard = new Architectures();
 
                     newCard = UserTitlesService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserTitlesService.Create().UpdateTitlesLevel(newCard, currentLevel + 1);
@@ -212,7 +212,7 @@ public class UserTitlesController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Titles currentCard = UserTitlesService.Create().GetUserTitlesById(User.CurrentUserId, title.Id);
+                Architectures currentCard = UserTitlesService.Create().GetUserTitlesById(User.CurrentUserId, title.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -228,7 +228,7 @@ public class UserTitlesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Titles newCard = UserTitlesService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
+                    Architectures newCard = UserTitlesService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserTitlesService.Create().UpdateTitlesLevel(newCard, currentLevel);
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -254,7 +254,7 @@ public class UserTitlesController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Titles title)
+        if (obj is Architectures title)
         {
             PropertyInfo[] properties = title.GetType().GetProperties();
             foreach (var property in properties)
@@ -342,7 +342,7 @@ public class UserTitlesController : MonoBehaviour
                         userItemsService.UpdateUserItemsQuantity(items1);
                     }
                     // Cập nhật cấp sao (Star)
-                    Titles newTitle = new Titles();
+                    Architectures newTitle = new Architectures();
 
                     newTitle = UserTitlesService.Create().GetNewBreakthroughPower(title, increasePerUpgrade);
                     UserTitlesService.Create().UpdateTitlesBreakthrough(newTitle, title.Star + 1, title.Quantity);
