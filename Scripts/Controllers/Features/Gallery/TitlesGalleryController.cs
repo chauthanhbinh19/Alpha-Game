@@ -33,7 +33,7 @@ public class TitlesGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateTitlesGallery(List<Architectures> titlesList, Transform DictionaryContentPanel)
+    public void CreateTitlesGallery(List<Titles> titlesList, Transform DictionaryContentPanel)
     {
         foreach (var title in titlesList)
         {

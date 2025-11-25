@@ -752,7 +752,7 @@ public class MainMenuManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
-                List<Architectures> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
+                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
                 listCount = titles.Count;
 
@@ -1013,7 +1013,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
-            List<Architectures> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
+            List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
             listCount = titles.Count;

@@ -42,7 +42,7 @@ public class TitlesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateTitlesGallery(List<Architectures> titlesList, Transform DictionaryContentPanel)
+    public void CreateTitlesGallery(List<Titles> titlesList, Transform DictionaryContentPanel)
     {
         foreach (var title in titlesList)
         {
@@ -80,7 +80,7 @@ public class TitlesController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateTitlesTrade(List<Architectures> titlesList, string subType, Transform currentContent,
+    public void CreateTitlesTrade(List<Titles> titlesList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var title in titlesList)
@@ -250,7 +250,7 @@ public class TitlesController : MonoBehaviour
         maxButton.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Architectures titles)
+            if (obj is Titles titles)
             {
                 userCurrency = UserCurrencyService.Create().GetUserCurrencyById((string)titles.Currency.Id);
             }
@@ -280,7 +280,7 @@ public class TitlesController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Architectures titles)
+            if (obj is Titles titles)
             {
                 titles.Quantity = titles.Quantity + quantity;
                 UserCurrencyService.Create().UpdateUserCurrency((string)titles.Currency.Id, price);

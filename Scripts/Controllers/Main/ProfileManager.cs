@@ -16,6 +16,8 @@ public class ProfileManager : MonoBehaviour
     private GameObject SettingPanelPrefab;
     private GameObject SettingButtonPrefab;
     private GameObject LanguageButtonPrefab;
+    private GameObject NewsPanelPrefab;
+    private GameObject NewsButtonPrefab;
     private Transform WaitingPanel;
     private Transform MainPanel;
     private Transform RootPanel;
@@ -51,6 +53,8 @@ public class ProfileManager : MonoBehaviour
         SettingPanelPrefab = UIManager.Instance.GetSettingPanel("SettingPanelPrefab");
         SettingButtonPrefab = UIManager.Instance.GetSettingPanel("SettingButtonPrefab");
         LanguageButtonPrefab = UIManager.Instance.GetLanguagePanel("LanguageButtonPrefab");
+        NewsPanelPrefab = UIManager.Instance.GetNewsPanel("NewsPanelPrefab");
+        NewsButtonPrefab = UIManager.Instance.GetNewsPanel("NewsButtonPrefab");
     }
     public void CreateProfile()
     {
@@ -135,6 +139,12 @@ public class ProfileManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             CreateSettingPanel();
+        });
+
+        newsButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            CreateNewsPanel();
         });
     }
     public void CreateEditNamePanel()
@@ -311,6 +321,19 @@ public class ProfileManager : MonoBehaviour
             CreateLanguage(languageTransform.gameObject);
         });
     }
+    public void CreateNewsPanel()
+    {
+        GameObject newsObject = Instantiate(NewsPanelPrefab, MainPanel);
+        Transform newsPanel = newsObject.transform.Find("RightScrollView/Viewport/Content");
+        Button closeButton = newsObject.transform.Find("CloseButton").GetComponent<Button>();
+        ButtonEvent.Instance.Close(newsPanel);
+
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(newsObject);
+        });
+    }
     public void ChangeSettingButtonColor(Button button, bool status = true)
     {
         TextMeshProUGUI iconText = button.transform.Find("IconText").GetComponent<TextMeshProUGUI>();
@@ -341,6 +364,7 @@ public class ProfileManager : MonoBehaviour
         Transform inGameCinematicTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/InGameCinematic");
 
         CreateResolution(resolutionTransform.gameObject);
+        CreateTexture(textureTransform.gameObject);
     }
     public void CreateSound(GameObject soundObject)
     {
@@ -353,9 +377,9 @@ public class ProfileManager : MonoBehaviour
         TextMeshProUGUI sfxQuantityText = soundObject.transform.Find("Scroll View/Viewport/Content/SFXSound/QuantityText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI voiceQuantityText = soundObject.transform.Find("Scroll View/Viewport/Content/VoiceSound/QuantityText").GetComponent<TextMeshProUGUI>();
 
-        int musicSound = UserSettingsManager.Instance.GetInt("Sound.Music");
-        int sfxSound = UserSettingsManager.Instance.GetInt("Sound.SFX");
-        int voiceSound = UserSettingsManager.Instance.GetInt("Sound.Voice");
+        int musicSound = UserSettingsManager.Instance.GetInt(AppConstants.Setting.MUSIC);
+        int sfxSound = UserSettingsManager.Instance.GetInt(AppConstants.Setting.SFX);
+        int voiceSound = UserSettingsManager.Instance.GetInt(AppConstants.Setting.VOICE);
 
         musicQuantityText.text = musicSound.ToString();
         sfxQuantityText.text = sfxSound.ToString();
@@ -378,25 +402,25 @@ public class ProfileManager : MonoBehaviour
             sfxQuantityText.text = maxValue.ToString();
             voiceQuantityText.text = maxValue.ToString();
 
-            UserSettingsManager.Instance.SetInt("Sound.Music", 100);
-            UserSettingsManager.Instance.SetInt("Sound.SFX", 100);
-            UserSettingsManager.Instance.SetInt("Sound.Voice", 100);
+            UserSettingsManager.Instance.SetInt(AppConstants.Setting.MUSIC, 100);
+            UserSettingsManager.Instance.SetInt(AppConstants.Setting.SFX, 100);
+            UserSettingsManager.Instance.SetInt(AppConstants.Setting.VOICE, 100);
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Sound.Music",
+                SettingKey = AppConstants.Setting.MUSIC,
                 SettingValue = maxValue.ToString(),
             });
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Sound.SFX",
+                SettingKey = AppConstants.Setting.SFX,
                 SettingValue = maxValue.ToString(),
             });
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Sound.Voice",
+                SettingKey = AppConstants.Setting.VOICE,
                 SettingValue = maxValue.ToString(),
             });
         });
@@ -407,10 +431,10 @@ public class ProfileManager : MonoBehaviour
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
             musicQuantityText.text = v.ToString();
-            UserSettingsManager.Instance.SetInt("Sound.Music", v);
+            UserSettingsManager.Instance.SetInt(AppConstants.Setting.MUSIC, v);
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Sound.Music",
+                SettingKey = AppConstants.Setting.MUSIC,
                 SettingValue = v.ToString(),
             });
         });
@@ -421,10 +445,10 @@ public class ProfileManager : MonoBehaviour
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
             sfxQuantityText.text = v.ToString();
-            UserSettingsManager.Instance.SetInt("Sound.SFX", v);
+            UserSettingsManager.Instance.SetInt(AppConstants.Setting.SFX, v);
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Sound.SFX",
+                SettingKey = AppConstants.Setting.SFX,
                 SettingValue = v.ToString(),
             });
         });
@@ -435,10 +459,10 @@ public class ProfileManager : MonoBehaviour
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
             voiceQuantityText.text = v.ToString();
-            UserSettingsManager.Instance.SetInt("Sound.Voice", v);
+            UserSettingsManager.Instance.SetInt(AppConstants.Setting.VOICE, v);
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Sound.Voice",
+                SettingKey = AppConstants.Setting.VOICE,
                 SettingValue = v.ToString(),
             });
         });
@@ -464,7 +488,7 @@ public class ProfileManager : MonoBehaviour
         Button englishButton = englishObject.GetComponent<Button>();
         Button vietnameseButton = vietnameseObject.GetComponent<Button>();
 
-        string language = UserSettingsManager.Instance.GetString("Language");
+        string language = UserSettingsManager.Instance.GetString(AppConstants.Setting.LANGUAGE);
         if (language.Equals("en"))
         {
             ChangeLanguageButtonColor(englishButton, true);
@@ -485,10 +509,10 @@ public class ProfileManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Language",
+                SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "en",
             });
-            UserSettingsManager.Instance.SetString("Language", "en");
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.LANGUAGE, "en");
 
             ChangeLanguageButtonColor(englishButton, true);
             ChangeLanguageButtonColor(vietnameseButton, false);
@@ -499,10 +523,10 @@ public class ProfileManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Language",
+                SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "en",
             });
-            UserSettingsManager.Instance.SetString("Language", "en");
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.LANGUAGE, "en");
 
             ChangeLanguageButtonColor(englishButton, true);
             ChangeLanguageButtonColor(vietnameseButton, false);
@@ -513,10 +537,10 @@ public class ProfileManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Language",
+                SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "vi",
             });
-            UserSettingsManager.Instance.SetString("Language", "vi");
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.LANGUAGE, "vi");
 
             ChangeLanguageButtonColor(englishButton, false);
             ChangeLanguageButtonColor(vietnameseButton, true);
@@ -530,7 +554,7 @@ public class ProfileManager : MonoBehaviour
         if (status)
         {
             iconText.color = Color.black;
-            background.color = Color.yellow;
+            background.color = ColorHelper.ToColor("#FFB300");
         }
         else
         {
@@ -546,7 +570,7 @@ public class ProfileManager : MonoBehaviour
         Button highButton = resolutionObject.transform.Find("ButtonGroup/HighButton").GetComponent<Button>();
         Button veryHighButton = resolutionObject.transform.Find("ButtonGroup/VeryHighButton").GetComponent<Button>();
 
-        string resolution = UserSettingsManager.Instance.GetString("Graphic.Resolution");
+        string resolution = UserSettingsManager.Instance.GetString(AppConstants.Setting.RESOLUTION);
         if (resolution.Equals("Very Low"))
         {
             ChangeResolutionButtonColor(veryLowButton, true);
@@ -600,10 +624,10 @@ public class ProfileManager : MonoBehaviour
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Graphic.Resolution",
+                SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Very Low",
             });
-            UserSettingsManager.Instance.SetString("Graphic.Resolution", "Very Low");
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "Very Low");
         });
 
         lowButton.onClick.AddListener(() =>
@@ -618,10 +642,10 @@ public class ProfileManager : MonoBehaviour
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Graphic.Resolution",
+                SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Low",
             });
-            UserSettingsManager.Instance.SetString("Graphic.Resolution", "Low");
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "Low");
         });
 
         mediumButton.onClick.AddListener(() =>
@@ -636,10 +660,10 @@ public class ProfileManager : MonoBehaviour
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Graphic.Resolution",
+                SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Medium",
             });
-            UserSettingsManager.Instance.SetString("Graphic.Resolution", "Medium");
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "Medium");
         });
 
         highButton.onClick.AddListener(() =>
@@ -654,10 +678,10 @@ public class ProfileManager : MonoBehaviour
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Graphic.Resolution",
+                SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "High",
             });
-            UserSettingsManager.Instance.SetString("Graphic.Resolution", "High");
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "High");
         });
 
         veryHighButton.onClick.AddListener(() =>
@@ -672,10 +696,10 @@ public class ProfileManager : MonoBehaviour
 
             UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
             {
-                SettingKey = "Graphic.Resolution",
+                SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Very High",
             });
-            UserSettingsManager.Instance.SetString("Graphic.Resolution", "Very High");
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "Very High");
         });
     }
     public void ChangeResolutionButtonColor(Button button, bool status = true)
@@ -700,6 +724,133 @@ public class ProfileManager : MonoBehaviour
             topImage.color = ColorHelper.ToColor("#646464");
             backgroundOutline.enabled = false;
             topImageOutline.enabled = false;
+            iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_UNACTIVE_URL);
+        }
+    }
+    public void CreateTexture(GameObject textureObject)
+    {
+        Button lowButton = textureObject.transform.Find("ButtonGroup/LowButton").GetComponent<Button>();
+        Button mediumButton = textureObject.transform.Find("ButtonGroup/MediumButton").GetComponent<Button>();
+        Button highButton = textureObject.transform.Find("ButtonGroup/HighButton").GetComponent<Button>();
+        Button veryHighButton = textureObject.transform.Find("ButtonGroup/VeryHighButton").GetComponent<Button>();
+
+        string resolution = UserSettingsManager.Instance.GetString(AppConstants.Setting.TEXTURE);
+        if (resolution.Equals("Low"))
+        {
+            ChangeTextureButtonColor(lowButton, true);
+            ChangeTextureButtonColor(mediumButton, false);
+            ChangeTextureButtonColor(highButton, false);
+            ChangeTextureButtonColor(veryHighButton, false);
+        }
+        else if (resolution.Equals("Medium"))
+        {
+            ChangeTextureButtonColor(lowButton, false);
+            ChangeTextureButtonColor(mediumButton, true);
+            ChangeTextureButtonColor(highButton, false);
+            ChangeTextureButtonColor(veryHighButton, false);
+        }
+        else if (resolution.Equals("High"))
+        {
+            ChangeTextureButtonColor(lowButton, false);
+            ChangeTextureButtonColor(mediumButton, false);
+            ChangeTextureButtonColor(highButton, true);
+            ChangeTextureButtonColor(veryHighButton, false);
+        }
+        else if (resolution.Equals("Very High"))
+        {
+            ChangeTextureButtonColor(lowButton, false);
+            ChangeTextureButtonColor(mediumButton, false);
+            ChangeTextureButtonColor(highButton, false);
+            ChangeTextureButtonColor(veryHighButton, true);
+        }
+
+        lowButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeTextureButtonColor(lowButton, true);
+            ChangeTextureButtonColor(mediumButton, false);
+            ChangeTextureButtonColor(highButton, false);
+            ChangeTextureButtonColor(veryHighButton, false);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = AppConstants.Setting.TEXTURE,
+                SettingValue = "Low",
+            });
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.TEXTURE, "Low");
+        });
+
+        mediumButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeTextureButtonColor(lowButton, false);
+            ChangeTextureButtonColor(mediumButton, true);
+            ChangeTextureButtonColor(highButton, false);
+            ChangeTextureButtonColor(veryHighButton, false);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = AppConstants.Setting.TEXTURE,
+                SettingValue = "Medium",
+            });
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.TEXTURE, "Medium");
+        });
+
+        highButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeTextureButtonColor(lowButton, false);
+            ChangeTextureButtonColor(mediumButton, false);
+            ChangeTextureButtonColor(highButton, true);
+            ChangeTextureButtonColor(veryHighButton, false);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = AppConstants.Setting.TEXTURE,
+                SettingValue = "High",
+            });
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.TEXTURE, "High");
+        });
+
+        veryHighButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            ChangeTextureButtonColor(lowButton, false);
+            ChangeTextureButtonColor(mediumButton, false);
+            ChangeTextureButtonColor(highButton, false);
+            ChangeTextureButtonColor(veryHighButton, true);
+
+            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            {
+                SettingKey = AppConstants.Setting.TEXTURE,
+                SettingValue = "Very High",
+            });
+            UserSettingsManager.Instance.SetString(AppConstants.Setting.TEXTURE, "Very High");
+        });
+    }
+    public void ChangeTextureButtonColor(Button button, bool status = true)
+    {
+        TextMeshProUGUI iconText = button.transform.Find("IconText").GetComponent<TextMeshProUGUI>();
+        Image background = button.transform.GetComponent<Image>();
+        RawImage iconImage = button.transform.Find("IconImage").GetComponent<RawImage>();
+        Outline backgroundOutline = button.GetComponent<Outline>();
+
+        if (status)
+        {
+            iconText.color = Color.black;
+            background.color = ColorHelper.ToColor("#FFB300");
+            backgroundOutline.enabled = true;
+            iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_ACTIVE_URL);
+        }
+        else
+        {
+            iconText.color = Color.white;
+            background.color = ColorHelper.ToColor("#646464");
+            backgroundOutline.enabled = false;
             iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_UNACTIVE_URL);
         }
     }

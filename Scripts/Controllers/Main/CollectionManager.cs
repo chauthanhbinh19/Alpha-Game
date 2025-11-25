@@ -241,7 +241,7 @@ public class CollectionManager : MonoBehaviour
             else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
                 var titlesGalleryService = TitlesGalleryService.Create();
-                List<Architectures> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
+                List<Titles> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
                 TitlesGalleryController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
 
                 totalRecord = titlesGalleryService.GetTitlesCount(rare);
@@ -493,7 +493,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
             var titlesGalleryService = TitlesGalleryService.Create();
-            List<Architectures> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
+            List<Titles> titles = titlesGalleryService.GetTitlesCollection(pageSize, offset, rare);
             TitlesGalleryController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
 
             totalRecord = titlesGalleryService.GetTitlesCount(rare);

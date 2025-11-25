@@ -1835,7 +1835,7 @@ public class PowerManagerService : IPowerManagerService
         ITitlesGalleryRepository titlesGalleryRepository = new TitlesGalleryRepository();
         TitlesGalleryService titlesGalleryService = new TitlesGalleryService(titlesGalleryRepository);
         // Gallery
-        Architectures titles = titlesGalleryService.SumPowerTitlesGallery();
+        Titles titles = titlesGalleryService.SumPowerTitlesGallery();
         powerManager.Power += titles.Power;
         powerManager.Health += titles.Health;
         powerManager.PhysicalAttack += titles.PhysicalAttack;

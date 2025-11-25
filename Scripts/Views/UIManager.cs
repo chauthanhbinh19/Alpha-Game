@@ -41,6 +41,9 @@ public class UIManager : MonoBehaviour
     [Header("Setting")]
     public GameObject SettingPanelPrefab;
     public GameObject SettingButtonPrefab;
+    [Header("News")]
+    public GameObject NewsPanelPrefab;
+    public GameObject NewsButtonPrefab;
     [Header("Language")]
     public GameObject LanguageButtonPrefab;
     [Header("Edit Name")]
@@ -698,6 +701,18 @@ public class UIManager : MonoBehaviour
                 return SettingButtonPrefab;
             default:
                 return SettingPanelPrefab;
+        }
+    }
+    public GameObject GetNewsPanel(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "NewsPanelPrefab":
+                return NewsPanelPrefab;
+            case "NewsButtonPrefab":
+                return NewsButtonPrefab;
+            default:
+                return NewsPanelPrefab;
         }
     }
     public GameObject GetGameObjectMainMenu1(string prefabName)
@@ -1378,25 +1393,14 @@ public class UIManager : MonoBehaviour
     {
         Transform detailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
 
-        // GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, detailsContent);
-        // GameObject elementDetailsObject = Instantiate(NumberDetailPrefab, detailsContent);
-        // GameObject elementDetails2Object = Instantiate(NumberDetail3Prefab, detailsContent);
-        // GameObject elementDetails3Object = Instantiate(NumberDetail3Prefab, detailsContent);
-        // GameObject elementDetails4Object = Instantiate(NumberDetail3Prefab, detailsContent);
-        // GameObject descriptionDetailsObject = Instantiate(NumberDetail3Prefab, detailsContent);
-
         Transform generalInformationPanel = detailsContent.transform.Find("GeneralInformation");
         Transform statsInformationPanel = detailsContent.transform.Find("StatInformation");
         Transform descriptionInformationPanel = detailsContent.transform.Find("DescriptionInformation");
-        // Transform element3PopupPanel = elementDetails3Object.transform.Find("ElementDetails");
-        // Transform element4PopupPanel = elementDetails4Object.transform.Find("ElementDetails");
-        // Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
 
         foreach (var property in properties)
         {
             object value = property.GetValue(targetObject, null);
 
-            // Gọi hàm xử lý riêng cho từng property
             CreateSinglePropertyUI(property, value,
                 generalInformationPanel, statsInformationPanel, descriptionInformationPanel);
         }

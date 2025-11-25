@@ -14,12 +14,12 @@ public class UserTitlesService : IUserTitlesService
         return new UserTitlesService(new UserTitlesRepository());
     }
 
-    public Architectures GetNewLevelPower(Architectures c, double coefficient)
+    public Titles GetNewLevelPower(Titles c, double coefficient)
     {
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
-        Architectures orginCard = _service.GetTitlesById(c.Id);
-        Architectures titles = new Architectures
+        Titles orginCard = _service.GetTitlesById(c.Id);
+        Titles titles = new Titles
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -97,12 +97,12 @@ public class UserTitlesService : IUserTitlesService
         );
         return titles;
     }
-    public Architectures GetNewBreakthroughPower(Architectures c, double coefficient)
+    public Titles GetNewBreakthroughPower(Titles c, double coefficient)
     {
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
-        Architectures orginCard = _service.GetTitlesById(c.Id);
-        Architectures titles = new Architectures
+        Titles orginCard = _service.GetTitlesById(c.Id);
+        Titles titles = new Titles
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -181,9 +181,9 @@ public class UserTitlesService : IUserTitlesService
         return titles;
     }
 
-    public List<Architectures> GetUserTitles(string user_id, int pageSize, int offset, string rare)
+    public List<Titles> GetUserTitles(string user_id, int pageSize, int offset, string rare)
     {
-        List<Architectures> list = _userTitlesRepository.GetUserTitles(user_id, pageSize, offset, rare);
+        List<Titles> list = _userTitlesRepository.GetUserTitles(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -193,27 +193,27 @@ public class UserTitlesService : IUserTitlesService
         return _userTitlesRepository.GetUserTitlesCount(user_id, rare);
     }
 
-    public bool InsertUserTitles(Architectures titles)
+    public bool InsertUserTitles(Titles titles)
     {
         return _userTitlesRepository.InsertUserTitles(titles);
     }
 
-    public bool UpdateTitlesLevel(Architectures titles, int cardLevel)
+    public bool UpdateTitlesLevel(Titles titles, int cardLevel)
     {
         return _userTitlesRepository.UpdateTitlesLevel(titles, cardLevel);
     }
 
-    public bool UpdateTitlesBreakthrough(Architectures titles, int star, double quantity)
+    public bool UpdateTitlesBreakthrough(Titles titles, int star, double quantity)
     {
         return _userTitlesRepository.UpdateTitlesBreakthrough(titles, star, quantity);
     }
 
-    public Architectures GetUserTitlesById(string user_id, string Id)
+    public Titles GetUserTitlesById(string user_id, string Id)
     {
         return _userTitlesRepository.GetUserTitlesById(user_id, Id);
     }
 
-    public Architectures SumPowerUserTitles()
+    public Titles SumPowerUserTitles()
     {
         return _userTitlesRepository.SumPowerUserTitles();
     }

@@ -36,7 +36,7 @@ public class UserSettingsService : IUserSettingsService
         //Sound - Music setting
         InsertUserSettings(userId, new UserSettings
         {
-            SettingKey = "Sound.Music",
+            SettingKey = AppConstants.Setting.MUSIC,
             SettingValue = "100",
             ValueType = "int" 
         });
@@ -44,7 +44,7 @@ public class UserSettingsService : IUserSettingsService
         //Sound - SFX setting
         InsertUserSettings(userId, new UserSettings
         {
-            SettingKey = "Sound.SFX",
+            SettingKey = AppConstants.Setting.SFX,
             SettingValue = "100",
             ValueType = "int" 
         });
@@ -52,7 +52,7 @@ public class UserSettingsService : IUserSettingsService
         //Sound - Voice setting
         InsertUserSettings(userId, new UserSettings
         {
-            SettingKey = "Sound.Voice",
+            SettingKey = AppConstants.Setting.VOICE,
             SettingValue = "100",
             ValueType = "int" 
         });
@@ -60,7 +60,7 @@ public class UserSettingsService : IUserSettingsService
         //Graphic - Resolution setting
         InsertUserSettings(userId, new UserSettings
         {
-            SettingKey = "Graphic.Resolution",
+            SettingKey = AppConstants.Setting.RESOLUTION,
             SettingValue = "High",
             ValueType = "string" 
         });
@@ -68,7 +68,7 @@ public class UserSettingsService : IUserSettingsService
         //Graphic - Texture setting
         InsertUserSettings(userId, new UserSettings
         {
-            SettingKey = "Graphic.Texture",
+            SettingKey = AppConstants.Setting.TEXTURE,
             SettingValue = "High",
             ValueType = "string" 
         });
@@ -76,7 +76,7 @@ public class UserSettingsService : IUserSettingsService
         //Graphic - Damage Flytext setting
         InsertUserSettings(userId, new UserSettings
         {
-            SettingKey = "Graphic.DamageFlytext",
+            SettingKey = AppConstants.Setting.DAMAGE_FLYTEXT,
             SettingValue = "On",
             ValueType = "string" 
         });
@@ -84,7 +84,7 @@ public class UserSettingsService : IUserSettingsService
         //Graphic - In-game cinematic setting
         InsertUserSettings(userId, new UserSettings
         {
-            SettingKey = "Graphic.InGameCinematic",
+            SettingKey = AppConstants.Setting.IN_GAME_CINEMATIC,
             SettingValue = "On",
             ValueType = "string" 
         });
@@ -92,7 +92,7 @@ public class UserSettingsService : IUserSettingsService
         //Language - language setting
         InsertUserSettings(userId, new UserSettings
         {
-            SettingKey = "Language",
+            SettingKey = AppConstants.Setting.LANGUAGE,
             SettingValue = "vi",
             ValueType = "string" 
         });

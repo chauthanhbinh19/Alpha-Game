@@ -14,9 +14,9 @@ public class TitlesGalleryService : ITitlesGalleryService
         return new TitlesGalleryService(new TitlesGalleryRepository());
     }
 
-    public List<Architectures> GetTitlesCollection(int pageSize, int offset, string rare)
+    public List<Titles> GetTitlesCollection(int pageSize, int offset, string rare)
     {
-        List<Architectures> list = _titlesGalleryRepository.GetTitlesCollection(pageSize, offset, rare);
+        List<Titles> list = _titlesGalleryRepository.GetTitlesCollection(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -38,7 +38,7 @@ public class TitlesGalleryService : ITitlesGalleryService
         _titlesGalleryRepository.UpdateStatusTitlesGallery(Id);
     }
 
-    public Architectures SumPowerTitlesGallery()
+    public Titles SumPowerTitlesGallery()
     {
         return _titlesGalleryRepository.SumPowerTitlesGallery();
     }

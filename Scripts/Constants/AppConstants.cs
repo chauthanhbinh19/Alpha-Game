@@ -4,6 +4,17 @@ using OpenCover.Framework.Model;
 using UnityEditor.PackageManager;
 public static class AppConstants
 {
+    public static class Setting
+    {
+        public const string RESOLUTION = "Graphic.Resolution";
+        public const string TEXTURE = "Graphic.Texture";
+        public const string DAMAGE_FLYTEXT = "Graphic.DamageFlytext";
+        public const string IN_GAME_CINEMATIC = "Graphic.InGameCinematic";
+        public const string MUSIC = "Sound.Music";
+        public const string SFX = "Sound.SFX";
+        public const string VOICE = "Sound.Voice";
+        public const string LANGUAGE = "Language";
+    }
     public static class StatFields
     {
         public const string ID = "Id";

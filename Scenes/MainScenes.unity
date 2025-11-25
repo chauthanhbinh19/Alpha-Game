@@ -14325,6 +14325,8 @@ MonoBehaviour:
   ProfilePanelPrefab: {fileID: 5286951834573874977, guid: 17f9e47894c283544951cdb33cc78c63, type: 3}
   SettingPanelPrefab: {fileID: 8708252175272485654, guid: b8c2d4525091fa048ba831f1ea44d91d, type: 3}
   SettingButtonPrefab: {fileID: 1661859481911484232, guid: f4565445c6baf3846adb033aacae14d6, type: 3}
+  NewsPanelPrefab: {fileID: 8708252175272485654, guid: c93b5d4860dcb2a4dbd9a16638850231, type: 3}
+  NewsButtonPrefab: {fileID: 1661859481911484232, guid: 0c974994dd82b2a4c90e9d3106afd28c, type: 3}
   LanguageButtonPrefab: {fileID: 1661859481911484232, guid: e284744f05e3c4e4bb4dcd558765fb9d, type: 3}
   EditNamePanelPrefab: {fileID: 8708252175272485654, guid: fe1e540bcca1c9b459d3e214be4b8c8e, type: 3}
   CurrencyPanelPrefab: {fileID: 8708252175272485654, guid: df8722264b8cd3b4a938d765b6910f28, type: 3}

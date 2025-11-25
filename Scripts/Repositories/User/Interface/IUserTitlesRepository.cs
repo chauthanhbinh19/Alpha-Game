@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 public interface IUserTitlesRepository
 {
-    List<Architectures> GetUserTitles(string user_id, int pageSize, int offset, string rare);
+    List<Titles> GetUserTitles(string user_id, int pageSize, int offset, string rare);
     int GetUserTitlesCount(string user_id, string rare);
-    bool InsertUserTitles(Architectures titles);
-    bool UpdateTitlesLevel(Architectures titles, int cardLevel);
-    bool UpdateTitlesBreakthrough(Architectures titles, int star, double quantity);
-    Architectures GetUserTitlesById(string user_id, string Id);
-    Architectures SumPowerUserTitles();
+    bool InsertUserTitles(Titles titles);
+    bool UpdateTitlesLevel(Titles titles, int cardLevel);
+    bool UpdateTitlesBreakthrough(Titles titles, int star, double quantity);
+    Titles GetUserTitlesById(string user_id, string Id);
+    Titles SumPowerUserTitles();
 }

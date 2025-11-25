@@ -318,7 +318,7 @@ public class ShopManager : MonoBehaviour
                 Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_52_URL);
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
-                List<Architectures> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
+                List<Titles> titles = TitlesService.Create().GetTitlesWithPrice(pageSize, offset);
                 TitlesController.Instance.CreateTitlesTrade(titles, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = TitlesService.Create().GetTitlesWithPriceCount();
