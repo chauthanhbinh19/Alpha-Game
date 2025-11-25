@@ -437,7 +437,6 @@ public class MainMenuManager : MonoBehaviour
             PositionPanel = summonObject.transform.Find("DictionaryCards/Position");
 
             titleText = summonObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-            titleText2 = summonObject.transform.Find("DictionaryCards/TitleText2").GetComponent<TextMeshProUGUI>();
             CloseButton = summonObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             SummonButton = summonObject.transform.Find("DictionaryCards/SummonButton").GetComponent<Button>();
             Summon10Button = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
@@ -467,62 +466,40 @@ public class MainMenuManager : MonoBehaviour
             SummonTenButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SUMMON_TEN);
 
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
-            RawImage rawImage1 = summonObject.transform.Find("DictionaryCards/RawImage1").GetComponent<RawImage>();
-            RawImage rawImage2 = summonObject.transform.Find("DictionaryCards/RawImage2").GetComponent<RawImage>();
-            RawImage background2 = summonObject.transform.Find("DictionaryCards/Background2").GetComponent<RawImage>();
             if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_52");
-                // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_5");
-                rawImage1.texture = rawTexture;
-                rawImage2.texture = rawTexture;
-                background2.texture = texture;
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_200");
+                dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_51");
-                // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_6");
-                rawImage1.texture = rawTexture;
-                rawImage2.texture = rawTexture;
-                background2.texture = texture;
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_201");
+                dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_50");
-                // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_7");
-                rawImage1.texture = rawTexture;
-                rawImage2.texture = rawTexture;
-                background2.texture = texture;
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_202");
+                dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_49");
-                // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_8");
-                rawImage1.texture = rawTexture;
-                rawImage2.texture = rawTexture;
-                background2.texture = texture;
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_203");
+                dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_48");
-                // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_9");
-                rawImage1.texture = rawTexture;
-                rawImage2.texture = rawTexture;
-                background2.texture = texture;
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_204");
+                dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_47");
-                // dictionaryBackground.texture = texture;
-                Texture rawTexture = Resources.Load<Texture>("UI/Background4/Background_V4_10");
-                rawImage1.texture = rawTexture;
-                rawImage2.texture = rawTexture;
-                background2.texture = texture;
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_205");
+                dictionaryBackground.texture = texture;
+            }
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
+            {
+                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_206");
+                dictionaryBackground.texture = texture;
             }
         }
         else if (mainType.Equals(AppConstants.MainType.ANIME))
@@ -1076,7 +1053,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
         {
-            titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesRandom(type, 3);
             UserCardHeroesController.Instance.CreateUserCardHeroesForSummon(cardHeroes, PositionPanel);
 
@@ -1130,7 +1106,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS))
         {
-            titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
             List<Books> books = BooksService.Create().GetBooksRandom(type, 3);
             UserBooksController.Instance.CreateUserBooksForSummon(books, PositionPanel);
 
@@ -1181,7 +1156,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
         {
-            titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsRandom(type, 3);
             UserCardCaptainsController.Instance.CreateUserCardCaptainsForSummon(cardCaptains, PositionPanel);
 
@@ -1232,7 +1206,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
         {
-            titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardMilitaries> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryRandom(type, 3);
             UserCardMilitaryController.Instance.CreateUserCardMilitaryForSummon(cardMilitaries, PositionPanel);
 
@@ -1283,7 +1256,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
         {
-            titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardSpells> cardSpells = CardSpellService.Create().GetCardSpellRandom(type, 3);
             UserCardSpellController.Instance.CreateUserCardSpellForSummon(cardSpells, PositionPanel);
 
@@ -1334,7 +1306,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
         {
-            titleText2.text = "Summon " + string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersRandom(type, 3);
             UserCardMonstersController.Instance.CreateUserCardMonstersForSummon(cardMonsters, PositionPanel);
 
@@ -1385,7 +1356,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
         {
-            titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsRandom(type, 3);
             UserCardColonelsController.Instance.CreateUserCardColonelsForSummon(cardColonels, PositionPanel);
 
@@ -1436,7 +1406,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
         {
-            titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsRandom(type, 3);
             UserCardGeneralsController.Instance.CreateUserCardGeneralsForSummon(cardGenerals, PositionPanel);
 
@@ -1487,7 +1456,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
         {
-            titleText2.text = "Summon " + string.Concat(type.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())) + " Cards";
             List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsRandom(type, 3);
             UserCardAdmiralsController.Instance.CreateUserCardAdmiralsForSummon(cardAdmirals, PositionPanel);
 
