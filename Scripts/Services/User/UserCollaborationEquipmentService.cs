@@ -193,9 +193,9 @@ public class UserCollaborationEquipmentService : IUserCollaborationEquipmentServ
         return _userCollabEquipmentsRepo.GetUserCollaborationEquipmentCount(user_id, type, rare);
     }
 
-    public bool InsertUserCollaborationEquipments(CollaborationEquipments collaborationEquipment)
+    public bool InsertUserCollaborationEquipments(CollaborationEquipments collaborationEquipment, string userId)
     {
-        return _userCollabEquipmentsRepo.InsertUserCollaborationEquipments(collaborationEquipment);
+        return _userCollabEquipmentsRepo.InsertUserCollaborationEquipments(collaborationEquipment, userId);
     }
 
     public bool UpdateCollaborationEquipmentsLevel(CollaborationEquipments collaborationEquipment, int cardLevel)

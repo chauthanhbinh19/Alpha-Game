@@ -194,9 +194,9 @@ public class UserAlchemyService : IUserAlchemyService
         return _userAlchemyRepository.GetUserAlchemyCount(user_id, type, rare);
     }
 
-    public bool InsertUserAlchemy(Alchemies alchemy)
+    public bool InsertUserAlchemy(Alchemies alchemy, string userId)
     {
-        return _userAlchemyRepository.InsertUserAlchemy(alchemy);
+        return _userAlchemyRepository.InsertUserAlchemy(alchemy, userId);
     }
 
     public bool UpdateAlchemyLevel(Alchemies alchemy, int cardLevel)

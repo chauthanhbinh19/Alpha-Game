@@ -19,18 +19,18 @@ public class UserService : IUserService
     public string RegisterUser(string username, string password)
     {
         string userId = _userRepository.RegisterUser(username, password);
-        if (String.IsNullOrEmpty(userId))
+        if (!String.IsNullOrEmpty(userId))
         {
             createUserCurrency(userId);
             User.CurrentUserId = userId;
 
-            UserBordersService.Create().InsertUserBordersById("359");
+            UserBordersService.Create().InsertUserBordersById("359", userId);
             BordersGalleryService.Create().InsertBordersGallery("359");
-            UserBordersService.Create().UpdateIsUsedBorders("359", true);
+            UserBordersService.Create().UpdateIsUsedBorders("359", userId, true);
 
-            UserAvatarsService.Create().InsertUserAvatarsById("1");
+            UserAvatarsService.Create().InsertUserAvatarsById("1", userId);
             AvatarsGalleryService.Create().InsertAvatarsGallery("1");
-            UserAvatarsService.Create().UpdateIsUsedAvatars("1", true);
+            UserAvatarsService.Create().UpdateIsUsedAvatars("1", userId, true);
 
             PowerManagerService.Create().InsertUserStats(userId);
 
@@ -82,7 +82,7 @@ public class UserService : IUserService
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
             string Border = borders.Image;
 
-            Achievements avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+            Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
             string Image = avatar.Image;
 
             User.CurrentUserAvatar = Image;
@@ -162,7 +162,7 @@ public class UserService : IUserService
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
             string Border = borders.Image;
 
-            Achievements avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+            Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
             string Image = avatar.Image;
 
             User.CurrentUserAvatar = Image;
@@ -224,7 +224,7 @@ public class UserService : IUserService
         Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
         string Border = borders.Image;
 
-        Achievements avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+        Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
         string Image = avatar.Image;
 
         User.CurrentUserAvatar = Image;

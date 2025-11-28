@@ -1311,7 +1311,7 @@ public class UIManager : MonoBehaviour
         Transform currencyPanel = gameobject.transform.Find("DictionaryCards/Currency");
         List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
         ButtonEvent.Instance.Close(currencyPanel);
-        CurrencyManager.Instance.GetMainCurrency(currencies, currencyPanel);
+        CurrenciesManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
         var oneResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
         var maxResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);

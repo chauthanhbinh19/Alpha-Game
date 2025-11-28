@@ -14,9 +14,9 @@ public class UserAvatarsService : IUserAvatarsService
         return new UserAvatarsService(new UserAvatarsRepository());
     }
 
-    public List<Achievements> GetUserAvatars(string user_id, int pageSize, int offset, string rare)
+    public List<Avatars> GetUserAvatars(string user_id, int pageSize, int offset, string rare)
     {
-        List<Achievements> list = _userAvatarsRepository.GetUserAvatars(user_id, pageSize, offset, rare);
+        List<Avatars> list = _userAvatarsRepository.GetUserAvatars(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
@@ -26,29 +26,29 @@ public class UserAvatarsService : IUserAvatarsService
         return _userAvatarsRepository.GetUserMedalsCount(user_id, rare);
     }
 
-    public bool InsertUserAvatars(Achievements avatars)
+    public bool InsertUserAvatars(Avatars avatars, string userId)
     {
-        return _userAvatarsRepository.InsertUserAvatars(avatars);
+        return _userAvatarsRepository.InsertUserAvatars(avatars, userId);
     }
 
-    public bool InsertUserAvatarsById(string Id)
+    public bool InsertUserAvatarsById(string avatarId, string userId)
     {
         IAvatarsRepository _repository = new AvatarsRepository();
         AvatarsService _service = new AvatarsService(_repository);
-        return _userAvatarsRepository.InsertUserAvatarsById(Id, _service.GetAvatarsById(Id));
+        return _userAvatarsRepository.InsertUserAvatarsById(_service.GetAvatarsById(avatarId), userId);
     }
 
-    public Achievements GetAvatarsByUsed(string user_id)
+    public Avatars GetAvatarsByUsed(string user_id)
     {
         return _userAvatarsRepository.GetAvatarsByUsed(user_id);
     }
 
-    public void UpdateIsUsedAvatars(string Id, bool is_used)
+    public void UpdateIsUsedAvatars(string avatarId, string userId, bool is_used)
     {
-        _userAvatarsRepository.UpdateIsUsedAvatars(Id, is_used);
+        _userAvatarsRepository.UpdateIsUsedAvatars(avatarId, userId, is_used);
     }
 
-    public Achievements SumPowerUserAvatars()
+    public Avatars SumPowerUserAvatars()
     {
         return _userAvatarsRepository.SumPowerUserAvatars();
     }

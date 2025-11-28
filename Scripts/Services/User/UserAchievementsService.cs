@@ -199,9 +199,9 @@ public class UserAchievementsService : IUserAchievementsService
         return _userAchievementsRepository.GetUserCollaborationCount(user_id, rare);
     }
 
-    public bool InsertUserAchievements(Achievements Achievements)
+    public bool InsertUserAchievements(Achievements Achievements, string userId)
     {
-        return _userAchievementsRepository.InsertUserAchievements(Achievements);
+        return _userAchievementsRepository.InsertUserAchievements(Achievements, userId);
     }
 
     public bool UpdateAchievementLevel(Achievements achievements, int cardLevel)

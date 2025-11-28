@@ -193,9 +193,9 @@ public class UserCoresService : IUserCoresService
         return _userCoresRepository.GetUserCoresCount(user_id, rare);
     }
 
-    public bool InsertUserCores(Cores Cores)
+    public bool InsertUserCores(Cores Cores, string userId)
     {
-        return _userCoresRepository.InsertUserCores(Cores);
+        return _userCoresRepository.InsertUserCores(Cores, userId);
     }
 
     public bool UpdateCoresLevel(Cores Cores, int cardLevel)

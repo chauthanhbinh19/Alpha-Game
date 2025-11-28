@@ -4,7 +4,7 @@ public interface IUserCardLifeRepository
 {
     List<CardLives> GetUserCardLife(string user_id, string type, int pageSize, int offset, string rare);
     int GetUserCardLifeCount(string user_id, string type, string rare);
-    bool InsertUserCardLife(CardLives CardLife);
+    bool InsertUserCardLife(CardLives CardLife, string userId);
     bool UpdateCardLifeLevel(CardLives CardLife, int cardLevel);
     bool UpdateCardLifeBreakthrough(CardLives CardLife, int star, double quantity);
     CardLives GetUserCardLifeById(string user_id, string Id);

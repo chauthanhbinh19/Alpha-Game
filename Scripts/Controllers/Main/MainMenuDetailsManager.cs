@@ -38,7 +38,6 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform buttonGroupPanel3;
     private Transform setButtonGroupPanel;
     private RawImage CardBackground;
-    private string mainType;
     // private double increasePerLevel = 0.01;
     // private double increasePerUpgrade = 1.1;
     // private TeamsService teamsService;
@@ -110,13 +109,12 @@ public class MainMenuDetailsManager : MonoBehaviour
 
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
         // Kiểm tra kiểu của data và ép kiểu phù hợp
-        if (data is CardHeroes cardHeroes)
+        if (data is CardHeroes cardHero)
         {
             // Xử lý đối tượng Card
-            mainType = "CardHeroes";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
-            UserCardHeroesController.Instance.ShowCardHeroesDetails(cardHeroes, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardHeroes.Type}");
+            UserCardHeroesController.Instance.ShowCardHeroesDetails(cardHero, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_HERO_BACKGROUND_URL);
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -129,10 +127,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Books book)
         {
             // Xử lý đối tượng Book
-            mainType = "Books";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BOOK);
             UserBooksController.Instance.ShowBooksDetails(book, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.BOOK_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -141,13 +138,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.BOOK);
             });
         }
-        else if (data is CardCaptains cardCaptains)
+        else if (data is CardCaptains cardCaptain)
         {
             // Xử lý đối tượng Captain
-            mainType = "CardCaptains";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
-            UserCardCaptainsController.Instance.ShowCardCaptainsDetails(cardCaptains, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardCaptains.Type}");
+            UserCardCaptainsController.Instance.ShowCardCaptainsDetails(cardCaptain, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_CAPTAIN_BACKGROUND_URL);
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -160,10 +156,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Pets pet)
         {
             // Xử lý đối tượng Pet
-            mainType = "Pets";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PET);
             UserPetsController.Instance.ShowPetsDetails(pet, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.PET_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -175,10 +170,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is CollaborationEquipments collaborationEquipmentsequipment)
         {
             // Xử lý đối tượng CollaborationEquipment
-            mainType = "CollaborationEquipments";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION_EQUIPMENT);
-            UserCollaborationEquipmentController.Instance.ShowCollaborationEquipmentsDetails(collaborationEquipmentsequipment, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserCollaborationEquipmentsController.Instance.ShowCollaborationEquipmentsDetails(collaborationEquipmentsequipment, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.COLLABORATION_EQUIPMENT_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -190,10 +184,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is CardMilitaries cardMilitary)
         {
             // Xử lý đối tượng Military
-            mainType = "CardMilitary";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
-            UserCardMilitaryController.Instance.ShowCardMilitaryDetails(cardMilitary, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardMilitary.Type}");
+            UserCardMilitariesController.Instance.ShowCardMilitaryDetails(cardMilitary, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_MILITARY_BACKGROUND_URL);
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -206,10 +199,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is CardSpells cardSpell)
         {
             // Xử lý đối tượng Spell
-            mainType = "CardSpell";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
-            UserCardSpellController.Instance.ShowCardSpellDetails(cardSpell, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserCardSpellsController.Instance.ShowCardSpellDetails(cardSpell, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_SPELL_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -221,10 +213,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Collaborations collaboration)
         {
             // Xử lý đối tượng Collaboration
-            mainType = "Collaborations";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION);
-            UserCollaborationController.Instance.ShowCollaborationsDetails(collaboration, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserCollaborationsController.Instance.ShowCollaborationsDetails(collaboration, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.COLLABORATION_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -233,13 +224,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.COLLABORATION);
             });
         }
-        else if (data is CardMonsters cardMonsters)
+        else if (data is CardMonsters cardMonster)
         {
             // Xử lý đối tượng Monster
-            mainType = "CardMonsters";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
-            UserCardMonstersController.Instance.ShowCardMonstersDetails(cardMonsters, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserCardMonstersController.Instance.ShowCardMonstersDetails(cardMonster, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_MONSTER_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -251,10 +241,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Equipments equipment)
         {
             // Xử lý đối tượng Equipment
-            mainType = "Equipments";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EQUIPMENT);
             UserEquipmentsController.Instance.ShowEquipmentsDetails(equipment, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.EQUIPMENT_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -266,10 +255,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Medals medal)
         {
             // Xử lý đối tượng Medal
-            mainType = "Medals";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MEDAL);
             UserMedalsController.Instance.ShowMedalsDetails(medal, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.MEDAL_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -281,10 +269,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Skills skill)
         {
             // Xử lý đối tượng Skill
-            mainType = "Skills";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SKILL);
             UserSkillsController.Instance.ShowSkillsDetails(skill, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.SKILL_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -296,10 +283,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Symbols symbol)
         {
             // Xử lý đối tượng Symbol
-            mainType = "Symbols";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SYMBOL);
             UserSymbolsController.Instance.ShowSymbolsDetails(symbol, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.SYMBOL_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -311,10 +297,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Titles title)
         {
             // Xử lý đối tượng Title
-            mainType = "Titles";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TITLE);
             UserTitlesController.Instance.ShowTitlesDetails(title, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.TITLE_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -325,11 +310,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else if (data is MagicFormationCircles magicFormationCircle)
         {
-            // Xử lý đối tượng Title
-            mainType = "MagicFormationCircle";
+            // Xử lý đối tượng magic formation circle
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MAGIC_FORMATION_CIRCLE);
-            UserMagicFormationCircleController.Instance.ShowMagicFormationCircleDetails(magicFormationCircle, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserMagicFormationCirclesController.Instance.ShowMagicFormationCircleDetails(magicFormationCircle, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.MAGIC_FORMATION_CIRCLE_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -338,13 +322,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
             });
         }
-        else if (data is Relics relics)
+        else if (data is Relics relic)
         {
-            // Xử lý đối tượng Title
-            mainType = "Relics";
+            // Xử lý đối tượng relic
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RELIC);
-            UserRelicsController.Instance.ShowRelicsDetails(relics, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserRelicsController.Instance.ShowRelicsDetails(relic, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.RELIC_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -353,13 +336,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.RELIC);
             });
         }
-        else if (data is CardColonels cardColonels)
+        else if (data is CardColonels cardColonel)
         {
             // Xử lý đối tượng colonels
-            mainType = "CardColonels";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
-            UserCardColonelsController.Instance.ShowCardColonelsDetails(cardColonels, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardColonels.Type}");
+            UserCardColonelsController.Instance.ShowCardColonelsDetails(cardColonel, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_COLONEL_BACKGROUND_URL);
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -369,13 +351,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_COLONEL);
             });
         }
-        else if (data is CardGenerals cardGenerals)
+        else if (data is CardGenerals cardGeneral)
         {
             // Xử lý đối tượng Generals
-            mainType = "CardGenerals";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
-            UserCardGeneralsController.Instance.ShowCardGeneralsDetails(cardGenerals, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardGenerals.Type}");
+            UserCardGeneralsController.Instance.ShowCardGeneralsDetails(cardGeneral, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_GENERAL_BACKGROUND_URL);
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -385,13 +366,12 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_GENERAL);
             });
         }
-        else if (data is CardAdmirals cardAdmirals)
+        else if (data is CardAdmirals cardAdmiral)
         {
             // Xử lý đối tượng admirals
-            mainType = "CardAdmirals";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
-            UserCardAdmiralsController.Instance.ShowCardAdmiralsDetails(cardAdmirals, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardAdmirals.Type}");
+            UserCardAdmiralsController.Instance.ShowCardAdmiralsDetails(cardAdmiral, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_ADMIRAL_BACKGROUND_URL);
             CardBackground.texture = texture;
             CardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
@@ -406,13 +386,12 @@ public class MainMenuDetailsManager : MonoBehaviour
         //     // Xử lý đối tượng borders
         //     ShowBordersDetails(borders);
         // }
-        else if (data is Achievements achievements)
+        else if (data is Achievements achievement)
         {
             // Xử lý đối tượng achievements
-            mainType = "Achievements";
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ACHIEVEMENT);
-            UserAchievementsController.Instance.ShowAchievementsDetails(achievements, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserAchievementsController.Instance.ShowAchievementsDetails(achievement, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.ACHIEVEMENT_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -423,11 +402,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else if (data is Talismans talisman)
         {
-            // Xử lý đối tượng achievements
-            mainType = "Talisman";
+            // Xử lý đối tượng talisman
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TALISMAN);
-            UserTalismanController.Instance.ShowTalismanDetails(talisman, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserTalismansController.Instance.ShowTalismanDetails(talisman, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.TALISMAN_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -438,11 +416,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else if (data is Puppets puppet)
         {
-            // Xử lý đối tượng achievements
-            mainType = "Puppet";
+            // Xử lý đối tượng puppet
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PUPPET);
-            UserPuppetController.Instance.ShowPuppetDetails(puppet, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserPuppetsController.Instance.ShowPuppetDetails(puppet, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.PUPPET_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -453,11 +430,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else if (data is Alchemies alchemy)
         {
-            // Xử lý đối tượng achievements
-            mainType = "Alchemy";
+            // Xử lý đối tượng alchemy
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ALCHEMY);
-            UserAlchemyController.Instance.ShowAlchemyDetails(alchemy, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserAlchemiesController.Instance.ShowAlchemyDetails(alchemy, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.ALCHEMY_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -468,11 +444,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else if (data is Forges forge)
         {
-            // Xử lý đối tượng achievements
-            mainType = "Forge";
+            // Xử lý đối tượng forge
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FORGE);
-            UserForgeController.Instance.ShowForgeDetails(forge, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserForgesController.Instance.ShowForgeDetails(forge, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.FORGE_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -483,11 +458,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else if (data is CardLives cardLife)
         {
-            // Xử lý đối tượng achievements
-            mainType = "CardLife";
+            // Xử lý đối tượng card life
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_LIFE);
-            UserCardLifeController.Instance.ShowCardLifeDetails(cardLife, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserCardLivesController.Instance.ShowCardLifeDetails(cardLife, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_LIFE_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -498,11 +472,10 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else if (data is Artworks artwork)
         {
-            // Xử lý đối tượng achievements
-            mainType = "Artwork";
+            // Xử lý đối tượng artwork
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARTWORK);
-            UserArtworkController.Instance.ShowArtworkDetails(artwork, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserArtworksController.Instance.ShowArtworkDetails(artwork, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.ARTWORK_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
@@ -513,17 +486,170 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else if (data is SpiritBeasts spiritBeast)
         {
-            // Xử lý đối tượng achievements
-            mainType = "SpiritBeast";
+            // Xử lý đối tượng spirit beast
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SPIRIT_BEAST);
-            UserSpiritBeastController.Instance.ShowSpiritBeastDetails(spiritBeast, currentObject);
-            Texture texture = Resources.Load<Texture>($"UI/Background3/{mainType}");
+            UserSpiritBeastsController.Instance.ShowSpiritBeastDetails(spiritBeast, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.SPIRIT_BEAST_BACKGROUND_URL);
             CardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ButtonEvent.Instance.Close(MainPanel);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SPIRIT_BEAST);
+            });
+        }
+        else if (data is SpiritCards spiritCard)
+        {
+            // Xử lý đối tượng spirit card
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SPIRIT_CARD);
+            UserSpiritCardsController.Instance.ShowSpiritCardDetails(spiritCard, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.SPIRIT_CARD_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SPIRIT_CARD);
+            });
+        }
+        else if (data is Cards card)
+        {
+            // Xử lý đối tượng card
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD);
+            UserCardsController.Instance.ShowCardsDetails(card, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD);
+            });
+        }
+        else if (data is Architectures architecture)
+        {
+            // Xử lý đối tượng architecture
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARCHITECTURE);
+            UserArchitecturesController.Instance.ShowArchitecturesDetails(architecture, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.ARCHITECTURE_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ARCHITECTURE);
+            });
+        }
+        else if (data is Technologies technology)
+        {
+            // Xử lý đối tượng technology
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TECHNOLOGY);
+            UserTechnologiesController.Instance.ShowTechnologiesDetails(technology, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.TECHNOLOGY_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.TECHNOLOGY);
+            });
+        }
+        else if (data is Vehicles vehicle)
+        {
+            // Xử lý đối tượng vehicle
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.VEHICLE);
+            UserVehiclesController.Instance.ShowVehicleDetails(vehicle, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.VEHICLE_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.VEHICLE);
+            });
+        }
+        else if (data is Cores core)
+        {
+            // Xử lý đối tượng core
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CORE);
+            UserCoresController.Instance.ShowCoresDetails(core, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CORE_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CORE);
+            });
+        }
+        else if (data is Weapons weapon)
+        {
+            // Xử lý đối tượng weapon
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.WEAPON);
+            UserWeaponsController.Instance.ShowWeaponsDetails(weapon, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.WEAPON_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.WEAPON);
+            });
+        }
+        else if (data is Robots robot)
+        {
+            // Xử lý đối tượng robot
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ROBOT);
+            UserRobotsController.Instance.ShowRobotsDetails(robot, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.ROBOT_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ROBOT);
+            });
+        }
+        else if (data is Badges badge)
+        {
+            // Xử lý đối tượng badge
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BADGE);
+            UserBadgesController.Instance.ShowBadgesDetails(badge, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.BADGE_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.BADGE);
+            });
+        }
+        else if (data is MechaBeasts mechaBeast)
+        {
+            // Xử lý đối tượng mecha beast
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MECHA_BEAST);
+            UserMechaBeastsController.Instance.ShowMechaBeastsDetails(mechaBeast, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.MECHA_BEAST_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MECHA_BEAST);
+            });
+        }
+        else if (data is Runes rune)
+        {
+            // Xử lý đối tượng rune
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
+            UserRunesController.Instance.ShowRunesDetails(rune, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.RUNE_BACKGROUND_URL);
+            CardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.RUNE);
             });
         }
         else

@@ -193,9 +193,9 @@ public class UserMagicFormationCircleService : IUserMagicFormationCircleService
         return _userMagicFormationCircleRepository.GetUserMagicFormationCircleCount(user_id, type, rare);
     }
 
-    public bool InsertUserMagicFormationCircle(MagicFormationCircles magicFormationCircle)
+    public bool InsertUserMagicFormationCircle(MagicFormationCircles magicFormationCircle, string userId)
     {
-        return _userMagicFormationCircleRepository.InsertUserMagicFormationCircle(magicFormationCircle);
+        return _userMagicFormationCircleRepository.InsertUserMagicFormationCircle(magicFormationCircle, userId);
     }
 
     public bool UpdateMagicFormationCircleLevel(MagicFormationCircles magicFormationCircle, int cardLevel)

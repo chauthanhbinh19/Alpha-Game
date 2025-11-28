@@ -193,9 +193,9 @@ public class UserRobotsService : IUserRobotsService
         return _userRobotsRepository.GetUserRobotsCount(user_id, rare);
     }
 
-    public bool InsertUserRobots(Robots Robots)
+    public bool InsertUserRobots(Robots Robots, string userId)
     {
-        return _userRobotsRepository.InsertUserRobots(Robots);
+        return _userRobotsRepository.InsertUserRobots(Robots, userId);
     }
 
     public bool UpdateRobotsLevel(Robots Robots, int cardLevel)

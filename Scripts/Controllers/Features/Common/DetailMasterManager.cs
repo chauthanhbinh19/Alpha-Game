@@ -82,7 +82,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardHeroesEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardHeroes);
@@ -105,7 +105,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardHeroesEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardHeroes);
@@ -157,7 +157,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateBooksEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, books);
@@ -180,7 +180,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateBooksEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, books);
@@ -232,7 +232,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardCaptainsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardCaptains);
@@ -255,7 +255,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardCaptainsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardCaptains);
@@ -307,7 +307,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreatePetsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, pets);
@@ -330,7 +330,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreatePetsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, pets);
@@ -382,7 +382,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardMilitaryEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMilitary);
@@ -405,7 +405,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardMilitaryEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMilitary);
@@ -457,7 +457,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardSpellEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardSpell);
@@ -480,7 +480,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardSpellEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardSpell);
@@ -532,7 +532,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardMonstersEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMonsters);
@@ -555,7 +555,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardMonstersEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMonsters);
@@ -607,7 +607,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardColonelsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardColonels);
@@ -630,7 +630,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardColonelsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardColonels);
@@ -682,7 +682,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardGeneralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardGenerals);
@@ -705,7 +705,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardGeneralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardGenerals);
@@ -757,7 +757,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardAdmiralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardAdmirals);
@@ -780,7 +780,7 @@ public class DetailMasterManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
                 CreateCardAdmiralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardAdmirals);

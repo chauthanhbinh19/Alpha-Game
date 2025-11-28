@@ -147,7 +147,7 @@ public class CardsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetCardsCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -291,11 +291,11 @@ public class CardsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Cards Cards)
+            if (obj is Cards card)
             {
-                Cards.Quantity = Cards.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(Cards.Currency.Id, price);
-                bool success = UserCardsService.Create().InsertUserCards(Cards);
+                card.Quantity = card.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(card.Currency.Id, price);
+                bool success = UserCardsService.Create().InsertUserCards(card, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -308,12 +308,12 @@ public class CardsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    CardsGalleryService.Create().InsertCardsGallery(Cards.Id);
+                    CardsGalleryService.Create().InsertCardsGallery(card.Id);
                     currencies = UserCurrencyService.Create().GetCardsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Cards.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);

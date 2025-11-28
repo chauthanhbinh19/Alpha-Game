@@ -33,7 +33,7 @@ public class AvatarsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateAvatarsGallery(List<Achievements> Avatars, Transform DictionaryContentPanel)
+    public void CreateAvatarsGallery(List<Avatars> Avatars, Transform DictionaryContentPanel)
     {
         foreach (var Avatar in Avatars)
         {
@@ -99,7 +99,7 @@ public class AvatarsGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
             Button Upgrade = AvatarObject.transform.Find("UpgradeButton").GetComponent<Button>();

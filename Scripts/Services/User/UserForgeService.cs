@@ -193,9 +193,9 @@ public class UserForgeService : IUserForgeService
         return _userForgeRepository.GetUserForgeCount(user_id, type, rare);
     }
 
-    public bool InsertUserForge(Forges forge)
+    public bool InsertUserForge(Forges forge, string userId)
     {
-        return _userForgeRepository.InsertUserForge(forge);
+        return _userForgeRepository.InsertUserForge(forge, userId);
     }
 
     public bool UpdateForgeLevel(Forges forge, int cardLevel)

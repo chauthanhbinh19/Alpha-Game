@@ -193,9 +193,9 @@ public class UserCardsService : IUserCardsService
         return _userCardsRepository.GetUserCardsCount(user_id, rare);
     }
 
-    public bool InsertUserCards(Cards Cards)
+    public bool InsertUserCards(Cards Cards, string userId)
     {
-        return _userCardsRepository.InsertUserCards(Cards);
+        return _userCardsRepository.InsertUserCards(Cards, userId);
     }
 
     public bool UpdateCardsLevel(Cards Cards, int cardLevel)

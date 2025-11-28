@@ -216,7 +216,7 @@ public class UserVehiclesController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
@@ -248,7 +248,7 @@ public class UserVehiclesController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -364,7 +364,7 @@ public class UserVehiclesController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     VehicleGalleryService.Create().UpdateStarVehiclesGallery(Vehicle.Id, Vehicle.Star + 1);
 

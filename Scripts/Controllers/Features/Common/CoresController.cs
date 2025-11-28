@@ -169,7 +169,7 @@ public class CoresController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetCoresCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -313,11 +313,11 @@ public class CoresController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Cores Cores)
+            if (obj is Cores core)
             {
-                Cores.Quantity = Cores.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(Cores.Currency.Id, price);
-                bool success = UserCoresService.Create().InsertUserCores(Cores);
+                core.Quantity = core.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(core.Currency.Id, price);
+                bool success = UserCoresService.Create().InsertUserCores(core, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -330,12 +330,12 @@ public class CoresController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    CoresGalleryService.Create().InsertCoresGallery(Cores.Id);
+                    CoresGalleryService.Create().InsertCoresGallery(core.Id);
                     currencies = UserCurrencyService.Create().GetCoresCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Cores.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -355,7 +355,7 @@ public class CoresController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

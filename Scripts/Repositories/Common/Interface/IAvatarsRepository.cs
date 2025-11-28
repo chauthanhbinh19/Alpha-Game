@@ -3,10 +3,10 @@ using System.Collections.Generic;
 public interface IAvatarsRepository
 {
     List<string> GetUniqueAvatarsId();
-    List<Achievements> GetAvatars(int pageSize, int offset, string rare);
+    List<Avatars> GetAvatars(int pageSize, int offset, string rare);
     int GetAvatarsCount(string rare);
-    List<Achievements> GetAvatarsWithPrice(int pageSize, int offset);
+    List<Avatars> GetAvatarsWithPrice(int pageSize, int offset);
     int GetAvatarsWithPriceCount();
-    Achievements GetAvatarsById(string Id);
-    Achievements SumPowerAvatarsPercent();
+    Avatars GetAvatarsById(string Id);
+    Avatars SumPowerAvatarsPercent();
 }

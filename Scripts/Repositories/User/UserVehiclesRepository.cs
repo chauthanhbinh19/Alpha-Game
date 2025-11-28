@@ -150,7 +150,7 @@ public class UserVehicleRepository : IUserVehicleRepository
         }
         return count;
     }
-    public bool InsertUserVehicle(Vehicles Vehicle)
+    public bool InsertUserVehicle(Vehicles Vehicle, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -165,7 +165,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -208,7 +208,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
                     command.Parameters.AddWithValue("@rare", Vehicle.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -299,7 +299,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                     WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", Vehicle.Quantity);
 

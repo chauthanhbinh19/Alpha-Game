@@ -380,7 +380,7 @@ public class UserPetsRepository : IUserPetsRepository
         }
         return count;
     }
-    public bool InsertUserPets(Pets pets)
+    public bool InsertUserPets(Pets pets, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -395,7 +395,7 @@ public class UserPetsRepository : IUserPetsRepository
                 WHERE user_id = @user_id AND pet_id = @pet_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@pet_id", pets.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -438,7 +438,7 @@ public class UserPetsRepository : IUserPetsRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@pet_id", pets.Id);
                     command.Parameters.AddWithValue("@rare", pets.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -508,7 +508,7 @@ public class UserPetsRepository : IUserPetsRepository
                     WHERE user_id = @user_id AND pet_id = @pet_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@pet_id", pets.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", pets.Quantity);
 

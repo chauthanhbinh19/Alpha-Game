@@ -93,7 +93,7 @@ public class CardHeroesGalleryController : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
             Button Upgrade = cardObject.transform.Find("UpgradeButton").GetComponent<Button>();

@@ -290,7 +290,7 @@ public class UserCardMonstersController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
@@ -322,7 +322,7 @@ public class UserCardMonstersController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
@@ -665,7 +665,7 @@ public class UserCardMonstersController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     CardMonstersGalleryService.Create().UpdateStarCardMonstersGallery(cardMonsters.Id, cardMonsters.Star + 1);
 
@@ -816,7 +816,7 @@ public class UserCardMonstersController : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     var card = UserCardMonstersService.Create().GetUserCardMonstersById(User.CurrentUserId, cardMonsters.Id);
                     ShowCardMonstersDetails(card, currentObject, 5);

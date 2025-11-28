@@ -110,7 +110,7 @@ public class ShopManager : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
-        FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         Transform tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         CreateButton(1, AppDisplayConstants.MainType.CARD_HEROES, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_HERO_URL), tempContent);
@@ -297,7 +297,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<Collaborations> collaborations = CollaborationService.Create().GetCollaborationWithPrice(pageSize, offset);
-                CollaborationController.Instance.CreateCollaborationTrade(collaborations, type, currentContent, currencyPanel, popupPanel);
+                CollaborationsController.Instance.CreateCollaborationTrade(collaborations, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = CollaborationService.Create().GetCollaborationWithPriceCount();
             }
@@ -352,7 +352,7 @@ public class ShopManager : MonoBehaviour
                 firstDecorationImage.texture = firstDecorationTexture;
                 secondDecorationImage.texture = secondDecorationTexture;
                 List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
-                SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
+                SpiritBeastsController.Instance.CreateSpiritBeastTrade(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
             }
@@ -421,6 +421,39 @@ public class ShopManager : MonoBehaviour
                 RobotsController.Instance.CreateRobotsTrade(robots, type, currentContent, currencyPanel, popupPanel);
 
                 totalRecord = RobotsService.Create().GetRobotsWithPriceCount();
+            }
+            else if (mainType.Equals(AppConstants.MainType.BADGE))
+            {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_69_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_70_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+                List<Badges> badges = BadgesService.Create().GetBadgesWithPrice(pageSize, offset);
+                BadgesController.Instance.CreateBadgesTrade(badges, type, currentContent, currencyPanel, popupPanel);
+
+                totalRecord = BadgesService.Create().GetBadgesWithPriceCount();
+            }
+            else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
+            {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_71_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_72_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+                List<MechaBeasts> mechaBeasts = MechaBeastsService.Create().GetMechaBeastsWithPrice(pageSize, offset);
+                MechaBeastsController.Instance.CreateMechaBeastsTrade(mechaBeasts, type, currentContent, currencyPanel, popupPanel);
+
+                totalRecord = MechaBeastsService.Create().GetMechaBeastsWithPriceCount();
+            }
+            else if (mainType.Equals(AppConstants.MainType.RUNE))
+            {
+                Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_73_URL);
+                Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_74_URL);
+                firstDecorationImage.texture = firstDecorationTexture;
+                secondDecorationImage.texture = secondDecorationTexture;
+                List<Runes> runes = RunesService.Create().GetRunesWithPrice(pageSize, offset);
+                RunesController.Instance.CreateRunesTrade(runes, type, currentContent, currencyPanel, popupPanel);
+
+                totalRecord = RunesService.Create().GetRunesWithPriceCount();
             }
 
             totalPage = CalculateTotalPages(totalRecord, pageSize);
@@ -492,7 +525,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<CollaborationEquipments> collaborationEquipments = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPrice(type, pageSize, offset);
-            CollaborationEquipmentController.Instance.CreateCollaborationEquipmentsTrade(collaborationEquipments, type, currentContent, currencyPanel, popupPanel);
+            CollaborationEquipmentsController.Instance.CreateCollaborationEquipmentsTrade(collaborationEquipments, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CollaborationEquipmentService.Create().GetCollaborationEquipmentsWithPriceCount(type);
         }
@@ -547,7 +580,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<CardMilitaries> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryWithPrice(type, pageSize, offset);
-            CardMilitaryController.Instance.CreateCardMilitaryTrade(cardMilitaries, type, currentContent, currencyPanel, popupPanel);
+            CardMilitariesController.Instance.CreateCardMilitaryTrade(cardMilitaries, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardMilitaryService.Create().GetCardMilitaryWithPriceCount(type);
         }
@@ -558,7 +591,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<CardSpells> cardSpells = CardSpellService.Create().GetCardSpellWithPrice(type, pageSize, offset);
-            CardSpellController.Instance.CreateCardSpellTrade(cardSpells, type, currentContent, currencyPanel, popupPanel);
+            CardSpellsController.Instance.CreateCardSpellTrade(cardSpells, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardSpellService.Create().GetCardSpellWithPriceCount(type);
         }
@@ -569,7 +602,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<MagicFormationCircles> magicFormationCircles = MagicFormationCircleService.Create().GetMagicFormationCircleWithPrice(type, pageSize, offset);
-            MagicFormationCircleController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, type, currentContent, currencyPanel, popupPanel);
+            MagicFormationCirclesController.Instance.CreateMagicFormationCircleTrade(magicFormationCircles, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = MagicFormationCircleService.Create().GetMagicFormationCircleWithPriceCount(type);
         }
@@ -635,7 +668,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Talismans> talismans = TalismanService.Create().GetTalismanWithPrice(type, pageSize, offset);
-            TalismanController.Instance.CreateTalismanTrade(talismans, type, currentContent, currencyPanel, popupPanel);
+            TalismansController.Instance.CreateTalismanTrade(talismans, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = TalismanService.Create().GetTalismanWithPriceCount(type);
         }
@@ -646,7 +679,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Puppets> puppets = PuppetService.Create().GetPuppetWithPrice(type, pageSize, offset);
-            PuppetController.Instance.CreatePuppetTrade(puppets, type, currentContent, currencyPanel, popupPanel);
+            PuppetsController.Instance.CreatePuppetTrade(puppets, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = PuppetService.Create().GetPuppetWithPriceCount(type);
         }
@@ -657,7 +690,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Alchemies> alchemies = AlchemyService.Create().GetAlchemyWithPrice(type, pageSize, offset);
-            AlchemyController.Instance.CreateAlchemyTrade(alchemies, type, currentContent, currencyPanel, popupPanel);
+            AlchemiesController.Instance.CreateAlchemyTrade(alchemies, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = AlchemyService.Create().GetAlchemyWithPriceCount(type);
         }
@@ -668,7 +701,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Forges> forges = ForgeService.Create().GetForgeWithPrice(type, pageSize, offset);
-            ForgeController.Instance.CreateForgeTrade(forges, type, currentContent, currencyPanel, popupPanel);
+            ForgesController.Instance.CreateForgeTrade(forges, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = ForgeService.Create().GetForgeWithPriceCount(type);
         }
@@ -679,7 +712,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<CardLives> cardLives = CardLifeService.Create().GetCardLifeWithPrice(type, pageSize, offset);
-            CardLifeController.Instance.CreateCardLifeTrade(cardLives, type, currentContent, currencyPanel, popupPanel);
+            CardLivesController.Instance.CreateCardLifeTrade(cardLives, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = CardLifeService.Create().GetCardLifeWithPriceCount(type);
         }
@@ -690,7 +723,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<Artworks> artworks = ArtworkService.Create().GetArtworkWithPrice(type, pageSize, offset);
-            ArtworkController.Instance.CreateArtworkTrade(artworks, type, currentContent, currencyPanel, popupPanel);
+            ArtworksController.Instance.CreateArtworkTrade(artworks, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = ArtworkService.Create().GetArtworkWithPriceCount(type);
         }
@@ -701,7 +734,7 @@ public class ShopManager : MonoBehaviour
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
             List<SpiritBeasts> spiritBeasts = SpiritBeastService.Create().GetSpiritBeastWithPrice(pageSize, offset);
-            SpiritBeastController.Instance.CreateSpiritBeastTrade(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
+            SpiritBeastsController.Instance.CreateSpiritBeastTrade(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = SpiritBeastService.Create().GetSpiritBeastWithPriceCount();
         }
@@ -781,6 +814,39 @@ public class ShopManager : MonoBehaviour
             RobotsController.Instance.CreateRobotsTrade(robots, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = RobotsService.Create().GetRobotsWithPriceCount();
+        }
+        else if (mainType.Equals(AppConstants.MainType.BADGE))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_69_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_70_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Badges> badges = BadgesService.Create().GetBadgesWithPrice(pageSize, offset);
+            BadgesController.Instance.CreateBadgesTrade(badges, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = BadgesService.Create().GetBadgesWithPriceCount();
+        }
+        else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_71_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_72_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<MechaBeasts> mechaBeasts = MechaBeastsService.Create().GetMechaBeastsWithPrice(pageSize, offset);
+            MechaBeastsController.Instance.CreateMechaBeastsTrade(mechaBeasts, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = MechaBeastsService.Create().GetMechaBeastsWithPriceCount();
+        }
+        else if (mainType.Equals(AppConstants.MainType.RUNE))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_73_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_74_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Runes> runes = RunesService.Create().GetRunesWithPrice(pageSize, offset);
+            RunesController.Instance.CreateRunesTrade(runes, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = RunesService.Create().GetRunesWithPriceCount();
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);

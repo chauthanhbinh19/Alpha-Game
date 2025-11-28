@@ -193,9 +193,9 @@ public class UserVehicleService : IUserVehicleService
         return _userVehicleRepository.GetUserVehicleCount(user_id, type, rare);
     }
 
-    public bool InsertUserVehicle(Vehicles Vehicle)
+    public bool InsertUserVehicle(Vehicles Vehicle, string userId)
     {
-        return _userVehicleRepository.InsertUserVehicle(Vehicle);
+        return _userVehicleRepository.InsertUserVehicle(Vehicle, userId);
     }
 
     public bool UpdateVehicleLevel(Vehicles Vehicle, int cardLevel)

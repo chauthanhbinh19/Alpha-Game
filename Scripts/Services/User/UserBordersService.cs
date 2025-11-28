@@ -26,16 +26,16 @@ public class UserBordersService : IUserBordersService
         return _userBordersRepository.GetUserBordersCount(user_id, rare);
     }
 
-    public bool InsertUserBorders(Borders borders)
+    public bool InsertUserBorders(Borders borders, string userId)
     {
-        return _userBordersRepository.InsertUserBorders(borders);
+        return _userBordersRepository.InsertUserBorders(borders, userId);
     }
 
-    public bool InsertUserBordersById(string Id)
+    public bool InsertUserBordersById(string borderId, string userId)
     {
         IBordersRepository _repository = new BordersRepository();
         BordersService _service = new BordersService(_repository);
-        return _userBordersRepository.InsertUserBordersById(Id, _service.GetBordersById(Id));
+        return _userBordersRepository.InsertUserBordersById(_service.GetBordersById(borderId), userId);
     }
 
     public Borders GetBordersByUsed(string user_id)
@@ -43,9 +43,9 @@ public class UserBordersService : IUserBordersService
         return _userBordersRepository.GetBordersByUsed(user_id);
     }
 
-    public void UpdateIsUsedBorders(string Id, bool is_used)
+    public void UpdateIsUsedBorders(string borderId, string userId, bool is_used)
     {
-        _userBordersRepository.UpdateIsUsedBorders(Id, is_used);
+        _userBordersRepository.UpdateIsUsedBorders(borderId, userId, is_used);
     }
 
     public Borders SumPowerUserBorders()

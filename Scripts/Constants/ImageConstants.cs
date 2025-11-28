@@ -56,6 +56,9 @@ public static class ImageConstants
         public const string CORE_URL = "UI/Button/Main/Cores";
         public const string WEAPON_URL = "UI/Button/Main/Weapons";
         public const string ROBOT_URL = "UI/Button/Main/Robots";
+        public const string BADGE_URL = "UI/Button/Main/Badges";
+        public const string MECHA_BEAST_URL = "UI/Button/Main/MechaBeasts";
+        public const string RUNE_URL = "UI/Button/Main/Runes";
         public const string SHOP_URL = "UI/UI/Shop";
         public const string GALLERY_URL = "UI/Button/Gallery";
         public const string COLLECTION_URL = "UI/Button/Collection";
@@ -256,6 +259,9 @@ public static class ImageConstants
         public const string CORE_URL = "UI/Button/Gallery/CoresGallery";
         public const string WEAPON_URL = "UI/Button/Gallery/WeaponsGallery";
         public const string ROBOT_URL = "UI/Button/Gallery/RobotsGallery";
+        public const string BADGE_URL = "UI/Button/Gallery/BadgesGallery";
+        public const string MECHA_BEAST_URL = "UI/Button/Gallery/MechaBeastsGallery";
+        public const string RUNE_URL = "UI/Button/Gallery/RunesGallery";
     }
     public static class Collection
     {
@@ -296,6 +302,9 @@ public static class ImageConstants
         public const string CORE_URL = "UI/Button/Collection/CoresCollection";
         public const string WEAPON_URL = "UI/Button/Collection/WeaponsCollection";
         public const string ROBOT_URL = "UI/Button/Collection/RobotsCollection";
+        public const string BADGE_URL = "UI/Button/Collection/BadgesCollection";
+        public const string MECHA_BEAST_URL = "UI/Button/Collection/MechaBeastsCollection";
+        public const string RUNE_URL = "UI/Button/Collection/RunesCollection";
     }
     public static class Rune
     {
@@ -463,6 +472,55 @@ public static class ImageConstants
         public const string CARD_MONSTER_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_9";
         public const string CARD_MILITARY_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_10";
         public const string CARD_SPELL_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_5";
+
+        public const string SUMMON_CARD_HEROES_BACKGROUND_URL = "UI/Background1/Background_V1_200";
+        public const string SUMMON_CARD_CAPTAINS_BACKGROUND_URL = "UI/Background1/Background_V1_201";
+        public const string SUMMON_CARD_COLONELS_BACKGROUND_URL = "UI/Background1/Background_V1_202";
+        public const string SUMMON_CARD_GENERALS_BACKGROUND_URL = "UI/Background1/Background_V1_203";
+        public const string SUMMON_CARD_ADMIRALS_BACKGROUND_URL = "UI/Background1/Background_V1_204";
+        public const string SUMMON_CARD_MONSTERS_BACKGROUND_URL = "UI/Background1/Background_V1_205";
+        public const string SUMMON_CARD_MILITARIES_BACKGROUND_URL = "UI/Background1/Background_V1_206";
+        public const string SUMMON_CARD_SPELLS_BACKGROUND_URL = "UI/Background1/Background_V1_207";
+        public const string SUMMON_CARD_BOOKS_BACKGROUND_URL = "UI/Background1/Background_V1_208";
+
+        public const string CARD_HERO_BACKGROUND_URL = "UI/Background3/CardHero";
+        public const string BOOK_BACKGROUND_URL = "UI/Background3/Book";
+        public const string CARD_CAPTAIN_BACKGROUND_URL = "UI/Background3/CardCaptain";
+        public const string PET_BACKGROUND_URL = "UI/Background3/Pet";
+        public const string COLLABORATION_EQUIPMENT_BACKGROUND_URL = "UI/Background3/CollaborationEquipment";
+        public const string CARD_MILITARY_BACKGROUND_URL = "UI/Background3/CardMilitary";
+        public const string CARD_SPELL_BACKGROUND_URL = "UI/Background3/CardSpell";
+        public const string COLLABORATION_BACKGROUND_URL = "UI/Background3/Collaboration";
+        public const string CARD_MONSTER_BACKGROUND_URL = "UI/Background3/CardMonster";
+        public const string EQUIPMENT_BACKGROUND_URL = "UI/Background3/Equipment";
+        public const string MEDAL_BACKGROUND_URL = "UI/Background3/Medal";
+        public const string SKILL_BACKGROUND_URL = "UI/Background3/Skill";
+        public const string SYMBOL_BACKGROUND_URL = "UI/Background3/Symbol";
+        public const string TITLE_BACKGROUND_URL = "UI/Background3/Title";
+        public const string MAGIC_FORMATION_CIRCLE_BACKGROUND_URL = "UI/Background3/MagicFormationCirlce";
+        public const string RELIC_BACKGROUND_URL = "UI/Background3/Relic";
+        public const string CARD_COLONEL_BACKGROUND_URL = "UI/Background3/CardColonel";
+        public const string CARD_GENERAL_BACKGROUND_URL = "UI/Background3/CardGeneral";
+        public const string CARD_ADMIRAL_BACKGROUND_URL = "UI/Background3/CardAdmiral";
+        public const string ACHIEVEMENT_BACKGROUND_URL = "UI/Background3/Achievement";
+        public const string TALISMAN_BACKGROUND_URL = "UI/Background3/Talisman";
+        public const string PUPPET_BACKGROUND_URL = "UI/Background3/Puppet";
+        public const string ALCHEMY_BACKGROUND_URL = "UI/Background3/Alchemy";
+        public const string FORGE_BACKGROUND_URL = "UI/Background3/Forge";
+        public const string CARD_LIFE_BACKGROUND_URL = "UI/Background3/CardLife";
+        public const string ARTWORK_BACKGROUND_URL = "UI/Background3/Artwork";
+        public const string SPIRIT_BEAST_BACKGROUND_URL = "UI/Background3/SpiritBeast";
+        public const string SPIRIT_CARD_BACKGROUND_URL = "UI/Background3/SpiritCard";
+        public const string CARD_BACKGROUND_URL = "UI/Background3/Card";
+        public const string ARCHITECTURE_BACKGROUND_URL = "UI/Background3/Architecture";
+        public const string TECHNOLOGY_BACKGROUND_URL = "UI/Background3/Technology";
+        public const string VEHICLE_BACKGROUND_URL = "UI/Background3/Vehicle";
+        public const string CORE_BACKGROUND_URL = "UI/Background3/Cores";
+        public const string WEAPON_BACKGROUND_URL = "UI/Background3/Weapon";
+        public const string ROBOT_BACKGROUND_URL = "UI/Background3/Robot";
+        public const string BADGE_BACKGROUND_URL = "UI/Background3/Badge";
+        public const string MECHA_BEAST_BACKGROUND_URL = "UI/Background3/MechaBeast";
+        public const string RUNE_BACKGROUND_URL = "UI/Background3/Rune";
     }
     public static class Currency
     {

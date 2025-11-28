@@ -142,6 +142,15 @@ public static class AppDisplayConstants
         public const string ROBOT = "MainType.Robot";
         public const string ROBOTS = "MainType.Robots";
 
+        public const string BADGE = "MainType.Badge";
+        public const string BADGES = "MainType.Badges";
+
+        public const string MECHA_BEAST = "MainType.MechaBeast";
+        public const string MECHA_BEASTS = "MainType.MechaBeasts";
+
+        public const string RUNE = "MainType.Rune";
+        public const string RUNES = "MainType.Runes";
+
         public const string SUMMON_CARD_HEROES = "summon_card_heroes";
         public const string SUMMON_BOOKS = "summon_books";
         public const string SUMMON_CARD_CAPTAINS = "summon_card_captains";
@@ -223,6 +232,9 @@ public static class AppDisplayConstants
         public const string CORES_GALLERY = "Gallery.Cores";
         public const string WEAPONS_GALLERY = "Gallery.Weapons";
         public const string ROBOTS_GALLERY = "Gallery.Robots";
+        public const string BADGES_GALLERY = "Gallery.Badges";
+        public const string MECHA_BEASTS_GALLERY = "Gallery.MechaBeasts";
+        public const string RUNES_GALLERY = "Gallery.Runes";
     }
     public static class Collection
     {
@@ -263,6 +275,9 @@ public static class AppDisplayConstants
         public const string CORES_COLLECTION = "Collection.Cores";
         public const string WEAPOMS_COLLECTION = "Collection.Weapons";
         public const string ROBOTS_COLLECTION = "Collection.Robots";
+        public const string BADGES_COLLECTION = "Collection.Badges";
+        public const string MECHA_BEASTS_COLLECTION = "Collection.MechaBeasts";
+        public const string RUNES_COLLECTION = "Collection.Runes";
     }
     public static class Anime
     {

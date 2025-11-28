@@ -193,9 +193,9 @@ public class UserMedalsService : IUserMedalsService
         return _userMedalsRepository.GetUserMedalsCount(user_id, rare);
     }
 
-    public bool InsertUserMedals(Medals medals)
+    public bool InsertUserMedals(Medals medals, string userId)
     {
-        return _userMedalsRepository.InsertUserMedals(medals);
+        return _userMedalsRepository.InsertUserMedals(medals, userId);
     }
 
     public bool UpdateMedalsLevel(Medals medals, int cardLevel)

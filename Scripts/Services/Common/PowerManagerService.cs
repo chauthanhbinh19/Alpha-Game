@@ -179,6 +179,18 @@ public class PowerManagerService : IPowerManagerService
         PowerManager robotsPower = GetRobotsPower();
         AddPower(totalPower, robotsPower);
 
+        // Lấy sức mạnh từ robots
+        PowerManager badgesPower = GetBadgesPower();
+        AddPower(totalPower, badgesPower);
+
+        // Lấy sức mạnh từ robots
+        PowerManager mechaBeastsPower = GetMechaBeastsPower();
+        AddPower(totalPower, mechaBeastsPower);
+
+        // Lấy sức mạnh từ robots
+        PowerManager runesPower = GetRunesPower();
+        AddPower(totalPower, runesPower);
+
         return totalPower;
     }
     private void AddPower(PowerManager target, PowerManager source)
@@ -296,7 +308,7 @@ public class PowerManagerService : IPowerManagerService
         // Gallery Avatars
         IAvatarsGalleryRepository avatarsGalleryRepository = new AvatarsGalleryRepository();
         AvatarsGalleryService avatarsGalleryService = new AvatarsGalleryService(avatarsGalleryRepository);
-        Achievements galleryAvatars = avatarsGalleryService.SumPowerAvatarsGallery();
+        Avatars galleryAvatars = avatarsGalleryService.SumPowerAvatarsGallery();
 
         powerManager.Power += galleryAvatars.Power;
         powerManager.Health += galleryAvatars.Health;
@@ -346,7 +358,7 @@ public class PowerManagerService : IPowerManagerService
         // User Avatars
         IUserAvatarsRepository userAvatarsRepository = new UserAvatarsRepository();
         UserAvatarsService userAvatarsService = new UserAvatarsService(userAvatarsRepository);
-        Achievements userAvatars = userAvatarsService.SumPowerUserAvatars();
+        Avatars userAvatars = userAvatarsService.SumPowerUserAvatars();
 
         powerManager.Power += userAvatars.Power;
         powerManager.Health += userAvatars.Health;
@@ -384,7 +396,7 @@ public class PowerManagerService : IPowerManagerService
         // Percent Avatars
         IAvatarsRepository avatarsRepository = new AvatarsRepository();
         AvatarsService avatarsService = new AvatarsService(avatarsRepository);
-        Achievements percentAvatars = avatarsService.SumPowerAvatarsPercent();
+        Avatars percentAvatars = avatarsService.SumPowerAvatarsPercent();
 
         powerManager.PercentAllHealth += percentAvatars.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += percentAvatars.PercentAllPhysicalAttack;
@@ -3565,6 +3577,333 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllAtomicDefense += robot.PercentAllAtomicDefense;
         powerManager.PercentAllMentalAttack += robot.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += robot.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetBadgesPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        IBadgesGalleryRepository badgesGalleryRepository = new BadgesGalleryRepository();
+        BadgesGalleryService badgesGalleryService = new BadgesGalleryService(badgesGalleryRepository);
+        // Gallery
+        Badges badge = badgesGalleryService.SumPowerBadgesGallery();
+        powerManager.Power += badge.Power;
+        powerManager.Health += badge.Health;
+        powerManager.PhysicalAttack += badge.PhysicalAttack;
+        powerManager.PhysicalDefense += badge.PhysicalDefense;
+        powerManager.MagicalAttack += badge.MagicalAttack;
+        powerManager.MagicalDefense += badge.MagicalDefense;
+        powerManager.ChemicalAttack += badge.ChemicalAttack;
+        powerManager.ChemicalDefense += badge.ChemicalDefense;
+        powerManager.AtomicAttack += badge.AtomicAttack;
+        powerManager.AtomicDefense += badge.AtomicDefense;
+        powerManager.MentalAttack += badge.MentalAttack;
+        powerManager.MentalDefense += badge.MentalDefense;
+        powerManager.Speed += badge.Speed;
+        powerManager.CriticalDamageRate += badge.CriticalDamageRate;
+        powerManager.CriticalRate += badge.CriticalRate;
+        powerManager.PenetrationRate += badge.PenetrationRate;
+        powerManager.EvasionRate += badge.EvasionRate;
+        powerManager.DamageAbsorptionRate += badge.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += badge.VitalityRegenerationRate;
+        powerManager.AccuracyRate += badge.AccuracyRate;
+        powerManager.LifestealRate += badge.LifestealRate;
+        powerManager.ShieldStrength += badge.ShieldStrength;
+        powerManager.Tenacity += badge.Tenacity;
+        powerManager.ResistanceRate += badge.ResistanceRate;
+        powerManager.ComboRate += badge.ComboRate;
+        powerManager.ReflectionRate += badge.ReflectionRate;
+        powerManager.Mana += badge.Mana;
+        powerManager.ManaRegenerationRate += badge.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += badge.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += badge.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += badge.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += badge.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += badge.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += badge.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += badge.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += badge.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += badge.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += badge.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += badge.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += badge.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += badge.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += badge.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += badge.PercentAllMentalDefense;
+
+        IUserBadgesRepository userBadgesRepository = new UserBadgesRepository();
+        UserBadgesService userBadgesService = new UserBadgesService(userBadgesRepository);
+        // User Robots (Gallery)
+        badge = userBadgesService.SumPowerUserBadges(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
+        powerManager.Power += badge.Power;
+        powerManager.Health += badge.Health;
+        powerManager.PhysicalAttack += badge.PhysicalAttack;
+        powerManager.PhysicalDefense += badge.PhysicalDefense;
+        powerManager.MagicalAttack += badge.MagicalAttack;
+        powerManager.MagicalDefense += badge.MagicalDefense;
+        powerManager.ChemicalAttack += badge.ChemicalAttack;
+        powerManager.ChemicalDefense += badge.ChemicalDefense;
+        powerManager.AtomicAttack += badge.AtomicAttack;
+        powerManager.AtomicDefense += badge.AtomicDefense;
+        powerManager.MentalAttack += badge.MentalAttack;
+        powerManager.MentalDefense += badge.MentalDefense;
+        powerManager.Speed += badge.Speed;
+        powerManager.CriticalDamageRate += badge.CriticalDamageRate;
+        powerManager.CriticalRate += badge.CriticalRate;
+        powerManager.PenetrationRate += badge.PenetrationRate;
+        powerManager.EvasionRate += badge.EvasionRate;
+        powerManager.DamageAbsorptionRate += badge.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += badge.VitalityRegenerationRate;
+        powerManager.AccuracyRate += badge.AccuracyRate;
+        powerManager.LifestealRate += badge.LifestealRate;
+        powerManager.ShieldStrength += badge.ShieldStrength;
+        powerManager.Tenacity += badge.Tenacity;
+        powerManager.ResistanceRate += badge.ResistanceRate;
+        powerManager.ComboRate += badge.ComboRate;
+        powerManager.ReflectionRate += badge.ReflectionRate;
+        powerManager.Mana += badge.Mana;
+        powerManager.ManaRegenerationRate += badge.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += badge.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += badge.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += badge.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += badge.ResistanceToSameFactionRate;
+
+        IBadgesRepository badgesRepository = new BadgesRepository();
+        BadgesService badgesService = new BadgesService(badgesRepository);
+        // Percent
+        badge = badgesService.SumPowerBadgesPercent(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
+        powerManager.PercentAllHealth += badge.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += badge.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += badge.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += badge.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += badge.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += badge.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += badge.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += badge.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += badge.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += badge.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += badge.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetMechaBeastsPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        IMechaBeastsGalleryRepository mechaBeastsGalleryRepository = new MechaBeastsGalleryRepository();
+        MechaBeastsGalleryService mechaBeastsGalleryService = new MechaBeastsGalleryService(mechaBeastsGalleryRepository);
+        // Gallery
+        MechaBeasts mechaBeast = mechaBeastsGalleryService.SumPowerMechaBeastsGallery();
+        powerManager.Power += mechaBeast.Power;
+        powerManager.Health += mechaBeast.Health;
+        powerManager.PhysicalAttack += mechaBeast.PhysicalAttack;
+        powerManager.PhysicalDefense += mechaBeast.PhysicalDefense;
+        powerManager.MagicalAttack += mechaBeast.MagicalAttack;
+        powerManager.MagicalDefense += mechaBeast.MagicalDefense;
+        powerManager.ChemicalAttack += mechaBeast.ChemicalAttack;
+        powerManager.ChemicalDefense += mechaBeast.ChemicalDefense;
+        powerManager.AtomicAttack += mechaBeast.AtomicAttack;
+        powerManager.AtomicDefense += mechaBeast.AtomicDefense;
+        powerManager.MentalAttack += mechaBeast.MentalAttack;
+        powerManager.MentalDefense += mechaBeast.MentalDefense;
+        powerManager.Speed += mechaBeast.Speed;
+        powerManager.CriticalDamageRate += mechaBeast.CriticalDamageRate;
+        powerManager.CriticalRate += mechaBeast.CriticalRate;
+        powerManager.PenetrationRate += mechaBeast.PenetrationRate;
+        powerManager.EvasionRate += mechaBeast.EvasionRate;
+        powerManager.DamageAbsorptionRate += mechaBeast.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += mechaBeast.VitalityRegenerationRate;
+        powerManager.AccuracyRate += mechaBeast.AccuracyRate;
+        powerManager.LifestealRate += mechaBeast.LifestealRate;
+        powerManager.ShieldStrength += mechaBeast.ShieldStrength;
+        powerManager.Tenacity += mechaBeast.Tenacity;
+        powerManager.ResistanceRate += mechaBeast.ResistanceRate;
+        powerManager.ComboRate += mechaBeast.ComboRate;
+        powerManager.ReflectionRate += mechaBeast.ReflectionRate;
+        powerManager.Mana += mechaBeast.Mana;
+        powerManager.ManaRegenerationRate += mechaBeast.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += mechaBeast.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += mechaBeast.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += mechaBeast.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += mechaBeast.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += mechaBeast.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += mechaBeast.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += mechaBeast.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += mechaBeast.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += mechaBeast.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += mechaBeast.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += mechaBeast.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += mechaBeast.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += mechaBeast.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += mechaBeast.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += mechaBeast.PercentAllMentalDefense;
+
+        IUserMechaBeastsRepository userMechaBeastsRepository = new UserMechaBeastsRepository();
+        UserMechaBeastsService userMechaBeastsService = new UserMechaBeastsService(userMechaBeastsRepository);
+        // User Robots (Gallery)
+        mechaBeast = userMechaBeastsService.SumPowerUserMechaBeasts(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
+        powerManager.Power += mechaBeast.Power;
+        powerManager.Health += mechaBeast.Health;
+        powerManager.PhysicalAttack += mechaBeast.PhysicalAttack;
+        powerManager.PhysicalDefense += mechaBeast.PhysicalDefense;
+        powerManager.MagicalAttack += mechaBeast.MagicalAttack;
+        powerManager.MagicalDefense += mechaBeast.MagicalDefense;
+        powerManager.ChemicalAttack += mechaBeast.ChemicalAttack;
+        powerManager.ChemicalDefense += mechaBeast.ChemicalDefense;
+        powerManager.AtomicAttack += mechaBeast.AtomicAttack;
+        powerManager.AtomicDefense += mechaBeast.AtomicDefense;
+        powerManager.MentalAttack += mechaBeast.MentalAttack;
+        powerManager.MentalDefense += mechaBeast.MentalDefense;
+        powerManager.Speed += mechaBeast.Speed;
+        powerManager.CriticalDamageRate += mechaBeast.CriticalDamageRate;
+        powerManager.CriticalRate += mechaBeast.CriticalRate;
+        powerManager.PenetrationRate += mechaBeast.PenetrationRate;
+        powerManager.EvasionRate += mechaBeast.EvasionRate;
+        powerManager.DamageAbsorptionRate += mechaBeast.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += mechaBeast.VitalityRegenerationRate;
+        powerManager.AccuracyRate += mechaBeast.AccuracyRate;
+        powerManager.LifestealRate += mechaBeast.LifestealRate;
+        powerManager.ShieldStrength += mechaBeast.ShieldStrength;
+        powerManager.Tenacity += mechaBeast.Tenacity;
+        powerManager.ResistanceRate += mechaBeast.ResistanceRate;
+        powerManager.ComboRate += mechaBeast.ComboRate;
+        powerManager.ReflectionRate += mechaBeast.ReflectionRate;
+        powerManager.Mana += mechaBeast.Mana;
+        powerManager.ManaRegenerationRate += mechaBeast.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += mechaBeast.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += mechaBeast.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += mechaBeast.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += mechaBeast.ResistanceToSameFactionRate;
+
+        IMechaBeastsRepository mechaBeastsRepository = new MechaBeastsRepository();
+        MechaBeastsService mechaBeastsService = new MechaBeastsService(mechaBeastsRepository);
+        // Percent
+        mechaBeast = mechaBeastsService.SumPowerMechaBeastsPercent(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
+        powerManager.PercentAllHealth += mechaBeast.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += mechaBeast.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += mechaBeast.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += mechaBeast.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += mechaBeast.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += mechaBeast.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += mechaBeast.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += mechaBeast.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += mechaBeast.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += mechaBeast.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += mechaBeast.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public PowerManager GetRunesPower()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        // Titles titles = new Titles();
+        IRunesGalleryRepository runesGalleryRepository = new RunesGalleryRepository();
+        RunesGalleryService runesGalleryService = new RunesGalleryService(runesGalleryRepository);
+        // Gallery
+        Runes rune = runesGalleryService.SumPowerRunesGallery();
+        powerManager.Power += rune.Power;
+        powerManager.Health += rune.Health;
+        powerManager.PhysicalAttack += rune.PhysicalAttack;
+        powerManager.PhysicalDefense += rune.PhysicalDefense;
+        powerManager.MagicalAttack += rune.MagicalAttack;
+        powerManager.MagicalDefense += rune.MagicalDefense;
+        powerManager.ChemicalAttack += rune.ChemicalAttack;
+        powerManager.ChemicalDefense += rune.ChemicalDefense;
+        powerManager.AtomicAttack += rune.AtomicAttack;
+        powerManager.AtomicDefense += rune.AtomicDefense;
+        powerManager.MentalAttack += rune.MentalAttack;
+        powerManager.MentalDefense += rune.MentalDefense;
+        powerManager.Speed += rune.Speed;
+        powerManager.CriticalDamageRate += rune.CriticalDamageRate;
+        powerManager.CriticalRate += rune.CriticalRate;
+        powerManager.PenetrationRate += rune.PenetrationRate;
+        powerManager.EvasionRate += rune.EvasionRate;
+        powerManager.DamageAbsorptionRate += rune.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += rune.VitalityRegenerationRate;
+        powerManager.AccuracyRate += rune.AccuracyRate;
+        powerManager.LifestealRate += rune.LifestealRate;
+        powerManager.ShieldStrength += rune.ShieldStrength;
+        powerManager.Tenacity += rune.Tenacity;
+        powerManager.ResistanceRate += rune.ResistanceRate;
+        powerManager.ComboRate += rune.ComboRate;
+        powerManager.ReflectionRate += rune.ReflectionRate;
+        powerManager.Mana += rune.Mana;
+        powerManager.ManaRegenerationRate += rune.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += rune.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += rune.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += rune.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += rune.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += rune.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += rune.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += rune.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += rune.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += rune.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += rune.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += rune.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += rune.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += rune.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += rune.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += rune.PercentAllMentalDefense;
+
+        IUserRunesRepository userRunesRepository = new UserRunesRepository();
+        UserRunesService userRunesService = new UserRunesService(userRunesRepository);
+        // User Robots (Gallery)
+        rune = userRunesService.SumPowerUserRunes(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
+        powerManager.Power += rune.Power;
+        powerManager.Health += rune.Health;
+        powerManager.PhysicalAttack += rune.PhysicalAttack;
+        powerManager.PhysicalDefense += rune.PhysicalDefense;
+        powerManager.MagicalAttack += rune.MagicalAttack;
+        powerManager.MagicalDefense += rune.MagicalDefense;
+        powerManager.ChemicalAttack += rune.ChemicalAttack;
+        powerManager.ChemicalDefense += rune.ChemicalDefense;
+        powerManager.AtomicAttack += rune.AtomicAttack;
+        powerManager.AtomicDefense += rune.AtomicDefense;
+        powerManager.MentalAttack += rune.MentalAttack;
+        powerManager.MentalDefense += rune.MentalDefense;
+        powerManager.Speed += rune.Speed;
+        powerManager.CriticalDamageRate += rune.CriticalDamageRate;
+        powerManager.CriticalRate += rune.CriticalRate;
+        powerManager.PenetrationRate += rune.PenetrationRate;
+        powerManager.EvasionRate += rune.EvasionRate;
+        powerManager.DamageAbsorptionRate += rune.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += rune.VitalityRegenerationRate;
+        powerManager.AccuracyRate += rune.AccuracyRate;
+        powerManager.LifestealRate += rune.LifestealRate;
+        powerManager.ShieldStrength += rune.ShieldStrength;
+        powerManager.Tenacity += rune.Tenacity;
+        powerManager.ResistanceRate += rune.ResistanceRate;
+        powerManager.ComboRate += rune.ComboRate;
+        powerManager.ReflectionRate += rune.ReflectionRate;
+        powerManager.Mana += rune.Mana;
+        powerManager.ManaRegenerationRate += rune.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += rune.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += rune.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += rune.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += rune.ResistanceToSameFactionRate;
+
+        IRunesRepository runesRepository = new RunesRepository();
+        RunesService runesService = new RunesService(runesRepository);
+        // Percent
+        rune = runesService.SumPowerRunesPercent(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
+        powerManager.PercentAllHealth += rune.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += rune.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += rune.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += rune.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += rune.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += rune.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += rune.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += rune.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += rune.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += rune.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += rune.PercentAllMentalDefense;
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }

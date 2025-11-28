@@ -9,7 +9,7 @@ public interface IUserAlchemyRepository
 {
     List<Alchemies> GetUserAlchemy(string user_id, string type, int pageSize, int offset, string rare);
     int GetUserAlchemyCount(string user_id, string type, string rare);
-    bool InsertUserAlchemy(Alchemies Alchemy);
+    bool InsertUserAlchemy(Alchemies Alchemy, string userId);
     bool UpdateAlchemyLevel(Alchemies Alchemy, int cardLevel);
     bool UpdateAlchemyBreakthrough(Alchemies Alchemy, int star, double quantity);
     Alchemies GetUserAlchemyById(string user_id, string Id);

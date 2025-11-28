@@ -1669,7 +1669,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardCaptains cardCaptains)
                 {
@@ -1678,7 +1678,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardColonels cardColonels)
                 {
@@ -1687,7 +1687,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardGenerals cardGenerals)
                 {
@@ -1696,7 +1696,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardAdmirals cardAdmirals)
                 {
@@ -1705,7 +1705,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardMonsters cardMonsters)
                 {
@@ -1714,7 +1714,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardMilitaries cardMilitary)
                 {
@@ -1723,7 +1723,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is CardSpells cardSpell)
                 {
@@ -1732,7 +1732,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is Books books)
                 {
@@ -1741,7 +1741,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else if (data is Pets pets)
                 {
@@ -1750,7 +1750,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
 
                 Destroy(popupEquipmentObject);

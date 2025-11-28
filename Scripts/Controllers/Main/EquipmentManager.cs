@@ -452,7 +452,7 @@ public class EquipmentManager : MonoBehaviour
             });
         }
         Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-        FindObjectOfType<CurrencyManager>().GetEquipmentsCurrency(type, CurrencyPanel);
+        FindObjectOfType<CurrenciesManager>().GetEquipmentsCurrency(type, CurrencyPanel);
     }
     public void GetEnhancement(string type)
     {
@@ -531,7 +531,7 @@ public class EquipmentManager : MonoBehaviour
         var currencyService = UserCurrencyService.Create();
         List<Currencies> currencies = new List<Currencies>();
         currencies = currencyService.GetUserCurrency(User.CurrentUserId);
-        FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
     }
     public void ChangeNextPage(int status, TextMeshProUGUI PageText, Transform content, string subType)
     {
@@ -739,7 +739,7 @@ public class EquipmentManager : MonoBehaviour
                 equipmentsGalleryService.InsertEquipmentsGallery(equipments.Id);
                 Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                 Close(CurrencyPanel);
-                FindObjectOfType<CurrencyManager>().GetEquipmentsCurrency(type, CurrencyPanel);
+                FindObjectOfType<CurrenciesManager>().GetEquipmentsCurrency(type, CurrencyPanel);
                 Close(popupPanel);
                 // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                 GameObject receivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);

@@ -133,7 +133,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -143,7 +143,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -153,7 +153,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardHeroes.Power, 1);
             }
         }
         else if (obj is CardCaptains cardCaptains)
@@ -170,7 +170,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -180,7 +180,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -190,7 +190,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardCaptains.Power, 1);
             }
         }
         else if (obj is CardColonels cardColonels)
@@ -207,7 +207,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -217,7 +217,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -227,7 +227,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardColonels.Power, 1);
             }
         }
         else if (obj is CardGenerals cardGenerals)
@@ -244,7 +244,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -254,7 +254,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -264,7 +264,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardGenerals.Power, 1);
             }
         }
         else if (obj is CardAdmirals cardAdmirals)
@@ -281,7 +281,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -291,7 +291,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -301,7 +301,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardAdmirals.Power, 1);
             }
         }
         else if (obj is CardMonsters cardMonsters)
@@ -318,7 +318,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -328,7 +328,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -338,7 +338,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardMonsters.Power, 1);
             }
         }
         else if (obj is CardMilitaries cardMilitary)
@@ -355,7 +355,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -365,7 +365,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -375,7 +375,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardMilitary.Power, 1);
             }
         }
         else if (obj is CardSpells cardSpell)
@@ -392,7 +392,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -402,7 +402,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -412,7 +412,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardSpell.Power, 1);
             }
         }
     }

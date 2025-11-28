@@ -169,7 +169,7 @@ public class ArchitecturesController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetArchitecturesCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, CurrencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, CurrencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform CurrencyPanel)
@@ -313,11 +313,11 @@ public class ArchitecturesController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Architectures Architectures)
+            if (obj is Architectures architecture)
             {
-                Architectures.Quantity = Architectures.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(Architectures.Currency.Id, price);
-                bool success = UserArchitecturesService.Create().InsertUserArchitectures(Architectures);
+                architecture.Quantity = architecture.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(architecture.Currency.Id, price);
+                bool success = UserArchitecturesService.Create().InsertUserArchitectures(architecture, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -330,12 +330,12 @@ public class ArchitecturesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    ArchitecturesGalleryService.Create().InsertArchitecturesGallery(Architectures.Id);
+                    ArchitecturesGalleryService.Create().InsertArchitecturesGallery(architecture.Id);
                     currencies = UserCurrencyService.Create().GetArchitecturesCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Architectures.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
 
                     ButtonEvent.Instance.Close(CurrencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, CurrencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, CurrencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -355,7 +355,7 @@ public class ArchitecturesController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

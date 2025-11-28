@@ -193,9 +193,9 @@ public class UserCollaborationService : IUserCollaborationService
         return _userCollaborationRepository.GetUserCollaborationCount(user_id, rare);
     }
 
-    public bool InsertUserCollaborations(Collaborations collaboration)
+    public bool InsertUserCollaborations(Collaborations collaboration, string userId)
     {
-        return _userCollaborationRepository.InsertUserCollaborations(collaboration);
+        return _userCollaborationRepository.InsertUserCollaborations(collaboration, userId);
     }
 
     public bool UpdateCollaborationsLevel(Collaborations collaboration, int cardLevel)

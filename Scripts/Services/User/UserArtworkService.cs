@@ -194,9 +194,9 @@ public class UserArtworkService : IUserArtworkService
         return _userArtworkRepository.GetUserArtworkCount(user_id, type, rare);
     }
 
-    public bool InsertUserArtwork(Artworks Artwork)
+    public bool InsertUserArtwork(Artworks Artwork, string userId)
     {
-        return _userArtworkRepository.InsertUserArtwork(Artwork);
+        return _userArtworkRepository.InsertUserArtwork(Artwork, userId);
     }
 
     public bool UpdateArtworkLevel(Artworks Artwork, int cardLevel)

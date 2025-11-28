@@ -193,9 +193,9 @@ public class UserTalismanService : IUserTalismanService
         return _userTalismanRepository.GetUserTalismanCount(user_id, type, rare);
     }
 
-    public bool InsertUserTalisman(Talismans talisman)
+    public bool InsertUserTalisman(Talismans talisman, string userId)
     {
-        return _userTalismanRepository.InsertUserTalisman(talisman);
+        return _userTalismanRepository.InsertUserTalisman(talisman, userId);
     }
 
     public bool UpdateTalismanLevel(Talismans talisman, int level)

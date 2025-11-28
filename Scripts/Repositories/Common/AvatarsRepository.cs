@@ -26,9 +26,9 @@ public class AvatarsRepository : IAvatarsRepository
         }
         return typeList;
     }
-    public List<Achievements> GetAvatars(int pageSize, int offset, string rare)
+    public List<Avatars> GetAvatars(int pageSize, int offset, string rare)
     {
-        List<Achievements> avatars = new List<Achievements>();
+        List<Avatars> avatars = new List<Avatars>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -44,7 +44,7 @@ public class AvatarsRepository : IAvatarsRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Achievements avatar = new Achievements
+                    Avatars avatar = new Avatars
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -149,9 +149,9 @@ public class AvatarsRepository : IAvatarsRepository
         }
         return count;
     }
-    public List<Achievements> GetAvatarsWithPrice(int pageSize, int offset)
+    public List<Avatars> GetAvatarsWithPrice(int pageSize, int offset)
     {
-        List<Achievements> Avatars = new List<Achievements>();
+        List<Avatars> Avatars = new List<Avatars>();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -168,7 +168,7 @@ public class AvatarsRepository : IAvatarsRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Achievements border = new Achievements
+                    Avatars border = new Avatars
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -281,9 +281,9 @@ public class AvatarsRepository : IAvatarsRepository
         }
         return count;
     }
-    public Achievements GetAvatarsById(string Id)
+    public Avatars GetAvatarsById(string Id)
     {
-        Achievements Avatars = new Achievements();
+        Avatars Avatars = new Avatars();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -296,7 +296,7 @@ public class AvatarsRepository : IAvatarsRepository
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Avatars = new Achievements
+                    Avatars = new Avatars
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -366,9 +366,9 @@ public class AvatarsRepository : IAvatarsRepository
         }
         return Avatars;
     }
-    public Achievements SumPowerAvatarsPercent()
+    public Avatars SumPowerAvatarsPercent()
     {
-        Achievements sumAvatars = new Achievements();
+        Avatars sumAvatars = new Avatars();
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {

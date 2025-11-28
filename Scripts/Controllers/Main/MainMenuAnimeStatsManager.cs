@@ -187,7 +187,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateAnimeStats();
             }
@@ -209,7 +209,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
-                FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateAnimeStats();
             }
@@ -278,7 +278,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         Transform currencyPanel = gameObject.transform.Find("DictionaryCards/Currency");
         List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
         ButtonEvent.Instance.Close(currencyPanel);
-        CurrencyManager.Instance.GetMainCurrency(currencies, currencyPanel);
+        CurrenciesManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
         var oneResult = EvaluateItem.CalculateLevelUp(item.Quantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
         var maxResult = EvaluateItem.CalculateLevelUp(item.Quantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);

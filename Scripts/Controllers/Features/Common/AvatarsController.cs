@@ -41,7 +41,7 @@ public class AvatarsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateAvatarsGallery(List<Achievements> avatars, Transform DictionaryContentPanel)
+    public void CreateAvatarsGallery(List<Avatars> avatars, Transform DictionaryContentPanel)
     {
         foreach (var avatar in avatars)
         {
@@ -79,7 +79,7 @@ public class AvatarsController : MonoBehaviour
         }
         DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateAvatarsTrade(List<Achievements> avatars, string subType, Transform currentContent,
+    public void CreateAvatarsTrade(List<Avatars> avatars, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var avatar in avatars)
@@ -133,7 +133,7 @@ public class AvatarsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetBordersCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -277,11 +277,11 @@ public class AvatarsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Achievements avatars)
+            if (obj is Avatars avatars)
             {
                 avatars.Quantity = avatars.Quantity + quantity;
                 UserCurrencyService.Create().UpdateUserCurrency((string)avatars.Currency.Id, price);
-                bool success = UserAvatarsService.Create().InsertUserAvatars(avatars);
+                bool success = UserAvatarsService.Create().InsertUserAvatars(avatars, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -299,7 +299,7 @@ public class AvatarsController : MonoBehaviour
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension((string)avatars.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -319,7 +319,7 @@ public class AvatarsController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

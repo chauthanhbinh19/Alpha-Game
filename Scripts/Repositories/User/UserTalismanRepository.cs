@@ -150,7 +150,7 @@ public class UserTalismanRepository : IUserTalismanRepository
         }
         return count;
     }
-    public bool InsertUserTalisman(Talismans Talisman)
+    public bool InsertUserTalisman(Talismans Talisman, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -165,7 +165,7 @@ public class UserTalismanRepository : IUserTalismanRepository
                 WHERE user_id = @user_id AND talisman_id = @talisman_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@talisman_id", Talisman.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -208,7 +208,7 @@ public class UserTalismanRepository : IUserTalismanRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@talisman_id", Talisman.Id);
                     command.Parameters.AddWithValue("@rare", Talisman.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -299,7 +299,7 @@ public class UserTalismanRepository : IUserTalismanRepository
                     WHERE user_id = @user_id AND talisman_id = @talisman_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@talisman_id", Talisman.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", Talisman.Quantity);
 

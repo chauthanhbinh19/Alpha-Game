@@ -147,7 +147,7 @@ public class CardAdmiralsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetCardAdmiralsCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -313,7 +313,7 @@ public class CardAdmiralsController : MonoBehaviour
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);

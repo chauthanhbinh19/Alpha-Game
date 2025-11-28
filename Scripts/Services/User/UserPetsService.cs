@@ -703,9 +703,9 @@ public class UserPetsService : IUserPetsService
         return _userPetsRepository.GetUserPetsCount(user_id, type, rare);
     }
 
-    public bool InsertUserPets(Pets pets)
+    public bool InsertUserPets(Pets pets, string userId)
     {
-        return _userPetsRepository.InsertUserPets(pets);
+        return _userPetsRepository.InsertUserPets(pets, userId);
     }
 
     public bool UpdatePetsLevel(Pets pets, int cardLevel)

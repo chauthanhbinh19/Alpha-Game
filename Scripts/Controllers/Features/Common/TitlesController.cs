@@ -136,7 +136,7 @@ public class TitlesController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetTitlesCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -280,11 +280,11 @@ public class TitlesController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Titles titles)
+            if (obj is Titles title)
             {
-                titles.Quantity = titles.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency((string)titles.Currency.Id, price);
-                bool success = UserTitlesService.Create().InsertUserTitles(titles);
+                title.Quantity = title.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency((string)title.Currency.Id, price);
+                bool success = UserTitlesService.Create().InsertUserTitles(title, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -297,12 +297,12 @@ public class TitlesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    TitlesGalleryService.Create().InsertTitlesGallery((string)titles.Id);
+                    TitlesGalleryService.Create().InsertTitlesGallery((string)title.Id);
                     currencies = UserCurrencyService.Create().GetTitlesCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension((string)titles.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension((string)title.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -322,7 +322,7 @@ public class TitlesController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

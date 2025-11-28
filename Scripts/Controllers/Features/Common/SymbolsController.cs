@@ -134,7 +134,7 @@ public class SymbolsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetSymbolsCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -278,11 +278,11 @@ public class SymbolsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Symbols symbols)
+            if (obj is Symbols symbol)
             {
-                symbols.Quantity = symbols.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(symbols.Currency.Id, price);
-                bool success = UserSymbolsService.Create().InsertUserSymbols(symbols);
+                symbol.Quantity = symbol.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(symbol.Currency.Id, price);
+                bool success = UserSymbolsService.Create().InsertUserSymbols(symbol, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -295,12 +295,12 @@ public class SymbolsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    SymbolsGalleryService.Create().InsertSymbolsGallery(symbols.Id);
+                    SymbolsGalleryService.Create().InsertSymbolsGallery(symbol.Id);
                     currencies = UserCurrencyService.Create().GetSymbolsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbols.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -320,7 +320,7 @@ public class SymbolsController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

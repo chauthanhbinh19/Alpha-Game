@@ -132,7 +132,7 @@ public class MedalsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetMedalsCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -276,11 +276,11 @@ public class MedalsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Medals medals)
+            if (obj is Medals medal)
             {
-                medals.Quantity = medals.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(medals.Currency.Id, price);
-                bool success = UserMedalsService.Create().InsertUserMedals(medals);
+                medal.Quantity = medal.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(medal.Currency.Id, price);
+                bool success = UserMedalsService.Create().InsertUserMedals(medal, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -293,12 +293,12 @@ public class MedalsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    MedalsGalleryService.Create().InsertMedalsGallery(medals.Id);
+                    MedalsGalleryService.Create().InsertMedalsGallery(medal.Id);
                     currencies = UserCurrencyService.Create().GetMedalsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medals.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -318,7 +318,7 @@ public class MedalsController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

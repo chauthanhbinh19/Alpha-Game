@@ -141,7 +141,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
         }
         return count;
     }
-    public bool InsertUserCollaborationEquipments(CollaborationEquipments collaborationEquipment)
+    public bool InsertUserCollaborationEquipments(CollaborationEquipments collaborationEquipment, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -154,7 +154,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
                 WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -197,7 +197,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
                     command.Parameters.AddWithValue("@rare", collaborationEquipment.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -267,7 +267,7 @@ public class UserCollaborationEquipmentRepository : IUserCollaborationEquipmentR
                     WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", collaborationEquipment.Quantity);
 

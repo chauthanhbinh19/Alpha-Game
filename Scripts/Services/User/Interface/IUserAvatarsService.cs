@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 public interface IUserAvatarsService
 {
-    List<Achievements> GetUserAvatars(string user_id, int pageSize, int offset, string rare);
+    List<Avatars> GetUserAvatars(string user_id, int pageSize, int offset, string rare);
     int GetUserMedalsCount(string user_id, string rare);
-    bool InsertUserAvatars(Achievements avatars);
-    bool InsertUserAvatarsById(string Id);
-    Achievements GetAvatarsByUsed(string user_id);
-    void UpdateIsUsedAvatars(string Id, bool is_used);
-    Achievements SumPowerUserAvatars();
+    bool InsertUserAvatars(Avatars avatars, string userId);
+    bool InsertUserAvatarsById(string avatarId, string userId);
+    Avatars GetAvatarsByUsed(string user_id);
+    void UpdateIsUsedAvatars(string avatarId, string userId, bool is_used);
+    Avatars SumPowerUserAvatars();
 }

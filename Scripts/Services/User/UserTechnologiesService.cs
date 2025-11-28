@@ -193,9 +193,9 @@ public class UserTechnologiesService : IUserTechnologiesService
         return _userTechnologiesRepository.GetUserTechnologiesCount(user_id, rare);
     }
 
-    public bool InsertUserTechnologies(Technologies Technologies)
+    public bool InsertUserTechnologies(Technologies Technologies, string userId)
     {
-        return _userTechnologiesRepository.InsertUserTechnologies(Technologies);
+        return _userTechnologiesRepository.InsertUserTechnologies(Technologies, userId);
     }
 
     public bool UpdateTechnologiesLevel(Technologies Technologies, int cardLevel)

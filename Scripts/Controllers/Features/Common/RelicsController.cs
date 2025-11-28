@@ -132,7 +132,7 @@ public class RelicsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetRelicsCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -276,11 +276,11 @@ public class RelicsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Relics relics)
+            if (obj is Relics relic)
             {
-                relics.Quantity = relics.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(relics.Currency.Id, price);
-                bool success = UserRelicsService.Create().InsertUserReclis(relics);
+                relic.Quantity = relic.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(relic.Currency.Id, price);
+                bool success = UserRelicsService.Create().InsertUserReclis(relic, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -293,12 +293,12 @@ public class RelicsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    RelicsGalleryService.Create().InsertRelicsGallery(relics.Id);
+                    RelicsGalleryService.Create().InsertRelicsGallery(relic.Id);
                     currencies = UserCurrencyService.Create().GetRelicsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relics.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -318,7 +318,7 @@ public class RelicsController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

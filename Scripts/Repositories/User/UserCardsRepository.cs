@@ -148,7 +148,7 @@ public class UserCardsRepository : IUserCardsRepository
         }
         return count;
     }
-    public bool InsertUserCards(Cards Cards)
+    public bool InsertUserCards(Cards Cards, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -163,7 +163,7 @@ public class UserCardsRepository : IUserCardsRepository
                 WHERE user_id = @user_id AND card_id = @card_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@card_id", Cards.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -206,7 +206,7 @@ public class UserCardsRepository : IUserCardsRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@card_id", Cards.Id);
                     command.Parameters.AddWithValue("@rare", Cards.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -276,7 +276,7 @@ public class UserCardsRepository : IUserCardsRepository
                     WHERE user_id = @user_id AND card_id = @card_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@card_id", Cards.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", Cards.Quantity);
 

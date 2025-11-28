@@ -11,7 +11,7 @@ public interface IUserAchievementsService
     public Achievements GetNewBreakthroughPower(Achievements c, double coefficient);
     List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset, string rare);
     int GetUserCollaborationCount(string user_id, string rare);
-    bool InsertUserAchievements(Achievements Achievements);
+    bool InsertUserAchievements(Achievements Achievements, string userId);
     bool UpdateAchievementLevel(Achievements achievements, int cardLevel);
     bool UpdateAchievementsBreakthrough(Achievements achievements, int star, double quantity);
     Achievements GetUserAchievementsById(string user_id, string Id);

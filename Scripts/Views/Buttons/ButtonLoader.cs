@@ -102,9 +102,9 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(32, AppConstants.MainType.CORES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.CORE_URL), contentPanel);
         CreateButton(33, AppConstants.MainType.WEAPONS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.WEAPON_URL), contentPanel);
         CreateButton(34, AppConstants.MainType.ROBOTS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.ROBOT_URL), contentPanel);
-        // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
-        // CreateButton(2, AppConstants.MainType.CHAT, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.CHAT_URL), mainMenuSubButtonGroupPanel);
-        // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
+        CreateButton(35, AppConstants.MainType.BADGES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.BADGE_URL), contentPanel);
+        CreateButton(36, AppConstants.MainType.MECHA_BEASTS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.MECHA_BEAST_URL), contentPanel);
+        CreateButton(37, AppConstants.MainType.RUNES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.RUNE_URL), contentPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
     }
@@ -372,6 +372,9 @@ public class ButtonLoader : MonoBehaviour
         CreateGalleryButtonUI(35, AppDisplayConstants.Gallery.CORES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.CORE_URL), galleryMenuPanel);
         CreateGalleryButtonUI(36, AppDisplayConstants.Gallery.WEAPONS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.WEAPON_URL), galleryMenuPanel);
         CreateGalleryButtonUI(37, AppDisplayConstants.Gallery.ROBOTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.ROBOT_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(38, AppDisplayConstants.Gallery.BADGES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BADGE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(39, AppDisplayConstants.Gallery.MECHA_BEASTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.MECHA_BEAST_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(40, AppDisplayConstants.Gallery.RUNES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.RUNE_URL), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -444,6 +447,9 @@ public class ButtonLoader : MonoBehaviour
         CreateCollectionButtonUI(35, AppDisplayConstants.Collection.CORES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.CORE_URL), collectionMenuPanel);
         CreateCollectionButtonUI(36, AppDisplayConstants.Collection.WEAPOMS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.WEAPON_URL), collectionMenuPanel);
         CreateCollectionButtonUI(37, AppDisplayConstants.Collection.ROBOTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.ROBOT_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(38, AppDisplayConstants.Collection.BADGES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BADGE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(39, AppDisplayConstants.Collection.MECHA_BEASTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.MECHA_BEAST_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(40, AppDisplayConstants.Collection.RUNES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.RUNE_URL), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

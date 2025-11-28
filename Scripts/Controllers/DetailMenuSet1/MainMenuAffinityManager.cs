@@ -200,7 +200,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardHeroesEquipments(cardHeroes);
         });
@@ -270,7 +270,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardHeroesEquipments(cardHeroes);
         });
@@ -359,7 +359,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateBooksEquipments(books);
         });
@@ -429,7 +429,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateBooksEquipments(books);
         });
@@ -518,7 +518,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardCaptainsEquipments(cardCaptains);
         });
@@ -588,7 +588,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardCaptainsEquipments(cardCaptains);
         });
@@ -677,7 +677,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreatePetsEquipments(pets);
         });
@@ -747,7 +747,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreatePetsEquipments(pets);
         });
@@ -836,7 +836,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMilitaryEquipments(cardMilitary);
         });
@@ -906,7 +906,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMilitaryEquipments(cardMilitary);
         });
@@ -995,7 +995,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardSpellEquipments(cardSpell);
         });
@@ -1065,7 +1065,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardSpellEquipments(cardSpell);
         });
@@ -1154,7 +1154,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMonstersEquipments(cardMonsters);
         });
@@ -1225,7 +1225,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMonstersEquipments(cardMonsters);
         });
@@ -1314,7 +1314,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardColonelsEquipments(cardColonels);
         });
@@ -1384,7 +1384,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardColonelsEquipments(cardColonels);
         });
@@ -1473,7 +1473,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardGeneralsEquipments(cardGenerals);
         });
@@ -1543,7 +1543,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardGeneralsEquipments(cardGenerals);
         });
@@ -1632,7 +1632,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardAdmiralsEquipments(cardAdmirals);
         });
@@ -1702,7 +1702,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
-            FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardAdmiralsEquipments(cardAdmirals);
         });

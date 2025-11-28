@@ -169,7 +169,7 @@ public class RobotsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetRobotsCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -313,11 +313,11 @@ public class RobotsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Robots Robots)
+            if (obj is Robots robot)
             {
-                Robots.Quantity = Robots.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(Robots.Currency.Id, price);
-                bool success = UserRobotsService.Create().InsertUserRobots(Robots);
+                robot.Quantity = robot.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(robot.Currency.Id, price);
+                bool success = UserRobotsService.Create().InsertUserRobots(robot, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -330,12 +330,12 @@ public class RobotsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    RobotsGalleryService.Create().InsertRobotsGallery(Robots.Id);
+                    RobotsGalleryService.Create().InsertRobotsGallery(robot.Id);
                     currencies = UserCurrencyService.Create().GetRobotsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Robots.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -355,7 +355,7 @@ public class RobotsController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

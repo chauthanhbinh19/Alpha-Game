@@ -193,9 +193,9 @@ public class UserRelicsService : IUserRelicsService
         return _userRelicsRepository.GetUserRelicsCount(user_id, type, rare);
     }
 
-    public bool InsertUserReclis(Relics relics)
+    public bool InsertUserReclis(Relics relics, string userId)
     {
-        return _userRelicsRepository.InsertUserReclis(relics);
+        return _userRelicsRepository.InsertUserReclis(relics, userId);
     }
 
     public bool UpdateRelicsLevel(Relics relics, int cardLevel)

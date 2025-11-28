@@ -229,6 +229,21 @@ public class UserCurrencyService : IUserCurrencyService
         return _userCurrencyRepository.GetUserRobotsPrice(Id);
     }
 
+    public Currencies GetUserBadgesPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserBadgesPrice(Id);
+    }
+
+    public Currencies GetUserMechaBeastsPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserMechaBeastsPrice(Id);
+    }
+
+    public Currencies GetUserRunesPrice(string Id)
+    {
+        return _userCurrencyRepository.GetUserRunesPrice(Id);
+    }
+
     public List<Currencies> GetAchievementsCurrency()
     {
         return _userCurrencyRepository.GetAchievementsCurrency();
@@ -407,5 +422,20 @@ public class UserCurrencyService : IUserCurrencyService
     public List<Currencies> GetRobotsCurrency(string type)
     {
         return _userCurrencyRepository.GetRobotsCurrency(type);
+    }
+
+    public List<Currencies> GetBadgesCurrency(string type)
+    {
+        return _userCurrencyRepository.GetBadgesCurrency(type);
+    }
+
+    public List<Currencies> GetMechaBeastsCurrency(string type)
+    {
+        return _userCurrencyRepository.GetMechaBeastsCurrency(type);
+    }
+
+    public List<Currencies> GetRunesCurrency(string type)
+    {
+        return _userCurrencyRepository.GetRunesCurrency(type);
     }
 }

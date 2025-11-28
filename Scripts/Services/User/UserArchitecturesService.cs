@@ -193,9 +193,9 @@ public class UserArchitecturesService : IUserArchitecturesService
         return _userArchitecturesRepository.GetUserArchitecturesCount(user_id, rare);
     }
 
-    public bool InsertUserArchitectures(Architectures Architectures)
+    public bool InsertUserArchitectures(Architectures Architectures, string userId)
     {
-        return _userArchitecturesRepository.InsertUserArchitectures(Architectures);
+        return _userArchitecturesRepository.InsertUserArchitectures(Architectures, userId);
     }
 
     public bool UpdateArchitecturesLevel(Architectures Architectures, int cardLevel)

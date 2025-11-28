@@ -134,7 +134,7 @@ public class BordersController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetBordersCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -282,7 +282,7 @@ public class BordersController : MonoBehaviour
             {
                 borders.Quantity = borders.Quantity + quantity;
                 UserCurrencyService.Create().UpdateUserCurrency(borders.Currency.Id, price);
-                bool success = UserBordersService.Create().InsertUserBorders(borders);
+                bool success = UserBordersService.Create().InsertUserBorders(borders, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -300,7 +300,7 @@ public class BordersController : MonoBehaviour
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(borders.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -320,7 +320,7 @@ public class BordersController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

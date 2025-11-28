@@ -143,7 +143,7 @@ public class UserBordersRepository : IUserBordersRepository
         }
         return count;
     }
-    public bool InsertUserBorders(Borders borders)
+    public bool InsertUserBorders(Borders borders, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -158,7 +158,7 @@ public class UserBordersRepository : IUserBordersRepository
                 WHERE user_id = @user_id AND border_id = @border_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@border_id", borders.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -201,7 +201,7 @@ public class UserBordersRepository : IUserBordersRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@border_id", borders.Id);
                     command.Parameters.AddWithValue("@rare", borders.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -272,7 +272,7 @@ public class UserBordersRepository : IUserBordersRepository
                     WHERE user_id = @user_id AND border_id = @border_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@border_id", borders.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", borders.Quantity);
 
@@ -293,7 +293,7 @@ public class UserBordersRepository : IUserBordersRepository
         }
         return true;
     }
-    public bool InsertUserBordersById(string Id, Borders borders)
+    public bool InsertUserBordersById(Borders borders, string userId)
     {
         // Borders borders = new Borders();
         // Borders borders = GetBordersById(Id);
@@ -310,7 +310,7 @@ public class UserBordersRepository : IUserBordersRepository
                 WHERE user_id = @user_id AND border_id = @border_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@border_id", borders.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -353,7 +353,7 @@ public class UserBordersRepository : IUserBordersRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@border_id", borders.Id);
                     command.Parameters.AddWithValue("@rare", borders.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -424,7 +424,7 @@ public class UserBordersRepository : IUserBordersRepository
                     WHERE user_id = @user_id AND border_id = @border_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@border_id", borders.Id);
 
                     updateCommand.ExecuteNonQuery();
@@ -444,10 +444,8 @@ public class UserBordersRepository : IUserBordersRepository
         }
         return true;
     }
-    public void UpdateIsUsedBorders(string Id, bool is_used)
+    public void UpdateIsUsedBorders(string borderId, string userId, bool is_used)
     {
-        Debug.Log("Id: "+Id);
-        Debug.Log("User id: "+User.CurrentUserId);
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -456,8 +454,8 @@ public class UserBordersRepository : IUserBordersRepository
                 connection.Open();
                 string query = "update user_borders set is_used=@is_used where user_id=@user_id and border_id=@border_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@border_id", Id);
+                command.Parameters.AddWithValue("@user_id", userId);
+                command.Parameters.AddWithValue("@border_id", borderId);
                 command.Parameters.AddWithValue("@is_used", is_used);
                 command.ExecuteNonQuery();
             }

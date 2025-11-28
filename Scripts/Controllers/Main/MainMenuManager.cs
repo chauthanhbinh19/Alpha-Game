@@ -339,7 +339,7 @@ public class MainMenuManager : MonoBehaviour
         Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 
-        FindObjectOfType<CurrencyManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
 
         userButton.onClick.AddListener(() =>
         {
@@ -468,37 +468,47 @@ public class MainMenuManager : MonoBehaviour
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
             if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_200");
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_HEROES_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_201");
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_BOOKS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_202");
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_CAPTAINS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_203");
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_MONSTERS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_204");
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_MILITARIES_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_205");
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_SPELLS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
             {
-                Texture texture = Resources.Load<Texture>("UI/Background1/Background_V1_206");
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_COLONELS_BACKGROUND_URL);
+                dictionaryBackground.texture = texture;
+            }
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
+            {
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_GENERALS_BACKGROUND_URL);
+                dictionaryBackground.texture = texture;
+            }
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
+            {
+                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_ADMIRALS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
         }
@@ -610,7 +620,7 @@ public class MainMenuManager : MonoBehaviour
 
             List<Currencies> currencies = new List<Currencies>();
             currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
-            FindObjectOfType<CurrencyManager>().GetMainCurrency(currencies, CurrencyPanel);
+            FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
         }
 
         List<string> uniqueRaries = QualityEvaluator.rarities;
@@ -714,7 +724,7 @@ public class MainMenuManager : MonoBehaviour
             if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
                 List<Collaborations> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
-                UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
+                UserCollaborationsController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
                 listCount = collaborations.Count;
 
                 totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
@@ -738,7 +748,7 @@ public class MainMenuManager : MonoBehaviour
             else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
                 List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
-                UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
+                UserSpiritBeastsController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
                 listCount = spiritBeasts.Count;
 
                 totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
@@ -790,6 +800,30 @@ public class MainMenuManager : MonoBehaviour
                 listCount = robots.Count;
 
                 totalRecord = UserRobotsService.Create().GetUserRobotsCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.BADGE))
+            {
+                List<Badges> badges = UserBadgesService.Create().GetUserBadges(User.CurrentUserId, pageSize, offset, rare);
+                UserBadgesController.Instance.CreateUserBadges(badges, DictionaryContentPanel);
+                listCount = badges.Count;
+
+                totalRecord = UserBadgesService.Create().GetUserBadgesCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
+            {
+                List<MechaBeasts> mechaBeasts = UserMechaBeastsService.Create().GetUserMechaBeasts(User.CurrentUserId, pageSize, offset, rare);
+                UserMechaBeastsController.Instance.CreateUserMechaBeasts(mechaBeasts, DictionaryContentPanel);
+                listCount = mechaBeasts.Count;
+
+                totalRecord = UserMechaBeastsService.Create().GetUserMechaBeastsCount(User.CurrentUserId, rare);
+            }
+            else if (mainType.Equals(AppConstants.MainType.RUNE))
+            {
+                List<Runes> runes = UserRunesService.Create().GetUserRunes(User.CurrentUserId, pageSize, offset, rare);
+                UserRunesController.Instance.CreateUserRunes(runes, DictionaryContentPanel);
+                listCount = runes.Count;
+
+                totalRecord = UserRunesService.Create().GetUserRunesCount(User.CurrentUserId, rare);
             }
 
             if (listCount > 0)
@@ -911,7 +945,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<CollaborationEquipments> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCollaborationEquipmentController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
+            UserCollaborationEquipmentsController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
             listCount = collaborationEquipments.Count;
 
             totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, type, rare);
@@ -956,7 +990,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<CardMilitaries> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCardMilitaryController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
+            UserCardMilitariesController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
             listCount = cardMilitaries.Count;
 
             totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, type, rare);
@@ -965,7 +999,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<CardSpells> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCardSpellController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
+            UserCardSpellsController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
             listCount = cardSpells.Count;
 
             totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, type, rare);
@@ -974,7 +1008,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Collaborations> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCollaborationController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
+            UserCollaborationsController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
             listCount = collaborations.Count;
 
             totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
@@ -1001,7 +1035,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<MagicFormationCircles> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserMagicFormationCircleController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
+            UserMagicFormationCirclesController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
             listCount = magicFormationCircles.Count;
 
             totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, type, rare);
@@ -1059,7 +1093,7 @@ public class MainMenuManager : MonoBehaviour
 
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1073,7 +1107,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
@@ -1092,7 +1126,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
@@ -1110,7 +1144,7 @@ public class MainMenuManager : MonoBehaviour
             UserBooksController.Instance.CreateUserBooksForSummon(books, PositionPanel);
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1124,7 +1158,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
@@ -1142,7 +1176,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
@@ -1160,7 +1194,7 @@ public class MainMenuManager : MonoBehaviour
             UserCardCaptainsController.Instance.CreateUserCardCaptainsForSummon(cardCaptains, PositionPanel);
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1174,7 +1208,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) },
                         CurrencyPanel
                         );
@@ -1192,7 +1226,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) },
                         CurrencyPanel
                         );
@@ -1207,10 +1241,10 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
         {
             List<CardMilitaries> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryRandom(type, 3);
-            UserCardMilitaryController.Instance.CreateUserCardMilitaryForSummon(cardMilitaries, PositionPanel);
+            UserCardMilitariesController.Instance.CreateUserCardMilitaryForSummon(cardMilitaries, PositionPanel);
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1224,7 +1258,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) },
                         CurrencyPanel
                         );
@@ -1242,7 +1276,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) },
                         CurrencyPanel
                         );
@@ -1257,10 +1291,10 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
         {
             List<CardSpells> cardSpells = CardSpellService.Create().GetCardSpellRandom(type, 3);
-            UserCardSpellController.Instance.CreateUserCardSpellForSummon(cardSpells, PositionPanel);
+            UserCardSpellsController.Instance.CreateUserCardSpellForSummon(cardSpells, PositionPanel);
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1274,7 +1308,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) },
                         CurrencyPanel
                         );
@@ -1292,7 +1326,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) },
                         CurrencyPanel
                         );
@@ -1310,7 +1344,7 @@ public class MainMenuManager : MonoBehaviour
             UserCardMonstersController.Instance.CreateUserCardMonstersForSummon(cardMonsters, PositionPanel);
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1324,7 +1358,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) },
                         CurrencyPanel
                         );
@@ -1342,7 +1376,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) },
                         CurrencyPanel
                         );
@@ -1360,7 +1394,7 @@ public class MainMenuManager : MonoBehaviour
             UserCardColonelsController.Instance.CreateUserCardColonelsForSummon(cardColonels, PositionPanel);
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1374,7 +1408,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) },
                         CurrencyPanel
                         );
@@ -1392,7 +1426,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) },
                         CurrencyPanel
                         );
@@ -1410,7 +1444,7 @@ public class MainMenuManager : MonoBehaviour
             UserCardGeneralsController.Instance.CreateUserCardGeneralsForSummon(cardGenerals, PositionPanel);
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1424,7 +1458,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) },
                         CurrencyPanel
                         );
@@ -1442,7 +1476,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) },
                         CurrencyPanel
                         );
@@ -1460,7 +1494,7 @@ public class MainMenuManager : MonoBehaviour
             UserCardAdmiralsController.Instance.CreateUserCardAdmiralsForSummon(cardAdmirals, PositionPanel);
 
             List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) };
-            CurrencyManager.Instance.GetTicketsCurrency(
+            CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
             );
@@ -1474,7 +1508,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) },
                         CurrencyPanel
                         );
@@ -1492,7 +1526,7 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        CurrencyManager.Instance.GetTicketsCurrency(
+                        CurrenciesManager.Instance.GetTicketsCurrency(
                         new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) },
                         CurrencyPanel
                         );
@@ -1508,7 +1542,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Talismans> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserTalismanController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
+            UserTalismansController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
             listCount = talismans.Count;
 
             totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, type, rare);
@@ -1517,7 +1551,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Puppets> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserPuppetController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
+            UserPuppetsController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
             listCount = puppets.Count;
 
             totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, type, rare);
@@ -1526,7 +1560,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Alchemies> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserAlchemyController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
+            UserAlchemiesController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
             listCount = alchemies.Count;
 
             totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, type, rare);
@@ -1535,7 +1569,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Forges> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserForgeController.Instance.CreateUserForge(forges, DictionaryContentPanel);
+            UserForgesController.Instance.CreateUserForge(forges, DictionaryContentPanel);
             listCount = forges.Count;
 
             totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, type, rare);
@@ -1544,7 +1578,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<CardLives> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCardLifeController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
+            UserCardLivesController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             listCount = cardLives.Count;
 
             totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, type, rare);
@@ -1553,7 +1587,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Artworks> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserArtworkController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
+            UserArtworksController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             listCount = artworks.Count;
 
             totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, type, rare);
@@ -1562,7 +1596,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserSpiritBeastController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
+            UserSpiritBeastsController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
             listCount = spiritBeasts.Count;
 
             totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, rare);
@@ -1571,7 +1605,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<SpiritCards> spiritCards = UserSpiritCardService.Create().GetUserSpiritCard(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserSpiritCardController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
+            UserSpiritCardsController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
             listCount = spiritCards.Count;
 
             totalRecord = UserSpiritCardService.Create().GetUserSpiritCardCount(User.CurrentUserId, type, rare);
@@ -1632,6 +1666,30 @@ public class MainMenuManager : MonoBehaviour
             listCount = robots.Count;
 
             totalRecord = UserRobotsService.Create().GetUserRobotsCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.BADGE))
+        {
+            List<Badges> badges = UserBadgesService.Create().GetUserBadges(User.CurrentUserId, pageSize, offset, rare);
+            UserBadgesController.Instance.CreateUserBadges(badges, DictionaryContentPanel);
+            listCount = badges.Count;
+
+            totalRecord = UserBadgesService.Create().GetUserBadgesCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
+        {
+            List<MechaBeasts> mechaBeasts = UserMechaBeastsService.Create().GetUserMechaBeasts(User.CurrentUserId, pageSize, offset, rare);
+            UserMechaBeastsController.Instance.CreateUserMechaBeasts(mechaBeasts, DictionaryContentPanel);
+            listCount = mechaBeasts.Count;
+
+            totalRecord = UserMechaBeastsService.Create().GetUserMechaBeastsCount(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.RUNE))
+        {
+            List<Runes> runes = UserRunesService.Create().GetUserRunes(User.CurrentUserId, pageSize, offset, rare);
+            UserRunesController.Instance.CreateUserRunes(runes, DictionaryContentPanel);
+            listCount = runes.Count;
+
+            totalRecord = UserRunesService.Create().GetUserRunesCount(User.CurrentUserId, rare);
         }
 
         if (listCount > 0)

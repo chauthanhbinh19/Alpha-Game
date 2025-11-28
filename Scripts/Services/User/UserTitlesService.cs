@@ -193,9 +193,9 @@ public class UserTitlesService : IUserTitlesService
         return _userTitlesRepository.GetUserTitlesCount(user_id, rare);
     }
 
-    public bool InsertUserTitles(Titles titles)
+    public bool InsertUserTitles(Titles titles, string userId)
     {
-        return _userTitlesRepository.InsertUserTitles(titles);
+        return _userTitlesRepository.InsertUserTitles(titles, userId);
     }
 
     public bool UpdateTitlesLevel(Titles titles, int cardLevel)

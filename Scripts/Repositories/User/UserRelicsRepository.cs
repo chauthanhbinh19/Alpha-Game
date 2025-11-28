@@ -150,7 +150,7 @@ public class UserRelicsRepository : IUserRelicsRepository
         }
         return count;
     }
-    public bool InsertUserReclis(Relics relics)
+    public bool InsertUserReclis(Relics relics, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -165,7 +165,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 WHERE user_id = @user_id AND relic_id = @relic_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@relic_id", relics.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -208,7 +208,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@relic_id", relics.Id);
                     command.Parameters.AddWithValue("@rare", relics.Rare);
                     // command.Parameters.AddWithValue("@sequence", GetMaxSequence(connection, relics.id) + 1);
@@ -300,7 +300,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     WHERE user_id = @user_id AND relic_id = @relic_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@relic_id", relics.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", relics.Quantity);
 

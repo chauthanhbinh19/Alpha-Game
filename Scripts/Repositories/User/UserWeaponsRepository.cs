@@ -148,7 +148,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
         }
         return count;
     }
-    public bool InsertUserWeapons(Weapons Weapons)
+    public bool InsertUserWeapons(Weapons Weapons, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -163,7 +163,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 WHERE user_id = @user_id AND weapon_id = @weapon_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@weapon_id", Weapons.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -206,7 +206,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@weapon_id", Weapons.Id);
                     command.Parameters.AddWithValue("@rare", Weapons.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -276,7 +276,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     WHERE user_id = @user_id AND weapon_id = @weapon_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@weapon_id", Weapons.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", Weapons.Quantity);
 

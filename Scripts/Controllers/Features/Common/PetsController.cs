@@ -201,7 +201,7 @@ public class PetsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -345,11 +345,11 @@ public class PetsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Pets pets)
+            if (obj is Pets pet)
             {
-                pets.Quantity = pets.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(pets.Currency.Id, price);
-                bool success = UserPetsService.Create().InsertUserPets(pets);
+                pet.Quantity = pet.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(pet.Currency.Id, price);
+                bool success = UserPetsService.Create().InsertUserPets(pet, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -362,12 +362,12 @@ public class PetsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    PetsGalleryService.Create().InsertPetsGallery(pets.Id);
+                    PetsGalleryService.Create().InsertPetsGallery(pet.Id);
                     currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pets.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);

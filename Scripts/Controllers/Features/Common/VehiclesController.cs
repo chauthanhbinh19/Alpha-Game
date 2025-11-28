@@ -170,7 +170,7 @@ public class VehiclesController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = UserCurrencyService.Create().GetVehiclesCurrency(subType);
-        FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -314,11 +314,11 @@ public class VehiclesController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Vehicles Vehicle)
+            if (obj is Vehicles vehicle)
             {
-                Vehicle.Quantity = Vehicle.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(Vehicle.Currency.Id, price);
-                bool success = UserVehicleService.Create().InsertUserVehicle(Vehicle);
+                vehicle.Quantity = vehicle.Quantity + quantity;
+                UserCurrencyService.Create().UpdateUserCurrency(vehicle.Currency.Id, price);
+                bool success = UserVehicleService.Create().InsertUserVehicle(vehicle, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -331,12 +331,12 @@ public class VehiclesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    VehicleGalleryService.Create().InsertVehiclesGallery(Vehicle.Id);
+                    VehicleGalleryService.Create().InsertVehiclesGallery(vehicle.Id);
                     currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
+                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
@@ -356,7 +356,7 @@ public class VehiclesController : MonoBehaviour
                     double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 }
                 else
                 {

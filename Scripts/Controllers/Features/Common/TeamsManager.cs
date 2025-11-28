@@ -902,7 +902,7 @@ public class TeamsManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardHero.Power, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardHero.Power, 0);
                     CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
@@ -986,7 +986,7 @@ public class TeamsManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardCaptain.Power, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardCaptain.Power, 0);
                     CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
@@ -1070,7 +1070,7 @@ public class TeamsManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardColonel.Power, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardColonel.Power, 0);
                     CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
@@ -1154,7 +1154,7 @@ public class TeamsManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardGeneral.Power, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardGeneral.Power, 0);
                     CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
@@ -1238,7 +1238,7 @@ public class TeamsManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardAdmiral.Power, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardAdmiral.Power, 0);
                     CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
@@ -1322,7 +1322,7 @@ public class TeamsManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMonster.Power, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardMonster.Power, 0);
                     CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
@@ -1406,7 +1406,7 @@ public class TeamsManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardMilitary.Power, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardMilitary.Power, 0);
                     CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
@@ -1490,7 +1490,7 @@ public class TeamsManager : MonoBehaviour
                     double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
-                    FindObjectOfType<Power>().ShowPower(currentPower, matchingCardSpell.Power, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardSpell.Power, 0);
                     CreatePosition(positionPanel, teamsObject);
                     LoadCardDataByType(mainType, selectedOptionName, teamLimit, teamOffset, choseTeam);
                 });
@@ -1968,7 +1968,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -1978,7 +1978,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -1988,7 +1988,7 @@ public class TeamsManager : MonoBehaviour
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardHeroes.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardHeroes.Power, 1);
             }
         }
         else if (obj is CardCaptains cardCaptains)
@@ -2005,7 +2005,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -2015,7 +2015,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -2025,7 +2025,7 @@ public class TeamsManager : MonoBehaviour
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardCaptains.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardCaptains.Power, 1);
             }
         }
         else if (obj is CardColonels cardColonels)
@@ -2042,7 +2042,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -2052,7 +2052,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -2062,7 +2062,7 @@ public class TeamsManager : MonoBehaviour
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardColonels.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardColonels.Power, 1);
             }
         }
         else if (obj is CardGenerals cardGenerals)
@@ -2079,7 +2079,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -2089,7 +2089,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -2099,7 +2099,7 @@ public class TeamsManager : MonoBehaviour
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardGenerals.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardGenerals.Power, 1);
             }
         }
         else if (obj is CardAdmirals cardAdmirals)
@@ -2116,7 +2116,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -2126,7 +2126,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -2136,7 +2136,7 @@ public class TeamsManager : MonoBehaviour
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardAdmirals.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardAdmirals.Power, 1);
             }
         }
         else if (obj is CardMonsters cardMonsters)
@@ -2153,7 +2153,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -2163,7 +2163,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -2173,7 +2173,7 @@ public class TeamsManager : MonoBehaviour
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardMonsters.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardMonsters.Power, 1);
             }
         }
         else if (obj is CardMilitaries cardMilitary)
@@ -2190,7 +2190,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -2200,7 +2200,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -2210,7 +2210,7 @@ public class TeamsManager : MonoBehaviour
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardMilitary.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardMilitary.Power, 1);
             }
         }
         else if (obj is CardSpells cardSpell)
@@ -2227,7 +2227,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 1);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
@@ -2237,7 +2237,7 @@ public class TeamsManager : MonoBehaviour
                     UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
-                    FindObjectOfType<Power>().ShowPower(currentPower, diffPower, 0);
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                 }
             }
             else
@@ -2247,7 +2247,7 @@ public class TeamsManager : MonoBehaviour
                 UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<Power>().ShowPower(currentPower, cardSpell.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardSpell.Power, 1);
             }
         }
     }

@@ -193,9 +193,9 @@ public class UserPuppetService : IUserPuppetService
         return _userPuppetRepository.GetUserPuppetCount(user_id, type, rare);
     }
 
-    public bool InsertUserPuppet(Puppets puppet)
+    public bool InsertUserPuppet(Puppets puppet, string userId)
     {
-        return _userPuppetRepository.InsertUserPuppet(puppet);
+        return _userPuppetRepository.InsertUserPuppet(puppet, userId);
     }
 
     public bool UpdatePuppetLevel(Puppets puppet, int cardLevel)

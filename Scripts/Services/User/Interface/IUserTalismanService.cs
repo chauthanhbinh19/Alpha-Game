@@ -6,7 +6,7 @@ public interface IUserTalismanService
     Talismans GetNewBreakthroughPower(Talismans c, double coefficient);
     List<Talismans> GetUserTalisman(string user_id, string type, int pageSize, int offset, string rare);
     int GetUserTalismanCount(string user_id, string type, string rare);
-    bool InsertUserTalisman(Talismans talisman);
+    bool InsertUserTalisman(Talismans talisman, string userId);
     bool UpdateTalismanLevel(Talismans talisman, int level);
     bool UpdateTalismanBreakthrough(Talismans talisman, int star, double quantity);
     Talismans GetUserTalismanById(string user_id, string Id);

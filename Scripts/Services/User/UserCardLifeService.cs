@@ -193,9 +193,9 @@ public class UserCardLifeService : IUserCardLifeService
         return _userCardLifeRepository.GetUserCardLifeCount(user_id, type, rare);
     }
 
-    public bool InsertUserCardLife(CardLives cardLife)
+    public bool InsertUserCardLife(CardLives cardLife, string userId)
     {
-        return _userCardLifeRepository.InsertUserCardLife(cardLife);
+        return _userCardLifeRepository.InsertUserCardLife(cardLife, userId);
     }
 
     public bool UpdateCardLifeLevel(CardLives cardLife, int cardLevel)

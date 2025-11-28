@@ -193,9 +193,9 @@ public class UserWeaponsService : IUserWeaponsService
         return _userWeaponsRepository.GetUserWeaponsCount(user_id, rare);
     }
 
-    public bool InsertUserWeapons(Weapons Weapons)
+    public bool InsertUserWeapons(Weapons Weapons, string userId)
     {
-        return _userWeaponsRepository.InsertUserWeapons(Weapons);
+        return _userWeaponsRepository.InsertUserWeapons(Weapons, userId);
     }
 
     public bool UpdateWeaponsLevel(Weapons Weapons, int cardLevel)

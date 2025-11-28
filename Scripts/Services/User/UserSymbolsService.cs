@@ -193,9 +193,9 @@ public class UserSymbolsService : IUserSymbolsService
         return _userSymbolsRepository.GetUserSymbolsCount(user_id, type, rare);
     }
 
-    public bool InsertUserSymbols(Symbols symbols)
+    public bool InsertUserSymbols(Symbols symbols, string userId)
     {
-        return _userSymbolsRepository.InsertUserSymbols(symbols);
+        return _userSymbolsRepository.InsertUserSymbols(symbols, userId);
     }
 
     public bool UpdateSymbolsLevel(Symbols symbols, int cardLevel)

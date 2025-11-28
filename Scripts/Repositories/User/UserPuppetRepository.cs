@@ -150,7 +150,7 @@ public class UserPuppetRepository : IUserPuppetRepository
         }
         return count;
     }
-    public bool InsertUserPuppet(Puppets Puppet)
+    public bool InsertUserPuppet(Puppets Puppet, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -165,7 +165,7 @@ public class UserPuppetRepository : IUserPuppetRepository
                 WHERE user_id = @user_id AND puppet_id = @puppet_id;";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@puppet_id", Puppet.Id);
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -208,7 +208,7 @@ public class UserPuppetRepository : IUserPuppetRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
                     MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", userId);
                     command.Parameters.AddWithValue("@puppet_id", Puppet.Id);
                     command.Parameters.AddWithValue("@rare", Puppet.Rare);
                     command.Parameters.AddWithValue("@level", 0);
@@ -299,7 +299,7 @@ public class UserPuppetRepository : IUserPuppetRepository
                     WHERE user_id = @user_id AND puppet_id = @puppet_id;";
 
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@puppet_id", Puppet.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", Puppet.Quantity);
 
