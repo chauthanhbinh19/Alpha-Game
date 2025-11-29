@@ -41,9 +41,9 @@ public class MasterOfBeastManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfBeastPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfBeastPanelPrefab");
+        MasterOfBeastPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfBeastPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfBeastSlotPrefab");
+        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfBeastSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMasterOfBeastManager(object data)

@@ -42,11 +42,11 @@ public class CollaborationsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCollaborationGallery(List<Collaborations> collaborationList, Transform DictionaryContentPanel)
+    public void CreateCollaborationGallery(List<Collaborations> collaborationList, Transform contentPanel)
     {
         foreach (var collaboration in collaborationList)
         {
-            GameObject collaborationObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject collaborationObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
             Title.text = collaboration.Name.Replace("_", " ");
@@ -70,12 +70,12 @@ public class CollaborationsController : MonoBehaviour
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCollaborationTrade(List<Collaborations> collaborationList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

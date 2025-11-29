@@ -27,9 +27,9 @@ public class MainMenuKhorazalManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuKhorazalPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuKhorazalPanelPrefab");
+        MainMenuKhorazalPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuKhorazalPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("KhorazalSlotPrefab");
+        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("KhorazalSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuKhorazalManager(object data)

@@ -27,9 +27,9 @@ public class MainMenuXyphosManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuXyphosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuXyphosPanelPrefab");
+        MainMenuXyphosPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuXyphosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("XyphosSlotPrefab");
+        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("XyphosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuXyphosManager(object data)

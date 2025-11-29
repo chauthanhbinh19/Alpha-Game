@@ -42,11 +42,11 @@ public class BadgesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateBadgesGallery(List<Badges> BadgesList, Transform DictionaryContentPanel)
+    public void CreateBadgesGallery(List<Badges> BadgesList, Transform contentPanel)
     {
         foreach (var Badge in BadgesList)
         {
-            GameObject BadgeObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject BadgeObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = BadgeObject.transform.Find("Title").GetComponent<Text>();
             Title.text = Badge.Name.Replace("_", " ");
@@ -89,12 +89,12 @@ public class BadgesController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateBadgesTrade(List<Badges> BadgesList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

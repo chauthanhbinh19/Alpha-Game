@@ -42,11 +42,11 @@ public class SymbolsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateSymbolsGallery(List<Symbols> symbolsList, Transform DictionaryContentPanel)
+    public void CreateSymbolsGallery(List<Symbols> symbolsList, Transform contentPanel)
     {
         foreach (var symbol in symbolsList)
         {
-            GameObject symbolObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject symbolObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
             Title.text = symbol.Name.Replace("_", " ");
@@ -73,12 +73,12 @@ public class SymbolsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateSymbolsTrade(List<Symbols> symbolsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

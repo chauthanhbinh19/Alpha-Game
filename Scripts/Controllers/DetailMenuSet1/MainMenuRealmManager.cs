@@ -27,9 +27,9 @@ public class MainMenuRealmManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuRealmPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuRealmPanelPrefab");
+        MainMenuRealmPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuRealmPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("RealmSlotPrefab");
+        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("RealmSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuRealmManager(object data)

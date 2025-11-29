@@ -27,9 +27,9 @@ public class MainMenuRyzeManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuRyzePanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuRyzePanelPrefab");
+        MainMenuRyzePanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuRyzePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("RyzeSlotPrefab");
+        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("RyzeSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuRyzeManager(object data)

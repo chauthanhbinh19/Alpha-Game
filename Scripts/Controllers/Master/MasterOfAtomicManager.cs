@@ -41,9 +41,9 @@ public class MasterOfAtomicManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfAtomicPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfAtomicPanelPrefab");
+        MasterOfAtomicPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfAtomicPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfAtomicSlotPrefab");
+        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfAtomicSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMasterOfAtomicManager(object data)

@@ -27,9 +27,9 @@ public class MainMenuQuenManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuQuenPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuQuenPanelPrefab");
+        MainMenuQuenPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuQuenPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("QuenSlotPrefab");
+        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("QuenSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuQuenManager(object data)

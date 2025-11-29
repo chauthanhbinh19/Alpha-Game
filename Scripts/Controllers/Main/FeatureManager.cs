@@ -62,5 +62,15 @@ public class FeatureManager : MonoBehaviour
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FEATURE);
         ButtonLoader.Instance.CreateFeatureButton(featureTransform);
+        GetButtonEvent(featureTransform);
+    }
+    public void GetButtonEvent(Transform contentPanel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => BasesController.Instance.CreateBasePanel());
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => TrainsController.Instance.CreateTrainPanel());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => TrainsController.Instance.CreateTrainPanel());
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => TrainsController.Instance.CreateTrainPanel());
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => EmployeesController.Instance.CreateEmployeePanel());
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => CitiesController.Instance.CreateCityPanel());
     }
 }

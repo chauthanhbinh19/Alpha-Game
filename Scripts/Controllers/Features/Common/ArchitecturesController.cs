@@ -42,11 +42,11 @@ public class ArchitecturesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateArchitecturesGallery(List<Architectures> ArchitecturesList, Transform DictionaryContentPanel)
+    public void CreateArchitecturesGallery(List<Architectures> ArchitecturesList, Transform contentPanel)
     {
         foreach (var architecture in ArchitecturesList)
         {
-            GameObject architectureObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject architectureObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = architectureObject.transform.Find("Title").GetComponent<Text>();
             Title.text = architecture.Name.Replace("_", " ");
@@ -89,12 +89,12 @@ public class ArchitecturesController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateArchitecturesTrade(List<Architectures> ArchitecturesList, string subType, Transform currentContent,
     Transform CurrencyPanel, Transform popupPanel)

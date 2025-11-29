@@ -41,9 +41,9 @@ public class MasterOfSpiritManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfSpiritPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfSpiritPanelPrefab");
+        MasterOfSpiritPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfSpiritPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfSpiritSlotPrefab");
+        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfSpiritSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMasterOfSpiritManager(object data)

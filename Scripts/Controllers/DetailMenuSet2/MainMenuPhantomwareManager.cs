@@ -27,9 +27,9 @@ public class MainMenuPhantomwareManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuPhantomwarePanelPrefab = UIManager.Instance.GetGameObjectMainMenu2("MainMenuPhantomwarePanelPrefab");
+        MainMenuPhantomwarePanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuPhantomwarePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu2("PhantomwareSlotPrefab");
+        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("PhantomwareSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuPhantomwareManager(object data)

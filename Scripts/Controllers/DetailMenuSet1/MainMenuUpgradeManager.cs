@@ -27,9 +27,9 @@ public class MainMenuUpgradeManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuUpgradePanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuUpgradePanelPrefab");
+        MainMenuUpgradePanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuUpgradePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu1("UpgradeSlotPrefab");
+        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("UpgradeSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuUpgradeManager(object data)

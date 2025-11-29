@@ -42,11 +42,11 @@ public class RunesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateRunesGallery(List<Runes> RunesList, Transform DictionaryContentPanel)
+    public void CreateRunesGallery(List<Runes> RunesList, Transform contentPanel)
     {
         foreach (var Rune in RunesList)
         {
-            GameObject RuneObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject RuneObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = RuneObject.transform.Find("Title").GetComponent<Text>();
             Title.text = Rune.Name.Replace("_", " ");
@@ -89,12 +89,12 @@ public class RunesController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateRunesTrade(List<Runes> RunesList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

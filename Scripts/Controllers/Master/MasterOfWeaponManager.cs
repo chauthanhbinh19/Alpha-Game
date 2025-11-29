@@ -41,9 +41,9 @@ public class MasterOfWeaponManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfWeaponPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfWeaponPanelPrefab");
+        MasterOfWeaponPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfWeaponPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfWeaponSlotPrefab");
+        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfWeaponSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMasterOfWeaponManager(object data)

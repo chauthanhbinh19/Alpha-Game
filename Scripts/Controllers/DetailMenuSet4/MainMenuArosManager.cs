@@ -27,9 +27,9 @@ public class MainMenuArosManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuArosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuArosPanelPrefab");
+        MainMenuArosPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuArosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("ArosSlotPrefab");
+        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("ArosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuArosManager(object data)

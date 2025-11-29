@@ -43,11 +43,11 @@ public class AchievementsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateAchievementsGallery(List<Achievements> achievements, Transform DictionaryContentPanel)
+    public void CreateAchievementsGallery(List<Achievements> achievements, Transform contentPanel)
     {
         foreach (var achievement in achievements)
         {
-            GameObject avatarObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject avatarObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = avatarObject.transform.Find("Title").GetComponent<Text>();
             Title.text = achievement.Name.Replace("_", " ");
@@ -74,12 +74,12 @@ public class AchievementsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateAchievementsTrade(List<Achievements> achievements, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

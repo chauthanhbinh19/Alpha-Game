@@ -27,9 +27,9 @@ public class MainMenuVorathosManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuVorathosPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuVorathosPanelPrefab");
+        MainMenuVorathosPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuVorathosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("VorathosSlotPrefab");
+        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("VorathosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuVorathosManager(object data)

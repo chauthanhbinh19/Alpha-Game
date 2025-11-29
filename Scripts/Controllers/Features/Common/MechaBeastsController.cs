@@ -42,11 +42,11 @@ public class MechaBeastsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateMechaBeastsGallery(List<MechaBeasts> MechaBeastsList, Transform DictionaryContentPanel)
+    public void CreateMechaBeastsGallery(List<MechaBeasts> MechaBeastsList, Transform contentPanel)
     {
         foreach (var MechaBeast in MechaBeastsList)
         {
-            GameObject MechaBeastObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject MechaBeastObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = MechaBeastObject.transform.Find("Title").GetComponent<Text>();
             Title.text = MechaBeast.Name.Replace("_", " ");
@@ -89,12 +89,12 @@ public class MechaBeastsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateMechaBeastsTrade(List<MechaBeasts> MechaBeastsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

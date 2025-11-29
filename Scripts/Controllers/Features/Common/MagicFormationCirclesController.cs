@@ -42,11 +42,11 @@ public class MagicFormationCirclesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform DictionaryContentPanel)
+    public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
-            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = magicFormationCircle.Name.Replace("_", " ");
@@ -70,12 +70,12 @@ public class MagicFormationCirclesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateMagicFormationCircleTrade(List<MagicFormationCircles> magicFormationCircles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

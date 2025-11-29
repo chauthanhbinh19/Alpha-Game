@@ -42,11 +42,11 @@ public class RelicsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateRelicsGallery(List<Relics> relics, Transform DictionaryContentPanel)
+    public void CreateRelicsGallery(List<Relics> relics, Transform contentPanel)
     {
         foreach (var relic in relics)
         {
-            GameObject relicObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject relicObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
             Title.text = relic.Name.Replace("_", " ");
@@ -70,12 +70,12 @@ public class RelicsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateRelicsTrade(List<Relics> relics, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

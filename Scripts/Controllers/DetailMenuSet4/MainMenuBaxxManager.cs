@@ -27,9 +27,9 @@ public class MainMenuBaxxManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuBaxxPanelPrefab = UIManager.Instance.GetGameObjectMainMenu4("MainMenuBaxxPanelPrefab");
+        MainMenuBaxxPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuBaxxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu4("BaxxSlotPrefab");
+        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("BaxxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuBaxxManager(object data)

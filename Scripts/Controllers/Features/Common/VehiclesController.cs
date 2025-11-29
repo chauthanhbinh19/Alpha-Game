@@ -42,11 +42,11 @@ public class VehiclesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateVehicleGallery(List<Vehicles> Vehicles, Transform DictionaryContentPanel)
+    public void CreateVehicleGallery(List<Vehicles> Vehicles, Transform contentPanel)
     {
         foreach (var Vehicle in Vehicles)
         {
-            GameObject VehicleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject VehicleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = VehicleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = Vehicle.Name.Replace("_", " ");
@@ -88,12 +88,12 @@ public class VehiclesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateVehicleTrade(List<Vehicles> Vehicles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

@@ -42,11 +42,11 @@ public class MedalsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateMedalsGallery(List<Medals> medalsList, Transform DictionaryContentPanel)
+    public void CreateMedalsGallery(List<Medals> medalsList, Transform contentPanel)
     {
         foreach (var medal in medalsList)
         {
-            GameObject medalObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject medalObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
             Title.text = medal.Name.Replace("_", " ");
@@ -71,12 +71,12 @@ public class MedalsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateMedalsTrade(List<Medals> medalsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

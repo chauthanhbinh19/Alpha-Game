@@ -41,9 +41,9 @@ public class MasterOfMentalManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfMentalPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfMentalPanelPrefab");
+        MasterOfMentalPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfMentalPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfMentalSlotPrefab");
+        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfMentalSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMasterOfMentalManager(object data)

@@ -42,11 +42,11 @@ public class BordersController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateBordersGallery(List<Borders> borders, Transform DictionaryContentPanel)
+    public void CreateBordersGallery(List<Borders> borders, Transform contentPanel)
     {
         foreach (var border in borders)
         {
-            GameObject borderObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject borderObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = borderObject.transform.Find("Title").GetComponent<Text>();
             Title.text = border.Name.Replace("_", " ");
@@ -73,12 +73,12 @@ public class BordersController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateBordersTrade(List<Borders> borders, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

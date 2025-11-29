@@ -27,9 +27,9 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuShubNiggurathPanelPrefab = UIManager.Instance.GetGameObjectMainMenu3("MainMenuShubNiggurathPanelPrefab");
+        MainMenuShubNiggurathPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuShubNiggurathPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMainMenu3("ShubNiggurathSlotPrefab");
+        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("ShubNiggurathSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMainMenuShubNiggurathManager(object data)

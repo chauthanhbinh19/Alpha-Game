@@ -41,9 +41,9 @@ public class MasterOfMagicManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfMagicPanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfMagicPanelPrefab");
+        MasterOfMagicPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfMagicPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfMagicSlotPrefab");
+        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfMagicSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMasterOfMagicManager(object data)

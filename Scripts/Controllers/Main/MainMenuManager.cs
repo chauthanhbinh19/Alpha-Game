@@ -170,7 +170,7 @@ public class MainMenuManager : MonoBehaviour
                 Close(MainPanel);
             });
             ButtonLoader.Instance.CreateEventButton(popupButtonPanel);
-            GetEventButtonEvent(popupButtonPanel);
+            GetButtonEvent(popupButtonPanel);
         });
 
         shopButton.onClick.AddListener(() =>
@@ -391,7 +391,7 @@ public class MainMenuManager : MonoBehaviour
         Transform mainButtonGroupPanel = currentObject.transform.Find("MainPanel/MainButtonGroup");
         mainButtonGroupPanel.gameObject.SetActive(true);
     }
-    public void GetEventButtonEvent(GameObject popupButtonObject)
+    public void GetButtonEvent(GameObject popupButtonObject)
     {
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
         ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_HEROES));

@@ -42,11 +42,11 @@ public class TalismansController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateTalismanGallery(List<Talismans> talismans, Transform DictionaryContentPanel)
+    public void CreateTalismanGallery(List<Talismans> talismans, Transform contentPanel)
     {
         foreach (var talisman in talismans)
         {
-            GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject talismanObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
             Title.text = talisman.Name.Replace("_", " ");
@@ -70,12 +70,12 @@ public class TalismansController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateTalismanTrade(List<Talismans> talismans, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

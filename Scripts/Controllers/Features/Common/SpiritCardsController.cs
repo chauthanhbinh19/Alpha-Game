@@ -42,11 +42,11 @@ public class SpiritCardsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateSpiritCardGallery(List<SpiritCards> SpiritCardList, Transform DictionaryContentPanel)
+    public void CreateSpiritCardGallery(List<SpiritCards> SpiritCardList, Transform contentPanel)
     {
         foreach (var title in SpiritCardList)
         {
-            GameObject titleObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -74,12 +74,12 @@ public class SpiritCardsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 400);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateSpiritCardTrade(List<SpiritCards> SpiritCardList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

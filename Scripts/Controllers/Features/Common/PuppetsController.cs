@@ -42,11 +42,11 @@ public class PuppetsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreatePuppetGallery(List<Puppets> puppets, Transform DictionaryContentPanel)
+    public void CreatePuppetGallery(List<Puppets> puppets, Transform contentPanel)
     {
         foreach (var puppet in puppets)
         {
-            GameObject puppetObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject puppetObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
             Title.text = puppet.Name.Replace("_", " ");
@@ -70,12 +70,12 @@ public class PuppetsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreatePuppetTrade(List<Puppets> puppets, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

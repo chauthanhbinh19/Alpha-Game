@@ -42,11 +42,11 @@ public class CollaborationEquipmentsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipments> collaborationEquipmentList, Transform DictionaryContentPanel)
+    public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipments> collaborationEquipmentList, Transform contentPanel)
     {
         foreach (var collaborationEquipment in collaborationEquipmentList)
         {
-            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = collaborationEquipment.Name.Replace("_", " ");
@@ -67,12 +67,12 @@ public class CollaborationEquipmentsController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.Rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCollaborationEquipmentsTrade(List<CollaborationEquipments> collaborationEquipmentList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

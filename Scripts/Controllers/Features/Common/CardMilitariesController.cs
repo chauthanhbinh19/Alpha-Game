@@ -42,11 +42,11 @@ public class CardMilitariesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCardMilitaryGallery(List<CardMilitaries> militaryList, Transform DictionaryContentPanel)
+    public void CreateCardMilitaryGallery(List<CardMilitaries> militaryList, Transform contentPanel)
     {
         foreach (var military in militaryList)
         {
-            GameObject militaryObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject militaryObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
             Title.text = military.Name.Replace("_", " ");
@@ -67,12 +67,12 @@ public class CardMilitariesController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.Rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCardMilitaryTrade(List<CardMilitaries> militaryList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

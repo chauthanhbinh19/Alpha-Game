@@ -42,11 +42,11 @@ public class CardMonstersController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCardMonstersGallery(List<CardMonsters> monstersList, Transform DictionaryContentPanel)
+    public void CreateCardMonstersGallery(List<CardMonsters> monstersList, Transform contentPanel)
     {
         foreach (var monster in monstersList)
         {
-            GameObject monstersObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject monstersObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = monstersObject.transform.Find("Title").GetComponent<Text>();
             Title.text = monster.Name.Replace("_", " ");
@@ -67,12 +67,12 @@ public class CardMonstersController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monster.Rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCardMonstersTrade(List<CardMonsters> monstersList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

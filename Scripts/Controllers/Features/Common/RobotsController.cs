@@ -42,11 +42,11 @@ public class RobotsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateRobotsGallery(List<Robots> RobotsList, Transform DictionaryContentPanel)
+    public void CreateRobotsGallery(List<Robots> RobotsList, Transform contentPanel)
     {
         foreach (var robot in RobotsList)
         {
-            GameObject robotObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject robotObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = robotObject.transform.Find("Title").GetComponent<Text>();
             Title.text = robot.Name.Replace("_", " ");
@@ -89,12 +89,12 @@ public class RobotsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateRobotsTrade(List<Robots> RobotsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

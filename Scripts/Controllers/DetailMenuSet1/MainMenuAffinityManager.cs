@@ -28,7 +28,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuAffinityPanelPrefab = UIManager.Instance.GetGameObjectMainMenu1("MainMenuAffinityPanelPrefab");
+        MainMenuAffinityPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuAffinityPanelPrefab");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
         // List<Items> itemsList = new List<Items>();
         teamsService = TeamsService.Create();

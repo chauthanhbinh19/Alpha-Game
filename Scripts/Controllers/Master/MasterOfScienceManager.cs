@@ -41,9 +41,9 @@ public class MasterOfScienceManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfSciencePanelPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfSciencePanelPrefab");
+        MasterOfSciencePanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfSciencePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIManager.Instance.GetGameObjectMaster("MasterOfScienceSlotPrefab");
+        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfScienceSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public void CreateMasterOfScienceManager(object data)

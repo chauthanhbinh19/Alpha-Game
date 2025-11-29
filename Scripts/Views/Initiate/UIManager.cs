@@ -106,145 +106,25 @@ public class UIManager : MonoBehaviour
     public GameObject PopupButtonPrefab;
     public GameObject CardContractPrefab;
     public GameObject CardPenaltyPrefab;
+    [Header("General Button")]
+    public GameObject WorldPanelPrefab;
+    public GameObject CityPanelPrefab;
+    public GameObject BasePanelPrefab;
+    public GameObject TrainPanelPrefab;
+    public GameObject ResearchPanelPrefab;
+    public GameObject EmployeePanelPrefab;
+    [Header("General Button")]
+    public GameObject WorldButtonPrefab;
+    public GameObject CityButtonPrefab;
+    public GameObject BaseButtonPrefab;
+    public GameObject TrainButtonPrefab;
+    public GameObject ResearchButtonPrefab;
+    public GameObject EmployeeButtonPrefab;
     [Header("Science Fiction")]
     public GameObject ReactorPanelPrefab;
     public GameObject ReactorButtonPrefab;
     public GameObject ReactorPanelNumberPrefab;
-    [Header("Market")]
-    public GameObject RareMarketManagerPrefab;
-    public GameObject RareMarketPrefab;
-    public GameObject RareMarketButtonPrefab;
-    public GameObject UltraRareMarketManagerPrefab;
-    public GameObject UltraRareMarketPrefab;
-    public GameObject UltraRareMarketButtonPrefab;
-    public GameObject LegendaryMarketManagerPrefab;
-    public GameObject LegendaryMarketPrefab;
-    public GameObject LegendaryMarketButtonPrefab;
-    public GameObject MysticMarketManagerPrefab;
-    public GameObject MysticMarketPrefab;
-    public GameObject MysticMarketButtonPrefab;
-    // MainMenu Set 1
-    [Header("Main menu set 1")]
-    public GameObject MainMenuEquipmentPanelPrefab;
-    public GameObject MainMenuAptitudePanelPrefab;
-    public GameObject MainMenuUpgradePanelPrefab;
-    public GameObject MainMenuAffinityPanelPrefab;
-    public GameObject MainMenuBlessingPanelPrefab;
-    public GameObject MainMenuCorePanelPrefab;
-    public GameObject MainMenuRealmPanelPrefab;
-    public GameObject MainMenuPhysiquePanelPrefab;
-    public GameObject MainMenuBloodlinePanelPrefab;
-    public GameObject MainMenuOmnivisionPanelPrefab;
-    public GameObject MainMenuOmnipotencePanelPrefab;
-    public GameObject MainMenuOmnipresencePanelPrefab;
-    public GameObject MainMenuOmnivoryPanelPrefab;
-    public GameObject MainMenuOmnisciencePanelPrefab;
-    public GameObject MainMenuAngelPanelPrefab;
-    public GameObject MainMenuDemonPanelPrefab;
-    public GameObject MainMenuSwordPanelPrefab;
-    public GameObject MainMenuSpearPanelPrefab;
-    public GameObject MainMenuShieldPanelPrefab;
-    public GameObject MainMenuBowPanelPrefab;
-    public GameObject MainMenuGunPanelPrefab;
-    public GameObject MainMenuCyberPanelPrefab;
-    public GameObject MainMenuFairyPanelPrefab;
-    // MainMenu Set 2
-    [Header("Main menu set 2")]
-    public GameObject MainMenuDarkPanelPrefab;
-    public GameObject MainMenuLightPanelPrefab;
-    public GameObject MainMenuFirePanelPrefab;
-    public GameObject MainMenuIcePanelPrefab;
-    public GameObject MainMenuEarthPanelPrefab;
-    public GameObject MainMenuThunderPanelPrefab;
-    public GameObject MainMenuLifePanelPrefab;
-    public GameObject MainMenuSpacePanelPrefab;
-    public GameObject MainMenuTimePanelPrefab;
-    public GameObject MainMenuNanotechPanelPrefab;
-    public GameObject MainMenuQuantumPanelPrefab;
-    public GameObject MainMenuHolographyPanelPrefab;
-    public GameObject MainMenuPlasmaPanelPrefab;
-    public GameObject MainMenuBiomechPanelPrefab;
-    public GameObject MainMenuCryotechPanelPrefab;
-    public GameObject MainMenuPsionicsPanelPrefab;
-    public GameObject MainMenuNeurotechPanelPrefab;
-    public GameObject MainMenuAntimatterPanelPrefab;
-    public GameObject MainMenuPhantomwarePanelPrefab;
-    public GameObject MainMenuGravitechPanelPrefab;
-    public GameObject MainMenuAethernetPanelPrefab;
-    public GameObject MainMenuStarforgePanelPrefab;
-    public GameObject MainMenuOrbitalisPanelPrefab;
-    // MainMenu Set 3
-    [Header("Main menu set 3")]
-    public GameObject MainMenuAzathothPanelPrefab;
-    public GameObject MainMenuYogSothothPanelPrefab;
-    public GameObject MainMenuNyarlathotepPanelPrefab;
-    public GameObject MainMenuShubNiggurathPanelPrefab;
-    public GameObject MainMenuNihorathPanelPrefab;
-    public GameObject MainMenuAeonaxPanelPrefab;
-    public GameObject MainMenuSeraphirosPanelPrefab;
-    public GameObject MainMenuThorindarPanelPrefab;
-    public GameObject MainMenuZilthrosPanelPrefab;
-    public GameObject MainMenuKhorazalPanelPrefab;
-    public GameObject MainMenuIxithraPanelPrefab;
-    public GameObject MainMenuOmnitheusPanelPrefab;
-    public GameObject MainMenuPhyrixaPanelPrefab;
-    public GameObject MainMenuAtherionPanelPrefab;
-    public GameObject MainMenuVorathosPanelPrefab;
-    public GameObject MainMenuTenebrisPanelPrefab;
-    public GameObject MainMenuXylkorPanelPrefab;
-    public GameObject MainMenuVeltharionPanelPrefab;
-    public GameObject MainMenuArcanosPanelPrefab;
-    public GameObject MainMenuDolomathPanelPrefab;
-    public GameObject MainMenuArathorPanelPrefab;
-    public GameObject MainMenuXyphosPanelPrefab;
-    public GameObject MainMenuVaelithPanelPrefab;
-    [Header("Main menu set 4")]
-    public GameObject MainMenuZarxPanelPrefab;
-    public GameObject MainMenuRaikPanelPrefab;
-    public GameObject MainMenuDraxPanelPrefab;
-    public GameObject MainMenuKronPanelPrefab;
-    public GameObject MainMenuZoltPanelPrefab;
-    public GameObject MainMenuGorrPanelPrefab;
-    public GameObject MainMenuRyzePanelPrefab;
-    public GameObject MainMenuJaxxPanelPrefab;
-    public GameObject MainMenuTharPanelPrefab;
-    public GameObject MainMenuVornPanelPrefab;
-    public GameObject MainMenuNyxPanelPrefab;
-    public GameObject MainMenuArosPanelPrefab;
-    public GameObject MainMenuHexPanelPrefab;
-    public GameObject MainMenuLornPanelPrefab;
-    public GameObject MainMenuBaxxPanelPrefab;
-    public GameObject MainMenuZephPanelPrefab;
-    public GameObject MainMenuKaelPanelPrefab;
-    public GameObject MainMenuDravPanelPrefab;
-    public GameObject MainMenuTornPanelPrefab;
-    public GameObject MainMenuMyrrPanelPrefab;
-    public GameObject MainMenuVaskPanelPrefab;
-    public GameObject MainMenuJorrPanelPrefab;
-    public GameObject MainMenuQuenPanelPrefab;
-    [Header("Master")]
-    public GameObject MasterOfBeastPanelPrefab;
-    public GameObject MasterOfBeastSlotPrefab;
-    public GameObject MasterOfDragonPanelPrefab;
-    public GameObject MasterOfDragonSlotPrefab;
-    public GameObject MasterOfMagicPanelPrefab;
-    public GameObject MasterOfMagicSlotPrefab;
-    public GameObject MasterOfMusicPanelPrefab;
-    public GameObject MasterOfMusicSlotPrefab;
-    public GameObject MasterOfSciencePanelPrefab;
-    public GameObject MasterOfScienceSlotPrefab;
-    public GameObject MasterOfSpiritPanelPrefab;
-    public GameObject MasterOfSpiritSlotPrefab;
-    public GameObject MasterOfWeaponPanelPrefab;
-    public GameObject MasterOfWeaponSlotPrefab;
-    public GameObject MasterOfChemicalPanelPrefab;
-    public GameObject MasterOfChemicalSlotPrefab;
-    public GameObject MasterOfPhysicalPanelPrefab;
-    public GameObject MasterOfPhysicalSlotPrefab;
-    public GameObject MasterOfAtomicPanelPrefab;
-    public GameObject MasterOfAtomicSlotPrefab;
-    public GameObject MasterOfMentalPanelPrefab;
-    public GameObject MasterOfMentalSlotPrefab;
+    
     [Header("Other")]
     public GameObject MainMenuAnimePanelPrefab;
     public GameObject AnimePanelPrefab;
@@ -269,103 +149,7 @@ public class UIManager : MonoBehaviour
     public GameObject ArenaButtonPrefab;
     public GameObject AnimeButtonPrefab;
     public GameObject DailyCheckinComponentPrefab;
-    // MainMenu Slot Set 1
-    [Header("Main menu slot set 1")]
-    public GameObject AptitudeSlotPrefab;
-    public GameObject UpgradeSlotPrefab;
-    public GameObject BlessingSlotPrefab;
-    public GameObject CoreSlotPrefab;
-    public GameObject RealmSlotPrefab;
-    public GameObject PhysiqueSlotPrefab;
-    public GameObject BloodlineSlotPrefab;
-    public GameObject OmnivisionSlotPrefab;
-    public GameObject OmnipotenceSlotPrefab;
-    public GameObject OmnipresenceSlotPrefab;
-    public GameObject OmnivorySlotPrefab;
-    public GameObject OmniscienceSlotPrefab;
-    public GameObject AngelSlotPrefab;
-    public GameObject DemonSlotPrefab;
-    public GameObject SwordSlotPrefab;
-    public GameObject SpearSlotPrefab;
-    public GameObject ShieldSlotPrefab;
-    public GameObject BowSlotPrefab;
-    public GameObject GunSlotPrefab;
-    public GameObject CyberSlotPrefab;
-    public GameObject FairySlotPrefab;
-    // MainMenu Slot Set 2
-    [Header("Main menu slot set 2")]
-    public GameObject DarkSlotPrefab;
-    public GameObject LightSlotPrefab;
-    public GameObject FireSlotPrefab;
-    public GameObject IceSlotPrefab;
-    public GameObject EarthSlotPrefab;
-    public GameObject ThunderSlotPrefab;
-    public GameObject LifeSlotPrefab;
-    public GameObject SpaceSlotPrefab;
-    public GameObject TimeSlotPrefab;
-    public GameObject NanotechSlotPrefab;
-    public GameObject QuantumSlotPrefab;
-    public GameObject HolographySlotPrefab;
-    public GameObject PlasmaSlotPrefab;
-    public GameObject BiomechSlotPrefab;
-    public GameObject CryotechSlotPrefab;
-    public GameObject PsionicsSlotPrefab;
-    public GameObject NeurotechSlotPrefab;
-    public GameObject AntimatterSlotPrefab;
-    public GameObject PhantomwareSlotPrefab;
-    public GameObject GravitechSlotPrefab;
-    public GameObject AethernetSlotPrefab;
-    public GameObject StarforgeSlotPrefab;
-    public GameObject OrbitalisSlotPrefab;
-    // MainMenu Slot Set 3
-    [Header("Main menu slot set 3")]
-    public GameObject AzathothSlotPrefab;
-    public GameObject YogSothothSlotPrefab;
-    public GameObject NyarlathotepSlotPrefab;
-    public GameObject ShubNiggurathSlotPrefab;
-    public GameObject NihorathSlotPrefab;
-    public GameObject AeonaxSlotPrefab;
-    public GameObject SeraphirosSlotPrefab;
-    public GameObject ThorindarSlotPrefab;
-    public GameObject ZilthrosSlotPrefab;
-    public GameObject KhorazalSlotPrefab;
-    public GameObject IxithraSlotPrefab;
-    public GameObject OmnitheusSlotPrefab;
-    public GameObject PhyrixaSlotPrefab;
-    public GameObject AtherionSlotPrefab;
-    public GameObject VorathosSlotPrefab;
-    public GameObject TenebrisSlotPrefab;
-    public GameObject XylkorSlotPrefab;
-    public GameObject VeltharionSlotPrefab;
-    public GameObject ArcanosSlotPrefab;
-    public GameObject DolomathSlotPrefab;
-    public GameObject ArathorSlotPrefab;
-    public GameObject XyphosSlotPrefab;
-    public GameObject VaelithSlotPrefab;
-    [Header("Main menu slot set 3")]
-    public GameObject ZarxSlotPrefab;
-    public GameObject RaikSlotPrefab;
-    public GameObject DraxSlotPrefab;
-    public GameObject KronSlotPrefab;
-    public GameObject ZoltSlotPrefab;
-    public GameObject GorrSlotPrefab;
-    public GameObject RyzeSlotPrefab;
-    public GameObject JaxxSlotPrefab;
-    public GameObject TharSlotPrefab;
-    public GameObject VornSlotPrefab;
-    public GameObject NyxSlotPrefab;
-    public GameObject ArosSlotPrefab;
-    public GameObject HexSlotPrefab;
-    public GameObject LornSlotPrefab;
-    public GameObject BaxxSlotPrefab;
-    public GameObject ZephSlotPrefab;
-    public GameObject KaelSlotPrefab;
-    public GameObject DravSlotPrefab;
-    public GameObject TornSlotPrefab;
-    public GameObject MyrrSlotPrefab;
-    public GameObject VaskSlotPrefab;
-    public GameObject JorrSlotPrefab;
-    public GameObject QuenSlotPrefab;
+    
     [Header("Other")]
     public GameObject AnimeSlotPrefab;
     public GameObject MasterBoardNodePrefab;
@@ -607,38 +391,6 @@ public class UIManager : MonoBehaviour
                 return null;
         }
     }
-    public GameObject GetMarketPanel(string prefabName)
-    {
-        switch (prefabName)
-        {
-            case "RareMarketManagerPrefab":
-                return RareMarketManagerPrefab;
-            case "RareMarketButtonPrefab":
-                return RareMarketButtonPrefab;
-            case "RareMarketPrefab":
-                return RareMarketPrefab;
-            case "UltraRareMarketManagerPrefab":
-                return UltraRareMarketManagerPrefab;
-            case "UltraRareMarketButtonPrefab":
-                return UltraRareMarketButtonPrefab;
-            case "UltraRareMarketPrefab":
-                return UltraRareMarketPrefab;
-            case "LegendaryMarketManagerPrefab":
-                return LegendaryMarketManagerPrefab;
-            case "LegendaryMarketButtonPrefab":
-                return LegendaryMarketButtonPrefab;
-            case "LegendaryMarketPrefab":
-                return LegendaryMarketPrefab;
-            case "MysticMarketManagerPrefab":
-                return MysticMarketManagerPrefab;
-            case "MysticMarketButtonPrefab":
-                return MysticMarketButtonPrefab;
-            case "MysticMarketPrefab":
-                return MysticMarketPrefab;
-            default:
-                return FeaturePanelPrefab;
-        }
-    }
     public GameObject GetFeaturePanel(string prefabName)
     {
         switch (prefabName)
@@ -715,488 +467,6 @@ public class UIManager : MonoBehaviour
                 return NewsPanelPrefab;
         }
     }
-    public GameObject GetGameObjectMainMenu1(string prefabName)
-    {
-        switch (prefabName)
-        {
-            // MainMenu Set 1
-            case "MainMenuAptitudePanelPrefab":
-                return MainMenuAptitudePanelPrefab;
-            case "MainMenuEquipmentPanelPrefab":
-                return MainMenuEquipmentPanelPrefab;
-            case "MainMenuUpgradePanelPrefab":
-                return MainMenuUpgradePanelPrefab;
-            case "MainMenuAffinityPanelPrefab":
-                return MainMenuAffinityPanelPrefab;
-            case "MainMenuBlessingPanelPrefab":
-                return MainMenuBlessingPanelPrefab;
-            case "MainMenuCorePanelPrefab":
-                return MainMenuCorePanelPrefab;
-            case "MainMenuRealmPanelPrefab":
-                return MainMenuRealmPanelPrefab;
-            case "MainMenuPhysiquePanelPrefab":
-                return MainMenuPhysiquePanelPrefab;
-            case "MainMenuBloodlinePanelPrefab":
-                return MainMenuBloodlinePanelPrefab;
-            case "MainMenuOmnivisionPanelPrefab":
-                return MainMenuOmnivisionPanelPrefab;
-            case "MainMenuOmnipotencePanelPrefab":
-                return MainMenuOmnipotencePanelPrefab;
-            case "MainMenuOmnipresencePanelPrefab":
-                return MainMenuOmnipresencePanelPrefab;
-            case "MainMenuOmnisciencePanelPrefab":
-                return MainMenuOmnisciencePanelPrefab;
-            case "MainMenuOmnivoryPanelPrefab":
-                return MainMenuOmnivoryPanelPrefab;
-            case "MainMenuAngelPanelPrefab":
-                return MainMenuAngelPanelPrefab;
-            case "MainMenuDemonPanelPrefab":
-                return MainMenuDemonPanelPrefab;
-            case "MainMenuSwordPanelPrefab":
-                return MainMenuSwordPanelPrefab;
-            case "MainMenuSpearPanelPrefab":
-                return MainMenuSpearPanelPrefab;
-            case "MainMenuShieldPanelPrefab":
-                return MainMenuShieldPanelPrefab;
-            case "MainMenuBowPanelPrefab":
-                return MainMenuBowPanelPrefab;
-            case "MainMenuCyberPanelPrefab":
-                return MainMenuCyberPanelPrefab;
-            case "MainMenuFairyPanelPrefab":
-                return MainMenuFairyPanelPrefab;
-            case "MainMenuGunPanelPrefab":
-                return MainMenuGunPanelPrefab;
-
-            // MainMenu Slot Set 1
-            case "AptitudeSlotPrefab":
-                return AptitudeSlotPrefab;
-            case "UpgradeSlotPrefab":
-                return UpgradeSlotPrefab;
-            case "BlessingSlotPrefab":
-                return BlessingSlotPrefab;
-            case "CoreSlotPrefab":
-                return CoreSlotPrefab;
-            case "RealmSlotPrefab":
-                return RealmSlotPrefab;
-            case "PhysiqueSlotPrefab":
-                return PhysiqueSlotPrefab;
-            case "BloodlineSlotPrefab":
-                return BloodlineSlotPrefab;
-            case "OmnivisionSlotPrefab":
-                return OmnivisionSlotPrefab;
-            case "OmnipotenceSlotPrefab":
-                return OmnipotenceSlotPrefab;
-            case "OmnipresenceSlotPrefab":
-                return OmnipresenceSlotPrefab;
-            case "OmnivorySlotPrefab":
-                return OmnivorySlotPrefab;
-            case "OmniscienceSlotPrefab":
-                return OmniscienceSlotPrefab;
-            case "AngelSlotPrefab":
-                return AngelSlotPrefab;
-            case "DemonSlotPrefab":
-                return DemonSlotPrefab;
-            case "SwordSlotPrefab":
-                return SwordSlotPrefab;
-            case "SpearSlotPrefab":
-                return SpearSlotPrefab;
-            case "ShieldSlotPrefab":
-                return ShieldSlotPrefab;
-            case "BowSlotPrefab":
-                return BowSlotPrefab;
-            case "CyberSlotPrefab":
-                return CyberSlotPrefab;
-            case "FairySlotPrefab":
-                return FairySlotPrefab;
-            case "GunSlotPrefab":
-                return GunSlotPrefab;
-
-            case "AnimeSlotPrefab":
-                return AnimeSlotPrefab;
-            case "ArenaSlotPrefab":
-                return ArenaSlotPrefab;
-            case "TabButton5":
-                return TabButton5;
-            default:
-                Debug.LogWarning($"Prefab {prefabName} not found.");
-                return null;
-        }
-    }
-    public GameObject GetGameObjectMainMenu2(string prefabName)
-    {
-        switch (prefabName)
-        {
-            // MainMenu Set 2
-            case "MainMenuDarkPanelPrefab":
-                return MainMenuDarkPanelPrefab;
-            case "MainMenuLightPanelPrefab":
-                return MainMenuLightPanelPrefab;
-            case "MainMenuFirePanelPrefab":
-                return MainMenuFirePanelPrefab;
-            case "MainMenuIcePanelPrefab":
-                return MainMenuIcePanelPrefab;
-            case "MainMenuEarthPanelPrefab":
-                return MainMenuEarthPanelPrefab;
-            case "MainMenuThunderPanelPrefab":
-                return MainMenuThunderPanelPrefab;
-            case "MainMenuLifePanelPrefab":
-                return MainMenuLifePanelPrefab;
-            case "MainMenuSpacePanelPrefab":
-                return MainMenuSpacePanelPrefab;
-            case "MainMenuTimePanelPrefab":
-                return MainMenuTimePanelPrefab;
-            case "MainMenuNanotechPanelPrefab":
-                return MainMenuNanotechPanelPrefab;
-            case "MainMenuQuantumPanelPrefab":
-                return MainMenuQuantumPanelPrefab;
-            case "MainMenuHolographyPanelPrefab":
-                return MainMenuHolographyPanelPrefab;
-            case "MainMenuPlasmaPanelPrefab":
-                return MainMenuPlasmaPanelPrefab;
-            case "MainMenuBiomechPanelPrefab":
-                return MainMenuBiomechPanelPrefab;
-            case "MainMenuCryotechPanelPrefab":
-                return MainMenuCryotechPanelPrefab;
-            case "MainMenuPsionicsPanelPrefab":
-                return MainMenuPsionicsPanelPrefab;
-            case "MainMenuNeurotechPanelPrefab":
-                return MainMenuNeurotechPanelPrefab;
-            case "MainMenuAntimatterPanelPrefab":
-                return MainMenuAntimatterPanelPrefab;
-            case "MainMenuPhantomwarePanelPrefab":
-                return MainMenuPhantomwarePanelPrefab;
-            case "MainMenuGravitechPanelPrefab":
-                return MainMenuGravitechPanelPrefab;
-            case "MainMenuAethernetPanelPrefab":
-                return MainMenuAethernetPanelPrefab;
-            case "MainMenuStarforgePanelPrefab":
-                return MainMenuStarforgePanelPrefab;
-            case "MainMenuOrbitalisPanelPrefab":
-                return MainMenuOrbitalisPanelPrefab;
-
-            // MainMenu Slot Set 2
-            case "DarkSlotPrefab":
-                return DarkSlotPrefab;
-            case "LightSlotPrefab":
-                return LightSlotPrefab;
-            case "FireSlotPrefab":
-                return FireSlotPrefab;
-            case "IceSlotPrefab":
-                return IceSlotPrefab;
-            case "EarthSlotPrefab":
-                return EarthSlotPrefab;
-            case "ThunderSlotPrefab":
-                return ThunderSlotPrefab;
-            case "LifeSlotPrefab":
-                return LifeSlotPrefab;
-            case "SpaceSlotPrefab":
-                return SpaceSlotPrefab;
-            case "TimeSlotPrefab":
-                return TimeSlotPrefab;
-            case "NanotechSlotPrefab":
-                return NanotechSlotPrefab;
-            case "QuantumSlotPrefab":
-                return QuantumSlotPrefab;
-            case "HolographySlotPrefab":
-                return HolographySlotPrefab;
-            case "PlasmaSlotPrefab":
-                return PlasmaSlotPrefab;
-            case "BiomechSlotPrefab":
-                return BiomechSlotPrefab;
-            case "CryotechSlotPrefab":
-                return CryotechSlotPrefab;
-            case "PsionicsSlotPrefab":
-                return PsionicsSlotPrefab;
-            case "NeurotechSlotPrefab":
-                return NeurotechSlotPrefab;
-            case "AntimatterSlotPrefab":
-                return AntimatterSlotPrefab;
-            case "PhantomwareSlotPrefab":
-                return PhantomwareSlotPrefab;
-            case "GravitechSlotPrefab":
-                return GravitechSlotPrefab;
-            case "AethernetSlotPrefab":
-                return AethernetSlotPrefab;
-            case "StarforgeSlotPrefab":
-                return StarforgeSlotPrefab;
-            case "OrbitalisSlotPrefab":
-                return OrbitalisSlotPrefab;
-            default:
-                Debug.LogWarning($"Prefab {prefabName} not found.");
-                return null;
-        }
-    }
-    public GameObject GetGameObjectMainMenu3(string prefabName)
-    {
-        switch (prefabName)
-        {
-            // MainMenu Set 3
-            case "MainMenuAzathothPanelPrefab":
-                return MainMenuAzathothPanelPrefab;
-            case "MainMenuYogSothothPanelPrefab":
-                return MainMenuYogSothothPanelPrefab;
-            case "MainMenuNyarlathotepPanelPrefab":
-                return MainMenuNyarlathotepPanelPrefab;
-            case "MainMenuShubNiggurathPanelPrefab":
-                return MainMenuShubNiggurathPanelPrefab;
-            case "MainMenuNihorathPanelPrefab":
-                return MainMenuNihorathPanelPrefab;
-            case "MainMenuAeonaxPanelPrefab":
-                return MainMenuAeonaxPanelPrefab;
-            case "MainMenuSeraphirosPanelPrefab":
-                return MainMenuSeraphirosPanelPrefab;
-            case "MainMenuThorindarPanelPrefab":
-                return MainMenuThorindarPanelPrefab;
-            case "MainMenuZilthrosPanelPrefab":
-                return MainMenuZilthrosPanelPrefab;
-            case "MainMenuKhorazalPanelPrefab":
-                return MainMenuKhorazalPanelPrefab;
-            case "MainMenuIxithraPanelPrefab":
-                return MainMenuIxithraPanelPrefab;
-            case "MainMenuOmnitheusPanelPrefab":
-                return MainMenuOmnitheusPanelPrefab;
-            case "MainMenuPhyrixaPanelPrefab":
-                return MainMenuPhyrixaPanelPrefab;
-            case "MainMenuAtherionPanelPrefab":
-                return MainMenuAtherionPanelPrefab;
-            case "MainMenuVorathosPanelPrefab":
-                return MainMenuVorathosPanelPrefab;
-            case "MainMenuTenebrisPanelPrefab":
-                return MainMenuTenebrisPanelPrefab;
-            case "MainMenuXylkorPanelPrefab":
-                return MainMenuXylkorPanelPrefab;
-            case "MainMenuVeltharionPanelPrefab":
-                return MainMenuVeltharionPanelPrefab;
-            case "MainMenuArcanosPanelPrefab":
-                return MainMenuArcanosPanelPrefab;
-            case "MainMenuDolomathPanelPrefab":
-                return MainMenuDolomathPanelPrefab;
-            case "MainMenuArathorPanelPrefab":
-                return MainMenuArathorPanelPrefab;
-            case "MainMenuXyphosPanelPrefab":
-                return MainMenuXyphosPanelPrefab;
-            case "MainMenuVaelithPanelPrefab":
-                return MainMenuVaelithPanelPrefab;
-
-            // MainMenu Slot Set 3
-            case "AzathothSlotPrefab":
-                return AzathothSlotPrefab;
-            case "YogSothothSlotPrefab":
-                return YogSothothSlotPrefab;
-            case "NyarlathotepSlotPrefab":
-                return NyarlathotepSlotPrefab;
-            case "ShubNiggurathSlotPrefab":
-                return ShubNiggurathSlotPrefab;
-            case "NihorathSlotPrefab":
-                return NihorathSlotPrefab;
-            case "AeonaxSlotPrefab":
-                return AeonaxSlotPrefab;
-            case "SeraphirosSlotPrefab":
-                return SeraphirosSlotPrefab;
-            case "ThorindarSlotPrefab":
-                return ThorindarSlotPrefab;
-            case "ZilthrosSlotPrefab":
-                return ZilthrosSlotPrefab;
-            case "KhorazalSlotPrefab":
-                return KhorazalSlotPrefab;
-            case "IxithraSlotPrefab":
-                return IxithraSlotPrefab;
-            case "OmnitheusSlotPrefab":
-                return OmnitheusSlotPrefab;
-            case "PhyrixaSlotPrefab":
-                return PhyrixaSlotPrefab;
-            case "AtherionSlotPrefab":
-                return AtherionSlotPrefab;
-            case "VorathosSlotPrefab":
-                return VorathosSlotPrefab;
-            case "TenebrisSlotPrefab":
-                return TenebrisSlotPrefab;
-            case "XylkorSlotPrefab":
-                return XylkorSlotPrefab;
-            case "VeltharionSlotPrefab":
-                return VeltharionSlotPrefab;
-            case "ArcanosSlotPrefab":
-                return ArcanosSlotPrefab;
-            case "DolomathSlotPrefab":
-                return DolomathSlotPrefab;
-            case "ArathorSlotPrefab":
-                return ArathorSlotPrefab;
-            case "XyphosSlotPrefab":
-                return XyphosSlotPrefab;
-            case "VaelithSlotPrefab":
-                return VaelithSlotPrefab;
-            default:
-                Debug.LogWarning($"Prefab {prefabName} not found.");
-                return null;
-        }
-    }
-    public GameObject GetGameObjectMainMenu4(string prefabName)
-    {
-        switch (prefabName)
-        {
-            // MainMenu Set 4
-            case "MainMenuZarxPanelPrefab":
-                return MainMenuZarxPanelPrefab;
-            case "MainMenuRaikPanelPrefab":
-                return MainMenuRaikPanelPrefab;
-            case "MainMenuDraxPanelPrefab":
-                return MainMenuDraxPanelPrefab;
-            case "MainMenuKronPanelPrefab":
-                return MainMenuKronPanelPrefab;
-            case "MainMenuZoltPanelPrefab":
-                return MainMenuZoltPanelPrefab;
-            case "MainMenuGorrPanelPrefab":
-                return MainMenuGorrPanelPrefab;
-            case "MainMenuRyzePanelPrefab":
-                return MainMenuRyzePanelPrefab;
-            case "MainMenuJaxxPanelPrefab":
-                return MainMenuJaxxPanelPrefab;
-            case "MainMenuTharPanelPrefab":
-                return MainMenuTharPanelPrefab;
-            case "MainMenuVornPanelPrefab":
-                return MainMenuVornPanelPrefab;
-            case "MainMenuNyxPanelPrefab":
-                return MainMenuNyxPanelPrefab;
-            case "MainMenuArosPanelPrefab":
-                return MainMenuArosPanelPrefab;
-            case "MainMenuHexPanelPrefab":
-                return MainMenuHexPanelPrefab;
-            case "MainMenuLornPanelPrefab":
-                return MainMenuLornPanelPrefab;
-            case "MainMenuBaxxPanelPrefab":
-                return MainMenuBaxxPanelPrefab;
-            case "MainMenuZephPanelPrefab":
-                return MainMenuZephPanelPrefab;
-            case "MainMenuKaelPanelPrefab":
-                return MainMenuKaelPanelPrefab;
-            case "MainMenuDravPanelPrefab":
-                return MainMenuDravPanelPrefab;
-            case "MainMenuTornPanelPrefab":
-                return MainMenuTornPanelPrefab;
-            case "MainMenuMyrrPanelPrefab":
-                return MainMenuMyrrPanelPrefab;
-            case "MainMenuVaskPanelPrefab":
-                return MainMenuVaskPanelPrefab;
-            case "MainMenuJorrPanelPrefab":
-                return MainMenuJorrPanelPrefab;
-            case "MainMenuQuenPanelPrefab":
-                return MainMenuQuenPanelPrefab;
-            // MainMenu Slot Set 4
-            case "ZarxSlotPrefab":
-                return ZarxSlotPrefab;
-            case "RaikSlotPrefab":
-                return RaikSlotPrefab;
-            case "DraxSlotPrefab":
-                return DraxSlotPrefab;
-            case "KronSlotPrefab":
-                return KronSlotPrefab;
-            case "ZoltSlotPrefab":
-                return ZoltSlotPrefab;
-            case "GorrSlotPrefab":
-                return GorrSlotPrefab;
-            case "RyzeSlotPrefab":
-                return RyzeSlotPrefab;
-            case "JaxxSlotPrefab":
-                return JaxxSlotPrefab;
-            case "TharSlotPrefab":
-                return TharSlotPrefab;
-            case "VornSlotPrefab":
-                return VornSlotPrefab;
-            case "NyxSlotPrefab":
-                return NyxSlotPrefab;
-            case "ArosSlotPrefab":
-                return ArosSlotPrefab;
-            case "HexSlotPrefab":
-                return HexSlotPrefab;
-            case "LornSlotPrefab":
-                return LornSlotPrefab;
-            case "BaxxSlotPrefab":
-                return BaxxSlotPrefab;
-            case "ZephSlotPrefab":
-                return ZephSlotPrefab;
-            case "KaelSlotPrefab":
-                return KaelSlotPrefab;
-            case "DravSlotPrefab":
-                return DravSlotPrefab;
-            case "TornSlotPrefab":
-                return TornSlotPrefab;
-            case "MyrrSlotPrefab":
-                return MyrrSlotPrefab;
-            case "VaskSlotPrefab":
-                return VaskSlotPrefab;
-            case "JorrSlotPrefab":
-                return JorrSlotPrefab;
-            case "QuenSlotPrefab":
-                return QuenSlotPrefab;
-            default:
-                Debug.LogWarning($"Prefab {prefabName} not found.");
-                return null;
-        }
-    }
-    public GameObject GetGameObjectMaster(string prefabName)
-    {
-        switch (prefabName)
-        {
-            case "MasterOfBeastPanelPrefab":
-                return MasterOfBeastPanelPrefab;
-            case "MasterOfBeastSlotPrefab":
-                return MasterOfBeastSlotPrefab;
-
-            case "MasterOfDragonPanelPrefab":
-                return MasterOfDragonPanelPrefab;
-            case "MasterOfDragonSlotPrefab":
-                return MasterOfDragonSlotPrefab;
-
-            case "MasterOfMagicPanelPrefab":
-                return MasterOfMagicPanelPrefab;
-            case "MasterOfMagicSlotPrefab":
-                return MasterOfMagicSlotPrefab;
-
-            case "MasterOfMusicPanelPrefab":
-                return MasterOfMusicPanelPrefab;
-            case "MasterOfMusicSlotPrefab":
-                return MasterOfMusicSlotPrefab;
-
-            case "MasterOfSciencePanelPrefab":
-                return MasterOfSciencePanelPrefab;
-            case "MasterOfScienceSlotPrefab":
-                return MasterOfScienceSlotPrefab;
-
-            case "MasterOfSpiritPanelPrefab":
-                return MasterOfSpiritPanelPrefab;
-            case "MasterOfSpiritSlotPrefab":
-                return MasterOfSpiritSlotPrefab;
-
-            case "MasterOfWeaponPanelPrefab":
-                return MasterOfWeaponPanelPrefab;
-            case "MasterOfWeaponSlotPrefab":
-                return MasterOfWeaponSlotPrefab;
-
-            case "MasterOfChemicalPanelPrefab":
-                return MasterOfChemicalPanelPrefab;
-            case "MasterOfChemicalSlotPrefab":
-                return MasterOfChemicalSlotPrefab;
-
-            case "MasterOfPhysicalPanelPrefab":
-                return MasterOfPhysicalPanelPrefab;
-            case "MasterOfPhysicalSlotPrefab":
-                return MasterOfPhysicalSlotPrefab;
-
-            case "MasterOfAtomicPanelPrefab":
-                return MasterOfAtomicPanelPrefab;
-            case "MasterOfAtomicSlotPrefab":
-                return MasterOfAtomicSlotPrefab;
-
-            case "MasterOfMentalPanelPrefab":
-                return MasterOfMentalPanelPrefab;
-            case "MasterOfMentalSlotPrefab":
-                return MasterOfMentalSlotPrefab;
-
-            default:
-                Debug.LogWarning($"Prefab name '{prefabName}' not found!");
-                return null;
-        }
-    }
     public GameObject GetGameObjectScienceFiction(string prefabName)
     {
         switch (prefabName)
@@ -1214,6 +484,46 @@ public class UIManager : MonoBehaviour
                 return null;
         }
     }
+    public GameObject GetGeneralPanel(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "WorldPanelPrefab":
+                return WorldPanelPrefab;
+            case "CityPanelPrefab":
+                return CityPanelPrefab;
+            case "BasePanelPrefab":
+                return BasePanelPrefab;
+            case "TrainPanelPrefab":
+                return TrainPanelPrefab;
+            case "ResearchPanelPrefab":
+                return ResearchPanelPrefab;
+            case "EmployeePanelPrefab":
+                return EmployeePanelPrefab;
+            default:
+                return WorldButtonPrefab;
+        }
+    }
+    public GameObject GetGeneralButton(string prefabName)
+    {
+        switch (prefabName)
+        {
+            case "WorldButtonPrefab":
+                return WorldButtonPrefab;
+            case "CityButtonPrefab":
+                return CityButtonPrefab;
+            case "BaseButtonPrefab":
+                return BaseButtonPrefab;
+            case "TrainButtonPrefab":
+                return TrainButtonPrefab;
+            case "ResearchButtonPrefab":
+                return ResearchButtonPrefab;
+            case "EmployeeButtonPrefab":
+                return EmployeeButtonPrefab;
+            default:
+                return WorldButtonPrefab;
+        }
+    }
     public TMP_FontAsset GetTMPFontAsset(string fontName)
     {
         switch (fontName)
@@ -1224,21 +534,6 @@ public class UIManager : MonoBehaviour
                 return EuroStyleNormalFont;
         }
     }
-    // public Button GetButton(string prefabName)
-    // {
-    //     switch (prefabName)
-    //     {
-    //         case "GalleryButton":
-    //             return GalleryButton;
-    //         case "CollectionButton":
-    //             return CollectionButton;
-    //         case "EquipmentsButton":
-    //             return EquipmentsButton;
-    //         default:
-    //             Debug.LogWarning($"Button {prefabName} not found.");
-    //             return null;
-    //     }
-    // }
     public void SetUI(GameObject gameObject, string type, int level = 0, string mainType = "")
     {
         if (mainType.Equals(AppConstants.MainMenuSet1.AFFINITY) || mainType.Equals(AppConstants.MainMenuSet1.BLESSING))

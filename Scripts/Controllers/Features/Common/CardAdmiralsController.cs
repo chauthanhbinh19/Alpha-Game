@@ -42,11 +42,11 @@ public class CardAdmiralsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCardAdmiralsGallery(List<CardAdmirals> cardAdmirals, Transform DictionaryContentPanel)
+    public void CreateCardAdmiralsGallery(List<CardAdmirals> cardAdmirals, Transform contentPanel)
     {
         foreach (var spell in cardAdmirals)
         {
-            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject spellObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
             Title.text = spell.Name.Replace("_", " ");
@@ -67,12 +67,12 @@ public class CardAdmiralsController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCardAdmiralsTrade(List<CardAdmirals> cardAdmirals, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

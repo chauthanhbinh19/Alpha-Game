@@ -42,11 +42,11 @@ public class BooksController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateBooksGallery(List<Books> books, Transform DictionaryContentPanel)
+    public void CreateBooksGallery(List<Books> books, Transform contentPanel)
     {
         foreach (var book in books)
         {
-            GameObject bookObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject bookObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
             Title.text = book.Name.Replace("_", " ");
@@ -95,12 +95,12 @@ public class BooksController : MonoBehaviour
                 Image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
             }
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 300);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateBooksTrade(List<Books> books, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

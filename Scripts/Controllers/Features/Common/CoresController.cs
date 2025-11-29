@@ -42,11 +42,11 @@ public class CoresController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCoresGallery(List<Cores> CoresList, Transform DictionaryContentPanel)
+    public void CreateCoresGallery(List<Cores> CoresList, Transform contentPanel)
     {
         foreach (var core in CoresList)
         {
-            GameObject coreObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject coreObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = coreObject.transform.Find("Title").GetComponent<Text>();
             Title.text = core.Name.Replace("_", " ");
@@ -89,12 +89,12 @@ public class CoresController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCoresTrade(List<Cores> CoresList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

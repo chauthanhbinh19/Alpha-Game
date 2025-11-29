@@ -42,11 +42,11 @@ public class SpiritBeastsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateSpiritBeastGallery(List<SpiritBeasts> SpiritBeastList, Transform DictionaryContentPanel)
+    public void CreateSpiritBeastGallery(List<SpiritBeasts> SpiritBeastList, Transform contentPanel)
     {
         foreach (var title in SpiritBeastList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -73,12 +73,12 @@ public class SpiritBeastsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateSpiritBeastTrade(List<SpiritBeasts> SpiritBeastList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

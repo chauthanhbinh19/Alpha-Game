@@ -42,11 +42,11 @@ public class WeaponsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateWeaponsGallery(List<Weapons> WeaponsList, Transform DictionaryContentPanel)
+    public void CreateWeaponsGallery(List<Weapons> WeaponsList, Transform contentPanel)
     {
         foreach (var weapon in WeaponsList)
         {
-            GameObject weaponObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject weaponObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = weaponObject.transform.Find("Title").GetComponent<Text>();
             Title.text = weapon.Name.Replace("_", " ");
@@ -89,12 +89,12 @@ public class WeaponsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateWeaponsTrade(List<Weapons> WeaponsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

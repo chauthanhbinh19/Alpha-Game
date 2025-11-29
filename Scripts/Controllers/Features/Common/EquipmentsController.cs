@@ -33,11 +33,11 @@ public class EquipmentsController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
     }
-    public void CreateEquipmentsGallery(List<Equipments> equipmentList, Transform DictionaryContentPanel)
+    public void CreateEquipmentsGallery(List<Equipments> equipmentList, Transform contentPanel)
     {
         foreach (var equipment in equipmentList)
         {
-            GameObject equipmentObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject equipmentObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = equipment.Name.Replace("_", " ");
@@ -60,11 +60,11 @@ public class EquipmentsController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

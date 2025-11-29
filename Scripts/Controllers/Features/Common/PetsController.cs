@@ -44,18 +44,18 @@ public class PetsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreatePetsGallery(List<Pets> petsList, Transform DictionaryContentPanel)
+    public void CreatePetsGallery(List<Pets> petsList, Transform contentPanel)
     {
         foreach (var pet in petsList)
         {
             GameObject petsObject;
             if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
             {
-                petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+                petsObject = Instantiate(cardsPrefab, contentPanel);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
                 Background.gameObject.SetActive(true);
 
-                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(280, 280);
@@ -63,9 +63,9 @@ public class PetsController : MonoBehaviour
             }
             else
             {
-                petsObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+                petsObject = Instantiate(equipmentsPrefab, contentPanel);
 
-                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(200, 230);
@@ -98,7 +98,7 @@ public class PetsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreatePetsTrade(List<Pets> petsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

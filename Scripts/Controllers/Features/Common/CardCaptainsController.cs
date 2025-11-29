@@ -42,11 +42,11 @@ public class CardCaptainsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateCardCaptainsGallery(List<CardCaptains> captainsList, Transform DictionaryContentPanel)
+    public void CreateCardCaptainsGallery(List<CardCaptains> captainsList, Transform contentPanel)
     {
         foreach (var captain in captainsList)
         {
-            GameObject captainsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject captainsObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
             Title.text = captain.Name.Replace("_", " ");
@@ -67,12 +67,12 @@ public class CardCaptainsController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.Rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateCardCaptainsTrade(List<CardCaptains> captainsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

@@ -42,11 +42,11 @@ public class AlchemiesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateAlchemyGallery(List<Alchemies> alchemies, Transform DictionaryContentPanel)
+    public void CreateAlchemyGallery(List<Alchemies> alchemies, Transform contentPanel)
     {
         foreach (var alchemy in alchemies)
         {
-            GameObject alchemyObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject alchemyObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
             Title.text = alchemy.Name.Replace("_", " ");
@@ -70,12 +70,12 @@ public class AlchemiesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateAlchemyTrade(List<Alchemies> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

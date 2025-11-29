@@ -42,11 +42,11 @@ public class TechnologiesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateTechnologiesGallery(List<Technologies> TechnologiesList, Transform DictionaryContentPanel)
+    public void CreateTechnologiesGallery(List<Technologies> TechnologiesList, Transform contentPanel)
     {
         foreach (var technology in TechnologiesList)
         {
-            GameObject technologyObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject technologyObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = technologyObject.transform.Find("Title").GetComponent<Text>();
             Title.text = technology.Name.Replace("_", " ");
@@ -89,12 +89,12 @@ public class TechnologiesController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateTechnologiesTrade(List<Technologies> TechnologiesList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

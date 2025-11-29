@@ -42,11 +42,11 @@ public class ForgesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateForgeGallery(List<Forges> forges, Transform DictionaryContentPanel)
+    public void CreateForgeGallery(List<Forges> forges, Transform contentPanel)
     {
         foreach (var forge in forges)
         {
-            GameObject forgeObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject forgeObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
             Title.text = forge.Name.Replace("_", " ");
@@ -70,12 +70,12 @@ public class ForgesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateForgeTrade(List<Forges> forges, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)

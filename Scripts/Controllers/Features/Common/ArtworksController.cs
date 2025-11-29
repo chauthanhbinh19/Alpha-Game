@@ -42,11 +42,11 @@ public class ArtworksController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateArtworkGallery(List<Artworks> artworks, Transform DictionaryContentPanel)
+    public void CreateArtworkGallery(List<Artworks> artworks, Transform contentPanel)
     {
         foreach (var artwork in artworks)
         {
-            GameObject artworkObject = Instantiate(ArtworkFirstPrefab, DictionaryContentPanel);
+            GameObject artworkObject = Instantiate(ArtworkFirstPrefab, contentPanel);
 
             Text Title = artworkObject.transform.Find("Title").GetComponent<Text>();
             Title.text = artwork.Name.Replace("_", " ");
@@ -70,12 +70,12 @@ public class ArtworksController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(270, 200);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateArtworkTrade(List<Artworks> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
