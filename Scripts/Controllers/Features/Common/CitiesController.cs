@@ -9,8 +9,8 @@ public class CitiesController : MonoBehaviour
 {
     public static CitiesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject CitieButtonPrefab;
-    private GameObject CitiePanelPrefab;
+    private GameObject CityButtonPrefab;
+    private GameObject CityPanelPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -33,12 +33,12 @@ public class CitiesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CitieButtonPrefab = UIManager.Instance.GetGeneralButton("CitieButtonPrefab");
-        CitiePanelPrefab = UIManager.Instance.GetGeneralPanel("CitiePanelPrefab");
+        CityButtonPrefab = UIManager.Instance.GetGeneralButton("CityButtonPrefab");
+        CityPanelPrefab = UIManager.Instance.GetGeneralPanel("CityPanelPrefab");
     }
     public void CreateCityPanel()
     {
-        GameObject currentObject = Instantiate(CitiePanelPrefab, MainPanel);
+        GameObject currentObject = Instantiate(CityPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
         Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
@@ -60,7 +60,7 @@ public class CitiesController : MonoBehaviour
     {
         foreach (var Citie in Cities)
         {
-            GameObject CitieObject = Instantiate(CitieButtonPrefab, contentPanel);
+            GameObject CitieObject = Instantiate(CityButtonPrefab, contentPanel);
 
             TextMeshProUGUI Title = CitieObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = Citie.Name.Replace("_", " ");

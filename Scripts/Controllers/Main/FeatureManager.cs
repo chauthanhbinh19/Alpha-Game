@@ -69,8 +69,8 @@ public class FeatureManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => BasesController.Instance.CreateBasePanel());
         ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => TrainsController.Instance.CreateTrainPanel());
         // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => TrainsController.Instance.CreateTrainPanel());
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => TrainsController.Instance.CreateTrainPanel());
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => EmployeesController.Instance.CreateEmployeePanel());
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => EmployeesController.Instance.CreateEmployeePanel());
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => WorldsController.Instance.CreateWorldPanel());
         ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => CitiesController.Instance.CreateCityPanel());
     }
 }

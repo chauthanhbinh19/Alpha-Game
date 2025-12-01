@@ -33,11 +33,11 @@ public class BooksGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
     }
-    public void CreateBooksGallery(List<Books> books, Transform DictionaryContentPanel)
+    public void CreateBooksGallery(List<Books> books, Transform contentPanel)
     {
         foreach (var book in books)
         {
-            GameObject bookObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject bookObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
             Title.text = book.Name.Replace("_", " ");
@@ -104,7 +104,7 @@ public class BooksGalleryController : MonoBehaviour
             {
                 Image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
             }
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var booksGalleryService = BooksGalleryService.Create();
@@ -117,7 +117,7 @@ public class BooksGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -139,11 +139,11 @@ public class BooksGalleryController : MonoBehaviour
                 BooksGalleryService.Create().UpdateBooksGalleryPower(book.Id);
             });
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 300);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

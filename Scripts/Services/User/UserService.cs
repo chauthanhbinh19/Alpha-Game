@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class UserService : IUserService
@@ -16,12 +17,12 @@ public class UserService : IUserService
         return new UserService(new UserRepository());
     }
 
-    public string RegisterUser(string username, string password)
+    public async Task<string> RegisterUserAsync(string username, string password)
     {
-        string userId = _userRepository.RegisterUser(username, password);
+        string userId = await _userRepository.RegisterUserAsync(username, password);
         if (!String.IsNullOrEmpty(userId))
         {
-            createUserCurrency(userId);
+            await CreateUserCurrencyAsync(userId);
             User.CurrentUserId = userId;
 
             UserBordersService.Create().InsertUserBordersById("359", userId);
@@ -53,16 +54,16 @@ public class UserService : IUserService
 
             for (int i = 0; i < 50; i++)
             {
-                TeamsService.Create().InsertUserTeams(userId, i + 1);
+                await TeamsService.Create().InsertUserTeamsAsync(userId, i + 1);
             }
-            UserSettingsService.Create().CreateInitiateUserSettings(userId);
+            await UserSettingsService.Create().CreateInitiateUserSettingsAsync(userId);
         }
         return userId;
     }
 
-    public AuthResult SignInWithUsernameAndPassword(string username, string password)
+    public async Task<AuthResult> SignInWithUsernameAndPasswordAsync(string username, string password)
     {
-        User user = _userRepository.GetUserByUsername(username);
+        User user = await _userRepository.GetUserByUsernameAsync(username);
 
         if (user != null)
         {
@@ -77,7 +78,7 @@ public class UserService : IUserService
                 };
             }
 
-            user = _userRepository.SignInWithUsernameAndPassword(username, password);
+            user = await _userRepository.SignInWithUsernameAndPasswordAsync(username, password);
             AuthManager.SaveUserId(user.Id);
             Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
             string Border = borders.Image;
@@ -114,7 +115,7 @@ public class UserService : IUserService
                 }
             }
 
-            var settingList = UserSettingsService.Create().GetUserSettings(User.CurrentUserId);
+            var settingList = await UserSettingsService.Create().GetUserSettingsAsync(User.CurrentUserId);
             UserSettingsManager.Instance.LoadUserSettings(settingList);
 
             return new AuthResult
@@ -153,9 +154,9 @@ public class UserService : IUserService
         // UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
     }
 
-    public AuthResult SignInWithoutUsernameAndPassword(string userId)
+    public async Task<AuthResult> SignInWithoutUsernameAndPasswordAsync(string userId)
     {
-        User user = _userRepository.SignInWithoutUsernameAndPassword(userId);
+        User user = await _userRepository.SignInWithoutUsernameAndPasswordAsync(userId);
 
         if (user != null)
         {
@@ -194,7 +195,7 @@ public class UserService : IUserService
                 }
             }
 
-            var settingList = UserSettingsService.Create().GetUserSettings(User.CurrentUserId);
+            var settingList = await UserSettingsService.Create().GetUserSettingsAsync(User.CurrentUserId);
             UserSettingsManager.Instance.LoadUserSettings(settingList);
 
             return new AuthResult
@@ -217,9 +218,9 @@ public class UserService : IUserService
         }
     }
 
-    public User GetUserById(string Id)
+    public async Task<User> GetUserByIdAsync(string Id)
     {
-        User user = _userRepository.GetUserById(Id);
+        User user = await _userRepository.GetUserByIdAsync(Id);
 
         Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
         string Border = borders.Image;
@@ -236,24 +237,24 @@ public class UserService : IUserService
         return user;
     }
 
-    public void UpdateUserName(string user_id, string new_name)
+    public async Task UpdateUserNameAsync(string user_id, string new_name)
     {
-        _userRepository.UpdateUserName(user_id, new_name);
+        await _userRepository.UpdateUserNameAsync(user_id, new_name);
         User.CurrentUserName = new_name;
     }
 
-    public void UpdateUserPower(string user_id, double power)
+    public async Task UpdateUserPowerAsync(string user_id, double power)
     {
-        _userRepository.UpdateUserPower(user_id, power);
+        await _userRepository.UpdateUserPowerAsync(user_id, power);
     }
 
-    public void createUserCurrency(string Id)
+    public async Task CreateUserCurrencyAsync(string Id)
     {
-        _userRepository.createUserCurrency(Id);
+        await _userRepository.CreateUserCurrencyAsync(Id);
     }
 
-    public bool CheckNameExists(string name)
+    public async Task<bool> CheckNameExistsAsync(string name)
     {
-        return _userRepository.CheckNameExists(name);
+        return await _userRepository.CheckNameExistsAsync(name);
     }
 }

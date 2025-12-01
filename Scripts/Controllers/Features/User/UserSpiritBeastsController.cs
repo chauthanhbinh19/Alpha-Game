@@ -43,11 +43,11 @@ public class UserSpiritBeastsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserSpiritBeast(List<SpiritBeasts> SpiritBeastList, Transform DictionaryContentPanel)
+    public void CreateUserSpiritBeast(List<SpiritBeasts> SpiritBeastList, Transform contentPanel)
     {
         foreach (var title in SpiritBeastList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -74,13 +74,13 @@ public class UserSpiritBeastsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowSpiritBeastDetails(SpiritBeasts SpiritBeast, GameObject currentObject, int buttonType = 1)
     {
@@ -181,7 +181,7 @@ public class UserSpiritBeastsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 SpiritBeasts currentCard = new SpiritBeasts();
@@ -198,7 +198,7 @@ public class UserSpiritBeastsController : MonoBehaviour
 
                     newCard = UserSpiritBeastService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserSpiritBeastService.Create().UpdateSpiritBeastLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -209,7 +209,7 @@ public class UserSpiritBeastsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 SpiritBeasts currentCard = UserSpiritBeastService.Create().GetUserSpiritBeastById(User.CurrentUserId, title.Id);
@@ -230,7 +230,7 @@ public class UserSpiritBeastsController : MonoBehaviour
 
                     SpiritBeasts newCard = UserSpiritBeastService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserSpiritBeastService.Create().UpdateSpiritBeastLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -291,7 +291,7 @@ public class UserSpiritBeastsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(spiritBeast.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = spiritBeast.Star + 1;
@@ -346,7 +346,7 @@ public class UserSpiritBeastsController : MonoBehaviour
 
                     newTitle = UserSpiritBeastService.Create().GetNewBreakthroughPower(spiritBeast, increasePerUpgrade);
                     UserSpiritBeastService.Create().UpdateSpiritBeastBreakthrough(newTitle, spiritBeast.Star + 1, spiritBeast.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

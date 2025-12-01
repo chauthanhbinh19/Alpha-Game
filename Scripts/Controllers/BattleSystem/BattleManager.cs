@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -54,7 +55,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("Opening Animation hoàn tất. Bắt đầu Battle.");
 
         // 3. KHỞI TẠO VÀ BẮT ĐẦU TRẬN ĐẤU
-        InitializeBattle();
+        // await InitializeBattleAsync();
 
         // 4. BẮT ĐẦU VÒNG CHƠI (chỉ bắt đầu sau khi Battle được Initialize)
         StartCoroutine(turnManager.RunTurns(attacker, defender));
@@ -64,10 +65,10 @@ public class BattleManager : MonoBehaviour
         Transform circleGroup = openingPanel.Find("CircleGroup");
         circleGroup.AddComponent<RotateAnimation>();
     }
-    private void InitializeBattle()
+    private async Task InitializeBattleAsync()
     {
         string userId = "638957884856698071";
-        var teams = TeamsService.Create().GetUserTeams(userId);
+        var teams = await TeamsService.Create().GetUserTeamsAsync(userId);
         var firstTeam = teams.FirstOrDefault(t => t.TeamNumber == 1);
 
         attacker = new PlayerController();

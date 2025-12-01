@@ -159,7 +159,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &26650469
 MonoBehaviour:
@@ -4082,7 +4082,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 85, y: 85}
+  m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &515244721
 MonoBehaviour:
@@ -4097,7 +4097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8207547, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4782,8 +4782,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: 330}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchoredPosition: {x: 870, y: 350}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &606194599
 MonoBehaviour:
@@ -6789,7 +6789,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 55, y: 55}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &997076454
 MonoBehaviour:
@@ -6914,8 +6914,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: 450}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchoredPosition: {x: 870, y: 450}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1007387251
 MonoBehaviour:
@@ -14102,7 +14102,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1517538507
 MonoBehaviour:
@@ -15314,7 +15314,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 45, y: 45}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1860879306
 MonoBehaviour:
@@ -15458,7 +15458,6 @@ MonoBehaviour:
   NumberDetail2Prefab: {fileID: 2994152938922929080, guid: 9b3f86b97b196084db2d20d454d46205, type: 3}
   NumberDetail3Prefab: {fileID: 2994152938922929080, guid: 6b8c5845131903c4f804d700ca1ff5fd, type: 3}
   TabButton2: {fileID: 5647053732788993068, guid: d9eb1d1e942d7084b8bf771fa9da8f65, type: 3}
-  TabButton3: {fileID: 5647053732788993068, guid: 1e580788d16b1784b801738fb4345d81, type: 3}
   TabButton4: {fileID: 5647053732788993068, guid: ab3b3413090512f4eb1fcc8acdfd586d, type: 3}
   ReceivedNotification: {fileID: 8708252175272485654, guid: 115686d87506464429e315c61210e148, type: 3}
   ItemThird: {fileID: 1661859481911484232, guid: 54415496c6d2d2545bbbbf1053e792f9, type: 3}
@@ -15495,6 +15494,7 @@ MonoBehaviour:
   TrainButtonPrefab: {fileID: 8708252175272485654, guid: 3be575ebb1e692f4a83cea9dbae5494a, type: 3}
   ResearchButtonPrefab: {fileID: 8708252175272485654, guid: 6d14733a16404b9408f6549656d77c3b, type: 3}
   EmployeeButtonPrefab: {fileID: 8708252175272485654, guid: 043ce1e2d83d533438c0c6c59a8e0044, type: 3}
+  RareButtonPrefab: {fileID: 5647053732788993068, guid: 1e580788d16b1784b801738fb4345d81, type: 3}
   ReactorPanelPrefab: {fileID: 5745659240395072349, guid: 4631e5596c21e6a41877541d96a4241d, type: 3}
   ReactorButtonPrefab: {fileID: 8708252175272485654, guid: 00e6aff5ada6a2946901257d89389044, type: 3}
   ReactorPanelNumberPrefab: {fileID: 5745659240395072349, guid: feecd0567b8aa2043944271f8b5486b2, type: 3}
@@ -15649,7 +15649,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 85, y: 85}
+  m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1973826814
 MonoBehaviour:
@@ -15664,7 +15664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8207547, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

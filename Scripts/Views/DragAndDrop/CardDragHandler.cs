@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEditor.UI;
+using System.Threading.Tasks;
 
 public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -84,9 +85,9 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnCardClicked()
     {
         // Tìm vị trí trống đầu tiên và thêm thẻ vào đó
-        FindAndDropCard();
+        _ = FindAndDropCardAsync();
     }
-    private void FindAndDropCard()
+    private async Task FindAndDropCardAsync()
     {
         // Tìm danh sách các vị trí (GameObject)
         // Transform positionPanel = transform.parent; // Giả sử CardDragHandler nằm trong một panel chứa các vị trí
@@ -99,7 +100,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             if (positionImage.texture == texture) // Kiểm tra xem vị trí có trống không
             {
                 // Thêm thẻ vào vị trí này
-                DropCardIntoPosition(dropHandler);
+                await DropCardIntoPositionAsync(dropHandler);
                 return; // Thoát khỏi vòng lặp sau khi tìm thấy vị trí trống đầu tiên
             }
         }
@@ -107,7 +108,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         // Nếu không tìm thấy vị trí trống nào, thông báo hoặc thực hiện hành động khác
         Debug.Log("No empty position available.");
     }
-    public void DropCardIntoPosition(CardDropHandler dropHandler)
+    public async Task DropCardIntoPositionAsync(CardDropHandler dropHandler)
     {
         // Kiểm tra xem liệu có texture được gán không
         RawImage positionImage = dropHandler.transform.Find("Image").GetComponent<RawImage>();
@@ -130,7 +131,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = cardHeroes.Power - dropHandler.card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -140,7 +141,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = dropHandler.card_power - cardHeroes.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -150,7 +151,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHeroes.Id);
                 double updatedPower = currentPower + cardHeroes.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardHeroes.Power, 1);
@@ -167,7 +168,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = cardCaptains.Power - dropHandler.card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -177,7 +178,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = dropHandler.card_power - cardCaptains.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -187,7 +188,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptains.Id);
                 double updatedPower = currentPower + cardCaptains.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardCaptains.Power, 1);
@@ -204,7 +205,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = cardColonels.Power - dropHandler.card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -214,7 +215,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = dropHandler.card_power - cardColonels.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -224,7 +225,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 userCardColonelsService.UpdateTeamCardColonels(team_id, position, cardColonels.Id);
                 double updatedPower = currentPower + cardColonels.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardColonels.Power, 1);
@@ -241,7 +242,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = cardGenerals.Power - dropHandler.card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -251,7 +252,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = dropHandler.card_power - cardGenerals.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -261,7 +262,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGenerals.Id);
                 double updatedPower = currentPower + cardGenerals.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardGenerals.Power, 1);
@@ -278,7 +279,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = cardAdmirals.Power - dropHandler.card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -288,7 +289,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = dropHandler.card_power - cardAdmirals.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -298,7 +299,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmirals.Id);
                 double updatedPower = currentPower + cardAdmirals.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardAdmirals.Power, 1);
@@ -315,7 +316,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = cardMonsters.Power - dropHandler.card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -325,7 +326,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = dropHandler.card_power - cardMonsters.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -335,7 +336,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonsters.Id);
                 double updatedPower = currentPower + cardMonsters.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardMonsters.Power, 1);
@@ -352,7 +353,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = cardMilitary.Power - dropHandler.card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -362,7 +363,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = dropHandler.card_power - cardMilitary.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -372,7 +373,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 userCardMilitaryService.UpdateTeamCardMilitary(team_id, position, cardMilitary.Id);
                 double updatedPower = currentPower + cardMilitary.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardMilitary.Power, 1);
@@ -389,7 +390,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = cardSpell.Power - dropHandler.card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -399,7 +400,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     double diffPower = dropHandler.card_power - cardSpell.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -409,7 +410,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 userCardSpellService.UpdateTeamCardSpell(team_id, position, cardSpell.Id);
                 double updatedPower = currentPower + cardSpell.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardSpell.Power, 1);

@@ -43,11 +43,11 @@ public class UserSkillsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserSkills(List<Skills> skillsList, Transform DictionaryContentPanel)
+    public void CreateUserSkills(List<Skills> skillsList, Transform contentPanel)
     {
         foreach (var skill in skillsList)
         {
-            GameObject skillObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject skillObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = skillObject.transform.Find("Title").GetComponent<Text>();
             Title.text = skill.Name.Replace("_", " ");
@@ -70,13 +70,13 @@ public class UserSkillsController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.Rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowSkillsDetails(Skills skills, GameObject currentObject, int buttonType = 1)
     {
@@ -165,7 +165,7 @@ public class UserSkillsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Skills currentCard = new Skills();
@@ -182,7 +182,7 @@ public class UserSkillsController : MonoBehaviour
 
                     newCard = UserSkillsService.Create().GetNewLevelPower(skill, increasePerLevel);
                     UserSkillsService.Create().UpdateSkillsLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -193,7 +193,7 @@ public class UserSkillsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Skills currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.Id);
@@ -214,7 +214,7 @@ public class UserSkillsController : MonoBehaviour
 
                     Skills newCard = UserSkillsService.Create().GetNewLevelPower(skill, levelsGained * increasePerLevel);
                     UserSkillsService.Create().UpdateSkillsLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -275,7 +275,7 @@ public class UserSkillsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(skill.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = skill.Star + 1;
@@ -330,7 +330,7 @@ public class UserSkillsController : MonoBehaviour
 
                     newSkill = UserSkillsService.Create().GetNewBreakthroughPower(skill, increasePerUpgrade);
                     UserSkillsService.Create().UpdateSkillsBreakthrough(newSkill, skill.Star + 1, skill.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

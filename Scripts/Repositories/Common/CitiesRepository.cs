@@ -34,8 +34,8 @@ public class CitiesRepository : ICitiesRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT w.*, CASE WHEN uw.Citie_id IS NULL THEN 'false' ELSE 'true' END AS status 
-                FROM Cities w LEFT JOIN user_Cities uw ON w.id = uw.Citie_id and uw.user_id = @userId 
+                string query = @"SELECT w.*, CASE WHEN uw.city_id IS NULL THEN 'block' ELSE 'available' END AS status 
+                FROM Cities w LEFT JOIN user_Cities uw ON w.id = uw.city_id and uw.user_id = @userId 
                 ORDER BY w.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(w.name, '[0-9]+$') AS UNSIGNED), w.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
@@ -49,6 +49,7 @@ public class CitiesRepository : ICitiesRepository
                         Image = reader.GetString("image"),
                         Rare = reader.GetString("rare"),
                         Quality = reader.GetInt32("quality"),
+                        Status = reader.GetString("status"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -159,7 +160,7 @@ public class CitiesRepository : ICitiesRepository
                 connection.Open();
                 string query = @"select t.*, tt.price, cu.image as currency_image, cu.id as currency_id
                 from Cities t, Citie_trade tt, currency cu
-                where t.id=tt.Citie_id and tt.currency_id = cu.id
+                where t.id=tt.city_id and tt.currency_id = cu.id
                 ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -267,7 +268,7 @@ public class CitiesRepository : ICitiesRepository
                 connection.Open();
                 string query = @"select count(*)
                 from Cities t, Citie_trade tt, currency cu
-                where t.id=tt.Citie_id and tt.currency_id = cu.id;";
+                where t.id=tt.city_id and tt.currency_id = cu.id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 count = Convert.ToInt32(command.ExecuteScalar());
 
@@ -381,7 +382,7 @@ public class CitiesRepository : ICitiesRepository
                 SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                 SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 from Cities a, user_Cities ua
-                where a.id=ua.Citie_id and ua.user_id=@user_id;";
+                where a.id=ua.city_id and ua.user_id=@user_id;";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 using (MySqlDataReader reader = command.ExecuteReader())

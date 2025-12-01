@@ -45,18 +45,18 @@ public class UserPetsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserPets(List<Pets> petsList, Transform DictionaryContentPanel)
+    public void CreateUserPets(List<Pets> petsList, Transform contentPanel)
     {
         foreach (var pet in petsList)
         {
             GameObject petsObject;
             if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
             {
-                petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+                petsObject = Instantiate(cardsPrefab, contentPanel);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
                 Background.gameObject.SetActive(true);
 
-                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(280, 280);
@@ -64,9 +64,9 @@ public class UserPetsController : MonoBehaviour
             }
             else
             {
-                petsObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+                petsObject = Instantiate(equipmentsPrefab, contentPanel);
 
-                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(200, 230);
@@ -99,7 +99,7 @@ public class UserPetsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowPetsDetails(Pets pets, GameObject currentObject, int buttonType = 1)
     {
@@ -207,7 +207,7 @@ public class UserPetsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Pets currentCard = new Pets();
@@ -224,7 +224,7 @@ public class UserPetsController : MonoBehaviour
 
                     newCard = UserPetsService.Create().GetNewLevelPower(pet, increasePerLevel);
                     UserPetsService.Create().UpdatePetsLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -235,7 +235,7 @@ public class UserPetsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Pets currentCard = UserPetsService.Create().GetUserPetsById(User.CurrentUserId, pet.Id);
@@ -256,7 +256,7 @@ public class UserPetsController : MonoBehaviour
 
                     Pets newCard = UserPetsService.Create().GetNewLevelPower(pet, levelsGained * increasePerLevel);
                     UserPetsService.Create().UpdatePetsLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -317,7 +317,7 @@ public class UserPetsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(pet.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = pet.Star + 1;
@@ -372,7 +372,7 @@ public class UserPetsController : MonoBehaviour
 
                     newCard = UserPetsService.Create().GetNewBreakthroughPower(pet, increasePerUpgrade);
                     UserPetsService.Create().UpdatePetsBreakthrough(newCard, pet.Star + 1, pet.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

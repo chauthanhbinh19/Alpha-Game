@@ -71,11 +71,11 @@ public class UserCardGeneralsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardGenerals(List<CardGenerals> cardGenerals, Transform DictionaryContentPanel)
+    public void CreateUserCardGenerals(List<CardGenerals> cardGenerals, Transform contentPanel)
     {
         foreach (var card in cardGenerals)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject cardObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
             Title.text = card.Name.Replace("_", " ");
@@ -111,12 +111,12 @@ public class UserCardGeneralsController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateUserCardGeneralsForSummon(List<CardGenerals> generals, Transform PositionPanel)
     {
@@ -265,7 +265,7 @@ public class UserCardGeneralsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardGenerals currentCard = new CardGenerals();
@@ -282,7 +282,7 @@ public class UserCardGeneralsController : MonoBehaviour
 
                     newCard = UserCardGeneralsService.Create().GetNewLevelPower(cardGenerals, increasePerLevel);
                     UserCardGeneralsService.Create().UpdateCardGeneralsLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -293,7 +293,7 @@ public class UserCardGeneralsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardGenerals currentCard = UserCardGeneralsService.Create().GetUserCardGeneralsById(User.CurrentUserId, cardGenerals.Id);
@@ -314,7 +314,7 @@ public class UserCardGeneralsController : MonoBehaviour
 
                     CardGenerals newCard = UserCardGeneralsService.Create().GetNewLevelPower(cardGenerals, levelsGained * increasePerLevel);
                     UserCardGeneralsService.Create().UpdateCardGeneralsLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -602,7 +602,7 @@ public class UserCardGeneralsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(cardGenerals.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = cardGenerals.Star + 1;
@@ -657,7 +657,7 @@ public class UserCardGeneralsController : MonoBehaviour
 
                     newCard = UserCardGeneralsService.Create().GetNewBreakthroughPower(cardGenerals, increasePerUpgrade);
                     UserCardGeneralsService.Create().UpdateCardGeneralsBreakthrough(newCard, cardGenerals.Star + 1, cardGenerals.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -788,7 +788,7 @@ public class UserCardGeneralsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
-            EquipButton.onClick.AddListener(() =>
+            EquipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupSpiritBeastObject);
@@ -802,7 +802,7 @@ public class UserCardGeneralsController : MonoBehaviour
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
 
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

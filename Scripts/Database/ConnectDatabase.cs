@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MySql.Data.MySqlClient;
+using MySqlConnector;
+using System.Threading.Tasks; // Nếu dùng async/await
 
 public static class DatabaseConfig
 {

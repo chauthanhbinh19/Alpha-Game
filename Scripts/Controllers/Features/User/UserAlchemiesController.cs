@@ -43,11 +43,11 @@ public class UserAlchemiesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserAlchemy(List<Alchemies> alchemies, Transform DictionaryContentPanel)
+    public void CreateUserAlchemy(List<Alchemies> alchemies, Transform contentPanel)
     {
         foreach (var alchemy in alchemies)
         {
-            GameObject alchemyObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject alchemyObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
             Title.text = alchemy.Name.Replace("_", " ");
@@ -72,12 +72,12 @@ public class UserAlchemiesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowAlchemyDetails(Alchemies alchemy, GameObject currentObject, int buttonType = 1)
     {
@@ -178,7 +178,7 @@ public class UserAlchemiesController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Alchemies currentCard = new Alchemies();
@@ -195,7 +195,7 @@ public class UserAlchemiesController : MonoBehaviour
 
                     newCard = UserAlchemyService.Create().GetNewLevelPower(alchemy, increasePerLevel);
                     UserAlchemyService.Create().UpdateAlchemyLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -206,7 +206,7 @@ public class UserAlchemiesController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Alchemies currentCard = UserAlchemyService.Create().GetUserAlchemyById(User.CurrentUserId, alchemy.Id);
@@ -227,7 +227,7 @@ public class UserAlchemiesController : MonoBehaviour
 
                     Alchemies newCard = UserAlchemyService.Create().GetNewLevelPower(alchemy, levelsGained * increasePerLevel);
                     UserAlchemyService.Create().UpdateAlchemyLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -288,7 +288,7 @@ public class UserAlchemiesController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(alchemy.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = alchemy.Star + 1;
@@ -343,7 +343,7 @@ public class UserAlchemiesController : MonoBehaviour
 
                     newalchemy = UserAlchemyService.Create().GetNewBreakthroughPower(alchemy, increasePerUpgrade);
                     UserAlchemyService.Create().UpdateAlchemyBreakthrough(newalchemy, alchemy.Star + 1, alchemy.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

@@ -21,6 +21,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject MasterBoardPanelPrefab;
     private GameObject PopupButtonPrefab;
     private GameObject FeaturePanelPrefab;
+    private GameObject RareButtonPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private Button CloseButton;
@@ -47,9 +48,7 @@ public class MainMenuManager : MonoBehaviour
     private Button NextButton;
     private Button PreviousButton;
     private string mainType;
-    private string subType;
     private Text titleText;
-    private TextMeshProUGUI titleText2;
     private string buttonType;
     private string type;
     private string rare;
@@ -89,7 +88,7 @@ public class MainMenuManager : MonoBehaviour
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         MainPanelPrefab = UIManager.Instance.GetGameObject("MainPanelPrefab");
         PopupButtonPrefab = UIManager.Instance.GetGameObject("PopupButtonPrefab");
-        // mainMenuPanel = UIManager.Instance.GetTransform("mainMenuButtonPanel");
+        RareButtonPrefab = UIManager.Instance.GetGeneralButton("RareButtonPrefab");
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         buttonPrefab2 = UIManager.Instance.GetGameObject("TabButton2");
@@ -115,16 +114,16 @@ public class MainMenuManager : MonoBehaviour
         GetPrimaryButtonEvent();
 
         Transform content = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondCircleImage");
-        Button inventoryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/InventoryButton").GetComponent<Button>();
-        Button eventButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/EventButton").GetComponent<Button>();
-        Button campaignButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/CampaignButton").GetComponent<Button>();
-        Button shopButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/ShopButton").GetComponent<Button>();
-        Button teamButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/TeamButton").GetComponent<Button>();
-        Button masterBoardButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/MasterBoardButton").GetComponent<Button>();
-        Button scienceFictionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/ScienceFictionButton").GetComponent<Button>();
-        Button galleryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/GalleryButton").GetComponent<Button>();
-        Button collectionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/CollectionButton").GetComponent<Button>();
-        Button equipmentButton = currentObject.transform.Find("MainPanel/MainButtonGroup/Content/EquipmentButton").GetComponent<Button>();
+        Button inventoryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/InventoryButton").GetComponent<Button>();
+        Button eventButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/EventButton").GetComponent<Button>();
+        Button campaignButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/CampaignButton").GetComponent<Button>();
+        Button shopButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/ShopButton").GetComponent<Button>();
+        Button teamButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/TeamButton").GetComponent<Button>();
+        Button masterBoardButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/MasterBoardButton").GetComponent<Button>();
+        Button scienceFictionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/ScienceFictionButton").GetComponent<Button>();
+        Button galleryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/GalleryButton").GetComponent<Button>();
+        Button collectionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/CollectionButton").GetComponent<Button>();
+        Button equipmentButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/EquipmentButton").GetComponent<Button>();
         Button featureButton = currentObject.transform.Find("RightButtonGroup/FeatureButton").GetComponent<Button>();
         Button arenaButton = currentObject.transform.Find("RightButtonGroup/ArenaButton").GetComponent<Button>();
         Button profileButton = currentObject.transform.Find("RightButtonGroup/ProfileButton").GetComponent<Button>();
@@ -179,10 +178,10 @@ public class MainMenuManager : MonoBehaviour
             ShopManager.Instance.CreateShopButton();
         });
 
-        teamButton.onClick.AddListener(() =>
+        teamButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            TeamsManager.Instance.CreateTeams();
+            await TeamsManager.Instance.CreateTeamsAsync();
         });
 
         masterBoardButton.onClick.AddListener(() =>
@@ -632,9 +631,9 @@ public class MainMenuManager : MonoBehaviour
             {
                 string selectedRare = uniqueRaries[i];
                 string rareTemp = selectedRare;
-                GameObject button = Instantiate(buttonPrefab, RightScrollViewContentPanel);
+                GameObject button = Instantiate(RareButtonPrefab, RightScrollViewContentPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 buttonText.text = LocalizationManager.Get(selectedRare);
 
                 Button btn = button.GetComponent<Button>();
@@ -649,7 +648,8 @@ public class MainMenuManager : MonoBehaviour
                     if (buttonType.Equals("button1"))
                     {
                         rare = selectedRare;
-                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
+                        button.transform.Find("Active").gameObject.SetActive(true);
+                        button.transform.Find("Unactive").gameObject.SetActive(false);
                         LoadCurrentPage();
                     }
                 }
@@ -657,7 +657,8 @@ public class MainMenuManager : MonoBehaviour
                 {
                     if (buttonType.Equals("button1"))
                     {
-                        ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
+                        button.transform.Find("Active").gameObject.SetActive(false);
+                        button.transform.Find("Unactive").gameObject.SetActive(true);
                     }
                 }
             }
@@ -897,7 +898,8 @@ public class MainMenuManager : MonoBehaviour
             Button button = child.GetComponent<Button>();
             if (button != null)
             {
-                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
+                button.transform.Find("Active").gameObject.SetActive(false);
+                button.transform.Find("Unactive").gameObject.SetActive(true);
             }
         }
 
@@ -905,7 +907,8 @@ public class MainMenuManager : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
+        clickedButton.transform.Find("Active").gameObject.SetActive(true);
+        clickedButton.transform.Find("Unactive").gameObject.SetActive(false);
         LoadCurrentPage();
     }
     public void LoadCurrentPage()

@@ -43,11 +43,11 @@ public class UserCardLivesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardLife(List<CardLives> cards, Transform DictionaryContentPanel)
+    public void CreateUserCardLife(List<CardLives> cards, Transform contentPanel)
     {
         foreach (var card in cards)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject cardObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
             Title.text = card.Name.Replace("_", " ");
@@ -68,13 +68,13 @@ public class UserCardLivesController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
             });
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(280, 350);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowCardLifeDetails(CardLives cardLife, GameObject currentObject, int buttonType = 1)
     {
@@ -174,7 +174,7 @@ public class UserCardLivesController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardLives currentCard = new CardLives();
@@ -191,7 +191,7 @@ public class UserCardLivesController : MonoBehaviour
 
                     newCard = UserCardLifeService.Create().GetNewLevelPower(cardLife, increasePerLevel);
                     UserCardLifeService.Create().UpdateCardLifeLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -202,7 +202,7 @@ public class UserCardLivesController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardLives currentCard = UserCardLifeService.Create().GetUserCardLifeById(User.CurrentUserId, cardLife.Id);
@@ -223,7 +223,7 @@ public class UserCardLivesController : MonoBehaviour
 
                     CardLives newCard = UserCardLifeService.Create().GetNewLevelPower(cardLife, levelsGained * increasePerLevel);
                     UserCardLifeService.Create().UpdateCardLifeLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -284,7 +284,7 @@ public class UserCardLivesController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(cardLife.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = cardLife.Star + 1;
@@ -339,7 +339,7 @@ public class UserCardLivesController : MonoBehaviour
 
                     newCardLife = UserCardLifeService.Create().GetNewBreakthroughPower(cardLife, increasePerUpgrade);
                     UserCardLifeService.Create().UpdateCardLifeBreakthrough(newCardLife, cardLife.Star + 1, cardLife.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

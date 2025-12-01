@@ -33,11 +33,11 @@ public class TalismansGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateTalismanGallery(List<Talismans> talismans, Transform DictionaryContentPanel)
+    public void CreateTalismanGallery(List<Talismans> talismans, Transform contentPanel)
     {
         foreach (var talisman in talismans)
         {
-            GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject talismanObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
             Title.text = talisman.Name.Replace("_", " ");
@@ -80,7 +80,7 @@ public class TalismansGalleryController : MonoBehaviour
                 Unlock.gameObject.SetActive(false);
             }
 
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var talismanGalleryService = TalismanGalleryService.Create();
@@ -93,7 +93,7 @@ public class TalismansGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -115,11 +115,11 @@ public class TalismansGalleryController : MonoBehaviour
                 TalismanGalleryService.Create().UpdateTalismanGalleryPower(talisman.Id);
             });
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

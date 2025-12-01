@@ -81,7 +81,6 @@ public class UIManager : MonoBehaviour
     public GameObject NumberDetail2Prefab;
     public GameObject NumberDetail3Prefab;
     public GameObject TabButton2;
-    public GameObject TabButton3;
     public GameObject TabButton4;
     public GameObject ReceivedNotification;
     public GameObject ItemThird;
@@ -106,7 +105,7 @@ public class UIManager : MonoBehaviour
     public GameObject PopupButtonPrefab;
     public GameObject CardContractPrefab;
     public GameObject CardPenaltyPrefab;
-    [Header("General Button")]
+    [Header("General Panel")]
     public GameObject WorldPanelPrefab;
     public GameObject CityPanelPrefab;
     public GameObject BasePanelPrefab;
@@ -120,6 +119,7 @@ public class UIManager : MonoBehaviour
     public GameObject TrainButtonPrefab;
     public GameObject ResearchButtonPrefab;
     public GameObject EmployeeButtonPrefab;
+    public GameObject RareButtonPrefab;
     [Header("Science Fiction")]
     public GameObject ReactorPanelPrefab;
     public GameObject ReactorButtonPrefab;
@@ -280,8 +280,6 @@ public class UIManager : MonoBehaviour
                 return NumberDetail3Prefab;
             case "TabButton2":
                 return TabButton2;
-            case "TabButton3":
-                return TabButton3;
             case "TabButton4":
                 return TabButton4;
             case "ReceivedNotification":
@@ -520,6 +518,8 @@ public class UIManager : MonoBehaviour
                 return ResearchButtonPrefab;
             case "EmployeeButtonPrefab":
                 return EmployeeButtonPrefab;
+            case "RareButtonPrefab":
+                return RareButtonPrefab;
             default:
                 return WorldButtonPrefab;
         }

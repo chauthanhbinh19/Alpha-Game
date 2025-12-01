@@ -33,11 +33,11 @@ public class SpiritCardsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
     }
-    public void CreateSpiritCardGallery(List<SpiritCards> SpiritCardList, Transform DictionaryContentPanel)
+    public void CreateSpiritCardGallery(List<SpiritCards> SpiritCardList, Transform contentPanel)
     {
         foreach (var title in SpiritCardList)
         {
-            GameObject titleObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -84,7 +84,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var titleGalleryService = SpiritCardGalleryService.Create();
@@ -97,7 +97,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -119,11 +119,11 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 TitlesGalleryService.Create().UpdateTitlesGalleryPower(title.Id);
             });
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 400);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

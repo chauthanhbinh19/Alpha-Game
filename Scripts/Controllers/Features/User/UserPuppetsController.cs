@@ -43,11 +43,11 @@ public class UserPuppetsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserPuppet(List<Puppets> puppets, Transform DictionaryContentPanel)
+    public void CreateUserPuppet(List<Puppets> puppets, Transform contentPanel)
     {
         foreach (var puppet in puppets)
         {
-            GameObject puppetObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject puppetObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
             Title.text = puppet.Name.Replace("_", " ");
@@ -72,12 +72,12 @@ public class UserPuppetsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowPuppetDetails(Puppets puppet, GameObject currentObject, int buttonType = 1)
     {
@@ -178,7 +178,7 @@ public class UserPuppetsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Puppets currentCard = new Puppets();
@@ -195,7 +195,7 @@ public class UserPuppetsController : MonoBehaviour
 
                     newCard = UserPuppetService.Create().GetNewLevelPower(puppet, increasePerLevel);
                     UserPuppetService.Create().UpdatePuppetLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -206,7 +206,7 @@ public class UserPuppetsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Puppets currentCard = UserPuppetService.Create().GetUserPuppetById(User.CurrentUserId, puppet.Id);
@@ -227,7 +227,7 @@ public class UserPuppetsController : MonoBehaviour
 
                     Puppets newCard = UserPuppetService.Create().GetNewLevelPower(puppet, levelsGained * increasePerLevel);
                     UserPuppetService.Create().UpdatePuppetLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -288,7 +288,7 @@ public class UserPuppetsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(puppet.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = puppet.Star + 1;
@@ -343,7 +343,7 @@ public class UserPuppetsController : MonoBehaviour
 
                     newpuppet = UserPuppetService.Create().GetNewBreakthroughPower(puppet, increasePerUpgrade);
                     UserPuppetService.Create().UpdatePuppetBreakthrough(newpuppet, puppet.Star + 1, puppet.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

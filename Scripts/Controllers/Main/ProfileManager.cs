@@ -159,16 +159,16 @@ public class ProfileManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(editNamePanelObject);
         });
-        saveButton.onClick.AddListener(() =>
+        saveButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             var name = nameText.text;
-            var isNameExisted = UserService.Create().CheckNameExists(name);
+            var isNameExisted = await UserService.Create().CheckNameExistsAsync(name);
             if (!isNameExisted)
             {
                 warningTransform.gameObject.SetActive(false);
-                UserService.Create().UpdateUserName(User.CurrentUserId, name);
+                await UserService.Create().UpdateUserNameAsync(User.CurrentUserId, name);
                 Destroy(editNamePanelObject);
                 Destroy(profileObject);
                 CreateProfile();
@@ -205,8 +205,8 @@ public class ProfileManager : MonoBehaviour
     {
         GameObject settingObject = Instantiate(SettingPanelPrefab, MainPanel);
         Transform settingPanel = settingObject.transform.Find("RightScrollView/Viewport/Content");
-        Button closeButton = settingObject.transform.Find("CloseButton").GetComponent<Button>();
         ButtonEvent.Instance.Close(settingPanel);
+        Button closeButton = settingObject.transform.Find("CloseButton").GetComponent<Button>();
         GameObject graphicObject = Instantiate(SettingButtonPrefab, settingPanel);
         GameObject soundObject = Instantiate(SettingButtonPrefab, settingPanel);
         GameObject otherObject = Instantiate(SettingButtonPrefab, settingPanel);
@@ -389,7 +389,7 @@ public class ProfileManager : MonoBehaviour
         sfxSlider.value = sfxSound / 100f;
         voiceSlider.value = voiceSound / 100f;
 
-        defaultButton.onClick.AddListener(() =>
+        defaultButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -406,61 +406,61 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.SFX, 100);
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.VOICE, 100);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.MUSIC,
                 SettingValue = maxValue.ToString(),
             });
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.SFX,
                 SettingValue = maxValue.ToString(),
             });
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.VOICE,
                 SettingValue = maxValue.ToString(),
             });
         });
 
-        musicSlider.onValueChanged.AddListener(value =>
+        musicSlider.onValueChanged.AddListener(async value =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
             musicQuantityText.text = v.ToString();
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.MUSIC, v);
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.MUSIC,
                 SettingValue = v.ToString(),
             });
         });
 
-        sfxSlider.onValueChanged.AddListener(value =>
+        sfxSlider.onValueChanged.AddListener(async value =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
             sfxQuantityText.text = v.ToString();
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.SFX, v);
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.SFX,
                 SettingValue = v.ToString(),
             });
         });
 
-        voiceSlider.onValueChanged.AddListener(value =>
+        voiceSlider.onValueChanged.AddListener(async value =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
             voiceQuantityText.text = v.ToString();
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.VOICE, v);
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.VOICE,
                 SettingValue = v.ToString(),
@@ -504,10 +504,10 @@ public class ProfileManager : MonoBehaviour
         englishButton.onClick.RemoveAllListeners();
         vietnameseButton.onClick.RemoveAllListeners();
 
-        defaultButton.onClick.AddListener(() =>
+        defaultButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "en",
@@ -518,10 +518,10 @@ public class ProfileManager : MonoBehaviour
             ChangeLanguageButtonColor(vietnameseButton, false);
         });
 
-        englishButton.onClick.AddListener(() =>
+        englishButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "en",
@@ -532,10 +532,10 @@ public class ProfileManager : MonoBehaviour
             ChangeLanguageButtonColor(vietnameseButton, false);
         });
 
-        vietnameseButton.onClick.AddListener(() =>
+        vietnameseButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "vi",
@@ -612,7 +612,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(veryHighButton, true);
         }
 
-        veryLowButton.onClick.AddListener(() =>
+        veryLowButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -622,7 +622,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, false);
             ChangeResolutionButtonColor(veryHighButton, false);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Very Low",
@@ -630,7 +630,7 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "Very Low");
         });
 
-        lowButton.onClick.AddListener(() =>
+        lowButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -640,7 +640,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, false);
             ChangeResolutionButtonColor(veryHighButton, false);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Low",
@@ -648,7 +648,7 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "Low");
         });
 
-        mediumButton.onClick.AddListener(() =>
+        mediumButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -658,7 +658,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, false);
             ChangeResolutionButtonColor(veryHighButton, false);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Medium",
@@ -666,7 +666,7 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "Medium");
         });
 
-        highButton.onClick.AddListener(() =>
+        highButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -676,7 +676,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, true);
             ChangeResolutionButtonColor(veryHighButton, false);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "High",
@@ -684,7 +684,7 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetString(AppConstants.Setting.RESOLUTION, "High");
         });
 
-        veryHighButton.onClick.AddListener(() =>
+        veryHighButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -694,7 +694,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, false);
             ChangeResolutionButtonColor(veryHighButton, true);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Very High",
@@ -764,7 +764,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(veryHighButton, true);
         }
 
-        lowButton.onClick.AddListener(() =>
+        lowButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -773,7 +773,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(highButton, false);
             ChangeTextureButtonColor(veryHighButton, false);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.TEXTURE,
                 SettingValue = "Low",
@@ -781,7 +781,7 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetString(AppConstants.Setting.TEXTURE, "Low");
         });
 
-        mediumButton.onClick.AddListener(() =>
+        mediumButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -790,7 +790,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(highButton, false);
             ChangeTextureButtonColor(veryHighButton, false);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.TEXTURE,
                 SettingValue = "Medium",
@@ -798,7 +798,7 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetString(AppConstants.Setting.TEXTURE, "Medium");
         });
 
-        highButton.onClick.AddListener(() =>
+        highButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -807,7 +807,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(highButton, true);
             ChangeTextureButtonColor(veryHighButton, false);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.TEXTURE,
                 SettingValue = "High",
@@ -815,7 +815,7 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetString(AppConstants.Setting.TEXTURE, "High");
         });
 
-        veryHighButton.onClick.AddListener(() =>
+        veryHighButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -824,7 +824,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(highButton, false);
             ChangeTextureButtonColor(veryHighButton, true);
 
-            UserSettingsService.Create().UpdateUserSettings(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.TEXTURE,
                 SettingValue = "Very High",

@@ -266,7 +266,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
-        confirmButton.onClick.AddListener(() =>
+        confirmButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
@@ -311,7 +311,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
                     eQuantity.text = quantity.ToString();
 
                     PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
-                    double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

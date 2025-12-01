@@ -5,6 +5,7 @@ using TMPro;
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardDropHandler : MonoBehaviour, IDropHandler
 {
@@ -13,7 +14,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
     public string card_id;
     public double card_power;
     public System.Action OnDropEnd;
-    
+
     UserCardHeroesService userCardHeroesService;
     UserCardCaptainsService userCardCaptainsService;
     UserCardColonelsService userCardColonelsService;
@@ -24,6 +25,11 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
     UserCardSpellService userCardSpellService;
     TeamsService teamsService;
     public void OnDrop(PointerEventData eventData)
+    {
+        // gọi async method nhưng không await
+        _ = HandleDropAsync(eventData);
+    }
+    public async Task HandleDropAsync(PointerEventData eventData)
     {
         userCardHeroesService = UserCardHeroesService.Create();
         userCardCaptainsService = UserCardCaptainsService.Create();
@@ -60,9 +66,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = cardHeroes.Power - card_power;
                         double updatedPower = currentPower + diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
@@ -70,9 +76,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = card_power - cardHeroes.Power;
                         double updatedPower = currentPower - diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
@@ -80,9 +86,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 {
                     userCardHeroesService.UpdateTeamCardHeroes(draggedCard.team_id, position, cardHeroes.Id);
                     double updatedPower = currentPower + cardHeroes.Power;
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
-                
+
                     FindObjectOfType<PowerController>().ShowPower(currentPower, cardHeroes.Power, 1);
                 }
             }
@@ -97,9 +103,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = cardCaptains.Power - card_power;
                         double updatedPower = currentPower + diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
@@ -107,9 +113,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = card_power - cardCaptains.Power;
                         double updatedPower = currentPower - diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
@@ -117,7 +123,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 {
                     userCardCaptainsService.UpdateTeamCardCaptains(draggedCard.team_id, position, cardCaptains.Id);
                     double updatedPower = currentPower + cardCaptains.Power;
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, cardCaptains.Power, 1);
@@ -134,9 +140,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = cardColonels.Power - card_power;
                         double updatedPower = currentPower + diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
@@ -144,9 +150,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = card_power - cardColonels.Power;
                         double updatedPower = currentPower - diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
@@ -154,7 +160,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 {
                     userCardColonelsService.UpdateTeamCardColonels(draggedCard.team_id, position, cardColonels.Id);
                     double updatedPower = currentPower + cardColonels.Power;
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, cardColonels.Power, 1);
@@ -171,9 +177,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = cardGenerals.Power - card_power;
                         double updatedPower = currentPower + diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
@@ -181,9 +187,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = card_power - cardGenerals.Power;
                         double updatedPower = currentPower - diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
@@ -191,7 +197,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 {
                     userCardGeneralsService.UpdateTeamCardGenerals(draggedCard.team_id, position, cardGenerals.Id);
                     double updatedPower = currentPower + cardGenerals.Power;
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, cardGenerals.Power, 1);
@@ -208,9 +214,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = cardAdmirals.Power - card_power;
                         double updatedPower = currentPower + diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
@@ -218,9 +224,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = card_power - cardAdmirals.Power;
                         double updatedPower = currentPower - diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
@@ -228,7 +234,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 {
                     userCardAdmiralsService.UpdateTeamCardAdmirals(draggedCard.team_id, position, cardAdmirals.Id);
                     double updatedPower = currentPower + cardAdmirals.Power;
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, cardAdmirals.Power, 1);
@@ -245,9 +251,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = cardMonsters.Power - card_power;
                         double updatedPower = currentPower + diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
@@ -255,9 +261,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = card_power - cardMonsters.Power;
                         double updatedPower = currentPower - diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
@@ -265,7 +271,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 {
                     userCardMonstersService.UpdateTeamCardMonsters(draggedCard.team_id, position, cardMonsters.Id);
                     double updatedPower = currentPower + cardMonsters.Power;
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, cardMonsters.Power, 1);
@@ -282,9 +288,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = cardMilitary.Power - card_power;
                         double updatedPower = currentPower + diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
@@ -292,9 +298,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = card_power - cardMilitary.Power;
                         double updatedPower = currentPower - diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
@@ -302,7 +308,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 {
                     userCardMilitaryService.UpdateTeamCardMilitary(draggedCard.team_id, position, cardMilitary.Id);
                     double updatedPower = currentPower + cardMilitary.Power;
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, cardMilitary.Power, 1);
@@ -319,9 +325,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = cardSpell.Power - card_power;
                         double updatedPower = currentPower + diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                     }
                     else
@@ -329,9 +335,9 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                         double diffPower = card_power - cardSpell.Power;
                         double updatedPower = currentPower - diffPower;
 
-                        UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                        await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                         User.CurrentUserPower = updatedPower;
-                    
+
                         FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
                     }
                 }
@@ -339,7 +345,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 {
                     userCardSpellService.UpdateTeamCardSpell(draggedCard.team_id, position, cardSpell.Id);
                     double updatedPower = currentPower + cardSpell.Power;
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, cardSpell.Power, 1);

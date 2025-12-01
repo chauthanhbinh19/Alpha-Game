@@ -71,11 +71,11 @@ public class UserCardMonstersController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardMonsters(List<CardMonsters> monstersList, Transform DictionaryContentPanel)
+    public void CreateUserCardMonsters(List<CardMonsters> monstersList, Transform contentPanel)
     {
         foreach (var card in monstersList)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject cardObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
             Title.text = card.Name.Replace("_", " ");
@@ -111,12 +111,12 @@ public class UserCardMonstersController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
             rareImage.texture = rareTexture;
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateUserCardMonstersForSummon(List<CardMonsters> monsters, Transform PositionPanel)
     {
@@ -136,7 +136,7 @@ public class UserCardMonstersController : MonoBehaviour
             // Chỉnh vị trí cao lên 40px
             Vector2 currentPosition = rectTransform.anchoredPosition;
             rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
-            // GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            // GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             // if (gridLayout != null)
             // {
             //     gridLayout.cellSize = new Vector2(200, 250);
@@ -270,7 +270,7 @@ public class UserCardMonstersController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardMonsters currentCard = new CardMonsters();
@@ -287,7 +287,7 @@ public class UserCardMonstersController : MonoBehaviour
 
                     newCard = UserCardMonstersService.Create().GetNewLevelPower(cardMonsters, increasePerLevel);
                     UserCardMonstersService.Create().UpdateCardMonstersLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -298,7 +298,7 @@ public class UserCardMonstersController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardMonsters currentCard = UserCardMonstersService.Create().GetUserCardMonstersById(User.CurrentUserId, cardMonsters.Id);
@@ -319,7 +319,7 @@ public class UserCardMonstersController : MonoBehaviour
 
                     CardMonsters newCard = UserCardMonstersService.Create().GetNewLevelPower(cardMonsters, levelsGained * increasePerLevel);
                     UserCardMonstersService.Create().UpdateCardMonstersLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -607,7 +607,7 @@ public class UserCardMonstersController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(cardMonsters.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = cardMonsters.Star + 1;
@@ -662,7 +662,7 @@ public class UserCardMonstersController : MonoBehaviour
 
                     newMonster = UserCardMonstersService.Create().GetNewBreakthroughPower(cardMonsters, increasePerUpgrade);
                     UserCardMonstersService.Create().UpdateCardMonstersBreakthrough(newMonster, cardMonsters.Star + 1, cardMonsters.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -799,7 +799,7 @@ public class UserCardMonstersController : MonoBehaviour
             rareImage.texture = rareTexture;
 
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
-            EquipButton.onClick.AddListener(() =>
+            EquipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupSpiritBeastObject);
@@ -813,7 +813,7 @@ public class UserCardMonstersController : MonoBehaviour
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
 
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

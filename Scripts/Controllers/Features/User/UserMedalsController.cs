@@ -43,11 +43,11 @@ public class UserMedalsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserMedals(List<Medals> medalsList, Transform DictionaryContentPanel)
+    public void CreateUserMedals(List<Medals> medalsList, Transform contentPanel)
     {
         foreach (var medal in medalsList)
         {
-            GameObject medalObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject medalObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
             Title.text = medal.Name.Replace("_", " ");
@@ -72,7 +72,7 @@ public class UserMedalsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowMedalsDetails(Medals medals, GameObject currentObject, int buttonType = 1)
     {
@@ -173,7 +173,7 @@ public class UserMedalsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Medals currentCard = new Medals();
@@ -190,7 +190,7 @@ public class UserMedalsController : MonoBehaviour
 
                     newCard = UserMedalsService.Create().GetNewLevelPower(medal, increasePerLevel);
                     UserMedalsService.Create().UpdateMedalsLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -201,7 +201,7 @@ public class UserMedalsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Medals currentCard = UserMedalsService.Create().GetUserMedalsById(User.CurrentUserId, medal.Id);
@@ -222,7 +222,7 @@ public class UserMedalsController : MonoBehaviour
 
                     Medals newCard = UserMedalsService.Create().GetNewLevelPower(medal, levelsGained * increasePerLevel);
                     UserMedalsService.Create().UpdateMedalsLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -283,7 +283,7 @@ public class UserMedalsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(medal.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = medal.Star + 1;
@@ -338,7 +338,7 @@ public class UserMedalsController : MonoBehaviour
 
                     newMedal = UserMedalsService.Create().GetNewBreakthroughPower(medal, increasePerUpgrade);
                     UserMedalsService.Create().UpdateMedalsBreakthrough(newMedal, medal.Star + 1, medal.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

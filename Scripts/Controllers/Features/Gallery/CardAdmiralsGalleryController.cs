@@ -33,11 +33,11 @@ public class CardAdmiralsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
     }
-    public void CreateCardAdmiralsGallery(List<CardAdmirals> cardAdmirals, Transform DictionaryContentPanel)
+    public void CreateCardAdmiralsGallery(List<CardAdmirals> cardAdmirals, Transform contentPanel)
     {
         foreach (var admiral in cardAdmirals)
         {
-            GameObject spellObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject spellObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
             Title.text = admiral.Name.Replace("_", " ");
@@ -77,7 +77,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
                 Unlock.gameObject.SetActive(false);
             }
 
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var admiralGalleryService = CardAdmiralsGalleryService.Create();
@@ -90,7 +90,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -112,11 +112,11 @@ public class CardAdmiralsGalleryController : MonoBehaviour
                 CardAdmiralsGalleryService.Create().UpdateCardAdmiralsGalleryPower(admiral.Id);
             });
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

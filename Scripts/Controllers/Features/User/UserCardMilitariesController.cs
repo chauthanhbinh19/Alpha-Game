@@ -71,11 +71,11 @@ public class UserCardMilitariesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardMilitary(List<CardMilitaries> militaryList, Transform DictionaryContentPanel)
+    public void CreateUserCardMilitary(List<CardMilitaries> militaryList, Transform contentPanel)
     {
         foreach (var card in militaryList)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject cardObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
             Title.text = card.Name.Replace("_", " ");
@@ -111,13 +111,13 @@ public class UserCardMilitariesController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
             rareImage.texture = rareTexture;
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(280, 350);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateUserCardMilitaryForSummon(List<CardMilitaries> militaries, Transform PositionPanel)
     {
@@ -137,7 +137,7 @@ public class UserCardMilitariesController : MonoBehaviour
             // Chỉnh vị trí cao lên 40px
             Vector2 currentPosition = rectTransform.anchoredPosition;
             rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
-            // GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            // GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             // if (gridLayout != null)
             // {
             //     gridLayout.cellSize = new Vector2(200, 250);
@@ -271,7 +271,7 @@ public class UserCardMilitariesController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 CardMilitaries currentCard = new CardMilitaries();
@@ -288,7 +288,7 @@ public class UserCardMilitariesController : MonoBehaviour
 
                     newCard = UserCardMilitaryService.Create().GetNewLevelPower(cardMilitary, increasePerLevel);
                     UserCardMilitaryService.Create().UpdateCardMilitaryLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -299,7 +299,7 @@ public class UserCardMilitariesController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 CardMilitaries currentCard = UserCardMilitaryService.Create().GetUserCardMilitaryById(User.CurrentUserId, cardMilitary.Id);
@@ -320,7 +320,7 @@ public class UserCardMilitariesController : MonoBehaviour
 
                     CardMilitaries newCard = UserCardMilitaryService.Create().GetNewLevelPower(cardMilitary, levelsGained * increasePerLevel);
                     UserCardMilitaryService.Create().UpdateCardMilitaryLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -608,7 +608,7 @@ public class UserCardMilitariesController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(cardMilitary.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = cardMilitary.Star + 1;
@@ -663,7 +663,7 @@ public class UserCardMilitariesController : MonoBehaviour
 
                     newCard = UserCardMilitaryService.Create().GetNewBreakthroughPower(cardMilitary, increasePerUpgrade);
                     UserCardMilitaryService.Create().UpdateCardMilitaryBreakthrough(newCard, cardMilitary.Star + 1, cardMilitary.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -799,7 +799,7 @@ public class UserCardMilitariesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
-            EquipButton.onClick.AddListener(() =>
+            EquipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 Destroy(popupSpiritBeastObject);
@@ -813,7 +813,7 @@ public class UserCardMilitariesController : MonoBehaviour
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
 
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

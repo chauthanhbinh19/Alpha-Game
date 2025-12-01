@@ -43,11 +43,11 @@ public class UserForgesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserForge(List<Forges> forges, Transform DictionaryContentPanel)
+    public void CreateUserForge(List<Forges> forges, Transform contentPanel)
     {
         foreach (var forge in forges)
         {
-            GameObject forgeObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject forgeObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = forgeObject.transform.Find("Title").GetComponent<Text>();
             Title.text = forge.Name.Replace("_", " ");
@@ -72,12 +72,12 @@ public class UserForgesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowForgeDetails(Forges forge, GameObject currentObject, int buttonType = 1)
     {
@@ -178,7 +178,7 @@ public class UserForgesController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Forges currentCard = new Forges();
@@ -195,7 +195,7 @@ public class UserForgesController : MonoBehaviour
 
                     newCard = UserForgeService.Create().GetNewLevelPower(forge, increasePerLevel);
                     UserForgeService.Create().UpdateForgeLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -206,7 +206,7 @@ public class UserForgesController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Forges currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.Id);
@@ -227,7 +227,7 @@ public class UserForgesController : MonoBehaviour
 
                     Forges newCard = UserForgeService.Create().GetNewLevelPower(forge, levelsGained * increasePerLevel);
                     UserForgeService.Create().UpdateForgeLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -288,7 +288,7 @@ public class UserForgesController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(forge.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = forge.Star + 1;
@@ -343,7 +343,7 @@ public class UserForgesController : MonoBehaviour
 
                     newforge = UserForgeService.Create().GetNewBreakthroughPower(forge, increasePerUpgrade);
                     UserForgeService.Create().UpdateForgeBreakthrough(newforge, forge.Star + 1, forge.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

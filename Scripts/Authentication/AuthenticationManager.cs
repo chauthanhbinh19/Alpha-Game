@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -66,14 +67,14 @@ public class AuthenticationManager : MonoBehaviour
         CheckLoggedIn();
         
     }
-    public void CheckLoggedIn()
+    public async void CheckLoggedIn()
     {
         if (AuthManager.IsLoggedIn())
         {
             string savedUserId = AuthManager.GetUserId();
 
             // Gọi login bằng ID
-            var authResult = UserService.Create().SignInWithoutUsernameAndPassword(savedUserId);
+            var authResult = await UserService.Create().SignInWithoutUsernameAndPasswordAsync(savedUserId);
 
             // Nếu database KHÔNG TÌM THẤY user → authResult = null
             if (!authResult.Success)
@@ -114,13 +115,13 @@ public class AuthenticationManager : MonoBehaviour
         Destroy(currentObject);
         CreateSignUpPanel();
     }
-    public void SI_signInButtonClicked()
+    public async Task SI_signInButtonClicked()
     {
         string username = signInUsernameInput.text;
         string password = signInPasswordInput.text;
         IUserRepository _userRepository = new UserRepository();
         UserService _userService = new UserService(_userRepository);
-        authResult = _userService.SignInWithUsernameAndPassword(username, password);
+        authResult = await _userService.SignInWithUsernameAndPasswordAsync(username, password);
 
         if (authResult.Success)
         {
@@ -146,9 +147,8 @@ public class AuthenticationManager : MonoBehaviour
                 SI_ErrorPassword.text = authResult.ErrorMessage;
             }
         }
-
     }
-    void SU_signUpButtonClicked()
+    public async Task SU_signUpButtonClicked()
     {
         string username = signUpUsernameInput.text;
         string password = signUpPasswordInput.text;
@@ -182,7 +182,7 @@ public class AuthenticationManager : MonoBehaviour
 
         IUserRepository _userRepository = new UserRepository();
         UserService _userService = new UserService(_userRepository);
-        string registerStatus = _userService.RegisterUser(username, password);
+        string registerStatus = await _userService.RegisterUserAsync(username, password);
         if (string.IsNullOrEmpty(registerStatus))
         {
             SU_ErrorUsername.text = MessageHelper.MessageConstants.UsernameAlreadyExist;
@@ -194,7 +194,6 @@ public class AuthenticationManager : MonoBehaviour
             signUpConfirmPasswordInput.text = "";
             SU_signInButtonClicked();
         }
-        // Debug.Log(username +" "+password);
     }
     public void SU_signInButtonClicked()
     {
@@ -215,10 +214,10 @@ public class AuthenticationManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SI_signUpButtonClicked();
         });
-        SI_signInButton.onClick.AddListener(() =>
+        SI_signInButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            SI_signInButtonClicked();
+            await SI_signInButtonClicked();
         });
         SI_closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
         SI_closeButton.onClick.AddListener(() =>
@@ -243,10 +242,10 @@ public class AuthenticationManager : MonoBehaviour
         SU_ErrorUsername = currentObject.transform.Find("ErrorUsername").GetComponent<Text>();
         SU_ErrorPassword = currentObject.transform.Find("ErrorPassword").GetComponent<Text>();
         SU_ErrorConfirmPassword = currentObject.transform.Find("ErrorConfirmPassword").GetComponent<Text>();
-        SU_signUpButton.onClick.AddListener(() =>
+        SU_signUpButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            SU_signUpButtonClicked();
+            await SU_signUpButtonClicked();
         });
         SU_signInButton.onClick.AddListener(() =>
         {
@@ -272,15 +271,15 @@ public class AuthenticationManager : MonoBehaviour
         InputField nameInput = currentObject.transform.Find("NameInput").GetComponent<InputField>();
         Button startButton = currentObject.transform.Find("Start").GetComponent<Button>();
 
-        startButton.onClick.AddListener(() =>
+        startButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var isNameExisted = UserService.Create().CheckNameExists(nameInput.text);
+            var isNameExisted = await UserService.Create().CheckNameExistsAsync(nameInput.text);
             if (!isNameExisted)
             {
-                UserService.Create().UpdateUserName(User.CurrentUserId, nameInput.text);
-                authResult = UserService.Create().SignInWithUsernameAndPassword(username, password);
+                await UserService.Create().UpdateUserNameAsync(User.CurrentUserId, nameInput.text);
+                authResult = await UserService.Create().SignInWithUsernameAndPasswordAsync(username, password);
 
                 AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
                 MainMenuManager.Instance.CreateMainPanel();

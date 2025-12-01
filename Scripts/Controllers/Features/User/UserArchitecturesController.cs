@@ -43,11 +43,11 @@ public class UserArchitecturesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserArchitectures(List<Architectures> ArchitecturesList, Transform DictionaryContentPanel)
+    public void CreateUserArchitectures(List<Architectures> ArchitecturesList, Transform contentPanel)
     {
         foreach (var title in ArchitecturesList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -90,13 +90,13 @@ public class UserArchitecturesController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowArchitecturesDetails(Architectures Architectures, GameObject currentObject, int buttonType = 1)
     {
@@ -197,7 +197,7 @@ public class UserArchitecturesController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Architectures currentCard = new Architectures();
@@ -214,7 +214,7 @@ public class UserArchitecturesController : MonoBehaviour
 
                     newCard = UserArchitecturesService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserArchitecturesService.Create().UpdateArchitecturesLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -225,7 +225,7 @@ public class UserArchitecturesController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Architectures currentCard = UserArchitecturesService.Create().GetUserArchitecturesById(User.CurrentUserId, title.Id);
@@ -246,7 +246,7 @@ public class UserArchitecturesController : MonoBehaviour
 
                     Architectures newCard = UserArchitecturesService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserArchitecturesService.Create().UpdateArchitecturesLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -307,7 +307,7 @@ public class UserArchitecturesController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(title.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = title.Star + 1;
@@ -362,7 +362,7 @@ public class UserArchitecturesController : MonoBehaviour
 
                     newTitle = UserArchitecturesService.Create().GetNewBreakthroughPower(title, increasePerUpgrade);
                     UserArchitecturesService.Create().UpdateArchitecturesBreakthrough(newTitle, title.Star + 1, title.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

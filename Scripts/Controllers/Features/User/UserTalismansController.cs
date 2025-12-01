@@ -43,11 +43,11 @@ public class UserTalismansController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserTalisman(List<Talismans> talismans, Transform DictionaryContentPanel)
+    public void CreateUserTalisman(List<Talismans> talismans, Transform contentPanel)
     {
         foreach (var talisman in talismans)
         {
-            GameObject talismanObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject talismanObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = talismanObject.transform.Find("Title").GetComponent<Text>();
             Title.text = talisman.Name.Replace("_", " ");
@@ -72,12 +72,12 @@ public class UserTalismansController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowTalismanDetails(Talismans talisman, GameObject currentObject, int buttonType = 1)
     {
@@ -178,7 +178,7 @@ public class UserTalismansController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Talismans currentCard = new Talismans();
@@ -195,7 +195,7 @@ public class UserTalismansController : MonoBehaviour
 
                     newCard = UserTalismanService.Create().GetNewLevelPower(talisman, increasePerLevel);
                     UserTalismanService.Create().UpdateTalismanLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -206,7 +206,7 @@ public class UserTalismansController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Talismans currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
@@ -227,7 +227,7 @@ public class UserTalismansController : MonoBehaviour
 
                     Talismans newCard = UserTalismanService.Create().GetNewLevelPower(talisman, levelsGained * increasePerLevel);
                     UserTalismanService.Create().UpdateTalismanLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -288,7 +288,7 @@ public class UserTalismansController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(talisman.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = talisman.Star + 1;
@@ -343,7 +343,7 @@ public class UserTalismansController : MonoBehaviour
 
                     newtalisman = UserTalismanService.Create().GetNewBreakthroughPower(talisman, increasePerUpgrade);
                     UserTalismanService.Create().UpdateTalismanBreakthrough(newtalisman, talisman.Star + 1, talisman.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

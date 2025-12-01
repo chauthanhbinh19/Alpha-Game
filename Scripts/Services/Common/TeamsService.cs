@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using MySql.Data.MySqlClient;
+using System.Threading.Tasks;
+using MySqlConnector;
 
 public class TeamsService : ITeamsService
 {
@@ -16,16 +17,16 @@ public class TeamsService : ITeamsService
         return new TeamsService(new TeamsRepository());
     }
 
-    public List<Teams> GetUserTeams(string user_id)
-        => _teamsRepository.GetUserTeams(user_id);
+    public async Task<List<Teams>> GetUserTeamsAsync(string user_id)
+        => await _teamsRepository.GetUserTeamsAsync(user_id);
 
-    public bool InsertUserTeams(string user_id, int team_number)
-        => _teamsRepository.InsertUserTeams(user_id, team_number);
+    public async Task<bool> InsertUserTeamsAsync(string user_id, int team_number)
+        => await _teamsRepository.InsertUserTeamsAsync(user_id, team_number);
 
-    public int GetMaxTeamId(MySqlConnection connection)
-        => _teamsRepository.GetMaxTeamId(connection);
+    // public int GetMaxTeamId(MySqlConnection connection)
+    //     => _teamsRepository.GetMaxTeamId(connection);
 
-    public double GetTeamsPower(string user_id)
+    public async Task<double> GetTeamsPowerAsync(string user_id)
     {
         List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetAllUserCardHeroesInTeam(user_id);
 
@@ -43,7 +44,7 @@ public class TeamsService : ITeamsService
         totalPower += UserBooksService.Create().GetAllUserBooksInTeam(user_id).Sum(c => c.Power);
         totalPower += UserPetsService.Create().GetAllUserPetsInTeam(user_id).Sum(c => c.Power);
 
-        UserService.Create().UpdateUserPower(user_id, totalPower);
+        await UserService.Create().UpdateUserPowerAsync(user_id, totalPower);
 
         return totalPower;
     }

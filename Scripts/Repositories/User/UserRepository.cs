@@ -2,68 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using System.Threading.Tasks;
+using System.Data;
+using MySqlConnector;
 
 public class UserRepository : IUserRepository
 {
-    public User GetUserByUsername(string username)
+    public async Task<User> GetUserByUsernameAsync(string username)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync();
 
             string query = "SELECT * FROM users WHERE username = @username";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@username", username);
-
-            using (MySqlDataReader reader = command.ExecuteReader())
+            using (var command = new MySqlCommand(query, connection))
             {
-                if (reader.Read())
+                command.Parameters.AddWithValue("@username", username);
+
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    return new User
+                    if (await reader.ReadAsync())
                     {
-                        Id = reader["id"].ToString(),
-                        Username = reader.GetString("username"),
-                        Password = reader.GetString("password"),
-                        Name = reader["name"].ToString(),
-                        Level = Convert.ToInt32(reader["level"]),
-                        Experiment = Convert.ToInt32(reader["experiment"]),
-                        Vip = Convert.ToInt32(reader["vip"]),
-                        Power = reader.GetDouble("power")
-                    };
+                        return new User
+                        {
+                            Id = reader["id"].ToString(),
+                            Username = reader.GetString("username"),
+                            Password = reader.GetString("password"),
+                            Name = reader["name"].ToString(),
+                            Level = reader.GetInt32("level"),
+                            Experiment = reader.GetInt32("experiment"),
+                            Vip = reader.GetInt32("vip"),
+                            Power = reader.GetDouble("power")
+                        };
+                    }
                 }
             }
-            connection.Close();
         }
 
-        return null; // Không tìm thấy
+        return null;
     }
-    public string RegisterUser(string username, string password)
+    public async Task<string> RegisterUserAsync(string username, string password)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync(); // mở connection async
 
-            string checkQuery = "Select count(*) from Users WHERE username = @username";
-            MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-            checkCommand.Parameters.AddWithValue("@username", username);
-            int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-            if (count > 0)
+            // --- Kiểm tra username đã tồn tại ---
+            string checkQuery = "SELECT COUNT(*) FROM Users WHERE username = @username";
+            using (var checkCommand = new MySqlCommand(checkQuery, connection))
             {
-                return null;
+                checkCommand.Parameters.AddWithValue("@username", username);
+
+                object result = await checkCommand.ExecuteScalarAsync();
+                int count = Convert.ToInt32(result);
+
+                if (count > 0)
+                {
+                    return null; // username đã tồn tại
+                }
             }
-            else
+
+            // --- Tạo user mới ---
+            string userId = DateTime.Now.Ticks.ToString();
+            string query = @"
+            INSERT INTO users (id, username, password, name, level, experiment, vip, power) 
+            VALUES (@id, @username, @password, @name, @level, @experiment, @vip, @power)";
+
+            using (var command = new MySqlCommand(query, connection))
             {
-                string userId = DateTime.Now.Ticks.ToString();
-                string query = @"INSERT INTO users (id, username, password, name, level, experiment, vip, power) 
-                VALUES (@id, @username, @password, @name, @level, @experiment, @vip, @power)";
-                MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", userId);
                 command.Parameters.AddWithValue("@username", username);
                 command.Parameters.AddWithValue("@password", password);
@@ -75,20 +85,17 @@ public class UserRepository : IUserRepository
 
                 try
                 {
-                    command.ExecuteNonQuery();
-
+                    await command.ExecuteNonQueryAsync(); // chạy query async
                     Debug.Log("User registered successfully!");
                     return userId;
                 }
                 catch (Exception ex)
                 {
                     Debug.LogError("Error while registering user: " + ex.Message);
+                    return null;
                 }
             }
-
-            connection.Close();
         }
-        return "";
     }
     // private int GetMaxId(MySqlConnection connection)
     // {
@@ -102,310 +109,339 @@ public class UserRepository : IUserRepository
     //     }
     //     return 0; // Nếu bảng rỗng, trả về 0
     // }
-    public User SignInWithUsernameAndPassword(string username, string password)
+    public async Task<User> SignInWithUsernameAndPasswordAsync(string username, string password)
     {
         if (string.IsNullOrEmpty(username)) username = User.SavedUsername;
         if (string.IsNullOrEmpty(password)) password = User.SavedPassword;
 
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync(); // mở connection async
+
+            // --- Lấy thông tin user ---
             string userQuery = "SELECT * FROM Users WHERE username = @username AND password = @password";
-            MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
-            userCommand.Parameters.AddWithValue("@username", username);
-            userCommand.Parameters.AddWithValue("@password", password);
-            MySqlDataReader reader = userCommand.ExecuteReader();
-            if (reader.Read())
+            using (var userCommand = new MySqlCommand(userQuery, connection))
             {
-                string userId = reader.GetString("id");
-                string Name = reader.GetString("name");
-                string Username = reader.GetString("username");
-                string Password = reader.GetString("password");
-                int Level = reader.GetInt32("level");
-                int Vip = reader.GetInt32("vip");
-                double Power = reader.GetDouble("power");
-                double Experiment = reader.GetDouble("experiment");
+                userCommand.Parameters.AddWithValue("@username", username);
+                userCommand.Parameters.AddWithValue("@password", password);
 
-                User.CurrentUserId = userId;
-                User.CurrentUserName = Name;
-                User.SavedUsername = Username;
-                User.SavedPassword = Password;
-                User.CurrentUserLevel = Level;
-                User.CurrentUserPower = Power;
-
-                reader.Close();
-
-                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
-                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
-                currencyCommand.Parameters.AddWithValue("@userId", userId);
-
-                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
-
-                List<Currencies> currencies = new List<Currencies>();
-                while (currencyReader.Read())
+                using (var reader = await userCommand.ExecuteReaderAsync())
                 {
-                    string image = currencyReader.GetString("image");
-                    string name = currencyReader.GetString("name");
-                    string currencyId = currencyReader.GetString("currency_id");
-                    double quantity = currencyReader.GetDouble("quantity");
-                    currencies.Add(new Currencies
+                    if (!await reader.ReadAsync())
+                        return null; // đăng nhập thất bại
+
+                    string userId = reader.GetString("id");
+                    string name = reader.GetString("name");
+                    string Username = reader.GetString("username");
+                    string Password = reader.GetString("password");
+                    int level = reader.GetInt32("level");
+                    int vip = reader.GetInt32("vip");
+                    double power = reader.GetDouble("power");
+                    double experiment = reader.GetDouble("experiment");
+
+                    // Cập nhật các biến static của User
+                    User.CurrentUserId = userId;
+                    User.CurrentUserName = name;
+                    User.SavedUsername = Username;
+                    User.SavedPassword = Password;
+                    User.CurrentUserLevel = level;
+                    User.CurrentUserPower = power;
+
+                    reader.Close(); // đóng reader trước khi truy vấn khác
+
+                    // --- Lấy thông tin user_currency ---
+                    string currencyQuery = @"
+                    SELECT c.image, c.name, uc.currency_id, uc.quantity 
+                    FROM user_currency uc
+                    JOIN currency c ON uc.currency_id = c.id
+                    WHERE uc.user_id = @userId";
+
+                    using (var currencyCommand = new MySqlCommand(currencyQuery, connection))
                     {
-                        Id = currencyId,
-                        Name = name,
-                        Image = image,
-                        Quantity = quantity
-                    });
-                }
-                currencyReader.Close();
+                        currencyCommand.Parameters.AddWithValue("@userId", userId);
 
-                User user = new User
-                {
-                    Id = userId,
-                    Name = Name,
-                    Username = username,
-                    Password = password,
-                    Level = Level,
-                    Vip = Vip,
-                    Experiment = Experiment,
-                    Power = Power,
-                    Image = "",
-                    Border = "",
-                    Currencies = currencies
-                };
-                // Debug.Log(user.name);
-                connection.Close();
-                return user;
-            }
-            else
-            {
-                connection.Close();
-                return null;
+                        using (var currencyReader = await currencyCommand.ExecuteReaderAsync())
+                        {
+                            var currencies = new List<Currencies>();
+                            while (await currencyReader.ReadAsync())
+                            {
+                                currencies.Add(new Currencies
+                                {
+                                    Id = currencyReader.GetString("currency_id"),
+                                    Name = currencyReader.GetString("name"),
+                                    Image = currencyReader.GetString("image"),
+                                    Quantity = currencyReader.GetDouble("quantity")
+                                });
+                            }
+
+                            // --- Tạo object user ---
+                            var user = new User
+                            {
+                                Id = userId,
+                                Name = name,
+                                Username = username,
+                                Password = password,
+                                Level = level,
+                                Vip = vip,
+                                Experiment = experiment,
+                                Power = power,
+                                Image = "",
+                                Border = "",
+                                Currencies = currencies
+                            };
+
+                            return user;
+                        }
+                    }
+                }
             }
         }
     }
-    public User SignInWithoutUsernameAndPassword(string userId)
+    public async Task<User> SignInWithoutUsernameAndPasswordAsync(string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync(); // mở connection async
+
+            // --- Lấy thông tin user ---
             string userQuery = "SELECT * FROM Users WHERE id = @id";
-            MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
-            userCommand.Parameters.AddWithValue("@id", userId);
-            MySqlDataReader reader = userCommand.ExecuteReader();
-            if (reader.Read())
+            using (var userCommand = new MySqlCommand(userQuery, connection))
             {
-                string id = reader.GetString("id");
-                string Name = reader.GetString("name");
-                string Username = reader.GetString("username");
-                string Password = reader.GetString("password");
-                int Level = reader.GetInt32("level");
-                int Vip = reader.GetInt32("vip");
-                double Power = reader.GetDouble("power");
-                double Experiment = reader.GetDouble("experiment");
-                string username = reader.GetString("username");
-                string password = reader.GetString("password");
+                userCommand.Parameters.AddWithValue("@id", userId);
 
-                User.CurrentUserId = userId;
-                User.CurrentUserName = Name;
-                User.SavedUsername = Username;
-                User.SavedPassword = Password;
-                User.CurrentUserLevel = Level;
-                User.CurrentUserPower = Power;
-
-                reader.Close();
-
-                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
-                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
-                currencyCommand.Parameters.AddWithValue("@userId", userId);
-
-                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
-
-                List<Currencies> currencies = new List<Currencies>();
-                while (currencyReader.Read())
+                using (var reader = await userCommand.ExecuteReaderAsync())
                 {
-                    string image = currencyReader.GetString("image");
-                    string name = currencyReader.GetString("name");
-                    string currencyId = currencyReader.GetString("currency_id");
-                    double quantity = currencyReader.GetDouble("quantity");
-                    currencies.Add(new Currencies
+                    if (!await reader.ReadAsync())
+                        return null; // không tìm thấy user
+
+                    string id = reader.GetString("id");
+                    string name = reader.GetString("name");
+                    string username = reader.GetString("username");
+                    string password = reader.GetString("password");
+                    int level = reader.GetInt32("level");
+                    int vip = reader.GetInt32("vip");
+                    double power = reader["power"] != DBNull.Value ? Convert.ToDouble(reader["power"]) : 0;
+                    double experiment = reader["experiment"] != DBNull.Value ? Convert.ToDouble(reader["experiment"]) : 0;
+
+                    // Cập nhật các biến static của User
+                    User.CurrentUserId = userId;
+                    User.CurrentUserName = name;
+                    User.SavedUsername = username;
+                    User.SavedPassword = password;
+                    User.CurrentUserLevel = level;
+                    User.CurrentUserPower = power;
+
+                    reader.Close(); // đóng reader trước khi thực hiện truy vấn khác
+
+                    // --- Lấy thông tin user_currency ---
+                    string currencyQuery = @"
+                    SELECT c.image, c.name, uc.currency_id, uc.quantity 
+                    FROM user_currency uc
+                    JOIN currency c ON uc.currency_id = c.id
+                    WHERE uc.user_id = @userId";
+
+                    using (var currencyCommand = new MySqlCommand(currencyQuery, connection))
                     {
-                        Id = currencyId,
-                        Name = name,
-                        Image = image,
-                        Quantity = quantity
-                    });
-                }
-                currencyReader.Close();
+                        currencyCommand.Parameters.AddWithValue("@userId", userId);
 
-                User user = new User
-                {
-                    Id = userId,
-                    Name = Name,
-                    Username = username,
-                    Password = password,
-                    Level = Level,
-                    Vip = Vip,
-                    Experiment = Experiment,
-                    Power = Power,
-                    Image = "",
-                    Border = "",
-                    Currencies = currencies
-                };
-                // Debug.Log(user.name);
-                connection.Close();
-                return user;
-            }
-            else
-            {
-                connection.Close();
-                return null;
+                        using (var currencyReader = await currencyCommand.ExecuteReaderAsync())
+                        {
+                            var currencies = new List<Currencies>();
+                            while (await currencyReader.ReadAsync())
+                            {
+                                currencies.Add(new Currencies
+                                {
+                                    Id = currencyReader.GetString("currency_id"),
+                                    Name = currencyReader.GetString("name"),
+                                    Image = currencyReader.GetString("image"),
+                                    Quantity = currencyReader.GetDouble("quantity")
+                                });
+                            }
+
+                            // --- Tạo object user ---
+                            var user = new User
+                            {
+                                Id = userId,
+                                Name = name,
+                                Username = username,
+                                Password = password,
+                                Level = level,
+                                Vip = vip,
+                                Experiment = experiment,
+                                Power = power,
+                                Image = "",
+                                Border = "",
+                                Currencies = currencies
+                            };
+
+                            return user;
+                        }
+                    }
+                }
             }
         }
     }
-    public User GetUserById(string Id)
+    public async Task<User> GetUserByIdAsync(string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync(); // mở kết nối async
+
+            // --- Lấy thông tin user ---
             string userQuery = "SELECT * FROM Users WHERE id=@id";
-            MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
-            userCommand.Parameters.AddWithValue("@id", Id);
-            MySqlDataReader reader = userCommand.ExecuteReader();
-            if (reader.Read())
+            using (var userCommand = new MySqlCommand(userQuery, connection))
             {
-                string userId = reader.GetString("id");
-                string Name = reader.GetString("name");
-                string username = reader.GetString("username");
-                string password = reader.GetString("password");
-                int Level = reader.GetInt32("level");
-                int Vip = reader.GetInt32("vip");
-                // int Power = reader.GetInt32("power");
-                int Experiment = reader.GetInt32("experiment");
+                userCommand.Parameters.AddWithValue("@id", Id);
 
-                double Power = TeamsService.Create().GetTeamsPower(Id);
-                // Đóng `reader` trước khi thực hiện truy vấn tiếp theo
-                reader.Close();
-
-                // Lấy thông tin từ bảng `user_currency`
-                string currencyQuery = "SELECT c.image, c.name, uc.currency_id, uc.quantity FROM user_currency uc, currency c WHERE user_id = @userId and uc.currency_id=c.id";
-                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
-                currencyCommand.Parameters.AddWithValue("@userId", userId);
-
-                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
-
-                List<Currencies> currencies = new List<Currencies>();
-                while (currencyReader.Read())
+                using (var reader = await userCommand.ExecuteReaderAsync())
                 {
-                    string image = currencyReader.GetString("image");
-                    string name = currencyReader.GetString("name");
-                    string currencyId = currencyReader.GetString("currency_id");
-                    int quantity = currencyReader.GetInt32("quantity");
-                    currencies.Add(new Currencies
+                    if (!await reader.ReadAsync())
+                        return null; // không tìm thấy user
+
+                    string userId = reader.GetString("id");
+                    string Name = reader.GetString("name");
+                    string username = reader.GetString("username");
+                    string password = reader.GetString("password");
+                    int Level = reader.GetInt32("level");
+                    int Vip = reader.GetInt32("vip");
+                    int Experiment = reader.GetInt32("experiment");
+
+                    double Power = await TeamsService.Create().GetTeamsPowerAsync(Id);
+
+                    reader.Close(); // đóng reader trước khi truy vấn khác
+
+                    // --- Lấy thông tin user_currency ---
+                    string currencyQuery = @"SELECT c.image, c.name, uc.currency_id, uc.quantity 
+                                         FROM user_currency uc
+                                         JOIN currency c ON uc.currency_id = c.id
+                                         WHERE uc.user_id = @userId";
+
+                    using (var currencyCommand = new MySqlCommand(currencyQuery, connection))
                     {
-                        Id = currencyId,
-                        Name = name,
-                        Image = image,
-                        Quantity = quantity
-                    });
+                        currencyCommand.Parameters.AddWithValue("@userId", userId);
+
+                        using (var currencyReader = await currencyCommand.ExecuteReaderAsync())
+                        {
+                            var currencies = new List<Currencies>();
+                            while (await currencyReader.ReadAsync())
+                            {
+                                currencies.Add(new Currencies
+                                {
+                                    Id = currencyReader.GetString("currency_id"),
+                                    Name = currencyReader.GetString("name"),
+                                    Image = currencyReader.GetString("image"),
+                                    Quantity = currencyReader.GetInt32("quantity")
+                                });
+                            }
+
+                            // --- Tạo object user ---
+                            var user = new User
+                            {
+                                Id = userId,
+                                Name = Name,
+                                Username = username,
+                                Password = password,
+                                Level = Level,
+                                Vip = Vip,
+                                Experiment = Experiment,
+                                Power = Power,
+                                Image = "",
+                                Border = "",
+                                Currencies = currencies
+                            };
+
+                            return user;
+                        }
+                    }
                 }
-                currencyReader.Close();
-
-                User user = new User
-                {
-                    Id = userId,
-                    Name = Name,
-                    Username = username,
-                    Password = password,
-                    Level = Level,
-                    Vip = Vip,
-                    Experiment = Experiment,
-                    Power = Power,
-                    Image = "",
-                    Border = "",
-                    Currencies = currencies
-                };
-                connection.Close();
-                return user;
-            }
-            else
-            {
-                connection.Close();
-                return null; // Đăng nhập thất bại
             }
         }
     }
-    public void UpdateUserName(string user_id, string new_name)
+    public async Task UpdateUserNameAsync(string user_id, string new_name)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync(); // mở kết nối async
+
             string updateQuery = "UPDATE Users SET name = @name WHERE id = @id";
-            MySqlCommand command = new MySqlCommand(updateQuery, connection);
-            command.Parameters.AddWithValue("@name", new_name);
-            command.Parameters.AddWithValue("@id", user_id);
-
-            command.ExecuteNonQuery();
-            // namePanel.SetActive(false);
-            AuthenticationManager.Instance.DeleteCreateNamePanel();
-            connection.Close();
-        }
-    }
-    public void UpdateUserPower(string user_id, double power)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            connection.Open();
-            string updateQuery = "UPDATE Users SET power = @power WHERE id = @id";
-            MySqlCommand command = new MySqlCommand(updateQuery, connection);
-            command.Parameters.AddWithValue("@power", power);
-            command.Parameters.AddWithValue("@id", user_id);
-
-            command.ExecuteNonQuery();
-            connection.Close();
-        }
-    }
-    public void createUserCurrency(string Id)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            connection.Open();
-            for (int currencyId = 1; currencyId <= 73; currencyId++) // Vòng lặp từ 1 đến 71
+            using (var command = new MySqlCommand(updateQuery, connection))
             {
-                string updateQuery = "INSERT INTO user_currency (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
-                MySqlCommand command = new MySqlCommand(updateQuery, connection);
-                command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@currency_id", currencyId);
-                command.Parameters.AddWithValue("@quantity", 1000000000);
+                command.Parameters.AddWithValue("@name", new_name);
+                command.Parameters.AddWithValue("@id", user_id);
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync(); // chạy query async
             }
-            connection.Close();
         }
+
+        // Thao tác UI / logic sau khi update
+        AuthenticationManager.Instance.DeleteCreateNamePanel();
     }
-    public bool CheckNameExists(string name)
+    public async Task UpdateUserPowerAsync(string user_id, double power)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync(); // mở kết nối async
+
+            string updateQuery = "UPDATE Users SET power = @power WHERE id = @id";
+            using (var command = new MySqlCommand(updateQuery, connection))
+            {
+                command.Parameters.AddWithValue("@power", power);
+                command.Parameters.AddWithValue("@id", user_id);
+
+                await command.ExecuteNonQueryAsync(); // chạy query async
+            }
+        }
+    }
+    public async Task CreateUserCurrencyAsync(string Id)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync(); // mở connection async
+
+            for (int currencyId = 1; currencyId <= 73; currencyId++)
+            {
+                string insertQuery = "INSERT INTO user_currency (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
+                using (var command = new MySqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@id", Id);
+                    command.Parameters.AddWithValue("@currency_id", currencyId);
+                    command.Parameters.AddWithValue("@quantity", 1000000000);
+
+                    await command.ExecuteNonQueryAsync(); // insert async
+                }
+            }
+        }
+    }
+    public async Task<bool> CheckNameExistsAsync(string name)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync(); // mở connection async
 
             string query = "SELECT COUNT(*) FROM users WHERE name = @name";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@name", name);
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@name", name);
 
-            int count = Convert.ToInt32(command.ExecuteScalar());
+                object result = await command.ExecuteScalarAsync(); // chạy query async
+                int count = Convert.ToInt32(result);
 
-            connection.Close();
-
-            return count > 0; // Nếu > 0 nghĩa là tồn tại Name
+                return count > 0; // Nếu > 0 nghĩa là tồn tại Name
+            }
         }
     }
-
 }

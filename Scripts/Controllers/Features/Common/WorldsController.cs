@@ -58,27 +58,36 @@ public class WorldsController : MonoBehaviour
     }
     public void CreateWorlds(List<Worlds> Worlds, Transform contentPanel)
     {
-        foreach (var World in Worlds)
+        foreach (var world in Worlds)
         {
             GameObject WorldObject = Instantiate(WorldButtonPrefab, contentPanel);
 
             TextMeshProUGUI Title = WorldObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = World.Name.Replace("_", " ");
+            Title.text = world.Name.Replace("_", " ");
 
             RawImage Image = WorldObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(World.Image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(world.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
+
+            if (world.Status.Equals("block"))
+            {
+                Image.color = Color.gray;
+            }
+            else
+            {
+                Image.color = Color.white;
+            }
 
             Button button = WorldObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(World, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(world, MainPanel);
             });
 
             RawImage rareImage = WorldObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{World.Rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{world.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

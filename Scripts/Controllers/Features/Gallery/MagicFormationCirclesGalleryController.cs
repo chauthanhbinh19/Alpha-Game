@@ -33,11 +33,11 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform DictionaryContentPanel)
+    public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
-            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = magicFormationCircle.Name.Replace("_", " ");
@@ -80,7 +80,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 Unlock.gameObject.SetActive(false);
             }
 
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var magicFormationCircleGallery = MagicFormationCircleGalleryService.Create();
@@ -93,7 +93,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -115,11 +115,11 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 MagicFormationCircleGalleryService.Create().UpdateMagicFormationCircleGalleryPower(magicFormationCircle.Id);
             });
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

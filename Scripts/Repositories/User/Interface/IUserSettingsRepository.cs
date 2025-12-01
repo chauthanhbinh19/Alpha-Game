@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserSettingsRepository
 {
-    List<UserSettings> GetUserSettings(string userId);
-    void InsertUserSettings(string userId, UserSettings userSetting);
-    void UpdateUserSettings(string userId, UserSettings userSetting);
+    Task<List<UserSettings>> GetUserSettingsAsync(string userId);
+    Task InsertUserSettingsAsync(string userId, UserSettings userSetting);
+    Task UpdateUserSettingsAsync(string userId, UserSettings userSetting);
 }

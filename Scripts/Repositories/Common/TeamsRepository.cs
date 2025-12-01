@@ -2,69 +2,84 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using MySqlConnector;
+using System.Threading.Tasks;
 public class TeamsRepository : ITeamsRepository
-{ 
-    public List<Teams> GetUserTeams(string user_id)
+{
+    public async Task<List<Teams>> GetUserTeamsAsync(string user_id)
     {
-        List<Teams> teams = new List<Teams>();
+        var teams = new List<Teams>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
-            string userQuery = "SELECT * FROM Teams WHERE user_id=@user_id order by team_number asc";
-            MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
-            userCommand.Parameters.AddWithValue("@user_id", user_id);
-            MySqlDataReader reader = userCommand.ExecuteReader();
-            while (reader.Read())
+            await connection.OpenAsync(); // mở connection async
+
+            string userQuery = "SELECT * FROM Teams WHERE user_id=@user_id ORDER BY team_number ASC";
+            using (var userCommand = new MySqlCommand(userQuery, connection))
             {
-                teams.Add(new Teams
+                userCommand.Parameters.AddWithValue("@user_id", user_id);
+
+                using (var reader = await userCommand.ExecuteReaderAsync())
                 {
-                    UserId = reader.GetString("user_id"),
-                    TeamId = reader.GetString("team_id"),
-                    TeamNumber = reader.GetInt32("team_number"),
-                    TeamAvatar = reader.GetString("team_avatar"),
-                    TeamBorder = reader.GetString("team_border"),
-                });
+                    while (await reader.ReadAsync())
+                    {
+                        teams.Add(new Teams
+                        {
+                            UserId = reader.GetString("user_id"),
+                            TeamId = reader.GetString("team_id"),
+                            TeamNumber = reader.GetInt32("team_number"),
+                            TeamAvatar = reader.GetString("team_avatar"),
+                            TeamBorder = reader.GetString("team_border"),
+                        });
+                    }
+                }
             }
-            connection.Close();
         }
+
         return teams;
     }
-    public bool InsertUserTeams(string user_id, int team_number = 1)
+    public async Task<bool> InsertUserTeamsAsync(string user_id, int team_number = 1)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
-            // int id = GetMaxTeamId(connection) + 1;
-            string userQuery = @"INSERT INTO TEAMS (user_id, team_id, team_number, team_avatar, team_border) 
+            await connection.OpenAsync(); // mở connection async
+
+            string userQuery = @"
+            INSERT INTO TEAMS (user_id, team_id, team_number, team_avatar, team_border) 
             VALUES (@user_id, @team_id, @team_number, @team_avatar, @team_border)";
-            MySqlCommand userCommand = new MySqlCommand(userQuery, connection);
-            userCommand.Parameters.AddWithValue("@user_id", user_id);
-            userCommand.Parameters.AddWithValue("@team_id", Guid.NewGuid().ToString());
-            userCommand.Parameters.AddWithValue("@team_number", team_number);
-            userCommand.Parameters.AddWithValue("@team_avatar", "Team/Avatar/Team_Avatar_1");
-            userCommand.Parameters.AddWithValue("@team_border", "Team/Border/Team_Border_1");
-            userCommand.ExecuteNonQuery();
-            connection.Close();
+
+            using (var userCommand = new MySqlCommand(userQuery, connection))
+            {
+                userCommand.Parameters.AddWithValue("@user_id", user_id);
+                userCommand.Parameters.AddWithValue("@team_id", Guid.NewGuid().ToString());
+                userCommand.Parameters.AddWithValue("@team_number", team_number);
+                userCommand.Parameters.AddWithValue("@team_avatar", "Team/Avatar/Team_Avatar_1");
+                userCommand.Parameters.AddWithValue("@team_border", "Team/Border/Team_Border_1");
+
+                await userCommand.ExecuteNonQueryAsync(); // chạy async
+            }
         }
+
         return true;
     }
-    public int GetMaxTeamId(MySqlConnection connection)
+    public async Task<int> GetMaxTeamIdAsync(MySqlConnection connection)
     {
-        string query = "SELECT MAX(team_id) FROM teams where user_id=@user_id";
-        MySqlCommand command = new MySqlCommand(query, connection);
-        command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-        object result = command.ExecuteScalar();
-
-        connection.Close();
-        if (result != DBNull.Value)
+        string query = "SELECT MAX(team_id) FROM teams WHERE user_id = @user_id";
+        using (var command = new MySqlCommand(query, connection))
         {
-            return Convert.ToInt32(result);
+            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+
+            object result = await command.ExecuteScalarAsync(); // async call
+
+            if (result != DBNull.Value && result != null)
+            {
+                return Convert.ToInt32(result);
+            }
+            return 0; // nếu bảng rỗng
         }
-        return 0; // Nếu bảng rỗng, trả về 0
     }
     public double GetTeamsPower(string user_id)
     {

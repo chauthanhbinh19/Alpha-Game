@@ -43,11 +43,11 @@ public class UserSpiritCardsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserSpiritCard(List<SpiritCards> SpiritCardList, Transform DictionaryContentPanel)
+    public void CreateUserSpiritCard(List<SpiritCards> SpiritCardList, Transform contentPanel)
     {
         foreach (var title in SpiritCardList)
         {
-            GameObject titleObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -75,13 +75,13 @@ public class UserSpiritCardsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 400);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowSpiritCardDetails(SpiritCards SpiritCard, GameObject currentObject, int buttonType = 1)
     {
@@ -182,7 +182,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 SpiritCards currentCard = new SpiritCards();
@@ -199,7 +199,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
                     newCard = UserSpiritCardService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserSpiritCardService.Create().UpdateSpiritCardLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -210,7 +210,7 @@ public class UserSpiritCardsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 SpiritCards currentCard = UserSpiritCardService.Create().GetUserSpiritCardById(User.CurrentUserId, title.Id);
@@ -231,7 +231,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
                     SpiritCards newCard = UserSpiritCardService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserSpiritCardService.Create().UpdateSpiritCardLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -292,7 +292,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(spiritBeast.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = spiritBeast.Star + 1;
@@ -347,7 +347,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
                     newTitle = UserSpiritCardService.Create().GetNewBreakthroughPower(spiritBeast, increasePerUpgrade);
                     UserSpiritCardService.Create().UpdateSpiritCardBreakthrough(newTitle, spiritBeast.Star + 1, spiritBeast.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

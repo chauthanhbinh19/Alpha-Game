@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using System.Threading.Tasks;
 
 public class TeamsManager : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class TeamsManager : MonoBehaviour
     private GameObject TeamsPositionPrefab;
     private GameObject TeamTypePrefab;
     private GameObject TeamSlotPrefab;
-    private GameObject buttonPrefab3;
+    private GameObject RareButtonPrefab;
     private GameObject PositionPrefab;
     private Button CloseButton;
     private Button HomeButton;
@@ -78,7 +79,7 @@ public class TeamsManager : MonoBehaviour
         TeamsPositionPrefab = UIManager.Instance.GetGameObject("TeamsPositionPrefab");
         TeamTypePrefab = UIManager.Instance.GetGameObject("TeamTypePrefab");
         TeamSlotPrefab = UIManager.Instance.GetGameObject("TeamSlotPrefab");
-        buttonPrefab3 = UIManager.Instance.GetGameObject("TabButton3");
+        RareButtonPrefab = UIManager.Instance.GetGeneralButton("RareButtonPrefab");
         PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
 
@@ -93,7 +94,7 @@ public class TeamsManager : MonoBehaviour
         teamsService = TeamsService.Create();
         rare = "All";
     }
-    public void CreateTeams()
+    public async Task CreateTeamsAsync()
     {
         GameObject teamsObject = Instantiate(TeamsPanelPrefab, MainPanel);
         Transform tempLeftContent = teamsObject.transform.Find("ScrollViewLeft/Viewport/Content");
@@ -118,12 +119,12 @@ public class TeamsManager : MonoBehaviour
 
         mainType = AppConstants.MainType.CARD_HERO;
         teamsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM);
-        CreateTeamsPosition(positionTeamsPanel);
+        await CreateTeamsPositionAsync(positionTeamsPanel);
     }
-    public void CreateTeamsPosition(Transform positionTeamsPanel)
+    public async Task CreateTeamsPositionAsync(Transform positionTeamsPanel)
     {
         Close(positionTeamsPanel);
-        var userTeams = TeamsService.Create().GetUserTeams(User.CurrentUserId);
+        var userTeams = await TeamsService.Create().GetUserTeamsAsync(User.CurrentUserId);
         foreach (var team in userTeams)
         {
             GameObject cardTeam = Instantiate(TeamsPositionPrefab, positionTeamsPanel);
@@ -273,11 +274,11 @@ public class TeamsManager : MonoBehaviour
         Transform tempLeftContent = teamsObject.transform.Find("ScrollViewLeft/Viewport/Content");
         Transform tempRightContent = teamsObject.transform.Find("ScrollViewRight/Viewport/Content");
         CloseButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        CloseButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(teamsObject);
-            CreateTeams();
+            await CreateTeamsAsync();
         });
         HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
@@ -481,7 +482,7 @@ public class TeamsManager : MonoBehaviour
     public void CreateButton(int index, string itemName, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(buttonPrefab3, panel);
+        GameObject newButton = Instantiate(RareButtonPrefab, panel);
         newButton.name = "Button_" + index;
 
         // Gán tên cho itemName
@@ -894,12 +895,12 @@ public class TeamsManager : MonoBehaviour
                     buttonText.text = "Front";
                 }
 
-                leaveButton.onClick.AddListener(() =>
+                leaveButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardHeroesService.UpdateTeamCardHeroes(null, null, matchingCardHero.Id);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardHero.Power, 0);
@@ -978,12 +979,12 @@ public class TeamsManager : MonoBehaviour
                     buttonText.text = "Front";
                 }
 
-                leaveButton.onClick.AddListener(() =>
+                leaveButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardCaptainsService.UpdateTeamCardCaptains(null, null, matchingCardCaptain.Id);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardCaptain.Power, 0);
@@ -1062,12 +1063,12 @@ public class TeamsManager : MonoBehaviour
                     buttonText.text = "Front";
                 }
 
-                leaveButton.onClick.AddListener(() =>
+                leaveButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardColonelsService.UpdateTeamCardColonels(null, null, matchingCardColonel.Id);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardColonel.Power, 0);
@@ -1146,12 +1147,12 @@ public class TeamsManager : MonoBehaviour
                     buttonText.text = "Front";
                 }
 
-                leaveButton.onClick.AddListener(() =>
+                leaveButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardGeneralsService.UpdateTeamCardGenerals(null, null, matchingCardGeneral.Id);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardGeneral.Power, 0);
@@ -1230,12 +1231,12 @@ public class TeamsManager : MonoBehaviour
                     buttonText.text = "Front";
                 }
 
-                leaveButton.onClick.AddListener(() =>
+                leaveButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, matchingCardAdmiral.Id);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardAdmiral.Power, 0);
@@ -1314,12 +1315,12 @@ public class TeamsManager : MonoBehaviour
                     buttonText.text = "Front";
                 }
 
-                leaveButton.onClick.AddListener(() =>
+                leaveButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardMonstersService.UpdateTeamCardMonsters(null, null, matchingCardMonster.Id);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardMonster.Power, 0);
@@ -1398,12 +1399,12 @@ public class TeamsManager : MonoBehaviour
                     buttonText.text = "Front";
                 }
 
-                leaveButton.onClick.AddListener(() =>
+                leaveButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardMilitaryService.UpdateTeamCardMilitary(null, null, matchingCardMilitary.Id);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardMilitary.Power, 0);
@@ -1482,12 +1483,12 @@ public class TeamsManager : MonoBehaviour
                     buttonText.text = "Front";
                 }
 
-                leaveButton.onClick.AddListener(() =>
+                leaveButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     image.texture = null;
                     userCardSpellService.UpdateTeamCardSpell(null, null, matchingCardSpell.Id);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, matchingCardSpell.Power, 0);
@@ -1950,32 +1951,32 @@ public class TeamsManager : MonoBehaviour
             dragHandler.team_id = newTeamId;
         }
     }
-    public void InsertCardToTeam(object obj, string position_id, string card_id, string team_id, double card_power)
+    public async Task InsertCardToTeamAsync(object obj, string position_id, string card_id, string team_id, double card_power)
     {
         string position = "F" + position_id;
         double currentPower = User.CurrentUserPower;
-        if (obj is CardHeroes cardHeroes)
+        if (obj is CardHeroes cardHero)
         {
             if (!string.IsNullOrEmpty(card_id))
             {
                 userCardHeroesService.UpdateTeamCardHeroes(null, null, card_id);
-                userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHeroes.Id);
-                if (cardHeroes.Power >= card_power)
+                userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHero.Id);
+                if (cardHero.Power >= card_power)
                 {
-                    double diffPower = cardHeroes.Power - card_power;
+                    double diffPower = cardHero.Power - card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
-                    double diffPower = card_power - cardHeroes.Power;
+                    double diffPower = card_power - cardHero.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -1983,36 +1984,36 @@ public class TeamsManager : MonoBehaviour
             }
             else
             {
-                userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHeroes.Id);
-                double updatedPower = currentPower + cardHeroes.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                userCardHeroesService.UpdateTeamCardHeroes(team_id, position, cardHero.Id);
+                double updatedPower = currentPower + cardHero.Power;
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardHeroes.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardHero.Power, 1);
             }
         }
-        else if (obj is CardCaptains cardCaptains)
+        else if (obj is CardCaptains cardCaptain)
         {
             if (!string.IsNullOrEmpty(card_id))
             {
                 userCardCaptainsService.UpdateTeamCardCaptains(null, null, card_id);
-                userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptains.Id);
-                if (cardCaptains.Power >= card_power)
+                userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptain.Id);
+                if (cardCaptain.Power >= card_power)
                 {
-                    double diffPower = cardCaptains.Power - card_power;
+                    double diffPower = cardCaptain.Power - card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
-                    double diffPower = card_power - cardCaptains.Power;
+                    double diffPower = card_power - cardCaptain.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -2020,36 +2021,36 @@ public class TeamsManager : MonoBehaviour
             }
             else
             {
-                userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptains.Id);
-                double updatedPower = currentPower + cardCaptains.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                userCardCaptainsService.UpdateTeamCardCaptains(team_id, position, cardCaptain.Id);
+                double updatedPower = currentPower + cardCaptain.Power;
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardCaptains.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardCaptain.Power, 1);
             }
         }
-        else if (obj is CardColonels cardColonels)
+        else if (obj is CardColonels CardColonel)
         {
             if (!string.IsNullOrEmpty(card_id))
             {
                 userCardColonelsService.UpdateTeamCardColonels(null, null, card_id);
-                userCardColonelsService.UpdateTeamCardColonels(team_id, position, cardColonels.Id);
-                if (cardColonels.Power >= card_power)
+                userCardColonelsService.UpdateTeamCardColonels(team_id, position, CardColonel.Id);
+                if (CardColonel.Power >= card_power)
                 {
-                    double diffPower = cardColonels.Power - card_power;
+                    double diffPower = CardColonel.Power - card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
-                    double diffPower = card_power - cardColonels.Power;
+                    double diffPower = card_power - CardColonel.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -2057,36 +2058,36 @@ public class TeamsManager : MonoBehaviour
             }
             else
             {
-                userCardColonelsService.UpdateTeamCardColonels(team_id, position, cardColonels.Id);
-                double updatedPower = currentPower + cardColonels.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                userCardColonelsService.UpdateTeamCardColonels(team_id, position, CardColonel.Id);
+                double updatedPower = currentPower + CardColonel.Power;
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardColonels.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, CardColonel.Power, 1);
             }
         }
-        else if (obj is CardGenerals cardGenerals)
+        else if (obj is CardGenerals cardGeneral)
         {
             if (!string.IsNullOrEmpty(card_id))
             {
                 userCardGeneralsService.UpdateTeamCardGenerals(null, null, card_id);
-                userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGenerals.Id);
-                if (cardGenerals.Power >= card_power)
+                userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGeneral.Id);
+                if (cardGeneral.Power >= card_power)
                 {
-                    double diffPower = cardGenerals.Power - card_power;
+                    double diffPower = cardGeneral.Power - card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
-                    double diffPower = card_power - cardGenerals.Power;
+                    double diffPower = card_power - cardGeneral.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -2094,36 +2095,36 @@ public class TeamsManager : MonoBehaviour
             }
             else
             {
-                userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGenerals.Id);
-                double updatedPower = currentPower + cardGenerals.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                userCardGeneralsService.UpdateTeamCardGenerals(team_id, position, cardGeneral.Id);
+                double updatedPower = currentPower + cardGeneral.Power;
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardGenerals.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardGeneral.Power, 1);
             }
         }
-        else if (obj is CardAdmirals cardAdmirals)
+        else if (obj is CardAdmirals cardAdmiral)
         {
             if (!string.IsNullOrEmpty(card_id))
             {
                 userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, card_id);
-                userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmirals.Id);
-                if (cardAdmirals.Power >= card_power)
+                userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmiral.Id);
+                if (cardAdmiral.Power >= card_power)
                 {
-                    double diffPower = cardAdmirals.Power - card_power;
+                    double diffPower = cardAdmiral.Power - card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
-                    double diffPower = card_power - cardAdmirals.Power;
+                    double diffPower = card_power - cardAdmiral.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -2131,36 +2132,36 @@ public class TeamsManager : MonoBehaviour
             }
             else
             {
-                userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmirals.Id);
-                double updatedPower = currentPower + cardAdmirals.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                userCardAdmiralsService.UpdateTeamCardAdmirals(team_id, position, cardAdmiral.Id);
+                double updatedPower = currentPower + cardAdmiral.Power;
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardAdmirals.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardAdmiral.Power, 1);
             }
         }
-        else if (obj is CardMonsters cardMonsters)
+        else if (obj is CardMonsters cardMonster)
         {
             if (!string.IsNullOrEmpty(card_id))
             {
                 userCardMonstersService.UpdateTeamCardMonsters(null, null, card_id);
-                userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonsters.Id);
-                if (cardMonsters.Power >= card_power)
+                userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonster.Id);
+                if (cardMonster.Power >= card_power)
                 {
-                    double diffPower = cardMonsters.Power - card_power;
+                    double diffPower = cardMonster.Power - card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
                 }
                 else
                 {
-                    double diffPower = card_power - cardMonsters.Power;
+                    double diffPower = card_power - cardMonster.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -2168,12 +2169,12 @@ public class TeamsManager : MonoBehaviour
             }
             else
             {
-                userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonsters.Id);
-                double updatedPower = currentPower + cardMonsters.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                userCardMonstersService.UpdateTeamCardMonsters(team_id, position, cardMonster.Id);
+                double updatedPower = currentPower + cardMonster.Power;
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardMonsters.Power, 1);
+                FindObjectOfType<PowerController>().ShowPower(currentPower, cardMonster.Power, 1);
             }
         }
         else if (obj is CardMilitaries cardMilitary)
@@ -2187,7 +2188,7 @@ public class TeamsManager : MonoBehaviour
                     double diffPower = cardMilitary.Power - card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -2197,7 +2198,7 @@ public class TeamsManager : MonoBehaviour
                     double diffPower = card_power - cardMilitary.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -2207,7 +2208,7 @@ public class TeamsManager : MonoBehaviour
             {
                 userCardMilitaryService.UpdateTeamCardMilitary(team_id, position, cardMilitary.Id);
                 double updatedPower = currentPower + cardMilitary.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardMilitary.Power, 1);
@@ -2224,7 +2225,7 @@ public class TeamsManager : MonoBehaviour
                     double diffPower = cardSpell.Power - card_power;
                     double updatedPower = currentPower + diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
@@ -2234,7 +2235,7 @@ public class TeamsManager : MonoBehaviour
                     double diffPower = card_power - cardSpell.Power;
                     double updatedPower = currentPower - diffPower;
 
-                    UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
 
                     FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
@@ -2244,7 +2245,7 @@ public class TeamsManager : MonoBehaviour
             {
                 userCardSpellService.UpdateTeamCardSpell(team_id, position, cardSpell.Id);
                 double updatedPower = currentPower + cardSpell.Power;
-                UserService.Create().UpdateUserPower(User.CurrentUserId, updatedPower);
+                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                 User.CurrentUserPower = updatedPower;
 
                 FindObjectOfType<PowerController>().ShowPower(currentPower, cardSpell.Power, 1);

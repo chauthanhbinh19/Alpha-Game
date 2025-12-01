@@ -170,7 +170,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         SetMaterialUI(currentObject, mainType, item, silver.Quantity, animeStats.Level);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -184,7 +184,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 UpLevel(newanimeStats, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -192,7 +192,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 CreateAnimeStats();
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             
@@ -206,7 +206,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 UpLevel(newanimeStats, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

@@ -125,7 +125,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -197,14 +197,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(cardHeroes, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardHeroesEquipments(cardHeroes);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -267,7 +267,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(cardHeroes, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -284,7 +284,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -356,14 +356,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(books, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateBooksEquipments(books);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -426,7 +426,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(books, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -443,7 +443,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -515,14 +515,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(cardCaptains, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardCaptainsEquipments(cardCaptains);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -585,7 +585,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(cardCaptains, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -602,7 +602,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -674,14 +674,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(pets, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreatePetsEquipments(pets);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -744,7 +744,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(pets, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -761,7 +761,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -833,14 +833,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(cardMilitary, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMilitaryEquipments(cardMilitary);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -903,7 +903,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(cardMilitary, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -920,7 +920,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -992,14 +992,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(cardSpell, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardSpellEquipments(cardSpell);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1062,7 +1062,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(cardSpell, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1079,7 +1079,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1151,14 +1151,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(cardMonsters, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardMonstersEquipments(cardMonsters);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1222,7 +1222,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             
 
             UpLevel(cardMonsters, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1239,7 +1239,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1311,14 +1311,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(cardColonels, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardColonelsEquipments(cardColonels);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1381,7 +1381,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(cardColonels, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1398,7 +1398,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1470,14 +1470,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(cardGenerals, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardGeneralsEquipments(cardGenerals);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1540,7 +1540,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(cardGenerals, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1557,7 +1557,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         CreateMaterialUI();
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1629,14 +1629,14 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             UpLevel(cardAdmirals, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             CreateCardAdmiralsEquipments(cardAdmirals);
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (rank.Level >= 100000)
@@ -1699,7 +1699,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             UpLevel(cardAdmirals, newRank, mainType);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

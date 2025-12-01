@@ -157,7 +157,7 @@ public class ReactorNumber11Manager : MonoBehaviour
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
 
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             double materialRequired = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(scienceFiction.Level);
 
@@ -179,7 +179,7 @@ public class ReactorNumber11Manager : MonoBehaviour
 
                 // rankService.UpLevel(cardHeroes, newRank, mainType);
                 ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_10);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -188,7 +188,7 @@ public class ReactorNumber11Manager : MonoBehaviour
                 CreateReactorPanel();
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             double totalMaterialRequired = EvaluateItem.CalculateTotalMaterialRequiredForMaxUpgrade(scienceFiction.Level, maxLevel, items);
 
@@ -233,7 +233,7 @@ public class ReactorNumber11Manager : MonoBehaviour
             ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, upgradeAmount, 10);
 
             ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_10);
-            double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

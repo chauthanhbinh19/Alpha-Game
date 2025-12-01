@@ -43,11 +43,11 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserMagicFormationCircle(List<MagicFormationCircles> magicFormationCircles, Transform DictionaryContentPanel)
+    public void CreateUserMagicFormationCircle(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
-            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject magicFormationCircleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = magicFormationCircleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = magicFormationCircle.Name.Replace("_", " ");
@@ -72,12 +72,12 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 250);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowMagicFormationCircleDetails(MagicFormationCircles magicFormationCircle, GameObject currentObject, int buttonType = 1)
     {
@@ -178,7 +178,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MagicFormationCircles currentCard = new MagicFormationCircles();
@@ -195,7 +195,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
 
                     newCard = UserMagicFormationCircleService.Create().GetNewLevelPower(magicFormationCircle, increasePerLevel);
                     UserMagicFormationCircleService.Create().UpdateMagicFormationCircleLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -206,7 +206,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MagicFormationCircles currentCard = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleById(User.CurrentUserId, magicFormationCircle.Id);
@@ -227,7 +227,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
 
                     MagicFormationCircles newCard = UserMagicFormationCircleService.Create().GetNewLevelPower(magicFormationCircle, levelsGained * increasePerLevel);
                     UserMagicFormationCircleService.Create().UpdateMagicFormationCircleLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -288,7 +288,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(magicFormationCircle.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = magicFormationCircle.Star + 1;
@@ -343,7 +343,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
 
                     newMagicFormationCircle = UserMagicFormationCircleService.Create().GetNewBreakthroughPower(magicFormationCircle, increasePerUpgrade);
                     UserMagicFormationCircleService.Create().UpdateMagicFormationCircleBreakthrough(newMagicFormationCircle, magicFormationCircle.Star + 1, magicFormationCircle.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

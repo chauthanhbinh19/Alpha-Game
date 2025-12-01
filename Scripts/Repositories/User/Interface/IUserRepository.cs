@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserRepository
 {
-    User GetUserByUsername(string username);
-    string RegisterUser(string username, string password);
-    User SignInWithUsernameAndPassword(string username, string password);
-    User SignInWithoutUsernameAndPassword(string userId);
-    User GetUserById(string Id);
-    void UpdateUserName(string user_id, string new_name);
-    void UpdateUserPower(string user_id, double power);
-    void createUserCurrency(string id);
-    bool CheckNameExists(string name);
+    Task<User> GetUserByUsernameAsync(string username);
+    Task<string> RegisterUserAsync(string username, string password);
+    Task<User> SignInWithUsernameAndPasswordAsync(string username, string password);
+    Task<User> SignInWithoutUsernameAndPasswordAsync(string userId);
+    Task<User> GetUserByIdAsync(string Id);
+    Task UpdateUserNameAsync(string user_id, string new_name);
+    Task UpdateUserPowerAsync(string user_id, double power);
+    Task CreateUserCurrencyAsync(string Id);
+    Task<bool> CheckNameExistsAsync(string name);
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class UserSettingsService : IUserSettingsService
@@ -16,25 +17,25 @@ public class UserSettingsService : IUserSettingsService
         return new UserSettingsService(new UserSettingsRepository());
     }
 
-    public List<UserSettings> GetUserSettings(string userId)
+    public async Task<List<UserSettings>> GetUserSettingsAsync(string userId)
     {
-        return _userSettingsRepository.GetUserSettings(userId);
+        return await _userSettingsRepository.GetUserSettingsAsync(userId);
     }
 
-    public void InsertUserSettings(string userId, UserSettings userSetting)
+    public async Task InsertUserSettingsAsync(string userId, UserSettings userSetting)
     {
-        _userSettingsRepository.InsertUserSettings(userId, userSetting);
+        await _userSettingsRepository.InsertUserSettingsAsync(userId, userSetting);
     }
 
-    public void UpdateUserSettings(string userId, UserSettings userSetting)
+    public async Task UpdateUserSettingsAsync(string userId, UserSettings userSetting)
     {
-        _userSettingsRepository.UpdateUserSettings(userId, userSetting);
+        await _userSettingsRepository.UpdateUserSettingsAsync(userId, userSetting);
     }
 
-    public void CreateInitiateUserSettings(string userId)
+    public async Task CreateInitiateUserSettingsAsync(string userId)
     {
         //Sound - Music setting
-        InsertUserSettings(userId, new UserSettings
+        await InsertUserSettingsAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.MUSIC,
             SettingValue = "100",
@@ -42,7 +43,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Sound - SFX setting
-        InsertUserSettings(userId, new UserSettings
+        await InsertUserSettingsAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.SFX,
             SettingValue = "100",
@@ -50,7 +51,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Sound - Voice setting
-        InsertUserSettings(userId, new UserSettings
+        await InsertUserSettingsAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.VOICE,
             SettingValue = "100",
@@ -58,7 +59,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Graphic - Resolution setting
-        InsertUserSettings(userId, new UserSettings
+        await InsertUserSettingsAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.RESOLUTION,
             SettingValue = "High",
@@ -66,7 +67,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Graphic - Texture setting
-        InsertUserSettings(userId, new UserSettings
+        await InsertUserSettingsAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.TEXTURE,
             SettingValue = "High",
@@ -74,7 +75,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Graphic - Damage Flytext setting
-        InsertUserSettings(userId, new UserSettings
+        await InsertUserSettingsAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.DAMAGE_FLYTEXT,
             SettingValue = "On",
@@ -82,7 +83,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Graphic - In-game cinematic setting
-        InsertUserSettings(userId, new UserSettings
+        await InsertUserSettingsAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.IN_GAME_CINEMATIC,
             SettingValue = "On",
@@ -90,10 +91,10 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Language - language setting
-        InsertUserSettings(userId, new UserSettings
+        await InsertUserSettingsAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.LANGUAGE,
-            SettingValue = "vi",
+            SettingValue = "en",
             ValueType = "string" 
         });
     }

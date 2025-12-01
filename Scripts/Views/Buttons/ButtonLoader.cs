@@ -9,7 +9,6 @@ public class ButtonLoader : MonoBehaviour
     private GameObject buttonPrefab; // Prefab của button
     private GameObject MainButtonPrefab;
     private GameObject TabButton4;
-    private GameObject TabButton3;
     private GameObject TabButton6;
     private GameObject AdvancedButtonFirst;
     private GameObject ArenaButtonPrefab;
@@ -46,7 +45,6 @@ public class ButtonLoader : MonoBehaviour
         buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
         MainButtonPrefab = UIManager.Instance.GetGameObject("MainButtonPrefab");
         TabButton4 = UIManager.Instance.GetGameObject("TabButton4");
-        TabButton3 = UIManager.Instance.GetGameObject("TabButton3");
         TabButton6 = UIManager.Instance.GetGameObject("TabButton6");
         AdvancedButtonFirst = UIManager.Instance.GetGameObject("AdvancedButtonFirst");
         ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");

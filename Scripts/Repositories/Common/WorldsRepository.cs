@@ -34,7 +34,7 @@ public class WorldsRepository : IWorldsRepository
             try
             {
                 connection.Open();
-                string query = @"SELECT w.*, CASE WHEN uw.world_id IS NULL THEN 'false' ELSE 'true' END AS status 
+                string query = @"SELECT w.*, CASE WHEN uw.world_id IS NULL THEN 'block' ELSE 'available' END AS status 
                 FROM worlds w LEFT JOIN user_worlds uw ON w.id = uw.world_id and uw.user_id = @userId 
                 ORDER BY w.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(w.name, '[0-9]+$') AS UNSIGNED), w.name";
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -49,6 +49,7 @@ public class WorldsRepository : IWorldsRepository
                         Image = reader.GetString("image"),
                         Rare = reader.GetString("rare"),
                         Quality = reader.GetInt32("quality"),
+                        Status = reader.GetString("status"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),

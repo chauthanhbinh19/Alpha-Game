@@ -43,11 +43,11 @@ public class UserMechaBeastsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserMechaBeasts(List<MechaBeasts> MechaBeastsList, Transform DictionaryContentPanel)
+    public void CreateUserMechaBeasts(List<MechaBeasts> MechaBeastsList, Transform contentPanel)
     {
         foreach (var title in MechaBeastsList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -90,13 +90,13 @@ public class UserMechaBeastsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowMechaBeastsDetails(MechaBeasts MechaBeasts, GameObject currentObject, int buttonType = 1)
     {
@@ -197,7 +197,7 @@ public class UserMechaBeastsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MechaBeasts currentCard = new MechaBeasts();
@@ -214,7 +214,7 @@ public class UserMechaBeastsController : MonoBehaviour
 
                     newCard = UserMechaBeastsService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserMechaBeastsService.Create().UpdateMechaBeastsLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -225,7 +225,7 @@ public class UserMechaBeastsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MechaBeasts currentCard = UserMechaBeastsService.Create().GetUserMechaBeastsById(User.CurrentUserId, title.Id);
@@ -246,7 +246,7 @@ public class UserMechaBeastsController : MonoBehaviour
 
                     MechaBeasts newCard = UserMechaBeastsService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserMechaBeastsService.Create().UpdateMechaBeastsLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -307,7 +307,7 @@ public class UserMechaBeastsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(title.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = title.Star + 1;
@@ -362,7 +362,7 @@ public class UserMechaBeastsController : MonoBehaviour
 
                     newTitle = UserMechaBeastsService.Create().GetNewBreakthroughPower(title, increasePerUpgrade);
                     UserMechaBeastsService.Create().UpdateMechaBeastsBreakthrough(newTitle, title.Star + 1, title.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

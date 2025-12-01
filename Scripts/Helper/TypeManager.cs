@@ -38,9 +38,6 @@ public static class TypeManager
         { AppConstants.MainType.SUMMON_CARD_ADMIRALS, () => new CardAdmiralsService(new CardAdmiralsRepository()).GetUniqueCardAdmiralsTypes() },
         { AppConstants.MainType.ITEM, () => new ItemsService(new ItemsRepository()).GetUniqueItemTypes() },
         { AppConstants.MainType.SPIRIT_CARD, () => new SpiritCardService(new SpiritCardRepository()).GetUniqueSpiritCardTypes() },
-        { AppConstants.MainType.CARDS, () => new CardsService(new CardsRepository()).GetUniqueCardId() },
-        { AppConstants.MainType.ARCHITECTURE, () => new ArchitecturesService(new ArchitecturesRepository()).GetUniqueArchitectureId() },
-        { AppConstants.MainType.TECHNOLOGY, () => new TechnologiesService(new TechnologiesRepository()).GetUniqueTechnologyId() },
         { AppConstants.MainType.VEHICLE, () => new VehiclesService(new VehiclesRepository()).GetUniqueVehicleTypes() },
     };
     public static List<string> GetUniqueTypes(string type)

@@ -35,18 +35,18 @@ public class PetsGalleryController : MonoBehaviour
         cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreatePetsGallery(List<Pets> petsList, Transform DictionaryContentPanel)
+    public void CreatePetsGallery(List<Pets> petsList, Transform contentPanel)
     {
         foreach (var pet in petsList)
         {
             GameObject petsObject;
             if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
             {
-                petsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+                petsObject = Instantiate(cardsPrefab, contentPanel);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
                 Background.gameObject.SetActive(true);
 
-                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(280, 280);
@@ -54,9 +54,9 @@ public class PetsGalleryController : MonoBehaviour
             }
             else
             {
-                petsObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+                petsObject = Instantiate(equipmentsPrefab, contentPanel);
 
-                GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
                 if (gridLayout != null)
                 {
                     gridLayout.cellSize = new Vector2(200, 230);
@@ -107,7 +107,7 @@ public class PetsGalleryController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
             rareImage.texture = rareTexture;
 
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var petGalleryService = PetsGalleryService.Create();
@@ -120,7 +120,7 @@ public class PetsGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -142,6 +142,6 @@ public class PetsGalleryController : MonoBehaviour
                 PetsGalleryService.Create().UpdatePetsGalleryPower(pet.Id);
             });
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

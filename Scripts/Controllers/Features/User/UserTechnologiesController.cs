@@ -43,11 +43,11 @@ public class UserTechnologiesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserTechnologies(List<Technologies> TechnologiesList, Transform DictionaryContentPanel)
+    public void CreateUserTechnologies(List<Technologies> TechnologiesList, Transform contentPanel)
     {
         foreach (var title in TechnologiesList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -90,13 +90,13 @@ public class UserTechnologiesController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowTechnologiesDetails(Technologies Technologies, GameObject currentObject, int buttonType = 1)
     {
@@ -197,7 +197,7 @@ public class UserTechnologiesController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Technologies currentCard = new Technologies();
@@ -214,7 +214,7 @@ public class UserTechnologiesController : MonoBehaviour
 
                     newCard = UserTechnologiesService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserTechnologiesService.Create().UpdateTechnologiesLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -225,7 +225,7 @@ public class UserTechnologiesController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Technologies currentCard = UserTechnologiesService.Create().GetUserTechnologiesById(User.CurrentUserId, title.Id);
@@ -246,7 +246,7 @@ public class UserTechnologiesController : MonoBehaviour
 
                     Technologies newCard = UserTechnologiesService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserTechnologiesService.Create().UpdateTechnologiesLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -307,7 +307,7 @@ public class UserTechnologiesController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(title.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = title.Star + 1;
@@ -362,7 +362,7 @@ public class UserTechnologiesController : MonoBehaviour
 
                     newTitle = UserTechnologiesService.Create().GetNewBreakthroughPower(title, increasePerUpgrade);
                     UserTechnologiesService.Create().UpdateTechnologiesBreakthrough(newTitle, title.Star + 1, title.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

@@ -138,7 +138,7 @@ public class UserEquipmentsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Equipments currentCard = new Equipments();
@@ -155,7 +155,7 @@ public class UserEquipmentsController : MonoBehaviour
 
                     newCard = UserEquipmentsService.Create().GetNewLevelPower(equipment, increasePerLevel);
                     UserEquipmentsService.Create().UpdateEquipmentsLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -166,7 +166,7 @@ public class UserEquipmentsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Equipments currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.Id);
@@ -187,7 +187,7 @@ public class UserEquipmentsController : MonoBehaviour
 
                     Equipments newCard = UserEquipmentsService.Create().GetNewLevelPower(equipment, levelsGained * increasePerLevel);
                     UserEquipmentsService.Create().UpdateEquipmentsLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -248,7 +248,7 @@ public class UserEquipmentsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(equipments.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = equipments.Star + 1;
@@ -303,7 +303,7 @@ public class UserEquipmentsController : MonoBehaviour
 
                     newEquipment = UserEquipmentsService.Create().GetNewBreakthroughPower(equipments, increasePerUpgrade);
                     UserEquipmentsService.Create().UpdateEquipmentsBreakthrough(newEquipment, equipments.Star + 1, equipments.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

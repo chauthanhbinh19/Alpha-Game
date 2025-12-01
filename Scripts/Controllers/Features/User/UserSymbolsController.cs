@@ -43,11 +43,11 @@ public class UserSymbolsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserSymbols(List<Symbols> symbolsList, Transform DictionaryContentPanel)
+    public void CreateUserSymbols(List<Symbols> symbolsList, Transform contentPanel)
     {
         foreach (var symbol in symbolsList)
         {
-            GameObject symbolObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject symbolObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
             Title.text = symbol.Name.Replace("_", " ");
@@ -74,13 +74,13 @@ public class UserSymbolsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowSymbolsDetails(Symbols symbols, GameObject currentObject, int buttonType = 1)
     {
@@ -181,7 +181,7 @@ public class UserSymbolsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Symbols currentCard = new Symbols();
@@ -198,7 +198,7 @@ public class UserSymbolsController : MonoBehaviour
 
                     newCard = UserSymbolsService.Create().GetNewLevelPower(symbol, increasePerLevel);
                     UserSymbolsService.Create().UpdateSymbolsLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -209,7 +209,7 @@ public class UserSymbolsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Symbols currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
@@ -230,7 +230,7 @@ public class UserSymbolsController : MonoBehaviour
 
                     Symbols newCard = UserSymbolsService.Create().GetNewLevelPower(symbol, levelsGained * increasePerLevel);
                     UserSymbolsService.Create().UpdateSymbolsLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -291,7 +291,7 @@ public class UserSymbolsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(symbol.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = symbol.Star + 1;
@@ -346,7 +346,7 @@ public class UserSymbolsController : MonoBehaviour
 
                     newSymbol = UserSymbolsService.Create().GetNewBreakthroughPower(symbol, increasePerUpgrade);
                     UserSymbolsService.Create().UpdateSymbolsBreakthrough(newSymbol, symbol.Star + 1, symbol.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

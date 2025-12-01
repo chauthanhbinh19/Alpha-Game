@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
+using System.Threading.Tasks;
+using MySqlConnector;
 
 public interface ITeamsService
 {
-    List<Teams> GetUserTeams(string user_id);
-    bool InsertUserTeams(string user_id, int team_number);
-    int GetMaxTeamId(MySqlConnection connection);
-    double GetTeamsPower(string user_id);
+    Task<List<Teams>> GetUserTeamsAsync(string user_id);
+    Task<bool> InsertUserTeamsAsync(string user_id, int team_number);
+    // int GetMaxTeamId(MySqlConnection connection);
+    Task<double> GetTeamsPowerAsync(string user_id);
 }

@@ -33,11 +33,11 @@ public class BordersGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
-    public void CreateBordersGallery(List<Borders> borders, Transform DictionaryContentPanel)
+    public void CreateBordersGallery(List<Borders> borders, Transform contentPanel)
     {
         foreach (var border in borders)
         {
-            GameObject borderObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject borderObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = borderObject.transform.Find("Title").GetComponent<Text>();
             Title.text = border.Name.Replace("_", " ");
@@ -83,7 +83,7 @@ public class BordersGalleryController : MonoBehaviour
                 Unlock.gameObject.SetActive(false);
             }
 
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var borderGalleryService = BordersGalleryService.Create();
@@ -96,7 +96,7 @@ public class BordersGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -118,11 +118,11 @@ public class BordersGalleryController : MonoBehaviour
                 BordersGalleryService.Create().UpdateBordersGalleryPower(border.Id);
             });
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(200, 230);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

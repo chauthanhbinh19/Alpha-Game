@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,10 +28,12 @@ public class ArenaManager : MonoBehaviour
         foreach (Button button in buttons)
         {
             string buttonName = button.name; // Lưu lại giá trị cục bộ để tránh lỗi closure
-            button.onClick.AddListener(() => { CreateArenaDetails(buttonName); });
+            button.onClick.AddListener(async() => { 
+                await CreateArenaDetailsAsync(buttonName); 
+            });
         }
     }
-    public void CreateArenaDetails(string type)
+    public async Task CreateArenaDetailsAsync(string type)
     {
         currentObject = Instantiate(ArenaDetailsPanelPrefab, MainPanel);
         RawImage avatarImage = currentObject.transform.Find("DictionaryCards/AvatarImage").GetComponent<RawImage>();
@@ -83,7 +86,7 @@ public class ArenaManager : MonoBehaviour
 
                 IUserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
-                User user = userService.GetUserById(pair.Key.ToString());
+                User user = await userService.GetUserByIdAsync(pair.Key.ToString());
                 
                 RawImage arenaAvatarImage = arenaSlotObject.transform.Find("AvatarImage").GetComponent<RawImage>();
                 RawImage arenaBorderImage = arenaSlotObject.transform.Find("BorderImage").GetComponent<RawImage>();

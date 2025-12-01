@@ -43,11 +43,11 @@ public class UserBadgesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserBadges(List<Badges> BadgesList, Transform DictionaryContentPanel)
+    public void CreateUserBadges(List<Badges> BadgesList, Transform contentPanel)
     {
         foreach (var title in BadgesList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, DictionaryContentPanel);
+            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
 
             Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
             Title.text = title.Name.Replace("_", " ");
@@ -90,13 +90,13 @@ public class UserBadgesController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(200, 230);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowBadgesDetails(Badges Badges, GameObject currentObject, int buttonType = 1)
     {
@@ -197,7 +197,7 @@ public class UserBadgesController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Badges currentCard = new Badges();
@@ -214,7 +214,7 @@ public class UserBadgesController : MonoBehaviour
 
                     newCard = UserBadgesService.Create().GetNewLevelPower(title, increasePerLevel);
                     UserBadgesService.Create().UpdateBadgesLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -225,7 +225,7 @@ public class UserBadgesController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Badges currentCard = UserBadgesService.Create().GetUserBadgesById(User.CurrentUserId, title.Id);
@@ -246,7 +246,7 @@ public class UserBadgesController : MonoBehaviour
 
                     Badges newCard = UserBadgesService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
                     UserBadgesService.Create().UpdateBadgesLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -307,7 +307,7 @@ public class UserBadgesController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(title.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = title.Star + 1;
@@ -362,7 +362,7 @@ public class UserBadgesController : MonoBehaviour
 
                     newTitle = UserBadgesService.Create().GetNewBreakthroughPower(title, increasePerUpgrade);
                     UserBadgesService.Create().UpdateBadgesBreakthrough(newTitle, title.Star + 1, title.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

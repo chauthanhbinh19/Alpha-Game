@@ -65,7 +65,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -79,7 +79,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardHeroes, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -88,7 +88,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateCardHeroesEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardHeroes);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -102,7 +102,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardHeroes, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -140,7 +140,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -154,7 +154,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(books, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -163,7 +163,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateBooksEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, books);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -177,7 +177,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(books, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -215,7 +215,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -229,7 +229,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardCaptains, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -238,7 +238,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateCardCaptainsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardCaptains);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -252,7 +252,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardCaptains, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -290,7 +290,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -304,7 +304,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(pets, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -313,7 +313,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreatePetsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, pets);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -327,7 +327,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(pets, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -365,7 +365,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -379,7 +379,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardMilitary, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -388,7 +388,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateCardMilitaryEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMilitary);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -401,9 +401,9 @@ public class DetailMenuManager : MonoBehaviour
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 rankService.UpLevel(cardMilitary, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateCardMilitaryEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMilitary);
@@ -438,7 +438,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -452,7 +452,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardSpell, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -461,7 +461,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateCardSpellEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardSpell);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -474,9 +474,9 @@ public class DetailMenuManager : MonoBehaviour
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
-                double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double currentPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 rankService.UpLevel(cardSpell, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
                 CreateCardSpellEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardSpell);
@@ -511,7 +511,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -525,7 +525,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardMonsters, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -534,7 +534,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateCardMonstersEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMonsters);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -548,7 +548,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardMonsters, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -586,7 +586,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -600,7 +600,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardColonels, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -609,7 +609,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateCardColonelsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardColonels);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -623,7 +623,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardColonels, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -661,7 +661,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -675,7 +675,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardGenerals, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -684,7 +684,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateCardGeneralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardGenerals);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -698,7 +698,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardGenerals, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -736,7 +736,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -750,7 +750,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardAdmirals, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -759,7 +759,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateCardAdmiralsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardAdmirals);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -773,7 +773,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(cardAdmirals, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -811,7 +811,7 @@ public class DetailMenuManager : MonoBehaviour
 
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(() =>
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
@@ -825,7 +825,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(equipments, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -834,7 +834,7 @@ public class DetailMenuManager : MonoBehaviour
                 CreateEquipmentsEquipments(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, equipments);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(() =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
@@ -848,7 +848,7 @@ public class DetailMenuManager : MonoBehaviour
                 UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
 
                 rankService.UpLevel(equipments, newRank, mainType);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

@@ -50,7 +50,7 @@ public class CurrenciesManager : MonoBehaviour
         GridLayoutGroup gridLayout = CurrencyPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 100);
+            gridLayout.cellSize = new Vector2(180, 100);
         }
     }
     public void createTicketsCurrency(List<Items> items, Transform itemPanel)
@@ -71,7 +71,7 @@ public class CurrenciesManager : MonoBehaviour
         GridLayoutGroup gridLayout = itemPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 100);
+            gridLayout.cellSize = new Vector2(180, 100);
         }
     }
     public void GetEquipmentsCurrency(string type, Transform panel)

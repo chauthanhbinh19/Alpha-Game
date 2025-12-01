@@ -33,11 +33,11 @@ public class CardMonstersGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
     }
-    public void CreateCardMonstersGallery(List<CardMonsters> monstersList, Transform DictionaryContentPanel)
+    public void CreateCardMonstersGallery(List<CardMonsters> monstersList, Transform contentPanel)
     {
         foreach (var monster in monstersList)
         {
-            GameObject monstersObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject monstersObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = monstersObject.transform.Find("Title").GetComponent<Text>();
             Title.text = monster.Name.Replace("_", " ");
@@ -76,7 +76,7 @@ public class CardMonstersGalleryController : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var monsterGalleryService = CardMonstersGalleryService.Create();
@@ -89,7 +89,7 @@ public class CardMonstersGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -111,11 +111,11 @@ public class CardMonstersGalleryController : MonoBehaviour
                 CardMonstersGalleryService.Create().UpdateCardMonstersGalleryPower(monster.Id);
             });
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

@@ -33,11 +33,11 @@ public class CardCaptainsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
     }
-    public void CreateCardCaptainsGallery(List<CardCaptains> captainsList, Transform DictionaryContentPanel)
+    public void CreateCardCaptainsGallery(List<CardCaptains> captainsList, Transform contentPanel)
     {
         foreach (var captain in captainsList)
         {
-            GameObject captainsObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject captainsObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
             Title.text = captain.Name.Replace("_", " ");
@@ -76,7 +76,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
-            Unlock.onClick.AddListener(() =>
+            Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var cardCaptainsGalleryService = CardCaptainsGalleryService.Create();
@@ -89,7 +89,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
                 var teamsService = TeamsService.Create();
 
                 powerManagerService.UpdateUserStats(User.CurrentUserId);
-                double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -111,11 +111,11 @@ public class CardCaptainsGalleryController : MonoBehaviour
                 CardCaptainsGalleryService.Create().UpdateCardCaptainsGalleryPower(captain.Id);
             });
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(280, 350);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

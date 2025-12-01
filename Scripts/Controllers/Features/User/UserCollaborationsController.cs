@@ -43,11 +43,11 @@ public class UserCollaborationsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCollaboration(List<Collaborations> collaborationList, Transform DictionaryContentPanel)
+    public void CreateUserCollaboration(List<Collaborations> collaborationList, Transform contentPanel)
     {
         foreach (var collaboration in collaborationList)
         {
-            GameObject collaborationObject = Instantiate(cardsPrefab, DictionaryContentPanel);
+            GameObject collaborationObject = Instantiate(cardsPrefab, contentPanel);
 
             Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
             Title.text = collaboration.Name.Replace("_", " ");
@@ -71,13 +71,13 @@ public class UserCollaborationsController : MonoBehaviour
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 
-            GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)
             {
                 gridLayout.cellSize = new Vector2(280, 230);
             }
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowCollaborationsDetails(Collaborations collaboration, GameObject currentObject, int buttonType = 1)
     {
@@ -183,7 +183,7 @@ public class UserCollaborationsController : MonoBehaviour
 
             up1LevelButton.onClick.RemoveAllListeners();
             upMaxLevelButton.onClick.RemoveAllListeners();
-            up1LevelButton.onClick.AddListener(() =>
+            up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Collaborations currentCard = new Collaborations();
@@ -200,7 +200,7 @@ public class UserCollaborationsController : MonoBehaviour
 
                     newCard = UserCollaborationService.Create().GetNewLevelPower(collaboration, increasePerLevel);
                     UserCollaborationService.Create().UpdateCollaborationsLevel(newCard, currentLevel + 1);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -211,7 +211,7 @@ public class UserCollaborationsController : MonoBehaviour
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
-            upMaxLevelButton.onClick.AddListener(() =>
+            upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Collaborations currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
@@ -232,7 +232,7 @@ public class UserCollaborationsController : MonoBehaviour
 
                     Collaborations newCard = UserCollaborationService.Create().GetNewLevelPower(collaboration, levelsGained * increasePerLevel);
                     UserCollaborationService.Create().UpdateCollaborationsLevel(newCard, currentLevel);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -293,7 +293,7 @@ public class UserCollaborationsController : MonoBehaviour
 
             UIManager.Instance.CreateStarUI(collaboration.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
-            breakthroughButton.onClick.AddListener(() =>
+            breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 double requiredQuantity = collaboration.Star + 1;
@@ -348,7 +348,7 @@ public class UserCollaborationsController : MonoBehaviour
 
                     newCollaboration = UserCollaborationService.Create().GetNewBreakthroughPower(collaboration, increasePerUpgrade);
                     UserCollaborationService.Create().UpdateCollaborationsBreakthrough(newCollaboration, collaboration.Star + 1, collaboration.Quantity);
-                    double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

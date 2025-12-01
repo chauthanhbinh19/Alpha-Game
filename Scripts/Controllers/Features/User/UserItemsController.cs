@@ -35,11 +35,11 @@ public class UserItemsController : MonoBehaviour
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
         itemPrefab = UIManager.Instance.GetGameObject("itemSecondPrefab");
     }
-    public void CreateUserItems(List<Items> items, Transform DictionaryContentPanel)
+    public void CreateUserItems(List<Items> items, Transform contentPanel)
     {
         foreach (var item in items)
         {
-            GameObject itemObject = Instantiate(itemPrefab, DictionaryContentPanel);
+            GameObject itemObject = Instantiate(itemPrefab, contentPanel);
 
             TextMeshProUGUI Title = itemObject.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             Title.text = item.Name.Replace("_", " ");
@@ -62,11 +62,11 @@ public class UserItemsController : MonoBehaviour
             TextMeshProUGUI itemQuantityText = itemObject.transform.Find("ItemQuantity").GetComponent<TextMeshProUGUI>();
             itemQuantityText.text = item.Quantity.ToString();
         }
-        GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
             gridLayout.cellSize = new Vector2(130, 145);
         }
-        DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

@@ -13,6 +13,7 @@ public class GalleryManager : MonoBehaviour
     private Transform galleryMenuPanel;
     private GameObject buttonPrefab;
     private GameObject DictionaryPanel;
+    private GameObject RareButtonPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
@@ -41,6 +42,7 @@ public class GalleryManager : MonoBehaviour
         rare = AppConstants.Rare.ALL;
         galleryMenuPanel = GalleryMenuPanel;
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        RareButtonPrefab = UIManager.Instance.GetGeneralButton("RareButtonPrefab");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UI_Blue_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Gradient_Radius_Mat_MaskPercent_45");
@@ -162,9 +164,9 @@ public class GalleryManager : MonoBehaviour
             {
                 string selectedRare = uniqueRaries[i];
                 string rareTemp = selectedRare;
-                GameObject button = Instantiate(buttonPrefab, RightScrollViewContentPanel);
+                GameObject button = Instantiate(RareButtonPrefab, RightScrollViewContentPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 buttonText.text = LocalizationManager.Get(selectedRare);
 
                 Button btn = button.GetComponent<Button>();
@@ -177,12 +179,14 @@ public class GalleryManager : MonoBehaviour
                 if (i == 0)
                 {
                     rare = selectedRare;
-                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
+                    button.transform.Find("Active").gameObject.SetActive(true);
+                    button.transform.Find("Unactive").gameObject.SetActive(false);
                     // LoadCurrentPage();
                 }
                 else
                 {
-                    ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
+                    button.transform.Find("Active").gameObject.SetActive(false);
+                    button.transform.Find("Unactive").gameObject.SetActive(true);
                 }
             }
         }
@@ -389,7 +393,8 @@ public class GalleryManager : MonoBehaviour
             Button button = child.GetComponent<Button>();
             if (button != null)
             {
-                ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
+                button.transform.Find("Active").gameObject.SetActive(false);
+                button.transform.Find("Unactive").gameObject.SetActive(true);
             }
         }
 
@@ -397,7 +402,8 @@ public class GalleryManager : MonoBehaviour
         currentPage = 1;
         offset = 0;
         ClearAllPrefabs();
-        ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
+        clickedButton.transform.Find("Active").gameObject.SetActive(true);
+        clickedButton.transform.Find("Unactive").gameObject.SetActive(false);
         LoadCurrentPage();
     }
     public void LoadCurrentPage()
