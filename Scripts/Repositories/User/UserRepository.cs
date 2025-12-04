@@ -151,10 +151,10 @@ public class UserRepository : IUserRepository
 
                     reader.Close(); // đóng reader trước khi truy vấn khác
 
-                    // --- Lấy thông tin user_currency ---
+                    // --- Lấy thông tin user_currencies ---
                     string currencyQuery = @"
                     SELECT c.image, c.name, uc.currency_id, uc.quantity 
-                    FROM user_currency uc
+                    FROM user_currencies uc
                     JOIN currency c ON uc.currency_id = c.id
                     WHERE uc.user_id = @userId";
 
@@ -237,10 +237,10 @@ public class UserRepository : IUserRepository
 
                     reader.Close(); // đóng reader trước khi thực hiện truy vấn khác
 
-                    // --- Lấy thông tin user_currency ---
+                    // --- Lấy thông tin user_currencies ---
                     string currencyQuery = @"
                     SELECT c.image, c.name, uc.currency_id, uc.quantity 
-                    FROM user_currency uc
+                    FROM user_currencies uc
                     JOIN currency c ON uc.currency_id = c.id
                     WHERE uc.user_id = @userId";
 
@@ -316,9 +316,9 @@ public class UserRepository : IUserRepository
 
                     reader.Close(); // đóng reader trước khi truy vấn khác
 
-                    // --- Lấy thông tin user_currency ---
+                    // --- Lấy thông tin user_currencies ---
                     string currencyQuery = @"SELECT c.image, c.name, uc.currency_id, uc.quantity 
-                                         FROM user_currency uc
+                                         FROM user_currencies uc
                                          JOIN currency c ON uc.currency_id = c.id
                                          WHERE uc.user_id = @userId";
 
@@ -436,7 +436,7 @@ public class UserRepository : IUserRepository
 
                 for (int currencyId = 1; currencyId <= 73; currencyId++)
                 {
-                    string insertQuery = "INSERT INTO user_currency (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
+                    string insertQuery = "INSERT INTO user_currencies (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
                     await using (var command = new MySqlCommand(insertQuery, connection))
                     {
                         command.Parameters.AddWithValue("@id", Id);

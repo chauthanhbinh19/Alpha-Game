@@ -76,7 +76,7 @@ public class UserCardMonstersMasterRepository : IUserCardMonstersMasterRepositor
                             Master.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             Master.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             Master.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            Master.Mana = reader.GetFloat("mana");
+                            Master.Mana = reader.GetDouble("mana");
                             Master.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             Master.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             Master.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");

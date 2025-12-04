@@ -17,7 +17,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT type FROM magic_formation_circle";
+                string query = "SELECT DISTINCT type FROM magic_formation_circles";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 using (MySqlDataReader reader = await command.ExecuteReaderAsync())
@@ -47,7 +47,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM magic_formation_circle";
+                string query = "SELECT DISTINCT id FROM magic_formation_circles";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 using (MySqlDataReader reader = await command.ExecuteReaderAsync())
@@ -78,11 +78,11 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                SELECT * FROM magic_formation_circle 
+                SELECT * FROM magic_formation_circles 
                 WHERE type = @type AND (@rare = 'All' OR rare = @rare)
-                ORDER BY magic_formation_circle.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(magic_formation_circle.name, '[0-9]+$') AS UNSIGNED), 
-                         magic_formation_circle.name
+                ORDER BY magic_formation_circles.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(magic_formation_circles.name, '[0-9]+$') AS UNSIGNED), 
+                         magic_formation_circles.name
                 LIMIT @limit OFFSET @offset";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -102,7 +102,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
                                 PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -143,7 +143,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -191,7 +191,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM magic_formation_circle WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = "SELECT COUNT(*) FROM magic_formation_circles WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@type", type);
@@ -225,7 +225,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
 
                 string query = @"
                 SELECT m.*, mt.price, cu.image AS currency_image, cu.id AS currency_id
-                FROM magic_formation_circle m
+                FROM magic_formation_circles m
                 INNER JOIN magic_formation_circle_trade mt ON m.id = mt.mfc_id
                 INNER JOIN currencies cu ON mt.currency_id = cu.id
                 WHERE m.type = @type
@@ -250,7 +250,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                                 Name = reader.GetString("name"),
                                 Rare = reader.GetString("rare"),
                                 Image = reader.GetString("image"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
                                 PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -291,7 +291,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -348,7 +348,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
 
                 string query = @"
                 SELECT COUNT(*)
-                FROM magic_formation_circle m
+                FROM magic_formation_circles m
                 INNER JOIN magic_formation_circle_trade mt ON m.id = mt.mfc_id
                 INNER JOIN currencies cu ON mt.currency_id = cu.id
                 WHERE m.type = @type;";
@@ -379,7 +379,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM magic_formation_circle WHERE id = @id";
+                string query = "SELECT * FROM magic_formation_circles WHERE id = @id";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
@@ -394,7 +394,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Type = reader.GetString("type"),
                                 Star = reader.GetInt32("star"),
                                 Power = reader.GetDouble("power"),
@@ -437,7 +437,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -485,8 +485,8 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                     SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense,
                     SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM magic_formation_circle a
-                INNER JOIN user_magic_formation_circle ua ON a.id = ua.mfc_id
+                FROM magic_formation_circles a
+                INNER JOIN user_magic_formation_circles ua ON a.id = ua.mfc_id
                 WHERE ua.user_id = @user_id;
             ";
 

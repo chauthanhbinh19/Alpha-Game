@@ -75,7 +75,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
                             scienceFiction.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             scienceFiction.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             scienceFiction.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            scienceFiction.Mana = reader.GetFloat("mana");
+                            scienceFiction.Mana = reader.GetDouble("mana");
                             scienceFiction.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             scienceFiction.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             scienceFiction.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");

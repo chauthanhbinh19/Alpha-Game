@@ -47,7 +47,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
                                 PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -88,7 +88,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -512,7 +512,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                                 Id = reader.GetString("avatar_id"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
                                 PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -553,7 +553,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -692,7 +692,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                         {
                             sumAvatars.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
                             sumAvatars.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                            sumAvatars.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            sumAvatars.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
                             sumAvatars.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
                             sumAvatars.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
                             sumAvatars.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");

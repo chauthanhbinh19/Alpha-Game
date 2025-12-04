@@ -48,7 +48,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Star = reader.GetInt32("star"),
                                 Level = reader.GetInt32("level"),
                                 Experiment = reader.GetDouble("experiment"),
@@ -93,7 +93,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -160,7 +160,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Star = reader.GetInt32("star"),
                                 Level = reader.GetInt32("level"),
                                 Experiment = reader.GetDouble("experiment"),
@@ -205,7 +205,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -313,7 +313,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.Name = reader.GetString("name");
                             SpiritCard.Image = reader.GetString("image");
                             SpiritCard.Rare = reader.GetString("rare");
-                            SpiritCard.Quality = reader.GetInt32("quality");
+                            SpiritCard.Quality = reader.GetDouble("quality");
                             SpiritCard.Star = reader.GetInt32("star");
                             SpiritCard.Level = reader.GetInt32("level");
                             SpiritCard.Experiment = reader.GetDouble("experiment");
@@ -358,7 +358,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             SpiritCard.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             SpiritCard.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            SpiritCard.Mana = reader.GetFloat("mana");
+                            SpiritCard.Mana = reader.GetDouble("mana");
                             SpiritCard.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             SpiritCard.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             SpiritCard.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -431,7 +431,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.Name = reader.GetString("name");
                             SpiritCard.Image = reader.GetString("image");
                             SpiritCard.Rare = reader.GetString("rare");
-                            SpiritCard.Quality = reader.GetInt32("quality");
+                            SpiritCard.Quality = reader.GetDouble("quality");
                             SpiritCard.Star = reader.GetInt32("star");
                             SpiritCard.Level = reader.GetInt32("level");
                             SpiritCard.Experiment = reader.GetDouble("experiment");
@@ -476,7 +476,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             SpiritCard.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             SpiritCard.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            SpiritCard.Mana = reader.GetFloat("mana");
+                            SpiritCard.Mana = reader.GetDouble("mana");
                             SpiritCard.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             SpiritCard.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             SpiritCard.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -548,7 +548,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     SpiritCard.Name = reader.GetString("name");
                     SpiritCard.Image = reader.GetString("image");
                     SpiritCard.Rare = reader.GetString("rare");
-                    SpiritCard.Quality = reader.GetInt32("quality");
+                    SpiritCard.Quality = reader.GetDouble("quality");
                     SpiritCard.Star = reader.GetInt32("star");
                     SpiritCard.Level = reader.GetInt32("level");
                     SpiritCard.Experiment = reader.GetDouble("experiment");
@@ -593,7 +593,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     SpiritCard.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                     SpiritCard.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                     SpiritCard.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                    SpiritCard.Mana = reader.GetFloat("mana");
+                    SpiritCard.Mana = reader.GetDouble("mana");
                     SpiritCard.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                     SpiritCard.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                     SpiritCard.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -664,7 +664,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.Name = reader.GetString("name");
                             SpiritCard.Image = reader.GetString("image");
                             SpiritCard.Rare = reader.GetString("rare");
-                            SpiritCard.Quality = reader.GetInt32("quality");
+                            SpiritCard.Quality = reader.GetDouble("quality");
                             SpiritCard.Star = reader.GetInt32("star");
                             SpiritCard.Level = reader.GetInt32("level");
                             SpiritCard.Experiment = reader.GetDouble("experiment");
@@ -709,7 +709,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             SpiritCard.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             SpiritCard.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            SpiritCard.Mana = reader.GetFloat("mana");
+                            SpiritCard.Mana = reader.GetDouble("mana");
                             SpiritCard.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             SpiritCard.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             SpiritCard.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -782,7 +782,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.Name = reader.GetString("name");
                             SpiritCard.Image = reader.GetString("image");
                             SpiritCard.Rare = reader.GetString("rare");
-                            SpiritCard.Quality = reader.GetInt32("quality");
+                            SpiritCard.Quality = reader.GetDouble("quality");
                             SpiritCard.Star = reader.GetInt32("star");
                             SpiritCard.Level = reader.GetInt32("level");
                             SpiritCard.Experiment = reader.GetDouble("experiment");
@@ -827,7 +827,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             SpiritCard.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             SpiritCard.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            SpiritCard.Mana = reader.GetFloat("mana");
+                            SpiritCard.Mana = reader.GetDouble("mana");
                             SpiritCard.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             SpiritCard.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             SpiritCard.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -900,7 +900,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.Name = reader.GetString("name");
                             SpiritCard.Image = reader.GetString("image");
                             SpiritCard.Rare = reader.GetString("rare");
-                            SpiritCard.Quality = reader.GetInt32("quality");
+                            SpiritCard.Quality = reader.GetDouble("quality");
                             SpiritCard.Star = reader.GetInt32("star");
                             SpiritCard.Level = reader.GetInt32("level");
                             SpiritCard.Experiment = reader.GetDouble("experiment");
@@ -945,7 +945,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             SpiritCard.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             SpiritCard.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            SpiritCard.Mana = reader.GetFloat("mana");
+                            SpiritCard.Mana = reader.GetDouble("mana");
                             SpiritCard.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             SpiritCard.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             SpiritCard.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -1018,7 +1018,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.Name = reader.GetString("name");
                             SpiritCard.Image = reader.GetString("image");
                             SpiritCard.Rare = reader.GetString("rare");
-                            SpiritCard.Quality = reader.GetInt32("quality");
+                            SpiritCard.Quality = reader.GetDouble("quality");
                             SpiritCard.Star = reader.GetInt32("star");
                             SpiritCard.Level = reader.GetInt32("level");
                             SpiritCard.Experiment = reader.GetDouble("experiment");
@@ -1063,7 +1063,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             SpiritCard.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             SpiritCard.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            SpiritCard.Mana = reader.GetFloat("mana");
+                            SpiritCard.Mana = reader.GetDouble("mana");
                             SpiritCard.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             SpiritCard.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             SpiritCard.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -1136,7 +1136,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.Name = reader.GetString("name");
                             SpiritCard.Image = reader.GetString("image");
                             SpiritCard.Rare = reader.GetString("rare");
-                            SpiritCard.Quality = reader.GetInt32("quality");
+                            SpiritCard.Quality = reader.GetDouble("quality");
                             SpiritCard.Star = reader.GetInt32("star");
                             SpiritCard.Level = reader.GetInt32("level");
                             SpiritCard.Experiment = reader.GetDouble("experiment");
@@ -1181,7 +1181,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             SpiritCard.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             SpiritCard.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             SpiritCard.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            SpiritCard.Mana = reader.GetFloat("mana");
+                            SpiritCard.Mana = reader.GetDouble("mana");
                             SpiritCard.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             SpiritCard.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             SpiritCard.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -2149,7 +2149,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2194,7 +2194,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2263,7 +2263,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2308,7 +2308,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2377,7 +2377,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2422,7 +2422,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2491,7 +2491,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2536,7 +2536,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2605,7 +2605,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2650,7 +2650,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2719,7 +2719,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2764,7 +2764,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2833,7 +2833,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2878,7 +2878,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2947,7 +2947,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2992,7 +2992,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -3529,7 +3529,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             {
                                 Id = reader.GetString("spirit_card_id"),
                                 Level = reader.GetInt32("level"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Experiment = reader.GetDouble("experiment"),
                                 Star = reader.GetInt32("star"),
                                 Power = reader.GetDouble("power"),
@@ -3572,7 +3572,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -3676,7 +3676,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                         {
                             sumSpiritCard.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
                             sumSpiritCard.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                            sumSpiritCard.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            sumSpiritCard.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
                             sumSpiritCard.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
                             sumSpiritCard.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
                             sumSpiritCard.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");

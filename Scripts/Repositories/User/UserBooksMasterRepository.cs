@@ -76,7 +76,7 @@ public class UserBooksMasterRepository : IUserBooksMasterRepository
                             master.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             master.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             master.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            master.Mana = reader.GetFloat("mana");
+                            master.Mana = reader.GetDouble("mana");
                             master.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             master.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             master.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");

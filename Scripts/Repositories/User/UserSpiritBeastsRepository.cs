@@ -46,7 +46,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Star = reader.GetInt32("star"),
                                 Level = reader.GetInt32("level"),
                                 Experiment = reader.GetDouble("experiment"),
@@ -91,7 +91,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -158,7 +158,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Star = reader.GetInt32("star"),
                                 Level = reader.GetInt32("level"),
                                 Experiment = reader.GetDouble("experiment"),
@@ -203,7 +203,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -309,7 +309,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Name = reader.GetString("name");
                             spiritBeast.Image = reader.GetString("image");
                             spiritBeast.Rare = reader.GetString("rare");
-                            spiritBeast.Quality = reader.GetInt32("quality");
+                            spiritBeast.Quality = reader.GetDouble("quality");
                             spiritBeast.Star = reader.GetInt32("star");
                             spiritBeast.Level = reader.GetInt32("level");
                             spiritBeast.Experiment = reader.GetDouble("experiment");
@@ -354,7 +354,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            spiritBeast.Mana = reader.GetFloat("mana");
+                            spiritBeast.Mana = reader.GetDouble("mana");
                             spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -427,7 +427,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Name = reader.GetString("name");
                             spiritBeast.Image = reader.GetString("image");
                             spiritBeast.Rare = reader.GetString("rare");
-                            spiritBeast.Quality = reader.GetInt32("quality");
+                            spiritBeast.Quality = reader.GetDouble("quality");
                             spiritBeast.Star = reader.GetInt32("star");
                             spiritBeast.Level = reader.GetInt32("level");
                             spiritBeast.Experiment = reader.GetDouble("experiment");
@@ -472,7 +472,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            spiritBeast.Mana = reader.GetFloat("mana");
+                            spiritBeast.Mana = reader.GetDouble("mana");
                             spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -544,7 +544,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     spiritBeast.Name = reader.GetString("name");
                     spiritBeast.Image = reader.GetString("image");
                     spiritBeast.Rare = reader.GetString("rare");
-                    spiritBeast.Quality = reader.GetInt32("quality");
+                    spiritBeast.Quality = reader.GetDouble("quality");
                     spiritBeast.Star = reader.GetInt32("star");
                     spiritBeast.Level = reader.GetInt32("level");
                     spiritBeast.Experiment = reader.GetDouble("experiment");
@@ -589,7 +589,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                     spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                     spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                    spiritBeast.Mana = reader.GetFloat("mana");
+                    spiritBeast.Mana = reader.GetDouble("mana");
                     spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                     spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                     spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -660,7 +660,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Name = reader.GetString("name");
                             spiritBeast.Image = reader.GetString("image");
                             spiritBeast.Rare = reader.GetString("rare");
-                            spiritBeast.Quality = reader.GetInt32("quality");
+                            spiritBeast.Quality = reader.GetDouble("quality");
                             spiritBeast.Star = reader.GetInt32("star");
                             spiritBeast.Level = reader.GetInt32("level");
                             spiritBeast.Experiment = reader.GetDouble("experiment");
@@ -705,7 +705,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            spiritBeast.Mana = reader.GetFloat("mana");
+                            spiritBeast.Mana = reader.GetDouble("mana");
                             spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -778,7 +778,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Name = reader.GetString("name");
                             spiritBeast.Image = reader.GetString("image");
                             spiritBeast.Rare = reader.GetString("rare");
-                            spiritBeast.Quality = reader.GetInt32("quality");
+                            spiritBeast.Quality = reader.GetDouble("quality");
                             spiritBeast.Star = reader.GetInt32("star");
                             spiritBeast.Level = reader.GetInt32("level");
                             spiritBeast.Experiment = reader.GetDouble("experiment");
@@ -823,7 +823,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            spiritBeast.Mana = reader.GetFloat("mana");
+                            spiritBeast.Mana = reader.GetDouble("mana");
                             spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -896,7 +896,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Name = reader.GetString("name");
                             spiritBeast.Image = reader.GetString("image");
                             spiritBeast.Rare = reader.GetString("rare");
-                            spiritBeast.Quality = reader.GetInt32("quality");
+                            spiritBeast.Quality = reader.GetDouble("quality");
                             spiritBeast.Star = reader.GetInt32("star");
                             spiritBeast.Level = reader.GetInt32("level");
                             spiritBeast.Experiment = reader.GetDouble("experiment");
@@ -941,7 +941,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            spiritBeast.Mana = reader.GetFloat("mana");
+                            spiritBeast.Mana = reader.GetDouble("mana");
                             spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -1014,7 +1014,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Name = reader.GetString("name");
                             spiritBeast.Image = reader.GetString("image");
                             spiritBeast.Rare = reader.GetString("rare");
-                            spiritBeast.Quality = reader.GetInt32("quality");
+                            spiritBeast.Quality = reader.GetDouble("quality");
                             spiritBeast.Star = reader.GetInt32("star");
                             spiritBeast.Level = reader.GetInt32("level");
                             spiritBeast.Experiment = reader.GetDouble("experiment");
@@ -1059,7 +1059,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            spiritBeast.Mana = reader.GetFloat("mana");
+                            spiritBeast.Mana = reader.GetDouble("mana");
                             spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -1132,7 +1132,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Name = reader.GetString("name");
                             spiritBeast.Image = reader.GetString("image");
                             spiritBeast.Rare = reader.GetString("rare");
-                            spiritBeast.Quality = reader.GetInt32("quality");
+                            spiritBeast.Quality = reader.GetDouble("quality");
                             spiritBeast.Star = reader.GetInt32("star");
                             spiritBeast.Level = reader.GetInt32("level");
                             spiritBeast.Experiment = reader.GetDouble("experiment");
@@ -1177,7 +1177,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             spiritBeast.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             spiritBeast.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            spiritBeast.Mana = reader.GetFloat("mana");
+                            spiritBeast.Mana = reader.GetDouble("mana");
                             spiritBeast.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             spiritBeast.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             spiritBeast.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
@@ -2145,7 +2145,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2190,7 +2190,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2259,7 +2259,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2304,7 +2304,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2373,7 +2373,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2418,7 +2418,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2487,7 +2487,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2532,7 +2532,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2601,7 +2601,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2646,7 +2646,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2715,7 +2715,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2760,7 +2760,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2829,7 +2829,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2874,7 +2874,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -2943,7 +2943,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Name = reader.GetString("name"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Star = reader.GetInt32("star"),
                     Level = reader.GetInt32("level"),
                     Experiment = reader.GetDouble("experiment"),
@@ -2988,7 +2988,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -3525,7 +3525,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             {
                                 Id = reader.GetString("spirit_beast_id"),
                                 Level = reader.GetInt32("level"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Experiment = reader.GetDouble("experiment"),
                                 Star = reader.GetInt32("star"),
                                 Power = reader.GetDouble("power"),
@@ -3568,7 +3568,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -3672,7 +3672,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         {
                             sumSpiritBeast.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
                             sumSpiritBeast.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                            sumSpiritBeast.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            sumSpiritBeast.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
                             sumSpiritBeast.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
                             sumSpiritBeast.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
                             sumSpiritBeast.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");

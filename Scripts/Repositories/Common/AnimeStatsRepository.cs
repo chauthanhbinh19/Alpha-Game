@@ -71,7 +71,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                 animeStats.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                 animeStats.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                 animeStats.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                animeStats.Mana = reader.GetFloat("mana");
+                animeStats.Mana = reader.GetDouble("mana");
                 animeStats.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                 animeStats.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                 animeStats.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");

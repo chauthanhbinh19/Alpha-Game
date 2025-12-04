@@ -42,7 +42,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                         Name = reader.GetString("name"),
                         Image = reader.GetString("image"),
                         Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
+                        Quality = reader.GetDouble("quality"),
                         Star = reader.GetInt32("star"),
                         Level = reader.GetInt32("level"),
                         Experiment = reader.GetDouble("experiment"),
@@ -87,7 +87,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                         IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                         ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                         ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
+                        Mana = reader.GetDouble("mana"),
                         ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                         DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                         ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -573,7 +573,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                             {
                                 Id = reader.GetString("collaboration_id"),
                                 Level = reader.GetInt32("level"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Experiment = reader.GetDouble("experiment"),
                                 Star = reader.GetInt32("star"),
                                 Power = reader.GetDouble("power"),
@@ -616,7 +616,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -758,7 +758,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                             sumCollaborations.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
                             sumCollaborations.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
                             sumCollaborations.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                            sumCollaborations.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            sumCollaborations.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
                             sumCollaborations.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
                             sumCollaborations.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
                             sumCollaborations.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");

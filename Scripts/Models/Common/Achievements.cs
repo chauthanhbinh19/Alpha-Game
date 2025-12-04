@@ -4,7 +4,7 @@ public class Achievements : BaseEntity
     public string Name { get; set; }
     public string Image { get; set; }
     public string Rare { get; set; }
-    public int Quality { get; set; }
+    public double Quality { get; set; }
     public int CurrentStar { get; set; }
     public int TempStar { get; set; }
     public string Type { get; set; }

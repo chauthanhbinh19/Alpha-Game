@@ -47,7 +47,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Star = reader.GetInt32("star"),
                                 Level = reader.GetInt32("level"),
                                 Experiment = reader.GetDouble("experiment"),
@@ -92,7 +92,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -581,7 +581,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                             {
                                 Id = reader.GetString("magic_formation_circle_id"),
                                 Level = reader.GetInt32("level"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Experiment = reader.GetDouble("experiment"),
                                 Star = reader.GetInt32("star"),
                                 Power = reader.GetDouble("power"),
@@ -624,7 +624,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -727,7 +727,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                         {
                             sumMagicFormationCircles.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
                             sumMagicFormationCircles.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                            sumMagicFormationCircles.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            sumMagicFormationCircles.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
                             sumMagicFormationCircles.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
                             sumMagicFormationCircles.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
                             sumMagicFormationCircles.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");

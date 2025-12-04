@@ -20,8 +20,8 @@ public class UserVehicleRepository : IUserVehicleRepository
 
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
-                FROM Vehicle m
-                JOIN user_Vehicle um ON m.id = um.Vehicle_id
+                FROM vehicles m
+                JOIN user_vehicles um ON m.id = um.Vehicle_id
                 WHERE um.user_id = @userId 
                   AND m.type = @type 
                   AND (@rare = 'All' OR m.rare = @rare)
@@ -47,7 +47,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Star = reader.GetInt32("star"),
                                 Level = reader.GetInt32("level"),
                                 Experiment = reader.GetDouble("experiment"),
@@ -92,7 +92,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -135,8 +135,8 @@ public class UserVehicleRepository : IUserVehicleRepository
 
                 string query = @"
                 SELECT COUNT(*) 
-                FROM Vehicle m
-                JOIN user_Vehicle um ON m.id = um.Vehicle_id
+                FROM vehicles m
+                JOIN user_vehicles um ON m.id = um.Vehicle_id
                 WHERE um.user_id = @userId 
                   AND m.type = @type 
                   AND (@rare = 'All' OR m.rare = @rare);
@@ -177,7 +177,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM user_Vehicle 
+                FROM user_vehicles 
                 WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
             ";
 
@@ -191,7 +191,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Vehicle (
+                        INSERT INTO user_vehicles (
                             user_id, Vehicle_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
@@ -297,7 +297,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Vehicle
+                        UPDATE user_vehicles
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
                     ";
@@ -337,7 +337,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Vehicle
+                UPDATE user_vehicles
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -451,7 +451,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Vehicle
+                UPDATE user_vehicles
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -565,7 +565,7 @@ public class UserVehicleRepository : IUserVehicleRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Vehicle 
+                string query = @"SELECT * FROM user_vehicles 
                              WHERE Vehicle_id=@id AND user_id=@user_id";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -581,7 +581,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                             {
                                 Id = reader.GetString("Vehicle_id"),
                                 Level = reader.GetInt32("level"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Experiment = reader.GetDouble("experiment"),
                                 Star = reader.GetInt32("star"),
                                 Power = reader.GetDouble("power"),
@@ -624,7 +624,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -714,7 +714,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Vehicle
+                FROM user_vehicles
                 WHERE user_id = @user_id;";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -727,7 +727,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                         {
                             sumVehicles.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
                             sumVehicles.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                            sumVehicles.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            sumVehicles.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
                             sumVehicles.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
                             sumVehicles.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
                             sumVehicles.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");

@@ -76,7 +76,7 @@ public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
                             Rank.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
                             Rank.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
                             Rank.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                            Rank.Mana = reader.GetFloat("mana");
+                            Rank.Mana = reader.GetDouble("mana");
                             Rank.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
                             Rank.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
                             Rank.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");

@@ -42,7 +42,7 @@ public class UserBordersRepository : IUserBordersRepository
                         Name = reader.GetString("name"),
                         Image = reader.GetString("image"),
                         Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
+                        Quality = reader.GetDouble("quality"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
                         PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -83,7 +83,7 @@ public class UserBordersRepository : IUserBordersRepository
                         IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                         ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                         ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
+                        Mana = reader.GetDouble("mana"),
                         ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                         DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                         ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -497,7 +497,7 @@ public class UserBordersRepository : IUserBordersRepository
                     Id = reader.GetString("border_id"),
                     Image = reader.GetString("image"),
                     Rare = reader.GetString("rare"),
-                    Quality = reader.GetInt32("quality"),
+                    Quality = reader.GetDouble("quality"),
                     Power = reader.GetDouble("power"),
                     Health = reader.GetDouble("health"),
                     PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -538,7 +538,7 @@ public class UserBordersRepository : IUserBordersRepository
                     IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                     ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                     ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                    Mana = reader.GetFloat("mana"),
+                    Mana = reader.GetDouble("mana"),
                     ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                     DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                     ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -671,7 +671,7 @@ public class UserBordersRepository : IUserBordersRepository
                 sumBorders.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
                 sumBorders.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
                 sumBorders.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                sumBorders.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                sumBorders.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
                 sumBorders.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
                 sumBorders.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
                 sumBorders.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");

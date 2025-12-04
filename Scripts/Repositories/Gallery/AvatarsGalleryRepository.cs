@@ -50,7 +50,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
                                 PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -91,7 +91,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -656,7 +656,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                     {
                         sumAvatars.Power = reader["total_power"] as double? ?? 0;
                         sumAvatars.Health = reader["total_health"] as double? ?? 0;
-                        sumAvatars.Mana = reader["total_mana"] as float? ?? 0f;
+                        sumAvatars.Mana = reader["total_mana"] as double? ?? 0f;
 
                         sumAvatars.PhysicalAttack = reader["total_physical_attack"] as double? ?? 0;
                         sumAvatars.PhysicalDefense = reader["total_physical_defense"] as double? ?? 0;

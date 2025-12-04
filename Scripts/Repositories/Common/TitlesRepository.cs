@@ -72,7 +72,7 @@ public class TitlesRepository : ITitlesRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
                                 PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -113,7 +113,7 @@ public class TitlesRepository : ITitlesRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -191,7 +191,7 @@ public class TitlesRepository : ITitlesRepository
                 string query = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Titles t
-                JOIN technology_trade tt ON t.id = tt.technology_id
+                JOIN technology_trade tt ON t.id = tt.title_id
                 JOIN currencies cu ON tt.currency_id = cu.id
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
@@ -214,7 +214,7 @@ public class TitlesRepository : ITitlesRepository
                                 Name = reader.GetString("name"),
                                 Rare = reader.GetString("rare"),
                                 Image = reader.GetString("image"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
                                 PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -255,7 +255,7 @@ public class TitlesRepository : ITitlesRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -312,7 +312,7 @@ public class TitlesRepository : ITitlesRepository
                 string query = @"
                 SELECT COUNT(*)
                 FROM Titles t
-                JOIN technology_trade tt ON t.id = tt.technology_id
+                JOIN technology_trade tt ON t.id = tt.title_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 
@@ -357,7 +357,7 @@ public class TitlesRepository : ITitlesRepository
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
                                 Rare = reader.GetString("rare"),
-                                Quality = reader.GetInt32("quality"),
+                                Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
                                 PhysicalAttack = reader.GetDouble("physical_attack"),
@@ -398,7 +398,7 @@ public class TitlesRepository : ITitlesRepository
                                 IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
                                 ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
                                 ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                                Mana = reader.GetFloat("mana"),
+                                Mana = reader.GetDouble("mana"),
                                 ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
                                 DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
                                 ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
@@ -447,7 +447,7 @@ public class TitlesRepository : ITitlesRepository
                     SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Titles a
-                JOIN user_Titles ua ON a.id = ua.technology_id
+                JOIN user_Titles ua ON a.id = ua.title_id
                 WHERE ua.user_id = @user_id;
             ";
 
