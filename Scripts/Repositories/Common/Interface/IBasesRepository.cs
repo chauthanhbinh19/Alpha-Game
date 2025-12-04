@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IBasesRepository
 {
-    List<string> GetUniqueBaseId();
-    List<Bases> GetBases(string userId, int pageSize, int offset);
-    int GetBasesCount(string rare);
-    List<Bases> GetBasesWithPrice(int pageSize, int offset);
-    int GetBasesWithPriceCount();
-    Bases GetBasesById(string Id);
-    Bases SumPowerBasesPercent();
+    Task<List<string>> GetUniqueBasesIdAsync();
+    Task<List<Bases>> GetBasesAsync(string userId, int pageSize, int offset);
+    Task<int> GetBasesCountAsync(string rare);
+    Task<List<Bases>> GetBasesWithPriceAsync(int pageSize, int offset);
+    Task<int> GetBasesWithPriceCountAsync();
+    Task<Bases> GetBaseByIdAsync(string Id);
+    Task<Bases> SumPowerBasesPercentAsync();
 }

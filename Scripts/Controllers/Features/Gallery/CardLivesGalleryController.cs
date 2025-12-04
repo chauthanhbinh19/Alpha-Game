@@ -80,8 +80,8 @@ public class CardLivesGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var cardLifeGalleryService = CardLifeGalleryService.Create();
-                cardLifeGalleryService.UpdateStatusCardLifeGallery(card.Id);
+                var cardLifeGalleryService = CardLivesGalleryService.Create();
+                await cardLifeGalleryService.UpdateStatusCardLifeGalleryAsync(card.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -89,7 +89,7 @@ public class CardLivesGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -106,10 +106,10 @@ public class CardLivesGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CardLifeGalleryService.Create().UpdateCardLifeGalleryPower(card.Id);
+                await CardLivesGalleryService.Create().UpdateCardLifeGalleryPowerAsync(card.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

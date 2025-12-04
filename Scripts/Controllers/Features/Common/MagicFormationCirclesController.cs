@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,7 +78,7 @@ public class MagicFormationCirclesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateMagicFormationCircleTrade(List<MagicFormationCircles> magicFormationCircles, string subType, Transform currentContent,
+    public async Task CreateMagicFormationCircleTradeAsync(List<MagicFormationCircles> magicFormationCircles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
@@ -132,7 +133,7 @@ public class MagicFormationCirclesController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetMagicFormationCircleCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetMagicFormationCirclesCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -244,12 +245,12 @@ public class MagicFormationCirclesController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is MagicFormationCircles magicFormationCircle)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(magicFormationCircle.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(magicFormationCircle.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -280,8 +281,8 @@ public class MagicFormationCirclesController : MonoBehaviour
             if (obj is MagicFormationCircles magicFormationCircle)
             {
                 magicFormationCircle.Quantity = magicFormationCircle.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(magicFormationCircle.Currency.Id, price);
-                bool success = UserMagicFormationCircleService.Create().InsertUserMagicFormationCircle(magicFormationCircle, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(magicFormationCircle.Currency.Id, price);
+                bool success = await UserMagicFormationCirclesService.Create().InsertUserMagicFormationCircleAsync(magicFormationCircle, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -294,8 +295,8 @@ public class MagicFormationCirclesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    MagicFormationCircleGalleryService.Create().InsertMagicFormationCircleGallery(magicFormationCircle.Id);
-                    currencies = UserCurrencyService.Create().GetMagicFormationCircleCurrency(subType);
+                    await MagicFormationCirclesGalleryService.Create().InsertMagicFormationCircleGalleryAsync(magicFormationCircle.Id);
+                    currencies = await UserCurrenciesService.Create().GetMagicFormationCirclesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -315,7 +316,7 @@ public class MagicFormationCirclesController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -111,12 +112,12 @@ public class UserVehiclesController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(Vehicle, currentObject);
+            _=GetLevelAsync(Vehicle, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(Vehicle, currentObject);
+            _=GetUpgradeAsync(Vehicle, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -127,7 +128,7 @@ public class UserVehiclesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(Vehicle, currentObject);
+                _=GetLevelAsync(Vehicle, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -135,7 +136,7 @@ public class UserVehiclesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(Vehicle, currentObject);
+                _=GetUpgradeAsync(Vehicle, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -177,7 +178,7 @@ public class UserVehiclesController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, Vehicle, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -191,7 +192,7 @@ public class UserVehiclesController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.VEHICLE);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.VEHICLE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -200,7 +201,7 @@ public class UserVehiclesController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Vehicles currentCard = new Vehicles();
-                currentCard = UserVehicleService.Create().GetUserVehicleById(User.CurrentUserId, Vehicle.Id);
+                currentCard = await UserVehicleService.Create().GetUserVehicleByIdAsync(User.CurrentUserId, Vehicle.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -211,8 +212,8 @@ public class UserVehiclesController : MonoBehaviour
                 {
                     Vehicles newCard = new Vehicles();
 
-                    newCard = UserVehicleService.Create().GetNewLevelPower(Vehicle, increasePerLevel);
-                    UserVehicleService.Create().UpdateVehicleLevel(newCard, currentLevel + 1);
+                    newCard = await UserVehicleService.Create().GetNewLevelPowerAsync(Vehicle, increasePerLevel);
+                    await UserVehicleService.Create().UpdateVehicleLevelAsync(newCard, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -220,14 +221,14 @@ public class UserVehiclesController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Vehicles currentCard = UserVehicleService.Create().GetUserVehicleById(User.CurrentUserId, Vehicle.Id);
+                Vehicles currentCard = await UserVehicleService.Create().GetUserVehicleByIdAsync(User.CurrentUserId, Vehicle.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -243,8 +244,8 @@ public class UserVehiclesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Vehicles newCard = UserVehicleService.Create().GetNewLevelPower(Vehicle, levelsGained * increasePerLevel);
-                    UserVehicleService.Create().UpdateVehicleLevel(newCard, currentLevel);
+                    Vehicles newCard = await UserVehicleService.Create().GetNewLevelPowerAsync(Vehicle, levelsGained * increasePerLevel);
+                    await UserVehicleService.Create().UpdateVehicleLevelAsync(newCard, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -253,7 +254,7 @@ public class UserVehiclesController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -263,7 +264,7 @@ public class UserVehiclesController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
          Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -280,7 +281,7 @@ public class UserVehiclesController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.VEHICLE);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.VEHICLE);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -354,24 +355,24 @@ public class UserVehiclesController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Vehicles newVehicle = new Vehicles();
 
-                    newVehicle = UserVehicleService.Create().GetNewBreakthroughPower(Vehicle, increasePerUpgrade);
-                    UserVehicleService.Create().UpdateVehicleBreakthrough(newVehicle, Vehicle.Star + 1, Vehicle.Quantity);
+                    newVehicle = await UserVehicleService.Create().GetNewBreakthroughPowerAsync(Vehicle, increasePerUpgrade);
+                    await UserVehicleService.Create().UpdateVehicleBreakthroughAsync(newVehicle, Vehicle.Star + 1, Vehicle.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    VehicleGalleryService.Create().UpdateStarVehiclesGallery(Vehicle.Id, Vehicle.Star + 1);
+                    await VehicleGalleryService.Create().UpdateStarVehicleGalleryAsync(Vehicle.Id, Vehicle.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(Vehicle.Star, currentObject);
                 }
                 else

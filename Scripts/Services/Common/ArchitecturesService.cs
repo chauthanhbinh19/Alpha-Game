@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ArchitecturesService : IArchitecturesService
 {
@@ -14,42 +15,42 @@ public class ArchitecturesService : IArchitecturesService
         return new ArchitecturesService(new ArchitecturesRepository());
     }
 
-    public List<Architectures> GetArchitectures(int pageSize, int offset, string rare)
+    public async Task<List<Architectures>> GetArchitecturesAsync(int pageSize, int offset, string rare)
     {
-        List<Architectures> list = _ArchitecturesRepository.GetArchitectures(pageSize, offset, rare);
+        List<Architectures> list = await _ArchitecturesRepository.GetArchitecturesAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetArchitecturesCount(string rare)
+    public async Task<int> GetArchitecturesCountAsync(string rare)
     {
-        return _ArchitecturesRepository.GetArchitecturesCount(rare);
+        return await _ArchitecturesRepository.GetArchitecturesCountAsync(rare);
     }
 
-    public List<Architectures> GetArchitecturesWithPrice(int pageSize, int offset)
+    public async Task<List<Architectures>> GetArchitecturesWithPriceAsync(int pageSize, int offset)
     {
-        List<Architectures> list = _ArchitecturesRepository.GetArchitecturesWithPrice(pageSize, offset);
+        List<Architectures> list = await _ArchitecturesRepository.GetArchitecturesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetArchitecturesWithPriceCount()
+    public async Task<int> GetArchitecturesWithPriceCountAsync()
     {
-        return _ArchitecturesRepository.GetArchitecturesWithPriceCount();
+        return await _ArchitecturesRepository.GetArchitecturesWithPriceCountAsync();
     }
 
-    public Architectures GetArchitecturesById(string Id)
+    public async Task<Architectures> GetArchitectureByIdAsync(string Id)
     {
-        return _ArchitecturesRepository.GetArchitecturesById(Id);
+        return await _ArchitecturesRepository.GetArchitectureByIdAsync(Id);
     }
 
-    public Architectures SumPowerArchitecturesPercent()
+    public async Task<Architectures> SumPowerArchitecturesPercentAsync()
     {
-        return _ArchitecturesRepository.SumPowerArchitecturesPercent();
+        return await _ArchitecturesRepository.SumPowerArchitecturesPercentAsync();
     }
 
-    public List<string> GetUniqueArchitectureId()
+    public async Task<List<string>> GetUniqueArchitecturesIdAsync()
     {
-        return _ArchitecturesRepository.GetUniqueArchitectureId();
+        return await _ArchitecturesRepository.GetUniqueArchitecturesIdAsync();
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -90,12 +91,12 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(collaborationEquipment, currentObject);
+            _=GetLevelAsync(collaborationEquipment, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(collaborationEquipment, currentObject);
+            _=GetUpgradeAsync(collaborationEquipment, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -106,7 +107,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(collaborationEquipment, currentObject);
+                _=GetLevelAsync(collaborationEquipment, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -114,7 +115,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(collaborationEquipment, currentObject);
+                _=GetUpgradeAsync(collaborationEquipment, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -156,7 +157,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, collaborationEquipment, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -170,7 +171,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.COLLABORATION_EQUIPMENT);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.COLLABORATION_EQUIPMENT);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -179,7 +180,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CollaborationEquipments currentCard = new CollaborationEquipments();
-                currentCard = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentsById(User.CurrentUserId, collaborationEquipment.Id);
+                currentCard = await UserCollaborationEquipmentsService.Create().GetUserCollaborationEquipmentByIdAsync(User.CurrentUserId, collaborationEquipment.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -190,8 +191,8 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
                 {
                     CollaborationEquipments newCard = new CollaborationEquipments();
 
-                    newCard = UserCollaborationEquipmentService.Create().GetNewLevelPower(collaborationEquipment, increasePerLevel);
-                    UserCollaborationEquipmentService.Create().UpdateCollaborationEquipmentsLevel(newCard, currentLevel + 1);
+                    newCard = await UserCollaborationEquipmentsService.Create().GetNewLevelPowerAsync(collaborationEquipment, increasePerLevel);
+                    await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -199,14 +200,14 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CollaborationEquipments currentCard = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentsById(User.CurrentUserId, collaborationEquipment.Id);
+                CollaborationEquipments currentCard = await UserCollaborationEquipmentsService.Create().GetUserCollaborationEquipmentByIdAsync(User.CurrentUserId, collaborationEquipment.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -222,8 +223,8 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CollaborationEquipments newCard = UserCollaborationEquipmentService.Create().GetNewLevelPower(collaborationEquipment, levelsGained * increasePerLevel);
-                    UserCollaborationEquipmentService.Create().UpdateCollaborationEquipmentsLevel(newCard, currentLevel);
+                    CollaborationEquipments newCard = await UserCollaborationEquipmentsService.Create().GetNewLevelPowerAsync(collaborationEquipment, levelsGained * increasePerLevel);
+                    await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentLevelAsync(newCard, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -232,7 +233,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -242,7 +243,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -259,7 +260,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.COLLABORATION_EQUIPMENT);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.COLLABORATION_EQUIPMENT);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -333,24 +334,24 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     CollaborationEquipments newCard = new CollaborationEquipments();
 
-                    newCard = UserCollaborationEquipmentService.Create().GetNewBreakthroughPower(collaborationEquipment, increasePerUpgrade);
-                    UserCollaborationEquipmentService.Create().UpdateCollaborationEquipmentsBreakthrough(newCard, collaborationEquipment.Star + 1, collaborationEquipment.Quantity);
+                    newCard = await UserCollaborationEquipmentsService.Create().GetNewBreakthroughPowerAsync(collaborationEquipment, increasePerUpgrade);
+                    await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentBreakthroughAsync(newCard, collaborationEquipment.Star + 1, collaborationEquipment.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    CollaborationEquipmentGalleryService.Create().UpdateStarCollaborationEquipmentsGallery(collaborationEquipment.Id, collaborationEquipment.Star + 1);
+                    await CollaborationEquipmentsGalleryService.Create().UpdateStarCollaborationEquipmentGalleryAsync(collaborationEquipment.Id, collaborationEquipment.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(collaborationEquipment.Star, currentObject);
                 }
                 else

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardsGalleryService : ICardsGalleryService
 {
@@ -14,44 +15,44 @@ public class CardsGalleryService : ICardsGalleryService
         return new CardsGalleryService(new CardsGalleryRepository());
     }
 
-    public List<Cards> GetCardsCollection(int pageSize, int offset, string rare)
+    public async Task<List<Cards>> GetCardsCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<Cards> list = _CardsGalleryRepository.GetCardsCollection(pageSize, offset, rare);
+        List<Cards> list = await _CardsGalleryRepository.GetCardsCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardsCount(string rare)
+    public async Task<int> GetCardsCountAsync(string rare)
     {
-        return _CardsGalleryRepository.GetCardsCount(rare);
+        return await _CardsGalleryRepository.GetCardsCountAsync(rare);
     }
 
-    public void InsertCardsGallery(string Id)
+    public async Task InsertCardGalleryAsync(string Id)
     {
         ICardsRepository _repository = new CardsRepository();
         CardsService _service = new CardsService(_repository);
-        _CardsGalleryRepository.InsertCardsGallery(Id, _service.GetCardsById(Id));
+        await _CardsGalleryRepository.InsertCardGalleryAsync(Id, await _service.GetCardByIdAsync(Id));
     }
 
-    public void UpdateStatusCardsGallery(string Id)
+    public async Task UpdateStatusCardGalleryAsync(string Id)
     {
-        _CardsGalleryRepository.UpdateStatusCardsGallery(Id);
+        await _CardsGalleryRepository.UpdateStatusCardGalleryAsync(Id);
     }
 
-    public Cards SumPowerCardsGallery()
+    public async Task<Cards> SumPowerCardsGalleryAsync()
     {
-        return _CardsGalleryRepository.SumPowerCardsGallery();
+        return await _CardsGalleryRepository.SumPowerCardsGalleryAsync();
     }
 
-    public void UpdateStarCardsGallery(string Id, double star)
+    public async Task UpdateStarCardGalleryAsync(string Id, double star)
     {
-        _CardsGalleryRepository.UpdateStarCardsGallery(Id, star);
+        await _CardsGalleryRepository.UpdateStarCardGalleryAsync(Id, star);
     }
 
-    public void UpdateCardsGalleryPower(string Id)
+    public async Task UpdateCardGalleryPowerAsync(string Id)
     {
         ICardsRepository _repository = new CardsRepository();
         CardsService _service = new CardsService(_repository);
-        _CardsGalleryRepository.UpdateCardsGalleryPower(Id, _service.GetCardsById(Id));
+        await _CardsGalleryRepository.UpdateCardGalleryPowerAsync(Id, await _service.GetCardByIdAsync(Id));
     }
 }

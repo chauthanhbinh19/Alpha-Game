@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class SymbolsGalleryService : ISymbolsGalleryService
 {
@@ -14,44 +15,44 @@ public class SymbolsGalleryService : ISymbolsGalleryService
         return new SymbolsGalleryService(new SymbolsGalleryRepository());
     }
 
-    public List<Symbols> GetSymbolsCollection(string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetSymbolsCollectionAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = _symbolsGalleryRepository.GetSymbolsCollection(type, pageSize, offset, rare);
+        List<Symbols> list = await _symbolsGalleryRepository.GetSymbolsCollectionAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSymbolsCount(string type, string rare)
+    public async Task<int> GetSymbolsCountAsync(string type, string rare)
     {
-        return _symbolsGalleryRepository.GetSymbolsCount(type, rare);
+        return await _symbolsGalleryRepository.GetSymbolsCountAsync(type, rare);
     }
 
-    public void InsertSymbolsGallery(string Id)
+    public async Task InsertSymbolGalleryAsync(string Id)
     {
         ISymbolsRepository _repository = new SymbolsRepository();
         SymbolsService _service = new SymbolsService(_repository);
-        _symbolsGalleryRepository.InsertSymbolsGallery(Id, _service.GetSymbolsById(Id));
+        await _symbolsGalleryRepository.InsertSymbolGalleryAsync(Id, await _service.GetSymbolByIdAsync(Id));
     }
 
-    public void UpdateStatusSymbolsGallery(string Id)
+    public async Task UpdateStatusSymbolGalleryAsync(string Id)
     {
-        _symbolsGalleryRepository.UpdateStatusSymbolsGallery(Id);
+        await _symbolsGalleryRepository.UpdateStatusSymbolGalleryAsync(Id);
     }
 
-    public Symbols SumPowerSymbolsGallery()
+    public async Task<Symbols> SumPowerSymbolsGalleryAsync()
     {
-        return _symbolsGalleryRepository.SumPowerSymbolsGallery();
+        return await _symbolsGalleryRepository.SumPowerSymbolsGalleryAsync();
     }
 
-    public void UpdateStarSymbolsGallery(string Id, double star)
+    public async Task UpdateStarSymbolGalleryAsync(string Id, double star)
     {
-        _symbolsGalleryRepository.UpdateStarSymbolsGallery(Id, star);
+        await _symbolsGalleryRepository.UpdateStarSymbolGalleryAsync(Id, star);
     }
 
-    public void UpdateSymbolsGalleryPower(string Id)
+    public async Task UpdateSymbolGalleryPowerAsync(string Id)
     {
         ISymbolsRepository _repository = new SymbolsRepository();
         SymbolsService _service = new SymbolsService(_repository);
-        _symbolsGalleryRepository.UpdateSymbolsGalleryPower(Id, _service.GetSymbolsById(Id));
+        await _symbolsGalleryRepository.UpdateSymbolGalleryPowerAsync(Id, await _service.GetSymbolByIdAsync(Id));
     }
 }

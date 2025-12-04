@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class AvatarsGalleryService : IAvatarsGalleryService
 {
@@ -14,42 +15,42 @@ public class AvatarsGalleryService : IAvatarsGalleryService
         return new AvatarsGalleryService(new AvatarsGalleryRepository());
     }
 
-    public List<Avatars> GetAvatarsCollection(int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetAvatarsCollectionAsync(int pageSize, int offset, string rare)
     {
-        return _avatarsGalleryRepository.GetAvatarsCollection(pageSize, offset, rare);
+        return await _avatarsGalleryRepository.GetAvatarsCollectionAsync(pageSize, offset, rare);
     }
 
-    public int GetAvatarsCount(string rare)
+    public async Task<int> GetAvatarsCountAsync(string rare)
     {
-        return _avatarsGalleryRepository.GetAvatarsCount(rare);
+        return await _avatarsGalleryRepository.GetAvatarsCountAsync(rare);
     }
 
-    public void InsertAvatarsGallery(string Id)
+    public async Task InsertAvatarGalleryAsync(string Id)
     {
         IAvatarsRepository _repository = new AvatarsRepository();
         AvatarsService _service = new AvatarsService(_repository);
-        _avatarsGalleryRepository.InsertAvatarsGallery(Id, _service.GetAvatarsById(Id));
+        await _avatarsGalleryRepository.InsertAvatarGalleryAsync(Id, await _service.GetAvatarByIdAsync(Id));
     }
 
-    public void UpdateStatusAvatarsGallery(string Id)
+    public async Task UpdateStatusAvatarGalleryAsync(string Id)
     {
-        _avatarsGalleryRepository.UpdateStatusAvatarsGallery(Id);
+        await _avatarsGalleryRepository.UpdateStatusAvatarGalleryAsync(Id);
     }
 
-    public Avatars SumPowerAvatarsGallery()
+    public async Task<Avatars> SumPowerAvatarsGalleryAsync()
     {
-        return _avatarsGalleryRepository.SumPowerAvatarsGallery();
+        return await _avatarsGalleryRepository.SumPowerAvatarsGalleryAsync();
     }
 
-    public void UpdateStarAvatarsGallery(string Id, double star)
+    public async Task UpdateStarAvatarGalleryAsync(string Id, double star)
     {
-        _avatarsGalleryRepository.UpdateStarAvatarsGallery(Id, star);
+        await _avatarsGalleryRepository.UpdateStarAvatarGalleryAsync(Id, star);
     }
 
-    public void UpdateAvatarsGalleryPower(string Id)
+    public async Task UpdateAvatarGalleryPowerAsync(string Id)
     {
         IAvatarsRepository _repository = new AvatarsRepository();
         AvatarsService _service = new AvatarsService(_repository);
-        _avatarsGalleryRepository.UpdateAvatarsGalleryPower(Id, _service.GetAvatarsById(Id));
+        await _avatarsGalleryRepository.UpdateAvatarGalleryPowerAsync(Id, await _service.GetAvatarByIdAsync(Id));
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class VehiclesService : IVehiclesService
 {
@@ -14,47 +15,47 @@ public class VehiclesService : IVehiclesService
         return new VehiclesService(new VehiclesRepository());
     }
 
-    public List<string> GetUniqueVehicleTypes()
+    public async Task<List<string>> GetUniqueVehiclesTypesAsync()
     {
-        return _VehiclesRepository.GetUniqueVehicleTypes();
+        return await _VehiclesRepository.GetUniqueVehiclesTypesAsync();
     }
 
-    public List<Vehicles> GetVehicles(string type, int pageSize, int offset, string rare)
+    public async Task<List<Vehicles>> GetVehiclesAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Vehicles> list = _VehiclesRepository.GetVehicles(type, pageSize, offset, rare);
+        List<Vehicles> list = await _VehiclesRepository.GetVehiclesAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetVehicleCount(string type, string rare)
+    public async Task<int> GetVehiclesCountAsync(string type, string rare)
     {
-        return _VehiclesRepository.GetVehicleCount(type, rare);
+        return await _VehiclesRepository.GetVehiclesCountAsync(type, rare);
     }
 
-    public List<Vehicles> GetVehiclesWithPrice(string type, int pageSize, int offset)
+    public async Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Vehicles> list = _VehiclesRepository.GetVehicleWithPrice(type, pageSize, offset);
+        List<Vehicles> list = await _VehiclesRepository.GetVehiclesWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetVehicleWithPriceCount(string type)
+    public async Task<int> GetVehiclesWithPriceCountAsync(string type)
     {
-        return _VehiclesRepository.GetVehicleWithPriceCount(type);
+        return await _VehiclesRepository.GetVehiclesWithPriceCountAsync(type);
     }
 
-    public Vehicles GetVehicleById(string Id)
+    public async Task<Vehicles> GetVehicleByIdAsync(string Id)
     {
-        return _VehiclesRepository.GetVehicleById(Id);
+        return await _VehiclesRepository.GetVehicleByIdAsync(Id);
     }
 
-    public Vehicles SumPowerVehiclePercent()
+    public async Task<Vehicles> SumPowerVehiclesPercentAsync()
     {
-        return _VehiclesRepository.SumPowerVehiclePercent();
+        return await _VehiclesRepository.SumPowerVehiclesPercentAsync();
     }
 
-    public List<string> GetUniqueVehicleId()
+    public async Task<List<string>> GetUniqueVehiclesIdAsync()
     {
-        return _VehiclesRepository.GetUniqueVehicleId();
+        return await _VehiclesRepository.GetUniqueVehiclesIdAsync();
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,7 +37,7 @@ public class EmployeesController : MonoBehaviour
         EmployeeButtonPrefab = UIManager.Instance.GetGeneralButton("EmployeeButtonPrefab");
         EmployeePanelPrefab = UIManager.Instance.GetGeneralPanel("EmployeePanelPrefab");
     }
-    public void CreateEmployeePanel()
+    public async Task CreateEmployeePanelAsync()
     {
         GameObject currentObject = Instantiate(EmployeePanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -53,7 +54,7 @@ public class EmployeesController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        var Employees = EmployeesService.Create().GetEmployees(User.CurrentUserId, 1000, 0);
+        var Employees = await EmployeesService.Create().GetEmployeesAsync(User.CurrentUserId, 1000, 0);
         CreateEmployees(Employees, contentPanel);
     }
     public void CreateEmployees(List<Employees> Employees, Transform contentPanel)

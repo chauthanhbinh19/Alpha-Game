@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CoresService : ICoresService
 {
@@ -14,42 +15,42 @@ public class CoresService : ICoresService
         return new CoresService(new CoresRepository());
     }
 
-    public List<Cores> GetCores(int pageSize, int offset, string rare)
+    public async Task<List<Cores>> GetCoresAsync(int pageSize, int offset, string rare)
     {
-        List<Cores> list = _CoresRepository.GetCores(pageSize, offset, rare);
+        List<Cores> list = await _CoresRepository.GetCoresAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCoresCount(string rare)
+    public async Task<int> GetCoresCountAsync(string rare)
     {
-        return _CoresRepository.GetCoresCount(rare);
+        return await _CoresRepository.GetCoresCountAsync(rare);
     }
 
-    public List<Cores> GetCoresWithPrice(int pageSize, int offset)
+    public async Task<List<Cores>> GetCoresWithPriceAsync(int pageSize, int offset)
     {
-        List<Cores> list = _CoresRepository.GetCoresWithPrice(pageSize, offset);
+        List<Cores> list = await _CoresRepository.GetCoresWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCoresWithPriceCount()
+    public async Task<int> GetCoresWithPriceCountAsync()
     {
-        return _CoresRepository.GetCoresWithPriceCount();
+        return await _CoresRepository.GetCoresWithPriceCountAsync();
     }
 
-    public Cores GetCoresById(string Id)
+    public async Task<Cores> GetCoreByIdAsync(string Id)
     {
-        return _CoresRepository.GetCoresById(Id);
+        return await _CoresRepository.GetCoreByIdAsync(Id);
     }
 
-    public Cores SumPowerCoresPercent()
+    public async Task<Cores> SumPowerCoresPercentAsync()
     {
-        return _CoresRepository.SumPowerCoresPercent();
+        return await _CoresRepository.SumPowerCoresPercentAsync();
     }
 
-    public List<string> GetUniqueCoreId()
+    public async Task<List<string>> GetUniqueCoresIdAsync()
     {
-        return _CoresRepository.GetUniqueCoreId();
+        return await _CoresRepository.GetUniqueCoresIdAsync();
     }
 }

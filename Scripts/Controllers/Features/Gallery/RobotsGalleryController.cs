@@ -35,15 +35,15 @@ public class RobotsGalleryController : MonoBehaviour
     }
     public void CreateRobotsGallery(List<Robots> RobotsList, Transform contentPanel)
     {
-        foreach (var technology in RobotsList)
+        foreach (var robot in RobotsList)
         {
-            GameObject technologyObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject robotObject = Instantiate(equipmentsPrefab, contentPanel);
 
-            Text Title = technologyObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = technology.Name.Replace("_", " ");
+            Text Title = robotObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = robot.Name.Replace("_", " ");
 
-            RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
+            RawImage image = robotObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -65,45 +65,45 @@ public class RobotsGalleryController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            Button button = technologyObject.GetComponent<Button>();
+            Button button = robotObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(robot, MainPanel);
             });
 
-            RawImage rareImage = technologyObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
+            RawImage rareImage = robotObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{robot.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = technologyObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = technologyObject.transform.Find("Unlock").GetComponent<Button>();
-            if (technology.Status.Equals("available"))
+            RawImage blockImage = robotObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = robotObject.transform.Find("Unlock").GetComponent<Button>();
+            if (robot.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
             }
-            else if (technology.Status.Equals("pending"))
+            else if (robot.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (technology.Status.Equals("block"))
+            else if (robot.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
 
-            RawImage rareBackgroundImage = technologyObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = robotObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var titleGalleryService = RobotsGalleryService.Create();
-                titleGalleryService.UpdateStatusRobotsGallery(technology.Id);
+                var robotGalleryService = RobotsGalleryService.Create();
+                await robotGalleryService.UpdateStatusRobotGalleryAsync(robot.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -111,15 +111,15 @@ public class RobotsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = technologyObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((technology.CurrentStar < technology.TempStar) && technology.Status.Equals("available"))
+            Button Upgrade = robotObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((robot.CurrentStar < robot.TempStar) && robot.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -128,10 +128,10 @@ public class RobotsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                RobotsGalleryService.Create().UpdateRobotsGalleryPower(technology.Id);
+                await RobotsGalleryService.Create().UpdateRobotGalleryPowerAsync(robot.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

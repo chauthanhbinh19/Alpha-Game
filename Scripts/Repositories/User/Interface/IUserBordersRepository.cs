@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserBordersRepository
 {
-    List<Borders> GetUserBorders(string user_id, int pageSize, int offset, string rare);
-    int GetUserBordersCount(string user_id, string rare);
-    bool InsertUserBorders(Borders borders, string userId);
-    bool InsertUserBordersById(Borders borders, string userId);
-    Borders GetBordersByUsed(string user_id);
-    void UpdateIsUsedBorders(string borderId, string userId, bool is_used);
-    Borders SumPowerUserBorders();
+    Task<List<Borders>> GetUserBordersAsync(string user_id, int pageSize, int offset, string rare);
+    Task<int> GetUserBordersCountAsync(string user_id, string rare);
+    Task<bool> InsertUserBorderAsync(Borders borders, string userId);
+    Task<bool> InsertUserBorderByIdAsync(Borders borders, string userId);
+    Task<Borders> GetBorderByUsedAsync(string user_id);
+    Task UpdateIsUsedBorderAsync(string borderId, string userId, bool is_used);
+    Task<Borders> SumPowerUserBordersAsync();
 }

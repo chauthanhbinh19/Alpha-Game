@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserBadgesService : IUserBadgesService
 {
@@ -14,11 +15,11 @@ public class UserBadgesService : IUserBadgesService
         return new UserBadgesService(new UserBadgesRepository());
     }
 
-    public Badges GetNewLevelPower(Badges c, double coefficient)
+    public async Task<Badges> GetNewLevelPowerAsync(Badges c, double coefficient)
     {
         IBadgesRepository _repository = new BadgesRepository();
         BadgesService _service = new BadgesService(_repository);
-        Badges orginCard = _service.GetBadgesById(c.Id);
+        Badges orginCard = await _service.GetBadgeByIdAsync(c.Id);
         Badges Badges = new Badges
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserBadgesService : IUserBadgesService
         );
         return Badges;
     }
-    public Badges GetNewBreakthroughPower(Badges c, double coefficient)
+    public async Task<Badges> GetNewBreakthroughPowerAsync(Badges c, double coefficient)
     {
         IBadgesRepository _repository = new BadgesRepository();
         BadgesService _service = new BadgesService(_repository);
-        Badges orginCard = _service.GetBadgesById(c.Id);
+        Badges orginCard = await _service.GetBadgeByIdAsync(c.Id);
         Badges Badges = new Badges
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserBadgesService : IUserBadgesService
         return Badges;
     }
 
-    public List<Badges> GetUserBadges(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Badges>> GetUserBadgesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Badges> list = _userBadgesRepository.GetUserBadges(user_id, pageSize, offset, rare);
+        List<Badges> list = await _userBadgesRepository.GetUserBadgesAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserBadgesCount(string user_id, string rare)
+    public async Task<int> GetUserBadgesCountAsync(string user_id, string rare)
     {
-        return _userBadgesRepository.GetUserBadgesCount(user_id, rare);
+        return await _userBadgesRepository.GetUserBadgesCountAsync(user_id, rare);
     }
 
-    public bool InsertUserBadges(Badges Badges, string userId)
+    public async Task<bool> InsertUserBadgeAsync(Badges Badges, string userId)
     {
-        return _userBadgesRepository.InsertUserBadges(Badges, userId);
+        return await _userBadgesRepository.InsertUserBadgeAsync(Badges, userId);
     }
 
-    public bool UpdateBadgesLevel(Badges Badges, int cardLevel)
+    public async Task<bool> UpdateBadgeLevelAsync(Badges Badges, int cardLevel)
     {
-        return _userBadgesRepository.UpdateBadgesLevel(Badges, cardLevel);
+        return await _userBadgesRepository.UpdateBadgeLevelAsync(Badges, cardLevel);
     }
 
-    public bool UpdateBadgesBreakthrough(Badges Badges, int star, double quantity)
+    public async Task<bool> UpdateBadgeBreakthroughAsync(Badges Badges, int star, double quantity)
     {
-        return _userBadgesRepository.UpdateBadgesBreakthrough(Badges, star, quantity);
+        return await _userBadgesRepository.UpdateBadgeBreakthroughAsync(Badges, star, quantity);
     }
 
-    public Badges GetUserBadgesById(string user_id, string Id)
+    public async Task<Badges> GetUserBadgeByIdAsync(string user_id, string Id)
     {
-        return _userBadgesRepository.GetUserBadgesById(user_id, Id);
+        return await _userBadgesRepository.GetUserBadgeByIdAsync(user_id, Id);
     }
 
-    public Badges SumPowerUserBadges()
+    public async Task<Badges> SumPowerUserBadgesAsync()
     {
-        return _userBadgesRepository.SumPowerUserBadges();
+        return await _userBadgesRepository.SumPowerUserBadgesAsync();
     }
 }

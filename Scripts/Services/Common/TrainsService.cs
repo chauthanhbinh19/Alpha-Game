@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class TrainsService : ITrainsService
 {
@@ -14,42 +15,42 @@ public class TrainsService : ITrainsService
         return new TrainsService(new TrainsRepository());
     }
 
-    public List<Trains> GetTrains(string userId, int pageSize, int offset)
+    public async Task<List<Trains>> GetTrainsAsync(string userId, int pageSize, int offset)
     {
-        List<Trains> list = _TrainsRepository.GetTrains(userId, pageSize, offset);
+        List<Trains> list = await _TrainsRepository.GetTrainsAsync(userId, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTrainsCount(string rare)
+    public async Task<int> GetTrainsCountAsync(string rare)
     {
-        return _TrainsRepository.GetTrainsCount(rare);
+        return await _TrainsRepository.GetTrainsCountAsync(rare);
     }
 
-    public List<Trains> GetTrainsWithPrice(int pageSize, int offset)
+    public async Task<List<Trains>> GetTrainsWithPriceAsync(int pageSize, int offset)
     {
-        List<Trains> list = _TrainsRepository.GetTrainsWithPrice(pageSize, offset);
+        List<Trains> list = await _TrainsRepository.GetTrainsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTrainsWithPriceCount()
+    public async Task<int> GetTrainsWithPriceCountAsync()
     {
-        return _TrainsRepository.GetTrainsWithPriceCount();
+        return await _TrainsRepository.GetTrainsWithPriceCountAsync();
     }
 
-    public Trains GetTrainsById(string Id)
+    public async Task<Trains> GetTrainByIdAsync(string Id)
     {
-        return _TrainsRepository.GetTrainsById(Id);
+        return await _TrainsRepository.GetTrainByIdAsync(Id);
     }
 
-    public Trains SumPowerTrainsPercent()
+    public async Task<Trains> SumPowerTrainsPercentAsync()
     {
-        return _TrainsRepository.SumPowerTrainsPercent();
+        return await _TrainsRepository.SumPowerTrainsPercentAsync();
     }
 
-    public List<string> GetUniqueTrainId()
+    public async Task<List<string>> GetUniqueTrainsIdAsync()
     {
-        return _TrainsRepository.GetUniqueTrainId();
+        return await _TrainsRepository.GetUniqueTrainsIdAsync();
     }
 }

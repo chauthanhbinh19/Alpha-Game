@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,7 +78,7 @@ public class PuppetsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreatePuppetTrade(List<Puppets> puppets, string subType, Transform currentContent,
+    public async Task CreatePuppetTradeAsync(List<Puppets> puppets, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var puppet in puppets)
@@ -132,7 +133,7 @@ public class PuppetsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetPuppetCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetPuppetsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -244,12 +245,12 @@ public class PuppetsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Puppets puppet)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(puppet.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(puppet.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -280,8 +281,8 @@ public class PuppetsController : MonoBehaviour
             if (obj is Puppets puppet)
             {
                 puppet.Quantity = puppet.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(puppet.Currency.Id, price);
-                bool success = UserPuppetService.Create().InsertUserPuppet(puppet, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(puppet.Currency.Id, price);
+                bool success = await UserPuppetsService.Create().InsertUserPuppetAsync(puppet, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -294,8 +295,8 @@ public class PuppetsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    PuppetGalleryService.Create().InsertPuppetGallery(puppet.Id);
-                    currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
+                    await PuppetsGalleryService.Create().InsertPuppetGalleryAsync(puppet.Id);
+                    currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -315,7 +316,7 @@ public class PuppetsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

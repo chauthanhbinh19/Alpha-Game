@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IPowerManagerRepository
 {
-    void InsertUserStats(string user_id, PowerManager powerManager);
-    void UpdateUserStats(string user_id, PowerManager powerManager);
-    PowerManager GetUserStats(string user_id);
+    Task InsertUserStatsAsync(string user_id, PowerManager powerManager);
+    Task UpdateUserStatsAsync(string user_id, PowerManager powerManager);
+    Task<PowerManager> GetUserStatsAsync(string user_id);
 }

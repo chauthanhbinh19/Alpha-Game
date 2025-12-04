@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -96,7 +97,7 @@ public class RunesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateRunesTrade(List<Runes> RunesList, string subType, Transform currentContent,
+    public async Task CreateRunesTradeAsync(List<Runes> RunesList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var Rune in RunesList)
@@ -168,7 +169,7 @@ public class RunesController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetRunesCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetRunesCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -280,12 +281,12 @@ public class RunesController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Runes Runes)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Runes.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Runes.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -316,8 +317,8 @@ public class RunesController : MonoBehaviour
             if (obj is Runes rune)
             {
                 rune.Quantity = rune.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(rune.Currency.Id, price);
-                bool success = UserRunesService.Create().InsertUserRunes(rune, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(rune.Currency.Id, price);
+                bool success = await UserRunesService.Create().InsertUserRuneAsync(rune, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -330,8 +331,8 @@ public class RunesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    RunesGalleryService.Create().InsertRunesGallery(rune.Id);
-                    currencies = UserCurrencyService.Create().GetRunesCurrency(subType);
+                    await RunesGalleryService.Create().InsertRuneGalleryAsync(rune.Id);
+                    currencies = await UserCurrenciesService.Create().GetRunesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -351,7 +352,7 @@ public class RunesController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

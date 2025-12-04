@@ -2,31 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using MySqlConnector;
+using System.Threading.Tasks;
 
 public class UserDailyCheckinRepository : IUserDailyCheckinRepository
 {
-    public void InsertUserDailyCheckin(string userId, UserDailyCheckin userDailyCheckin)
+    public async Task InsertUserDailyCheckinAsync(string userId, UserDailyCheckin userDailyCheckin)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
+
                 string currencyQuery = @"
-                Insert into user_daily_checkin (user_id, daily_checkin_id, status, day, month, year) values
-                (@user_id, @daily_checkin_id, @status, @day, @month, @year);
-                ";
-                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                INSERT INTO user_daily_checkin 
+                    (user_id, daily_checkin_id, status, day, month, year) 
+                VALUES
+                    (@user_id, @daily_checkin_id, @status, @day, @month, @year);
+            ";
+
+                await using var currencyCommand = new MySqlCommand(currencyQuery, connection);
                 currencyCommand.Parameters.AddWithValue("@user_id", userId);
                 currencyCommand.Parameters.AddWithValue("@daily_checkin_id", userDailyCheckin.DailyCheckinId);
                 currencyCommand.Parameters.AddWithValue("@day", userDailyCheckin.Day);
                 currencyCommand.Parameters.AddWithValue("@month", userDailyCheckin.Month);
                 currencyCommand.Parameters.AddWithValue("@year", userDailyCheckin.Year);
                 currencyCommand.Parameters.AddWithValue("@status", userDailyCheckin.Status);
-                currencyCommand.ExecuteNonQuery();
+
+                await currencyCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -34,28 +40,32 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
     }
-    public void UpdateUserDailyCheckin(string userId, string dailyCheckinId)
+    public async Task UpdateUserDailyCheckinAsync(string userId, string dailyCheckinId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
+
                 string currencyQuery = @"
-                Update user_daily_checkin 
-                Set status = @status
-                where user_id = @user_id and daily_checkin_id = @daily_checkin_id;
-                ";
-                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                UPDATE user_daily_checkin 
+                SET status = @status
+                WHERE user_id = @user_id AND daily_checkin_id = @daily_checkin_id;
+            ";
+
+                await using var currencyCommand = new MySqlCommand(currencyQuery, connection);
                 currencyCommand.Parameters.AddWithValue("@user_id", userId);
                 currencyCommand.Parameters.AddWithValue("@daily_checkin_id", dailyCheckinId);
                 currencyCommand.Parameters.AddWithValue("@status", true);
-                currencyCommand.ExecuteNonQuery();
+
+                await currencyCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -63,43 +73,53 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
     }
-    public void DeleteUserDailyCheckin(string userId, string dailyCheckinId)
+    public async Task DeleteUserDailyCheckinAsync(string userId, string dailyCheckinId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
+
                 string currencyQuery = @"
-                Delete from user_daily_checkin 
-                where user_id = @user_id and daily_checkin_id = @daily_checkin_id;
-                ";
-                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                DELETE FROM user_daily_checkin 
+                WHERE user_id = @user_id AND daily_checkin_id = @daily_checkin_id;
+            ";
+
+                await using var currencyCommand = new MySqlCommand(currencyQuery, connection);
                 currencyCommand.Parameters.AddWithValue("@user_id", userId);
                 currencyCommand.Parameters.AddWithValue("@daily_checkin_id", dailyCheckinId);
-                currencyCommand.ExecuteNonQuery();
+
+                await currencyCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
     }
-    public bool CheckUserDailyCheckinStatus(string userId, int month, int year)
+    public async Task<bool> CheckUserDailyCheckinStatusAsync(string userId, int month, int year)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
+
                 string currencyQuery = @"
-                SELECT *
+                SELECT COUNT(*)
                 FROM daily_checkin dc
                 LEFT JOIN user_daily_checkin udc
                     ON dc.id = udc.daily_checkin_id
@@ -110,51 +130,54 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                         udc.daily_checkin_id IS NULL
                         OR udc.month <> dc.month
                         OR udc.year <> dc.year
-                    )
-                ORDER BY dc.day ASC;
-                ";
-                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
+                    );
+            ";
+
+                await using var currencyCommand = new MySqlCommand(currencyQuery, connection);
                 currencyCommand.Parameters.AddWithValue("@user_id", userId);
                 currencyCommand.Parameters.AddWithValue("@month", month);
                 currencyCommand.Parameters.AddWithValue("@year", year);
-                int count = Convert.ToInt32(currencyCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    return true;
-                }
+
+                int count = Convert.ToInt32(await currencyCommand.ExecuteScalarAsync());
+
+                return count == 0;
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return false;
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
-        return false;
     }
-    public List<UserDailyCheckin> GetUserDailyCheckin(string userId)
+    public async Task<List<UserDailyCheckin>> GetUserDailyCheckinAsync(string userId)
     {
         List<UserDailyCheckin> userDailyCheckins = new List<UserDailyCheckin>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
+
                 string currencyQuery = @"
                 SELECT dc.*, udc.status
                 FROM daily_checkin dc
                 LEFT JOIN user_daily_checkin udc
                     ON dc.id = udc.daily_checkin_id
                     AND udc.user_id = @user_id 
-                ORDER BY dc.day ASC;";
-                MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection);
-                currencyCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                ORDER BY dc.day ASC;
+            ";
 
-                MySqlDataReader currencyReader = currencyCommand.ExecuteReader();
-                while (currencyReader.Read())
+                await using var currencyCommand = new MySqlCommand(currencyQuery, connection);
+                currencyCommand.Parameters.AddWithValue("@user_id", userId);
+
+                await using var currencyReader = await currencyCommand.ExecuteReaderAsync();
+                while (await currencyReader.ReadAsync())
                 {
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
@@ -164,9 +187,10 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                         Date = currencyReader.GetDateTime("day"),
                         Quantity = currencyReader.GetInt32("quantity")
                     };
+
                     userDailyCheckins.Add(new UserDailyCheckin
                     {
-                        Status = currencyReader.GetBoolean("status"),
+                        Status = currencyReader.IsDBNull(currencyReader.GetOrdinal("status")) ? false : currencyReader.GetBoolean("status"),
                         DailyCheckin = dailyCheckin
                     });
                 }
@@ -177,9 +201,10 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
+
         return userDailyCheckins;
     }
 }

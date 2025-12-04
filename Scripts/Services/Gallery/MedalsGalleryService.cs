@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MedalsGalleryService : IMedalsGalleryService
 {
@@ -14,44 +15,44 @@ public class MedalsGalleryService : IMedalsGalleryService
         return new MedalsGalleryService(new MedalsGalleryRepository());
     }
 
-    public List<Medals> GetMedalsCollection(int pageSize, int offset, string rare)
+    public async Task<List<Medals>> GetMedalsCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<Medals> list = _medalsGalleryRepository.GetMedalsCollection(pageSize, offset, rare);
+        List<Medals> list = await _medalsGalleryRepository.GetMedalsCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMedalsCount(string rare)
+    public async Task<int> GetMedalsCountAsync(string rare)
     {
-        return _medalsGalleryRepository.GetMedalsCount(rare);
+        return await _medalsGalleryRepository.GetMedalsCountAsync(rare);
     }
 
-    public void InsertMedalsGallery(string Id)
+    public async Task InsertMedalGalleryAsync(string Id)
     {
         IMedalsRepository _repository = new MedalsRepository();
         MedalsService _service = new MedalsService(_repository);
-        _medalsGalleryRepository.InsertMedalsGallery(Id, _service.GetMedalsById(Id));
+        await _medalsGalleryRepository.InsertMedalGalleryAsync(Id, await _service.GetMedalByIdAsync(Id));
     }
 
-    public void UpdateStatusMedalsGallery(string Id)
+    public async Task UpdateStatusMedalGalleryAsync(string Id)
     {
-        _medalsGalleryRepository.UpdateStatusMedalsGallery(Id);
+        await _medalsGalleryRepository.UpdateStatusMedalGalleryAsync(Id);
     }
 
-    public Medals SumPowerMedalsGallery()
+    public async Task<Medals> SumPowerMedalsGalleryAsync()
     {
-        return _medalsGalleryRepository.SumPowerMedalsGallery();
+        return await _medalsGalleryRepository.SumPowerMedalsGalleryAsync();
     }
 
-    public void UpdateStarMedalsGallery(string Id, double star)
+    public async Task UpdateStarMedalGalleryAsync(string Id, double star)
     {
-        _medalsGalleryRepository.UpdateStarMedalsGallery(Id, star);
+        await _medalsGalleryRepository.UpdateStarMedalGalleryAsync(Id, star);
     }
 
-    public void UpdateMedalsGalleryPower(string Id)
+    public async Task UpdateMedalGalleryPowerAsync(string Id)
     {
         IMedalsRepository _repository = new MedalsRepository();
         MedalsService _service = new MedalsService(_repository);
-        _medalsGalleryRepository.UpdateMedalsGalleryPower(Id, _service.GetMedalsById(Id));
+        await _medalsGalleryRepository.UpdateMedalGalleryPowerAsync(Id, await _service.GetMedalByIdAsync(Id));
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class RobotsService : IRobotsService
 {
@@ -14,42 +15,42 @@ public class RobotsService : IRobotsService
         return new RobotsService(new RobotsRepository());
     }
 
-    public List<Robots> GetRobots(int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetRobotsAsync(int pageSize, int offset, string rare)
     {
-        List<Robots> list = _RobotsRepository.GetRobots(pageSize, offset, rare);
+        List<Robots> list = await _RobotsRepository.GetRobotsAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRobotsCount(string rare)
+    public async Task<int> GetRobotsCountAsync(string rare)
     {
-        return _RobotsRepository.GetRobotsCount(rare);
+        return await _RobotsRepository.GetRobotsCountAsync(rare);
     }
 
-    public List<Robots> GetRobotsWithPrice(int pageSize, int offset)
+    public async Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset)
     {
-        List<Robots> list = _RobotsRepository.GetRobotsWithPrice(pageSize, offset);
+        List<Robots> list = await _RobotsRepository.GetRobotsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRobotsWithPriceCount()
+    public async Task<int> GetRobotsWithPriceCountAsync()
     {
-        return _RobotsRepository.GetRobotsWithPriceCount();
+        return await _RobotsRepository.GetRobotsWithPriceCountAsync();
     }
 
-    public Robots GetRobotsById(string Id)
+    public async Task<Robots> GetRobotByIdAsync(string Id)
     {
-        return _RobotsRepository.GetRobotsById(Id);
+        return await _RobotsRepository.GetRobotByIdAsync(Id);
     }
 
-    public Robots SumPowerRobotsPercent()
+    public async Task<Robots> SumPowerRobotsPercentAsync()
     {
-        return _RobotsRepository.SumPowerRobotsPercent();
+        return await _RobotsRepository.SumPowerRobotsPercentAsync();
     }
 
-    public List<string> GetUniqueRobotId()
+    public async Task<List<string>> GetUniqueRobotsIdAsync()
     {
-        return _RobotsRepository.GetUniqueRobotId();
+        return await _RobotsRepository.GetUniqueRobotsIdAsync();
     }
 }

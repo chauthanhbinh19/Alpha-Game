@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -69,7 +70,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
         teamsService = TeamsService.Create();
     }
-    public void CreateMainMenuEquipmentManager(object data)
+    public async Task CreateMainMenuEquipmentManagerAsync(object data)
     {
         currentObject = Instantiate(MainMenuEquipmentPanelPrefab, MainPanel);
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -91,7 +92,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             Destroy(currentObject);
         });
 
-        List<string> uniqueTypes = EquipmentsService.Create().GetUniqueEquipmentsTypes();
+        List<string> uniqueTypes = await EquipmentsService.Create().GetUniqueEquipmentsTypesAsync();
         if (uniqueTypes.Count > 0)
         {
             for (int i = 0; i < uniqueTypes.Count; i++)
@@ -104,10 +105,10 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() =>
+                btn.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    OnButtonClick(button, data, subtype);
+                    await OnButtonClickAsync(button, data, subtype);
                 });
 
                 if (i == 0)
@@ -116,43 +117,43 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     if (data is CardHeroes cardHeroes)
                     {
-                        CreateCardHeroesEquipments(cardHeroes);
+                        await CreateCardHeroesEquipmentsAsync(cardHeroes);
                     }
                     else if (data is Books books)
                     {
-                        CreateBooksEquipments(books);
+                        await CreateBooksEquipmentsAsync(books);
                     }
                     else if (data is CardCaptains cardCaptains)
                     {
-                        CreateCardCaptainsEquipments(cardCaptains);
+                        await CreateCardCaptainsEquipmentsAsync(cardCaptains);
                     }
                     else if (data is Pets pets)
                     {
-                        CreatePetsEquipments(pets);
+                        await CreatePetsEquipmentsAsync(pets);
                     }
                     else if (data is CardMilitaries cardMilitary)
                     {
-                        CreateCardMilitaryEquipments(cardMilitary);
+                        await CreateCardMilitaryEquipmentsAsync(cardMilitary);
                     }
                     else if (data is CardSpells cardSpell)
                     {
-                        CreateCardSpellEquipments(cardSpell);
+                        await CreateCardSpellEquipmentsAsync(cardSpell);
                     }
                     else if (data is CardMonsters cardMonsters)
                     {
-                        CreateCardMonstersEquipments(cardMonsters);
+                        await CreateCardMonstersEquipmentsAsync(cardMonsters);
                     }
                     else if (data is CardColonels cardColonels)
                     {
-                        CreateCardColonelsEquipments(cardColonels);
+                        await CreateCardColonelsEquipmentsAsync(cardColonels);
                     }
                     else if (data is CardGenerals cardGenerals)
                     {
-                        CreateCardGeneralsEquipments(cardGenerals);
+                        await CreateCardGeneralsEquipmentsAsync(cardGenerals);
                     }
                     else if (data is CardAdmirals cardAdmirals)
                     {
-                        CreateCardAdmiralsEquipments(cardAdmirals);
+                        await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
                     }
                 }
                 else
@@ -162,9 +163,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             LoadAnimation();
         }
-        CreateSetButton(data);
+        _=CreateSetButtonAsync(data);
     }
-    void OnButtonClick(GameObject clickedButton, object data, string type)
+    async Task OnButtonClickAsync(GameObject clickedButton, object data, string type)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -179,46 +180,46 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
         mainType = type;
         ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-        CreateSetButton(data);
+        _=CreateSetButtonAsync(data);
         if (data is CardHeroes cardHeroes)
         {
-            CreateCardHeroesEquipments(cardHeroes);
+            await CreateCardHeroesEquipmentsAsync(cardHeroes);
         }
         else if (data is Books books)
         {
-            CreateBooksEquipments(books);
+            await CreateBooksEquipmentsAsync(books);
         }
         else if (data is CardCaptains cardCaptains)
         {
-            CreateCardCaptainsEquipments(cardCaptains);
+            await CreateCardCaptainsEquipmentsAsync(cardCaptains);
         }
         else if (data is Pets pets)
         {
-            CreatePetsEquipments(pets);
+            await CreatePetsEquipmentsAsync(pets);
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            CreateCardMilitaryEquipments(cardMilitary);
+            await CreateCardMilitaryEquipmentsAsync(cardMilitary);
         }
         else if (data is CardSpells cardSpell)
         {
-            CreateCardSpellEquipments(cardSpell);
+            await CreateCardSpellEquipmentsAsync(cardSpell);
         }
         else if (data is CardMonsters cardMonsters)
         {
-            CreateCardMonstersEquipments(cardMonsters);
+            await CreateCardMonstersEquipmentsAsync(cardMonsters);
         }
         else if (data is CardColonels cardColonels)
         {
-            CreateCardColonelsEquipments(cardColonels);
+            await CreateCardColonelsEquipmentsAsync(cardColonels);
         }
         else if (data is CardGenerals cardGenerals)
         {
-            CreateCardGeneralsEquipments(cardGenerals);
+            await CreateCardGeneralsEquipmentsAsync(cardGenerals);
         }
         else if (data is CardAdmirals cardAdmirals)
         {
-            CreateCardAdmiralsEquipments(cardAdmirals);
+            await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
         }
     }
     private void ChangeButtonBackground(GameObject button, string image)
@@ -248,10 +249,10 @@ public class MainMenuEquipmentManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    public void CreateSetButton(object data)
+    public async Task CreateSetButtonAsync(object data)
     {
         Close(SetPanel);
-        List<string> uniqueSet = EquipmentsService.Create().GetEquipmentsSet(mainType);
+        List<string> uniqueSet = await EquipmentsService.Create().GetEquipmentsSetAsync(mainType);
         if (uniqueSet.Count > 0)
         {
             for (int i = 0; i < uniqueSet.Count; i++)
@@ -263,10 +264,10 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 buttonText.text = subtype.Replace("set", "");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() =>
+                btn.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    OnSetButtonClick(button, data, subtype);
+                    await OnSetButtonClickAsync(button, data, subtype);
                 });
                 if (i == 0)
                 {
@@ -280,7 +281,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    void OnSetButtonClick(GameObject clickedButton, object data, string type)
+    async Task OnSetButtonClickAsync(GameObject clickedButton, object data, string type)
     {
         foreach (Transform child in SetPanel)
         {
@@ -298,51 +299,51 @@ public class MainMenuEquipmentManager : MonoBehaviour
         // CreateSetButton();
         if (data is CardHeroes cardHeroes)
         {
-            CreateCardHeroesEquipments(cardHeroes);
+            await CreateCardHeroesEquipmentsAsync(cardHeroes);
         }
         else if (data is Books books)
         {
-            CreateBooksEquipments(books);
+            await CreateBooksEquipmentsAsync(books);
         }
         else if (data is CardCaptains cardCaptains)
         {
-            CreateCardCaptainsEquipments(cardCaptains);
+            await CreateCardCaptainsEquipmentsAsync(cardCaptains);
         }
         else if (data is Pets pets)
         {
-            CreatePetsEquipments(pets);
+            await CreatePetsEquipmentsAsync(pets);
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            CreateCardMilitaryEquipments(cardMilitary);
+            await CreateCardMilitaryEquipmentsAsync(cardMilitary);
         }
         else if (data is CardSpells cardSpell)
         {
-            CreateCardSpellEquipments(cardSpell);
+            await CreateCardSpellEquipmentsAsync(cardSpell);
         }
         else if (data is CardMonsters cardMonsters)
         {
-            CreateCardMonstersEquipments(cardMonsters);
+            await CreateCardMonstersEquipmentsAsync(cardMonsters);
         }
         else if (data is CardColonels cardColonels)
         {
-            CreateCardColonelsEquipments(cardColonels);
+            await CreateCardColonelsEquipmentsAsync(cardColonels);
         }
         else if (data is CardGenerals cardGenerals)
         {
-            CreateCardGeneralsEquipments(cardGenerals);
+            await CreateCardGeneralsEquipmentsAsync(cardGenerals);
         }
         else if (data is CardAdmirals cardAdmirals)
         {
-            CreateCardAdmiralsEquipments(cardAdmirals);
+            await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
         }
     }
-    public void CreateCardHeroesEquipments(CardHeroes cardHeroes)
+    public async Task CreateCardHeroesEquipmentsAsync(CardHeroes cardHeroes)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardHeroesEquipments(User.CurrentUserId, cardHeroes.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetCardHeroesEquipmentsAsync(User.CurrentUserId, cardHeroes.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = cardHeroes.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -432,12 +433,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardCaptainsEquipments(CardCaptains cardCaptains)
+    public async Task CreateCardCaptainsEquipmentsAsync(CardCaptains cardCaptains)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardCaptainsEquipments(User.CurrentUserId, cardCaptains.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetCardCaptainsEquipmentsAsync(User.CurrentUserId, cardCaptains.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = cardCaptains.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -527,12 +528,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardColonelsEquipments(CardColonels cardColonels)
+    public async Task CreateCardColonelsEquipmentsAsync(CardColonels cardColonels)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardColonelsEquipments(User.CurrentUserId, cardColonels.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetCardColonelsEquipmentsAsync(User.CurrentUserId, cardColonels.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = cardColonels.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -622,12 +623,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardGeneralsEquipments(CardGenerals cardGenerals)
+    public async Task CreateCardGeneralsEquipmentsAsync(CardGenerals cardGenerals)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardGeneralsEquipments(User.CurrentUserId, cardGenerals.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetCardGeneralsEquipmentsAsync(User.CurrentUserId, cardGenerals.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = cardGenerals.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -717,12 +718,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardAdmiralsEquipments(CardAdmirals cardAdmirals)
+    public async Task CreateCardAdmiralsEquipmentsAsync(CardAdmirals cardAdmirals)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardAdmiralsEquipments(User.CurrentUserId, cardAdmirals.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardAdmirals.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = cardAdmirals.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -744,13 +745,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = new Button[]
-            {
-                slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>()
-            };
+            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -760,15 +755,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = new Button[]
-            {
-                slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-            };
+            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -778,17 +765,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = new Button[]
-            {
-                slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>()
-            };
+            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -798,19 +775,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = new Button[]
-            {
-                slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot9Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot10Button").GetComponent<Button>(),
-            };
+            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -820,21 +785,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = new Button[]
-            {
-                slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot9Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot10Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot11Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot12Button").GetComponent<Button>(),
-            };
+            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -844,23 +795,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = new Button[]
-            {
-                slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot9Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot10Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot11Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot12Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot13Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot14Button").GetComponent<Button>(),
-            };
+            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -870,25 +805,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = new Button[]
-            {
-                slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot2Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot3Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot4Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot5Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot6Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot7Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot8Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot9Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot10Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot11Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot12Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot13Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot14Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot15Button").GetComponent<Button>(),
-                slotObject.transform.Find("EquipmentSlot16Button").GetComponent<Button>(),
-            };
+            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -896,12 +813,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardMonstersEquipments(CardMonsters cardMonsters)
+    public async Task CreateCardMonstersEquipmentsAsync(CardMonsters cardMonsters)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardMonstersEquipments(User.CurrentUserId, cardMonsters.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetCardMonstersEquipmentsAsync(User.CurrentUserId, cardMonsters.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = cardMonsters.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -991,12 +908,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardMilitaryEquipments(CardMilitaries cardMilitary)
+    public async Task CreateCardMilitaryEquipmentsAsync(CardMilitaries cardMilitary)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardMilitaryEquipments(User.CurrentUserId, cardMilitary.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetCardMilitariesEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = cardMilitary.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1086,12 +1003,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateCardSpellEquipments(CardSpells cardSpell)
+    public async Task CreateCardSpellEquipmentsAsync(CardSpells cardSpell)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetCardSpellEquipments(User.CurrentUserId, cardSpell.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetCardSpellsEquipmentsAsync(User.CurrentUserId, cardSpell.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = cardSpell.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1181,12 +1098,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreateBooksEquipments(Books books)
+    public async Task CreateBooksEquipmentsAsync(Books books)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetBooksEquipments(User.CurrentUserId, books.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetBooksEquipmentsAsync(User.CurrentUserId, books.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = books.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1276,12 +1193,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    public void CreatePetsEquipments(Pets pets)
+    public async Task CreatePetsEquipmentsAsync(Pets pets)
     {
         Close(SlotPanel);
 
         List<Equipments> equipmentList = new List<Equipments>();
-        equipmentList = UserEquipmentsService.Create().GetPetsEquipments(User.CurrentUserId, pets.Id, mainType);
+        equipmentList = await UserEquipmentsService.Create().GetPetsEquipmentsAsync(User.CurrentUserId, pets.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = pets.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -1546,9 +1463,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
         if (!foundEquipment)
         {
             // button.onClick.RemoveAllListeners(); // Xóa các sự kiện trước đó (nếu có)
-            button.onClick.AddListener(() =>
+            button.onClick.AddListener(async () =>
             {
-                CreatePopupEquipments(data, position);
+                await CreatePopupEquipmentsAsync(data, position);
             });
         }
         else
@@ -1566,18 +1483,18 @@ public class MainMenuEquipmentManager : MonoBehaviour
         if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
         return (int)Math.Ceiling((double)totalRecords / pageSize);
     }
-    public void CreatePopupEquipments(object data, int position, string statusToggle = "NOT EQUIP")
+    public async Task CreatePopupEquipmentsAsync(object data, int position, string statusToggle = "NOT EQUIP")
     {
         popupEquipmentObject = Instantiate(PopupEquipmentsPanelPrefab, MainPanel);
         Transform contentPanel = popupEquipmentObject.transform.Find("Scroll View/Viewport/Content");
         Text PageText = popupEquipmentObject.transform.Find("Pagination/Page").GetComponent<Text>();
         Toggle toggle = popupEquipmentObject.transform.Find("Toggle").GetComponent<Toggle>();
         toggle.isOn = (statusToggle == "ALL");
-        toggle.onValueChanged.AddListener((bool isOn) =>
+        toggle.onValueChanged.AddListener(async (bool isOn) =>
         {
             string newStatusToggle = isOn ? "ALL" : "NOT EQUIP";
             Destroy(popupEquipmentObject);
-            CreatePopupEquipments(data, position, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
+            await CreatePopupEquipmentsAsync(data, position, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
         Button NextButton = popupEquipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
         Button PreviousButton = popupEquipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
@@ -1587,52 +1504,52 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentsList = new List<Equipments>();
         if (data is CardHeroes cardHeroes)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllCardHeroesEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllCardHeroesEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardCaptains cardCaptains)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllCardCaptainsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllCardCaptainsEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardColonels cardColonels)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllCardColonelsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllCardColonelsEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardGenerals cardGenerals)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllCardGeneralsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllCardGeneralsEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardAdmirals cardAdmirals)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllCardAdmiralsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllCardAdmiralsEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardMonsters cardMonsters)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllCardMonstersEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllCardMonstersEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllCardMilitaryEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllCardMilitariesEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is CardSpells cardSpell)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllCardSpellEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllCardSpellsEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is Books books)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllBooksEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllBooksEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         else if (data is Pets pets)
         {
-            equipmentsList = UserEquipmentsService.Create().GetAllPetsEquipments(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
+            equipmentsList = await UserEquipmentsService.Create().GetAllPetsEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         equipmentsList = equipmentsList.Where(e => e.Set == set).ToList();
-        int totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, mainType, rare);
+        int totalRecord = await  UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, mainType, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         CreatePopupEquipmentsUI(data, equipmentsList, contentPanel, position);
-        NextButton.onClick.AddListener(() => { ChangeNextPage(data, PageText, contentPanel, mainType, position); });
-        PreviousButton.onClick.AddListener(() => { ChangePreviousPage(data, PageText, contentPanel, mainType, position); });
+        NextButton.onClick.AddListener(async () => { await ChangeNextPageAsync(data, PageText, contentPanel, mainType, position); });
+        PreviousButton.onClick.AddListener(async () => { await ChangePreviousPageAsync(data, PageText, contentPanel, mainType, position); });
     }
     public void CreatePopupEquipmentsUI(object data, List<Equipments> equipmentsList, Transform content, int position)
     {
@@ -1664,8 +1581,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Destroy(popupEquipmentObject);
                 if (data is CardHeroes cardHeroes)
                 {
-                    UserEquipmentsService.Create().InsertCardHeroesEquipments(cardHeroes.Id, equipment, position);
-                    CreateCardHeroesEquipments(cardHeroes);
+                    await UserEquipmentsService.Create().InsertCardHeroEquipmentsAsync(cardHeroes.Id, equipment, position);
+                    await CreateCardHeroesEquipmentsAsync(cardHeroes);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1673,8 +1590,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardCaptains cardCaptains)
                 {
-                    UserEquipmentsService.Create().InsertCardCaptainsEquipments(cardCaptains.Id, equipment, position);
-                    CreateCardCaptainsEquipments(cardCaptains);
+                    await UserEquipmentsService.Create().InsertCardCaptainEquipmentsAsync(cardCaptains.Id, equipment, position);
+                    await CreateCardCaptainsEquipmentsAsync(cardCaptains);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1682,8 +1599,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardColonels cardColonels)
                 {
-                    UserEquipmentsService.Create().InsertCardColonelsEquipments(cardColonels.Id, equipment, position);
-                    CreateCardColonelsEquipments(cardColonels);
+                    await UserEquipmentsService.Create().InsertCardColonelEquipmentsAsync(cardColonels.Id, equipment, position);
+                    await CreateCardColonelsEquipmentsAsync(cardColonels);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1691,8 +1608,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardGenerals cardGenerals)
                 {
-                    UserEquipmentsService.Create().InsertCardGeneralsEquipments(cardGenerals.Id, equipment, position);
-                    CreateCardGeneralsEquipments(cardGenerals);
+                    await UserEquipmentsService.Create().InsertCardGeneralEquipmentsAsync(cardGenerals.Id, equipment, position);
+                    await CreateCardGeneralsEquipmentsAsync(cardGenerals);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1700,8 +1617,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardAdmirals cardAdmirals)
                 {
-                    UserEquipmentsService.Create().InsertCardAdmiralsEquipments(cardAdmirals.Id, equipment, position);
-                    CreateCardAdmiralsEquipments(cardAdmirals);
+                    await UserEquipmentsService.Create().InsertCardAdmiralEquipmentsAsync(cardAdmirals.Id, equipment, position);
+                    await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1709,8 +1626,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardMonsters cardMonsters)
                 {
-                    UserEquipmentsService.Create().InsertCardMonstersEquipments(cardMonsters.Id, equipment, position);
-                    CreateCardMonstersEquipments(cardMonsters);
+                    await UserEquipmentsService.Create().InsertCardMonsterEquipmentsAsync(cardMonsters.Id, equipment, position);
+                    await CreateCardMonstersEquipmentsAsync(cardMonsters);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1718,8 +1635,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardMilitaries cardMilitary)
                 {
-                    UserEquipmentsService.Create().InsertCardMilitaryEquipments(cardMilitary.Id, equipment, position);
-                    CreateCardMilitaryEquipments(cardMilitary);
+                    await UserEquipmentsService.Create().InsertCardMilitaryEquipmentsAsync(cardMilitary.Id, equipment, position);
+                    await CreateCardMilitaryEquipmentsAsync(cardMilitary);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1727,8 +1644,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardSpells cardSpell)
                 {
-                    UserEquipmentsService.Create().InsertCardSpellEquipments(cardSpell.Id, equipment, position);
-                    CreateCardSpellEquipments(cardSpell);
+                    await UserEquipmentsService.Create().InsertCardSpellEquipmentsAsync(cardSpell.Id, equipment, position);
+                    await CreateCardSpellEquipmentsAsync(cardSpell);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1736,8 +1653,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is Books books)
                 {
-                    UserEquipmentsService.Create().InsertBooksEquipments(books.Id, equipment, position);
-                    CreateBooksEquipments(books);
+                    await UserEquipmentsService.Create().InsertBookEquipmentsAsync(books.Id, equipment, position);
+                    await CreateBooksEquipmentsAsync(books);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1745,8 +1662,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is Pets pets)
                 {
-                    UserEquipmentsService.Create().InsertPetsEquipments(pets.Id, equipment, position);
-                    CreatePetsEquipments(pets);
+                    await UserEquipmentsService.Create().InsertPetEquipmentsAsync(pets.Id, equipment, position);
+                    await CreatePetsEquipmentsAsync(pets);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -1762,7 +1679,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(340, 130);
         }
     }
-    public void ChangeNextPage(object data, Text PageText, Transform content, string subType, int position)
+    public async Task ChangeNextPageAsync(object data, Text PageText, Transform content, string subType, int position)
     {
         if (currentPage < totalPage)
         {
@@ -1771,92 +1688,92 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
             if (data is CardHeroes cardHeroes)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardHeroesEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardHeroesEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardCaptains cardCaptains)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardCaptainsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardCaptainsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardColonels cardColonels)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardColonelsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardColonelsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardGenerals cardGenerals)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardGeneralsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardGeneralsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardAdmirals cardAdmirals)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardAdmiralsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardAdmiralsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMonsters cardMonsters)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardMonstersEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardMonstersEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMilitaries cardMilitary)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardMilitaryEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardMilitariesEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardSpells cardSpell)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardSpellEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardSpellsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Books books)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllBooksEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllBooksEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Pets pets)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllPetsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllPetsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
 
@@ -1864,7 +1781,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
         }
     }
-    public void ChangePreviousPage(object data, Text PageText, Transform content, string subType, int position)
+    public async Task ChangePreviousPageAsync(object data, Text PageText, Transform content, string subType, int position)
     {
         if (currentPage > 1)
         {
@@ -1873,92 +1790,92 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
             if (data is CardHeroes cardHeroes)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardHeroesEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardHeroesEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardCaptains cardCaptains)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardCaptainsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardCaptainsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardColonels cardColonels)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardColonelsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardColonelsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardGenerals cardGenerals)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardGeneralsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardGeneralsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardAdmirals cardAdmirals)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardAdmiralsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardAdmiralsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMonsters cardMonsters)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardMonstersEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardMonstersEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMilitaries cardMilitary)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardMilitaryEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardMilitariesEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardSpells cardSpell)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllCardSpellEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardSpellsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Books books)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllBooksEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllBooksEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Pets pets)
             {
-                totalRecord = UserEquipmentsService.Create().GetUserEquipmentsCount(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = UserEquipmentsService.Create().GetAllPetsEquipments(User.CurrentUserId, subType, pageSize, offset, statusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllPetsEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, statusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
 

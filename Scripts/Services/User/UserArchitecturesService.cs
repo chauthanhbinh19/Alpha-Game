@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserArchitecturesService : IUserArchitecturesService
 {
@@ -14,11 +15,11 @@ public class UserArchitecturesService : IUserArchitecturesService
         return new UserArchitecturesService(new UserArchitecturesRepository());
     }
 
-    public Architectures GetNewLevelPower(Architectures c, double coefficient)
+    public async Task<Architectures> GetNewLevelPowerAsync(Architectures c, double coefficient)
     {
         IArchitecturesRepository _repository = new ArchitecturesRepository();
         ArchitecturesService _service = new ArchitecturesService(_repository);
-        Architectures orginCard = _service.GetArchitecturesById(c.Id);
+        Architectures orginCard = await _service.GetArchitectureByIdAsync(c.Id);
         Architectures Architectures = new Architectures
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserArchitecturesService : IUserArchitecturesService
         );
         return Architectures;
     }
-    public Architectures GetNewBreakthroughPower(Architectures c, double coefficient)
+    public async Task<Architectures> GetNewBreakthroughPowerAsync(Architectures c, double coefficient)
     {
         IArchitecturesRepository _repository = new ArchitecturesRepository();
         ArchitecturesService _service = new ArchitecturesService(_repository);
-        Architectures orginCard = _service.GetArchitecturesById(c.Id);
+        Architectures orginCard = await _service.GetArchitectureByIdAsync(c.Id);
         Architectures Architectures = new Architectures
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserArchitecturesService : IUserArchitecturesService
         return Architectures;
     }
 
-    public List<Architectures> GetUserArchitectures(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Architectures> list = _userArchitecturesRepository.GetUserArchitectures(user_id, pageSize, offset, rare);
+        List<Architectures> list = await _userArchitecturesRepository.GetUserArchitecturesAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserArchitecturesCount(string user_id, string rare)
+    public async Task<int> GetUserArchitecturesCountAsync(string user_id, string rare)
     {
-        return _userArchitecturesRepository.GetUserArchitecturesCount(user_id, rare);
+        return await _userArchitecturesRepository.GetUserArchitecturesCountAsync(user_id, rare);
     }
 
-    public bool InsertUserArchitectures(Architectures Architectures, string userId)
+    public async Task<bool> InsertUserArchitectureAsync(Architectures Architectures, string userId)
     {
-        return _userArchitecturesRepository.InsertUserArchitectures(Architectures, userId);
+        return await _userArchitecturesRepository.InsertUserArchitectureAsync(Architectures, userId);
     }
 
-    public bool UpdateArchitecturesLevel(Architectures Architectures, int cardLevel)
+    public async Task<bool> UpdateArchitectureLevelAsync(Architectures Architectures, int cardLevel)
     {
-        return _userArchitecturesRepository.UpdateArchitecturesLevel(Architectures, cardLevel);
+        return await _userArchitecturesRepository.UpdateArchitectureLevelAsync(Architectures, cardLevel);
     }
 
-    public bool UpdateArchitecturesBreakthrough(Architectures Architectures, int star, double quantity)
+    public async Task<bool> UpdateArchitectureBreakthroughAsync(Architectures Architectures, int star, double quantity)
     {
-        return _userArchitecturesRepository.UpdateArchitecturesBreakthrough(Architectures, star, quantity);
+        return await _userArchitecturesRepository.UpdateArchitectureBreakthroughAsync(Architectures, star, quantity);
     }
 
-    public Architectures GetUserArchitecturesById(string user_id, string Id)
+    public async Task<Architectures> GetUserArchitectureByIdAsync(string user_id, string Id)
     {
-        return _userArchitecturesRepository.GetUserArchitecturesById(user_id, Id);
+        return await _userArchitecturesRepository.GetUserArchitectureByIdAsync(user_id, Id);
     }
 
-    public Architectures SumPowerUserArchitectures()
+    public async Task<Architectures> SumPowerUserArchitecturesAsync()
     {
-        return _userArchitecturesRepository.SumPowerUserArchitectures();
+        return await _userArchitecturesRepository.SumPowerUserArchitecturesAsync();
     }
 }

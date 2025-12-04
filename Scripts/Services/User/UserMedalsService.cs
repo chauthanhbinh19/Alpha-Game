@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserMedalsService : IUserMedalsService
 {
@@ -14,11 +15,11 @@ public class UserMedalsService : IUserMedalsService
         return new UserMedalsService(new UserMedalsRepository());
     }
 
-    public Medals GetNewLevelPower(Medals c, double coefficient)
+    public async Task<Medals> GetNewLevelPowerAsync(Medals c, double coefficient)
     {
         IMedalsRepository _repository = new MedalsRepository();
         MedalsService _service = new MedalsService(_repository);
-        Medals orginCard = _service.GetMedalsById(c.Id);
+        Medals orginCard = await _service.GetMedalByIdAsync(c.Id);
         Medals medals = new Medals
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserMedalsService : IUserMedalsService
         );
         return medals;
     }
-    public Medals GetNewBreakthroughPower(Medals c, double coefficient)
+    public async Task<Medals> GetNewBreakthroughPowerAsync(Medals c, double coefficient)
     {
         IMedalsRepository _repository = new MedalsRepository();
         MedalsService _service = new MedalsService(_repository);
-        Medals orginCard = _service.GetMedalsById(c.Id);
+        Medals orginCard = await _service.GetMedalByIdAsync(c.Id);
         Medals medals = new Medals
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserMedalsService : IUserMedalsService
         return medals;
     }
 
-    public List<Medals> GetUserMedals(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Medals>> GetUserMedalsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Medals> list = _userMedalsRepository.GetUserMedals(user_id, pageSize, offset, rare);
+        List<Medals> list = await _userMedalsRepository.GetUserMedalsAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserMedalsCount(string user_id, string rare)
+    public async Task<int> GetUserMedalsCountAsync(string user_id, string rare)
     {
-        return _userMedalsRepository.GetUserMedalsCount(user_id, rare);
+        return await _userMedalsRepository.GetUserMedalsCountAsync(user_id, rare);
     }
 
-    public bool InsertUserMedals(Medals medals, string userId)
+    public async Task<bool> InsertUserMedalAsync(Medals medals, string userId)
     {
-        return _userMedalsRepository.InsertUserMedals(medals, userId);
+        return await _userMedalsRepository.InsertUserMedalAsync(medals, userId);
     }
 
-    public bool UpdateMedalsLevel(Medals medals, int cardLevel)
+    public async Task<bool> UpdateMedalLevelAsync(Medals medals, int cardLevel)
     {
-        return _userMedalsRepository.UpdateMedalsLevel(medals, cardLevel);
+        return await _userMedalsRepository.UpdateMedalLevelAsync(medals, cardLevel);
     }
 
-    public bool UpdateMedalsBreakthrough(Medals medals, int star, double quantity)
+    public async Task<bool> UpdateMedalBreakthroughAsync(Medals medals, int star, double quantity)
     {
-        return _userMedalsRepository.UpdateMedalsBreakthrough(medals, star, quantity);
+        return await _userMedalsRepository.UpdateMedalBreakthroughAsync(medals, star, quantity);
     }
 
-    public Medals GetUserMedalsById(string user_id, string Id)
+    public async Task<Medals> GetUserMedalByIdAsync(string user_id, string Id)
     {
-        return _userMedalsRepository.GetUserMedalsById(user_id, Id);
+        return await _userMedalsRepository.GetUserMedalByIdAsync(user_id, Id);
     }
 
-    public Medals SumPowerUserMedals()
+    public async Task<Medals> SumPowerUserMedalsAsync()
     {
-        return _userMedalsRepository.SumPowerUserMedals();
+        return await _userMedalsRepository.SumPowerUserMedalsAsync();
     }
 }

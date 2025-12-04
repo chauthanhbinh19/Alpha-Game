@@ -66,11 +66,11 @@ public class FeatureManager : MonoBehaviour
     }
     public void GetButtonEvent(Transform contentPanel)
     {
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => BasesController.Instance.CreateBasePanel());
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => TrainsController.Instance.CreateTrainPanel());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await BasesController.Instance.CreateBasePanelAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await TrainsController.Instance.CreateTrainPanelAsync());
         // ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => TrainsController.Instance.CreateTrainPanel());
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => EmployeesController.Instance.CreateEmployeePanel());
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => WorldsController.Instance.CreateWorldPanel());
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => CitiesController.Instance.CreateCityPanel());
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await EmployeesController.Instance.CreateEmployeePanelAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await WorldsController.Instance.CreateWorldPanelAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await CitiesController.Instance.CreateCityPanelAsync());
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class EmployeesService : IEmployeesService
 {
@@ -14,42 +15,42 @@ public class EmployeesService : IEmployeesService
         return new EmployeesService(new EmployeesRepository());
     }
 
-    public List<Employees> GetEmployees(string userId, int pageSize, int offset)
+    public async Task<List<Employees>> GetEmployeesAsync(string userId, int pageSize, int offset)
     {
-        List<Employees> list = _EmployeesRepository.GetEmployees(userId, pageSize, offset);
+        List<Employees> list = await _EmployeesRepository.GetEmployeesAsync(userId, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetEmployeesCount(string rare)
+    public async Task<int> GetEmployeesCountAsync(string rare)
     {
-        return _EmployeesRepository.GetEmployeesCount(rare);
+        return await _EmployeesRepository.GetEmployeesCountAsync(rare);
     }
 
-    public List<Employees> GetEmployeesWithPrice(int pageSize, int offset)
+    public async Task<List<Employees>> GetEmployeesWithPriceAsync(int pageSize, int offset)
     {
-        List<Employees> list = _EmployeesRepository.GetEmployeesWithPrice(pageSize, offset);
+        List<Employees> list = await _EmployeesRepository.GetEmployeesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetEmployeesWithPriceCount()
+    public async Task<int> GetEmployeesWithPriceCountAsync()
     {
-        return _EmployeesRepository.GetEmployeesWithPriceCount();
+        return await _EmployeesRepository.GetEmployeesWithPriceCountAsync();
     }
 
-    public Employees GetEmployeesById(string Id)
+    public async Task<Employees> GetEmployeeByIdAsync(string Id)
     {
-        return _EmployeesRepository.GetEmployeesById(Id);
+        return await _EmployeesRepository.GetEmployeeByIdAsync(Id);
     }
 
-    public Employees SumPowerEmployeesPercent()
+    public async Task<Employees> SumPowerEmployeesPercentAsync()
     {
-        return _EmployeesRepository.SumPowerEmployeesPercent();
+        return await _EmployeesRepository.SumPowerEmployeesPercentAsync();
     }
 
-    public List<string> GetUniqueEmployeeId()
+    public async Task<List<string>> GetUniqueEmployeesIdAsync()
     {
-        return _EmployeesRepository.GetUniqueEmployeeId();
+        return await _EmployeesRepository.GetUniqueEmployeesIdAsync();
     }
 }

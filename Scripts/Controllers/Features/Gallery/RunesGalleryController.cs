@@ -35,15 +35,15 @@ public class RunesGalleryController : MonoBehaviour
     }
     public void CreateRunesGallery(List<Runes> RunesList, Transform contentPanel)
     {
-        foreach (var technology in RunesList)
+        foreach (var rune in RunesList)
         {
-            GameObject technologyObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject runeObject = Instantiate(equipmentsPrefab, contentPanel);
 
-            Text Title = technologyObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = technology.Name.Replace("_", " ");
+            Text Title = runeObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = rune.Name.Replace("_", " ");
 
-            RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
+            RawImage image = runeObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -65,45 +65,45 @@ public class RunesGalleryController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            Button button = technologyObject.GetComponent<Button>();
+            Button button = runeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(rune, MainPanel);
             });
 
-            RawImage rareImage = technologyObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
+            RawImage rareImage = runeObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{rune.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = technologyObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = technologyObject.transform.Find("Unlock").GetComponent<Button>();
-            if (technology.Status.Equals("available"))
+            RawImage blockImage = runeObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = runeObject.transform.Find("Unlock").GetComponent<Button>();
+            if (rune.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
             }
-            else if (technology.Status.Equals("pending"))
+            else if (rune.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (technology.Status.Equals("block"))
+            else if (rune.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
 
-            RawImage rareBackgroundImage = technologyObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = runeObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var titleGalleryService = RunesGalleryService.Create();
-                titleGalleryService.UpdateStatusRunesGallery(technology.Id);
+                var runeGalleryService = RunesGalleryService.Create();
+                await runeGalleryService.UpdateStatusRuneGalleryAsync(rune.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -111,15 +111,15 @@ public class RunesGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = technologyObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((technology.CurrentStar < technology.TempStar) && technology.Status.Equals("available"))
+            Button Upgrade = runeObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((rune.CurrentStar < rune.TempStar) && rune.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -128,10 +128,10 @@ public class RunesGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                RunesGalleryService.Create().UpdateRunesGalleryPower(technology.Id);
+                await RunesGalleryService.Create().UpdateRuneGalleryPowerAsync(rune.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

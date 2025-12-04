@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -95,7 +96,7 @@ public class VehiclesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateVehicleTrade(List<Vehicles> Vehicles, string subType, Transform currentContent,
+    public async Task CreateVehicleTradeAsync(List<Vehicles> Vehicles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var Vehicle in Vehicles)
@@ -169,7 +170,7 @@ public class VehiclesController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetVehiclesCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetVehiclesCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -281,12 +282,12 @@ public class VehiclesController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Vehicles Vehicle)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Vehicle.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Vehicle.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -317,8 +318,8 @@ public class VehiclesController : MonoBehaviour
             if (obj is Vehicles vehicle)
             {
                 vehicle.Quantity = vehicle.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(vehicle.Currency.Id, price);
-                bool success = UserVehicleService.Create().InsertUserVehicle(vehicle, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(vehicle.Currency.Id, price);
+                bool success = await UserVehicleService.Create().InsertUserVehicleAsync(vehicle, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -331,8 +332,8 @@ public class VehiclesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    VehicleGalleryService.Create().InsertVehiclesGallery(vehicle.Id);
-                    currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
+                    await VehicleGalleryService.Create().InsertVehicleGalleryAsync(vehicle.Id);
+                    currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -352,7 +353,7 @@ public class VehiclesController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

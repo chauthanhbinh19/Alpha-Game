@@ -1,169 +1,172 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
+using System.Threading.Tasks;
 public class ArenaRepository : IArenaRepository
 {
-    public List<string> GetUniqueTypes()
+    public async Task<List<string>> GetUniqueTypesAsync()
     {
         List<string> typeList = new List<string>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (var connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync();
 
             string query = "SELECT DISTINCT id, mode FROM arena_mode ORDER BY id ASC;";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            await using (var command = new MySqlCommand(query, connection))
+            await using (var reader = await command.ExecuteReaderAsync())
             {
-                typeList.Add(reader.GetString(1));
+                while (await reader.ReadAsync())
+                {
+                    typeList.Add(reader.GetString("mode"));
+                }
             }
-            connection.Close();
         }
+
         return typeList;
     }
-    public string GetArenaModeId(string type)
+    public async Task<string> GetArenaModeIdAsync(string type)
     {
         string id = "";
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            connection.Open();
 
-            string query = "SELECT id FROM arena_mode where mode = @mode";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("mode", type);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                id = reader.GetString("id");
-            }
-            connection.Close();
-        }
-        return id;
-    }
-    public Dictionary<string, int> GetArenaParticipantByRanking(string arena_id)
-    {
-        Dictionary<string, int> userRankings = new Dictionary<string, int>();
-        string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (var connection = new MySqlConnection(connectionString))
         {
-            try
-            {
-                connection.Open();
-                string selectQuery = @"
-                    SELECT arena_id, user_id, rank_point,
-                    RANK() OVER (PARTITION BY arena_id ORDER BY rank_point DESC) AS user_rank
-                    FROM arena_participant WHERE arena_id = @arena_id;";
+            await connection.OpenAsync();
 
-                MySqlCommand selectCommand = new MySqlCommand(selectQuery, connection);
-                selectCommand.Parameters.AddWithValue("@arena_id", arena_id);
-                MySqlDataReader reader = selectCommand.ExecuteReader();
-                while (reader.Read())
+            string query = "SELECT id FROM arena_mode WHERE mode = @mode";
+            await using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@mode", type);
+
+                await using (var reader = await command.ExecuteReaderAsync())
                 {
-                    string userId = reader.GetString("user_id");
-                    int rank = reader.GetInt32("user_rank");
-
-                    if (!userRankings.ContainsKey(userId))
+                    if (await reader.ReadAsync())
                     {
-                        userRankings.Add(userId, rank);
+                        id = reader.GetString("id");
                     }
                 }
-                connection.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
             }
         }
+
+        return id;
+    }
+    public async Task<Dictionary<string, int>> GetArenaParticipantByRankingAsync(string arena_id)
+    {
+        var userRankings = new Dictionary<string, int>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        try
+        {
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string selectQuery = @"
+            SELECT arena_id, user_id, rank_point,
+                   RANK() OVER (PARTITION BY arena_id ORDER BY rank_point DESC) AS user_rank
+            FROM arena_participant 
+            WHERE arena_id = @arena_id;";
+
+            await using var selectCommand = new MySqlCommand(selectQuery, connection);
+            selectCommand.Parameters.AddWithValue("@arena_id", arena_id);
+
+            await using var reader = await selectCommand.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                string userId = reader.GetString("user_id");
+                int rank = reader.GetInt32("user_rank");
+
+                if (!userRankings.ContainsKey(userId))
+                {
+                    userRankings.Add(userId, rank);
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
         return userRankings;
     }
-    public int GetArenaParticipantPoint(string user_id, string arena_id)
+    public async Task<int> GetArenaParticipantPointAsync(string user_id, string arena_id)
     {
         int point = 0;
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM arena_participant 
-                WHERE user_id = @user_id AND arena_id = @arena_id;";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+        try
+        {
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) FROM arena_participant 
+            WHERE user_id = @user_id AND arena_id = @arena_id;";
+
+            await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+            {
                 checkCommand.Parameters.AddWithValue("@user_id", user_id);
                 checkCommand.Parameters.AddWithValue("@arena_id", arena_id);
 
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
                 if (count == 0)
                 {
-                    InsertArenaParticipant(user_id, arena_id);
-                    string selectQuery = @"
-                    SELECT rank_point FROM arena_participant 
-                    WHERE user_id = @user_id AND arena_id = @arena_id;";
-
-                    MySqlCommand selectCommand = new MySqlCommand(selectQuery, connection);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@arena_id", arena_id);
-                    MySqlDataReader reader = selectCommand.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        point = reader.GetInt32("rank_point");
-                    }
+                    await InsertArenaParticipantAsync(user_id, arena_id);
                 }
-                else
-                {
-                    string selectQuery = @"
-                    SELECT rank_point FROM arena_participant 
-                    WHERE user_id = @user_id AND arena_id = @arena_id;";
-
-                    MySqlCommand selectCommand = new MySqlCommand(selectQuery, connection);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@arena_id", arena_id);
-                    MySqlDataReader reader = selectCommand.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        point = reader.GetInt32("rank_point");
-                    }
-                }
-                connection.Close();
             }
-            catch (MySqlException ex)
+
+            // Lấy rank_point
+            string selectQuery = @"
+            SELECT rank_point FROM arena_participant 
+            WHERE user_id = @user_id AND arena_id = @arena_id;";
+
+            await using (var selectCommand = new MySqlCommand(selectQuery, connection))
             {
-                Debug.LogError("Error: " + ex.Message);
+                selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@arena_id", arena_id);
+
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
+                {
+                    point = reader.GetInt32("rank_point");
+                }
             }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
         return point;
     }
-    public void InsertArenaParticipant(string user_id, string arena_id)
+    public async Task InsertArenaParticipantAsync(string user_id, string arena_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                string insertQuery = @"
-                    INSERT INTO arena_participant (arena_id, user_id, rank_point)
-                    VALUES (@arena_id, @user_id, @rank_point);
-                ";
 
-                MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
-                insertCommand.Parameters.AddWithValue("@arena_id", arena_id);
-                insertCommand.Parameters.AddWithValue("@user_id", user_id);
-                insertCommand.Parameters.AddWithValue("@rank_point", 1000);
-                insertCommand.ExecuteNonQuery();
-                // Debug.Log($"Inserted user {user_id} into arena {arena_id}.");
-                connection.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
+        try
+        {
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string insertQuery = @"
+            INSERT INTO arena_participant (arena_id, user_id, rank_point)
+            VALUES (@arena_id, @user_id, @rank_point);";
+
+            await using var insertCommand = new MySqlCommand(insertQuery, connection);
+            insertCommand.Parameters.AddWithValue("@arena_id", arena_id);
+            insertCommand.Parameters.AddWithValue("@user_id", user_id);
+            insertCommand.Parameters.AddWithValue("@rank_point", 1000);
+
+            await insertCommand.ExecuteNonQueryAsync();
+            // Debug.Log($"Inserted user {user_id} into arena {arena_id}.");
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class BooksService : IBooksService
 {
@@ -14,52 +15,52 @@ public class BooksService : IBooksService
         return new BooksService(new BooksRepository());
     }
 
-    public List<string> GetUniqueBookTypes()
+    public async Task<List<string>> GetUniqueBooksTypesAsync()
     {
-        return _booksRepository.GetUniqueBookTypes();
+        return await _booksRepository.GetUniqueBooksTypesAsync();
     }
 
-    public List<Books> GetBooks(string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetBooksAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = _booksRepository.GetBooks(type, pageSize, offset, rare);
+        List<Books> list = await _booksRepository.GetBooksAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBooksCount(string type, string rare)
+    public async Task<int> GetBooksCountAsync(string type, string rare)
     {
-        return _booksRepository.GetBooksCount(type, rare);
+        return await _booksRepository.GetBooksCountAsync(type, rare);
     }
 
-    public List<Books> GetBooksRandom(string type, int pageSize)
+    public async Task<List<Books>> GetBooksRandomAsync(string type, int pageSize)
     {
-        return _booksRepository.GetBooksRandom(type, pageSize);
+        return await _booksRepository.GetBooksRandomAsync(type, pageSize);
     }
 
-    public List<Books> GetAllBooks(string type)
+    public async Task<List<Books>> GetAllBooksAsync(string type)
     {
-        return _booksRepository.GetAllBooks(type);
+        return await _booksRepository.GetAllBooksAsync(type);
     }
 
-    public Books GetBooksById(string Id)
+    public async Task<Books> GetBookByIdAsync(string Id)
     {
-        return _booksRepository.GetBooksById(Id);
+        return await _booksRepository.GetBookByIdAsync(Id);
     }
 
-    public List<Books> GetBooksWithPrice(string type, int pageSize, int offset)
+    public async Task<List<Books>> GetBooksWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Books> list = _booksRepository.GetBooksWithPrice(type, pageSize, offset);
+        List<Books> list = await _booksRepository.GetBooksWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBookssWithPriceCount(string type)
+    public async Task<int> GetBooksWithPriceCountAsync(string type)
     {
-        return _booksRepository.GetBookssWithPriceCount(type);
+        return await _booksRepository.GetBooksWithPriceCountAsync(type);
     }
 
-    public List<string> GetUniqueBookId()
+    public async Task<List<string>> GetUniqueBooksIdAsync()
     {
-        return _booksRepository.GetUniqueBookId();
+        return await _booksRepository.GetUniqueBooksIdAsync();
     }
 }

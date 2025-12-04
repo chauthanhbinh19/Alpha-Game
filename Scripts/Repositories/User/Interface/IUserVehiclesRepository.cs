@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserVehicleRepository
 {
-    List<Vehicles> GetUserVehicle(string user_id, string type, int pageSize, int offset, string rare);
-    int GetUserVehicleCount(string user_id, string type, string rare);
-    bool InsertUserVehicle(Vehicles Vehicle, string userId);
-    bool UpdateVehicleLevel(Vehicles Vehicle, int cardLevel);
-    bool UpdateVehicleBreakthrough(Vehicles Vehicle, int star, double quantity);
-    Vehicles GetUserVehicleById(string user_id, string Id);
-    Vehicles SumPowerUserVehicle();
+    Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserVehiclesCountAsync(string user_id, string type, string rare);
+    Task<bool> InsertUserVehicleAsync(Vehicles Vehicle, string userId);
+    Task<bool> UpdateVehicleLevelAsync(Vehicles Vehicle, int cardLevel);
+    Task<bool> UpdateVehicleBreakthroughAsync(Vehicles Vehicle, int star, double quantity);
+    Task<Vehicles> GetUserVehicleByIdAsync(string user_id, string Id);
+    Task<Vehicles> SumPowerUserVehiclesAsync();
 }

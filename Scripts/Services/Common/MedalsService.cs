@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MedalsService : IMedalsService
 {
@@ -14,42 +15,42 @@ public class MedalsService : IMedalsService
         return new MedalsService(new MedalsRepository());
     }
 
-    public List<Medals> GetMedals(int pageSize, int offset, string rare)
+    public async Task<List<Medals>> GetMedalsAsync(int pageSize, int offset, string rare)
     {
-        List<Medals> list = _medalsRepository.GetMedals(pageSize, offset, rare);
+        List<Medals> list = await _medalsRepository.GetMedalsAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMedalsCount(string rare)
+    public async Task<int> GetMedalsCountAsync(string rare)
     {
-        return _medalsRepository.GetMedalsCount(rare);
+        return await _medalsRepository.GetMedalsCountAsync(rare);
     }
 
-    public List<Medals> GetMedalsWithPrice(int pageSize, int offset)
+    public async Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset)
     {
-        List<Medals> list = _medalsRepository.GetMedalsWithPrice(pageSize, offset);
+        List<Medals> list = await _medalsRepository.GetMedalsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMedalsWithPriceCount()
+    public async Task<int> GetMedalsWithPriceCountAsync()
     {
-        return _medalsRepository.GetMedalsWithPriceCount();
+        return await _medalsRepository.GetMedalsWithPriceCountAsync();
     }
 
-    public Medals GetMedalsById(string Id)
+    public async Task<Medals> GetMedalByIdAsync(string Id)
     {
-        return _medalsRepository.GetMedalsById(Id);
+        return await _medalsRepository.GetMedalByIdAsync(Id);
     }
 
-    public Medals SumPowerMedalsPercent()
+    public async Task<Medals> SumPowerMedalsPercentAsync()
     {
-        return _medalsRepository.SumPowerMedalsPercent();
+        return await _medalsRepository.SumPowerMedalsPercentAsync();
     }
 
-    public List<string> GetUniqueMedalId()
+    public async Task<List<string>> GetUniqueMedalsIdAsync()
     {
-        return _medalsRepository.GetUniqueMedalId();
+        return await _medalsRepository.GetUniqueMedalsIdAsync();
     }
 }

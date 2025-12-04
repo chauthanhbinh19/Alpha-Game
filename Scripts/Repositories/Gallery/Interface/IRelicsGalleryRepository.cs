@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IRelicsGalleryRepository
 {
-    List<Relics> GetRelicsCollection(string type, int pageSize, int offset, string rare);
-    int GetRelicsCount(string type, string rare);
-    void InsertRelicsGallery(string Id, Relics relicFromDB);
-    void UpdateStatusRelicsGallery(string Id);
-    void UpdateStarRelicsGallery(string Id, double star);
-    void UpdateRelicsGalleryPower(string Id, Relics RelicFromDB);
-    Relics SumPowerRelicsGallery();
+    Task<List<Relics>> GetRelicsCollectionAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetRelicsCountAsync(string type, string rare);
+    Task InsertRelicGalleryAsync(string Id, Relics RelicFromDB);
+    Task UpdateStatusRelicGalleryAsync(string Id);
+    Task UpdateStarRelicGalleryAsync(string Id, double star);
+    Task UpdateRelicGalleryPowerAsync(string Id, Relics RelicFromDB);
+    Task<Relics> SumPowerRelicsGalleryAsync();
 }

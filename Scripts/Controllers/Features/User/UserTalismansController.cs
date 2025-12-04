@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -93,12 +94,12 @@ public class UserTalismansController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(talisman, currentObject);
+            _=GetLevelAsync(talisman, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(talisman, currentObject);
+            _=GetUpgradeAsync(talisman, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -109,7 +110,7 @@ public class UserTalismansController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(talisman, currentObject);
+                _=GetLevelAsync(talisman, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -117,7 +118,7 @@ public class UserTalismansController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(talisman, currentObject);
+                _=GetUpgradeAsync(talisman, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -159,7 +160,7 @@ public class UserTalismansController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, talisman, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -173,7 +174,7 @@ public class UserTalismansController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.TALISMAN);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TALISMAN);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -182,7 +183,7 @@ public class UserTalismansController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Talismans currentCard = new Talismans();
-                currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
+                currentCard = await UserTalismansService.Create().GetUserTalismanByIdAsync(User.CurrentUserId, talisman.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -193,8 +194,8 @@ public class UserTalismansController : MonoBehaviour
                 {
                     Talismans newCard = new Talismans();
 
-                    newCard = UserTalismanService.Create().GetNewLevelPower(talisman, increasePerLevel);
-                    UserTalismanService.Create().UpdateTalismanLevel(newCard, currentLevel + 1);
+                    newCard = await UserTalismansService.Create().GetNewLevelPowerAsync(talisman, increasePerLevel);
+                    await UserTalismansService.Create().UpdateTalismanLevelAsync(newCard, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -202,14 +203,14 @@ public class UserTalismansController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Talismans currentCard = UserTalismanService.Create().GetUserTalismanById(User.CurrentUserId, talisman.Id);
+                Talismans currentCard = await UserTalismansService.Create().GetUserTalismanByIdAsync(User.CurrentUserId, talisman.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -225,8 +226,8 @@ public class UserTalismansController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Talismans newCard = UserTalismanService.Create().GetNewLevelPower(talisman, levelsGained * increasePerLevel);
-                    UserTalismanService.Create().UpdateTalismanLevel(newCard, currentLevel);
+                    Talismans newCard = await UserTalismansService.Create().GetNewLevelPowerAsync(talisman, levelsGained * increasePerLevel);
+                    await UserTalismansService.Create().UpdateTalismanLevelAsync(newCard, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -235,7 +236,7 @@ public class UserTalismansController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -245,7 +246,7 @@ public class UserTalismansController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -262,7 +263,7 @@ public class UserTalismansController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.TALISMAN);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TALISMAN);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -336,24 +337,24 @@ public class UserTalismansController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Talismans newtalisman = new Talismans();
 
-                    newtalisman = UserTalismanService.Create().GetNewBreakthroughPower(talisman, increasePerUpgrade);
-                    UserTalismanService.Create().UpdateTalismanBreakthrough(newtalisman, talisman.Star + 1, talisman.Quantity);
+                    newtalisman = await UserTalismansService.Create().GetNewBreakthroughPowerAsync(talisman, increasePerUpgrade);
+                    await UserTalismansService.Create().UpdateTalismanBreakthroughAsync(newtalisman, talisman.Star + 1, talisman.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    TalismanGalleryService.Create().UpdateStarTalismanGallery(talisman.Id, talisman.Star + 1);
+                    await TalismansGalleryService.Create().UpdateStarTalismanGalleryAsync(talisman.Id, talisman.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(talisman.Star, currentObject);
                 }
                 else

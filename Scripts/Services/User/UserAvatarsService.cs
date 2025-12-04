@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserAvatarsService : IUserAvatarsService
 {
@@ -14,42 +15,42 @@ public class UserAvatarsService : IUserAvatarsService
         return new UserAvatarsService(new UserAvatarsRepository());
     }
 
-    public List<Avatars> GetUserAvatars(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetUserAvatarsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Avatars> list = _userAvatarsRepository.GetUserAvatars(user_id, pageSize, offset, rare);
+        List<Avatars> list = await _userAvatarsRepository.GetUserAvatarsAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserMedalsCount(string user_id, string rare)
+    public async Task<int> GetUserAvatarsCountAsync(string user_id, string rare)
     {
-        return _userAvatarsRepository.GetUserMedalsCount(user_id, rare);
+        return await _userAvatarsRepository.GetUserAvatarsCountAsync(user_id, rare);
     }
 
-    public bool InsertUserAvatars(Avatars avatars, string userId)
+    public async Task<bool> InsertUserAvatarAsync(Avatars avatars, string userId)
     {
-        return _userAvatarsRepository.InsertUserAvatars(avatars, userId);
+        return await _userAvatarsRepository.InsertUserAvatarAsync(avatars, userId);
     }
 
-    public bool InsertUserAvatarsById(string avatarId, string userId)
+    public async Task<bool> InsertUserAvatarByIdAsync(string avatarId, string userId)
     {
         IAvatarsRepository _repository = new AvatarsRepository();
         AvatarsService _service = new AvatarsService(_repository);
-        return _userAvatarsRepository.InsertUserAvatarsById(_service.GetAvatarsById(avatarId), userId);
+        return await _userAvatarsRepository.InsertUserAvatarByIdAsync(await _service.GetAvatarByIdAsync(avatarId), userId);
     }
 
-    public Avatars GetAvatarsByUsed(string user_id)
+    public async Task<Avatars> GetAvatarByUsedAsync(string user_id)
     {
-        return _userAvatarsRepository.GetAvatarsByUsed(user_id);
+        return await _userAvatarsRepository.GetAvatarByUsedAsync(user_id);
     }
 
-    public void UpdateIsUsedAvatars(string avatarId, string userId, bool is_used)
+    public async Task UpdateIsUsedAvatarAsync(string avatarId, string userId, bool is_used)
     {
-        _userAvatarsRepository.UpdateIsUsedAvatars(avatarId, userId, is_used);
+        await _userAvatarsRepository.UpdateIsUsedAvatarAsync(avatarId, userId, is_used);
     }
 
-    public Avatars SumPowerUserAvatars()
+    public async Task<Avatars> SumPowerUserAvatarsAsync()
     {
-        return _userAvatarsRepository.SumPowerUserAvatars();
+        return await _userAvatarsRepository.SumPowerUserAvatarsAsync();
     }
 }

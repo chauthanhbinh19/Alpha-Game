@@ -2,413 +2,443 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using MySqlConnector;
+using System.Threading.Tasks;
 public class BadgesRepository : IBadgesRepository
-{ 
-    public List<string> GetUniqueBadgeId()
+{
+    public async Task<List<string>> GetUniqueBadgesIdAsync()
     {
         List<string> typeList = new List<string>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            connection.Open();
 
-            string query = "Select distinct id from Badges";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+        try
+        {
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string query = "SELECT DISTINCT id FROM Badges";
+            await using var command = new MySqlCommand(query, connection);
+            await using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
             {
                 typeList.Add(reader.GetString(0));
             }
-            connection.Close();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
         return typeList;
     }
-    public List<Badges> GetBadges(int pageSize, int offset, string rare)
+    public async Task<List<Badges>> GetBadgesAsync(int pageSize, int offset, string rare)
     {
-        List<Badges> BadgesList = new List<Badges>();
+        List<Badges> badges = new List<Badges>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        try
         {
-            try
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string query = @"SELECT * FROM Badges 
+                         WHERE (@rare = 'All' OR rare = @rare)
+                         ORDER BY Badges.name REGEXP '[0-9]+$', 
+                                  CAST(REGEXP_SUBSTR(Badges.name, '[0-9]+$') AS UNSIGNED), 
+                                  Badges.name
+                         LIMIT @limit OFFSET @offset";
+
+            await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@rare", rare);
+            command.Parameters.AddWithValue("@limit", pageSize);
+            command.Parameters.AddWithValue("@offset", offset);
+
+            await using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
             {
-                connection.Open();
-                string query = @"Select * from Badges WHERE (@rare = 'All' or rare = @rare)
-                ORDER BY Badges.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(Badges.name, '[0-9]+$') AS UNSIGNED), Badges.name limit @limit offset @offset";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@rare", rare);
-                command.Parameters.AddWithValue("@limit", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                Badges Badge = new Badges
                 {
-                    Badges Badge = new Badges
-                    {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        PercentAllHealth = reader.GetDouble("percent_all_health"),
-                        PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
-                        PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
-                        PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
-                        PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
-                        PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
-                        PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
-                        PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
-                        PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
-                        PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
-                        PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
-                        Description = reader.GetString("description")
-                    };
+                    Id = reader.GetString("id"),
+                    Name = reader.GetString("name"),
+                    Image = reader.GetString("image"),
+                    Rare = reader.GetString("rare"),
+                    Quality = reader.GetInt32("quality"),
+                    Power = reader.GetDouble("power"),
+                    Health = reader.GetDouble("health"),
+                    PhysicalAttack = reader.GetDouble("physical_attack"),
+                    PhysicalDefense = reader.GetDouble("physical_defense"),
+                    MagicalAttack = reader.GetDouble("magical_attack"),
+                    MagicalDefense = reader.GetDouble("magical_defense"),
+                    ChemicalAttack = reader.GetDouble("chemical_attack"),
+                    ChemicalDefense = reader.GetDouble("chemical_defense"),
+                    AtomicAttack = reader.GetDouble("atomic_attack"),
+                    AtomicDefense = reader.GetDouble("atomic_defense"),
+                    MentalAttack = reader.GetDouble("mental_attack"),
+                    MentalDefense = reader.GetDouble("mental_defense"),
+                    Speed = reader.GetDouble("speed"),
+                    CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                    CriticalRate = reader.GetDouble("critical_rate"),
+                    CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                    IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                    PenetrationRate = reader.GetDouble("penetration_rate"),
+                    PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                    EvasionRate = reader.GetDouble("evasion_rate"),
+                    DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                    IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                    AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                    VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                    VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                    AccuracyRate = reader.GetDouble("accuracy_rate"),
+                    LifestealRate = reader.GetDouble("lifesteal_rate"),
+                    ShieldStrength = reader.GetDouble("shield_strength"),
+                    Tenacity = reader.GetDouble("tenacity"),
+                    ResistanceRate = reader.GetDouble("resistance_rate"),
+                    ComboRate = reader.GetDouble("combo_rate"),
+                    IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                    ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                    ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                    StunRate = reader.GetDouble("stun_rate"),
+                    IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                    ReflectionRate = reader.GetDouble("reflection_rate"),
+                    IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                    ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                    ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                    Mana = reader.GetFloat("mana"),
+                    ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                    DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                    ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                    DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                    ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                    NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                    NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                    SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                    SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                    PercentAllHealth = reader.GetDouble("percent_all_health"),
+                    PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
+                    PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
+                    PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
+                    PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
+                    PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
+                    PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
+                    PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
+                    PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
+                    PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
+                    PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
+                    Description = reader.GetString("description")
+                };
 
-                    BadgesList.Add(Badge);
-                }
-                connection.Close();
+                badges.Add(Badge);
             }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
-
         }
-        return BadgesList;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
+        return badges;
     }
-    public int GetBadgesCount(string rare)
+    public async Task<int> GetBadgesCountAsync(string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                string query = "Select count(*) from Badges WHERE (@rare = 'All' or rare = @rare)";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@rare", rare);
-                count = Convert.ToInt32(command.ExecuteScalar());
 
-                connection.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
+        try
+        {
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string query = "SELECT COUNT(*) FROM Badges WHERE (@rare = 'All' OR rare = @rare)";
+            await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@rare", rare);
+
+            object result = await command.ExecuteScalarAsync();
+            count = Convert.ToInt32(result);
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
         return count;
     }
-    public List<Badges> GetBadgesWithPrice(int pageSize, int offset)
+    public async Task<List<Badges>> GetBadgesWithPriceAsync(int pageSize, int offset)
     {
-        List<Badges> BadgesList = new List<Badges>();
+        List<Badges> badges = new List<Badges>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        try
         {
-            try
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string query = @"
+            SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
+            FROM Badges t
+            JOIN Badge_trade tt ON t.id = tt.Badge_id
+            JOIN currencies cu ON tt.currency_id = cu.id
+            ORDER BY t.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name
+            LIMIT @limit OFFSET @offset;";
+
+            await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@limit", pageSize);
+            command.Parameters.AddWithValue("@offset", offset);
+
+            await using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
             {
-                connection.Open();
-                string query = @"select t.*, tt.price, cu.image as currency_image, cu.id as currency_id
-                from Badges t, Badge_trade tt, currency cu
-                where t.id=tt.Badge_id and tt.currency_id = cu.id
-                ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@limit", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                Badges badge = new Badges
                 {
-                    Badges Badge = new Badges
-                    {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Rare = reader.GetString("rare"),
-                        Image = reader.GetString("image"),
-                        Quality = reader.GetInt32("quality"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        PercentAllHealth = reader.GetDouble("percent_all_health"),
-                        PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
-                        PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
-                        PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
-                        PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
-                        PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
-                        PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
-                        PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
-                        PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
-                        PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
-                        PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
-                        Description = reader.GetString("description")
-                    };
-                    Badge.Currency = new Currencies
-                    {
-                        Id = reader.GetString("currency_id"),
-                        Image = reader.GetString("currency_image"),
-                        Quantity = reader.GetInt32("price")
-                    };
+                    Id = reader.GetString("id"),
+                    Name = reader.GetString("name"),
+                    Rare = reader.GetString("rare"),
+                    Image = reader.GetString("image"),
+                    Quality = reader.GetInt32("quality"),
+                    Power = reader.GetDouble("power"),
+                    Health = reader.GetDouble("health"),
+                    PhysicalAttack = reader.GetDouble("physical_attack"),
+                    PhysicalDefense = reader.GetDouble("physical_defense"),
+                    MagicalAttack = reader.GetDouble("magical_attack"),
+                    MagicalDefense = reader.GetDouble("magical_defense"),
+                    ChemicalAttack = reader.GetDouble("chemical_attack"),
+                    ChemicalDefense = reader.GetDouble("chemical_defense"),
+                    AtomicAttack = reader.GetDouble("atomic_attack"),
+                    AtomicDefense = reader.GetDouble("atomic_defense"),
+                    MentalAttack = reader.GetDouble("mental_attack"),
+                    MentalDefense = reader.GetDouble("mental_defense"),
+                    Speed = reader.GetDouble("speed"),
+                    CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                    CriticalRate = reader.GetDouble("critical_rate"),
+                    CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                    IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                    PenetrationRate = reader.GetDouble("penetration_rate"),
+                    PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                    EvasionRate = reader.GetDouble("evasion_rate"),
+                    DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                    IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                    AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                    VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                    VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                    AccuracyRate = reader.GetDouble("accuracy_rate"),
+                    LifestealRate = reader.GetDouble("lifesteal_rate"),
+                    ShieldStrength = reader.GetDouble("shield_strength"),
+                    Tenacity = reader.GetDouble("tenacity"),
+                    ResistanceRate = reader.GetDouble("resistance_rate"),
+                    ComboRate = reader.GetDouble("combo_rate"),
+                    IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                    ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                    ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                    StunRate = reader.GetDouble("stun_rate"),
+                    IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                    ReflectionRate = reader.GetDouble("reflection_rate"),
+                    IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                    ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                    ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                    Mana = reader.GetFloat("mana"),
+                    ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                    DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                    ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                    DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                    ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                    NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                    NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                    SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                    SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                    PercentAllHealth = reader.GetDouble("percent_all_health"),
+                    PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
+                    PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
+                    PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
+                    PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
+                    PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
+                    PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
+                    PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
+                    PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
+                    PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
+                    PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
+                    Description = reader.GetString("description")
+                };
 
-                    BadgesList.Add(Badge);
-                }
-                connection.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
+                badge.Currency = new Currencies
+                {
+                    Id = reader.GetString("currency_id"),
+                    Image = reader.GetString("currency_image"),
+                    Quantity = reader.GetInt32("price")
+                };
 
+                badges.Add(badge);
+            }
         }
-        return BadgesList;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
+        return badges;
     }
-    public int GetBadgesWithPriceCount()
+    public async Task<int> GetBadgesWithPriceCountAsync()
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                string query = @"select count(*)
-                from Badges t, Badge_trade tt, currency cu
-                where t.id=tt.Badge_id and tt.currency_id = cu.id;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                count = Convert.ToInt32(command.ExecuteScalar());
 
-                connection.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
+        try
+        {
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string query = @"
+            SELECT COUNT(*)
+            FROM Badges t
+            JOIN Badge_trade tt ON t.id = tt.Badge_id
+            JOIN currencies cu ON tt.currency_id = cu.id;";
+
+            await using var command = new MySqlCommand(query, connection);
+            var result = await command.ExecuteScalarAsync();
+            count = Convert.ToInt32(result);
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
         return count;
     }
-    public Badges GetBadgesById(string Id)
+    public async Task<Badges> GetBadgeByIdAsync(string id)
     {
-        Badges Badges = new Badges();
+        Badges badge = new Badges();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                string query = "Select * from Badges where id=@id";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@id", Id);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    Badges = new Badges
-                    {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        Description = reader.GetString("description")
-                    };
-                }
-                connection.Close();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
 
+        try
+        {
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string query = "SELECT * FROM Badges WHERE id=@id";
+            await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            await using var reader = await command.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
+            {
+                badge = new Badges
+                {
+                    Id = reader.GetString("id"),
+                    Name = reader.GetString("name"),
+                    Image = reader.GetString("image"),
+                    Rare = reader.GetString("rare"),
+                    Quality = reader.GetInt32("quality"),
+                    Power = reader.GetDouble("power"),
+                    Health = reader.GetDouble("health"),
+                    PhysicalAttack = reader.GetDouble("physical_attack"),
+                    PhysicalDefense = reader.GetDouble("physical_defense"),
+                    MagicalAttack = reader.GetDouble("magical_attack"),
+                    MagicalDefense = reader.GetDouble("magical_defense"),
+                    ChemicalAttack = reader.GetDouble("chemical_attack"),
+                    ChemicalDefense = reader.GetDouble("chemical_defense"),
+                    AtomicAttack = reader.GetDouble("atomic_attack"),
+                    AtomicDefense = reader.GetDouble("atomic_defense"),
+                    MentalAttack = reader.GetDouble("mental_attack"),
+                    MentalDefense = reader.GetDouble("mental_defense"),
+                    Speed = reader.GetDouble("speed"),
+                    CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                    CriticalRate = reader.GetDouble("critical_rate"),
+                    CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                    IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                    PenetrationRate = reader.GetDouble("penetration_rate"),
+                    PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                    EvasionRate = reader.GetDouble("evasion_rate"),
+                    DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                    IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                    AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                    VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                    VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                    AccuracyRate = reader.GetDouble("accuracy_rate"),
+                    LifestealRate = reader.GetDouble("lifesteal_rate"),
+                    ShieldStrength = reader.GetDouble("shield_strength"),
+                    Tenacity = reader.GetDouble("tenacity"),
+                    ResistanceRate = reader.GetDouble("resistance_rate"),
+                    ComboRate = reader.GetDouble("combo_rate"),
+                    IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                    ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                    ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                    StunRate = reader.GetDouble("stun_rate"),
+                    IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                    ReflectionRate = reader.GetDouble("reflection_rate"),
+                    IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                    ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                    ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                    Mana = reader.GetFloat("mana"),
+                    ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                    DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                    ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                    DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                    ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                    NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                    NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                    SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                    SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                    Description = reader.GetString("description")
+                };
+            }
         }
-        return Badges;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
+        return badge;
     }
-    public Badges SumPowerBadgesPercent()
+    public async Task<Badges> SumPowerBadgesPercentAsync()
     {
         Badges sumBadges = new Badges();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        try
         {
-            try
-            {
-                connection.Open();
-                string query = @"select SUM(a.percent_all_health) AS total_percent_all_health, SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
-                SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense, SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
-                SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense, SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
-                SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense, SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
-                SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense, SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            string query = @"
+            SELECT 
+                SUM(a.percent_all_health) AS total_percent_all_health,
+                SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
+                SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense,
+                SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
+                SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense,
+                SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense,
+                SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense,
+                SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                 SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
-                from Badges a, user_Badges ua
-                where a.id=ua.Badge_id and ua.user_id=@user_id;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        sumBadges.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
-                        sumBadges.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
-                        sumBadges.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
-                        sumBadges.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
-                        sumBadges.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
-                        sumBadges.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
-                        sumBadges.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
-                        sumBadges.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
-                        sumBadges.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
-                        sumBadges.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
-                        sumBadges.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
-                    }
-                }
-                connection.Close();
-            }
-            catch (MySqlException ex)
+            FROM Badges a
+            JOIN user_Badges ua ON a.id = ua.Badge_id
+            WHERE ua.user_id = @user_id;
+        ";
+
+            await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+
+            await using var reader = await command.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
             {
-                Debug.LogError("Error: " + ex.Message);
+                sumBadges.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDouble("total_percent_all_health");
+                sumBadges.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDouble("total_percent_all_physical_attack");
+                sumBadges.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDouble("total_percent_all_physical_defense");
+                sumBadges.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDouble("total_percent_all_magical_attack");
+                sumBadges.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDouble("total_percent_all_magical_defense");
+                sumBadges.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDouble("total_percent_all_chemical_attack");
+                sumBadges.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDouble("total_percent_all_chemical_defense");
+                sumBadges.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDouble("total_percent_all_atomic_attack");
+                sumBadges.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDouble("total_percent_all_atomic_defense");
+                sumBadges.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDouble("total_percent_all_mental_attack");
+                sumBadges.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDouble("total_percent_all_mental_defense");
             }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
         return sumBadges;
     }
 }

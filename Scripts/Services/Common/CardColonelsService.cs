@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardColonelsService : ICardColonelsService
 {
@@ -14,52 +15,52 @@ public class CardColonelsService : ICardColonelsService
         return new CardColonelsService(new CardColonelsRepository());
     }
 
-    public List<string> GetUniqueCardColonelsTypes()
+    public async Task<List<string>> GetUniqueCardColonelsTypesAsync()
     {
-        return _cardColonelsRepository.GetUniqueCardColonelsTypes();
+        return await _cardColonelsRepository.GetUniqueCardColonelsTypesAsync();
     }
 
-    public List<CardColonels> GetCardColonels(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardColonels>> GetCardColonelsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<CardColonels> list = _cardColonelsRepository.GetCardColonels(type, pageSize, offset, rare);
+        List<CardColonels> list = await _cardColonelsRepository.GetCardColonelsAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardColonelsCount(string type, string rare)
+    public async Task<int> GetCardColonelsCountAsync(string type, string rare)
     {
-        return _cardColonelsRepository.GetCardColonelsCount(type, rare);
+        return await _cardColonelsRepository.GetCardColonelsCountAsync(type, rare);
     }
 
-    public List<CardColonels> GetCardColonelsRandom(string type, int pageSize)
+    public async Task<List<CardColonels>> GetCardColonelsRandomAsync(string type, int pageSize)
     {
-        return _cardColonelsRepository.GetCardColonelsRandom(type, pageSize);
+        return await _cardColonelsRepository.GetCardColonelsRandomAsync(type, pageSize);
     }
 
-    public List<CardColonels> GetAllCardColonels(string type)
+    public async Task<List<CardColonels>> GetAllCardColonelsAsync(string type)
     {
-        return _cardColonelsRepository.GetAllCardColonels(type);
+        return await _cardColonelsRepository.GetAllCardColonelsAsync(type);
     }
 
-    public CardColonels GetCardColonelsById(string Id)
+    public async Task<CardColonels> GetCardColonelByIdAsync(string Id)
     {
-        return _cardColonelsRepository.GetCardColonelsById(Id);
+        return await _cardColonelsRepository.GetCardColonelByIdAsync(Id);
     }
 
-    public List<CardColonels> GetCardColonelsWithPrice(string type, int pageSize, int offset)
+    public async Task<List<CardColonels>> GetCardColonelsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CardColonels> list = _cardColonelsRepository.GetCardColonelsWithPrice(type, pageSize, offset);
+        List<CardColonels> list = await _cardColonelsRepository.GetCardColonelsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardColonelsWithPriceCount(string type)
+    public async Task<int> GetCardColonelsWithPriceCountAsync(string type)
     {
-        return _cardColonelsRepository.GetCardColonelsWithPriceCount(type);
+        return await _cardColonelsRepository.GetCardColonelsWithPriceCountAsync(type);
     }
 
-    public List<string> GetUniqueCardColonelsId()
+    public async Task<List<string>> GetUniqueCardColonelsIdAsync()
     {
-        return _cardColonelsRepository.GetUniqueCardColonelsId();
+        return await _cardColonelsRepository.GetUniqueCardColonelsIdAsync();
     }
 }

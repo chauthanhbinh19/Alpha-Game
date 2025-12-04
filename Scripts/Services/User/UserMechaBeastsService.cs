@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserMechaBeastsService : IUserMechaBeastsService
 {
@@ -14,11 +15,11 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return new UserMechaBeastsService(new UserMechaBeastsRepository());
     }
 
-    public MechaBeasts GetNewLevelPower(MechaBeasts c, double coefficient)
+    public async Task<MechaBeasts> GetNewLevelPowerAsync(MechaBeasts c, double coefficient)
     {
         IMechaBeastsRepository _repository = new MechaBeastsRepository();
         MechaBeastsService _service = new MechaBeastsService(_repository);
-        MechaBeasts orginCard = _service.GetMechaBeastsById(c.Id);
+        MechaBeasts orginCard = await _service.GetMechaBeastByIdAsync(c.Id);
         MechaBeasts MechaBeasts = new MechaBeasts
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         );
         return MechaBeasts;
     }
-    public MechaBeasts GetNewBreakthroughPower(MechaBeasts c, double coefficient)
+    public async Task<MechaBeasts> GetNewBreakthroughPowerAsync(MechaBeasts c, double coefficient)
     {
         IMechaBeastsRepository _repository = new MechaBeastsRepository();
         MechaBeastsService _service = new MechaBeastsService(_repository);
-        MechaBeasts orginCard = _service.GetMechaBeastsById(c.Id);
+        MechaBeasts orginCard = await _service.GetMechaBeastByIdAsync(c.Id);
         MechaBeasts MechaBeasts = new MechaBeasts
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return MechaBeasts;
     }
 
-    public List<MechaBeasts> GetUserMechaBeasts(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<MechaBeasts> list = _userMechaBeastsRepository.GetUserMechaBeasts(user_id, pageSize, offset, rare);
+        List<MechaBeasts> list = await _userMechaBeastsRepository.GetUserMechaBeastsAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserMechaBeastsCount(string user_id, string rare)
+    public async Task<int> GetUserMechaBeastsCountAsync(string user_id, string rare)
     {
-        return _userMechaBeastsRepository.GetUserMechaBeastsCount(user_id, rare);
+        return await _userMechaBeastsRepository.GetUserMechaBeastsCountAsync(user_id, rare);
     }
 
-    public bool InsertUserMechaBeasts(MechaBeasts MechaBeasts, string userId)
+    public async Task<bool> InsertUserMechaBeastAsync(MechaBeasts MechaBeasts, string userId)
     {
-        return _userMechaBeastsRepository.InsertUserMechaBeasts(MechaBeasts, userId);
+        return await _userMechaBeastsRepository.InsertUserMechaBeastAsync(MechaBeasts, userId);
     }
 
-    public bool UpdateMechaBeastsLevel(MechaBeasts MechaBeasts, int cardLevel)
+    public async Task<bool> UpdateMechaBeastLevelAsync(MechaBeasts MechaBeasts, int cardLevel)
     {
-        return _userMechaBeastsRepository.UpdateMechaBeastsLevel(MechaBeasts, cardLevel);
+        return await _userMechaBeastsRepository.UpdateMechaBeastLevelAsync(MechaBeasts, cardLevel);
     }
 
-    public bool UpdateMechaBeastsBreakthrough(MechaBeasts MechaBeasts, int star, double quantity)
+    public async Task<bool> UpdateMechaBeastBreakthroughAsync(MechaBeasts MechaBeasts, int star, double quantity)
     {
-        return _userMechaBeastsRepository.UpdateMechaBeastsBreakthrough(MechaBeasts, star, quantity);
+        return await _userMechaBeastsRepository.UpdateMechaBeastBreakthroughAsync(MechaBeasts, star, quantity);
     }
 
-    public MechaBeasts GetUserMechaBeastsById(string user_id, string Id)
+    public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string user_id, string Id)
     {
-        return _userMechaBeastsRepository.GetUserMechaBeastsById(user_id, Id);
+        return await _userMechaBeastsRepository.GetUserMechaBeastByIdAsync(user_id, Id);
     }
 
-    public MechaBeasts SumPowerUserMechaBeasts()
+    public async Task<MechaBeasts> SumPowerUserMechaBeastsAsync()
     {
-        return _userMechaBeastsRepository.SumPowerUserMechaBeasts();
+        return await _userMechaBeastsRepository.SumPowerUserMechaBeastsAsync();
     }
 }

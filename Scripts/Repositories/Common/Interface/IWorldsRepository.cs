@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IWorldsRepository
 {
-    List<string> GetUniqueWorldId();
-    List<Worlds> GetWorlds(string userId, int pageSize, int offset);
-    int GetWorldsCount(string rare);
-    List<Worlds> GetWorldsWithPrice(int pageSize, int offset);
-    int GetWorldsWithPriceCount();
-    Worlds GetWorldsById(string Id);
-    Worlds SumPowerWorldsPercent();
+    Task<List<string>> GetUniqueWorldsIdAsync();
+    Task<List<Worlds>> GetWorldsAsync(string userId, int pageSize, int offset);
+    Task<int> GetWorldsCountAsync(string rare);
+    Task<List<Worlds>> GetWorldsWithPriceAsync(int pageSize, int offset);
+    Task<int> GetWorldsWithPriceCountAsync();
+    Task<Worlds> GetWorldByIdAsync(string id);
+    Task<Worlds> SumPowerWorldsPercentAsync();
 }

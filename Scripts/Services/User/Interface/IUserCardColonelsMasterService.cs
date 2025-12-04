@@ -1,6 +1,8 @@
+using System.Threading.Tasks;
+
 public interface IUserCardColonelsMasterService
 {
-    Master GetCardColonelsMaster(string type, string card_id);
-    void InsertOrUpdateCardColonelsMaster(Master master, string type, string card_id);
-    Master GetSumCardColonelsMaster(string user_id, string card_id);
+    Task<Master> GetCardColonelMasterAsync(string type, string card_id);
+    Task InsertOrUpdateCardColonelMasterAsync(Master Master, string type, string card_id);
+    Task<Master> GetSumCardColonelsMasterAsync(string user_id, string card_id);
 }

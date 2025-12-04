@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -96,7 +97,7 @@ public class WeaponsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateWeaponsTrade(List<Weapons> WeaponsList, string subType, Transform currentContent,
+    public async Task CreateWeaponsTradeAsync(List<Weapons> WeaponsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var weapon in WeaponsList)
@@ -168,7 +169,7 @@ public class WeaponsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetWeaponsCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetWeaponsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -280,12 +281,12 @@ public class WeaponsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Weapons Weapons)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Weapons.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Weapons.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -316,8 +317,8 @@ public class WeaponsController : MonoBehaviour
             if (obj is Weapons weapon)
             {
                 weapon.Quantity = weapon.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(weapon.Currency.Id, price);
-                bool success = UserWeaponsService.Create().InsertUserWeapons(weapon, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(weapon.Currency.Id, price);
+                bool success = await UserWeaponsService.Create().InsertUserWeaponAsync(weapon, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -330,8 +331,8 @@ public class WeaponsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    WeaponsGalleryService.Create().InsertWeaponsGallery(weapon.Id);
-                    currencies = UserCurrencyService.Create().GetWeaponsCurrency(subType);
+                    await WeaponsGalleryService.Create().InsertWeaponGalleryAsync(weapon.Id);
+                    currencies = await UserCurrenciesService.Create().GetWeaponsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -351,7 +352,7 @@ public class WeaponsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

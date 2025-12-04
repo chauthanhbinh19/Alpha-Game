@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class PowerManagerService : IPowerManagerService
 {
@@ -14,181 +15,181 @@ public class PowerManagerService : IPowerManagerService
         return new PowerManagerService(new PowerManagerRepository());
     }
 
-    public void InsertUserStats(string user_id)
+    public async Task InsertUserStatsAsync(string user_id)
     {
-        PowerManager powerManager = CalculateTotalPower();
-        _powerManagerRepository.InsertUserStats(user_id, powerManager);
+        PowerManager powerManager = await CalculateTotalPowerAsync();
+        await _powerManagerRepository.InsertUserStatsAsync(user_id, powerManager);
     }
-    public void UpdateUserStats(string user_id)
+    public async Task UpdateUserStatsAsync(string user_id)
     {
-        PowerManager powerManager = CalculateTotalPower();
-        _powerManagerRepository.UpdateUserStats(user_id, powerManager);
+        PowerManager powerManager = await CalculateTotalPowerAsync();
+        await _powerManagerRepository.UpdateUserStatsAsync(user_id, powerManager);
     }
-    public PowerManager GetUserStats(string user_id)
+    public async Task<PowerManager> GetUserStatsAsync(string user_id)
     {
-        return _powerManagerRepository.GetUserStats(user_id);
+        return await _powerManagerRepository.GetUserStatsAsync(user_id);
     }
-    public PowerManager CalculateTotalPower()
+    public async Task<PowerManager> CalculateTotalPowerAsync()
     {
         PowerManager totalPower = new PowerManager();
 
-        PowerManager achievementsPower = GetAchievementsPower();
+        PowerManager achievementsPower = await GetAchievementsPowerAsync();
         AddPower(totalPower, achievementsPower);
 
         // Lấy sức mạnh từ avatars
-        PowerManager avatarsPower = GetAvatarsPower();
+        PowerManager avatarsPower = await GetAvatarsPowerAsync();
         AddPower(totalPower, avatarsPower);
 
         // Lấy sức mạnh từ books
-        PowerManager booksPower = GetBooksPower();
+        PowerManager booksPower = await GetBooksPowerAsync();
         AddPower(totalPower, booksPower);
 
         // Lấy sức mạnh từ borders
-        PowerManager bordersPower = GetBordersPower();
+        PowerManager bordersPower = await GetBordersPowerAsync();
         AddPower(totalPower, bordersPower);
 
         // Lấy sức mạnh từ card heroes
-        PowerManager cardHeroesPower = GetCardHeroesPower();
+        PowerManager cardHeroesPower = await GetCardHeroesPowerAsync();
         AddPower(totalPower, cardHeroesPower);
 
         // Lấy sức mạnh từ card captains
-        PowerManager cardCaptainsPower = GetCardCaptainsPower();
+        PowerManager cardCaptainsPower = await GetCardCaptainsPowerAsync();
         AddPower(totalPower, cardCaptainsPower);
 
         // Lấy sức mạnh từ card colonels
-        PowerManager cardColonelsPower = GetCardColonelsPower();
+        PowerManager cardColonelsPower = await GetCardColonelsPowerAsync();
         AddPower(totalPower, cardColonelsPower);
 
         // Lấy sức mạnh từ card generals
-        PowerManager cardGeneralsPower = GetCardGeneralsPower();
+        PowerManager cardGeneralsPower = await GetCardGeneralsPowerAsync();
         AddPower(totalPower, cardGeneralsPower);
 
         // Lấy sức mạnh từ card admirals
-        PowerManager cardAdmiralsPower = GetCardAdmiralsPower();
+        PowerManager cardAdmiralsPower = await GetCardAdmiralsPowerAsync();
         AddPower(totalPower, cardAdmiralsPower);
 
         // Lấy sức mạnh từ card monsters
-        PowerManager cardMonstersPower = GetCardMonstersPower();
+        PowerManager cardMonstersPower = await GetCardMonstersPowerAsync();
         AddPower(totalPower, cardMonstersPower);
 
         // Lấy sức mạnh từ card militaries
-        PowerManager cardMilitariesPower = GetCardMilitariesPower();
+        PowerManager cardMilitariesPower = await GetCardMilitariesPowerAsync();
         AddPower(totalPower, cardMilitariesPower);
 
         // Lấy sức mạnh từ card spell
-        PowerManager cardSpellsPower = GetCardSpellsPower();
+        PowerManager cardSpellsPower = await GetCardSpellsPowerAsync();
         AddPower(totalPower, cardSpellsPower);
 
         // Lấy sức mạnh từ collaborations
-        PowerManager collaborationsPower = GetCollaborationsPower();
+        PowerManager collaborationsPower = await GetCollaborationsPowerAsync();
         AddPower(totalPower, collaborationsPower);
 
         // Lấy sức mạnh từ collaboration equipments
-        PowerManager collaborationEquipmentsPower = GetCollaborationEquipmentsPower();
+        PowerManager collaborationEquipmentsPower = await GetCollaborationEquipmentsPowerAsync();
         AddPower(totalPower, collaborationEquipmentsPower);
 
         // Lấy sức mạnh từ equipments
-        PowerManager equipmentsPower = GetEquipmentsPower();
+        PowerManager equipmentsPower = await GetEquipmentsPowerAsync();
         AddPower(totalPower, equipmentsPower);
 
         // Lấy sức mạnh từ magic formation circles
-        PowerManager magicFormationCirclesPower = GetMagicFormationCirclesPower();
+        PowerManager magicFormationCirclesPower = await GetMagicFormationCirclesPowerAsync();
         AddPower(totalPower, magicFormationCirclesPower);
 
         // Lấy sức mạnh từ relics
-        PowerManager relicsPower = GetRelicsPower();
+        PowerManager relicsPower = await GetRelicsPowerAsync();
         AddPower(totalPower, relicsPower);
 
         // Lấy sức mạnh từ medals
-        PowerManager medalsPower = GetMedalsPower();
+        PowerManager medalsPower = await GetMedalsPowerAsync();
         AddPower(totalPower, medalsPower);
 
         // Lấy sức mạnh từ pets
-        PowerManager petsPower = GetPetsPower();
+        PowerManager petsPower = await GetPetsPowerAsync();
         AddPower(totalPower, petsPower);
 
         // Lấy sức mạnh từ symbols
-        PowerManager symbolsPower = GetSymbolsPower();
+        PowerManager symbolsPower = await GetSymbolsPowerAsync();
         AddPower(totalPower, symbolsPower);
 
         // Lấy sức mạnh từ skills
-        PowerManager skillsPower = GetSkillsPower();
+        PowerManager skillsPower = await GetSkillsPowerAsync();
         AddPower(totalPower, skillsPower);
 
         // Lấy sức mạnh từ titles
-        PowerManager titlesPower = GetTitlesPower();
+        PowerManager titlesPower = await GetTitlesPowerAsync();
         AddPower(totalPower, titlesPower);
 
         // Lấy sức mạnh từ talismans
-        PowerManager talismansPower = GetTalismansPower();
+        PowerManager talismansPower = await GetTalismansPowerAsync();
         AddPower(totalPower, talismansPower);
 
         // Lấy sức mạnh từ puppets
-        PowerManager puppetsPower = GetPuppetsPower();
+        PowerManager puppetsPower = await GetPuppetsPowerAsync();
         AddPower(totalPower, puppetsPower);
 
         // Lấy sức mạnh từ alchemies
-        PowerManager alchemiesPower = GetAlchemiesPower();
+        PowerManager alchemiesPower = await GetAlchemiesPowerAsync();
         AddPower(totalPower, alchemiesPower);
 
         // Lấy sức mạnh từ forges
-        PowerManager forgesPower = GetForgesPower();
+        PowerManager forgesPower = await GetForgesPowerAsync();
         AddPower(totalPower, forgesPower);
 
         // Lấy sức mạnh từ card lives
-        PowerManager cardLivesPower = GetCardLivesPower();
+        PowerManager cardLivesPower = await GetCardLivesPowerAsync();
         AddPower(totalPower, cardLivesPower);
 
         // Lấy sức mạnh từ artworks
-        PowerManager artworksPower = GetArtworksPower();
+        PowerManager artworksPower = await GetArtworksPowerAsync();
         AddPower(totalPower, artworksPower);
 
         // Lấy sức mạnh từ spirit beasts
-        PowerManager spiritBeastsPower = GetSpiritBeastsPower();
+        PowerManager spiritBeastsPower = await GetSpiritBeastsPowerAsync();
         AddPower(totalPower, spiritBeastsPower);
 
         // Lấy sức mạnh từ spirit cards
-        PowerManager spiritCardsPower = GetSpiritCardsPower();
+        PowerManager spiritCardsPower = await GetSpiritCardsPowerAsync();
         AddPower(totalPower, spiritCardsPower);
 
         // Lấy sức mạnh từ vehicles
-        PowerManager vehiclesPower = GetVehiclesPower();
+        PowerManager vehiclesPower = await GetVehiclesPowerAsync();
         AddPower(totalPower, vehiclesPower);
 
         // Lấy sức mạnh từ architectures
-        PowerManager architecturePower = GetArchitecturesPower();
+        PowerManager architecturePower = await GetArchitecturesPowerAsync();
         AddPower(totalPower, architecturePower);
 
         // Lấy sức mạnh từ technologies
-        PowerManager techonogiesPower = GetTechnologiesPower();
+        PowerManager techonogiesPower = await GetTechnologiesPowerAsync();
         AddPower(totalPower, techonogiesPower);
 
         // Lấy sức mạnh từ cards
-        PowerManager cardPower = GetCardsPower();
+        PowerManager cardPower = await GetCardsPowerAsync();
         AddPower(totalPower, cardPower);
 
         // Lấy sức mạnh từ cores
-        PowerManager coresPower = GetCoresPower();
+        PowerManager coresPower = await GetCoresPowerAsync();
         AddPower(totalPower, coresPower);
 
         // Lấy sức mạnh từ weapons
-        PowerManager weaponsPower = GetWeaponsPower();
+        PowerManager weaponsPower = await GetWeaponsPowerAsync();
         AddPower(totalPower, weaponsPower);
 
         // Lấy sức mạnh từ robots
-        PowerManager robotsPower = GetRobotsPower();
+        PowerManager robotsPower = await GetRobotsPowerAsync();
         AddPower(totalPower, robotsPower);
 
         // Lấy sức mạnh từ robots
-        PowerManager badgesPower = GetBadgesPower();
+        PowerManager badgesPower = await GetBadgesPowerAsync();
         AddPower(totalPower, badgesPower);
 
         // Lấy sức mạnh từ robots
-        PowerManager mechaBeastsPower = GetMechaBeastsPower();
+        PowerManager mechaBeastsPower = await GetMechaBeastsPowerAsync();
         AddPower(totalPower, mechaBeastsPower);
 
         // Lấy sức mạnh từ robots
-        PowerManager runesPower = GetRunesPower();
+        PowerManager runesPower = await GetRunesPowerAsync();
         AddPower(totalPower, runesPower);
 
         return totalPower;
@@ -240,14 +241,14 @@ public class PowerManagerService : IPowerManagerService
         target.PercentAllMentalAttack += source.PercentAllMentalAttack;
         target.PercentAllMentalDefense += source.PercentAllMentalDefense;
     }
-    public PowerManager GetAchievementsPower()
+    public async Task<PowerManager> GetAchievementsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
         // User Achievements
         IUserAchievementsRepository userAchievementsRepository = new UserAchievementsRepository();
         UserAchievementsService userAchievementsService = new UserAchievementsService(userAchievementsRepository);
-        Achievements userAchievements = userAchievementsService.SumPowerUserAchievements();
+        Achievements userAchievements = await userAchievementsService.SumPowerUserAchievementsAsync();
 
         powerManager.Power += userAchievements.Power;
         powerManager.Health += userAchievements.Health;
@@ -285,7 +286,7 @@ public class PowerManagerService : IPowerManagerService
         // Percent Achievements
         IAchievementsRepository achievementsRepository = new AchievementsRepository();
         AchievementsService achievementsService = new AchievementsService(achievementsRepository);
-        Achievements percentAchievements = achievementsService.SumPowerAchievementsPercent();
+        Achievements percentAchievements = await achievementsService.SumPowerAchievementsPercentAsync();
 
         powerManager.PercentAllHealth += percentAchievements.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += percentAchievements.PercentAllPhysicalAttack;
@@ -301,14 +302,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetAvatarsPower()
+    public async Task<PowerManager> GetAvatarsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery Avatars
         IAvatarsGalleryRepository avatarsGalleryRepository = new AvatarsGalleryRepository();
         AvatarsGalleryService avatarsGalleryService = new AvatarsGalleryService(avatarsGalleryRepository);
-        Avatars galleryAvatars = avatarsGalleryService.SumPowerAvatarsGallery();
+        Avatars galleryAvatars = await avatarsGalleryService.SumPowerAvatarsGalleryAsync();
 
         powerManager.Power += galleryAvatars.Power;
         powerManager.Health += galleryAvatars.Health;
@@ -358,7 +359,7 @@ public class PowerManagerService : IPowerManagerService
         // User Avatars
         IUserAvatarsRepository userAvatarsRepository = new UserAvatarsRepository();
         UserAvatarsService userAvatarsService = new UserAvatarsService(userAvatarsRepository);
-        Avatars userAvatars = userAvatarsService.SumPowerUserAvatars();
+        Avatars userAvatars = await userAvatarsService.SumPowerUserAvatarsAsync();
 
         powerManager.Power += userAvatars.Power;
         powerManager.Health += userAvatars.Health;
@@ -396,7 +397,7 @@ public class PowerManagerService : IPowerManagerService
         // Percent Avatars
         IAvatarsRepository avatarsRepository = new AvatarsRepository();
         AvatarsService avatarsService = new AvatarsService(avatarsRepository);
-        Avatars percentAvatars = avatarsService.SumPowerAvatarsPercent();
+        Avatars percentAvatars = await avatarsService.SumPowerAvatarsPercentAsync();
 
         powerManager.PercentAllHealth += percentAvatars.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += percentAvatars.PercentAllPhysicalAttack;
@@ -412,14 +413,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetBordersPower()
+    public async Task<PowerManager> GetBordersPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery Borders
         IBordersGalleryRepository bordersGalleryRepository = new BordersGalleryRepository(); // Note: This was named booksGalleryRepository in the original. Corrected for clarity.
         BordersGalleryService bordersGalleryService = new BordersGalleryService(bordersGalleryRepository); // Note: This was named booksGalleryService in the original. Corrected for clarity.
-        Borders galleryBorders = bordersGalleryService.SumPowerBordersGallery();
+        Borders galleryBorders = await bordersGalleryService.SumPowerBordersGalleryAsync();
 
         powerManager.Power += galleryBorders.Power;
         powerManager.Health += galleryBorders.Health;
@@ -469,7 +470,7 @@ public class PowerManagerService : IPowerManagerService
         // User Borders
         IUserBordersRepository userBordersRepository = new UserBordersRepository();
         UserBordersService userBordersService = new UserBordersService(userBordersRepository);
-        Borders userBorders = userBordersService.SumPowerUserBorders();
+        Borders userBorders = await userBordersService.SumPowerUserBordersAsync();
 
         powerManager.Power += userBorders.Power;
         powerManager.Health += userBorders.Health;
@@ -507,7 +508,7 @@ public class PowerManagerService : IPowerManagerService
         // Percent Borders
         IBordersRepository bordersRepository = new BordersRepository();
         BordersService bordersService = new BordersService(bordersRepository);
-        Borders percentBorders = bordersService.SumPowerBordersPercent();
+        Borders percentBorders = await bordersService.SumPowerBordersPercentAsync();
 
         powerManager.PercentAllHealth += percentBorders.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += percentBorders.PercentAllPhysicalAttack;
@@ -523,7 +524,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetBooksPower()
+    public async Task<PowerManager> GetBooksPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -531,7 +532,7 @@ public class PowerManagerService : IPowerManagerService
         BooksGalleryService booksGalleryService = new BooksGalleryService(booksGalleryRepository);
 
         //Gallery
-        Books books = booksGalleryService.SumPowerBooksGallery();
+        Books books = await booksGalleryService.SumPowerBooksGalleryAsync();
 
         powerManager.Power += books.Power;
         powerManager.Health += books.Health;
@@ -580,7 +581,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardHeroesPower()
+    public async Task<PowerManager> GetCardHeroesPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -588,7 +589,7 @@ public class PowerManagerService : IPowerManagerService
         CardHeroesGalleryService cardHeroesGalleryService = new CardHeroesGalleryService(cardHeroesGalleryRepository);
 
         // Gallery
-        CardHeroes cardHeroes = cardHeroesGalleryService.SumPowerCardHeroesGallery();
+        CardHeroes cardHeroes = await cardHeroesGalleryService.SumPowerCardHeroesGalleryAsync();
 
         powerManager.Power += cardHeroes.Power;
         powerManager.Health += cardHeroes.Health;
@@ -637,7 +638,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardCaptainsPower()
+    public async Task<PowerManager> GetCardCaptainsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -645,7 +646,7 @@ public class PowerManagerService : IPowerManagerService
         CardCaptainsGalleryService cardCaptainsGalleryService = new CardCaptainsGalleryService(cardCaptainsGalleryRepository);
 
         // Gallery
-        CardCaptains cardCaptains = cardCaptainsGalleryService.SumPowerCardCaptainsGallery();
+        CardCaptains cardCaptains = await cardCaptainsGalleryService.SumPowerCardCaptainsGalleryAsync();
 
         powerManager.Power += cardCaptains.Power;
         powerManager.Health += cardCaptains.Health;
@@ -694,7 +695,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardColonelsPower()
+    public async Task<PowerManager> GetCardColonelsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -702,7 +703,7 @@ public class PowerManagerService : IPowerManagerService
         CardColonelsGalleryService cardColonelsGalleryService = new CardColonelsGalleryService(cardColonelsGalleryRepository);
 
         //Gallery
-        CardColonels cardColonels = cardColonelsGalleryService.SumPowerCardColonelsGallery();
+        CardColonels cardColonels = await cardColonelsGalleryService.SumPowerCardColonelsGalleryAsync();
 
         powerManager.Power += cardColonels.Power;
         powerManager.Health += cardColonels.Health;
@@ -751,7 +752,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardGeneralsPower()
+    public async Task<PowerManager> GetCardGeneralsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -759,7 +760,7 @@ public class PowerManagerService : IPowerManagerService
         CardGeneralsGalleryService cardGeneralsGalleryService = new CardGeneralsGalleryService(cardGeneralsGalleryRepository);
 
         //Gallery
-        CardGenerals cardGenerals = cardGeneralsGalleryService.SumPowerCardGeneralsGallery();
+        CardGenerals cardGenerals = await cardGeneralsGalleryService.SumPowerCardGeneralsGalleryAsync();
 
         powerManager.Power += cardGenerals.Power;
         powerManager.Health += cardGenerals.Health;
@@ -808,7 +809,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardAdmiralsPower()
+    public async Task<PowerManager> GetCardAdmiralsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -816,7 +817,7 @@ public class PowerManagerService : IPowerManagerService
         CardAdmiralsGalleryService cardAdmiralsGalleryService = new CardAdmiralsGalleryService(cardAdmiralsGalleryRepository);
 
         //Gallery
-        CardAdmirals cardAdmirals = cardAdmiralsGalleryService.SumPowerCardCaptainsGallery();
+        CardAdmirals cardAdmirals = await cardAdmiralsGalleryService.SumPowerCardAdmiralsGalleryAsync();
 
         powerManager.Power += cardAdmirals.Power;
         powerManager.Health += cardAdmirals.Health;
@@ -865,14 +866,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardMonstersPower()
+    public async Task<PowerManager> GetCardMonstersPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
         // CardMonsters cardMonsters = new CardMonsters();
         ICardMonstersGalleryRepository cardMonstersGalleryRepository = new CardMonstersGalleryRepository();
         CardMonstersGalleryService cardMonstersGalleryService = new CardMonstersGalleryService(cardMonstersGalleryRepository);
         //Gallery
-        CardMonsters cardMonsters = cardMonstersGalleryService.SumPowerCardMonstersGallery();
+        CardMonsters cardMonsters = await cardMonstersGalleryService.SumPowerCardMonstersGalleryAsync();
         powerManager.Power += cardMonsters.Power;
         powerManager.Health += cardMonsters.Health;
         powerManager.PhysicalAttack += cardMonsters.PhysicalAttack;
@@ -920,15 +921,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardMilitariesPower()
+    public async Task<PowerManager> GetCardMilitariesPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
         // CardMilitary cardMilitary = new CardMilitary();
-        ICardMilitaryGalleryRepository cardMilitaryGalleryRepository = new CardMilitaryGalleryRepository();
-        CardMilitaryGalleryService cardMilitaryGalleryService = new CardMilitaryGalleryService(cardMilitaryGalleryRepository);
+        ICardMilitariesGalleryRepository cardMilitaryGalleryRepository = new CardMilitariesGalleryRepository();
+        CardMilitariesGalleryService cardMilitaryGalleryService = new CardMilitariesGalleryService(cardMilitaryGalleryRepository);
         //Gallery
-        CardMilitaries cardMilitary = cardMilitaryGalleryService.SumPowerCardMilitaryGallery();
+        CardMilitaries cardMilitary = await cardMilitaryGalleryService.SumPowerCardMilitariesGalleryAsync();
 
         powerManager.Power += cardMilitary.Power;
         powerManager.Health += cardMilitary.Health;
@@ -977,15 +978,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCardSpellsPower()
+    public async Task<PowerManager> GetCardSpellsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
         // CardSpell cardSpell = new CardSpell();
-        ICardSpellGalleryRepository cardSpellGalleryRepository = new CardSpellGalleryRepository();
-        CardSpellGalleryService cardSpellGalleryService = new CardSpellGalleryService(cardSpellGalleryRepository);
+        ICardSpellsGalleryRepository cardSpellGalleryRepository = new CardSpellsGalleryRepository();
+        CardSpellsGalleryService cardSpellGalleryService = new CardSpellsGalleryService(cardSpellGalleryRepository);
         //Gallery
-        CardSpells cardSpell = cardSpellGalleryService.SumPowerCardSpellGallery();
+        CardSpells cardSpell = await cardSpellGalleryService.SumPowerCardSpellsGalleryAsync();
 
         powerManager.Power += cardSpell.Power;
         powerManager.Health += cardSpell.Health;
@@ -1034,15 +1035,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCollaborationsPower()
+    public async Task<PowerManager> GetCollaborationsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
         // Collaboration collaboration = new Collaboration();
-        ICollaborationGalleryRepository collaborationGalleryRepository = new CollaborationGalleryRepository();
-        CollaborationGalleryService collaborationGalleryService = new CollaborationGalleryService(collaborationGalleryRepository);
+        ICollaborationsGalleryRepository collaborationGalleryRepository = new CollaborationsGalleryRepository();
+        CollaborationsGalleryService collaborationGalleryService = new CollaborationsGalleryService(collaborationGalleryRepository);
         // Gallery tổng hợp sức mạnh từ Collaboration Gallery
-        Collaborations collaboration = collaborationGalleryService.SumPowerCollaborationsGallery();
+        Collaborations collaboration = await collaborationGalleryService.SumPowerCollaborationsGalleryAsync();
         powerManager.Power += collaboration.Power;
         powerManager.Health += collaboration.Health;
         powerManager.PhysicalAttack += collaboration.PhysicalAttack;
@@ -1088,10 +1089,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += collaboration.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += collaboration.PercentAllMentalDefense;
 
-        IUserCollaborationRepository userCollaborationRepository = new UserCollaborationRepository();
-        UserCollaborationService userCollaborationService = new UserCollaborationService(userCollaborationRepository);
+        IUserCollaborationsRepository userCollaborationRepository = new UserCollaborationsRepository();
+        UserCollaborationsService userCollaborationService = new UserCollaborationsService(userCollaborationRepository);
         // Gallery tổng hợp sức mạnh từ User Collaborations
-        collaboration = userCollaborationService.SumPowerUserCollaborations();
+        collaboration = await userCollaborationService.SumPowerUserCollaborationsAsync();
         powerManager.Power += collaboration.Power;
         powerManager.Health += collaboration.Health;
         powerManager.PhysicalAttack += collaboration.PhysicalAttack;
@@ -1125,10 +1126,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += collaboration.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += collaboration.ResistanceToSameFactionRate;
 
-        ICollaborationRepository collaborationRepository = new CollaborationRepository();
-        CollaborationService collaborationService = new CollaborationService(collaborationRepository);
+        ICollaborationsRepository collaborationRepository = new CollaborationsRepository();
+        CollaborationsService collaborationService = new CollaborationsService(collaborationRepository);
         // Phần cộng dồn percent từ Collaboration Percent
-        collaboration = collaborationService.SumPowerCollaborationsPercent();
+        collaboration = await collaborationService.SumPowerCollaborationsPercentAsync();
         powerManager.PercentAllHealth += collaboration.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += collaboration.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += collaboration.PercentAllPhysicalDefense;
@@ -1143,14 +1144,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetCollaborationEquipmentsPower()
+    public async Task<PowerManager> GetCollaborationEquipmentsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
         // CollaborationEquipment collaborationEquipment = new CollaborationEquipment();
-        ICollaborationEquipmentGalleryRepository collaborationEquipmentGalleryRepository = new CollaborationEquipmentGalleryRepository();
-        CollaborationEquipmentGalleryService collaborationEquipmentGalleryService = new CollaborationEquipmentGalleryService(collaborationEquipmentGalleryRepository);
+        ICollaborationEquipmentsGalleryRepository collaborationEquipmentGalleryRepository = new CollaborationEquipmentsGalleryRepository();
+        CollaborationEquipmentsGalleryService collaborationEquipmentGalleryService = new CollaborationEquipmentsGalleryService(collaborationEquipmentGalleryRepository);
         // Sum power from Gallery Equipments
-        CollaborationEquipments collaborationEquipment = collaborationEquipmentGalleryService.SumPowerCollaborationEquipmentsGallery();
+        CollaborationEquipments collaborationEquipment = await collaborationEquipmentGalleryService.SumPowerCollaborationEquipmentsGalleryAsync();
         powerManager.Power += collaborationEquipment.Power;
         powerManager.Health += collaborationEquipment.Health;
         powerManager.PhysicalAttack += collaborationEquipment.PhysicalAttack;
@@ -1196,10 +1197,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += collaborationEquipment.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += collaborationEquipment.PercentAllMentalDefense;
 
-        IUserCollaborationEquipmentRepository userCollaborationEquipmentRepository = new UserCollaborationEquipmentRepository();
-        UserCollaborationEquipmentService userCollaborationEquipmentService = new UserCollaborationEquipmentService(userCollaborationEquipmentRepository);
+        IUserCollaborationEquipmentsRepository userCollaborationEquipmentRepository = new UserCollaborationEquipmentsRepository();
+        UserCollaborationEquipmentsService userCollaborationEquipmentService = new UserCollaborationEquipmentsService(userCollaborationEquipmentRepository);
         // Sum power from User Collaboration Equipments
-        collaborationEquipment = userCollaborationEquipmentService.SumPowerUserCollaborationEquipments();
+        collaborationEquipment = await userCollaborationEquipmentService.SumPowerUserCollaborationEquipmentsAsync();
         powerManager.Power += collaborationEquipment.Power;
         powerManager.Health += collaborationEquipment.Health;
         powerManager.PhysicalAttack += collaborationEquipment.PhysicalAttack;
@@ -1235,14 +1236,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetEquipmentsPower()
+    public async Task<PowerManager> GetEquipmentsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
         // Equipments equipments = new Equipments();
         IEquipmentsGalleryRepository equipmentsGalleryRepository = new EquipmentsGalleryRepository();
         EquipmentsGalleryService equipmentsGalleryService = new EquipmentsGalleryService(equipmentsGalleryRepository);
         // Gallery Equipments power sum
-        Equipments equipments = equipmentsGalleryService.SumPowerEquipmentsGallery();
+        Equipments equipments = await equipmentsGalleryService.SumPowerEquipmentsGalleryAsync();
 
         powerManager.Power += equipments.Power;
         powerManager.Health += equipments.Health;
@@ -1291,14 +1292,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetMagicFormationCirclesPower()
+    public async Task<PowerManager> GetMagicFormationCirclesPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
         // MagicFormationCircle magicFormationCircle = new MagicFormationCircle();
-        IMagicFormationCircleGalleryRepository magicFormationCircleGalleryRepository = new MagicFormationCircleGalleryRepository();
-        MagicFormationCircleGalleryService magicFormationCircleGalleryService = new MagicFormationCircleGalleryService(magicFormationCircleGalleryRepository);
+        IMagicFormationCirclesGalleryRepository magicFormationCircleGalleryRepository = new MagicFormationCirclesGalleryRepository();
+        MagicFormationCirclesGalleryService magicFormationCircleGalleryService = new MagicFormationCirclesGalleryService(magicFormationCircleGalleryRepository);
         // Gallery
-        MagicFormationCircles magicFormationCircle = magicFormationCircleGalleryService.SumPowerMagicFormationCircleGallery();
+        MagicFormationCircles magicFormationCircle = await magicFormationCircleGalleryService.SumPowerMagicFormationCirclesGalleryAsync();
         powerManager.Power += magicFormationCircle.Power;
         powerManager.Health += magicFormationCircle.Health;
         powerManager.PhysicalAttack += magicFormationCircle.PhysicalAttack;
@@ -1344,10 +1345,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += magicFormationCircle.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += magicFormationCircle.PercentAllMentalDefense;
 
-        IUserMagicFormationCircleRepository userMagicFormationCircleRepository = new UserMagicFormationCirlceRepository();
-        UserMagicFormationCircleService userMagicFormationCircleService = new UserMagicFormationCircleService(userMagicFormationCircleRepository);
+        IUserMagicFormationCirclesRepository userMagicFormationCircleRepository = new UserMagicFormationCirlcesRepository();
+        UserMagicFormationCirclesService userMagicFormationCircleService = new UserMagicFormationCirclesService(userMagicFormationCircleRepository);
         // User
-        magicFormationCircle = userMagicFormationCircleService.SumPowerUserMagicFormationCircle();
+        magicFormationCircle = await userMagicFormationCircleService.SumPowerUserMagicFormationCirclesAsync();
         powerManager.Power += magicFormationCircle.Power;
         powerManager.Health += magicFormationCircle.Health;
         powerManager.PhysicalAttack += magicFormationCircle.PhysicalAttack;
@@ -1381,10 +1382,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += magicFormationCircle.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += magicFormationCircle.ResistanceToSameFactionRate;
 
-        IMagicFormationCircleRepository magicFormationCircleRepository = new MagicFormationCircleRepository();
-        MagicFormationCircleService magicFormationCircleService = new MagicFormationCircleService(magicFormationCircleRepository);
+        IMagicFormationCirclesRepository magicFormationCircleRepository = new MagicFormationCirclesRepository();
+        MagicFormationCirclesService magicFormationCircleService = new MagicFormationCirclesService(magicFormationCircleRepository);
         // Percent
-        magicFormationCircle = magicFormationCircleService.SumPowerMagicFormationCirclePercent();
+        magicFormationCircle = await magicFormationCircleService.SumPowerMagicFormationCirclesPercentAsync();
         powerManager.PercentAllHealth += magicFormationCircle.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += magicFormationCircle.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += magicFormationCircle.PercentAllPhysicalDefense;
@@ -1399,7 +1400,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetRelicsPower()
+    public async Task<PowerManager> GetRelicsPowerAsync()
     {
         // Relics relics = new Relics();
         PowerManager powerManager = new PowerManager();
@@ -1407,7 +1408,7 @@ public class PowerManagerService : IPowerManagerService
         IRelicsGalleryRepository relicsGalleryRepository = new RelicsGalleryRepository();
         RelicsGalleryService relicsGalleryService = new RelicsGalleryService(relicsGalleryRepository);
         // Gallery
-        Relics relics = relicsGalleryService.SumPowerRelicsGallery();
+        Relics relics = await relicsGalleryService.SumPowerRelicsGalleryAsync();
         powerManager.Power += relics.Power;
         powerManager.Health += relics.Health;
         powerManager.PhysicalAttack += relics.PhysicalAttack;
@@ -1456,7 +1457,7 @@ public class PowerManagerService : IPowerManagerService
         IUserRelicsRepository userRelicsRepository = new UserRelicsRepository();
         UserRelicsService userRelicsService = new UserRelicsService(userRelicsRepository);
         // User
-        relics = userRelicsService.SumPowerUserRelics();
+        relics = await userRelicsService.SumPowerUserRelicsAsync();
         powerManager.Power += relics.Power;
         powerManager.Health += relics.Health;
         powerManager.PhysicalAttack += relics.PhysicalAttack;
@@ -1493,7 +1494,7 @@ public class PowerManagerService : IPowerManagerService
         IRelicsRepository relicsRepository = new RelicsRepository();
         RelicsService relicsService = new RelicsService(relicsRepository);
         // Percent
-        relics = relicsService.SumPowerRelicsPercent();
+        relics = await relicsService.SumPowerRelicsPercentAsync();
         powerManager.PercentAllHealth += relics.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += relics.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += relics.PercentAllPhysicalDefense;
@@ -1508,7 +1509,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public PowerManager GetMedalsPower()
+    public async Task<PowerManager> GetMedalsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -1516,7 +1517,7 @@ public class PowerManagerService : IPowerManagerService
         IMedalsGalleryRepository medalsGalleryRepository = new MedalsGalleryRepository();
         MedalsGalleryService medalsGalleryService = new MedalsGalleryService(medalsGalleryRepository);
         // Gallery
-        Medals medals = medalsGalleryService.SumPowerMedalsGallery();
+        Medals medals = await medalsGalleryService.SumPowerMedalsGalleryAsync();
         powerManager.Power += medals.Power;
         powerManager.Health += medals.Health;
         powerManager.PhysicalAttack += medals.PhysicalAttack;
@@ -1565,7 +1566,7 @@ public class PowerManagerService : IPowerManagerService
         IUserMedalsRepository userMedalsRepository = new UserMedalsRepository();
         UserMedalsService userMedalsService = new UserMedalsService(userMedalsRepository);
         // User Medals (Gallery)
-        medals = userMedalsService.SumPowerUserMedals(); // Giả định SumPowerUserMedals cũng trả về một đối tượng Medals mới hoặc đã được reset
+        medals = await userMedalsService.SumPowerUserMedalsAsync(); // Giả định SumPowerUserMedals cũng trả về một đối tượng Medals mới hoặc đã được reset
         powerManager.Power += medals.Power;
         powerManager.Health += medals.Health;
         powerManager.PhysicalAttack += medals.PhysicalAttack;
@@ -1602,7 +1603,7 @@ public class PowerManagerService : IPowerManagerService
         IMedalsRepository medalsRepository = new MedalsRepository();
         MedalsService medalsService = new MedalsService(medalsRepository);
         // Percent
-        medals = medalsService.SumPowerMedalsPercent(); // Giả định SumPowerMedalsPercent cũng trả về một đối tượng Medals mới hoặc đã được reset
+        medals = await medalsService.SumPowerMedalsPercentAsync(); // Giả định SumPowerMedalsPercent cũng trả về một đối tượng Medals mới hoặc đã được reset
         powerManager.PercentAllHealth += medals.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += medals.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += medals.PercentAllPhysicalDefense;
@@ -1617,7 +1618,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetPetsPower()
+    public async Task<PowerManager> GetPetsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -1625,7 +1626,7 @@ public class PowerManagerService : IPowerManagerService
         IPetsGalleryRepository petsGalleryRepository = new PetsGalleryRepository();
         PetsGalleryService petsGalleryService = new PetsGalleryService(petsGalleryRepository);
         // Gallery
-        Pets pets = petsGalleryService.SumPowerPetsGallery();
+        Pets pets = await petsGalleryService.SumPowerPetsGalleryAsync();
         powerManager.Power += pets.Power;
         powerManager.Health += pets.Health;
         powerManager.PhysicalAttack += pets.PhysicalAttack;
@@ -1673,7 +1674,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetSymbolsPower()
+    public async Task<PowerManager> GetSymbolsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -1681,7 +1682,7 @@ public class PowerManagerService : IPowerManagerService
         ISymbolsGalleryRepository symbolsGalleryRepository = new SymbolsGalleryRepository();
         SymbolsGalleryService symbolsGalleryService = new SymbolsGalleryService(symbolsGalleryRepository);
         // Gallery
-        Symbols symbols = symbolsGalleryService.SumPowerSymbolsGallery();
+        Symbols symbols = await symbolsGalleryService.SumPowerSymbolsGalleryAsync();
         powerManager.Power += symbols.Power;
         powerManager.Health += symbols.Health;
         powerManager.PhysicalAttack += symbols.PhysicalAttack;
@@ -1730,7 +1731,7 @@ public class PowerManagerService : IPowerManagerService
         IUserSymbolsRepository userSymbolsRepository = new UserSymbolsRepository();
         UserSymbolsService userSymbolsService = new UserSymbolsService(userSymbolsRepository);
         // User Symbols (Gallery)
-        symbols = userSymbolsService.SumPowerUserSymbols(); // Giả định SumPowerUserSymbols cũng trả về một đối tượng Symbols mới hoặc đã được reset
+        symbols = await userSymbolsService.SumPowerUserSymbolsAsync(); // Giả định SumPowerUserSymbols cũng trả về một đối tượng Symbols mới hoặc đã được reset
         powerManager.Power += symbols.Power;
         powerManager.Health += symbols.Health;
         powerManager.PhysicalAttack += symbols.PhysicalAttack;
@@ -1768,7 +1769,7 @@ public class PowerManagerService : IPowerManagerService
         ISymbolsRepository symbolsRepository = new SymbolsRepository();
         SymbolsService symbolsService = new SymbolsService(symbolsRepository);
         // Percent
-        symbols = symbolsService.SumPowerSymbolsPercent(); // Giả định SumPowerSymbolsPercent cũng trả về một đối tượng Symbols mới hoặc đã được reset
+        symbols = await symbolsService.SumPowerSymbolsPercentAsync(); // Giả định SumPowerSymbolsPercent cũng trả về một đối tượng Symbols mới hoặc đã được reset
         powerManager.PercentAllHealth += symbols.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += symbols.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += symbols.PercentAllPhysicalDefense;
@@ -1783,7 +1784,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetSkillsPower()
+    public async Task<PowerManager> GetSkillsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -1791,7 +1792,7 @@ public class PowerManagerService : IPowerManagerService
         ISkillsGalleryRepository skillsGalleryRepository = new SkillsGalleryRepository();
         SkillsGalleryService skillsGalleryService = new SkillsGalleryService(skillsGalleryRepository);
         // Gallery
-        Skills skills = skillsGalleryService.SumPowerSkillsGallery();
+        Skills skills = await skillsGalleryService.SumPowerSkillsGalleryAsync();
         powerManager.Power += skills.Power;
         powerManager.Health += skills.Health;
         powerManager.PhysicalAttack += skills.PhysicalAttack;
@@ -1839,7 +1840,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetTitlesPower()
+    public async Task<PowerManager> GetTitlesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -1847,7 +1848,7 @@ public class PowerManagerService : IPowerManagerService
         ITitlesGalleryRepository titlesGalleryRepository = new TitlesGalleryRepository();
         TitlesGalleryService titlesGalleryService = new TitlesGalleryService(titlesGalleryRepository);
         // Gallery
-        Titles titles = titlesGalleryService.SumPowerTitlesGallery();
+        Titles titles = await titlesGalleryService.SumPowerTitlesGalleryAsync();
         powerManager.Power += titles.Power;
         powerManager.Health += titles.Health;
         powerManager.PhysicalAttack += titles.PhysicalAttack;
@@ -1896,7 +1897,7 @@ public class PowerManagerService : IPowerManagerService
         IUserTitlesRepository userTitlesRepository = new UserTitlesRepository();
         UserTitlesService userTitlesService = new UserTitlesService(userTitlesRepository);
         // User Titles (Gallery)
-        titles = userTitlesService.SumPowerUserTitles(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
+        titles = await userTitlesService.SumPowerUserTitlesAsync(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.Power += titles.Power;
         powerManager.Health += titles.Health;
         powerManager.PhysicalAttack += titles.PhysicalAttack;
@@ -1933,7 +1934,7 @@ public class PowerManagerService : IPowerManagerService
         ITitlesRepository titlesRepository = new TitlesRepository();
         TitlesService titlesService = new TitlesService(titlesRepository);
         // Percent
-        titles = titlesService.SumPowerTitlesPercent(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
+        titles = await titlesService.SumPowerTitlesPercentAsync(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.PercentAllHealth += titles.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += titles.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += titles.PercentAllPhysicalDefense;
@@ -1948,15 +1949,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetTalismansPower()
+    public async Task<PowerManager> GetTalismansPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
         // Talisman talisman = new Talisman();
-        ITalismanGalleryRepository talismanGalleryRepository = new TalismanGalleryRepository();
-        TalismanGalleryService talismanGalleryService = new TalismanGalleryService(talismanGalleryRepository);
+        ITalismansGalleryRepository talismanGalleryRepository = new TalismansGalleryRepository();
+        TalismansGalleryService talismanGalleryService = new TalismansGalleryService(talismanGalleryRepository);
         // Gallery
-        Talismans talisman = talismanGalleryService.SumPowerTalismanGallery();
+        Talismans talisman = await talismanGalleryService.SumPowerTalismansGalleryAsync();
         powerManager.Power += talisman.Power;
         powerManager.Health += talisman.Health;
         powerManager.PhysicalAttack += talisman.PhysicalAttack;
@@ -2002,10 +2003,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += talisman.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += talisman.PercentAllMentalDefense;
 
-        IUserTalismanRepository userTalismanRepository = new UserTalismanRepository();
-        UserTalismanService userTalismanService = new UserTalismanService(userTalismanRepository);
+        IUserTalismansRepository userTalismanRepository = new UserTalismansRepository();
+        UserTalismansService userTalismanService = new UserTalismansService(userTalismanRepository);
         // User
-        talisman = userTalismanService.SumPowerUserTalisman(); // Giả định SumPowerUserTalisman cũng trả về một đối tượng Talisman mới hoặc đã được reset
+        talisman = await userTalismanService.SumPowerUserTalismansAsync(); // Giả định SumPowerUserTalisman cũng trả về một đối tượng Talisman mới hoặc đã được reset
         powerManager.Power += talisman.Power;
         powerManager.Health += talisman.Health;
         powerManager.PhysicalAttack += talisman.PhysicalAttack;
@@ -2039,10 +2040,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += talisman.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += talisman.ResistanceToSameFactionRate;
 
-        ITalismanRepository talismanRepository = new TalismanRepository();
-        TalismanService talismanService = new TalismanService(talismanRepository);
+        ITalismansRepository talismanRepository = new TalismansRepository();
+        TalismansService talismanService = new TalismansService(talismanRepository);
         // Percent
-        talisman = talismanService.SumPowerTalismanPercent(); // Giả định SumPowerTalismanPercent cũng trả về một đối tượng Talisman mới hoặc đã được reset
+        talisman = await talismanService.SumPowerTalismansPercentAsync(); // Giả định SumPowerTalismanPercent cũng trả về một đối tượng Talisman mới hoặc đã được reset
         powerManager.PercentAllHealth += talisman.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += talisman.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += talisman.PercentAllPhysicalDefense;
@@ -2057,15 +2058,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetPuppetsPower()
+    public async Task<PowerManager> GetPuppetsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
         // Puppet puppet = new Puppet();
-        IPuppetGalleryRepository puppetGalleryRepository = new PuppetGalleryRepository();
-        PuppetGalleryService puppetGalleryService = new PuppetGalleryService(puppetGalleryRepository);
+        IPuppetsGalleryRepository puppetGalleryRepository = new PuppetsGalleryRepository();
+        PuppetsGalleryService puppetGalleryService = new PuppetsGalleryService(puppetGalleryRepository);
         // Gallery
-        Puppets puppet = puppetGalleryService.SumPowerPuppetGallery();
+        Puppets puppet = await puppetGalleryService.SumPowerPuppetsGalleryAsync();
         powerManager.Power += puppet.Power;
         powerManager.Health += puppet.Health;
         powerManager.PhysicalAttack += puppet.PhysicalAttack;
@@ -2111,10 +2112,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += puppet.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += puppet.PercentAllMentalDefense;
 
-        IUserPuppetRepository userPuppetRepository = new UserPuppetRepository();
-        UserPuppetService userPuppetService = new UserPuppetService(userPuppetRepository);
+        IUserPuppetsRepository userPuppetRepository = new UserPuppetsRepository();
+        UserPuppetsService userPuppetService = new UserPuppetsService(userPuppetRepository);
         // User
-        puppet = userPuppetService.SumPowerUserPuppet(); // Giả định SumPowerUserPuppet cũng trả về một đối tượng Puppet mới hoặc đã được reset
+        puppet = await userPuppetService.SumPowerUserPuppetsAsync(); // Giả định SumPowerUserPuppet cũng trả về một đối tượng Puppet mới hoặc đã được reset
         powerManager.Power += puppet.Power;
         powerManager.Health += puppet.Health;
         powerManager.PhysicalAttack += puppet.PhysicalAttack;
@@ -2148,10 +2149,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += puppet.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += puppet.ResistanceToSameFactionRate;
 
-        IPuppetRepository puppetRepository = new PuppetRepository();
-        PuppetService puppetService = new PuppetService(puppetRepository);
+        IPuppetsRepository puppetRepository = new PuppetsRepository();
+        PuppetsService puppetService = new PuppetsService(puppetRepository);
         // Percent
-        puppet = puppetService.SumPowerPuppetPercent(); // Giả định SumPowerPuppetPercent cũng trả về một đối tượng Puppet mới hoặc đã được reset
+        puppet = await puppetService.SumPowerPuppetsPercentAsync(); // Giả định SumPowerPuppetPercent cũng trả về một đối tượng Puppet mới hoặc đã được reset
         powerManager.PercentAllHealth += puppet.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += puppet.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += puppet.PercentAllPhysicalDefense;
@@ -2166,15 +2167,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetAlchemiesPower()
+    public async Task<PowerManager> GetAlchemiesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
         // Alchemy alchemy = new Alchemy();
-        IAlchemyGalleryRepository alchemyGalleryRepository = new AlchemyGalleryRepository();
-        AlchemyGalleryService alchemyGalleryService = new AlchemyGalleryService(alchemyGalleryRepository);
+        IAlchemiesGalleryRepository alchemyGalleryRepository = new AlchemiesGalleryRepository();
+        AlchemiesGalleryService alchemyGalleryService = new AlchemiesGalleryService(alchemyGalleryRepository);
         // Gallery
-        Alchemies alchemy = alchemyGalleryService.SumPowerAlchemyGallery();
+        Alchemies alchemy = await alchemyGalleryService.SumPowerAlchemyGalleryAsync();
         powerManager.Power += alchemy.Power;
         powerManager.Health += alchemy.Health;
         powerManager.PhysicalAttack += alchemy.PhysicalAttack;
@@ -2220,10 +2221,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += alchemy.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += alchemy.PercentAllMentalDefense;
 
-        IUserAlchemyRepository userAlchemyRepository = new UserAlchemyRepository();
-        UserAlchemyService userAlchemyService = new UserAlchemyService(userAlchemyRepository);
+        IUserAlchemiesRepository userAlchemyRepository = new UserAlchemiesRepository();
+        UserAlchemiesService userAlchemyService = new UserAlchemiesService(userAlchemyRepository);
         // User
-        alchemy = userAlchemyService.SumPowerUserAlchemy(); // Giả định SumPowerUserAlchemy cũng trả về một đối tượng Alchemy mới hoặc đã được reset
+        alchemy = await userAlchemyService.SumPowerUserAlchemiesAsync(); // Giả định SumPowerUserAlchemy cũng trả về một đối tượng Alchemy mới hoặc đã được reset
         powerManager.Power += alchemy.Power;
         powerManager.Health += alchemy.Health;
         powerManager.PhysicalAttack += alchemy.PhysicalAttack;
@@ -2257,10 +2258,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += alchemy.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += alchemy.ResistanceToSameFactionRate;
 
-        IAlchemyRepository alchemyRepository = new AlchemyRepository();
-        AlchemyService alchemyService = new AlchemyService(alchemyRepository);
+        IAlchemiesRepository alchemyRepository = new AlchemiesRepository();
+        AlchemiesService alchemyService = new AlchemiesService(alchemyRepository);
         // Percent
-        alchemy = alchemyService.SumPowerAlchemyPercent(); // Giả định SumPowerAlchemyPercent cũng trả về một đối tượng Alchemy mới hoặc đã được reset
+        alchemy = await alchemyService.SumPowerAlchemiesPercentAsync(); // Giả định SumPowerAlchemyPercent cũng trả về một đối tượng Alchemy mới hoặc đã được reset
         powerManager.PercentAllHealth += alchemy.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += alchemy.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += alchemy.PercentAllPhysicalDefense;
@@ -2275,15 +2276,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetForgesPower()
+    public async Task<PowerManager> GetForgesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
         // Forge forge = new Forge();
-        IForgeGalleryRepository forgeGalleryRepository = new ForgeGalleryRepository();
-        ForgeGalleryService forgeGalleryService = new ForgeGalleryService(forgeGalleryRepository);
+        IForgesGalleryRepository forgeGalleryRepository = new ForgesGalleryRepository();
+        ForgesGalleryService forgeGalleryService = new ForgesGalleryService(forgeGalleryRepository);
         // Gallery
-        Forges forge = forgeGalleryService.SumPowerForgeGallery();
+        Forges forge = await forgeGalleryService.SumPowerForgesGalleryAsync();
         powerManager.Power += forge.Power;
         powerManager.Health += forge.Health;
         powerManager.PhysicalAttack += forge.PhysicalAttack;
@@ -2329,10 +2330,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += forge.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += forge.PercentAllMentalDefense;
 
-        IUserForgeRepository userForgeRepository = new UserForgeRepository();
-        UserForgeService userForgeService = new UserForgeService(userForgeRepository);
+        IUserForgesRepository userForgeRepository = new UserForgesRepository();
+        UserForgesService userForgeService = new UserForgesService(userForgeRepository);
         // User
-        forge = userForgeService.SumPowerUserForge(); // Giả định SumPowerUserForge cũng trả về một đối tượng Forge mới hoặc đã được reset
+        forge = await userForgeService.SumPowerUserForgesAsync(); // Giả định SumPowerUserForge cũng trả về một đối tượng Forge mới hoặc đã được reset
         powerManager.Power += forge.Power;
         powerManager.Health += forge.Health;
         powerManager.PhysicalAttack += forge.PhysicalAttack;
@@ -2366,10 +2367,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += forge.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += forge.ResistanceToSameFactionRate;
 
-        IForgeRepository forgeRepository = new ForgeRepository();
-        ForgeService forgeService = new ForgeService(forgeRepository);
+        IForgesRepository forgeRepository = new ForgesRepository();
+        ForgesService forgeService = new ForgesService(forgeRepository);
         // Percent
-        forge = forgeService.SumPowerForgePercent(); // Giả định SumPowerForgePercent cũng trả về một đối tượng Forge mới hoặc đã được reset
+        forge = await forgeService.SumPowerForgesPercentAsync(); // Giả định SumPowerForgePercent cũng trả về một đối tượng Forge mới hoặc đã được reset
         powerManager.PercentAllHealth += forge.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += forge.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += forge.PercentAllPhysicalDefense;
@@ -2384,15 +2385,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetCardLivesPower()
+    public async Task<PowerManager> GetCardLivesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
         // CardLife cardLife = new CardLife();
-        ICardLifeGalleryRepository cardLifeGalleryRepository = new CardLifeGalleryRepository();
-        CardLifeGalleryService cardLifeGalleryService = new CardLifeGalleryService(cardLifeGalleryRepository);
+        ICardLivesGalleryRepository cardLifeGalleryRepository = new CardLivesGalleryRepository();
+        CardLivesGalleryService cardLifeGalleryService = new CardLivesGalleryService(cardLifeGalleryRepository);
         // Gallery
-        CardLives cardLife = cardLifeGalleryService.SumPowerCardLifeGallery();
+        CardLives cardLife = await cardLifeGalleryService.SumPowerCardLivesGalleryAsync();
         powerManager.Power += cardLife.Power;
         powerManager.Health += cardLife.Health;
         powerManager.PhysicalAttack += cardLife.PhysicalAttack;
@@ -2438,10 +2439,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += cardLife.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += cardLife.PercentAllMentalDefense;
 
-        IUserCardLifeRepository userCardLifeRepository = new UserCardLifeRepository();
-        UserCardLifeService userCardLifeService = new UserCardLifeService(userCardLifeRepository);
+        IUserCardLivesRepository userCardLifeRepository = new UserCardLivesRepository();
+        UserCardLivesService userCardLifeService = new UserCardLivesService(userCardLifeRepository);
         // User
-        cardLife = userCardLifeService.SumPowerUserCardLife(); // Giả định SumPowerUserCardLife cũng trả về một đối tượng CardLife mới hoặc đã được reset
+        cardLife = await userCardLifeService.SumPowerUserCardLivesAsync(); // Giả định SumPowerUserCardLife cũng trả về một đối tượng CardLife mới hoặc đã được reset
         powerManager.Power += cardLife.Power;
         powerManager.Health += cardLife.Health;
         powerManager.PhysicalAttack += cardLife.PhysicalAttack;
@@ -2475,10 +2476,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += cardLife.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += cardLife.ResistanceToSameFactionRate;
 
-        ICardLifeRepository cardLifeRepository = new CardLifeRepository();
-        CardLifeService cardLifeService = new CardLifeService(cardLifeRepository);
+        ICardLivesRepository cardLifeRepository = new CardLivesRepository();
+        CardLivesService cardLifeService = new CardLivesService(cardLifeRepository);
         // Percent
-        cardLife = cardLifeService.SumPowerCardLifePercent(); // Giả định SumPowerCardLifePercent cũng trả về một đối tượng CardLife mới hoặc đã được reset
+        cardLife = await cardLifeService.SumPowerCardLivesPercentAsync(); // Giả định SumPowerCardLifePercent cũng trả về một đối tượng CardLife mới hoặc đã được reset
         powerManager.PercentAllHealth += cardLife.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += cardLife.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += cardLife.PercentAllPhysicalDefense;
@@ -2493,15 +2494,15 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetArtworksPower()
+    public async Task<PowerManager> GetArtworksPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
         // Artwork Artwork = new Artwork();
-        IArtworkGalleryRepository artworkGalleryRepository = new ArtworkGalleryRepository();
-        ArtworkGalleryService artworkGalleryService = new ArtworkGalleryService(artworkGalleryRepository);
+        IArtworksGalleryRepository artworkGalleryRepository = new ArtworksGalleryRepository();
+        ArtworksGalleryService artworkGalleryService = new ArtworksGalleryService(artworkGalleryRepository);
         // Gallery
-        Artworks artwork = artworkGalleryService.SumPowerArtworkGallery();
+        Artworks artwork = await artworkGalleryService.SumPowerArtworksGalleryAsync();
         powerManager.Power += artwork.Power;
         powerManager.Health += artwork.Health;
         powerManager.PhysicalAttack += artwork.PhysicalAttack;
@@ -2547,10 +2548,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += artwork.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += artwork.PercentAllMentalDefense;
 
-        IUserArtworkRepository userArtworkRepository = new UserArtworkRepository();
-        UserArtworkService userArtworkService = new UserArtworkService(userArtworkRepository);
+        IUserArtworksRepository userArtworkRepository = new UserArtworksRepository();
+        UserArtworksService userArtworkService = new UserArtworksService(userArtworkRepository);
         // User
-        artwork = userArtworkService.SumPowerUserArtwork(); // Giả định SumPowerUserartwork cũng trả về một đối tượng artwork mới hoặc đã được reset
+        artwork = await userArtworkService.SumPowerUserArtworksAsync(); // Giả định SumPowerUserartwork cũng trả về một đối tượng artwork mới hoặc đã được reset
         powerManager.Power += artwork.Power;
         powerManager.Health += artwork.Health;
         powerManager.PhysicalAttack += artwork.PhysicalAttack;
@@ -2584,10 +2585,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += artwork.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += artwork.ResistanceToSameFactionRate;
 
-        IArtworkRepository artworkRepository = new ArtworkRepository();
-        ArtworkService artworkService = new ArtworkService(artworkRepository);
+        IArtworksRepository artworkRepository = new ArtworksRepository();
+        ArtworksService artworkService = new ArtworksService(artworkRepository);
         // Percent
-        artwork = artworkService.SumPowerArtworkPercent(); // Giả định SumPowerartworkPercent cũng trả về một đối tượng artwork mới hoặc đã được reset
+        artwork = await artworkService.SumPowerArtworksPercentAsync(); // Giả định SumPowerartworkPercent cũng trả về một đối tượng artwork mới hoặc đã được reset
         powerManager.PercentAllHealth += artwork.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += artwork.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += artwork.PercentAllPhysicalDefense;
@@ -2602,14 +2603,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetSpiritBeastsPower()
+    public async Task<PowerManager> GetSpiritBeastsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
-        ISpiritBeastGalleryRepository spiritBeastGalleryRepository = new SpiritBeastGalleryRepository();
-        SpiritBeastGalleryService SpiritBeastGalleryService = new SpiritBeastGalleryService(spiritBeastGalleryRepository);
+        ISpiritBeastsGalleryRepository spiritBeastGalleryRepository = new SpiritBeastsGalleryRepository();
+        SpiritBeastsGalleryService SpiritBeastGalleryService = new SpiritBeastsGalleryService(spiritBeastGalleryRepository);
         // Gallery
-        SpiritBeasts spiritBeast = SpiritBeastGalleryService.SumPowerSpiritBeastGallery();
+        SpiritBeasts spiritBeast = await SpiritBeastGalleryService.SumPowerSpiritBeastsGalleryAsync();
         powerManager.Power += spiritBeast.Power;
         powerManager.Health += spiritBeast.Health;
         powerManager.PhysicalAttack += spiritBeast.PhysicalAttack;
@@ -2655,10 +2656,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += spiritBeast.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += spiritBeast.PercentAllMentalDefense;
 
-        IUserSpiritBeastRepository userSpiritBeastRepository = new UserSpiritBeastRepository();
-        UserSpiritBeastService userSpiritBeastService = new UserSpiritBeastService(userSpiritBeastRepository);
+        IUserSpiritBeastsRepository userSpiritBeastRepository = new UserSpiritBeastsRepository();
+        UserSpiritBeastsService userSpiritBeastService = new UserSpiritBeastsService(userSpiritBeastRepository);
         // User SpiritBeast (Gallery)
-        spiritBeast = userSpiritBeastService.SumPowerUserSpiritBeast(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
+        spiritBeast = await userSpiritBeastService.SumPowerUserSpiritBeastsAsync(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.Power += spiritBeast.Power;
         powerManager.Health += spiritBeast.Health;
         powerManager.PhysicalAttack += spiritBeast.PhysicalAttack;
@@ -2692,10 +2693,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += spiritBeast.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += spiritBeast.ResistanceToSameFactionRate;
 
-        ISpiritBeastRepository spiritBeastRepository = new SpiritBeastRepository();
-        SpiritBeastService spiritBeastService = new SpiritBeastService(spiritBeastRepository);
+        ISpiritBeastsRepository spiritBeastRepository = new SpiritBeastsRepository();
+        SpiritBeastsService spiritBeastService = new SpiritBeastsService(spiritBeastRepository);
         // Percent
-        spiritBeast = spiritBeastService.SumPowerSpiritBeastPercent(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
+        spiritBeast = await spiritBeastService.SumPowerSpiritBeastsPercentAsync(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
         powerManager.PercentAllHealth += spiritBeast.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += spiritBeast.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += spiritBeast.PercentAllPhysicalDefense;
@@ -2710,14 +2711,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetSpiritCardsPower()
+    public async Task<PowerManager> GetSpiritCardsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
-        ISpiritCardGalleryRepository spiritCardGalleryRepository = new SpiritCardGalleryRepository();
-        SpiritCardGalleryService spiritCardGalleryService = new SpiritCardGalleryService(spiritCardGalleryRepository);
+        ISpiritCardsGalleryRepository spiritCardGalleryRepository = new SpiritCardsGalleryRepository();
+        SpiritCardsGalleryService spiritCardGalleryService = new SpiritCardsGalleryService(spiritCardGalleryRepository);
         // Gallery
-        SpiritCards spiritCard = spiritCardGalleryService.SumPowerSpiritCardGallery();
+        SpiritCards spiritCard = await spiritCardGalleryService.SumPowerSpiritCardsGalleryAsync();
         powerManager.Power += spiritCard.Power;
         powerManager.Health += spiritCard.Health;
         powerManager.PhysicalAttack += spiritCard.PhysicalAttack;
@@ -2763,10 +2764,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += spiritCard.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += spiritCard.PercentAllMentalDefense;
 
-        IUserSpiritCardRepository userSpiritCardRepository = new UserSpiritCardRepository();
-        UserSpiritCardService userSpiritCardService = new UserSpiritCardService(userSpiritCardRepository);
+        IUserSpiritCardsRepository userSpiritCardRepository = new UserSpiritCardsRepository();
+        UserSpiritCardsService userSpiritCardService = new UserSpiritCardsService(userSpiritCardRepository);
         // User SpiritBeast (Gallery)
-        spiritCard = userSpiritCardService.SumPowerUserSpiritCard(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
+        spiritCard = await userSpiritCardService.SumPowerUserSpiritCardsAsync(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.Power += spiritCard.Power;
         powerManager.Health += spiritCard.Health;
         powerManager.PhysicalAttack += spiritCard.PhysicalAttack;
@@ -2800,10 +2801,10 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += spiritCard.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += spiritCard.ResistanceToSameFactionRate;
 
-        ISpiritCardRepository spiritCardRepository = new SpiritCardRepository();
-        SpiritCardService spiritCardService = new SpiritCardService(spiritCardRepository);
+        ISpiritCardsRepository spiritCardRepository = new SpiritCardsRepository();
+        SpiritCardsService spiritCardService = new SpiritCardsService(spiritCardRepository);
         // Percent
-        spiritCard = spiritCardService.SumPowerSpiritCardPercent(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
+        spiritCard = await spiritCardService.SumPowerSpiritCardsPercentAsync(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
         powerManager.PercentAllHealth += spiritCard.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += spiritCard.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += spiritCard.PercentAllPhysicalDefense;
@@ -2818,14 +2819,14 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetVehiclesPower()
+    public async Task<PowerManager> GetVehiclesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
         IVehicleGalleryRepository vehicleGalleryRepository = new VehicleGalleryRepository();
         VehicleGalleryService vehicleGalleryService = new VehicleGalleryService(vehicleGalleryRepository);
         // Gallery
-        Vehicles vehicle = vehicleGalleryService.SumPowerVehiclesGallery();
+        Vehicles vehicle = await vehicleGalleryService.SumPowerVehiclesGalleryAsync();
         powerManager.Power += vehicle.Power;
         powerManager.Health += vehicle.Health;
         powerManager.PhysicalAttack += vehicle.PhysicalAttack;
@@ -2874,7 +2875,7 @@ public class PowerManagerService : IPowerManagerService
         IUserVehicleRepository userVehicleRepository = new UserVehicleRepository();
         UserVehicleService userVehicleService = new UserVehicleService(userVehicleRepository);
         // User SpiritBeast (Gallery)
-        vehicle = userVehicleService.SumPowerUserVehicle(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
+        vehicle = await userVehicleService.SumPowerUserVehiclesAsync(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.Power += vehicle.Power;
         powerManager.Health += vehicle.Health;
         powerManager.PhysicalAttack += vehicle.PhysicalAttack;
@@ -2911,7 +2912,7 @@ public class PowerManagerService : IPowerManagerService
         IVehiclesRepository vehicleRepository = new VehiclesRepository();
         VehiclesService vehiclesService = new VehiclesService(vehicleRepository);
         // Percent
-        vehicle = vehiclesService.SumPowerVehiclePercent(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
+        vehicle = await vehiclesService.SumPowerVehiclesPercentAsync(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
         powerManager.PercentAllHealth += vehicle.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += vehicle.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += vehicle.PercentAllPhysicalDefense;
@@ -2926,7 +2927,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetCardsPower()
+    public async Task<PowerManager> GetCardsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -2934,7 +2935,7 @@ public class PowerManagerService : IPowerManagerService
         ICardsGalleryRepository cardsGalleryRepository = new CardsGalleryRepository();
         CardsGalleryService cardsGalleryService = new CardsGalleryService(cardsGalleryRepository);
         // Gallery
-        Cards card = cardsGalleryService.SumPowerCardsGallery();
+        Cards card = await cardsGalleryService.SumPowerCardsGalleryAsync();
         powerManager.Power += card.Power;
         powerManager.Health += card.Health;
         powerManager.PhysicalAttack += card.PhysicalAttack;
@@ -2983,7 +2984,7 @@ public class PowerManagerService : IPowerManagerService
         IUserCardsRepository userCardsRepository = new UserCardsRepository();
         UserCardsService userCardsService = new UserCardsService(userCardsRepository);
         // User Cards (Gallery)
-        card = userCardsService.SumPowerUserCards(); // Giả định SumPowerUserCards cũng trả về một đối tượng Cards mới hoặc đã được reset
+        card = await userCardsService.SumPowerUserCardsAsync(); // Giả định SumPowerUserCards cũng trả về một đối tượng Cards mới hoặc đã được reset
         powerManager.Power += card.Power;
         powerManager.Health += card.Health;
         powerManager.PhysicalAttack += card.PhysicalAttack;
@@ -3020,7 +3021,7 @@ public class PowerManagerService : IPowerManagerService
         ICardsRepository cardsRepository = new CardsRepository();
         CardsService cardsService = new CardsService(cardsRepository);
         // Percent
-        card = cardsService.SumPowerCardsPercent(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
+        card = await cardsService.SumPowerCardsPercentAsync(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.PercentAllHealth += card.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += card.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += card.PercentAllPhysicalDefense;
@@ -3035,7 +3036,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetTechnologiesPower()
+    public async Task<PowerManager> GetTechnologiesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -3043,7 +3044,7 @@ public class PowerManagerService : IPowerManagerService
         ITechnologiesGalleryRepository technologiesGalleryRepository = new TechnologiesGalleryRepository();
         TechnologiesGalleryService technologiesGalleryService = new TechnologiesGalleryService(technologiesGalleryRepository);
         // Gallery
-        Technologies technology = technologiesGalleryService.SumPowerTechnologiesGallery();
+        Technologies technology = await technologiesGalleryService.SumPowerTechnologiesGalleryAsync();
         powerManager.Power += technology.Power;
         powerManager.Health += technology.Health;
         powerManager.PhysicalAttack += technology.PhysicalAttack;
@@ -3092,7 +3093,7 @@ public class PowerManagerService : IPowerManagerService
         IUserTechnologiesRepository userTechnologiesRepository = new UserTechnologiesRepository();
         UserTechnologiesService userTechnologiesService = new UserTechnologiesService(userTechnologiesRepository);
         // User Technologies (Gallery)
-        technology = userTechnologiesService.SumPowerUserTechnologies(); // Giả định SumPowerUserTechnologies cũng trả về một đối tượng Technologies mới hoặc đã được reset
+        technology = await userTechnologiesService.SumPowerUserTechnologiesAsync(); // Giả định SumPowerUserTechnologies cũng trả về một đối tượng Technologies mới hoặc đã được reset
         powerManager.Power += technology.Power;
         powerManager.Health += technology.Health;
         powerManager.PhysicalAttack += technology.PhysicalAttack;
@@ -3129,7 +3130,7 @@ public class PowerManagerService : IPowerManagerService
         ITechnologiesRepository technologiesRepository = new TechnologiesRepository();
         TechnologiesService technologiesService = new TechnologiesService(technologiesRepository);
         // Percent
-        technology = technologiesService.SumPowerTechnologiesPercent(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
+        technology = await technologiesService.SumPowerTechnologiesPercentAsync(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.PercentAllHealth += technology.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += technology.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += technology.PercentAllPhysicalDefense;
@@ -3144,7 +3145,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetArchitecturesPower()
+    public async Task<PowerManager> GetArchitecturesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -3152,7 +3153,7 @@ public class PowerManagerService : IPowerManagerService
         IArchitecturesGalleryRepository architecturesGalleryRepository = new ArchitecturesGalleryRepository();
         ArchitecturesGalleryService architecturesGalleryService = new ArchitecturesGalleryService(architecturesGalleryRepository);
         // Gallery
-        Architectures architecture = architecturesGalleryService.SumPowerArchitecturesGallery();
+        Architectures architecture =  await architecturesGalleryService.SumPowerArchitecturesGalleryAsync();
         powerManager.Power += architecture.Power;
         powerManager.Health += architecture.Health;
         powerManager.PhysicalAttack += architecture.PhysicalAttack;
@@ -3201,7 +3202,7 @@ public class PowerManagerService : IPowerManagerService
         IUserArchitecturesRepository userArchitecturesRepository = new UserArchitecturesRepository();
         UserArchitecturesService userArchitecturesService = new UserArchitecturesService(userArchitecturesRepository);
         // User Architectures (Gallery)
-        architecture = userArchitecturesService.SumPowerUserArchitectures(); // Giả định SumPowerUserArchitectures cũng trả về một đối tượng Architectures mới hoặc đã được reset
+        architecture = await userArchitecturesService.SumPowerUserArchitecturesAsync(); // Giả định SumPowerUserArchitectures cũng trả về một đối tượng Architectures mới hoặc đã được reset
         powerManager.Power += architecture.Power;
         powerManager.Health += architecture.Health;
         powerManager.PhysicalAttack += architecture.PhysicalAttack;
@@ -3238,7 +3239,7 @@ public class PowerManagerService : IPowerManagerService
         IArchitecturesRepository architecturesRepository = new ArchitecturesRepository();
         ArchitecturesService architecturesService = new ArchitecturesService(architecturesRepository);
         // Percent
-        architecture = architecturesService.SumPowerArchitecturesPercent(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
+        architecture =  await architecturesService.SumPowerArchitecturesPercentAsync(); // Giả định SumPowerTitlesPercent cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.PercentAllHealth += architecture.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += architecture.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += architecture.PercentAllPhysicalDefense;
@@ -3253,7 +3254,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetCoresPower()
+    public async Task<PowerManager> GetCoresPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -3261,7 +3262,7 @@ public class PowerManagerService : IPowerManagerService
         ICoresGalleryRepository coresGalleryRepository = new CoresGalleryRepository();
         CoresGalleryService coresGalleryService = new CoresGalleryService(coresGalleryRepository);
         // Gallery
-        Cores core = coresGalleryService.SumPowerCoresGallery();
+        Cores core =  await coresGalleryService.SumPowerCoresGalleryAsync();
         powerManager.Power += core.Power;
         powerManager.Health += core.Health;
         powerManager.PhysicalAttack += core.PhysicalAttack;
@@ -3310,7 +3311,7 @@ public class PowerManagerService : IPowerManagerService
         IUserCoresRepository userCoresRepository = new UserCoresRepository();
         UserCoresService userCoresService = new UserCoresService(userCoresRepository);
         // User Cores (Gallery)
-        core = userCoresService.SumPowerUserCores(); // Giả định SumPowerUserCores cũng trả về một đối tượng Cores mới hoặc đã được reset
+        core = await userCoresService.SumPowerUserCoresAsync(); // Giả định SumPowerUserCores cũng trả về một đối tượng Cores mới hoặc đã được reset
         powerManager.Power += core.Power;
         powerManager.Health += core.Health;
         powerManager.PhysicalAttack += core.PhysicalAttack;
@@ -3347,7 +3348,7 @@ public class PowerManagerService : IPowerManagerService
         ICoresRepository coresRepository = new CoresRepository();
         CoresService coresService = new CoresService(coresRepository);
         // Percent
-        core = coresService.SumPowerCoresPercent(); // Giả định SumPowerCoresPercent cũng trả về một đối tượng Cores mới hoặc đã được reset
+        core =  await coresService.SumPowerCoresPercentAsync(); // Giả định SumPowerCoresPercent cũng trả về một đối tượng Cores mới hoặc đã được reset
         powerManager.PercentAllHealth += core.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += core.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += core.PercentAllPhysicalDefense;
@@ -3362,7 +3363,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetWeaponsPower()
+    public async Task<PowerManager> GetWeaponsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -3370,7 +3371,7 @@ public class PowerManagerService : IPowerManagerService
         IWeaponsGalleryRepository weaponsGalleryRepository = new WeaponsGalleryRepository();
         WeaponsGalleryService weaponsGalleryService = new WeaponsGalleryService(weaponsGalleryRepository);
         // Gallery
-        Weapons weapon = weaponsGalleryService.SumPowerWeaponsGallery();
+        Weapons weapon =  await weaponsGalleryService.SumPowerWeaponsGalleryAsync();
         powerManager.Power += weapon.Power;
         powerManager.Health += weapon.Health;
         powerManager.PhysicalAttack += weapon.PhysicalAttack;
@@ -3419,7 +3420,7 @@ public class PowerManagerService : IPowerManagerService
         IUserWeaponsRepository userWeaponsRepository = new UserWeaponsRepository();
         UserWeaponsService userWeaponsService = new UserWeaponsService(userWeaponsRepository);
         // User Weapons (Gallery)
-        weapon = userWeaponsService.SumPowerUserWeapons(); // Giả định SumPowerUserWeapons cũng trả về một đối tượng Weapons mới hoặc đã được reset
+        weapon = await userWeaponsService.SumPowerUserWeaponsAsync(); // Giả định SumPowerUserWeapons cũng trả về một đối tượng Weapons mới hoặc đã được reset
         powerManager.Power += weapon.Power;
         powerManager.Health += weapon.Health;
         powerManager.PhysicalAttack += weapon.PhysicalAttack;
@@ -3456,7 +3457,7 @@ public class PowerManagerService : IPowerManagerService
         IWeaponsRepository weaponsRepository = new WeaponsRepository();
         WeaponsService weaponsService = new WeaponsService(weaponsRepository);
         // Percent
-        weapon = weaponsService.SumPowerWeaponsPercent(); // Giả định SumPowerWeaponsPercent cũng trả về một đối tượng Weapons mới hoặc đã được reset
+        weapon =  await weaponsService.SumPowerWeaponsPercentAsync(); // Giả định SumPowerWeaponsPercent cũng trả về một đối tượng Weapons mới hoặc đã được reset
         powerManager.PercentAllHealth += weapon.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += weapon.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += weapon.PercentAllPhysicalDefense;
@@ -3471,7 +3472,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetRobotsPower()
+    public async Task<PowerManager> GetRobotsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -3479,7 +3480,7 @@ public class PowerManagerService : IPowerManagerService
         IRobotsGalleryRepository robotsGalleryRepository = new RobotsGalleryRepository();
         RobotsGalleryService robotsGalleryService = new RobotsGalleryService(robotsGalleryRepository);
         // Gallery
-        Robots robot = robotsGalleryService.SumPowerRobotsGallery();
+        Robots robot =  await robotsGalleryService.SumPowerRobotsGalleryAsync();
         powerManager.Power += robot.Power;
         powerManager.Health += robot.Health;
         powerManager.PhysicalAttack += robot.PhysicalAttack;
@@ -3528,7 +3529,7 @@ public class PowerManagerService : IPowerManagerService
         IUserRobotsRepository userRobotsRepository = new UserRobotsRepository();
         UserRobotsService userRobotsService = new UserRobotsService(userRobotsRepository);
         // User Robots (Gallery)
-        robot = userRobotsService.SumPowerUserRobots(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
+        robot = await userRobotsService.SumPowerUserRobotsAsync(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
         powerManager.Power += robot.Power;
         powerManager.Health += robot.Health;
         powerManager.PhysicalAttack += robot.PhysicalAttack;
@@ -3565,7 +3566,7 @@ public class PowerManagerService : IPowerManagerService
         IRobotsRepository robotsRepository = new RobotsRepository();
         RobotsService robotsService = new RobotsService(robotsRepository);
         // Percent
-        robot = robotsService.SumPowerRobotsPercent(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
+        robot =  await robotsService.SumPowerRobotsPercentAsync(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
         powerManager.PercentAllHealth += robot.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += robot.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += robot.PercentAllPhysicalDefense;
@@ -3580,7 +3581,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetBadgesPower()
+    public async Task<PowerManager> GetBadgesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -3588,7 +3589,7 @@ public class PowerManagerService : IPowerManagerService
         IBadgesGalleryRepository badgesGalleryRepository = new BadgesGalleryRepository();
         BadgesGalleryService badgesGalleryService = new BadgesGalleryService(badgesGalleryRepository);
         // Gallery
-        Badges badge = badgesGalleryService.SumPowerBadgesGallery();
+        Badges badge =  await badgesGalleryService.SumPowerBadgesGalleryAsync();
         powerManager.Power += badge.Power;
         powerManager.Health += badge.Health;
         powerManager.PhysicalAttack += badge.PhysicalAttack;
@@ -3637,7 +3638,7 @@ public class PowerManagerService : IPowerManagerService
         IUserBadgesRepository userBadgesRepository = new UserBadgesRepository();
         UserBadgesService userBadgesService = new UserBadgesService(userBadgesRepository);
         // User Robots (Gallery)
-        badge = userBadgesService.SumPowerUserBadges(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
+        badge = await userBadgesService.SumPowerUserBadgesAsync(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
         powerManager.Power += badge.Power;
         powerManager.Health += badge.Health;
         powerManager.PhysicalAttack += badge.PhysicalAttack;
@@ -3674,7 +3675,7 @@ public class PowerManagerService : IPowerManagerService
         IBadgesRepository badgesRepository = new BadgesRepository();
         BadgesService badgesService = new BadgesService(badgesRepository);
         // Percent
-        badge = badgesService.SumPowerBadgesPercent(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
+        badge =  await badgesService.SumPowerBadgesPercentAsync(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
         powerManager.PercentAllHealth += badge.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += badge.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += badge.PercentAllPhysicalDefense;
@@ -3689,7 +3690,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetMechaBeastsPower()
+    public async Task<PowerManager> GetMechaBeastsPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -3697,7 +3698,7 @@ public class PowerManagerService : IPowerManagerService
         IMechaBeastsGalleryRepository mechaBeastsGalleryRepository = new MechaBeastsGalleryRepository();
         MechaBeastsGalleryService mechaBeastsGalleryService = new MechaBeastsGalleryService(mechaBeastsGalleryRepository);
         // Gallery
-        MechaBeasts mechaBeast = mechaBeastsGalleryService.SumPowerMechaBeastsGallery();
+        MechaBeasts mechaBeast =  await mechaBeastsGalleryService.SumPowerMechaBeastsGalleryAsync();
         powerManager.Power += mechaBeast.Power;
         powerManager.Health += mechaBeast.Health;
         powerManager.PhysicalAttack += mechaBeast.PhysicalAttack;
@@ -3746,7 +3747,7 @@ public class PowerManagerService : IPowerManagerService
         IUserMechaBeastsRepository userMechaBeastsRepository = new UserMechaBeastsRepository();
         UserMechaBeastsService userMechaBeastsService = new UserMechaBeastsService(userMechaBeastsRepository);
         // User Robots (Gallery)
-        mechaBeast = userMechaBeastsService.SumPowerUserMechaBeasts(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
+        mechaBeast = await userMechaBeastsService.SumPowerUserMechaBeastsAsync(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
         powerManager.Power += mechaBeast.Power;
         powerManager.Health += mechaBeast.Health;
         powerManager.PhysicalAttack += mechaBeast.PhysicalAttack;
@@ -3783,7 +3784,7 @@ public class PowerManagerService : IPowerManagerService
         IMechaBeastsRepository mechaBeastsRepository = new MechaBeastsRepository();
         MechaBeastsService mechaBeastsService = new MechaBeastsService(mechaBeastsRepository);
         // Percent
-        mechaBeast = mechaBeastsService.SumPowerMechaBeastsPercent(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
+        mechaBeast =  await mechaBeastsService.SumPowerMechaBeastsPercentAsync(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
         powerManager.PercentAllHealth += mechaBeast.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += mechaBeast.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += mechaBeast.PercentAllPhysicalDefense;
@@ -3798,7 +3799,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }
-    public PowerManager GetRunesPower()
+    public async Task<PowerManager> GetRunesPowerAsync()
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
@@ -3806,7 +3807,7 @@ public class PowerManagerService : IPowerManagerService
         IRunesGalleryRepository runesGalleryRepository = new RunesGalleryRepository();
         RunesGalleryService runesGalleryService = new RunesGalleryService(runesGalleryRepository);
         // Gallery
-        Runes rune = runesGalleryService.SumPowerRunesGallery();
+        Runes rune =  await runesGalleryService.SumPowerRunesGalleryAsync();
         powerManager.Power += rune.Power;
         powerManager.Health += rune.Health;
         powerManager.PhysicalAttack += rune.PhysicalAttack;
@@ -3855,7 +3856,7 @@ public class PowerManagerService : IPowerManagerService
         IUserRunesRepository userRunesRepository = new UserRunesRepository();
         UserRunesService userRunesService = new UserRunesService(userRunesRepository);
         // User Robots (Gallery)
-        rune = userRunesService.SumPowerUserRunes(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
+        rune = await userRunesService.SumPowerUserRunesAsync(); // Giả định SumPowerUserRobots cũng trả về một đối tượng Robots mới hoặc đã được reset
         powerManager.Power += rune.Power;
         powerManager.Health += rune.Health;
         powerManager.PhysicalAttack += rune.PhysicalAttack;
@@ -3892,7 +3893,7 @@ public class PowerManagerService : IPowerManagerService
         IRunesRepository runesRepository = new RunesRepository();
         RunesService runesService = new RunesService(runesRepository);
         // Percent
-        rune = runesService.SumPowerRunesPercent(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
+        rune =  await runesService.SumPowerRunesPercentAsync(); // Giả định SumPowerRobotsPercent cũng trả về một đối tượng Robots mới hoặc đã được reset
         powerManager.PercentAllHealth += rune.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += rune.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += rune.PercentAllPhysicalDefense;

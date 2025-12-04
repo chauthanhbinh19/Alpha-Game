@@ -701,7 +701,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         {
             foreach (Items items1 in items)
             {
-                UserItemsService.Create().UpdateUserItemsQuantity(items1);
+                _=UserItemsService.Create().UpdateUserItemQuantityAsync(items1);
             }
         }
         return status;
@@ -754,7 +754,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Cập nhật số lượng item còn lại trong cơ sở dữ liệu
             foreach (Items items1 in items)
             {
-                UserItemsService.Create().UpdateUserItemsQuantity(items1);
+                _=UserItemsService.Create().UpdateUserItemQuantityAsync(items1);
             }
         }
         return status;

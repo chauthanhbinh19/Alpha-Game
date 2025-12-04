@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -88,12 +89,12 @@ public class UserMedalsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(medals, currentObject);
+            _=GetLevelAsync(medals, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(medals, currentObject);
+            _=GetUpgradeAsync(medals, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -104,7 +105,7 @@ public class UserMedalsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(medals, currentObject);
+                _=GetLevelAsync(medals, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -112,7 +113,7 @@ public class UserMedalsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(medals, currentObject);
+                _=GetUpgradeAsync(medals, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -154,7 +155,7 @@ public class UserMedalsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, medal, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -168,7 +169,7 @@ public class UserMedalsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.MEDAL);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.MEDAL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -177,7 +178,7 @@ public class UserMedalsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Medals currentCard = new Medals();
-                currentCard = UserMedalsService.Create().GetUserMedalsById(User.CurrentUserId, medal.Id);
+                currentCard = await UserMedalsService.Create().GetUserMedalByIdAsync(User.CurrentUserId, medal.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -188,8 +189,8 @@ public class UserMedalsController : MonoBehaviour
                 {
                     Medals newCard = new Medals();
 
-                    newCard = UserMedalsService.Create().GetNewLevelPower(medal, increasePerLevel);
-                    UserMedalsService.Create().UpdateMedalsLevel(newCard, currentLevel + 1);
+                    newCard = await UserMedalsService.Create().GetNewLevelPowerAsync(medal, increasePerLevel);
+                    await UserMedalsService.Create().UpdateMedalLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -197,14 +198,14 @@ public class UserMedalsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Medals currentCard = UserMedalsService.Create().GetUserMedalsById(User.CurrentUserId, medal.Id);
+                Medals currentCard = await UserMedalsService.Create().GetUserMedalByIdAsync(User.CurrentUserId, medal.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -220,8 +221,8 @@ public class UserMedalsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Medals newCard = UserMedalsService.Create().GetNewLevelPower(medal, levelsGained * increasePerLevel);
-                    UserMedalsService.Create().UpdateMedalsLevel(newCard, currentLevel);
+                    Medals newCard = await UserMedalsService.Create().GetNewLevelPowerAsync(medal, levelsGained * increasePerLevel);
+                    await UserMedalsService.Create().UpdateMedalLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -230,7 +231,7 @@ public class UserMedalsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -240,7 +241,7 @@ public class UserMedalsController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -257,7 +258,7 @@ public class UserMedalsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.MEDAL);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.MEDAL);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -331,24 +332,24 @@ public class UserMedalsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Medals newMedal = new Medals();
 
-                    newMedal = UserMedalsService.Create().GetNewBreakthroughPower(medal, increasePerUpgrade);
-                    UserMedalsService.Create().UpdateMedalsBreakthrough(newMedal, medal.Star + 1, medal.Quantity);
+                    newMedal = await UserMedalsService.Create().GetNewBreakthroughPowerAsync(medal, increasePerUpgrade);
+                    await UserMedalsService.Create().UpdateMedalBreakthroughAsync(newMedal, medal.Star + 1, medal.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    MedalsGalleryService.Create().UpdateStarMedalsGallery(medal.Id, medal.Star + 1);
+                    await MedalsGalleryService.Create().UpdateStarMedalGalleryAsync(medal.Id, medal.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(medal.Star, currentObject);
                 }
                 else

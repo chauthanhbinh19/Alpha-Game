@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 public class UserCardMonstersRankService : IUserCardMonstersRankService
 {
     private readonly IUserCardMonstersRankRepository _cardMonstersRankRepository;
@@ -12,18 +14,18 @@ public class UserCardMonstersRankService : IUserCardMonstersRankService
         return new UserCardMonstersRankService(new UserCardMonstersRankRepository());
     }
 
-    public Rank GetCardMonstersRank(string type, string card_id)
+    public async Task<Rank> GetCardMonsterRankAsync(string type, string card_id)
     {
-        return _cardMonstersRankRepository.GetCardMonstersRank(type, card_id);
+        return await _cardMonstersRankRepository.GetCardMonsterRankAsync(type, card_id);
     }
 
-    public void InsertOrUpdateCardMonstersRank(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdateCardMonsterRankAsync(Rank rank, string type, string card_id)
     {
-        _cardMonstersRankRepository.InsertOrUpdateCardMonstersRank(rank, type, card_id);
+        await _cardMonstersRankRepository.InsertOrUpdateCardMonsterRankAsync(rank, type, card_id);
     }
 
-    public Rank GetSumCardMonstersRank(string user_id, string card_id)
+    public async Task<Rank> GetSumCardMonstersRankAsync(string user_id, string card_id)
     {
-        return _cardMonstersRankRepository.GetSumCardMonstersRank(user_id, card_id);
+        return await _cardMonstersRankRepository.GetSumCardMonstersRankAsync(user_id, card_id);
     }
 }

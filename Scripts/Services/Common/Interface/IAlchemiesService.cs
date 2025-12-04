@@ -1,0 +1,14 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+public interface IAlchemiesService
+{
+    Task<List<string>> GetUniqueAlchemiesTypesAsync();
+    Task<List<string>> GetUniqueAlchemiesIdAsync();
+    Task<List<Alchemies>> GetAlchemiesAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetAlchemiesCountAsync(string type, string rare);
+    Task<List<Alchemies>> GetAlchemiesWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetAlchemiesWithPriceCountAsync(string type);
+    Task<Alchemies> GetAlchemyByIdAsync(string id);
+    Task<Alchemies> SumPowerAlchemiesPercentAsync();
+}

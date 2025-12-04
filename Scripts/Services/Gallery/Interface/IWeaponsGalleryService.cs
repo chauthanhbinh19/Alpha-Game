@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IWeaponsGalleryService
 {
-    List<Weapons> GetWeaponsCollection(int pageSize, int offset, string rare);
-    int GetWeaponsCount(string rare);
-    void InsertWeaponsGallery(string Id);
-    void UpdateStatusWeaponsGallery(string Id);
-    void UpdateStarWeaponsGallery(string Id, double star);
-    void UpdateWeaponsGalleryPower(string Id);
-    Weapons SumPowerWeaponsGallery();
+    Task<List<Weapons>> GetWeaponsCollectionAsync(int pageSize, int offset, string rare);
+    Task<int> GetWeaponsCountAsync(string rare);
+    Task InsertWeaponGalleryAsync(string Id);
+    Task UpdateStatusWeaponGalleryAsync(string Id);
+    Task UpdateStarWeaponGalleryAsync(string id, double star);
+    Task UpdateWeaponGalleryPowerAsync(string id);
+    Task<Weapons> SumPowerWeaponsGalleryAsync();
 }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ISymbolsGalleryRepository
 {
-    List<Symbols> GetSymbolsCollection(string type, int pageSize, int offset, string rare);
-    int GetSymbolsCount(string type, string rare);
-    void InsertSymbolsGallery(string Id, Symbols SymbolFromDB);
-    void UpdateStatusSymbolsGallery(string Id);
-    void UpdateStarSymbolsGallery(string Id, double star);
-    void UpdateSymbolsGalleryPower(string Id, Symbols SymbolFromDB);
-    Symbols SumPowerSymbolsGallery();
+    Task<List<Symbols>> GetSymbolsCollectionAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetSymbolsCountAsync(string type, string rare);
+    Task InsertSymbolGalleryAsync(string Id, Symbols SymbolFromDB);
+    Task UpdateStatusSymbolGalleryAsync(string Id);
+    Task UpdateStarSymbolGalleryAsync(string Id, double star);
+    Task UpdateSymbolGalleryPowerAsync(string Id, Symbols SymbolFromDB);
+    Task<Symbols> SumPowerSymbolsGalleryAsync();
 }

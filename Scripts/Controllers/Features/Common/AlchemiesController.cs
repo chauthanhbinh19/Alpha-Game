@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,7 +78,7 @@ public class AlchemiesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateAlchemyTrade(List<Alchemies> alchemies, string subType, Transform currentContent,
+    public async Task CreateAlchemyTradeAsync(List<Alchemies> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var alchemy in alchemies)
@@ -132,7 +133,7 @@ public class AlchemiesController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetAlchemyCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetAlchemiesCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -244,12 +245,12 @@ public class AlchemiesController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Alchemies alchemy)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(alchemy.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(alchemy.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -280,8 +281,8 @@ public class AlchemiesController : MonoBehaviour
             if (obj is Alchemies alchemy)
             {
                 alchemy.Quantity = alchemy.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(alchemy.Currency.Id, price);
-                bool success = UserAlchemyService.Create().InsertUserAlchemy(alchemy, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(alchemy.Currency.Id, price);
+                bool success = await UserAlchemiesService.Create().InsertUserAlchemyAsync(alchemy, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -294,8 +295,8 @@ public class AlchemiesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    AlchemyGalleryService.Create().InsertAlchemyGallery(alchemy.Id);
-                    currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
+                    await AlchemiesGalleryService.Create().InsertAlchemyGalleryAsync(alchemy.Id);
+                    currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -315,7 +316,7 @@ public class AlchemiesController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

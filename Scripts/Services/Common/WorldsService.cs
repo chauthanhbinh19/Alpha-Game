@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class WorldsService : IWorldsService
 {
@@ -14,42 +15,42 @@ public class WorldsService : IWorldsService
         return new WorldsService(new WorldsRepository());
     }
 
-    public List<Worlds> GetWorlds(string userId, int pageSize, int offset)
+    public async Task<List<Worlds>> GetWorldsAsync(string userId, int pageSize, int offset)
     {
-        List<Worlds> list = _WorldsRepository.GetWorlds(userId, pageSize, offset);
+        List<Worlds> list = await _WorldsRepository.GetWorldsAsync(userId, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetWorldsCount(string rare)
+    public async Task<int> GetWorldsCountAsync(string rare)
     {
-        return _WorldsRepository.GetWorldsCount(rare);
+        return await _WorldsRepository.GetWorldsCountAsync(rare);
     }
 
-    public List<Worlds> GetWorldsWithPrice(int pageSize, int offset)
+    public async Task<List<Worlds>> GetWorldsWithPriceAsync(int pageSize, int offset)
     {
-        List<Worlds> list = _WorldsRepository.GetWorldsWithPrice(pageSize, offset);
+        List<Worlds> list = await _WorldsRepository.GetWorldsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetWorldsWithPriceCount()
+    public async Task<int> GetWorldsWithPriceCountAsync()
     {
-        return _WorldsRepository.GetWorldsWithPriceCount();
+        return await _WorldsRepository.GetWorldsWithPriceCountAsync();
     }
 
-    public Worlds GetWorldsById(string Id)
+    public async Task<Worlds> GetWorldByIdAsync(string Id)
     {
-        return _WorldsRepository.GetWorldsById(Id);
+        return await _WorldsRepository.GetWorldByIdAsync(Id);
     }
 
-    public Worlds SumPowerWorldsPercent()
+    public async Task<Worlds> SumPowerWorldsPercentAsync()
     {
-        return _WorldsRepository.SumPowerWorldsPercent();
+        return await _WorldsRepository.SumPowerWorldsPercentAsync();
     }
 
-    public List<string> GetUniqueWorldId()
+    public async Task<List<string>> GetUniqueWorldsIdAsync()
     {
-        return _WorldsRepository.GetUniqueWorldId();
+        return await _WorldsRepository.GetUniqueWorldsIdAsync();
     }
 }

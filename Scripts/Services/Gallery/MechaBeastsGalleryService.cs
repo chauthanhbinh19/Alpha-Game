@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MechaBeastsGalleryService : IMechaBeastsGalleryService
 {
@@ -14,44 +15,44 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
         return new MechaBeastsGalleryService(new MechaBeastsGalleryRepository());
     }
 
-    public List<MechaBeasts> GetMechaBeastsCollection(int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetMechaBeastsCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<MechaBeasts> list = _MechaBeastsGalleryRepository.GetMechaBeastsCollection(pageSize, offset, rare);
+        List<MechaBeasts> list = await _MechaBeastsGalleryRepository.GetMechaBeastsCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMechaBeastsCount(string rare)
+    public async Task<int> GetMechaBeastsCountAsync(string rare)
     {
-        return _MechaBeastsGalleryRepository.GetMechaBeastsCount(rare);
+        return await _MechaBeastsGalleryRepository.GetMechaBeastsCountAsync(rare);
     }
 
-    public void InsertMechaBeastsGallery(string Id)
+    public async Task InsertMechaBeastGalleryAsync(string Id)
     {
         IMechaBeastsRepository _repository = new MechaBeastsRepository();
         MechaBeastsService _service = new MechaBeastsService(_repository);
-        _MechaBeastsGalleryRepository.InsertMechaBeastsGallery(Id, _service.GetMechaBeastsById(Id));
+        await _MechaBeastsGalleryRepository.InsertMechaBeastGalleryAsync(Id, await _service.GetMechaBeastByIdAsync(Id));
     }
 
-    public void UpdateStatusMechaBeastsGallery(string Id)
+    public async Task UpdateStatusMechaBeastGalleryAsync(string Id)
     {
-        _MechaBeastsGalleryRepository.UpdateStatusMechaBeastsGallery(Id);
+        await _MechaBeastsGalleryRepository.UpdateStatusMechaBeastGalleryAsync(Id);
     }
 
-    public MechaBeasts SumPowerMechaBeastsGallery()
+    public async Task<MechaBeasts> SumPowerMechaBeastsGalleryAsync()
     {
-        return _MechaBeastsGalleryRepository.SumPowerMechaBeastsGallery();
+        return await _MechaBeastsGalleryRepository.SumPowerMechaBeastsGalleryAsync();
     }
 
-    public void UpdateStarMechaBeastsGallery(string Id, double star)
+    public async Task UpdateStarMechaBeastGalleryAsync(string Id, double star)
     {
-        _MechaBeastsGalleryRepository.UpdateStarMechaBeastsGallery(Id, star);
+        await _MechaBeastsGalleryRepository.UpdateStarMechaBeastGalleryAsync(Id, star);
     }
 
-    public void UpdateMechaBeastsGalleryPower(string Id)
+    public async Task UpdateMechaBeastGalleryPowerAsync(string Id)
     {
         IMechaBeastsRepository _repository = new MechaBeastsRepository();
         MechaBeastsService _service = new MechaBeastsService(_repository);
-        _MechaBeastsGalleryRepository.UpdateMechaBeastsGalleryPower(Id, _service.GetMechaBeastsById(Id));
+        await _MechaBeastsGalleryRepository.UpdateMechaBeastGalleryPowerAsync(Id, await _service.GetMechaBeastByIdAsync(Id));
     }
 }

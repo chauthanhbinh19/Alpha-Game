@@ -1,6 +1,8 @@
+using System.Threading.Tasks;
+
 public interface IUserCardColonelsRankService
 {
-    Rank GetCardColonelsRank(string type, string card_id);
-    void InsertOrUpdateCardColonelsRank(Rank rank, string type, string card_id);
-    Rank GetSumCardColonelsRank(string user_id, string card_id);
+    Task<Rank> GetCardColonelRankAsync(string type, string card_id);
+    Task InsertOrUpdateCardColonelRankAsync(Rank Rank, string type, string card_id);
+    Task<Rank> GetSumCardColonelsRankAsync(string user_id, string card_id);
 }

@@ -2,219 +2,353 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using MySqlConnector;
+using System.Threading.Tasks;
 
 public class UserRobotsRepository : IUserRobotsRepository
 {
-    public List<Robots> GetUserRobots(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetUserRobotsAsync(string user_id, int pageSize, int offset, string rare)
     {
         List<Robots> RobotsList = new List<Robots>();
-        // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select ut.*, t.id, t.name, t.image, t.rare, t.description from Robots t, user_Robots ut 
-                where t.id=ut.robot_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)
-                ORDER BY t.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name limit @limit offset @offset";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", user_id);
-                command.Parameters.AddWithValue("@rare", rare);
-                command.Parameters.AddWithValue("@limit", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    Robots card = new Robots
-                    {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
-                        Star = reader.GetInt32("star"),
-                        Level = reader.GetInt32("level"),
-                        Experiment = reader.GetDouble("experiment"),
-                        Quantity = reader.GetDouble("quantity"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        // percent_all_health = reader.GetDouble("percent_all_health"),
-                        // percent_all_physical_attack = reader.GetDouble("percent_all_physical_attack"),
-                        // percent_all_physical_defense = reader.GetDouble("percent_all_physical_defense"),
-                        // percent_all_magical_attack = reader.GetDouble("percent_all_magical_attack"),
-                        // percent_all_magical_defense = reader.GetDouble("percent_all_magical_defense"),
-                        // percent_all_chemical_attack = reader.GetDouble("percent_all_chemical_attack"),
-                        // percent_all_chemical_defense = reader.GetDouble("percent_all_chemical_defense"),
-                        // percent_all_atomic_attack = reader.GetDouble("percent_all_atomic_attack"),
-                        // percent_all_atomic_defense = reader.GetDouble("percent_all_atomic_defense"),
-                        // percent_all_mental_attack = reader.GetDouble("percent_all_mental_attack"),
-                        // percent_all_mental_defense = reader.GetDouble("percent_all_mental_defense"),
-                        Description = reader.GetString("description")
-                    };
+                await connection.OpenAsync();
 
-                    RobotsList.Add(card);
+                string query = @"
+                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
+                FROM Robots t
+                INNER JOIN user_Robots ut ON t.id = ut.Robot_id
+                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare)
+                ORDER BY t.name REGEXP '[0-9]+$',
+                         CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
+                         t.name
+                LIMIT @limit OFFSET @offset;
+            ";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@rare", rare);
+                    command.Parameters.AddWithValue("@limit", pageSize);
+                    command.Parameters.AddWithValue("@offset", offset);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Robots Robot = new Robots
+                            {
+                                Id = reader.GetString("id"),
+                                Name = reader.GetString("name"),
+                                Image = reader.GetString("image"),
+                                Rare = reader.GetString("rare"),
+                                Quality = reader.GetInt32("quality"),
+                                Star = reader.GetInt32("star"),
+                                Level = reader.GetInt32("level"),
+                                Experiment = reader.GetDouble("experiment"),
+                                Quantity = reader.GetDouble("quantity"),
+                                Power = reader.GetDouble("power"),
+                                Health = reader.GetDouble("health"),
+                                PhysicalAttack = reader.GetDouble("physical_attack"),
+                                PhysicalDefense = reader.GetDouble("physical_defense"),
+                                MagicalAttack = reader.GetDouble("magical_attack"),
+                                MagicalDefense = reader.GetDouble("magical_defense"),
+                                ChemicalAttack = reader.GetDouble("chemical_attack"),
+                                ChemicalDefense = reader.GetDouble("chemical_defense"),
+                                AtomicAttack = reader.GetDouble("atomic_attack"),
+                                AtomicDefense = reader.GetDouble("atomic_defense"),
+                                MentalAttack = reader.GetDouble("mental_attack"),
+                                MentalDefense = reader.GetDouble("mental_defense"),
+                                Speed = reader.GetDouble("speed"),
+                                CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                                CriticalRate = reader.GetDouble("critical_rate"),
+                                CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDouble("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDouble("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDouble("accuracy_rate"),
+                                LifestealRate = reader.GetDouble("lifesteal_rate"),
+                                ShieldStrength = reader.GetDouble("shield_strength"),
+                                Tenacity = reader.GetDouble("tenacity"),
+                                ResistanceRate = reader.GetDouble("resistance_rate"),
+                                ComboRate = reader.GetDouble("combo_rate"),
+                                IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                                StunRate = reader.GetDouble("stun_rate"),
+                                IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDouble("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                                Mana = reader.GetFloat("mana"),
+                                ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                                Description = reader.GetString("description")
+                            };
+
+                            RobotsList.Add(Robot);
+                        }
+                    }
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                connection.Close();
-            }
-
         }
+
         return RobotsList;
     }
-    public int GetUserRobotsCount(string user_id, string rare)
+    public async Task<int> GetUserRobotsCountAsync(string user_id, string rare)
     {
         int count = 0;
-        // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select count(*) from Robots t, user_Robots ut 
-                where t.id=ut.robot_id and ut.user_id=@userId AND (@rare = 'All' or t.rare = @rare)";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", user_id);
-                command.Parameters.AddWithValue("@rare", rare);
-                count = Convert.ToInt32(command.ExecuteScalar());
+                await connection.OpenAsync();
 
-                return count;
+                string query = @"
+                SELECT COUNT(*) 
+                FROM Robots t
+                INNER JOIN user_Robots ut ON t.id = ut.Robot_id
+                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare);
+            ";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@rare", rare);
+
+                    object result = await command.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                connection.Close();
-            }
         }
+
         return count;
     }
-    public bool InsertUserRobots(Robots Robots, string userId)
+    public async Task<bool> InsertUserRobotAsync(Robots Robots, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) FROM user_Robots 
-                WHERE user_id = @user_id AND robot_id = @robot_id;";
+                WHERE user_id = @user_id AND Robot_id = @Robot_id;";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@robot_id", Robots.Id);
-
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
-                    string query = @"
-                INSERT INTO user_Robots (
-                    user_id, robot_id, rare, level, experiment, star, quality, block, quantity,
-                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate,
-                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                    mana, mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate
-                ) VALUES (
-                    @user_id, @robot_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
-                    @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                    @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                    @penetration_rate, @penetration_resistance_rate,
-                    @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
-                    @stun_rate, @ignore_stun_rate,
-                    @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
-                    @mana, @mana_regeneration_rate,
-                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                    @normal_damage_rate, @normal_resistance_rate,
-                    @skill_damage_rate, @skill_resistance_rate
-                );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@robot_id", Robots.Id);
-                    command.Parameters.AddWithValue("@rare", Robots.Rare);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@experiment", 0);
-                    command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Robots.Rare));
-                    command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@quantity", Robots.Quantity);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
+                    checkCommand.Parameters.AddWithValue("@Robot_id", Robots.Id);
+
+                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+                    if (count == 0)
+                    {
+                        string insertQuery = @"
+                        INSERT INTO user_Robots (
+                            user_id, Robot_id, rare, level, experiment, star, quality, block, quantity,
+                            power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                            chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                            speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                            penetration_rate, penetration_resistance_rate,
+                            evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                            vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                            accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                            combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                            stun_rate, ignore_stun_rate,
+                            reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                            mana, mana_regeneration_rate,
+                            damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                            damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                            normal_damage_rate, normal_resistance_rate,
+                            skill_damage_rate, skill_resistance_rate
+                        ) VALUES (
+                            @user_id, @Robot_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                            @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                            @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                            @penetration_rate, @penetration_resistance_rate,
+                            @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                            @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                            @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                            @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                            @stun_rate, @ignore_stun_rate,
+                            @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                            @mana, @mana_regeneration_rate,
+                            @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                            @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                            @normal_damage_rate, @normal_resistance_rate,
+                            @skill_damage_rate, @skill_resistance_rate
+                        );";
+
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        {
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
+                            insertCommand.Parameters.AddWithValue("@Robot_id", Robots.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", Robots.Rare);
+                            insertCommand.Parameters.AddWithValue("@level", 0);
+                            insertCommand.Parameters.AddWithValue("@experiment", 0);
+                            insertCommand.Parameters.AddWithValue("@star", 0);
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Robots.Rare));
+                            insertCommand.Parameters.AddWithValue("@block", false);
+                            insertCommand.Parameters.AddWithValue("@quantity", Robots.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", Robots.Power);
+                            insertCommand.Parameters.AddWithValue("@health", Robots.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", Robots.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", Robots.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", Robots.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", Robots.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", Robots.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", Robots.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", Robots.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", Robots.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", Robots.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", Robots.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", Robots.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", Robots.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", Robots.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Robots.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Robots.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", Robots.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Robots.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", Robots.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Robots.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Robots.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Robots.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Robots.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Robots.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", Robots.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", Robots.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", Robots.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", Robots.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", Robots.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", Robots.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Robots.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", Robots.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Robots.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", Robots.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Robots.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", Robots.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Robots.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Robots.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Robots.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", Robots.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Robots.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Robots.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Robots.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Robots.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Robots.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", Robots.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Robots.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", Robots.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Robots.SkillResistanceRate);
+
+                            await insertCommand.ExecuteNonQueryAsync();
+                        }
+                    }
+                    else
+                    {
+                        // Nếu bản ghi đã tồn tại, thực hiện UPDATE
+                        string updateQuery = @"
+                        UPDATE user_Robots
+                        SET quantity = @quantity
+                        WHERE user_id = @user_id AND Robot_id = @Robot_id;";
+
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        {
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
+                            updateCommand.Parameters.AddWithValue("@Robot_id", Robots.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", Robots.Quantity);
+
+                            await updateCommand.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public async Task<bool> UpdateRobotLevelAsync(Robots Robots, int RobotLevel)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+                string query = @"
+                UPDATE user_Robots
+                SET 
+                    level = @level, power = @power, health = @health, 
+                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
+                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
+                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
+                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
+                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
+                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
+                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
+                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
+                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
+                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
+                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
+                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
+                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
+                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
+                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
+                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
+                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
+                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
+                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
+                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
+                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
+                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
+                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                WHERE user_id = @user_id AND Robot_id = @Robot_id;";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@Robot_id", Robots.Id);
+                    command.Parameters.AddWithValue("@level", RobotLevel);
                     command.Parameters.AddWithValue("@power", Robots.Power);
                     command.Parameters.AddWithValue("@health", Robots.Health);
                     command.Parameters.AddWithValue("@physical_attack", Robots.PhysicalAttack);
@@ -265,24 +399,9 @@ public class UserRobotsRepository : IUserRobotsRepository
                     command.Parameters.AddWithValue("@normal_resistance_rate", Robots.NormalResistanceRate);
                     command.Parameters.AddWithValue("@skill_damage_rate", Robots.SkillDamageRate);
                     command.Parameters.AddWithValue("@skill_resistance_rate", Robots.SkillResistanceRate);
-                    MySqlDataReader reader = command.ExecuteReader();
+
+                    await command.ExecuteNonQueryAsync();
                 }
-                else
-                {
-                    // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                    string updateQuery = @"
-                    UPDATE user_Robots
-                    SET quantity = @quantity
-                    WHERE user_id = @user_id AND robot_id = @robot_id;";
-
-                    MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@robot_id", Robots.Id);
-                    updateCommand.Parameters.AddWithValue("@quantity", Robots.Quantity);
-
-                    updateCommand.ExecuteNonQuery();
-                }
-
             }
             catch (MySqlException ex)
             {
@@ -291,125 +410,19 @@ public class UserRobotsRepository : IUserRobotsRepository
             }
             finally
             {
-                connection.Close();
-            }
-
-        }
-        return true;
-    }
-    public bool UpdateRobotsLevel(Robots Robots, int cardLevel)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                connection.Open();
-                string query = @"
-                UPDATE user_Robots
-                SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND robot_id = @robot_id;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@robot_id", Robots.Id);
-                command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", Robots.Power);
-                command.Parameters.AddWithValue("@health", Robots.Health);
-                command.Parameters.AddWithValue("@physical_attack", Robots.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", Robots.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", Robots.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", Robots.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", Robots.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", Robots.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", Robots.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", Robots.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", Robots.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", Robots.MentalDefense);
-                command.Parameters.AddWithValue("@speed", Robots.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", Robots.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", Robots.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", Robots.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", Robots.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", Robots.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", Robots.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", Robots.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", Robots.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Robots.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", Robots.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", Robots.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Robots.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", Robots.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", Robots.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", Robots.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", Robots.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", Robots.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", Robots.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", Robots.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", Robots.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", Robots.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", Robots.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", Robots.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", Robots.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", Robots.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", Robots.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", Robots.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", Robots.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", Robots.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Robots.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Robots.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Robots.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Robots.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", Robots.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", Robots.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", Robots.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", Robots.SkillResistanceRate);
-                command.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
         return true;
     }
-    public bool UpdateRobotsBreakthrough(Robots Robots, int star, double quantity)
+    public async Task<bool> UpdateRobotBreakthroughAsync(Robots Robots, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 string query = @"
                 UPDATE user_Robots
                 SET 
@@ -438,63 +451,66 @@ public class UserRobotsRepository : IUserRobotsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND robot_id = @robot_id;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@robot_id", Robots.Id);
-                command.Parameters.AddWithValue("@star", star);
-                command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", Robots.Power);
-                command.Parameters.AddWithValue("@health", Robots.Health);
-                command.Parameters.AddWithValue("@physical_attack", Robots.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", Robots.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", Robots.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", Robots.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", Robots.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", Robots.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", Robots.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", Robots.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", Robots.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", Robots.MentalDefense);
-                command.Parameters.AddWithValue("@speed", Robots.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", Robots.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", Robots.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", Robots.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", Robots.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", Robots.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", Robots.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", Robots.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", Robots.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Robots.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", Robots.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", Robots.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Robots.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", Robots.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", Robots.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", Robots.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", Robots.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", Robots.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", Robots.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", Robots.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", Robots.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", Robots.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", Robots.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", Robots.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", Robots.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", Robots.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", Robots.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", Robots.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", Robots.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", Robots.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Robots.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Robots.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Robots.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Robots.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", Robots.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", Robots.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", Robots.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", Robots.SkillResistanceRate);
-                command.ExecuteNonQuery();
+                WHERE user_id = @user_id AND Robot_id = @Robot_id;";
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@Robot_id", Robots.Id);
+                    command.Parameters.AddWithValue("@star", star);
+                    command.Parameters.AddWithValue("@quantity", quantity);
+                    command.Parameters.AddWithValue("@power", Robots.Power);
+                    command.Parameters.AddWithValue("@health", Robots.Health);
+                    command.Parameters.AddWithValue("@physical_attack", Robots.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", Robots.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", Robots.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", Robots.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", Robots.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", Robots.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", Robots.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", Robots.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", Robots.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", Robots.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", Robots.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", Robots.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", Robots.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", Robots.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", Robots.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", Robots.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", Robots.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", Robots.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", Robots.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Robots.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", Robots.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Robots.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Robots.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", Robots.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", Robots.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", Robots.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", Robots.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", Robots.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", Robots.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", Robots.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", Robots.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", Robots.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", Robots.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", Robots.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", Robots.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", Robots.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", Robots.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", Robots.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", Robots.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", Robots.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Robots.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Robots.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Robots.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Robots.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", Robots.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", Robots.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", Robots.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", Robots.SkillResistanceRate);
+
+                    await command.ExecuteNonQueryAsync();
+                }
             }
             catch (MySqlException ex)
             {
@@ -503,86 +519,91 @@ public class UserRobotsRepository : IUserRobotsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
         return true;
     }
-    public Robots GetUserRobotsById(string user_id, string Id)
+    public async Task<Robots> GetUserRobotByIdAsync(string user_id, string Id)
     {
-        Robots card = new Robots();
+        Robots Robot = new Robots();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select * from user_Robots where user_Robots.robot_id=@id 
+                await connection.OpenAsync();
+                string query = @"Select * from user_Robots where user_Robots.Robot_id=@id 
                 and user_Robots.user_id=@user_id";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", user_id);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    card = new Robots
+                    command.Parameters.AddWithValue("@id", Id);
+                    command.Parameters.AddWithValue("@user_id", user_id);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        Id = reader.GetString("robot_id"),
-                        Level = reader.GetInt32("level"),
-                        Quality = reader.GetInt32("quality"),
-                        Experiment = reader.GetDouble("experiment"),
-                        Star = reader.GetInt32("star"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                    };
+                        while (await reader.ReadAsync())
+                        {
+                            Robot = new Robots
+                            {
+                                Id = reader.GetString("Robot_id"),
+                                Level = reader.GetInt32("level"),
+                                Quality = reader.GetInt32("quality"),
+                                Experiment = reader.GetDouble("experiment"),
+                                Star = reader.GetInt32("star"),
+                                Power = reader.GetDouble("power"),
+                                Health = reader.GetDouble("health"),
+                                PhysicalAttack = reader.GetDouble("physical_attack"),
+                                PhysicalDefense = reader.GetDouble("physical_defense"),
+                                MagicalAttack = reader.GetDouble("magical_attack"),
+                                MagicalDefense = reader.GetDouble("magical_defense"),
+                                ChemicalAttack = reader.GetDouble("chemical_attack"),
+                                ChemicalDefense = reader.GetDouble("chemical_defense"),
+                                AtomicAttack = reader.GetDouble("atomic_attack"),
+                                AtomicDefense = reader.GetDouble("atomic_defense"),
+                                MentalAttack = reader.GetDouble("mental_attack"),
+                                MentalDefense = reader.GetDouble("mental_defense"),
+                                Speed = reader.GetDouble("speed"),
+                                CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                                CriticalRate = reader.GetDouble("critical_rate"),
+                                CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDouble("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDouble("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDouble("accuracy_rate"),
+                                LifestealRate = reader.GetDouble("lifesteal_rate"),
+                                ShieldStrength = reader.GetDouble("shield_strength"),
+                                Tenacity = reader.GetDouble("tenacity"),
+                                ResistanceRate = reader.GetDouble("resistance_rate"),
+                                ComboRate = reader.GetDouble("combo_rate"),
+                                IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                                StunRate = reader.GetDouble("stun_rate"),
+                                IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDouble("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                                Mana = reader.GetFloat("mana"),
+                                ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                            };
+                        }
+                    }
                 }
             }
             catch (MySqlException ex)
@@ -591,21 +612,21 @@ public class UserRobotsRepository : IUserRobotsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
 
         }
-        return card;
+        return Robot;
     }
-    public Robots SumPowerUserRobots()
+    public async Task<Robots> SumPowerUserRobotsAsync()
     {
         Robots sumRobots = new Robots();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 string query = @"SELECT 
                 SUM(power * (1 + quality / 10.0)) AS total_power,
                 SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -660,65 +681,67 @@ public class UserRobotsRepository : IUserRobotsRepository
             FROM user_Robots
             WHERE user_id = @user_id;
             ";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                using (MySqlDataReader reader = command.ExecuteReader())
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    if (reader.Read())
+                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        sumRobots.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                        sumRobots.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                        sumRobots.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                        sumRobots.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                        sumRobots.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                        sumRobots.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                        sumRobots.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                        sumRobots.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                        sumRobots.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                        sumRobots.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                        sumRobots.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                        sumRobots.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                        sumRobots.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                        sumRobots.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                        sumRobots.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                        sumRobots.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                        sumRobots.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                        sumRobots.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                        sumRobots.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                        sumRobots.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                        sumRobots.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                        sumRobots.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                        sumRobots.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                        sumRobots.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                        sumRobots.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                        sumRobots.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                        sumRobots.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                        sumRobots.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                        sumRobots.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                        sumRobots.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                        sumRobots.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                        sumRobots.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                        sumRobots.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                        sumRobots.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                        sumRobots.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                        sumRobots.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                        sumRobots.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                        sumRobots.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                        sumRobots.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                        sumRobots.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                        sumRobots.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                        sumRobots.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                        sumRobots.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                        sumRobots.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                        sumRobots.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                        sumRobots.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                        sumRobots.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                        sumRobots.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                        sumRobots.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                        sumRobots.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        if (await reader.ReadAsync())
+                        {
+                            sumRobots.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                            sumRobots.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                            sumRobots.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                            sumRobots.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                            sumRobots.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                            sumRobots.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                            sumRobots.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                            sumRobots.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                            sumRobots.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                            sumRobots.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                            sumRobots.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                            sumRobots.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                            sumRobots.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            sumRobots.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            sumRobots.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            sumRobots.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                            sumRobots.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                            sumRobots.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            sumRobots.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                            sumRobots.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            sumRobots.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            sumRobots.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                            sumRobots.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                            sumRobots.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            sumRobots.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                            sumRobots.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            sumRobots.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            sumRobots.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            sumRobots.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            sumRobots.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            sumRobots.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            sumRobots.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                            sumRobots.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                            sumRobots.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                            sumRobots.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                            sumRobots.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                            sumRobots.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            sumRobots.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                            sumRobots.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                            sumRobots.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                            sumRobots.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            sumRobots.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            sumRobots.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            sumRobots.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            sumRobots.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            sumRobots.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                            sumRobots.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                            sumRobots.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                            sumRobots.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                            sumRobots.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                        }
                     }
                 }
-
             }
             catch (MySqlException ex)
             {
@@ -726,7 +749,7 @@ public class UserRobotsRepository : IUserRobotsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
         return sumRobots;

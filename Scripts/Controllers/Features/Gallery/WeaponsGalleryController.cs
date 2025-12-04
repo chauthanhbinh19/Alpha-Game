@@ -35,15 +35,15 @@ public class WeaponsGalleryController : MonoBehaviour
     }
     public void CreateWeaponsGallery(List<Weapons> WeaponsList, Transform contentPanel)
     {
-        foreach (var technology in WeaponsList)
+        foreach (var weapon in WeaponsList)
         {
-            GameObject technologyObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject weaponObject = Instantiate(equipmentsPrefab, contentPanel);
 
-            Text Title = technologyObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = technology.Name.Replace("_", " ");
+            Text Title = weaponObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = weapon.Name.Replace("_", " ");
 
-            RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
+            RawImage image = weaponObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -65,45 +65,45 @@ public class WeaponsGalleryController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            Button button = technologyObject.GetComponent<Button>();
+            Button button = weaponObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(weapon, MainPanel);
             });
 
-            RawImage rareImage = technologyObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
+            RawImage rareImage = weaponObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{weapon.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = technologyObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = technologyObject.transform.Find("Unlock").GetComponent<Button>();
-            if (technology.Status.Equals("available"))
+            RawImage blockImage = weaponObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = weaponObject.transform.Find("Unlock").GetComponent<Button>();
+            if (weapon.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
             }
-            else if (technology.Status.Equals("pending"))
+            else if (weapon.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (technology.Status.Equals("block"))
+            else if (weapon.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
 
-            RawImage rareBackgroundImage = technologyObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = weaponObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var titleGalleryService = WeaponsGalleryService.Create();
-                titleGalleryService.UpdateStatusWeaponsGallery(technology.Id);
+                var weaponGalleryService = WeaponsGalleryService.Create();
+                await weaponGalleryService.UpdateStatusWeaponGalleryAsync(weapon.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -111,15 +111,15 @@ public class WeaponsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = technologyObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((technology.CurrentStar < technology.TempStar) && technology.Status.Equals("available"))
+            Button Upgrade = weaponObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((weapon.CurrentStar < weapon.TempStar) && weapon.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -128,10 +128,10 @@ public class WeaponsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                WeaponsGalleryService.Create().UpdateWeaponsGalleryPower(technology.Id);
+                await WeaponsGalleryService.Create().UpdateWeaponGalleryPowerAsync(weapon.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -1,0 +1,15 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+public interface ICardSpellsService
+{
+    Task<List<string>> GetUniqueCardSpellsTypesAsync();
+    Task<List<string>> GetUniqueCardSpellsIdAsync();
+    Task<List<CardSpells>> GetCardSpellsAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetCardSpellsCountAsync(string type, string rare);
+    Task<List<CardSpells>> GetCardSpellsRandomAsync(string type, int pageSize);
+    Task<List<CardSpells>> GetAllCardSpellsAsync(string type);
+    Task<CardSpells> GetCardSpellByIdAsync(string Id);
+    Task<List<CardSpells>> GetCardSpellsWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetCardSpellsWithPriceCountAsync(string type);
+}

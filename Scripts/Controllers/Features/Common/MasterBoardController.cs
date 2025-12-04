@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Threading.Tasks;
 
 public class MasterBoardController : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class MasterBoardController : MonoBehaviour
         userItemsService = UserItemsService.Create();
         teamsService = TeamsService.Create();
     }
-    public void CreateMasterBoard(GameObject gameObject)
+    public async Task CreateMasterBoardAsync(GameObject gameObject)
     {
         currentObject = gameObject;
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -54,7 +55,7 @@ public class MasterBoardController : MonoBehaviour
 
         List<string> uniqueTypes = new List<string>();
         Features features = new Features();
-        uniqueTypes = MasterBoardService.Create().GetUniqueName();
+        uniqueTypes = await MasterBoardService.Create().GetUniqueNameAsync();
         if (uniqueTypes.Count > 0)
         {
             int index = 0;
@@ -66,10 +67,10 @@ public class MasterBoardController : MonoBehaviour
                 buttonText.text = name.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() =>
+                btn.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    OnButtonClick(button, name);
+                    await OnButtonClickAsync(button, name);
                 });
 
                 if (index == 0)
@@ -77,7 +78,7 @@ public class MasterBoardController : MonoBehaviour
                     mainType = name;
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     // mainId = cardHeroes.id;
-                    List<MasterBoard> masterBoards = UserMasterBoardService.Create().GetUserMasterBoard(User.CurrentUserId, name);
+                    List<MasterBoard> masterBoards = await UserMasterBoardService.Create().GetUserMasterBoardAsync(User.CurrentUserId, name);
                     CreateMasterBoardUI(masterBoards);
                 }
                 else
@@ -88,7 +89,7 @@ public class MasterBoardController : MonoBehaviour
             }
         }
     }
-    void OnButtonClick(GameObject clickedButton, string type)
+    async Task OnButtonClickAsync(GameObject clickedButton, string type)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -106,7 +107,7 @@ public class MasterBoardController : MonoBehaviour
         Content.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
         // mainId = cardHeroes.id;
-        List<MasterBoard> masterBoards = UserMasterBoardService.Create().GetUserMasterBoard(User.CurrentUserId, type);
+        List<MasterBoard> masterBoards = await UserMasterBoardService.Create().GetUserMasterBoardAsync(User.CurrentUserId, type);
         CreateMasterBoardUI(masterBoards);
     }
     public void CreateMasterBoardUI(List<MasterBoard> masterBoards)
@@ -135,14 +136,14 @@ public class MasterBoardController : MonoBehaviour
                 backgroundImage.texture = backgroundTexture;
                 mainImage.color = Color.white;
             }
-            node.GetComponent<Button>().onClick.AddListener(() => ShowMasterBoardPopup(masterBoard));
+            node.GetComponent<Button>().onClick.AddListener(async () => await ShowMasterBoardPopupAsync(masterBoard));
             // node.GetComponent<Button>().onClick.AddListener(() =>
             // {
             //     Debug.Log("Click OK");
             // });
         }
     }
-    public void ShowMasterBoardPopup(MasterBoard masterBoard)
+    public async Task ShowMasterBoardPopupAsync(MasterBoard masterBoard)
     {
         GameObject popup = Instantiate(MasterBoardPopupPrefab, MainPanel);
         Button CloseButton = popup.transform.Find("CloseButton").GetComponent<Button>();
@@ -165,7 +166,7 @@ public class MasterBoardController : MonoBehaviour
         mainImage.color = Color.white;
 
         RawImage materialImage = popup.transform.Find("Material/MaterialImage").GetComponent<RawImage>();
-        Items items = userItemsService.GetUserItemByName("Attack Amulet");
+        Items items = await userItemsService.GetUserItemByNameAsync("Attack Amulet");
         string fileNameWithoutExtension = items.Image.Split('.')[0];
         Texture materialTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         materialImage.texture = materialTexture;
@@ -174,7 +175,7 @@ public class MasterBoardController : MonoBehaviour
         int materialQuantity = QualityEvaluator.CheckQuality(masterBoard.RankLevel);
         materialNameText.text = NumberFormatter.FormatNumber(materialQuantity, false);
 
-        buyButton.onClick.AddListener(() =>
+        buyButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (masterBoard.Status.Equals("block"))
@@ -183,14 +184,14 @@ public class MasterBoardController : MonoBehaviour
                 if (items.Quantity >= materialQuantity)
                 {
                     items.Quantity = items.Quantity - materialQuantity;
-                    userItemsService.UpdateUserItemsQuantity(items);
+                    await userItemsService.UpdateUserItemQuantityAsync(items);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserMasterBoardService.Create().InsertUserMasterBoard(User.CurrentUserId, masterBoard);
+                    await UserMasterBoardService.Create().InsertUserMasterBoardAsync(User.CurrentUserId, masterBoard);
                     // double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     // FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                     Destroy(popup);
-                    CreateMasterBoard(currentObject);
+                    await CreateMasterBoardAsync(currentObject);
                 }
                 else
                 {
@@ -202,15 +203,15 @@ public class MasterBoardController : MonoBehaviour
                 if (items.Quantity >= materialQuantity)
                 {
                     items.Quantity = items.Quantity - materialQuantity;
-                    userItemsService.UpdateUserItemsQuantity(items);
+                    await userItemsService.UpdateUserItemQuantityAsync(items);
                     masterBoard.RankLevel = QualityEvaluator.GetNextQuality(masterBoard.RankLevel);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
-                    UserMasterBoardService.Create().UpdateUserMasterBoard(User.CurrentUserId, masterBoard);
+                    await UserMasterBoardService.Create().UpdateUserMasterBoardAsync(User.CurrentUserId, masterBoard);
                     // double newPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     // FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
                     Destroy(popup);
-                    CreateMasterBoard(currentObject);
+                    await CreateMasterBoardAsync(currentObject);
                 }
                 else
                 {

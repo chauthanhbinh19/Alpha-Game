@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,7 +37,7 @@ public class WorldsController : MonoBehaviour
         WorldButtonPrefab = UIManager.Instance.GetGeneralButton("WorldButtonPrefab");
         WorldPanelPrefab = UIManager.Instance.GetGeneralPanel("WorldPanelPrefab");
     }
-    public void CreateWorldPanel()
+    public async Task CreateWorldPanelAsync()
     {
         GameObject currentObject = Instantiate(WorldPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -53,7 +54,7 @@ public class WorldsController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        var worlds = WorldsService.Create().GetWorlds(User.CurrentUserId, 1000, 0);
+        var worlds = await WorldsService.Create().GetWorldsAsync(User.CurrentUserId, 1000, 0);
         CreateWorlds(worlds, contentPanel);
     }
     public void CreateWorlds(List<Worlds> Worlds, Transform contentPanel)

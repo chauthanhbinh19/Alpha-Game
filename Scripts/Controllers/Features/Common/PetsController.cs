@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -100,7 +101,7 @@ public class PetsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreatePetsTrade(List<Pets> petsList, string subType, Transform currentContent,
+    public async Task CreatePetsTradeAsync(List<Pets> petsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var pet in petsList)
@@ -200,7 +201,7 @@ public class PetsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetPetsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -312,12 +313,12 @@ public class PetsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Pets pets)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(pets.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(pets.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -339,7 +340,7 @@ public class PetsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
-        confirmButton.onClick.AddListener(() =>
+        confirmButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
@@ -348,8 +349,8 @@ public class PetsController : MonoBehaviour
             if (obj is Pets pet)
             {
                 pet.Quantity = pet.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(pet.Currency.Id, price);
-                bool success = UserPetsService.Create().InsertUserPets(pet, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(pet.Currency.Id, price);
+                bool success = await UserPetsService.Create().InsertUserPetAsync(pet, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -362,8 +363,8 @@ public class PetsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    PetsGalleryService.Create().InsertPetsGallery(pet.Id);
-                    currencies = UserCurrencyService.Create().GetPetsCurrency(subType);
+                    await PetsGalleryService.Create().InsertPetGalleryAsync(pet.Id);
+                    currencies = await UserCurrenciesService.Create().GetPetsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);

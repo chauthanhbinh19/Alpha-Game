@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,7 +37,7 @@ public class CitiesController : MonoBehaviour
         CityButtonPrefab = UIManager.Instance.GetGeneralButton("CityButtonPrefab");
         CityPanelPrefab = UIManager.Instance.GetGeneralPanel("CityPanelPrefab");
     }
-    public void CreateCityPanel()
+    public async Task CreateCityPanelAsync()
     {
         GameObject currentObject = Instantiate(CityPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -53,7 +54,7 @@ public class CitiesController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        var Cities = CitiesService.Create().GetCities(User.CurrentUserId, 1000, 0);
+        var Cities = await CitiesService.Create().GetCitiesAsync(User.CurrentUserId, 1000, 0);
         CreateCity(Cities, contentPanel);
     }
     public void CreateCity(List<Cities> Cities, Transform contentPanel)

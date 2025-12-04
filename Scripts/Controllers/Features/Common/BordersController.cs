@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -80,7 +81,7 @@ public class BordersController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateBordersTrade(List<Borders> borders, string subType, Transform currentContent,
+    public async Task CreateBordersTradeAsync(List<Borders> borders, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var border in borders)
@@ -133,7 +134,7 @@ public class BordersController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetBordersCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetBordersCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -245,12 +246,12 @@ public class BordersController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Borders borders)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(borders.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(borders.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -281,8 +282,8 @@ public class BordersController : MonoBehaviour
             if (obj is Borders borders)
             {
                 borders.Quantity = borders.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(borders.Currency.Id, price);
-                bool success = UserBordersService.Create().InsertUserBorders(borders, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(borders.Currency.Id, price);
+                bool success = await UserBordersService.Create().InsertUserBorderAsync(borders, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -295,8 +296,8 @@ public class BordersController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    BordersGalleryService.Create().InsertBordersGallery(borders.Id);
-                    currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
+                    await BordersGalleryService.Create().InsertBorderGalleryAsync(borders.Id);
+                    currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(borders.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -316,7 +317,7 @@ public class BordersController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,12 +53,12 @@ public class UserAchievementsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(achievements, currentObject);
+            _=GetLevelAsync(achievements, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(achievements, currentObject);
+            _=GetUpgradeAsync(achievements, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -68,7 +69,7 @@ public class UserAchievementsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(achievements, currentObject);
+                _=GetLevelAsync(achievements, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -76,7 +77,7 @@ public class UserAchievementsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(achievements, currentObject);
+                _=GetUpgradeAsync(achievements, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -118,7 +119,7 @@ public class UserAchievementsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, achievements, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -132,7 +133,7 @@ public class UserAchievementsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.ACHIEVEMENT);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ACHIEVEMENT);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -141,7 +142,7 @@ public class UserAchievementsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Achievements currentCard = new Achievements();
-                currentCard = UserAchievementsService.Create().GetUserAchievementsById(User.CurrentUserId, achievements.Id);
+                currentCard = await UserAchievementsService.Create().GetUserAchievementByIdAsync(User.CurrentUserId, achievements.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -152,8 +153,8 @@ public class UserAchievementsController : MonoBehaviour
                 {
                     Achievements newCard = new Achievements();
 
-                    newCard = UserAchievementsService.Create().GetNewLevelPower(achievements, increasePerLevel);
-                    UserAchievementsService.Create().UpdateAchievementLevel(newCard, currentLevel + 1);
+                    newCard = await UserAchievementsService.Create().GetNewLevelPowerAsync(achievements, increasePerLevel);
+                    await UserAchievementsService.Create().UpdateAchievementLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -161,14 +162,14 @@ public class UserAchievementsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Achievements currentCard = UserAchievementsService.Create().GetUserAchievementsById(User.CurrentUserId, achievements.Id);
+                Achievements currentCard = await UserAchievementsService.Create().GetUserAchievementByIdAsync(User.CurrentUserId, achievements.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -184,8 +185,8 @@ public class UserAchievementsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Achievements newCard = UserAchievementsService.Create().GetNewLevelPower(achievements, levelsGained * increasePerLevel);
-                    UserAchievementsService.Create().UpdateAchievementLevel(newCard, currentLevel);
+                    Achievements newCard = await UserAchievementsService.Create().GetNewLevelPowerAsync(achievements, levelsGained * increasePerLevel);
+                    await UserAchievementsService.Create().UpdateAchievementLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -194,7 +195,7 @@ public class UserAchievementsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -204,7 +205,7 @@ public class UserAchievementsController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -221,7 +222,7 @@ public class UserAchievementsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.ACHIEVEMENT);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ACHIEVEMENT);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -295,13 +296,13 @@ public class UserAchievementsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Achievements newAchievements = new Achievements();
 
-                    newAchievements = UserAchievementsService.Create().GetNewBreakthroughPower(achievements, increasePerUpgrade);
-                    UserAchievementsService.Create().UpdateAchievementsBreakthrough(newAchievements, achievements.Star + 1, achievements.Quantity);
+                    newAchievements = await UserAchievementsService.Create().GetNewBreakthroughPowerAsync(achievements, increasePerUpgrade);
+                    await UserAchievementsService.Create().UpdateAchievementBreakthroughAsync(newAchievements, achievements.Star + 1, achievements.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -310,7 +311,7 @@ public class UserAchievementsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(achievements.Star, currentObject);
                 }
                 else

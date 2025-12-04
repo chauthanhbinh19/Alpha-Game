@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ICardsService
 {
-    List<string> GetUniqueCardId();
-    List<Cards> GetCards(int pageSize, int offset, string rare);
-    int GetCardsCount(string rare);
-    List<Cards> GetCardsWithPrice(int pageSize, int offset);
-    int GetCardsWithPriceCount();
-    Cards GetCardsById(string Id);
-    Cards SumPowerCardsPercent();
+    Task<List<string>> GetUniqueCardsIdAsync();
+    Task<List<Cards>> GetCardsAsync(int pageSize, int offset, string rare);
+    Task<int> GetCardsCountAsync(string rare);
+    Task<List<Cards>> GetCardsWithPriceAsync(int pageSize, int offset);
+    Task<int> GetCardsWithPriceCountAsync();
+    Task<Cards> GetCardByIdAsync(string Id);
+    Task<Cards> SumPowerCardsPercentAsync();
 }

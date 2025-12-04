@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IResearchsService
 {
-    List<string> GetUniqueResearchId();
-    List<Researchs> GetResearchs(string userId, int pageSize, int offset);
-    int GetResearchsCount(string rare);
-    List<Researchs> GetResearchsWithPrice(int pageSize, int offset);
-    int GetResearchsWithPriceCount();
-    Researchs GetResearchsById(string Id);
-    Researchs SumPowerResearchsPercent();
+    Task<List<string>> GetUniqueResearchsIdAsync();
+    Task<List<Researchs>> GetResearchsAsync(string userId, int pageSize, int offset);
+    Task<int> GetResearchsCountAsync(string rare);
+    Task<List<Researchs>> GetResearchsWithPriceAsync(int pageSize, int offset);
+    Task<int> GetResearchsWithPriceCountAsync();
+    Task<Researchs> GetResearchByIdAsync(string Id);
+    Task<Researchs> SumPowerResearchsPercentAsync();
 }

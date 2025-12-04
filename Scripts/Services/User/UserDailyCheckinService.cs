@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserDailyCheckinService : IUserDailyCheckinService
 {
@@ -13,23 +14,23 @@ public class UserDailyCheckinService : IUserDailyCheckinService
         return new UserDailyCheckinService(new UserDailyCheckinRepository());
     }
 
-    public bool CheckUserDailyCheckinStatus(string userId, int month, int year)
+    public async Task<bool> CheckUserDailyCheckinStatusAsync(string userId, int month, int year)
     {
-        return _userDailyCheckinRepository.CheckUserDailyCheckinStatus(userId, month, year);
+        return await _userDailyCheckinRepository.CheckUserDailyCheckinStatusAsync(userId, month, year);
     }
 
-    public void DeleteUserDailyCheckin(string userId, string dailyCheckinId)
+    public async Task DeleteUserDailyCheckinAsync(string userId, string dailyCheckinId)
     {
-        _userDailyCheckinRepository.DeleteUserDailyCheckin(userId, dailyCheckinId);
+        await _userDailyCheckinRepository.DeleteUserDailyCheckinAsync(userId, dailyCheckinId);
     }
 
-    public List<UserDailyCheckin> GetUserDailyCheckin(string userId)
+    public async Task<List<UserDailyCheckin>> GetUserDailyCheckinAsync(string userId)
     {
-        return _userDailyCheckinRepository.GetUserDailyCheckin(userId);
+        return await _userDailyCheckinRepository.GetUserDailyCheckinAsync(userId);
     }
 
-    public void InsertUserDailyCheckin(string userId, UserDailyCheckin userDailyCheckin)
+    public async Task InsertUserDailyCheckinAsync(string userId, UserDailyCheckin userDailyCheckin)
     {
-        _userDailyCheckinRepository.InsertUserDailyCheckin(userId, userDailyCheckin);
+        await _userDailyCheckinRepository.InsertUserDailyCheckinAsync(userId, userDailyCheckin);
     }
 }

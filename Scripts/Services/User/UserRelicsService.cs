@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserRelicsService : IUserRelicsService
 {
@@ -14,11 +15,11 @@ public class UserRelicsService : IUserRelicsService
         return new UserRelicsService(new UserRelicsRepository());
     }
 
-    public Relics GetNewLevelPower(Relics c, double coefficient)
+    public async Task<Relics> GetNewLevelPowerAsync(Relics c, double coefficient)
     {
         IRelicsRepository _repository = new RelicsRepository();
         RelicsService _service = new RelicsService(_repository);
-        Relics orginCard = _service.GetRelicsById(c.Id);
+        Relics orginCard = await _service.GetRelicByIdAsync(c.Id);
         Relics relics = new Relics
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserRelicsService : IUserRelicsService
         );
         return relics;
     }
-    public Relics GetNewBreakthroughPower(Relics c, double coefficient)
+    public async Task<Relics> GetNewBreakthroughPowerAsync(Relics c, double coefficient)
     {
         IRelicsRepository _repository = new RelicsRepository();
         RelicsService _service = new RelicsService(_repository);
-        Relics orginCard = _service.GetRelicsById(c.Id);
+        Relics orginCard = await _service.GetRelicByIdAsync(c.Id);
         Relics relics = new Relics
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserRelicsService : IUserRelicsService
         return relics;
     }
 
-    public List<Relics> GetUserRelics(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = _userRelicsRepository.GetUserRelics(user_id, type, pageSize, offset, rare);
+        List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserRelicsCount(string user_id, string type, string rare)
+    public async Task<int> GetUserRelicsCountAsync(string user_id, string type, string rare)
     {
-        return _userRelicsRepository.GetUserRelicsCount(user_id, type, rare);
+        return await _userRelicsRepository.GetUserRelicsCountAsync(user_id, type, rare);
     }
 
-    public bool InsertUserReclis(Relics relics, string userId)
+    public async Task<bool> InsertUserRelicAsync(Relics relics, string userId)
     {
-        return _userRelicsRepository.InsertUserReclis(relics, userId);
+        return await _userRelicsRepository.InsertUserRelicAsync(relics, userId);
     }
 
-    public bool UpdateRelicsLevel(Relics relics, int cardLevel)
+    public async Task<bool> UpdateRelicLevelAsync(Relics relics, int cardLevel)
     {
-        return _userRelicsRepository.UpdateRelicsLevel(relics, cardLevel);
+        return await _userRelicsRepository.UpdateRelicLevelAsync(relics, cardLevel);
     }
 
-    public bool UpdateRelicsBreakthrough(Relics relics, int star, double quantity)
+    public async Task<bool> UpdateRelicBreakthroughAsync(Relics relics, int star, double quantity)
     {
-        return _userRelicsRepository.UpdateRelicsBreakthrough(relics, star, quantity);
+        return await _userRelicsRepository.UpdateRelicBreakthroughAsync(relics, star, quantity);
     }
 
-    public Relics GetUserRelicsById(string user_id, string Id)
+    public async Task<Relics> GetUserRelicByIdAsync(string user_id, string Id)
     {
-        return _userRelicsRepository.GetUserRelicsById(user_id, Id);
+        return await _userRelicsRepository.GetUserRelicByIdAsync(user_id, Id);
     }
 
-    public Relics SumPowerUserRelics()
+    public async Task<Relics> SumPowerUserRelicsAsync()
     {
-        return _userRelicsRepository.SumPowerUserRelics();
+        return await _userRelicsRepository.SumPowerUserRelicsAsync();
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -74,7 +75,7 @@ public class CardHeroesController : MonoBehaviour
         }
         // DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateCardHeroesTrade(List<CardHeroes> cards, string subType, Transform currentContent,
+    public async Task CreateCardHeroesTradeAsync(List<CardHeroes> cards, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var card in cards)
@@ -145,7 +146,7 @@ public class CardHeroesController : MonoBehaviour
             });
         }
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetCardHeroesCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetCardHeroesCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -257,12 +258,12 @@ public class CardHeroesController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is CardHeroes cardHeroes)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(cardHeroes.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(cardHeroes.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -284,7 +285,7 @@ public class CardHeroesController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
-        confirmButton.onClick.AddListener(() =>
+        confirmButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
@@ -293,8 +294,8 @@ public class CardHeroesController : MonoBehaviour
             if (obj is CardHeroes cardHeroes)
             {
                 cardHeroes.Quantity = cardHeroes.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(cardHeroes.Currency.Id, price);
-                bool success = UserCardHeroesService.Create().InsertUserCardHeroes(cardHeroes);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardHeroes.Currency.Id, price);
+                bool success = await UserCardHeroesService.Create().InsertUserCardHeroAsync(cardHeroes);
                 if (!success)
                 {
                     allSuccess = false;
@@ -306,8 +307,8 @@ public class CardHeroesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    CardHeroesGalleryService.Create().InsertCardHeroesGallery(cardHeroes.Id);
-                    currencies = UserCurrencyService.Create().GetCardHeroesCurrency(subType);
+                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(cardHeroes.Id);
+                    currencies = await UserCurrenciesService.Create().GetCardHeroesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHeroes.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);

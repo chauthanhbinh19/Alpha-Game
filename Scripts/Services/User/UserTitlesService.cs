@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserTitlesService : IUserTitlesService
 {
@@ -14,11 +15,11 @@ public class UserTitlesService : IUserTitlesService
         return new UserTitlesService(new UserTitlesRepository());
     }
 
-    public Titles GetNewLevelPower(Titles c, double coefficient)
+    public async Task<Titles> GetNewLevelPowerAsync(Titles c, double coefficient)
     {
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
-        Titles orginCard = _service.GetTitlesById(c.Id);
+        Titles orginCard = await _service.GetTitleByIdAsync(c.Id);
         Titles titles = new Titles
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserTitlesService : IUserTitlesService
         );
         return titles;
     }
-    public Titles GetNewBreakthroughPower(Titles c, double coefficient)
+    public async Task<Titles> GetNewBreakthroughPowerAsync(Titles c, double coefficient)
     {
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
-        Titles orginCard = _service.GetTitlesById(c.Id);
+        Titles orginCard = await _service.GetTitleByIdAsync(c.Id);
         Titles titles = new Titles
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserTitlesService : IUserTitlesService
         return titles;
     }
 
-    public List<Titles> GetUserTitles(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Titles>> GetUserTitlesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Titles> list = _userTitlesRepository.GetUserTitles(user_id, pageSize, offset, rare);
+        List<Titles> list = await _userTitlesRepository.GetUserTitlesAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserTitlesCount(string user_id, string rare)
+    public async Task<int> GetUserTitlesCountAsync(string user_id, string rare)
     {
-        return _userTitlesRepository.GetUserTitlesCount(user_id, rare);
+        return await _userTitlesRepository.GetUserTitlesCountAsync(user_id, rare);
     }
 
-    public bool InsertUserTitles(Titles titles, string userId)
+    public async Task<bool> InsertUserTitleAsync(Titles titles, string userId)
     {
-        return _userTitlesRepository.InsertUserTitles(titles, userId);
+        return await _userTitlesRepository.InsertUserTitleAsync(titles, userId);
     }
 
-    public bool UpdateTitlesLevel(Titles titles, int cardLevel)
+    public async Task<bool> UpdateTitleLevelAsync(Titles titles, int cardLevel)
     {
-        return _userTitlesRepository.UpdateTitlesLevel(titles, cardLevel);
+        return await _userTitlesRepository.UpdateTitleLevelAsync(titles, cardLevel);
     }
 
-    public bool UpdateTitlesBreakthrough(Titles titles, int star, double quantity)
+    public async Task<bool> UpdateTitleBreakthroughAsync(Titles titles, int star, double quantity)
     {
-        return _userTitlesRepository.UpdateTitlesBreakthrough(titles, star, quantity);
+        return await _userTitlesRepository.UpdateTitleBreakthroughAsync(titles, star, quantity);
     }
 
-    public Titles GetUserTitlesById(string user_id, string Id)
+    public async Task<Titles> GetUserTitleByIdAsync(string user_id, string Id)
     {
-        return _userTitlesRepository.GetUserTitlesById(user_id, Id);
+        return await _userTitlesRepository.GetUserTitleByIdAsync(user_id, Id);
     }
 
-    public Titles SumPowerUserTitles()
+    public async Task<Titles> SumPowerUserTitlesAsync()
     {
-        return _userTitlesRepository.SumPowerUserTitles();
+        return await _userTitlesRepository.SumPowerUserTitlesAsync();
     }
 }

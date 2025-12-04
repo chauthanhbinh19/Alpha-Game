@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardMonstersService : ICardMonstersService
 {
@@ -14,52 +15,52 @@ public class CardMonstersService : ICardMonstersService
         return new CardMonstersService(new CardMonstersRepository());
     }
 
-    public List<string> GetUniqueCardMonstersTypes()
+    public async Task<List<string>> GetUniqueCardMonstersTypesAsync()
     {
-        return _cardMonstersRepository.GetUniqueCardMonstersTypes();
+        return await _cardMonstersRepository.GetUniqueCardMonstersTypesAsync();
     }
 
-    public List<CardMonsters> GetCardMonsters(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardMonsters>> GetCardMonstersAsync(string type, int pageSize, int offset, string rare)
     {
-        List<CardMonsters> list = _cardMonstersRepository.GetCardMonsters(type, pageSize, offset, rare);
+        List<CardMonsters> list = await _cardMonstersRepository.GetCardMonstersAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardMonstersCount(string type, string rare)
+    public async Task<int> GetCardMonstersCountAsync(string type, string rare)
     {
-        return _cardMonstersRepository.GetCardMonstersCount(type, rare);
+        return await _cardMonstersRepository.GetCardMonstersCountAsync(type, rare);
     }
 
-    public List<CardMonsters> GetCardMonstersRandom(string type, int pageSize)
+    public async Task<List<CardMonsters>> GetCardMonstersRandomAsync(string type, int pageSize)
     {
-        return _cardMonstersRepository.GetCardMonstersRandom(type, pageSize);
+        return await _cardMonstersRepository.GetCardMonstersRandomAsync(type, pageSize);
     }
 
-    public List<CardMonsters> GetAllCardMonsters(string type)
+    public async Task<List<CardMonsters>> GetAllCardMonstersAsync(string type)
     {
-        return _cardMonstersRepository.GetAllCardMonsters(type);
+        return await _cardMonstersRepository.GetAllCardMonstersAsync(type);
     }
 
-    public CardMonsters GetCardMonstersById(string Id)
+    public async Task<CardMonsters> GetCardMonsterByIdAsync(string Id)
     {
-        return _cardMonstersRepository.GetCardMonstersById(Id);
+        return await _cardMonstersRepository.GetCardMonsterByIdAsync(Id);
     }
 
-    public List<CardMonsters> GetCardMonstersWithPrice(string type, int pageSize, int offset)
+    public async Task<List<CardMonsters>> GetCardMonstersWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CardMonsters> list = _cardMonstersRepository.GetCardMonstersWithPrice(type, pageSize, offset);
+        List<CardMonsters> list = await _cardMonstersRepository.GetCardMonstersWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardMonstersWithPriceCount(string type)
+    public async Task<int> GetCardMonstersWithPriceCountAsync(string type)
     {
-        return _cardMonstersRepository.GetCardMonstersWithPriceCount(type);
+        return await _cardMonstersRepository.GetCardMonstersWithPriceCountAsync(type);
     }
 
-    public List<string> GetUniqueCardMonstersId()
+    public async Task<List<string>> GetUniqueCardMonstersIdAsync()
     {
-        return _cardMonstersRepository.GetUniqueCardMonstersId();
+        return await _cardMonstersRepository.GetUniqueCardMonstersIdAsync();
     }
 }

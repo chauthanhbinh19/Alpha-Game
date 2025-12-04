@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -96,7 +97,7 @@ public class CoresController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateCoresTrade(List<Cores> CoresList, string subType, Transform currentContent,
+    public async Task CreateCoresTradeAsync(List<Cores> CoresList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var core in CoresList)
@@ -168,7 +169,7 @@ public class CoresController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetCoresCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetCoresCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -280,12 +281,12 @@ public class CoresController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Cores Cores)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Cores.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Cores.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -316,8 +317,8 @@ public class CoresController : MonoBehaviour
             if (obj is Cores core)
             {
                 core.Quantity = core.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(core.Currency.Id, price);
-                bool success = UserCoresService.Create().InsertUserCores(core, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(core.Currency.Id, price);
+                bool success = await UserCoresService.Create().InsertUserCoreAsync(core, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -330,8 +331,8 @@ public class CoresController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    CoresGalleryService.Create().InsertCoresGallery(core.Id);
-                    currencies = UserCurrencyService.Create().GetCoresCurrency(subType);
+                    await CoresGalleryService.Create().InsertCoreGalleryAsync(core.Id);
+                    currencies = await UserCurrenciesService.Create().GetCoresCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -351,7 +352,7 @@ public class CoresController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

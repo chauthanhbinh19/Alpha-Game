@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IItemsService
 {
-    List<string> GetUniqueItemTypes();
-    List<string> GetUniqueItemId();
-    List<Items> GetItems();
+    Task<List<string>> GetUniqueItemsIdAsync();
+    Task<List<string>> GetUniqueItemsTypesAsync();
+    Task<List<Items>> GetItemsAsync();
 }

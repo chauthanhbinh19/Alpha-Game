@@ -35,59 +35,59 @@ public class SpiritBeastsGalleryController : MonoBehaviour
     }
     public void CreateSpiritBeastGallery(List<SpiritBeasts> SpiritBeastList, Transform contentPanel)
     {
-        foreach (var title in SpiritBeastList)
+        foreach (var spiritBeast in SpiritBeastList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject spiritBeastObject = Instantiate(equipmentsPrefab, contentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.Name.Replace("_", " ");
+            Text Title = spiritBeastObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = spiritBeast.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage Image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            Button button = titleObject.GetComponent<Button>();
+            Button button = spiritBeastObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(spiritBeast, MainPanel);
             });
 
-            RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
+            RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = titleObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = titleObject.transform.Find("Unlock").GetComponent<Button>();
-            if (title.Status.Equals("available"))
+            RawImage blockImage = spiritBeastObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = spiritBeastObject.transform.Find("Unlock").GetComponent<Button>();
+            if (spiritBeast.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (title.Status.Equals("pending"))
+            else if (spiritBeast.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (title.Status.Equals("block"))
+            else if (spiritBeast.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
 
-            RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = spiritBeastObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var titleGalleryService = SpiritBeastGalleryService.Create();
-                titleGalleryService.UpdateStatusSpiritBeastGallery(title.Id);
+                var spiritBeastGalleryService = SpiritBeastsGalleryService.Create();
+                await spiritBeastGalleryService.UpdateStatusSpiritBeastGalleryAsync(spiritBeast.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -95,15 +95,15 @@ public class SpiritBeastsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = titleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((title.CurrentStar < title.TempStar) && title.Status.Equals("available"))
+            Button Upgrade = spiritBeastObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((spiritBeast.CurrentStar < spiritBeast.TempStar) && spiritBeast.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -112,10 +112,10 @@ public class SpiritBeastsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                TitlesGalleryService.Create().UpdateTitlesGalleryPower(title.Id);
+                await TitlesGalleryService.Create().UpdateTitleGalleryPowerAsync(spiritBeast.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

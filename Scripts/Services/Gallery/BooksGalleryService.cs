@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class BooksGalleryService : IBooksGalleryService
 {
@@ -14,44 +15,44 @@ public class BooksGalleryService : IBooksGalleryService
         return new BooksGalleryService(new BooksGalleryRepository());
     }
 
-    public List<Books> GetBooksCollection(string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetBooksCollectionAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = _booksGalleryRepository.GetBooksCollection(type, pageSize, offset, rare);
+        List<Books> list = await _booksGalleryRepository.GetBooksCollectionAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBooksCount(string type, string rare)
+    public async Task<int> GetBooksCountAsync(string type, string rare)
     {
-        return _booksGalleryRepository.GetBooksCount(type, rare);
+        return await _booksGalleryRepository.GetBooksCountAsync(type, rare);
     }
 
-    public void InsertBooksGallery(string Id)
+    public async Task InsertBookGalleryAsync(string Id)
     {
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
-        _booksGalleryRepository.InsertBooksGallery(Id, _service.GetBooksById(Id));
+        await _booksGalleryRepository.InsertBookGalleryAsync(Id, await _service.GetBookByIdAsync(Id));
     }
 
-    public void UpdateStatusBooksGallery(string Id)
+    public async Task UpdateStatusBookGalleryAsync(string Id)
     {
-        _booksGalleryRepository.UpdateStatusBooksGallery(Id);
+        await _booksGalleryRepository.UpdateStatusBookGalleryAsync(Id);
     }
 
-    public Books SumPowerBooksGallery()
+    public async Task<Books> SumPowerBooksGalleryAsync()
     {
-        return _booksGalleryRepository.SumPowerBooksGallery();
+        return await _booksGalleryRepository.SumPowerBooksGalleryAsync();
     }
 
-    public void UpdateStarBooksGallery(string Id, double star)
+    public async Task UpdateStarBookGalleryAsync(string Id, double star)
     {
-        _booksGalleryRepository.UpdateStarBooksGallery(Id, star);
+        await _booksGalleryRepository.UpdateStarBookGalleryAsync(Id, star);
     }
 
-    public void UpdateBooksGalleryPower(string Id)
+    public async Task UpdateBookGalleryPowerAsync(string Id)
     {
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
-        _booksGalleryRepository.UpdateBooksGalleryPower(Id, _service.GetBooksById(Id));
+        await _booksGalleryRepository.UpdateBookGalleryPowerAsync(Id, await _service.GetBookByIdAsync(Id));
     }
 }

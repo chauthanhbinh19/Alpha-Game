@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IMedalsGalleryRepository
 {
-    List<Medals> GetMedalsCollection(int pageSize, int offset, string rare);
-    int GetMedalsCount(string rare);
-    void InsertMedalsGallery(string Id, Medals MedalFromDB);
-    void UpdateStatusMedalsGallery(string Id);
-    void UpdateStarMedalsGallery(string Id, double star);
-    void UpdateMedalsGalleryPower(string Id, Medals MedalFromDB);
-    Medals SumPowerMedalsGallery();
+    Task<List<Medals>> GetMedalsCollectionAsync(int pageSize, int offset, string rare);
+    Task<int> GetMedalsCountAsync(string rare);
+    Task InsertMedalGalleryAsync(string Id, Medals MedalFromDB);
+    Task UpdateStatusMedalGalleryAsync(string Id);
+    Task UpdateStarMedalGalleryAsync(string id, double star);
+    Task UpdateMedalGalleryPowerAsync(string id, Medals MedalFromDB);
+    Task<Medals> SumPowerMedalsGalleryAsync();
 }

@@ -61,12 +61,12 @@ public class ArenaManager : MonoBehaviour
         // Arena arena = new Arena();
         IArenaRepository arenaRepository = new ArenaRepository();
         ArenaService arenaService = new ArenaService(arenaRepository);
-        string arena_id = arenaService.GetArenaModeId(type);
-        int rank_point = arenaService.GetArenaParticipantPoint(User.CurrentUserId, arena_id);
+        string arena_id = await arenaService.GetArenaModeIdAsync(type);
+        int rank_point = await arenaService.GetArenaParticipantPointAsync(User.CurrentUserId, arena_id);
         rankPointText.text = rank_point.ToString();
 
         //Lấy xếp hạng của người chơi
-        var rankings = arenaService.GetArenaParticipantByRanking(arena_id);
+        var rankings = await arenaService.GetArenaParticipantByRankingAsync(arena_id);
         foreach (var pair in rankings)
         {
             if (pair.Key.Equals(User.CurrentUserId))

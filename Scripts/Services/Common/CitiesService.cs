@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CitiesService : ICitiesService
 {
@@ -14,42 +15,42 @@ public class CitiesService : ICitiesService
         return new CitiesService(new CitiesRepository());
     }
 
-    public List<Cities> GetCities(string userId, int pageSize, int offset)
+    public async Task<List<Cities>> GetCitiesAsync(string userId, int pageSize, int offset)
     {
-        List<Cities> list = _CitiesRepository.GetCities(userId, pageSize, offset);
+        List<Cities> list = await _CitiesRepository.GetCitiesAsync(userId, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCitiesCount(string rare)
+    public async Task<int> GetCitiesCountAsync(string rare)
     {
-        return _CitiesRepository.GetCitiesCount(rare);
+        return await _CitiesRepository.GetCitiesCountAsync(rare);
     }
 
-    public List<Cities> GetCitiesWithPrice(int pageSize, int offset)
+    public async Task<List<Cities>> GetCitiesWithPriceAsync(int pageSize, int offset)
     {
-        List<Cities> list = _CitiesRepository.GetCitiesWithPrice(pageSize, offset);
+        List<Cities> list = await _CitiesRepository.GetCitiesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCitiesWithPriceCount()
+    public async Task<int> GetCitiesWithPriceCountAsync()
     {
-        return _CitiesRepository.GetCitiesWithPriceCount();
+        return await _CitiesRepository.GetCitiesWithPriceCountAsync();
     }
 
-    public Cities GetCitiesById(string Id)
+    public async Task<Cities> GetCityByIdAsync(string Id)
     {
-        return _CitiesRepository.GetCitiesById(Id);
+        return await _CitiesRepository.GetCityByIdAsync(Id);
     }
 
-    public Cities SumPowerCitiesPercent()
+    public async Task<Cities> SumPowerCitiesPercentAsync()
     {
-        return _CitiesRepository.SumPowerCitiesPercent();
+        return await _CitiesRepository.SumPowerCitiesPercentAsync();
     }
 
-    public List<string> GetUniqueCitieId()
+    public async Task<List<string>> GetUniqueCitieIdAsync()
     {
-        return _CitiesRepository.GetUniqueCitieId();
+        return await _CitiesRepository.GetUniqueCitiesIdAsync();
     }
 }

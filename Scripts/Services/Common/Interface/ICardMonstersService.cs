@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ICardMonstersService
 {
-    List<string> GetUniqueCardMonstersTypes();
-    List<string> GetUniqueCardMonstersId();
-    List<CardMonsters> GetCardMonsters(string type, int pageSize, int offset, string rare);
-    int GetCardMonstersCount(string type, string rare);
-    List<CardMonsters> GetCardMonstersRandom(string type, int pageSize);
-    List<CardMonsters> GetAllCardMonsters(string type);
-    CardMonsters GetCardMonstersById(string Id);
-    List<CardMonsters> GetCardMonstersWithPrice(string type, int pageSize, int offset);
-    int GetCardMonstersWithPriceCount(string type);
+    Task<List<string>> GetUniqueCardMonstersTypesAsync();
+    Task<List<string>> GetUniqueCardMonstersIdAsync();
+    Task<List<CardMonsters>> GetCardMonstersAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetCardMonstersCountAsync(string type, string rare);
+    Task<List<CardMonsters>> GetCardMonstersRandomAsync(string type, int pageSize);
+    Task<List<CardMonsters>> GetAllCardMonstersAsync(string type);
+    Task<CardMonsters> GetCardMonsterByIdAsync(string id);
+    Task<List<CardMonsters>> GetCardMonstersWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetCardMonstersWithPriceCountAsync(string type);
 }

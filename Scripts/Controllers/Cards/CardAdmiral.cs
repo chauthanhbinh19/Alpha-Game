@@ -131,7 +131,7 @@ public class CardAdmiral : CardBase
         if (multiplier < 0) multiplier = 0; 
 
         this.CurrentHealth = Math.Max(0, this.CurrentHealth * multiplier);
-        this.CurrentMana = Mathf.Max(0, this.CurrentMana * multiplier);
+        this.CurrentMana *= multiplier;
         
         // Chỉ số Tấn công và Phòng thủ
         this.CurrentPhysicalAttack *= multiplier;

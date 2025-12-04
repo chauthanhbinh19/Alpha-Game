@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,7 +37,7 @@ public class ResearchsController : MonoBehaviour
         ResearchButtonPrefab = UIManager.Instance.GetGeneralButton("ResearchButtonPrefab");
         ResearchPanelPrefab = UIManager.Instance.GetGeneralPanel("ResearchPanelPrefab");
     }
-    public void CreateResearchPanel()
+    public async Task CreateResearchPanelAsync()
     {
         GameObject currentObject = Instantiate(ResearchPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -53,7 +54,7 @@ public class ResearchsController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        var Researchs = ResearchsService.Create().GetResearchs(User.CurrentUserId, 1000, 0);
+        var Researchs = await ResearchsService.Create().GetResearchsAsync(User.CurrentUserId, 1000, 0);
         CreateResearchs(Researchs, contentPanel);
     }
     public void CreateResearchs(List<Researchs> Researchs, Transform contentPanel)

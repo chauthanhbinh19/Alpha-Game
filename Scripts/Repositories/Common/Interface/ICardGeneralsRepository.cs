@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ICardGeneralsRepository
 {
-    List<string> GetUniqueCardGeneralsTypes();
-    List<string> GetUniqueCardGeneralsId();
-    List<CardGenerals> GetCardGenerals(string type, int pageSize, int offset, string rare);
-    int GetCardGeneralsCount(string type, string rare);
-    List<CardGenerals> GetCardGeneralsRandom(string type, int pageSize);
-    List<CardGenerals> GetAllCardGenerals(string type);
-    CardGenerals GetCardGeneralsById(string Id);
-    List<CardGenerals> GetCardGeneralsWithPrice(string type, int pageSize, int offset);
-    int GetCardGeneralsWithPriceCount(string type);
+    Task<List<string>> GetUniqueCardGeneralsTypesAsync();
+    Task<List<string>> GetUniqueCardGeneralsIdAsync();
+    Task<List<CardGenerals>> GetCardGeneralsAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetCardGeneralsCountAsync(string type, string rare);
+    Task<List<CardGenerals>> GetCardGeneralsRandomAsync(string type, int pageSize);
+    Task<List<CardGenerals>> GetAllCardGeneralsAsync(string type);
+    Task<CardGenerals> GetCardGeneralByIdAsync(string Id);
+    Task<List<CardGenerals>> GetCardGeneralsWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetCardGeneralsWithPriceCountAsync(string type);
 }

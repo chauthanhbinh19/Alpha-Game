@@ -80,8 +80,8 @@ public class CardMilitariesGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var militaryGalleryService = CardMilitaryGalleryService.Create();
-                militaryGalleryService.UpdateStatusCardMilitaryGallery(military.Id);
+                var militaryGalleryService = CardMilitariesGalleryService.Create();
+                await militaryGalleryService.UpdateStatusCardMilitaryGalleryAsync(military.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -89,7 +89,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -106,10 +106,10 @@ public class CardMilitariesGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CardMilitaryGalleryService.Create().UpdateCardMilitaryGalleryPower(military.Id);
+                await CardMilitariesGalleryService.Create().UpdateCardMilitaryGalleryPowerAsync(military.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

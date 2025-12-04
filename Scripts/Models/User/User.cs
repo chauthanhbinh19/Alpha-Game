@@ -1,10 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using MySql.Data.MySqlClient;
-using System;
-using System.Data.Common;
-
 public class User
 {
     // public GameObject signInPanel;

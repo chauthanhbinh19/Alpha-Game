@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -93,7 +94,7 @@ public class UserCollaborationsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(collaboration, currentObject);
+            _=GetLevelAsync(collaboration, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
@@ -103,7 +104,7 @@ public class UserCollaborationsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(collaboration, currentObject);
+            _=GetUpgradeAsync(collaboration, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -114,7 +115,7 @@ public class UserCollaborationsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(collaboration, currentObject);
+                _=GetLevelAsync(collaboration, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -122,7 +123,7 @@ public class UserCollaborationsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(collaboration, currentObject);
+                _=GetUpgradeAsync(collaboration, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -164,7 +165,7 @@ public class UserCollaborationsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, collaboration, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -178,7 +179,7 @@ public class UserCollaborationsController : MonoBehaviour
             
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.COLLABORATION);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.COLLABORATION);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -187,7 +188,7 @@ public class UserCollaborationsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Collaborations currentCard = new Collaborations();
-                currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
+                currentCard = await UserCollaborationsService.Create().GetUserCollaborationByIdAsync(User.CurrentUserId, collaboration.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -198,8 +199,8 @@ public class UserCollaborationsController : MonoBehaviour
                 {
                     Collaborations newCard = new Collaborations();
 
-                    newCard = UserCollaborationService.Create().GetNewLevelPower(collaboration, increasePerLevel);
-                    UserCollaborationService.Create().UpdateCollaborationsLevel(newCard, currentLevel + 1);
+                    newCard = await UserCollaborationsService.Create().GetNewLevelPowerAsync(collaboration, increasePerLevel);
+                    await UserCollaborationsService.Create().UpdateCollaborationLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -207,14 +208,14 @@ public class UserCollaborationsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Collaborations currentCard = UserCollaborationService.Create().GetUserCollaborationsById(User.CurrentUserId, collaboration.Id);
+                Collaborations currentCard = await UserCollaborationsService.Create().GetUserCollaborationByIdAsync(User.CurrentUserId, collaboration.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -230,8 +231,8 @@ public class UserCollaborationsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Collaborations newCard = UserCollaborationService.Create().GetNewLevelPower(collaboration, levelsGained * increasePerLevel);
-                    UserCollaborationService.Create().UpdateCollaborationsLevel(newCard, currentLevel);
+                    Collaborations newCard = await UserCollaborationsService.Create().GetNewLevelPowerAsync(collaboration, levelsGained * increasePerLevel);
+                    await UserCollaborationsService.Create().UpdateCollaborationLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -240,7 +241,7 @@ public class UserCollaborationsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -250,7 +251,7 @@ public class UserCollaborationsController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -267,7 +268,7 @@ public class UserCollaborationsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.COLLABORATION);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.COLLABORATION);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -341,24 +342,24 @@ public class UserCollaborationsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Collaborations newCollaboration = new Collaborations();
 
-                    newCollaboration = UserCollaborationService.Create().GetNewBreakthroughPower(collaboration, increasePerUpgrade);
-                    UserCollaborationService.Create().UpdateCollaborationsBreakthrough(newCollaboration, collaboration.Star + 1, collaboration.Quantity);
+                    newCollaboration = await UserCollaborationsService.Create().GetNewBreakthroughPowerAsync(collaboration, increasePerUpgrade);
+                    await UserCollaborationsService.Create().UpdateCollaborationBreakthroughAsync(newCollaboration, collaboration.Star + 1, collaboration.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    CollaborationGalleryService.Create().UpdateStarCollaborationsGallery(collaboration.Id, collaboration.Star + 1);
+                    await CollaborationsGalleryService.Create().UpdateStarCollaborationGalleryAsync(collaboration.Id, collaboration.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(collaboration.Star, currentObject);
                 }
                 else

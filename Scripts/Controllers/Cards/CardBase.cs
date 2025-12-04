@@ -39,7 +39,7 @@ public abstract class CardBase
     public double VitalityRegenerationResistanceRate { get; set; } = 0;
     public double AccuracyRate { get; set; } = 0;
     public double LifestealRate { get; set; } = 0;
-    public float Mana { get; set; } = 0;
+    public double Mana { get; set; } = 0;
     public double ManaRegenerationRate { get; set; } = 0;
     public double ShieldStrength { get; set; } = 0;
     public double Tenacity { get; set; } = 0;
@@ -90,7 +90,7 @@ public abstract class CardBase
     public double CurrentVitalityRegenerationResistanceRate { get; set; } = 0;
     public double CurrentAccuracyRate { get; set; } = 0;
     public double CurrentLifestealRate { get; set; } = 0;
-    public float CurrentMana { get; set; } = 0;
+    public double CurrentMana { get; set; } = 0;
     public double CurrentManaRegenerationRate { get; set; } = 0;
     public double CurrentShieldStrength { get; set; } = 0;
     public double CurrentTenacity { get; set; } = 0;

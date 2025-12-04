@@ -1,15 +1,16 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserMedalsService
 {
-    Medals GetNewLevelPower(Medals c, double coefficient);
-    Medals GetNewBreakthroughPower(Medals c, double coefficient);
-    List<Medals> GetUserMedals(string user_id, int pageSize, int offset, string rare);
-    int GetUserMedalsCount(string user_id, string rare);
-    bool InsertUserMedals(Medals medals, string userId);
-    bool UpdateMedalsLevel(Medals medals, int cardLevel);
-    bool UpdateMedalsBreakthrough(Medals medals, int star, double quantity);
-    Medals GetUserMedalsById(string user_id, string Id);
-    Medals SumPowerUserMedals();
+    Task<Medals> GetNewLevelPowerAsync(Medals c, double coefficient);
+    Task<Medals> GetNewBreakthroughPowerAsync(Medals c, double coefficient);
+    Task<List<Medals>> GetUserMedalsAsync(string user_id, int pageSize, int offset, string rare);
+    Task<int> GetUserMedalsCountAsync(string user_id, string rare);
+    Task<bool> InsertUserMedalAsync(Medals Medals, string userId);
+    Task<bool> UpdateMedalLevelAsync(Medals Medals, int TitleLevel);
+    Task<bool> UpdateMedalBreakthroughAsync(Medals Medals, int star, double quantity);
+    Task<Medals> GetUserMedalByIdAsync(string user_id, string Id);
+    Task<Medals> SumPowerUserMedalsAsync();
 
 }

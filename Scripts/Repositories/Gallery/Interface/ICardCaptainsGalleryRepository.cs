@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ICardCaptainsGalleryRepository
 {
-    List<CardCaptains> GetCardCaptainsCollection(string type, int pageSize, int offset, string rare);
-    int GetCardCaptainsCount(string type, string rare);
-    void InsertCardCaptainsGallery(string Id, CardCaptains CaptainFromDB);
-    void UpdateStatusCardCaptainsGallery(string Id);
-    void UpdateStarCardCaptainsGallery(string Id, double star);
-    void UpdateCardCaptainsGalleryPower(string Id, CardCaptains CardCaptainFromDB);
-    CardCaptains SumPowerCardCaptainsGallery();
+    Task<List<CardCaptains>> GetCardCaptainsCollectionAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetCardCaptainsCountAsync(string type, string rare);
+    Task InsertCardCaptainGalleryAsync(string Id, CardCaptains CardCaptainFromDB);
+    Task UpdateStatusCardCaptainGalleryAsync(string Id);
+    Task UpdateStarCardCaptainGalleryAsync(string Id, double star);
+    Task UpdateCardCaptainGalleryPowerAsync(string Id, CardCaptains CardCaptainFromDB);
+    Task<CardCaptains> SumPowerCardCaptainsGalleryAsync();
 }

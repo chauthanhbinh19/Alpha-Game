@@ -32,7 +32,7 @@ public abstract class BaseEntity
     public double VitalityRegenerationResistanceRate { get; set; } = 0;
     public double AccuracyRate { get; set; } = 0;
     public double LifestealRate { get; set; } = 0;
-    public float Mana { get; set; } = 0;
+    public double Mana { get; set; } = 0;
     public double ManaRegenerationRate { get; set; } = 0;
     public double ShieldStrength { get; set; } = 0;
     public double Tenacity { get; set; } = 0;

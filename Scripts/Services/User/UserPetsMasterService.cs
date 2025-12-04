@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 public class UserPetsMasterService : IUserPetsMasterService
 {
@@ -15,18 +16,18 @@ public class UserPetsMasterService : IUserPetsMasterService
         return new UserPetsMasterService(new UserPetsMasterRepository());
     }
 
-    public Master GetPetsMaster(string type, string card_id)
+    public async Task<Master> GetPetMasterAsync(string type, string card_id)
     {
-        return _userPetsMasterRepository.GetPetsMaster(type, card_id);
+        return await _userPetsMasterRepository.GetPetMasterAsync(type, card_id);
     }
 
-    public void InsertOrUpdatePetsMaster(Master master, string type, string card_id)
+    public async Task InsertOrUpdatePetMasterAsync(Master master, string type, string card_id)
     {
-        _userPetsMasterRepository.InsertOrUpdatePetsMaster(master, type, card_id);
+        await _userPetsMasterRepository.InsertOrUpdatePetMasterAsync(master, type, card_id);
     }
 
-    public Master GetSumPetsMaster(string user_id, string card_id)
+    public async Task<Master> GetSumPetsMasterAsync(string user_id, string card_id)
     {
-        return _userPetsMasterRepository.GetSumPetsMaster(user_id, card_id);;
+        return await _userPetsMasterRepository.GetSumPetsMasterAsync(user_id, card_id);;
     }
 }

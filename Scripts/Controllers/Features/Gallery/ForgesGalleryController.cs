@@ -83,8 +83,8 @@ public class ForgesGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var forgeGalleryService = ForgeGalleryService.Create();
-                forgeGalleryService.UpdateStatusForgeGallery(forge.Id);
+                var forgeGalleryService = ForgesGalleryService.Create();
+                await forgeGalleryService.UpdateStatusForgeGalleryAsync(forge.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -92,7 +92,7 @@ public class ForgesGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -109,10 +109,10 @@ public class ForgesGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                ForgeGalleryService.Create().UpdateForgeGalleryPower(forge.Id);
+                await ForgesGalleryService.Create().UpdateForgeGalleryPowerAsync(forge.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

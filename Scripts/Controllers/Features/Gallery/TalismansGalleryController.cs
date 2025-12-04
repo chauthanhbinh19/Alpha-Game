@@ -83,8 +83,8 @@ public class TalismansGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var talismanGalleryService = TalismanGalleryService.Create();
-                talismanGalleryService.UpdateStatusTalismanGallery(talisman.Id);
+                var talismanGalleryService = TalismansGalleryService.Create();
+                await talismanGalleryService.UpdateStatusTalismanGalleryAsync(talisman.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -92,7 +92,7 @@ public class TalismansGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -109,10 +109,10 @@ public class TalismansGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                TalismanGalleryService.Create().UpdateTalismanGalleryPower(talisman.Id);
+                await TalismansGalleryService.Create().UpdateTalismanGalleryPowerAsync(talisman.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

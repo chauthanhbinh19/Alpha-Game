@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 public interface IRelicsService
 {
-    List<string> GetUniqueRelicsTypes();
-    List<string> GetUniqueRelicsId();
-    List<Relics> GetRelics(string type, int pageSize, int offset, string rare);
-    int GetRelicsCount(string type, string rare);
-    List<Relics> GetRelicsWithPrice(string type, int pageSize, int offset);
-    int GetRelicsWithPriceCount(string type);
-    Relics GetRelicsById(string Id);
-    Relics SumPowerRelicsPercent();
+    Task<List<string>> GetUniqueRelicsTypesAsync();
+    Task<List<string>> GetUniqueRelicsIdAsync();
+    Task<List<Relics>> GetRelicsAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetRelicsCountAsync(string type, string rare);
+    Task<List<Relics>> GetRelicsWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetRelicsWithPriceCountAsync(string type);
+    Task<Relics> GetRelicByIdAsync(string id);
+    Task<Relics> SumPowerRelicsPercentAsync();
 }

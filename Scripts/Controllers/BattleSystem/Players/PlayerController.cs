@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 public class PlayerController
 {
@@ -14,9 +15,9 @@ public class PlayerController
         _loadTeamService = new LoadTeams();
     }
 
-    public void GetPlayerCard(string userId, string teamId)
+    public async Task GetPlayerCardAsync(string userId, string teamId)
     {
-        allCards = _loadTeamService.LoadPlayerTeamCard(userId, teamId);
+        allCards = await _loadTeamService.LoadPlayerTeamCardAsync(userId, teamId);
     }
 
     public void Attack(PlayerController opponent)

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IMasterBoardService
 {
-    List<string> GetUniqueName();
+    Task<List<string>> GetUniqueNameAsync();
 }

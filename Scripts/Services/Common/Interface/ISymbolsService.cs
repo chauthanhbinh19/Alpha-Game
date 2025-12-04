@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ISymbolsService
 {
-    List<string> GetUniqueSymbolsTypes();
-    List<string> GetUniqueSymbolsId();
-    List<Symbols> GetSymbols(string type, int pageSize, int offset, string rare);
-    int GetSymbolsCount(string type, string rare);
-    List<Symbols> GetSymbolsWithPrice(string type, int pageSize, int offset);
-    int GetSkillsWithPriceCount(string type);
-    Symbols GetSymbolsById(string Id);
-    Symbols SumPowerSymbolsPercent();
+    Task<List<string>> GetUniqueSymbolsTypesAsync();
+    Task<List<string>> GetUniqueSymbolsIdAsync();
+    Task<List<Symbols>> GetSymbolsAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetSymbolsCountAsync(string type, string rare);
+    Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetSymbolsWithPriceCountAsync(string type);
+    Task<Symbols> GetSymbolByIdAsync(string Id);
+    Task<Symbols> SumPowerSymbolsPercentAsync();
 }

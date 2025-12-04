@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class MainMenuAnimeStatsManager : MonoBehaviour
 {
@@ -46,14 +47,14 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         foreach (Button button in buttons)
         {
             string buttonName = button.name; // Lưu lại giá trị cục bộ để tránh lỗi closure
-            button.onClick.AddListener(() =>
+            button.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CreateMainMenuAnimeStatsManager(buttonName);
+                await CreateMainMenuAnimeStatsManagerAsync(buttonName);
             });
         }
     }
-    public void CreateMainMenuAnimeStatsManager(string nameType)
+    public async Task CreateMainMenuAnimeStatsManagerAsync(string nameType)
     {
         animeType = nameType;
         currentObject = Instantiate(MainMenuAnimePanelPrefab, MainPanel);
@@ -80,7 +81,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType(LocalizationManager.Get(nameType));
+        uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(LocalizationManager.Get(nameType));
         if (uniqueTypes.Count > 0)
         {
             int index = 0;
@@ -106,7 +107,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                     mainType = subtype;
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     // mainId = cardHeroes.id;
-                    CreateAnimeStats();
+                    await CreateAnimeStatsAsync();
                     if (User.CurrentUserLevel >= value)
                     {
                         LevelCondition.gameObject.SetActive(false);
@@ -144,7 +145,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
 
         // mainId = cardHeroes.id;
-        CreateAnimeStats();
+        _=CreateAnimeStatsAsync();
         if (User.CurrentUserLevel >= value)
         {
             LevelCondition.gameObject.SetActive(false);
@@ -156,18 +157,18 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             warningText.text = MessageHelper.WaringLevel(value);
         }
     }
-    public void CreateAnimeStats()
+    public async Task CreateAnimeStatsAsync()
     {
         var animeStatsService = AnimeStatsService.Create();
-        AnimeStats animeStats = animeStatsService.GetAnimeStats(mainType, User.CurrentUserId);
+        AnimeStats animeStats = await animeStatsService.GetAnimeStatsAsync(mainType, User.CurrentUserId);
         slotObject = Instantiate(AnimeSlotPrefab, SlotPanel);
 
-        Currencies silver = UserCurrencyService.Create().GetUserCurrencyByName(AppConstants.Currency.SILVER);
+        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         string itemName = animeType + " " + mainType;
-        Items item = userItemsService.GetUserItemByName(itemName);
+        Items item = await userItemsService.GetUserItemByNameAsync(itemName);
         SetUI(slotObject, mainType, animeStats.Level);
-        SetMaterialUI(currentObject, mainType, item, silver.Quantity, animeStats.Level);
+        await SetMaterialUIAsync(currentObject, mainType, item, silver.Quantity, animeStats.Level);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(async () =>
@@ -178,10 +179,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
-                userItemsService.UpdateUserItemsQuantity(item);
+                await userItemsService.UpdateUserItemQuantityAsync(item);
                 AnimeStats newanimeStats = new AnimeStats();
                 newanimeStats = EnhanceAnimeStats(animeStats, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
 
                 UpLevel(newanimeStats, mainType);
                 double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -189,7 +190,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
-                CreateAnimeStats();
+                await CreateAnimeStatsAsync();
             }
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
@@ -200,10 +201,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
-                userItemsService.UpdateUserItemsQuantity(item);
+                await userItemsService.UpdateUserItemQuantityAsync(item);
                 AnimeStats newanimeStats = new AnimeStats();
                 newanimeStats = EnhanceAnimeStats(animeStats, result.levelsGained);
-                UserCurrencyService.Create().UpdateUserCurrency(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
 
                 UpLevel(newanimeStats, mainType);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -211,7 +212,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 Destroy(slotObject);
-                CreateAnimeStats();
+                await CreateAnimeStatsAsync();
             }
         });
     }
@@ -273,10 +274,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         LevelText.text = level.ToString();
     }
-    public void SetMaterialUI(GameObject gameObject, string type, Items item, double currencyQuantity, int rankLevel)
+    public async Task SetMaterialUIAsync(GameObject gameObject, string type, Items item, double currencyQuantity, int rankLevel)
     {
         Transform currencyPanel = gameObject.transform.Find("DictionaryCards/Currency");
-        List<Currencies> currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
+        List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
         ButtonEvent.Instance.Close(currencyPanel);
         CurrenciesManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
@@ -484,6 +485,6 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     }
     public void UpLevel(AnimeStats animeStats, string type)
     {
-        AnimeStatsService.Create().InsertOrUpdateAnimeStats(animeStats, type, User.CurrentUserId);
+        _=AnimeStatsService.Create().InsertOrUpdateAnimeStatsAsync(animeStats, type, User.CurrentUserId);
     }
 }

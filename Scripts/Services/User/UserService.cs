@@ -25,32 +25,32 @@ public class UserService : IUserService
             await CreateUserCurrencyAsync(userId);
             User.CurrentUserId = userId;
 
-            UserBordersService.Create().InsertUserBordersById("359", userId);
-            BordersGalleryService.Create().InsertBordersGallery("359");
-            UserBordersService.Create().UpdateIsUsedBorders("359", userId, true);
+            await UserBordersService.Create().InsertUserBorderByIdAsync("359", userId);
+            await BordersGalleryService.Create().InsertBorderGalleryAsync("359");
+            await UserBordersService.Create().UpdateIsUsedBorderAsync("359", userId, true);
 
-            UserAvatarsService.Create().InsertUserAvatarsById("1", userId);
-            AvatarsGalleryService.Create().InsertAvatarsGallery("1");
-            UserAvatarsService.Create().UpdateIsUsedAvatars("1", userId, true);
+            await UserAvatarsService.Create().InsertUserAvatarByIdAsync("1", userId);
+            await AvatarsGalleryService.Create().InsertAvatarGalleryAsync("1");
+            await UserAvatarsService.Create().UpdateIsUsedAvatarAsync("1", userId, true);
 
-            PowerManagerService.Create().InsertUserStats(userId);
+            await PowerManagerService.Create().InsertUserStatsAsync(userId);
 
-            Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET);
-            UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
-            Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET);
-            UserItemsService.Create().InsertUserItems(cardCaptainsTicket, 1000000);
-            Items cardMilitaryTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET);
-            UserItemsService.Create().InsertUserItems(cardMilitaryTicket, 1000000);
-            Items cardSpellTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET);
-            UserItemsService.Create().InsertUserItems(cardSpellTicket, 1000000);
-            Items cardMonstersTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET);
-            UserItemsService.Create().InsertUserItems(cardMonstersTicket, 1000000);
-            Items cardColonelsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET);
-            UserItemsService.Create().InsertUserItems(cardColonelsTicket, 1000000);
-            Items cardGeneralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET);
-            UserItemsService.Create().InsertUserItems(cardGeneralsTicket, 1000000);
-            Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET);
-            UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
+            Items cardHeroesTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HEROES_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardHeroesTicket, 1000000);
+            Items cardCaptainsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAINS_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardCaptainsTicket, 1000000);
+            Items cardMilitaryTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardMilitaryTicket, 1000000);
+            Items cardSpellTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardSpellTicket, 1000000);
+            Items cardMonstersTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTERS_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardMonstersTicket, 1000000);
+            Items cardColonelsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONELS_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardColonelsTicket, 1000000);
+            Items cardGeneralsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERALS_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardGeneralsTicket, 1000000);
+            Items cardAdmiralsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRALS_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardAdmiralsTicket, 1000000);
 
             for (int i = 0; i < 50; i++)
             {
@@ -80,10 +80,10 @@ public class UserService : IUserService
 
             user = await _userRepository.SignInWithUsernameAndPasswordAsync(username, password);
             AuthManager.SaveUserId(user.Id);
-            Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
+            Borders borders = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
             string Border = borders.Image;
 
-            Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+            Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
             string Image = avatar.Image;
 
             User.CurrentUserAvatar = Image;
@@ -95,13 +95,13 @@ public class UserService : IUserService
             DateTime now = DateTime.Now;
             int year = now.Year;
             int month = now.Month;
-            if (!UserDailyCheckinService.Create().CheckUserDailyCheckinStatus(User.CurrentUserId, month, year))
+            if (!await UserDailyCheckinService.Create().CheckUserDailyCheckinStatusAsync(User.CurrentUserId, month, year))
             {
                 int daysInMonth = DateTime.DaysInMonth(year, month);
                 for (int day = 1; day <= daysInMonth; day++)
                 {
                     DateTime currentDate = new DateTime(year, month, day);
-                    UserDailyCheckinService.Create().DeleteUserDailyCheckin(User.CurrentUserId, day.ToString());
+                    await UserDailyCheckinService.Create().DeleteUserDailyCheckinAsync(User.CurrentUserId, day.ToString());
                     UserDailyCheckin userDailyCheckin = new UserDailyCheckin
                     {
                         UserId = User.CurrentUserId,
@@ -111,7 +111,7 @@ public class UserService : IUserService
                         Month = month,
                         Year = year
                     };
-                    UserDailyCheckinService.Create().InsertUserDailyCheckin(User.CurrentUserId, userDailyCheckin);
+                    await UserDailyCheckinService.Create().InsertUserDailyCheckinAsync(User.CurrentUserId, userDailyCheckin);
                 }
             }
 
@@ -160,10 +160,10 @@ public class UserService : IUserService
 
         if (user != null)
         {
-            Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
+            Borders borders = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
             string Border = borders.Image;
 
-            Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+            Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
             string Image = avatar.Image;
 
             User.CurrentUserAvatar = Image;
@@ -175,13 +175,13 @@ public class UserService : IUserService
             DateTime now = DateTime.Now;
             int year = now.Year;
             int month = now.Month;
-            if (!UserDailyCheckinService.Create().CheckUserDailyCheckinStatus(User.CurrentUserId, month, year))
+            if (!await UserDailyCheckinService.Create().CheckUserDailyCheckinStatusAsync(User.CurrentUserId, month, year))
             {
                 int daysInMonth = DateTime.DaysInMonth(year, month);
                 for (int day = 1; day <= daysInMonth; day++)
                 {
                     DateTime currentDate = new DateTime(year, month, day);
-                    UserDailyCheckinService.Create().DeleteUserDailyCheckin(User.CurrentUserId, day.ToString());
+                    await UserDailyCheckinService.Create().DeleteUserDailyCheckinAsync(User.CurrentUserId, day.ToString());
                     UserDailyCheckin userDailyCheckin = new UserDailyCheckin
                     {
                         UserId = User.CurrentUserId,
@@ -191,7 +191,7 @@ public class UserService : IUserService
                         Month = month,
                         Year = year
                     };
-                    UserDailyCheckinService.Create().InsertUserDailyCheckin(User.CurrentUserId, userDailyCheckin);
+                    await UserDailyCheckinService.Create().InsertUserDailyCheckinAsync(User.CurrentUserId, userDailyCheckin);
                 }
             }
 
@@ -222,10 +222,10 @@ public class UserService : IUserService
     {
         User user = await _userRepository.GetUserByIdAsync(Id);
 
-        Borders borders = UserBordersService.Create().GetBordersByUsed(user.Id);
+        Borders borders = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
         string Border = borders.Image;
 
-        Avatars avatar = UserAvatarsService.Create().GetAvatarsByUsed(user.Id);
+        Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
         string Image = avatar.Image;
 
         User.CurrentUserAvatar = Image;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,7 +78,7 @@ public class ForgesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateForgeTrade(List<Forges> forges, string subType, Transform currentContent,
+    public async Task CreateForgeTradeAsync(List<Forges> forges, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var forge in forges)
@@ -132,7 +133,7 @@ public class ForgesController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetForgeCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetForgesCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -244,12 +245,12 @@ public class ForgesController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Forges forge)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(forge.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(forge.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -280,8 +281,8 @@ public class ForgesController : MonoBehaviour
             if (obj is Forges forge)
             {
                 forge.Quantity = forge.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(forge.Currency.Id, price);
-                bool success = UserForgeService.Create().InsertUserForge(forge, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(forge.Currency.Id, price);
+                bool success = await UserForgesService.Create().InsertUserForgeAsync(forge, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -294,8 +295,8 @@ public class ForgesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    ForgeGalleryService.Create().InsertForgeGallery(forge.Id);
-                    currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
+                    await ForgesGalleryService.Create().InsertForgeGalleryAsync(forge.Id);
+                    currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -315,7 +316,7 @@ public class ForgesController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

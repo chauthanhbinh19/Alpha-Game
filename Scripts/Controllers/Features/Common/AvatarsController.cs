@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -79,7 +80,7 @@ public class AvatarsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateAvatarsTrade(List<Avatars> avatars, string subType, Transform currentContent,
+    public async Task CreateAvatarsTradeAsync(List<Avatars> avatars, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var avatar in avatars)
@@ -132,7 +133,7 @@ public class AvatarsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetBordersCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetBordersCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -244,12 +245,12 @@ public class AvatarsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Borders borders)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(borders.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(borders.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -280,8 +281,8 @@ public class AvatarsController : MonoBehaviour
             if (obj is Avatars avatars)
             {
                 avatars.Quantity = avatars.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency((string)avatars.Currency.Id, price);
-                bool success = UserAvatarsService.Create().InsertUserAvatars(avatars, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync((string)avatars.Currency.Id, price);
+                bool success = await UserAvatarsService.Create().InsertUserAvatarAsync(avatars, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -294,8 +295,8 @@ public class AvatarsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    AvatarsGalleryService.Create().InsertAvatarsGallery((string)avatars.Id);
-                    currencies = UserCurrencyService.Create().GetBooksCurrency(subType);
+                    await AvatarsGalleryService.Create().InsertAvatarGalleryAsync((string)avatars.Id);
+                    currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension((string)avatars.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -315,7 +316,7 @@ public class AvatarsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserRelicsService
 {
-    Relics GetNewLevelPower(Relics c, double coefficient);
-    Relics GetNewBreakthroughPower(Relics c, double coefficient);
-    List<Relics> GetUserRelics(string user_id, string type, int pageSize, int offset, string rare);
-    int GetUserRelicsCount(string user_id, string type, string rare);
-    bool InsertUserReclis(Relics relics, string userId);
-    bool UpdateRelicsLevel(Relics relics, int cardLevel);
-    bool UpdateRelicsBreakthrough(Relics relics, int star, double quantity);
-    Relics GetUserRelicsById(string user_id, string Id);
-    Relics SumPowerUserRelics();
+    Task<Relics> GetNewLevelPowerAsync(Relics c, double coefficient);
+    Task<Relics> GetNewBreakthroughPowerAsync(Relics c, double coefficient);
+    Task<List<Relics>> GetUserRelicsAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserRelicsCountAsync(string user_id, string type, string rare);
+    Task<bool> InsertUserRelicAsync(Relics Relic, string userId);
+    Task<bool> UpdateRelicLevelAsync(Relics Relic, int cardLevel);
+    Task<bool> UpdateRelicBreakthroughAsync(Relics Relic, int star, double quantity);
+    Task<Relics> GetUserRelicByIdAsync(string user_id, string Id);
+    Task<Relics> SumPowerUserRelicsAsync();
 }

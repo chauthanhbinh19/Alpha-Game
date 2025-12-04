@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class EquipmentsService : IEquipmentsService
 {
@@ -14,40 +15,40 @@ public class EquipmentsService : IEquipmentsService
         return new EquipmentsService(new EquipmentsRepository());
     }
 
-    public List<string> GetUniqueEquipmentsTypes()
+    public async Task<List<string>> GetUniqueEquipmentsTypesAsync()
     {
-        return _equipmentsRepository.GetUniqueEquipmentsTypes();
+        return await _equipmentsRepository.GetUniqueEquipmentsTypesAsync();
     }
 
-    public List<Equipments> GetEquipments(string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetEquipmentsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> list = _equipmentsRepository.GetEquipments(type, pageSize, offset, rare);
+        List<Equipments> list = await _equipmentsRepository.GetEquipmentsAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetEquipmentsCount(string type, string rare)
+    public async Task<int> GetEquipmentsCountAsync(string type, string rare)
     {
-        return _equipmentsRepository.GetEquipmentsCount(type, rare);
+        return await _equipmentsRepository.GetEquipmentsCountAsync(type, rare);
     }
 
-    public List<Equipments> GetEquipmentsWithCurrency(string type, int pageSize, int offset)
+    public async Task<List<Equipments>> GetEquipmentsWithCurrencyAsync(string type, int pageSize, int offset)
     {
-        return _equipmentsRepository.GetEquipmentsWithCurrency(type, pageSize, offset);
+        return await _equipmentsRepository.GetEquipmentsWithCurrencyAsync(type, pageSize, offset);
     }
 
-    public List<string> GetEquipmentsSet(string type)
+    public async Task<List<string>> GetEquipmentsSetAsync(string type)
     {
-        return _equipmentsRepository.GetEquipmentsSet(type);
+        return await _equipmentsRepository.GetEquipmentsSetAsync(type);
     }
 
-    public Equipments GetEquipmentById(string Id)
+    public async Task<Equipments> GetEquipmentByIdAsync(string Id)
     {
-        return _equipmentsRepository.GetEquipmentById(Id);
+        return await _equipmentsRepository.GetEquipmentByIdAsync(Id);
     }
 
-    public List<string> GetUniqueEquipmentsId()
+    public async Task<List<string>> GetUniqueEquipmentsIdAsync()
     {
-        return _equipmentsRepository.GetUniqueEquipmentsId();
+        return await _equipmentsRepository.GetUniqueEquipmentsIdAsync();
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MasterBoardService : IMasterBoardService
 {
@@ -14,8 +15,8 @@ public class MasterBoardService : IMasterBoardService
         return new MasterBoardService(new MasterBoardRepository());
     }
 
-    public List<string> GetUniqueName()
+    public async Task<List<string>> GetUniqueNameAsync()
     {
-        return _masterBoardRepository.GetUniqueName();
+        return await _masterBoardRepository.GetUniqueNameAsync();
     }
 }

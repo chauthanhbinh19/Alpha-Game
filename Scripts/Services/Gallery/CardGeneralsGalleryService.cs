@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardGeneralsGalleryService : ICardGeneralsGalleryService
 {
@@ -14,44 +15,44 @@ public class CardGeneralsGalleryService : ICardGeneralsGalleryService
         return new CardGeneralsGalleryService(new CardGeneralsGalleryRepository());
     }
 
-    public List<CardGenerals> GetCardGeneralsCollection(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardGenerals>> GetCardGeneralsCollectionAsync(string type, int pageSize, int offset, string rare)
     {
-        List<CardGenerals> list = _cardGeneralsGalleryRepository.GetCardGeneralsCollection(type, pageSize, offset, rare);
+        List<CardGenerals> list = await _cardGeneralsGalleryRepository.GetCardGeneralsCollectionAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardGeneralsCount(string type, string rare)
+    public async Task<int> GetCardGeneralsCountAsync(string type, string rare)
     {
-        return _cardGeneralsGalleryRepository.GetCardGeneralsCount(type, rare);
+        return await _cardGeneralsGalleryRepository.GetCardGeneralsCountAsync(type, rare);
     }
 
-    public void InsertCardGeneralsGallery(string Id)
+    public async Task InsertCardGeneralGalleryAsync(string Id)
     {
         ICardGeneralsRepository _repository = new CardGeneralsRepository();
         CardGeneralsService _service = new CardGeneralsService(_repository);
-        _cardGeneralsGalleryRepository.InsertCardGeneralsGallery(Id, _service.GetCardGeneralsById(Id));
+        await _cardGeneralsGalleryRepository.InsertCardGeneralGalleryAsync(Id, await _service.GetCardGeneralByIdAsync(Id));
     }
 
-    public void UpdateStatusCardGeneralsGallery(string Id)
+    public async Task UpdateStatusCardGeneralGalleryAsync(string Id)
     {
-        _cardGeneralsGalleryRepository.UpdateStatusCardGeneralsGallery(Id);
+        await _cardGeneralsGalleryRepository.UpdateStatusCardGeneralGalleryAsync(Id);
     }
 
-    public CardGenerals SumPowerCardGeneralsGallery()
+    public async Task<CardGenerals> SumPowerCardGeneralsGalleryAsync()
     {
-        return _cardGeneralsGalleryRepository.SumPowerCardGeneralsGallery();
+        return await _cardGeneralsGalleryRepository.SumPowerCardGeneralsGalleryAsync();
     }
 
-    public void UpdateStarCardGeneralsGallery(string Id, double star)
+    public async Task UpdateStarCardGeneralGalleryAsync(string Id, double star)
     {
-        _cardGeneralsGalleryRepository.UpdateStarCardGeneralsGallery(Id, star);
+        await _cardGeneralsGalleryRepository.UpdateStarCardGeneralGalleryAsync(Id, star);
     }
 
-    public void UpdateCardGeneralsGalleryPower(string Id)
+    public async Task UpdateCardGeneralGalleryPowerAsync(string Id)
     {
         ICardGeneralsRepository _repository = new CardGeneralsRepository();
         CardGeneralsService _service = new CardGeneralsService(_repository);
-        _cardGeneralsGalleryRepository.UpdateCardGeneralsGalleryPower(Id, _service.GetCardGeneralsById(Id));
+        await _cardGeneralsGalleryRepository.UpdateCardGeneralGalleryPowerAsync(Id, await _service.GetCardGeneralByIdAsync(Id));
     }
 }

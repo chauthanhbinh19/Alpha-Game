@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,13 +53,13 @@ public class UserEquipmentsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(equipments, currentObject);
+            _=GetLevelAsync(equipments, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
 
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(equipments, currentObject);
+            _=GetUpgradeAsync(equipments, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -69,7 +70,7 @@ public class UserEquipmentsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(equipments, currentObject);
+                _=GetLevelAsync(equipments, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -77,7 +78,7 @@ public class UserEquipmentsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(equipments, currentObject);
+                _=GetUpgradeAsync(equipments, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -119,7 +120,7 @@ public class UserEquipmentsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, equipment, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -133,7 +134,7 @@ public class UserEquipmentsController : MonoBehaviour
             
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.EQUIPMENT);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.EQUIPMENT);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -142,7 +143,7 @@ public class UserEquipmentsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Equipments currentCard = new Equipments();
-                currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.Id);
+                currentCard = await UserEquipmentsService.Create().GetUserEquipmentsByIdAsync(User.CurrentUserId, equipment.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -153,8 +154,8 @@ public class UserEquipmentsController : MonoBehaviour
                 {
                     Equipments newCard = new Equipments();
 
-                    newCard = UserEquipmentsService.Create().GetNewLevelPower(equipment, increasePerLevel);
-                    UserEquipmentsService.Create().UpdateEquipmentsLevel(newCard, currentLevel + 1);
+                    newCard = await UserEquipmentsService.Create().GetNewLevelPowerAsync(equipment, increasePerLevel);
+                    await UserEquipmentsService.Create().UpdateEquipmentsLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -162,14 +163,14 @@ public class UserEquipmentsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Equipments currentCard = UserEquipmentsService.Create().GetUserEquipmentsById(User.CurrentUserId, equipment.Id);
+                Equipments currentCard = await UserEquipmentsService.Create().GetUserEquipmentsByIdAsync(User.CurrentUserId, equipment.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -185,8 +186,8 @@ public class UserEquipmentsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Equipments newCard = UserEquipmentsService.Create().GetNewLevelPower(equipment, levelsGained * increasePerLevel);
-                    UserEquipmentsService.Create().UpdateEquipmentsLevel(newCard, currentLevel);
+                    Equipments newCard = await UserEquipmentsService.Create().GetNewLevelPowerAsync(equipment, levelsGained * increasePerLevel);
+                    await UserEquipmentsService.Create().UpdateEquipmentsLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -195,7 +196,7 @@ public class UserEquipmentsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -205,7 +206,7 @@ public class UserEquipmentsController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -222,7 +223,7 @@ public class UserEquipmentsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.EQUIPMENT);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.EQUIPMENT);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -296,24 +297,24 @@ public class UserEquipmentsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Equipments newEquipment = new Equipments();
 
-                    newEquipment = UserEquipmentsService.Create().GetNewBreakthroughPower(equipments, increasePerUpgrade);
-                    UserEquipmentsService.Create().UpdateEquipmentsBreakthrough(newEquipment, equipments.Star + 1, equipments.Quantity);
+                    newEquipment = await UserEquipmentsService.Create().GetNewBreakthroughPowerAsync(equipments, increasePerUpgrade);
+                    await UserEquipmentsService.Create().UpdateEquipmentsBreakthroughAsync(newEquipment, equipments.Star + 1, equipments.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    EquipmentsGalleryService.Create().UpdateStarEquipmentsGallery(equipments.Id, equipments.Star + 1);
+                    await EquipmentsGalleryService.Create().UpdateStarEquipmentGalleryAsync(equipments.Id, equipments.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(equipments.Star, currentObject);
                 }
                 else

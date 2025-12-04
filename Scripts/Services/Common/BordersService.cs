@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class BordersService : IBordersService
 {
@@ -14,42 +15,42 @@ public class BordersService : IBordersService
         return new BordersService(new BordersRepository());
     }
 
-    public List<Borders> GetBorders(int pageSize, int offset, string rare)
+    public async Task<List<Borders>> GetBordersAsync(int pageSize, int offset, string rare)
     {
-        List<Borders> list = _bordersRepository.GetBorders(pageSize, offset, rare);
+        List<Borders> list = await _bordersRepository.GetBordersAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBordersCount(string rare)
+    public async Task<int> GetBordersCountAsync(string rare)
     {
-        return _bordersRepository.GetBordersCount(rare);
+        return await _bordersRepository.GetBordersCountAsync(rare);
     }
 
-    public List<Borders> GetBordersWithPrice(int pageSize, int offset)
+    public async Task<List<Borders>> GetBordersWithPriceAsync(int pageSize, int offset)
     {
-        List<Borders> list = _bordersRepository.GetBordersWithPrice(pageSize, offset);
+        List<Borders> list = await _bordersRepository.GetBordersWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBordersWithPriceCount()
+    public async Task<int> GetBordersWithPriceCountAsync()
     {
-        return _bordersRepository.GetBordersWithPriceCount();
+        return await _bordersRepository.GetBordersWithPriceCountAsync();
     }
 
-    public Borders GetBordersById(string Id)
+    public async Task<Borders> GetBorderByIdAsync(string Id)
     {
-        return _bordersRepository.GetBordersById(Id);
+        return await _bordersRepository.GetBorderByIdAsync(Id);
     }
 
-    public Borders SumPowerBordersPercent()
+    public async Task<Borders> SumPowerBordersPercentAsync()
     {
-        return _bordersRepository.SumPowerBordersPercent();
+        return await _bordersRepository.SumPowerBordersPercentAsync();
     }
 
-    public List<string> GetUniqueBordersId()
+    public async Task<List<string>> GetUniqueBordersIdAsync()
     {
-        return _bordersRepository.GetUniqueBordersId();
+        return await _bordersRepository.GetUniqueBordersIdAsync();
     }
 }

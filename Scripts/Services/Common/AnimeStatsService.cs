@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 public class AnimeStatsService : IAnimeStatsService
 {
     private readonly IAnimeStatsRepository _animeStatsRepository;
@@ -12,18 +14,18 @@ public class AnimeStatsService : IAnimeStatsService
         return new AnimeStatsService(new AnimeStatsRepository());
     }
 
-    public AnimeStats GetAnimeStats(string type, string user_id)
+    public async Task<AnimeStats> GetAnimeStatsAsync(string type, string user_id)
     {
-        return _animeStatsRepository.GetAnimeStats(type, user_id);
+        return await _animeStatsRepository.GetAnimeStatsAsync(type, user_id);
     }
 
-    public void InsertOrUpdateAnimeStats(AnimeStats animeStats, string type, string user_id)
+    public async Task InsertOrUpdateAnimeStatsAsync(AnimeStats animeStats, string type, string user_id)
     {
-        _animeStatsRepository.InsertOrUpdateAnimeStats(animeStats, type, user_id);
+        await _animeStatsRepository.InsertOrUpdateAnimeStatsAsync(animeStats, type, user_id);
     }
 
-    public AnimeStats GetSumAnimeStats(string user_id)
+    public async Task<AnimeStats> GetSumAnimeStatsAsync(string user_id)
     {
-        return _animeStatsRepository.GetSumAnimeStats(user_id);
+        return await _animeStatsRepository.GetSumAnimeStatsAsync(user_id);
     }
 }

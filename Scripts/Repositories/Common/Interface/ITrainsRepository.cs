@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ITrainsRepository
 {
-    List<string> GetUniqueTrainId();
-    List<Trains> GetTrains(string userId, int pageSize, int offset);
-    int GetTrainsCount(string rare);
-    List<Trains> GetTrainsWithPrice(int pageSize, int offset);
-    int GetTrainsWithPriceCount();
-    Trains GetTrainsById(string Id);
-    Trains SumPowerTrainsPercent();
+    Task<List<string>> GetUniqueTrainsIdAsync();
+    Task<List<Trains>> GetTrainsAsync(string userId, int pageSize, int offset);
+    Task<int> GetTrainsCountAsync(string rare);
+    Task<List<Trains>> GetTrainsWithPriceAsync(int pageSize, int offset);
+    Task<int> GetTrainsWithPriceCountAsync();
+    Task<Trains> GetTrainByIdAsync(string id);
+    Task<Trains> SumPowerTrainsPercentAsync();
 }

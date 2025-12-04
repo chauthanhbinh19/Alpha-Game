@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -96,7 +97,7 @@ public class RobotsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateRobotsTrade(List<Robots> RobotsList, string subType, Transform currentContent,
+    public async Task CreateRobotsTradeAsync(List<Robots> RobotsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var robot in RobotsList)
@@ -168,7 +169,7 @@ public class RobotsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetRobotsCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetRobotsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -280,12 +281,12 @@ public class RobotsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Robots Robots)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Robots.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Robots.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -316,8 +317,8 @@ public class RobotsController : MonoBehaviour
             if (obj is Robots robot)
             {
                 robot.Quantity = robot.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(robot.Currency.Id, price);
-                bool success = UserRobotsService.Create().InsertUserRobots(robot, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(robot.Currency.Id, price);
+                bool success = await UserRobotsService.Create().InsertUserRobotAsync(robot, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -330,8 +331,8 @@ public class RobotsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    RobotsGalleryService.Create().InsertRobotsGallery(robot.Id);
-                    currencies = UserCurrencyService.Create().GetRobotsCurrency(subType);
+                    await RobotsGalleryService.Create().InsertRobotGalleryAsync(robot.Id);
+                    currencies = await UserCurrenciesService.Create().GetRobotsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -351,7 +352,7 @@ public class RobotsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserMasterBoardService : IUserMasterBoardService
 {
@@ -14,18 +15,18 @@ public class UserMasterBoardService : IUserMasterBoardService
         return new UserMasterBoardService(new UserMasterBoardRepository());
     }
 
-    public List<MasterBoard> GetUserMasterBoard(string user_id, string name)
+    public async Task<List<MasterBoard>> GetUserMasterBoardAsync(string user_id, string name)
     {
-        return _userMesterBoardRepository.GetUserMasterBoard(user_id, name);
+        return await _userMesterBoardRepository.GetUserMasterBoardAsync(user_id, name);
     }
 
-    public void InsertUserMasterBoard(string user_id, MasterBoard masterBoard)
+    public async Task InsertUserMasterBoardAsync(string user_id, MasterBoard masterBoard)
     {
-        _userMesterBoardRepository.InsertUserMasterBoard(user_id, masterBoard);
+        await _userMesterBoardRepository.InsertUserMasterBoardAsync(user_id, masterBoard);
     }
 
-    public void UpdateUserMasterBoard(string user_id, MasterBoard masterBoard)
+    public async Task UpdateUserMasterBoardAsync(string user_id, MasterBoard masterBoard)
     {
-        _userMesterBoardRepository.UpdateUserMasterBoard(user_id, masterBoard);
+        await _userMesterBoardRepository.UpdateUserMasterBoardAsync(user_id, masterBoard);
     }
 }

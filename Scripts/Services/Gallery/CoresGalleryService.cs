@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CoresGalleryService : ICoresGalleryService
 {
@@ -14,44 +15,44 @@ public class CoresGalleryService : ICoresGalleryService
         return new CoresGalleryService(new CoresGalleryRepository());
     }
 
-    public List<Cores> GetCoresCollection(int pageSize, int offset, string rare)
+    public async Task<List<Cores>> GetCoresCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<Cores> list = _CoresGalleryRepository.GetCoresCollection(pageSize, offset, rare);
+        List<Cores> list = await _CoresGalleryRepository.GetCoresCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCoresCount(string rare)
+    public async Task<int> GetCoresCountAsync(string rare)
     {
-        return _CoresGalleryRepository.GetCoresCount(rare);
+        return await _CoresGalleryRepository.GetCoresCountAsync(rare);
     }
 
-    public void InsertCoresGallery(string Id)
+    public async Task InsertCoreGalleryAsync(string Id)
     {
         ICoresRepository _repository = new CoresRepository();
         CoresService _service = new CoresService(_repository);
-        _CoresGalleryRepository.InsertCoresGallery(Id, _service.GetCoresById(Id));
+        await _CoresGalleryRepository.InsertCoreGalleryAsync(Id, await _service.GetCoreByIdAsync(Id));
     }
 
-    public void UpdateStatusCoresGallery(string Id)
+    public async Task UpdateStatusCoreGalleryAsync(string Id)
     {
-        _CoresGalleryRepository.UpdateStatusCoresGallery(Id);
+        await _CoresGalleryRepository.UpdateStatusCoreGalleryAsync(Id);
     }
 
-    public Cores SumPowerCoresGallery()
+    public async Task<Cores> SumPowerCoresGalleryAsync()
     {
-        return _CoresGalleryRepository.SumPowerCoresGallery();
+        return await _CoresGalleryRepository.SumPowerCoresGalleryAsync();
     }
 
-    public void UpdateStarCoresGallery(string Id, double star)
+    public async Task UpdateStarCoreGalleryAsync(string Id, double star)
     {
-        _CoresGalleryRepository.UpdateStarCoresGallery(Id, star);
+        await _CoresGalleryRepository.UpdateStarCoreGalleryAsync(Id, star);
     }
 
-    public void UpdateCoresGalleryPower(string Id)
+    public async Task UpdateCoreGalleryPowerAsync(string Id)
     {
         ICoresRepository _repository = new CoresRepository();
         CoresService _service = new CoresService(_repository);
-        _CoresGalleryRepository.UpdateCoresGalleryPower(Id, _service.GetCoresById(Id));
+        await _CoresGalleryRepository.UpdateCoreGalleryPowerAsync(Id, await _service.GetCoreByIdAsync(Id));
     }
 }

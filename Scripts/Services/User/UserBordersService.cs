@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserBordersService : IUserBordersService
 {
@@ -14,42 +15,42 @@ public class UserBordersService : IUserBordersService
         return new UserBordersService(new UserBordersRepository());
     }
 
-    public List<Borders> GetUserBorders(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Borders>> GetUserBordersAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Borders> list = _userBordersRepository.GetUserBorders(user_id, pageSize, offset, rare);
+        List<Borders> list = await _userBordersRepository.GetUserBordersAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserBordersCount(string user_id, string rare)
+    public async Task<int> GetUserBordersCountAsync(string user_id, string rare)
     {
-        return _userBordersRepository.GetUserBordersCount(user_id, rare);
+        return await _userBordersRepository.GetUserBordersCountAsync(user_id, rare);
     }
 
-    public bool InsertUserBorders(Borders borders, string userId)
+    public async Task<bool> InsertUserBorderAsync(Borders borders, string userId)
     {
-        return _userBordersRepository.InsertUserBorders(borders, userId);
+        return await _userBordersRepository.InsertUserBorderAsync(borders, userId);
     }
 
-    public bool InsertUserBordersById(string borderId, string userId)
+    public async Task<bool> InsertUserBorderByIdAsync(string borderId, string userId)
     {
         IBordersRepository _repository = new BordersRepository();
         BordersService _service = new BordersService(_repository);
-        return _userBordersRepository.InsertUserBordersById(_service.GetBordersById(borderId), userId);
+        return await _userBordersRepository.InsertUserBorderByIdAsync(await _service.GetBorderByIdAsync(borderId), userId);
     }
 
-    public Borders GetBordersByUsed(string user_id)
+    public async Task<Borders> GetBorderByUsedAsync(string user_id)
     {
-        return _userBordersRepository.GetBordersByUsed(user_id);
+        return await _userBordersRepository.GetBorderByUsedAsync(user_id);
     }
 
-    public void UpdateIsUsedBorders(string borderId, string userId, bool is_used)
+    public async Task UpdateIsUsedBorderAsync(string borderId, string userId, bool is_used)
     {
-        _userBordersRepository.UpdateIsUsedBorders(borderId, userId, is_used);
+        await _userBordersRepository.UpdateIsUsedBorderAsync(borderId, userId, is_used);
     }
 
-    public Borders SumPowerUserBorders()
+    public async Task<Borders> SumPowerUserBordersAsync()
     {
-        return _userBordersRepository.SumPowerUserBorders();
+        return await _userBordersRepository.SumPowerUserBordersAsync();
     }
 }

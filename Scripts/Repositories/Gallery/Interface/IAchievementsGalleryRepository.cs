@@ -1,17 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using System.Threading.Tasks;
 
 public interface IAchievementsGalleryRepository
 {
-    List<Achievements> GetAchievementCollection(int pageSize, int offset, string rare);
-    int GetAchievementsCount(string rare);
-    void InsertAchievementsGallery(string Id, Achievements AchievementFromDB);
-    void UpdateStatusAchievementsGallery(string Id);
-    void UpdateStarAchievementsGallery(string Id, double star);
-    void UpdateAchievementsGalleryPower(string Id, Achievements AchievementFromDB);
-    Achievements SumPowerAchievementsGallery();
+    Task<List<Achievements>> GetAchievementCollectionAsync(int pageSize, int offset, string rare);
+    Task<int> GetAchievementsCountAsync(string rare);
+    Task InsertAchievementsGalleryAsync(string Id, Achievements AchievementFromDB);
+    Task UpdateStatusAchievementsGalleryAsync(string Id);
+    Task UpdateStarAchievementsGalleryAsync(string id, double star);
+    Task UpdateAchievementsGalleryPowerAsync(string id, Achievements AchievementFromDB);
+    Task<Achievements> SumPowerAchievementsGalleryAsync();
 }

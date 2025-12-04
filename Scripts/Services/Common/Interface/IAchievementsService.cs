@@ -1,16 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using System.Threading.Tasks;
 
 public interface IAchievementsService
 {
-    List<Achievements> GetAchievement(int pageSize, int offset, string rare);
-    int GetAchievementCount(string rare);
-    Achievements GetAchievementsById(string Id);
-    List<Achievements> GetAchievementsWithPrice(int pageSize, int offset);
-    int GetAchievementsWithPriceCount();
-    Achievements SumPowerAchievementsPercent();
+    Task<List<Achievements>> GetAchievementsAsync(int pageSize, int offset, string rare);
+    Task<int> GetAchievementsCountAsync(string rare);
+    Task<Achievements> GetAchievementByIdAsync(string id);
+    Task<List<Achievements>> GetAchievementsWithPriceAsync(int pageSize, int offset);
+    Task<int> GetAchievementsWithPriceCountAsync();
+    Task<Achievements> SumPowerAchievementsPercentAsync();
 }

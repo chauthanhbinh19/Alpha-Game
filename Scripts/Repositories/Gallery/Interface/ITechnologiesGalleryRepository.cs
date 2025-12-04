@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ITechnologiesGalleryRepository
 {
-    List<Technologies> GetTechnologiesCollection(int pageSize, int offset, string rare);
-    int GetTechnologiesCount(string rare);
-    void InsertTechnologiesGallery(string Id, Technologies TitleFromDB);
-    void UpdateStatusTechnologiesGallery(string Id);
-    void UpdateStarTechnologiesGallery(string Id, double star);
-    void UpdateTechnologiesGalleryPower(string Id, Technologies TitleFromDB);
-    Technologies SumPowerTechnologiesGallery();
+    Task<List<Technologies>> GetTechnologiesCollectionAsync(int pageSize, int offset, string rare);
+    Task<int> GetTechnologiesCountAsync(string rare);
+    Task InsertTechnologyGalleryAsync(string Id, Technologies TechnologyFromDB);
+    Task UpdateStatusTechnologyGalleryAsync(string Id);
+    Task UpdateStarTechnologyGalleryAsync(string id, double star);
+    Task UpdateTechnologyGalleryPowerAsync(string id, Technologies TechnologyFromDB);
+    Task<Technologies> SumPowerTechnologiesGalleryAsync();
 }

@@ -1,18 +1,19 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserCardColonelsRepository
 {
-    List<CardColonels> GetUserCardColonels(string user_id, string type, int pageSize, int offset, string rare);
-    List<CardColonels> GetUserCardColonelsTeam(string user_id, string teamId, string position);
-    List<CardColonels> GetUserCardColonelsTeamWithoutPosition(string user_id, string teamId);
-    Dictionary<string, int> GetUniqueCardColonelTypesTeam(string teamId);
-    int GetUserCardColonelsCount(string user_id, string type, string rare);
-    int GetUserCardColonelsTeamsPositionCount(string user_id, string team_id, string position);
-    int GetUserCardColonelsTeamsCount(string user_id, string team_id);
-    bool InsertUserCardColonels(CardColonels CardColonels);
-    bool UpdateCardColonelsLevel(CardColonels cardColonels, int cardLevel);
-    bool UpdateCardColonelsBreakthrough(CardColonels cardColonels, int star, double quantity);
-    bool UpdateTeamCardColonels(string team_id, string position, string card_id);
-    CardColonels GetUserCardColonelsById(string user_id, string Id);
-    List<CardColonels> GetAllUserCardColonelsInTeam(string user_id);
+    Task<List<CardColonels>> GetUserCardColonelsAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string user_id, string teamId, string position);
+    Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string user_id, string teamId);
+    Task<Dictionary<string, int>> GetUniqueCardColonelsTypesTeamAsync(string teamId);
+    Task<bool> UpdateTeamCardColonelAsync(string team_id, string position, string card_id);
+    Task<int> GetUserCardColonelsCountAsync(string user_id, string type, string rare);
+    Task<int> GetUserCardColonelsTeamsPositionCountAsync(string user_id, string team_id, string position);
+    Task<int> GetUserCardColonelsTeamsCountAsync(string user_id, string team_id);
+    Task<bool> InsertUserCardColonelAsync(CardColonels CardColonels);
+    Task<bool> UpdateCardColonelLevelAsync(CardColonels CardColonels, int cardLevel);
+    Task<bool> UpdateCardColonelBreakthroughAsync(CardColonels CardColonels, int star, double quantity);
+    Task<CardColonels> GetUserCardColonelByIdAsync(string user_id, string Id);
+    Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string user_id);
 }

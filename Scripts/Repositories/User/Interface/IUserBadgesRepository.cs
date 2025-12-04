@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserBadgesRepository
 {
-    List<Badges> GetUserBadges(string user_id, int pageSize, int offset, string rare);
-    int GetUserBadgesCount(string user_id, string rare);
-    bool InsertUserBadges(Badges Badges, string userId);
-    bool UpdateBadgesLevel(Badges Badges, int cardLevel);
-    bool UpdateBadgesBreakthrough(Badges Badges, int star, double quantity);
-    Badges GetUserBadgesById(string user_id, string Id);
-    Badges SumPowerUserBadges();
+    Task<List<Badges>> GetUserBadgesAsync(string user_id, int pageSize, int offset, string rare);
+    Task<int> GetUserBadgesCountAsync(string user_id, string rare);
+    Task<bool> InsertUserBadgeAsync(Badges Badges, string userId);
+    Task<bool> UpdateBadgeLevelAsync(Badges Badges, int cardLevel);
+    Task<bool> UpdateBadgeBreakthroughAsync(Badges Badges, int star, double quantity);
+    Task<Badges> GetUserBadgeByIdAsync(string user_id, string Id);
+    Task<Badges> SumPowerUserBadgesAsync();
 }

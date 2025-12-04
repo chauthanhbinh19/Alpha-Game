@@ -1,6 +1,8 @@
+using System.Threading.Tasks;
+
 public interface IUserCardHeroesMasterService
 {
-    Master GetCardHeroesMaster(string type, string card_id);
-    void InsertOrUpdateCardHeroesMaster(Master master, string type, string card_id);
-    Master GetSumCardHeroesMaster(string user_id, string card_id);
+    Task<Master> GetCardHeroMasterAsync(string type, string card_id);
+    Task InsertOrUpdateCardHeroMasterAsync(Master Master, string type, string card_id);
+    Task<Master> GetSumCardHeroesMasterAsync(string user_id, string card_id);
 }

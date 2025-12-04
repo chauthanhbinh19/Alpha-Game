@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class RunesService : IRunesService
 {
@@ -14,42 +15,42 @@ public class RunesService : IRunesService
         return new RunesService(new RunesRepository());
     }
 
-    public List<Runes> GetRunes(int pageSize, int offset, string rare)
+    public async Task<List<Runes>> GetRunesAsync(int pageSize, int offset, string rare)
     {
-        List<Runes> list = _RunesRepository.GetRunes(pageSize, offset, rare);
+        List<Runes> list = await _RunesRepository.GetRunesAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRunesCount(string rare)
+    public async Task<int> GetRunesCountAsync(string rare)
     {
-        return _RunesRepository.GetRunesCount(rare);
+        return await _RunesRepository.GetRunesCountAsync(rare);
     }
 
-    public List<Runes> GetRunesWithPrice(int pageSize, int offset)
+    public async Task<List<Runes>> GetRunesWithPriceAsync(int pageSize, int offset)
     {
-        List<Runes> list = _RunesRepository.GetRunesWithPrice(pageSize, offset);
+        List<Runes> list = await _RunesRepository.GetRunesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRunesWithPriceCount()
+    public async Task<int> GetRunesWithPriceCountAsync()
     {
-        return _RunesRepository.GetRunesWithPriceCount();
+        return await _RunesRepository.GetRunesWithPriceCountAsync();
     }
 
-    public Runes GetRunesById(string Id)
+    public async Task<Runes> GetRuneByIdAsync(string Id)
     {
-        return _RunesRepository.GetRunesById(Id);
+        return await _RunesRepository.GetRuneByIdAsync(Id);
     }
 
-    public Runes SumPowerRunesPercent()
+    public async Task<Runes> SumPowerRunesPercentAsync()
     {
-        return _RunesRepository.SumPowerRunesPercent();
+        return await _RunesRepository.SumPowerRunesPercentAsync();
     }
 
-    public List<string> GetUniqueRuneId()
+    public async Task<List<string>> GetUniqueRunesIdAsync()
     {
-        return _RunesRepository.GetUniqueRuneId();
+        return await _RunesRepository.GetUniqueRunesIdAsync();
     }
 }

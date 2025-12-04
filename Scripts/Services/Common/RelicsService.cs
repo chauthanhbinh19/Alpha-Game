@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 public class RelicsService : IRelicsService
 {
     private readonly IRelicsRepository _relicsRepository;
@@ -13,47 +14,47 @@ public class RelicsService : IRelicsService
         return new RelicsService(new RelicsRepository());
     }
 
-    public List<string> GetUniqueRelicsTypes()
+    public async Task<List<string>> GetUniqueRelicsTypesAsync()
     {
-        return _relicsRepository.GetUniqueRelicsTypes();
+        return await _relicsRepository.GetUniqueRelicsTypesAsync();
     }
 
-    public List<Relics> GetRelics(string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetRelicsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = _relicsRepository.GetRelics(type, pageSize, offset, rare);
+        List<Relics> list = await _relicsRepository.GetRelicsAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRelicsCount(string type, string rare)
+    public async Task<int> GetRelicsCountAsync(string type, string rare)
     {
-        return _relicsRepository.GetRelicsCount(type, rare);
+        return await _relicsRepository.GetRelicsCountAsync(type, rare);
     }
 
-    public List<Relics> GetRelicsWithPrice(string type, int pageSize, int offset)
+    public async Task<List<Relics>> GetRelicsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Relics> list = _relicsRepository.GetRelicsWithPrice(type, pageSize, offset);
+        List<Relics> list = await _relicsRepository.GetRelicsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRelicsWithPriceCount(string type)
+    public async Task<int> GetRelicsWithPriceCountAsync(string type)
     {
-        return _relicsRepository.GetRelicsWithPriceCount(type);
+        return await _relicsRepository.GetRelicsWithPriceCountAsync(type);
     }
 
-    public Relics GetRelicsById(string Id)
+    public async Task<Relics> GetRelicByIdAsync(string Id)
     {
-        return _relicsRepository.GetRelicsById(Id);
+        return await _relicsRepository.GetRelicByIdAsync(Id);
     }
 
-    public Relics SumPowerRelicsPercent()
+    public async Task<Relics> SumPowerRelicsPercentAsync()
     {
-        return _relicsRepository.SumPowerRelicsPercent();
+        return await _relicsRepository.SumPowerRelicsPercentAsync();
     }
 
-    public List<string> GetUniqueRelicsId()
+    public async Task<List<string>> GetUniqueRelicsIdAsync()
     {
-        return _relicsRepository.GetUniqueRelicsId();
+        return await _relicsRepository.GetUniqueRelicsIdAsync();
     }
 }

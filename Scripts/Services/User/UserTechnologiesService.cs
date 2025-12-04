@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserTechnologiesService : IUserTechnologiesService
 {
@@ -14,11 +15,11 @@ public class UserTechnologiesService : IUserTechnologiesService
         return new UserTechnologiesService(new UserTechnologiesRepository());
     }
 
-    public Technologies GetNewLevelPower(Technologies c, double coefficient)
+    public async Task<Technologies> GetNewLevelPowerAsync(Technologies c, double coefficient)
     {
         ITechnologiesRepository _repository = new TechnologiesRepository();
         TechnologiesService _service = new TechnologiesService(_repository);
-        Technologies orginCard = _service.GetTechnologiesById(c.Id);
+        Technologies orginCard = await _service.GetTechnologyByIdAsync(c.Id);
         Technologies Technologies = new Technologies
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserTechnologiesService : IUserTechnologiesService
         );
         return Technologies;
     }
-    public Technologies GetNewBreakthroughPower(Technologies c, double coefficient)
+    public async Task<Technologies> GetNewBreakthroughPowerAsync(Technologies c, double coefficient)
     {
         ITechnologiesRepository _repository = new TechnologiesRepository();
         TechnologiesService _service = new TechnologiesService(_repository);
-        Technologies orginCard = _service.GetTechnologiesById(c.Id);
+        Technologies orginCard = await _service.GetTechnologyByIdAsync(c.Id);
         Technologies Technologies = new Technologies
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserTechnologiesService : IUserTechnologiesService
         return Technologies;
     }
 
-    public List<Technologies> GetUserTechnologies(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Technologies> list = _userTechnologiesRepository.GetUserTechnologies(user_id, pageSize, offset, rare);
+        List<Technologies> list = await _userTechnologiesRepository.GetUserTechnologiesAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserTechnologiesCount(string user_id, string rare)
+    public async Task<int> GetUserTechnologiesCountAsync(string user_id, string rare)
     {
-        return _userTechnologiesRepository.GetUserTechnologiesCount(user_id, rare);
+        return await _userTechnologiesRepository.GetUserTechnologiesCountAsync(user_id, rare);
     }
 
-    public bool InsertUserTechnologies(Technologies Technologies, string userId)
+    public async Task<bool> InsertUserTechnologyAsync(Technologies Technologies, string userId)
     {
-        return _userTechnologiesRepository.InsertUserTechnologies(Technologies, userId);
+        return await _userTechnologiesRepository.InsertUserTechnologyAsync(Technologies, userId);
     }
 
-    public bool UpdateTechnologiesLevel(Technologies Technologies, int cardLevel)
+    public async Task<bool> UpdateTechnologyLevelAsync(Technologies Technologies, int cardLevel)
     {
-        return _userTechnologiesRepository.UpdateTechnologiesLevel(Technologies, cardLevel);
+        return await _userTechnologiesRepository.UpdateTechnologyLevelAsync(Technologies, cardLevel);
     }
 
-    public bool UpdateTechnologiesBreakthrough(Technologies Technologies, int star, double quantity)
+    public async Task<bool> UpdateTechnologyBreakthroughAsync(Technologies Technologies, int star, double quantity)
     {
-        return _userTechnologiesRepository.UpdateTechnologiesBreakthrough(Technologies, star, quantity);
+        return await _userTechnologiesRepository.UpdateTechnologyBreakthroughAsync(Technologies, star, quantity);
     }
 
-    public Technologies GetUserTechnologiesById(string user_id, string Id)
+    public async Task<Technologies> GetUserTechnologyByIdAsync(string user_id, string Id)
     {
-        return _userTechnologiesRepository.GetUserTechnologiesById(user_id, Id);
+        return await _userTechnologiesRepository.GetUserTechnologyByIdAsync(user_id, Id);
     }
 
-    public Technologies SumPowerUserTechnologies()
+    public async Task<Technologies> SumPowerUserTechnologiesAsync()
     {
-        return _userTechnologiesRepository.SumPowerUserTechnologies();
+        return await _userTechnologiesRepository.SumPowerUserTechnologiesAsync();
     }
 }

@@ -132,7 +132,7 @@ public class AuthenticationManager : MonoBehaviour
                 // signInPanel.SetActive(false);
             }
             CheckLoggedIn();
-            PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+            await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
         }
         else
         {

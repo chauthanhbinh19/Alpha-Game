@@ -1,18 +1,19 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserCardGeneralsRepository
 {
-    List<CardGenerals> GetUserCardGenerals(string user_id, string type, int pageSize, int offset, string rare);
-    List<CardGenerals> GetUserCardGeneralsTeam(string user_id, string teamId, string position);
-    List<CardGenerals> GetUserCardGeneralsTeamWithoutPosition(string user_id, string teamId);
-    int GetUserCardGeneralsTeamsPositionCount(string user_id, string team_id, string position);
-    Dictionary<string, int> GetUniqueCardGeneralTypesTeam(string teamId);
-    bool UpdateTeamCardGenerals(string team_id, string position, string card_id);
-    int GetUserCardGeneralsCount(string user_id, string type, string rare);
-    int GetUserCardGeneralsTeamsCount(string user_id, string team_id);
-    bool InsertUserCardGenerals(CardGenerals CardGenerals);
-    bool UpdateCardGeneralsLevel(CardGenerals cardGenerals, int cardLevel);
-    bool UpdateCardGeneralsBreakthrough(CardGenerals cardGenerals, int star, double quantity);
-    CardGenerals GetUserCardGeneralsById(string user_id, string Id);
-    List<CardGenerals> GetAllUserCardGeneralsInTeam(string user_id);
+    Task<List<CardGenerals>> GetUserCardGeneralsAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<CardGenerals>> GetUserCardGeneralsTeamAsync(string user_id, string teamId, string position);
+    Task<List<CardGenerals>> GetUserCardGeneralsTeamWithoutPositionAsync(string user_id, string teamId);
+    Task<Dictionary<string, int>> GetUniqueCardGeneralsTypesTeamAsync(string teamId);
+    Task<bool> UpdateTeamCardGeneralAsync(string team_id, string position, string card_id);
+    Task<int> GetUserCardGeneralsCountAsync(string user_id, string type, string rare);
+    Task<int> GetUserCardGeneralsTeamsPositionCountAsync(string user_id, string team_id, string position);
+    Task<int> GetUserCardGeneralsTeamsCountAsync(string user_id, string team_id);
+    Task<bool> InsertUserCardGeneralAsync(CardGenerals CardGenerals);
+    Task<bool> UpdateCardGeneralLevelAsync(CardGenerals CardGenerals, int cardLevel);
+    Task<bool> UpdateCardGeneralBreakthroughAsync(CardGenerals CardGenerals, int star, double quantity);
+    Task<CardGenerals> GetUserCardGeneralByIdAsync(string user_id, string Id);
+    Task<List<CardGenerals>> GetAllUserCardGeneralsInTeamAsync(string user_id);
 }

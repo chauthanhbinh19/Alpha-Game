@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserItemsService
 {
-    List<Items> GetUserItems(string user_id, string type, int pageSize, int offset);
-    int GetUserItemCount(string user_id, string type);
-    Items GetUserItemByName(string itemName);
-    bool InsertUserItems(Items items, double quantity);
-    Items UpdateUserItemsQuantity(Items items);
-    Items UpdateUserItemsQuantity(Items items, double quantity);
-    List<Items> GetItemForLevel(string type);
-    List<Items> GetItemForBreakthourgh(string type);
-    List<Items> GetItemForRank(string type);
+    Task<List<Items>> GetUserItemsAsync(string user_id, string type, int pageSize, int offset);
+    Task<int> GetUserItemsCountAsync(string user_id, string type);
+    Task<Items> GetUserItemByNameAsync(string itemName);
+    Task<bool> InsertUserItemAsync(Items items, double quantity);
+    Task<Items> UpdateUserItemQuantityAsync(Items items);
+    Task<Items> UpdateUserItemQuantityAsync(Items items, double quantity);
+    Task<List<Items>> GetItemForLevelAsync(string type);
+    Task<List<Items>> GetItemForBreakthourghAsync(string type);
+    Task<List<Items>> GetItemForRankAsync(string type);
 }

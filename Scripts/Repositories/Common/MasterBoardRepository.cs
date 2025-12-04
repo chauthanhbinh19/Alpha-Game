@@ -2,27 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using MySqlConnector;
+using System.Threading.Tasks;
 public class MasterBoardRepository : IMasterBoardRepository
-{ 
-    public List<string> GetUniqueName()
+{
+    public async Task<List<string>> GetUniqueNameAsync()
     {
-        List<string> typeList = new List<string>();
+        List<string> nameList = new List<string>();
         string connectionString = DatabaseConfig.ConnectionString;
+
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            connection.Open();
+            await connection.OpenAsync();
 
-            string query = "Select distinct name from master_board";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            string query = "SELECT DISTINCT name FROM master_board";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
             {
-                typeList.Add(reader.GetString(0));
+                while (await reader.ReadAsync())
+                {
+                    nameList.Add(reader.GetString(0));
+                }
             }
-            connection.Close();
         }
-        return typeList;
+
+        return nameList;
     }
 }

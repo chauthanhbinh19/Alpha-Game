@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class RobotsGalleryService : IRobotsGalleryService
 {
@@ -14,44 +15,44 @@ public class RobotsGalleryService : IRobotsGalleryService
         return new RobotsGalleryService(new RobotsGalleryRepository());
     }
 
-    public List<Robots> GetRobotsCollection(int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetRobotsCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<Robots> list = _RobotsGalleryRepository.GetRobotsCollection(pageSize, offset, rare);
+        List<Robots> list = await _RobotsGalleryRepository.GetRobotsCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRobotsCount(string rare)
+    public async Task<int> GetRobotsCountAsync(string rare)
     {
-        return _RobotsGalleryRepository.GetRobotsCount(rare);
+        return await _RobotsGalleryRepository.GetRobotsCountAsync(rare);
     }
 
-    public void InsertRobotsGallery(string Id)
+    public async Task InsertRobotGalleryAsync(string Id)
     {
         IRobotsRepository _repository = new RobotsRepository();
         RobotsService _service = new RobotsService(_repository);
-        _RobotsGalleryRepository.InsertRobotsGallery(Id, _service.GetRobotsById(Id));
+        await _RobotsGalleryRepository.InsertRobotGalleryAsync(Id, await _service.GetRobotByIdAsync(Id));
     }
 
-    public void UpdateStatusRobotsGallery(string Id)
+    public async Task UpdateStatusRobotGalleryAsync(string Id)
     {
-        _RobotsGalleryRepository.UpdateStatusRobotsGallery(Id);
+        await _RobotsGalleryRepository.UpdateStatusRobotGalleryAsync(Id);
     }
 
-    public Robots SumPowerRobotsGallery()
+    public async Task<Robots> SumPowerRobotsGalleryAsync()
     {
-        return _RobotsGalleryRepository.SumPowerRobotsGallery();
+        return await _RobotsGalleryRepository.SumPowerRobotsGalleryAsync();
     }
 
-    public void UpdateStarRobotsGallery(string Id, double star)
+    public async Task UpdateStarRobotGalleryAsync(string Id, double star)
     {
-        _RobotsGalleryRepository.UpdateStarRobotsGallery(Id, star);
+        await _RobotsGalleryRepository.UpdateStarRobotGalleryAsync(Id, star);
     }
 
-    public void UpdateRobotsGalleryPower(string Id)
+    public async Task UpdateRobotGalleryPowerAsync(string Id)
     {
         IRobotsRepository _repository = new RobotsRepository();
         RobotsService _service = new RobotsService(_repository);
-        _RobotsGalleryRepository.UpdateRobotsGalleryPower(Id, _service.GetRobotsById(Id));
+        await _RobotsGalleryRepository.UpdateRobotGalleryPowerAsync(Id, await _service.GetRobotByIdAsync(Id));
     }
 }

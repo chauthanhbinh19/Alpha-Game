@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class MasterOfChemicalManager : MonoBehaviour
 {
@@ -46,7 +47,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfChemicalSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
-    public void CreateMasterOfChemicalManager(object data)
+    public async Task CreateMasterOfChemicalManagerAsync(object data)
     {
         currentObject = Instantiate(MasterOfChemicalPanelPrefab, MainPanel);
         TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -73,7 +74,7 @@ public class MasterOfChemicalManager : MonoBehaviour
 
         Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
         Features features = new Features();
-        uniqueTypes = FeaturesService.Create().GetFeaturesByType(AppConstants.Master.MASTER_OF_CHEMICAL);
+        uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.Master.MASTER_OF_CHEMICAL);
         if (uniqueTypes.Count > 0)
         {
             int index = 0;
@@ -88,10 +89,10 @@ public class MasterOfChemicalManager : MonoBehaviour
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() =>
+                btn.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    OnButtonClick(button, data, subtype, value);
+                    await OnButtonClickAsync(button, data, subtype, value);
                 });
 
                 if (index == 0)
@@ -101,7 +102,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     if (data is CardHeroes cardHeroes)
                     {
                         // mainId = cardHeroes.id;
-                        DetailMasterManager.Instance.CreateCardHeroesEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardHeroes);
+                        await DetailMasterManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardHeroes);
                         if (cardHeroes.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -114,7 +115,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is Books books)
                     {
                         // mainId = books.id;
-                        DetailMasterManager.Instance.CreateBooksEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, books);
+                        await DetailMasterManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, books);
                         if (books.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -127,7 +128,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is CardCaptains cardCaptains)
                     {
                         // mainId = cardCaptains.id;
-                        DetailMasterManager.Instance.CreateCardCaptainsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardCaptains);
+                        await DetailMasterManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardCaptains);
                         if (cardCaptains.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -140,7 +141,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is Pets pets)
                     {
                         // mainId = pets.id;
-                        DetailMasterManager.Instance.CreatePetsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, pets);
+                        await DetailMasterManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, pets);
                         if (pets.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -153,7 +154,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is CardMilitaries cardMilitary)
                     {
                         // mainId = cardMilitary.id;
-                        DetailMasterManager.Instance.CreateCardMilitaryEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMilitary);
+                        await DetailMasterManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMilitary);
                         if (cardMilitary.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -166,7 +167,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is CardSpells cardSpell)
                     {
                         // mainId = cardSpell.id;
-                        DetailMasterManager.Instance.CreateCardSpellEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardSpell);
+                        await DetailMasterManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardSpell);
                         if (cardSpell.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -179,7 +180,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is CardMonsters cardMonsters)
                     {
                         // mainId = cardMonsters.id;
-                        DetailMasterManager.Instance.CreateCardMonstersEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMonsters);
+                        await DetailMasterManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMonsters);
                         if (cardMonsters.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -192,7 +193,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is CardColonels cardColonels)
                     {
                         // mainId = cardColonels.id;
-                        DetailMasterManager.Instance.CreateCardColonelsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardColonels);
+                        await DetailMasterManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardColonels);
                         if (cardColonels.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -205,7 +206,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is CardGenerals cardGenerals)
                     {
                         // mainId = cardGenerals.id;
-                        DetailMasterManager.Instance.CreateCardGeneralsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardGenerals);
+                        await DetailMasterManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardGenerals);
                         if (cardGenerals.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -218,7 +219,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     else if (data is CardAdmirals cardAdmirals)
                     {
                         // mainId = cardAdmirals.id;
-                        DetailMasterManager.Instance.CreateCardAdmiralsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardAdmirals);
+                        await DetailMasterManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardAdmirals);
                         if (cardAdmirals.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -231,7 +232,7 @@ public class MasterOfChemicalManager : MonoBehaviour
                     // else if (data is Equipments equipments)
                     // {
                     //     // mainId = cardAdmirals.id;
-                    //     DetailMasterManager.Instance.CreateEquipmentsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, equipments);
+                    //     await DetailMasterManager.Instance.CreateEquipmentsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, equipments);
                     //     if (equipments.level >= value)
                     //     {
                     //         LevelCondition.gameObject.SetActive(false);
@@ -252,7 +253,7 @@ public class MasterOfChemicalManager : MonoBehaviour
             LoadAnimation();
         }
     }
-    void OnButtonClick(GameObject clickedButton, object data, string type, int value)
+    async Task OnButtonClickAsync(GameObject clickedButton, object data, string type, int value)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -271,7 +272,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         if (data is CardHeroes cardHeroes)
         {
             // mainId = cardHeroes.id;
-            DetailMasterManager.Instance.CreateCardHeroesEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardHeroes);
+            await DetailMasterManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardHeroes);
             if (cardHeroes.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -284,7 +285,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is Books books)
         {
             // mainId = books.id;
-            DetailMasterManager.Instance.CreateBooksEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, books);
+            await DetailMasterManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, books);
             if (books.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -297,7 +298,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is CardCaptains cardCaptains)
         {
             // mainId = cardCaptains.id;
-            DetailMasterManager.Instance.CreateCardCaptainsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardCaptains);
+            await DetailMasterManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardCaptains);
             if (cardCaptains.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -310,7 +311,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is Pets pets)
         {
             // mainId = pets.id;
-            DetailMasterManager.Instance.CreatePetsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, pets);
+            await DetailMasterManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, pets);
             if (pets.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -323,7 +324,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is CardMilitaries cardMilitary)
         {
             // mainId = cardMilitary.id;
-            DetailMasterManager.Instance.CreateCardMilitaryEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMilitary);
+            await DetailMasterManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMilitary);
             if (cardMilitary.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -336,7 +337,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is CardSpells cardSpell)
         {
             // mainId = cardSpell.id;
-            DetailMasterManager.Instance.CreateCardSpellEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardSpell);
+            await DetailMasterManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardSpell);
             if (cardSpell.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -349,7 +350,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is CardMonsters cardMonsters)
         {
             // mainId = cardMonsters.id;
-            DetailMasterManager.Instance.CreateCardMonstersEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMonsters);
+            await DetailMasterManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMonsters);
             if (cardMonsters.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -362,7 +363,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is CardColonels cardColonels)
         {
             // mainId = cardColonels.id;
-            DetailMasterManager.Instance.CreateCardColonelsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardColonels);
+            await DetailMasterManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardColonels);
             if (cardColonels.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -375,7 +376,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is CardGenerals cardGenerals)
         {
             // mainId = cardGenerals.id;
-            DetailMasterManager.Instance.CreateCardGeneralsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardGenerals);
+            await DetailMasterManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardGenerals);
             if (cardGenerals.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -388,7 +389,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         else if (data is CardAdmirals cardAdmirals)
         {
             // mainId = cardAdmirals.id;
-            DetailMasterManager.Instance.CreateCardAdmiralsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardAdmirals);
+            await DetailMasterManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardAdmirals);
             if (cardAdmirals.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -401,7 +402,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         // else if (data is Equipments equipments)
         // {
         //     // mainId = cardAdmirals.id;
-        //     DetailMasterManager.Instance.CreateEquipmentsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, equipments);
+        //     await DetailMasterManager.Instance.CreateEquipmentsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, equipments);
         //     if (equipments.level >= value)
         //     {
         //         LevelCondition.gameObject.SetActive(false);

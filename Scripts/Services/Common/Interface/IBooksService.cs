@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IBooksService
 {
-    List<string> GetUniqueBookTypes();
-    List<string> GetUniqueBookId();
-    List<Books> GetBooks(string type, int pageSize, int offset, string rare);
-    int GetBooksCount(string type, string rare);
-    List<Books> GetBooksRandom(string type, int pageSize);
-    List<Books> GetAllBooks(string type);
-    Books GetBooksById(string Id);
-    List<Books> GetBooksWithPrice(string type, int pageSize, int offset);
-    int GetBookssWithPriceCount(string type);
+    Task<List<string>> GetUniqueBooksTypesAsync();
+    Task<List<string>> GetUniqueBooksIdAsync();
+    Task<List<Books>> GetBooksAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetBooksCountAsync(string type, string rare);
+    Task<List<Books>> GetBooksRandomAsync(string type, int pageSize);
+    Task<List<Books>> GetAllBooksAsync(string type);
+    Task<Books> GetBookByIdAsync(string Id);
+    Task<List<Books>> GetBooksWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetBooksWithPriceCountAsync(string type);
 }

@@ -102,8 +102,8 @@ public class TechnologiesGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var titleGalleryService = TechnologiesGalleryService.Create();
-                titleGalleryService.UpdateStatusTechnologiesGallery(technology.Id);
+                var technologyGalleryService = TechnologiesGalleryService.Create();
+                await technologyGalleryService.UpdateStatusTechnologyGalleryAsync(technology.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -111,7 +111,7 @@ public class TechnologiesGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -128,10 +128,10 @@ public class TechnologiesGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                TechnologiesGalleryService.Create().UpdateTechnologiesGalleryPower(technology.Id);
+                await TechnologiesGalleryService.Create().UpdateTechnologyGalleryPowerAsync(technology.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

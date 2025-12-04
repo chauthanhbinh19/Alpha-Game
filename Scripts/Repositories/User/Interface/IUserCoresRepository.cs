@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserCoresRepository
 {
-    List<Cores> GetUserCores(string user_id, int pageSize, int offset, string rare);
-    int GetUserCoresCount(string user_id, string rare);
-    bool InsertUserCores(Cores Cores, string userId);
-    bool UpdateCoresLevel(Cores Cores, int cardLevel);
-    bool UpdateCoresBreakthrough(Cores Cores, int star, double quantity);
-    Cores GetUserCoresById(string user_id, string Id);
-    Cores SumPowerUserCores();
+    Task<List<Cores>> GetUserCoresAsync(string user_id, int pageSize, int offset, string rare);
+    Task<int> GetUserCoresCountAsync(string user_id, string rare);
+    Task<bool> InsertUserCoreAsync(Cores Cores, string userId);
+    Task<bool> UpdateCoreLevelAsync(Cores Cores, int cardLevel);
+    Task<bool> UpdateCoreBreakthroughAsync(Cores Cores, int star, double quantity);
+    Task<Cores> GetUserCoreByIdAsync(string user_id, string Id);
+    Task<Cores> SumPowerUserCoresAsync();
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardGeneralsService : ICardGeneralsService
 {
@@ -14,52 +15,52 @@ public class CardGeneralsService : ICardGeneralsService
         return new CardGeneralsService(new CardGeneralsRepository());
     }
 
-    public List<string> GetUniqueCardGeneralsTypes()
+    public async Task<List<string>> GetUniqueCardGeneralsTypesAsync()
     {
-        return _cardGeneralsRepository.GetUniqueCardGeneralsTypes();
+        return await _cardGeneralsRepository.GetUniqueCardGeneralsTypesAsync();
     }
 
-    public List<CardGenerals> GetCardGenerals(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardGenerals>> GetCardGeneralsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<CardGenerals> list = _cardGeneralsRepository.GetCardGenerals(type, pageSize, offset, rare);
+        List<CardGenerals> list = await _cardGeneralsRepository.GetCardGeneralsAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardGeneralsCount(string type, string rare)
+    public async Task<int> GetCardGeneralsCountAsync(string type, string rare)
     {
-        return _cardGeneralsRepository.GetCardGeneralsCount(type, rare);
+        return await _cardGeneralsRepository.GetCardGeneralsCountAsync(type, rare);
     }
 
-    public List<CardGenerals> GetCardGeneralsRandom(string type, int pageSize)
+    public async Task<List<CardGenerals>> GetCardGeneralsRandomAsync(string type, int pageSize)
     {
-        return _cardGeneralsRepository.GetCardGeneralsRandom(type, pageSize);
+        return await _cardGeneralsRepository.GetCardGeneralsRandomAsync(type, pageSize);
     }
 
-    public List<CardGenerals> GetAllCardGenerals(string type)
+    public async Task<List<CardGenerals>> GetAllCardGeneralsAsync(string type)
     {
-        return _cardGeneralsRepository.GetAllCardGenerals(type);
+        return await _cardGeneralsRepository.GetAllCardGeneralsAsync(type);
     }
 
-    public CardGenerals GetCardGeneralsById(string Id)
+    public async Task<CardGenerals> GetCardGeneralByIdAsync(string Id)
     {
-        return _cardGeneralsRepository.GetCardGeneralsById(Id);
+        return await _cardGeneralsRepository.GetCardGeneralByIdAsync(Id);
     }
 
-    public List<CardGenerals> GetCardGeneralsWithPrice(string type, int pageSize, int offset)
+    public async Task<List<CardGenerals>> GetCardGeneralsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CardGenerals> list = _cardGeneralsRepository.GetCardGeneralsWithPrice(type, pageSize, offset);
+        List<CardGenerals> list = await _cardGeneralsRepository.GetCardGeneralsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardGeneralsWithPriceCount(string type)
+    public async Task<int> GetCardGeneralsWithPriceCountAsync(string type)
     {
-        return _cardGeneralsRepository.GetCardGeneralsWithPriceCount(type);
+        return await _cardGeneralsRepository.GetCardGeneralsWithPriceCountAsync(type);
     }
 
-    public List<string> GetUniqueCardGeneralsId()
+    public async Task<List<string>> GetUniqueCardGeneralsIdAsync()
     {
-        return _cardGeneralsRepository.GetUniqueCardGeneralsId();
+        return await _cardGeneralsRepository.GetUniqueCardGeneralsIdAsync();
     }
 }

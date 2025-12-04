@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserSymbolsService : IUserSymbolsService
 {
@@ -14,11 +15,11 @@ public class UserSymbolsService : IUserSymbolsService
         return new UserSymbolsService(new UserSymbolsRepository());
     }
 
-    public Symbols GetNewLevelPower(Symbols c, double coefficient)
+    public async Task<Symbols> GetNewLevelPowerAsync(Symbols c, double coefficient)
     {
         ISymbolsRepository _repository = new SymbolsRepository();
         SymbolsService _service = new SymbolsService(_repository);
-        Symbols orginCard = _service.GetSymbolsById(c.Id);
+        Symbols orginCard = await _service.GetSymbolByIdAsync(c.Id);
         Symbols symbols = new Symbols
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserSymbolsService : IUserSymbolsService
         );
         return symbols;
     }
-    public Symbols GetNewBreakthroughPower(Symbols c, double coefficient)
+    public async Task<Symbols> GetNewBreakthroughPowerAsync(Symbols c, double coefficient)
     {
         ISymbolsRepository _repository = new SymbolsRepository();
         SymbolsService _service = new SymbolsService(_repository);
-        Symbols orginCard = _service.GetSymbolsById(c.Id);
+        Symbols orginCard = await _service.GetSymbolByIdAsync(c.Id);
         Symbols symbols = new Symbols
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserSymbolsService : IUserSymbolsService
         return symbols;
     }
 
-    public List<Symbols> GetUserSymbols(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetUserSymbolsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = _userSymbolsRepository.GetUserSymbols(user_id, type, pageSize, offset, rare);
+        List<Symbols> list = await _userSymbolsRepository.GetUserSymbolsAsync(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserSymbolsCount(string user_id, string type, string rare)
+    public async Task<int> GetUserSymbolsCountAsync(string user_id, string type, string rare)
     {
-        return _userSymbolsRepository.GetUserSymbolsCount(user_id, type, rare);
+        return await _userSymbolsRepository.GetUserSymbolsCountAsync(user_id, type, rare);
     }
 
-    public bool InsertUserSymbols(Symbols symbols, string userId)
+    public async Task<bool> InsertUserSymbolAsync(Symbols symbols, string userId)
     {
-        return _userSymbolsRepository.InsertUserSymbols(symbols, userId);
+        return await _userSymbolsRepository.InsertUserSymbolAsync(symbols, userId);
     }
 
-    public bool UpdateSymbolsLevel(Symbols symbols, int cardLevel)
+    public async Task<bool> UpdateSymbolLevelAsync(Symbols symbols, int cardLevel)
     {
-        return _userSymbolsRepository.UpdateSymbolsLevel(symbols, cardLevel);
+        return await _userSymbolsRepository.UpdateSymbolLevelAsync(symbols, cardLevel);
     }
 
-    public bool UpdateSymbolsBreakthrough(Symbols symbols, int star, double quantity)
+    public async Task<bool> UpdateSymbolBreakthroughAsync(Symbols symbols, int star, double quantity)
     {
-        return _userSymbolsRepository.UpdateSymbolsBreakthrough(symbols, star, quantity);
+        return await _userSymbolsRepository.UpdateSymbolBreakthroughAsync(symbols, star, quantity);
     }
 
-    public Symbols GetUserSymbolsById(string user_id, string Id)
+    public async Task<Symbols> GetUserSymbolByIdAsync(string user_id, string Id)
     {
-        return _userSymbolsRepository.GetUserSymbolsById(user_id, Id);
+        return await _userSymbolsRepository.GetUserSymbolByIdAsync(user_id, Id);
     }
 
-    public Symbols SumPowerUserSymbols()
+    public async Task<Symbols> SumPowerUserSymbolsAsync()
     {
-        return _userSymbolsRepository.SumPowerUserSymbols();
+        return await _userSymbolsRepository.SumPowerUserSymbolsAsync();
     }
 }

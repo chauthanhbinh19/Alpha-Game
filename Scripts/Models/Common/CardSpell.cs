@@ -1,11 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
-using UnityEditor.Scripting;
-
 public class CardSpells : BaseEntity
 {
     public string Id { get; set; }

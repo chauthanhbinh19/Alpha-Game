@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardHeroesService : ICardHeroesService
 {
@@ -14,57 +15,57 @@ public class CardHeroesService : ICardHeroesService
         return new CardHeroesService(new CardHeroesRepository());
     }
 
-    public List<string> GetUniqueCardHeroTypes()
+    public async Task<List<string>> GetUniqueCardHeroesTypesAsync()
     {
-        return _cardHeroesRepository.GetUniqueCardHeroTypes();
+        return await _cardHeroesRepository.GetUniqueCardHeroesTypesAsync();
     }
 
-    public List<CardHeroes> GetCardHeroes(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardHeroes>> GetCardHeroesAsync(string type, int pageSize, int offset, string rare)
     {
-        List<CardHeroes> list = _cardHeroesRepository.GetCardHeroes(type, pageSize, offset, rare);
+        List<CardHeroes> list = await _cardHeroesRepository.GetCardHeroesAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardHeroesCount(string type, string rare)
+    public async Task<int> GetCardHeroesCountAsync(string type, string rare)
     {
-        return _cardHeroesRepository.GetCardHeroesCount(type, rare);
+        return await _cardHeroesRepository.GetCardHeroesCountAsync(type, rare);
     }
 
-    public List<CardHeroes> GetCardHeroesRandom(string type, int pageSize)
+    public async Task<List<CardHeroes>> GetCardHeroesRandomAsync(string type, int pageSize)
     {
-        return _cardHeroesRepository.GetCardHeroesRandom(type, pageSize);
+        return await _cardHeroesRepository.GetCardHeroesRandomAsync(type, pageSize);
     }
 
-    public List<CardHeroes> GetAllCardHeroes(string type)
+    public async Task<List<CardHeroes>> GetAllCardHeroesAsync(string type)
     {
-        return _cardHeroesRepository.GetAllCardHeroes(type);
+        return await _cardHeroesRepository.GetAllCardHeroesAsync(type);
     }
 
-    public int GetMaxQuantity(string Id)
+    public async Task<int> GetMaxQuantityAsync(string Id)
     {
-        return _cardHeroesRepository.GetMaxQuantity(Id);
+        return await _cardHeroesRepository.GetMaxQuantityAsync(Id);
     }
 
-    public CardHeroes GetCardHeroesById(string Id)
+    public async Task<CardHeroes> GetCardHeroByIdAsync(string Id)
     {
-        return _cardHeroesRepository.GetCardHeroesById(Id);
+        return await _cardHeroesRepository.GetCardHeroByIdAsync(Id);
     }
 
-    public List<CardHeroes> GetCardHeroesWithPrice(string type, int pageSize, int offset)
+    public async Task<List<CardHeroes>> GetCardHeroesWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CardHeroes> list = _cardHeroesRepository.GetCardHeroesWithPrice(type, pageSize, offset);
+        List<CardHeroes> list = await _cardHeroesRepository.GetCardHeroesWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardHeroesWithPriceCount(string type)
+    public async Task<int> GetCardHeroesWithPriceCountAsync(string type)
     {
-        return _cardHeroesRepository.GetCardHeroesWithPriceCount(type);
+        return await _cardHeroesRepository.GetCardHeroesWithPriceCountAsync(type);
     }
 
-    public List<string> GetUniqueCardHeroId()
+    public async Task<List<string>> GetUniqueCardHeroesIdAsync()
     {
-        return _cardHeroesRepository.GetUniqueCardHeroId();
+        return await _cardHeroesRepository.GetUniqueCardHeroesIdAsync();
     }
 }

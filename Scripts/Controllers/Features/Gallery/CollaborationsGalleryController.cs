@@ -82,8 +82,8 @@ public class CollaborationsGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var collaborationGalleryService = CollaborationGalleryService.Create();
-                collaborationGalleryService.UpdateStatusCollaborationsGallery(collaboration.Id);
+                var collaborationGalleryService = CollaborationsGalleryService.Create();
+                await collaborationGalleryService.UpdateStatusCollaborationGalleryAsync(collaboration.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -91,7 +91,7 @@ public class CollaborationsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -108,10 +108,10 @@ public class CollaborationsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CollaborationGalleryService.Create().UpdateCollaborationsGalleryPower(collaboration.Id);
+                await CollaborationsGalleryService.Create().UpdateCollaborationGalleryPowerAsync(collaboration.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

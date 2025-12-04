@@ -1,0 +1,61 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+public class AlchemiesService : IAlchemiesService
+{
+    private readonly IAlchemiesRepository _alchemyRepository;
+
+    public AlchemiesService(IAlchemiesRepository alchemyRepository)
+    {
+        _alchemyRepository = alchemyRepository;
+    }
+
+    public static AlchemiesService Create()
+    {
+        return new AlchemiesService(new AlchemiesRepository());
+    }
+
+    public async Task<List<string>> GetUniqueAlchemiesTypesAsync()
+    {
+        return await _alchemyRepository.GetUniqueAlchemiesTypesAsync();
+    }
+
+    public async Task<List<Alchemies>> GetAlchemiesAsync(string type, int pageSize, int offset, string rare)
+    {
+        List<Alchemies> list = await _alchemyRepository.GetAlchemiesAsync(type, pageSize, offset, rare);
+        list = QualityEvaluator.GetQualityPower(list);
+        return list;
+    }
+
+    public async Task<int> GetAlchemiesCountAsync(string type, string rare)
+    {
+        return await _alchemyRepository.GetAlchemiesCountAsync(type, rare);
+    }
+
+    public async Task<List<Alchemies>> GetAlchemiesWithPriceAsync(string type, int pageSize, int offset)
+    {
+        List<Alchemies> list = await _alchemyRepository.GetAlchemiesWithPriceAsync(type, pageSize, offset);
+        list = QualityEvaluator.GetQualityPower(list);
+        return list;
+    }
+
+    public async Task<int> GetAlchemiesWithPriceCountAsync(string type)
+    {
+        return await _alchemyRepository.GetAlchemiesWithPriceCountAsync(type);
+    }
+
+    public async Task<Alchemies> GetAlchemyByIdAsync(string Id)
+    {
+        return await _alchemyRepository.GetAlchemyByIdAsync(Id);
+    }
+
+    public async Task<Alchemies> SumPowerAlchemiesPercentAsync()
+    {
+        return await _alchemyRepository.SumPowerAlchemiesPercentAsync();
+    }
+
+    public async Task<List<string>> GetUniqueAlchemiesIdAsync()
+    {
+        return await _alchemyRepository.GetUniqueAlchemiesIdAsync();
+    }
+}

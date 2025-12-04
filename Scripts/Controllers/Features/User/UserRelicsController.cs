@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -93,12 +94,12 @@ public class UserRelicsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(relics, currentObject);
+            _=GetLevelAsync(relics, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(relics, currentObject);
+            _=GetUpgradeAsync(relics, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -109,7 +110,7 @@ public class UserRelicsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(relics, currentObject);
+                _=GetLevelAsync(relics, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -117,7 +118,7 @@ public class UserRelicsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(relics, currentObject);
+                _=GetUpgradeAsync(relics, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -159,7 +160,7 @@ public class UserRelicsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, relics, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -173,7 +174,7 @@ public class UserRelicsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.RELIC);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.RELIC);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -182,7 +183,7 @@ public class UserRelicsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Relics currentCard = new Relics();
-                currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.Id);
+                currentCard = await UserRelicsService.Create().GetUserRelicByIdAsync(User.CurrentUserId, relics.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -193,8 +194,8 @@ public class UserRelicsController : MonoBehaviour
                 {
                     Relics newCard = new Relics();
 
-                    newCard = UserRelicsService.Create().GetNewLevelPower(relics, increasePerLevel);
-                    UserRelicsService.Create().UpdateRelicsLevel(newCard, currentLevel + 1);
+                    newCard = await UserRelicsService.Create().GetNewLevelPowerAsync(relics, increasePerLevel);
+                    await UserRelicsService.Create().UpdateRelicLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -202,14 +203,14 @@ public class UserRelicsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Relics currentCard = UserRelicsService.Create().GetUserRelicsById(User.CurrentUserId, relics.Id);
+                Relics currentCard = await UserRelicsService.Create().GetUserRelicByIdAsync(User.CurrentUserId, relics.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -225,8 +226,8 @@ public class UserRelicsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Relics newCard = UserRelicsService.Create().GetNewLevelPower(relics, levelsGained * increasePerLevel);
-                    UserRelicsService.Create().UpdateRelicsLevel(newCard, currentLevel);
+                    Relics newCard = await UserRelicsService.Create().GetNewLevelPowerAsync(relics, levelsGained * increasePerLevel);
+                    await UserRelicsService.Create().UpdateRelicLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -235,7 +236,7 @@ public class UserRelicsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -245,7 +246,7 @@ public class UserRelicsController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -262,7 +263,7 @@ public class UserRelicsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.RELIC);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.RELIC);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -336,24 +337,24 @@ public class UserRelicsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Relics newRelics = new Relics();
 
-                    newRelics = UserRelicsService.Create().GetNewBreakthroughPower(relics, increasePerUpgrade);
-                    UserRelicsService.Create().UpdateRelicsBreakthrough(newRelics, relics.Star + 1, relics.Quantity);
+                    newRelics = await UserRelicsService.Create().GetNewBreakthroughPowerAsync(relics, increasePerUpgrade);
+                    await UserRelicsService.Create().UpdateRelicBreakthroughAsync(newRelics, relics.Star + 1, relics.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    RelicsGalleryService.Create().UpdateStarRelicsGallery(relics.Id, relics.Star + 1);
+                    await RelicsGalleryService.Create().UpdateStarRelicGalleryAsync(relics.Id, relics.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(relics.Star, currentObject);
                 }
                 else

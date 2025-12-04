@@ -83,8 +83,8 @@ public class PuppetsGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var puppetGalleryService = PuppetGalleryService.Create();
-                puppetGalleryService.UpdateStatusPuppetGallery(puppet.Id);
+                var puppetGalleryService = PuppetsGalleryService.Create();
+                await puppetGalleryService.UpdateStatusPuppetGalleryAsync(puppet.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -92,7 +92,7 @@ public class PuppetsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -109,10 +109,10 @@ public class PuppetsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PuppetGalleryService.Create().UpdatePuppetGalleryPower(puppet.Id);
+                await PuppetsGalleryService.Create().UpdatePuppetGalleryPowerAsync(puppet.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

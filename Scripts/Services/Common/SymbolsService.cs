@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class SymbolsService : ISymbolsService
 {
@@ -14,47 +15,47 @@ public class SymbolsService : ISymbolsService
         return new SymbolsService(new SymbolsRepository());
     }
 
-    public List<string> GetUniqueSymbolsTypes()
+    public async Task<List<string>> GetUniqueSymbolsTypesAsync()
     {
-        return _symbolsRepository.GetUniqueSymbolsTypes();
+        return await _symbolsRepository.GetUniqueSymbolsTypesAsync();
     }
 
-    public List<Symbols> GetSymbols(string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetSymbolsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = _symbolsRepository.GetSymbols(type, pageSize, offset, rare);
+        List<Symbols> list = await _symbolsRepository.GetSymbolsAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSymbolsCount(string type, string rare)
+    public async Task<int> GetSymbolsCountAsync(string type, string rare)
     {
-        return _symbolsRepository.GetSymbolsCount(type, rare);
+        return await _symbolsRepository.GetSymbolsCountAsync(type, rare);
     }
 
-    public List<Symbols> GetSymbolsWithPrice(string type, int pageSize, int offset)
+    public async Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Symbols> list = _symbolsRepository.GetSymbolsWithPrice(type, pageSize, offset);
+        List<Symbols> list = await _symbolsRepository.GetSymbolsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSkillsWithPriceCount(string type)
+    public async Task<int> GetSymbolsWithPriceCountAsync(string type)
     {
-        return _symbolsRepository.GetSkillsWithPriceCount(type);
+        return await _symbolsRepository.GetSymbolsWithPriceCountAsync(type);
     }
 
-    public Symbols GetSymbolsById(string Id)
+    public async Task<Symbols> GetSymbolByIdAsync(string Id)
     {
-        return _symbolsRepository.GetSymbolsById(Id);
+        return await _symbolsRepository.GetSymbolByIdAsync(Id);
     }
 
-    public Symbols SumPowerSymbolsPercent()
+    public async Task<Symbols> SumPowerSymbolsPercentAsync()
     {
-        return _symbolsRepository.SumPowerSymbolsPercent();
+        return await _symbolsRepository.SumPowerSymbolsPercentAsync();
     }
 
-    public List<string> GetUniqueSymbolsId()
+    public async Task<List<string>> GetUniqueSymbolsIdAsync()
     {
-        return _symbolsRepository.GetUniqueSymbolsId();
+        return await _symbolsRepository.GetUniqueSymbolsIdAsync();
     }
 }

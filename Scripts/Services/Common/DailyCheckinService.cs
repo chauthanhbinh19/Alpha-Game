@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class DailyCheckinService : IDailyCheckinService
 {
@@ -13,13 +14,13 @@ public class DailyCheckinService : IDailyCheckinService
         return new DailyCheckinService(new DailyCheckinRepository());
     }
 
-    public void DeleteDailyCheckin(string dailyCheckinId)
+    public async Task DeleteDailyCheckinAsync(string dailyCheckinId)
     {
-        _dailyCheckinRepository.DeleteDailyCheckin(dailyCheckinId);
+        await _dailyCheckinRepository.DeleteDailyCheckinAsync(dailyCheckinId);
     }
 
-    public void InsertDailyCheckin(DailyCheckin dailyCheckin)
+    public async Task InsertDailyCheckinAsync(DailyCheckin dailyCheckin)
     {
-        _dailyCheckinRepository.InsertDailyCheckin(dailyCheckin);
+        await _dailyCheckinRepository.InsertDailyCheckinAsync(dailyCheckin);
     }
 }

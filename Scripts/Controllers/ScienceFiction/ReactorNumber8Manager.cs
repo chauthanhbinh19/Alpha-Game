@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -45,7 +46,7 @@ public class ReactorNumber8Manager : MonoBehaviour
         userItemsService = UserItemsService.Create();
         maxLevel = 10000;
     }
-    public void CreateReactorPanel()
+    public async Task CreateReactorPanelAsync()
     {
         GameObject currentObject = Instantiate(ReactorPanelNumberPrefab, MainPanel);
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -129,11 +130,11 @@ public class ReactorNumber8Manager : MonoBehaviour
         rightSideCounduit1Image.AddComponent<SlideRightToLeftAnimation>();
         rightSideCounduit2Image.AddComponent<SlideRightToLeftAnimation>();
 
-        ScienceFiction scienceFiction = ScienceFictionService.Create().GetScienceFiction(AppConstants.ScienceFiction.REACTOR_NUMBER_8);
+        ScienceFiction scienceFiction = await ScienceFictionService.Create().GetScienceFictionAsync(AppConstants.ScienceFiction.REACTOR_NUMBER_8);
         RankService rankService = new RankService();
         List<Items> items = new List<Items>();
-        items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.REACTOR_MATERIAL_NUMBER_3));
-        items.Add(UserItemsService.Create().GetUserItemByName(ItemConstants.REACTOR_MATERIAL_NUMBER_4));
+        items.Add(await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.REACTOR_MATERIAL_NUMBER_3));
+        items.Add(await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.REACTOR_MATERIAL_NUMBER_4));
 
         ReactorLevelText.text = scienceFiction.Level.ToString();
 
@@ -173,20 +174,20 @@ public class ReactorNumber8Manager : MonoBehaviour
                 foreach (var i in items)
                 {
                     i.Quantity -= materialRequired;
-                    userItemsService.UpdateUserItemsQuantity(i);
+                    await userItemsService.UpdateUserItemQuantityAsync(i);
                 }
 
                 ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, 1, 10);
 
                 // rankService.UpLevel(cardHeroes, newRank, mainType);
-                ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_8);
+                await ScienceFictionService.Create().InsertOrUpdateScienceFictionAsync(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_8);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(currentObject);
-                CreateReactorPanel();
+                await CreateReactorPanelAsync();
             }
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
@@ -227,20 +228,20 @@ public class ReactorNumber8Manager : MonoBehaviour
                 i.Quantity -= totalMaterialRequired;
 
                 // Cập nhật Database
-                userItemsService.UpdateUserItemsQuantity(i);
+                await userItemsService.UpdateUserItemQuantityAsync(i);
             }
 
             // Nâng cấp scienceFiction
             ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, upgradeAmount, 10);
 
-            ScienceFictionService.Create().InsertOrUpdateScienceFiction(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_8);
+            await ScienceFictionService.Create().InsertOrUpdateScienceFictionAsync(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_8);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             Destroy(currentObject);
-            CreateReactorPanel();
+            await CreateReactorPanelAsync();
         });
     }
     public void CreateMaterialForOneLevel(RawImage image, TextMeshProUGUI availableQuantityText, TextMeshProUGUI requiredQuantityText, string itemImage, int level = 0, double userMaterialQuantity = 0, double materialQuantity = 0)

@@ -35,60 +35,60 @@ public class SpiritCardsGalleryController : MonoBehaviour
     }
     public void CreateSpiritCardGallery(List<SpiritCards> SpiritCardList, Transform contentPanel)
     {
-        foreach (var title in SpiritCardList)
+        foreach (var spiritCard in SpiritCardList)
         {
-            GameObject titleObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject spiritCardObject = Instantiate(cardsPrefab, contentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.Name.Replace("_", " ");
+            Text Title = spiritCardObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = spiritCard.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage Image = spiritCardObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
             RectTransform rect = Image.GetComponent<RectTransform>();
             rect.sizeDelta = new Vector2(200f, 400f);
 
-            Button button = titleObject.GetComponent<Button>();
+            Button button = spiritCardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(title, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(spiritCard, MainPanel);
             });
 
-            RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
+            RawImage rareImage = spiritCardObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritCard.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = titleObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = titleObject.transform.Find("Unlock").GetComponent<Button>();
-            if (title.Status.Equals("available"))
+            RawImage blockImage = spiritCardObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = spiritCardObject.transform.Find("Unlock").GetComponent<Button>();
+            if (spiritCard.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (title.Status.Equals("pending"))
+            else if (spiritCard.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (title.Status.Equals("block"))
+            else if (spiritCard.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
             }
 
-            RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = spiritCardObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var titleGalleryService = SpiritCardGalleryService.Create();
-                titleGalleryService.UpdateStatusSpiritCardGallery(title.Id);
+                var spiritCardGalleryService = SpiritCardsGalleryService.Create();
+                await spiritCardGalleryService.UpdateStatusSpiritCardGalleryAsync(spiritCard.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -96,15 +96,15 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = titleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((title.CurrentStar < title.TempStar) && title.Status.Equals("available"))
+            Button Upgrade = spiritCardObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((spiritCard.CurrentStar < spiritCard.TempStar) && spiritCard.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -113,10 +113,10 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                TitlesGalleryService.Create().UpdateTitlesGalleryPower(title.Id);
+                await SpiritCardsGalleryService.Create().UpdateSpiritCardGalleryPowerAsync(spiritCard.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

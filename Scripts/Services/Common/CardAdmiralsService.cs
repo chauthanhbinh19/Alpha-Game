@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardAdmiralsService : ICardAdmiralsService
 {
@@ -14,52 +15,52 @@ public class CardAdmiralsService : ICardAdmiralsService
         return new CardAdmiralsService(new CardAdmiralsRepository());
     }
 
-    public List<string> GetUniqueCardAdmiralsTypes()
+    public async Task<List<string>> GetUniqueCardAdmiralsTypesAsync()
     {
-        return _cardAdmiralsRepository.GetUniqueCardAdmiralsTypes();
+        return await _cardAdmiralsRepository.GetUniqueCardAdmiralsTypesAsync();
     }
 
-    public List<CardAdmirals> GetCardAdmirals(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardAdmirals>> GetCardAdmiralsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<CardAdmirals> list = _cardAdmiralsRepository.GetCardAdmirals(type, pageSize, offset, rare);
+        List<CardAdmirals> list = await _cardAdmiralsRepository.GetCardAdmiralsAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardAdmiralsCount(string type, string rare)
+    public async Task<int> GetCardAdmiralsCountAsync(string type, string rare)
     {
-        return _cardAdmiralsRepository.GetCardAdmiralsCount(type, rare);
+        return await _cardAdmiralsRepository.GetCardAdmiralsCountAsync(type, rare);
     }
 
-    public List<CardAdmirals> GetCardAdmiralsRandom(string type, int pageSize)
+    public async Task<List<CardAdmirals>> GetCardAdmiralsRandomAsync(string type, int pageSize)
     {
-        return _cardAdmiralsRepository.GetCardAdmiralsRandom(type, pageSize);
+        return await _cardAdmiralsRepository.GetCardAdmiralsRandomAsync(type, pageSize);
     }
 
-    public List<CardAdmirals> GetAllCardAdmirals(string type)
+    public async Task<List<CardAdmirals>> GetAllCardAdmiralsAsync(string type)
     {
-        return _cardAdmiralsRepository.GetAllCardAdmirals(type);
+        return await _cardAdmiralsRepository.GetAllCardAdmiralsAsync(type);
     }
 
-    public CardAdmirals GetCardAdmiralsById(string Id)
+    public async Task<CardAdmirals> GetCardAdmiralByIdAsync(string Id)
     {
-        return _cardAdmiralsRepository.GetCardAdmiralsById(Id);
+        return await _cardAdmiralsRepository.GetCardAdmiralByIdAsync(Id);
     }
 
-    public List<CardAdmirals> GetCardAdmiralsWithPrice(string type, int pageSize, int offset)
+    public async Task<List<CardAdmirals>> GetCardAdmiralsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CardAdmirals> list = _cardAdmiralsRepository.GetCardAdmiralsWithPrice(type, pageSize, offset);
+        List<CardAdmirals> list = await _cardAdmiralsRepository.GetCardAdmiralsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardAdmiralsWithPriceCount(string type)
+    public async Task<int> GetCardAdmiralsWithPriceCountAsync(string type)
     {
-        return _cardAdmiralsRepository.GetCardAdmiralsWithPriceCount(type);
+        return await _cardAdmiralsRepository.GetCardAdmiralsWithPriceCountAsync(type);
     }
 
-    public List<string> GetUniqueCardAdmiralsId()
+    public async Task<List<string>> GetUniqueCardAdmiralsIdAsync()
     {
-        return _cardAdmiralsRepository.GetUniqueCardAdmiralsId();
+        return await _cardAdmiralsRepository.GetUniqueCardAdmiralsIdAsync();
     }
 }

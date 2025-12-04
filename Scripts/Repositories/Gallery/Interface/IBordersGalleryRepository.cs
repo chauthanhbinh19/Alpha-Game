@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IBordersGalleryRepository
 {
-    List<Borders> GetBordersCollection(int pageSize, int offset, string rare);
-    int GetBordersCount(string rare);
-    void InsertBordersGallery(string Id, Borders BorderFromDB);
-    void UpdateStatusBordersGallery(string Id);
-    void UpdateStarBordersGallery(string Id, double star);
-    void UpdateBordersGalleryPower(string Id, Borders BorderFromDB);
-    Borders SumPowerBordersGallery();
+    Task<List<Borders>> GetBordersCollectionAsync(int pageSize, int offset, string rare);
+    Task<int> GetBordersCountAsync(string rare);
+    Task InsertBorderGalleryAsync(string Id, Borders BorderFromDB);
+    Task UpdateStatusBorderGalleryAsync(string Id);
+    Task UpdateStarBorderGalleryAsync(string id, double star);
+    Task UpdateBorderGalleryPowerAsync(string id, Borders BorderFromDB);
+    Task<Borders> SumPowerBordersGalleryAsync();
 }

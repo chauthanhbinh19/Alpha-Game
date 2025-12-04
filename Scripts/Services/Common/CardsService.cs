@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardsService : ICardsService
 {
@@ -14,42 +15,42 @@ public class CardsService : ICardsService
         return new CardsService(new CardsRepository());
     }
 
-    public List<Cards> GetCards(int pageSize, int offset, string rare)
+    public async Task<List<Cards>> GetCardsAsync(int pageSize, int offset, string rare)
     {
-        List<Cards> list = _CardsRepository.GetCards(pageSize, offset, rare);
+        List<Cards> list = await _CardsRepository.GetCardsAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardsCount(string rare)
+    public async Task<int> GetCardsCountAsync(string rare)
     {
-        return _CardsRepository.GetCardsCount(rare);
+        return await _CardsRepository.GetCardsCountAsync(rare);
     }
 
-    public List<Cards> GetCardsWithPrice(int pageSize, int offset)
+    public async Task<List<Cards>> GetCardsWithPriceAsync(int pageSize, int offset)
     {
-        List<Cards> list = _CardsRepository.GetCardsWithPrice(pageSize, offset);
+        List<Cards> list = await _CardsRepository.GetCardsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardsWithPriceCount()
+    public async Task<int> GetCardsWithPriceCountAsync()
     {
-        return _CardsRepository.GetCardsWithPriceCount();
+        return await _CardsRepository.GetCardsWithPriceCountAsync();
     }
 
-    public Cards GetCardsById(string Id)
+    public async Task<Cards> GetCardByIdAsync(string Id)
     {
-        return _CardsRepository.GetCardsById(Id);
+        return await _CardsRepository.GetCardByIdAsync(Id);
     }
 
-    public Cards SumPowerCardsPercent()
+    public async Task<Cards> SumPowerCardsPercentAsync()
     {
-        return _CardsRepository.SumPowerCardsPercent();
+        return await _CardsRepository.SumPowerCardsPercentAsync();
     }
 
-    public List<string> GetUniqueCardId()
+    public async Task<List<string>> GetUniqueCardsIdAsync()
     {
-        return _CardsRepository.GetUniqueCardId();
+        return await _CardsRepository.GetUniqueCardsIdAsync();
     }
 }

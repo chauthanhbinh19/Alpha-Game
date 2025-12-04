@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 public interface ISkillsService
 {
-    List<string> GetUniqueSkillsTypes();
-    List<string> GetUniqueSkillsId();
-    List<Skills> GetSkills(string type, int pageSize, int offset, string rare);
-    int GetSkillsCount(string type, string rare);
-    List<Skills> GetSkillsWithPrice(string type, int pageSize, int offset);
-    int GetSkillsWithPriceCount(string type);
-    Skills GetSkillsById(string Id);
+    Task<List<string>> GetUniqueSkillsTypesAsync();
+    Task<List<string>> GetUniqueSkillsIdAsync();
+    Task<List<Skills>> GetSkillsAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetSkillsCountAsync(string type, string rare);
+    Task<List<Skills>> GetSkillsWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetSkillsWithPriceCountAsync(string type);
+    Task<Skills> GetSkillByIdAsync(string Id);
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class PetsService : IPetsService
 {
@@ -14,42 +15,42 @@ public class PetsService : IPetsService
         return new PetsService(new PetsRepository());
     }
 
-    public List<string> GetUniquePetsTypes()
+    public async Task<List<string>> GetUniquePetsTypesAsync()
     {
-        return _petsRepository.GetUniquePetsTypes();
+        return await _petsRepository.GetUniquePetsTypesAsync();
     }
 
-    public List<Pets> GetPets(string type, int pageSize, int offset, string rare)
+    public async Task<List<Pets>> GetPetsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Pets> list = _petsRepository.GetPets(type, pageSize, offset, rare);
+        List<Pets> list = await _petsRepository.GetPetsAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetPetsCount(string type, string rare)
+    public async Task<int> GetPetsCountAsync(string type, string rare)
     {
-        return _petsRepository.GetPetsCount(type, rare);
+        return await _petsRepository.GetPetsCountAsync(type, rare);
     }
 
-    public List<Pets> GetPetsWithPrice(string type, int pageSize, int offset)
+    public async Task<List<Pets>> GetPetsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Pets> list = _petsRepository.GetPetsWithPrice(type, pageSize, offset);
+        List<Pets> list = await _petsRepository.GetPetsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetPetsWithPriceCount(string type)
+    public async Task<int> GetPetsWithPriceCountAsync(string type)
     {
-        return _petsRepository.GetPetsWithPriceCount(type);
+        return await _petsRepository.GetPetsWithPriceCountAsync(type);
     }
 
-    public Pets GetPetsById(string Id)
+    public async Task<Pets> GetPetByIdAsync(string Id)
     {
-        return _petsRepository.GetPetsById(Id);
+        return await _petsRepository.GetPetByIdAsync(Id);
     }
 
-    public List<string> GetUniquePetsId()
+    public async Task<List<string>> GetUniquePetsIdAsync()
     {
-        return _petsRepository.GetUniquePetsId();
+        return await _petsRepository.GetUniquePetsIdAsync();
     }
 }

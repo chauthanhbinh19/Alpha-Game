@@ -111,7 +111,7 @@ public class PetsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var petGalleryService = PetsGalleryService.Create();
-                petGalleryService.UpdateStatusPetsGallery(pet.Id);
+                await petGalleryService.UpdateStatusPetGalleryAsync(pet.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -119,7 +119,7 @@ public class PetsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -136,10 +136,10 @@ public class PetsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PetsGalleryService.Create().UpdatePetsGalleryPower(pet.Id);
+                await PetsGalleryService.Create().UpdatePetGalleryPowerAsync(pet.Id);
             });
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

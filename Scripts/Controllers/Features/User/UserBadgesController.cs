@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -112,12 +113,12 @@ public class UserBadgesController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(Badges, currentObject);
+            _=GetLevelAsync(Badges, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(Badges, currentObject);
+            _=GetUpgradeAsync(Badges, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -128,7 +129,7 @@ public class UserBadgesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(Badges, currentObject);
+                _=GetLevelAsync(Badges, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -136,7 +137,7 @@ public class UserBadgesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(Badges, currentObject);
+                _=GetUpgradeAsync(Badges, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -178,7 +179,7 @@ public class UserBadgesController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, title, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -192,7 +193,7 @@ public class UserBadgesController : MonoBehaviour
             
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.TITLE);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -201,7 +202,7 @@ public class UserBadgesController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Badges currentCard = new Badges();
-                currentCard = UserBadgesService.Create().GetUserBadgesById(User.CurrentUserId, title.Id);
+                currentCard = await UserBadgesService.Create().GetUserBadgeByIdAsync(User.CurrentUserId, title.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -212,8 +213,8 @@ public class UserBadgesController : MonoBehaviour
                 {
                     Badges newCard = new Badges();
 
-                    newCard = UserBadgesService.Create().GetNewLevelPower(title, increasePerLevel);
-                    UserBadgesService.Create().UpdateBadgesLevel(newCard, currentLevel + 1);
+                    newCard = await UserBadgesService.Create().GetNewLevelPowerAsync(title, increasePerLevel);
+                    await UserBadgesService.Create().UpdateBadgeLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -221,14 +222,14 @@ public class UserBadgesController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Badges currentCard = UserBadgesService.Create().GetUserBadgesById(User.CurrentUserId, title.Id);
+                Badges currentCard = await UserBadgesService.Create().GetUserBadgeByIdAsync(User.CurrentUserId, title.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -244,8 +245,8 @@ public class UserBadgesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Badges newCard = UserBadgesService.Create().GetNewLevelPower(title, levelsGained * increasePerLevel);
-                    UserBadgesService.Create().UpdateBadgesLevel(newCard, currentLevel);
+                    Badges newCard = await UserBadgesService.Create().GetNewLevelPowerAsync(title, levelsGained * increasePerLevel);
+                    await UserBadgesService.Create().UpdateBadgeLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -254,7 +255,7 @@ public class UserBadgesController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -264,7 +265,7 @@ public class UserBadgesController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -281,7 +282,7 @@ public class UserBadgesController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.TITLE);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -355,24 +356,24 @@ public class UserBadgesController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Badges newTitle = new Badges();
 
-                    newTitle = UserBadgesService.Create().GetNewBreakthroughPower(title, increasePerUpgrade);
-                    UserBadgesService.Create().UpdateBadgesBreakthrough(newTitle, title.Star + 1, title.Quantity);
+                    newTitle = await UserBadgesService.Create().GetNewBreakthroughPowerAsync(title, increasePerUpgrade);
+                    await UserBadgesService.Create().UpdateBadgeBreakthroughAsync(newTitle, title.Star + 1, title.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    BadgesGalleryService.Create().UpdateStarBadgesGallery(title.Id, title.Star + 1);
+                    await BadgesGalleryService.Create().UpdateStarBadgeGalleryAsync(title.Id, title.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(title.Star, currentObject);
                 }
                 else

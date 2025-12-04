@@ -86,7 +86,7 @@ public class AchievementsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var AvatarGalleryService = AvatarsGalleryService.Create();
-                AvatarGalleryService.UpdateStatusAvatarsGallery(achievement.Id);
+                await AvatarGalleryService.UpdateStatusAvatarGalleryAsync(achievement.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -94,7 +94,7 @@ public class AchievementsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -111,10 +111,10 @@ public class AchievementsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                AvatarsGalleryService.Create().UpdateAvatarsGalleryPower(achievement.Id);
+                await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(achievement.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

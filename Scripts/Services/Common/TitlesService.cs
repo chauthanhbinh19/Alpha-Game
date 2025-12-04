@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class TitlesService : ITitlesService
 {
@@ -14,42 +15,42 @@ public class TitlesService : ITitlesService
         return new TitlesService(new TitlesRepository());
     }
 
-    public List<Titles> GetTitles(int pageSize, int offset, string rare)
+    public async Task<List<Titles>> GetTitlesAsync(int pageSize, int offset, string rare)
     {
-        List<Titles> list = _titlesRepository.GetTitles(pageSize, offset, rare);
+        List<Titles> list = await _titlesRepository.GetTitlesAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTitlesCount(string rare)
+    public async Task<int> GetTitlesCountAsync(string rare)
     {
-        return _titlesRepository.GetTitlesCount(rare);
+        return await _titlesRepository.GetTitlesCountAsync(rare);
     }
 
-    public List<Titles> GetTitlesWithPrice(int pageSize, int offset)
+    public async Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset)
     {
-        List<Titles> list = _titlesRepository.GetTitlesWithPrice(pageSize, offset);
+        List<Titles> list = await _titlesRepository.GetTitlesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTitlesWithPriceCount()
+    public async Task<int> GetTitlesWithPriceCountAsync()
     {
-        return _titlesRepository.GetTitlesWithPriceCount();
+        return await _titlesRepository.GetTitlesWithPriceCountAsync();
     }
 
-    public Titles GetTitlesById(string Id)
+    public async Task<Titles> GetTitleByIdAsync(string Id)
     {
-        return _titlesRepository.GetTitlesById(Id);
+        return await _titlesRepository.GetTitleByIdAsync(Id);
     }
 
-    public Titles SumPowerTitlesPercent()
+    public async Task<Titles> SumPowerTitlesPercentAsync()
     {
-        return _titlesRepository.SumPowerTitlesPercent();
+        return await _titlesRepository.SumPowerTitlesPercentAsync();
     }
 
-    public List<string> GetUniqueTitleId()
+    public async Task<List<string>> GetUniqueTitlesIdAsync()
     {
-        return _titlesRepository.GetUniqueTitleId();
+        return await _titlesRepository.GetUniqueTitlesIdAsync();
     }
 }

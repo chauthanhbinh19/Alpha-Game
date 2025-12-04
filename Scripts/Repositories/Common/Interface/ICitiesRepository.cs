@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ICitiesRepository
 {
-    List<string> GetUniqueCitieId();
-    List<Cities> GetCities(string userId, int pageSize, int offset);
-    int GetCitiesCount(string rare);
-    List<Cities> GetCitiesWithPrice(int pageSize, int offset);
-    int GetCitiesWithPriceCount();
-    Cities GetCitiesById(string Id);
-    Cities SumPowerCitiesPercent();
+    Task<List<string>> GetUniqueCitiesIdAsync();
+    Task<List<Cities>> GetCitiesAsync(string userId, int pageSize, int offset);
+    Task<int> GetCitiesCountAsync(string rare);
+    Task<List<Cities>> GetCitiesWithPriceAsync(int pageSize, int offset);
+    Task<int> GetCitiesWithPriceCountAsync();
+    Task<Cities> GetCityByIdAsync(string Id);
+    Task<Cities> SumPowerCitiesPercentAsync();
 }

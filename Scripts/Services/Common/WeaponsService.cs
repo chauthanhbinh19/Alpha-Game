@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class WeaponsService : IWeaponsService
 {
@@ -14,42 +15,42 @@ public class WeaponsService : IWeaponsService
         return new WeaponsService(new WeaponsRepository());
     }
 
-    public List<Weapons> GetWeapons(int pageSize, int offset, string rare)
+    public async Task<List<Weapons>> GetWeaponsAsync(int pageSize, int offset, string rare)
     {
-        List<Weapons> list = _WeaponsRepository.GetWeapons(pageSize, offset, rare);
+        List<Weapons> list = await _WeaponsRepository.GetWeaponsAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetWeaponsCount(string rare)
+    public async Task<int> GetWeaponsCountAsync(string rare)
     {
-        return _WeaponsRepository.GetWeaponsCount(rare);
+        return await _WeaponsRepository.GetWeaponsCountAsync(rare);
     }
 
-    public List<Weapons> GetWeaponsWithPrice(int pageSize, int offset)
+    public async Task<List<Weapons>> GetWeaponsWithPriceAsync(int pageSize, int offset)
     {
-        List<Weapons> list = _WeaponsRepository.GetWeaponsWithPrice(pageSize, offset);
+        List<Weapons> list = await _WeaponsRepository.GetWeaponsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetWeaponsWithPriceCount()
+    public async Task<int> GetWeaponsWithPriceCountAsync()
     {
-        return _WeaponsRepository.GetWeaponsWithPriceCount();
+        return await _WeaponsRepository.GetWeaponsWithPriceCountAsync();
     }
 
-    public Weapons GetWeaponsById(string Id)
+    public async Task<Weapons> GetWeaponByIdAsync(string Id)
     {
-        return _WeaponsRepository.GetWeaponsById(Id);
+        return await _WeaponsRepository.GetWeaponByIdAsync(Id);
     }
 
-    public Weapons SumPowerWeaponsPercent()
+    public async Task<Weapons> SumPowerWeaponsPercentAsync()
     {
-        return _WeaponsRepository.SumPowerWeaponsPercent();
+        return await _WeaponsRepository.SumPowerWeaponsPercentAsync();
     }
 
-    public List<string> GetUniqueWeaponId()
+    public async Task<List<string>> GetUniqueWeaponsIdAsync()
     {
-        return _WeaponsRepository.GetUniqueWeaponId();
+        return await _WeaponsRepository.GetUniqueWeaponsIdAsync();
     }
 }

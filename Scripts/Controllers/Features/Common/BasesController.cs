@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,7 +37,7 @@ public class BasesController : MonoBehaviour
         BaseButtonPrefab = UIManager.Instance.GetGeneralButton("BaseButtonPrefab");
         BasePanelPrefab = UIManager.Instance.GetGeneralPanel("BasePanelPrefab");
     }
-    public void CreateBasePanel()
+    public async Task CreateBasePanelAsync()
     {
         GameObject currentObject = Instantiate(BasePanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -53,7 +54,7 @@ public class BasesController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        var Bases = BasesService.Create().GetBases(User.CurrentUserId, 1000, 0);
+        var Bases = await BasesService.Create().GetBasesAsync(User.CurrentUserId, 1000, 0);
         CreateBases(Bases, contentPanel);
     }
     public void CreateBases(List<Bases> Bases, Transform contentPanel)

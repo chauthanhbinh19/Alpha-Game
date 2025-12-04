@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -96,7 +97,7 @@ public class ArchitecturesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateArchitecturesTrade(List<Architectures> ArchitecturesList, string subType, Transform currentContent,
+    public async Task CreateArchitecturesTradeAsync(List<Architectures> ArchitecturesList, string subType, Transform currentContent,
     Transform CurrencyPanel, Transform popupPanel)
     {
         foreach (var architecture in ArchitecturesList)
@@ -168,7 +169,7 @@ public class ArchitecturesController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetArchitecturesCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetArchitecturesCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, CurrencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -280,12 +281,12 @@ public class ArchitecturesController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Architectures Architectures)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Architectures.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Architectures.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -316,8 +317,8 @@ public class ArchitecturesController : MonoBehaviour
             if (obj is Architectures architecture)
             {
                 architecture.Quantity = architecture.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(architecture.Currency.Id, price);
-                bool success = UserArchitecturesService.Create().InsertUserArchitectures(architecture, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(architecture.Currency.Id, price);
+                bool success = await UserArchitecturesService.Create().InsertUserArchitectureAsync(architecture, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -330,8 +331,8 @@ public class ArchitecturesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    ArchitecturesGalleryService.Create().InsertArchitecturesGallery(architecture.Id);
-                    currencies = UserCurrencyService.Create().GetArchitecturesCurrency(subType);
+                    await ArchitecturesGalleryService.Create().InsertArchitectureGalleryAsync(architecture.Id);
+                    currencies = await UserCurrenciesService.Create().GetArchitecturesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
 
                     ButtonEvent.Instance.Close(CurrencyPanel);
@@ -351,7 +352,7 @@ public class ArchitecturesController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

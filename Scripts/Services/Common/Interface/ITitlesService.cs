@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ITitlesService
 {
-    List<string> GetUniqueTitleId();
-    List<Titles> GetTitles(int pageSize, int offset, string rare);
-    int GetTitlesCount(string rare);
-    List<Titles> GetTitlesWithPrice(int pageSize, int offset);
-    int GetTitlesWithPriceCount();
-    Titles GetTitlesById(string Id);
-    Titles SumPowerTitlesPercent();
+    Task<List<string>> GetUniqueTitlesIdAsync();
+    Task<List<Titles>> GetTitlesAsync(int pageSize, int offset, string rare);
+    Task<int> GetTitlesCountAsync(string rare);
+    Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset);
+    Task<int> GetTitlesWithPriceCountAsync();
+    Task<Titles> GetTitleByIdAsync(string id);
+    Task<Titles> SumPowerTitlesPercentAsync();
 }

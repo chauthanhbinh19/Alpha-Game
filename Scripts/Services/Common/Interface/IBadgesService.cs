@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IBadgesService
 {
-    List<string> GetUniqueBadgeId();
-    List<Badges> GetBadges(int pageSize, int offset, string rare);
-    int GetBadgesCount(string rare);
-    List<Badges> GetBadgesWithPrice(int pageSize, int offset);
-    int GetBadgesWithPriceCount();
-    Badges GetBadgesById(string Id);
-    Badges SumPowerBadgesPercent();
+    Task<List<string>> GetUniqueBadgesIdAsync();
+    Task<List<Badges>> GetBadgesAsync(int pageSize, int offset, string rare);
+    Task<int> GetBadgesCountAsync(string rare);
+    Task<List<Badges>> GetBadgesWithPriceAsync(int pageSize, int offset);
+    Task<int> GetBadgesWithPriceCountAsync();
+    Task<Badges> GetBadgeByIdAsync(string id);
+    Task<Badges> SumPowerBadgesPercentAsync();
 }

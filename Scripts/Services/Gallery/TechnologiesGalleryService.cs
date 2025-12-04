@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class TechnologiesGalleryService : ITechnologiesGalleryService
 {
@@ -14,44 +15,44 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
         return new TechnologiesGalleryService(new TechnologiesGalleryRepository());
     }
 
-    public List<Technologies> GetTechnologiesCollection(int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetTechnologiesCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<Technologies> list = _TechnologiesGalleryRepository.GetTechnologiesCollection(pageSize, offset, rare);
+        List<Technologies> list = await _TechnologiesGalleryRepository.GetTechnologiesCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTechnologiesCount(string rare)
+    public async Task<int> GetTechnologiesCountAsync(string rare)
     {
-        return _TechnologiesGalleryRepository.GetTechnologiesCount(rare);
+        return await _TechnologiesGalleryRepository.GetTechnologiesCountAsync(rare);
     }
 
-    public void InsertTechnologiesGallery(string Id)
+    public async Task InsertTechnologyGalleryAsync(string Id)
     {
         ITechnologiesRepository _repository = new TechnologiesRepository();
         TechnologiesService _service = new TechnologiesService(_repository);
-        _TechnologiesGalleryRepository.InsertTechnologiesGallery(Id, _service.GetTechnologiesById(Id));
+        await _TechnologiesGalleryRepository.InsertTechnologyGalleryAsync(Id, await _service.GetTechnologyByIdAsync(Id));
     }
 
-    public void UpdateStatusTechnologiesGallery(string Id)
+    public async Task UpdateStatusTechnologyGalleryAsync(string Id)
     {
-        _TechnologiesGalleryRepository.UpdateStatusTechnologiesGallery(Id);
+        await _TechnologiesGalleryRepository.UpdateStatusTechnologyGalleryAsync(Id);
     }
 
-    public Technologies SumPowerTechnologiesGallery()
+    public async Task<Technologies> SumPowerTechnologiesGalleryAsync()
     {
-        return _TechnologiesGalleryRepository.SumPowerTechnologiesGallery();
+        return await _TechnologiesGalleryRepository.SumPowerTechnologiesGalleryAsync();
     }
 
-    public void UpdateStarTechnologiesGallery(string Id, double star)
+    public async Task UpdateStarTechnologyGalleryAsync(string Id, double star)
     {
-        _TechnologiesGalleryRepository.UpdateStarTechnologiesGallery(Id, star);
+        await _TechnologiesGalleryRepository.UpdateStarTechnologyGalleryAsync(Id, star);
     }
 
-    public void UpdateTechnologiesGalleryPower(string Id)
+    public async Task UpdateTechnologyGalleryPowerAsync(string Id)
     {
         ITechnologiesRepository _repository = new TechnologiesRepository();
         TechnologiesService _service = new TechnologiesService(_repository);
-        _TechnologiesGalleryRepository.UpdateTechnologiesGalleryPower(Id, _service.GetTechnologiesById(Id));
+        await _TechnologiesGalleryRepository.UpdateTechnologyGalleryPowerAsync(Id, await _service.GetTechnologyByIdAsync(Id));
     }
 }

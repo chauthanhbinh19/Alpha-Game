@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserMasterBoardService
 {
-    List<MasterBoard> GetUserMasterBoard(string user_id, string name);
-    void InsertUserMasterBoard(string user_id, MasterBoard masterBoard);
-    void UpdateUserMasterBoard(string user_id, MasterBoard masterBoard);
+    Task<List<MasterBoard>> GetUserMasterBoardAsync(string user_id, string name);
+    Task InsertUserMasterBoardAsync(string user_id, MasterBoard masterBoard);
+    Task UpdateUserMasterBoardAsync(string user_id, MasterBoard masterBoard);
 }

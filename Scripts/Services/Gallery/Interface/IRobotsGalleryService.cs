@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IRobotsGalleryService
 {
-    List<Robots> GetRobotsCollection(int pageSize, int offset, string rare);
-    int GetRobotsCount(string rare);
-    void InsertRobotsGallery(string Id);
-    void UpdateStatusRobotsGallery(string Id);
-    void UpdateStarRobotsGallery(string Id, double star);
-    void UpdateRobotsGalleryPower(string Id);
-    Robots SumPowerRobotsGallery();
+    Task<List<Robots>> GetRobotsCollectionAsync(int pageSize, int offset, string rare);
+    Task<int> GetRobotsCountAsync(string rare);
+    Task InsertRobotGalleryAsync(string Id);
+    Task UpdateStatusRobotGalleryAsync(string Id);
+    Task UpdateStarRobotGalleryAsync(string id, double star);
+    Task UpdateRobotGalleryPowerAsync(string id);
+    Task<Robots> SumPowerRobotsGalleryAsync();
 }

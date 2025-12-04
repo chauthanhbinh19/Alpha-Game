@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserPetsService : IUserPetsService
 {
@@ -14,9 +15,9 @@ public class UserPetsService : IUserPetsService
         return new UserPetsService(new UserPetsRepository());
     }
 
-    public List<Pets> GetFinalPower(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetFinalPowerAsync(string user_id, List<Pets> PetsList)
     {
-        PowerManager powerManager = PowerManagerService.Create().GetUserStats(user_id);
+        PowerManager powerManager = await PowerManagerService.Create().GetUserStatsAsync(user_id);
         foreach (var c in PetsList)
         {
             c.Health = c.Health + powerManager.Health + c.BaseStats.Health * powerManager.PercentAllHealth / 100;
@@ -95,9 +96,9 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    public List<Pets> GetScienceFictionPower(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetScienceFictionPowerAsync(string user_id, List<Pets> PetsList)
     {
-        ScienceFiction scienceFiction = ScienceFictionService.Create().GetSumScienceFiction(user_id);
+        ScienceFiction scienceFiction = await ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
         foreach (var c in PetsList)
         {
             c.Health = c.Health + scienceFiction.Health + c.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -176,11 +177,11 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    public List<Pets> GetAllEquipmentPower(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetAllEquipmentPowerAsync(string user_id, List<Pets> PetsList)
     {
         foreach (var c in PetsList)
         {
-            Equipments equipments = UserEquipmentsService.Create().GetAllEquipmentsByPetsId(user_id, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByPetIdAsync(user_id, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
@@ -257,11 +258,11 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    public List<Pets> GetAllRankPower(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetAllRankPowerAsync(string user_id, List<Pets> PetsList)
     {
         foreach (var c in PetsList)
         {
-            Rank rank = UserPetsRankService.Create().GetSumPetsRank(user_id, c.Id);
+            Rank rank = await UserPetsRankService.Create().GetSumPetsRankAsync(user_id, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -338,11 +339,11 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    public List<Pets> GetAllMasterPower(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetAllMasterPowerAsync(string user_id, List<Pets> PetsList)
     {
         foreach (var c in PetsList)
         {
-            Master master = UserPetsMasterService.Create().GetSumPetsMaster(user_id, c.Id);
+            Master master = await UserPetsMasterService.Create().GetSumPetsMasterAsync(user_id, c.Id);
             c.Health = c.Health + master.Health + c.BaseStats.Health * master.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + c.BaseStats.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + c.BaseStats.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
@@ -419,11 +420,11 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    public List<Pets> GetAllAnimeStatsPower(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetAllAnimeStatsPowerAsync(string user_id, List<Pets> PetsList)
     {
         foreach (var c in PetsList)
         {
-            AnimeStats animeStats = AnimeStatsService.Create().GetSumAnimeStats(user_id);
+            AnimeStats animeStats = await AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
             c.Health = c.Health + animeStats.Health + c.BaseStats.Health * animeStats.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + animeStats.PhysicalAttack + c.BaseStats.PhysicalAttack * animeStats.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + animeStats.PhysicalDefense + c.BaseStats.PhysicalDefense * animeStats.PercentAllPhysicalDefense / 100;
@@ -500,11 +501,11 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    public Pets GetNewLevelPower(Pets c, double coefficient)
+    public async Task<Pets> GetNewLevelPowerAsync(Pets c, double coefficient)
     {
         IPetsRepository _repository = new PetsRepository();
         PetsService _service = new PetsService(_repository);
-        Pets orginCard = _service.GetPetsById(c.Id);
+        Pets orginCard = await _service.GetPetByIdAsync(c.Id);
         Pets pets = new Pets
         {
             Id = c.Id,
@@ -583,11 +584,11 @@ public class UserPetsService : IUserPetsService
         );
         return pets;
     }
-    public Pets GetNewBreakthroughPower(Pets c, double coefficient)
+    public async Task<Pets> GetNewBreakthroughPowerAsync(Pets c, double coefficient)
     {
         IPetsRepository _repository = new PetsRepository();
         PetsService _service = new PetsService(_repository);
-        Pets orginCard = _service.GetPetsById(c.Id);
+        Pets orginCard = await _service.GetPetByIdAsync(c.Id);
         Pets pets = new Pets
         {
             Id = c.Id,
@@ -667,77 +668,77 @@ public class UserPetsService : IUserPetsService
         return pets;
     }
 
-    public List<Pets> GetUserPets(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Pets>> GetUserPetsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Pets> list = _userPetsRepository.GetUserPets(user_id, type, pageSize, offset, rare);
+        List<Pets> list = await _userPetsRepository.GetUserPetsAsync(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
-        list = GetFinalPower(user_id, list);
-        list = GetAllEquipmentPower(user_id, list);
-        list = GetAllRankPower(user_id, list);
-        list = GetAllMasterPower(user_id, list);
-        list = GetAllAnimeStatsPower(user_id, list);
-        list = GetScienceFictionPower(user_id, list);
+        list = await GetFinalPowerAsync(user_id, list);
+        list = await GetAllEquipmentPowerAsync(user_id, list);
+        list = await GetAllRankPowerAsync(user_id, list);
+        list = await GetAllMasterPowerAsync(user_id, list);
+        list = await GetAllAnimeStatsPowerAsync(user_id, list);
+        list = await GetScienceFictionPowerAsync(user_id, list);
         return list;
     }
 
-    public List<Pets> GetUserPetsTeam(string user_id, string teamId)
+    public async Task<List<Pets>> GetUserPetsTeamAsync(string user_id, string teamId)
     {
-        List<Pets> list = _userPetsRepository.GetUserPetsTeam(user_id, teamId);
+        List<Pets> list = await _userPetsRepository.GetUserPetsTeamAsync(user_id, teamId);
         list = QualityEvaluator.GetQualityPower(list);
-        list = GetFinalPower(user_id, list);
-        list = GetAllEquipmentPower(user_id, list);
-        list = GetAllRankPower(user_id, list);
-        list = GetAllMasterPower(user_id, list);
-        list = GetAllAnimeStatsPower(user_id, list);
-        list = GetScienceFictionPower(user_id, list);
+        list = await GetFinalPowerAsync(user_id, list);
+        list = await GetAllEquipmentPowerAsync(user_id, list);
+        list = await GetAllRankPowerAsync(user_id, list);
+        list = await GetAllMasterPowerAsync(user_id, list);
+        list = await GetAllAnimeStatsPowerAsync(user_id, list);
+        list = await GetScienceFictionPowerAsync(user_id, list);
         return list;
     }
 
-    public Dictionary<string, int> GetUniquePetTypesTeam(string teamId)
+    public async Task<Dictionary<string, int>> GetUniquePetsTypesTeamAsync(string teamId)
     {
-        return _userPetsRepository.GetUniquePetTypesTeam(teamId);
+        return await _userPetsRepository.GetUniquePetsTypesTeamAsync(teamId);
     }
 
-    public int GetUserPetsCount(string user_id, string type, string rare)
+    public async Task<int> GetUserPetsCountAsync(string user_id, string type, string rare)
     {
-        return _userPetsRepository.GetUserPetsCount(user_id, type, rare);
+        return await _userPetsRepository.GetUserPetsCountAsync(user_id, type, rare);
     }
 
-    public bool InsertUserPets(Pets pets, string userId)
+    public async Task<bool> InsertUserPetAsync(Pets pets, string userId)
     {
-        return _userPetsRepository.InsertUserPets(pets, userId);
+        return await _userPetsRepository.InsertUserPetAsync(pets, userId);
     }
 
-    public bool UpdatePetsLevel(Pets pets, int cardLevel)
+    public async Task<bool> UpdatePetLevelAsync(Pets pets, int cardLevel)
     {
-        return _userPetsRepository.UpdatePetsLevel(pets, cardLevel);
+        return await _userPetsRepository.UpdatePetLevelAsync(pets, cardLevel);
     }
 
-    public bool UpdatePetsBreakthrough(Pets pets, int star, double quantity)
+    public async Task<bool> UpdatePetBreakthroughAsync(Pets pets, int star, double quantity)
     {
-        return _userPetsRepository.UpdatePetsBreakthrough(pets, star, quantity);
+        return await _userPetsRepository.UpdatePetBreakthroughAsync(pets, star, quantity);
     }
 
-    public bool UpdateTeamCardPets(string team_id, string card_id)
+    public async Task<bool> UpdateTeamPetAsync(string team_id, string card_id)
     {
-        return _userPetsRepository.UpdateTeamCardPets(team_id, card_id);
+        return await _userPetsRepository.UpdateTeamPetAsync(team_id, card_id);
     }
 
-    public Pets GetUserPetsById(string user_id, string Id)
+    public async Task<Pets> GetUserPetByIdAsync(string user_id, string Id)
     {
-        return _userPetsRepository.GetUserPetsById(user_id, Id);
+        return await _userPetsRepository.GetUserPetByIdAsync(user_id, Id);
     }
 
-    public List<Pets> GetAllUserPetsInTeam(string user_id)
+    public async Task<List<Pets>> GetAllUserPetsInTeamAsync(string user_id)
     {
-        List<Pets> list = _userPetsRepository.GetAllUserPetsInTeam(user_id);
+        List<Pets> list = await _userPetsRepository.GetAllUserPetsInTeamAsync(user_id);
         list = QualityEvaluator.GetQualityPower(list);
-        list = GetFinalPower(user_id, list);
-        list = GetAllEquipmentPower(user_id, list);
-        list = GetAllRankPower(user_id, list);
-        list = GetAllMasterPower(user_id, list);
-        list = GetAllAnimeStatsPower(user_id, list);
-        list = GetScienceFictionPower(user_id, list);
+        list = await GetFinalPowerAsync(user_id, list);
+        list = await GetAllEquipmentPowerAsync(user_id, list);
+        list = await GetAllRankPowerAsync(user_id, list);
+        list = await GetAllMasterPowerAsync(user_id, list);
+        list = await GetAllAnimeStatsPowerAsync(user_id, list);
+        list = await GetScienceFictionPowerAsync(user_id, list);
         return list;
     }
 }

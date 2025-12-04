@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IRobotsRepository
 {
-    List<string> GetUniqueRobotId();
-    List<Robots> GetRobots(int pageSize, int offset, string rare);
-    int GetRobotsCount(string rare);
-    List<Robots> GetRobotsWithPrice(int pageSize, int offset);
-    int GetRobotsWithPriceCount();
-    Robots GetRobotsById(string Id);
-    Robots SumPowerRobotsPercent();
+    Task<List<string>> GetUniqueRobotsIdAsync();
+    Task<List<Robots>> GetRobotsAsync(int pageSize, int offset, string rare);
+    Task<int> GetRobotsCountAsync(string rare);
+    Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset);
+    Task<int> GetRobotsWithPriceCountAsync();
+    Task<Robots> GetRobotByIdAsync(string Id);
+    Task<Robots> SumPowerRobotsPercentAsync();
 }

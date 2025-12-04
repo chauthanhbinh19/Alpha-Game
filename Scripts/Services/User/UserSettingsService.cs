@@ -22,20 +22,20 @@ public class UserSettingsService : IUserSettingsService
         return await _userSettingsRepository.GetUserSettingsAsync(userId);
     }
 
-    public async Task InsertUserSettingsAsync(string userId, UserSettings userSetting)
+    public async Task InsertUserSettingAsync(string userId, UserSettings userSetting)
     {
-        await _userSettingsRepository.InsertUserSettingsAsync(userId, userSetting);
+        await _userSettingsRepository.InsertUserSettingAsync(userId, userSetting);
     }
 
-    public async Task UpdateUserSettingsAsync(string userId, UserSettings userSetting)
+    public async Task UpdateUserSettingAsync(string userId, UserSettings userSetting)
     {
-        await _userSettingsRepository.UpdateUserSettingsAsync(userId, userSetting);
+        await _userSettingsRepository.UpdateUserSettingAsync(userId, userSetting);
     }
 
     public async Task CreateInitiateUserSettingsAsync(string userId)
     {
         //Sound - Music setting
-        await InsertUserSettingsAsync(userId, new UserSettings
+        await InsertUserSettingAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.MUSIC,
             SettingValue = "100",
@@ -43,7 +43,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Sound - SFX setting
-        await InsertUserSettingsAsync(userId, new UserSettings
+        await InsertUserSettingAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.SFX,
             SettingValue = "100",
@@ -51,7 +51,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Sound - Voice setting
-        await InsertUserSettingsAsync(userId, new UserSettings
+        await InsertUserSettingAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.VOICE,
             SettingValue = "100",
@@ -59,7 +59,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Graphic - Resolution setting
-        await InsertUserSettingsAsync(userId, new UserSettings
+        await InsertUserSettingAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.RESOLUTION,
             SettingValue = "High",
@@ -67,7 +67,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Graphic - Texture setting
-        await InsertUserSettingsAsync(userId, new UserSettings
+        await InsertUserSettingAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.TEXTURE,
             SettingValue = "High",
@@ -75,7 +75,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Graphic - Damage Flytext setting
-        await InsertUserSettingsAsync(userId, new UserSettings
+        await InsertUserSettingAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.DAMAGE_FLYTEXT,
             SettingValue = "On",
@@ -83,7 +83,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Graphic - In-game cinematic setting
-        await InsertUserSettingsAsync(userId, new UserSettings
+        await InsertUserSettingAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.IN_GAME_CINEMATIC,
             SettingValue = "On",
@@ -91,7 +91,7 @@ public class UserSettingsService : IUserSettingsService
         });
 
         //Language - language setting
-        await InsertUserSettingsAsync(userId, new UserSettings
+        await InsertUserSettingAsync(userId, new UserSettings
         {
             SettingKey = AppConstants.Setting.LANGUAGE,
             SettingValue = "en",

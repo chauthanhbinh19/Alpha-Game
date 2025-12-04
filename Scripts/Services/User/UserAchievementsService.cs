@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using System.Threading.Tasks;
 
 public class UserAchievementsService : IUserAchievementsService
 {
@@ -19,12 +18,12 @@ public class UserAchievementsService : IUserAchievementsService
         return new UserAchievementsService(new UserAchievementsRepository());
     }
 
-    public Achievements GetNewLevelPower(Achievements c, double coefficient)
+    public async Task<Achievements> GetNewLevelPowerAsync(Achievements c, double coefficient)
     {
         // Achievements orginCard = new Achievements();
         IAchievementsRepository _repository = new AchievementsRepository();
         AchievementsService _service = new AchievementsService(_repository);
-        Achievements orginCard = _service.GetAchievementsById(c.Id);
+        Achievements orginCard = await _service.GetAchievementByIdAsync(c.Id);
         Achievements achievements = new Achievements
         {
             Id = c.Id,
@@ -103,11 +102,11 @@ public class UserAchievementsService : IUserAchievementsService
         );
         return achievements;
     }
-    public Achievements GetNewBreakthroughPower(Achievements c, double coefficient)
+    public async Task<Achievements> GetNewBreakthroughPowerAsync(Achievements c, double coefficient)
     {
         IAchievementsRepository _repository = new AchievementsRepository();
         AchievementsService _service = new AchievementsService(_repository);
-        Achievements orginCard = _service.GetAchievementsById(c.Id);
+        Achievements orginCard = await _service.GetAchievementByIdAsync(c.Id);
         Achievements achievements = new Achievements
         {
             Id = c.Id,
@@ -187,40 +186,40 @@ public class UserAchievementsService : IUserAchievementsService
         return achievements;
     }
 
-    public List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetUserAchievementsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Achievements> list = _userAchievementsRepository.GetUserAchievements(user_id, pageSize, offset, rare);
+        List<Achievements> list = await _userAchievementsRepository.GetUserAchievementsAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserCollaborationCount(string user_id, string rare)
+    public async Task<int> GetUserAchievementsCountAsync(string user_id, string rare)
     {
-        return _userAchievementsRepository.GetUserCollaborationCount(user_id, rare);
+        return await _userAchievementsRepository.GetUserArchievementsCountAsync(user_id, rare);
     }
 
-    public bool InsertUserAchievements(Achievements Achievements, string userId)
+    public async Task<bool> InsertUserAchievementAsync(Achievements Achievements, string userId)
     {
-        return _userAchievementsRepository.InsertUserAchievements(Achievements, userId);
+        return await _userAchievementsRepository.InsertUserAchievementsAsync(Achievements, userId);
     }
 
-    public bool UpdateAchievementLevel(Achievements achievements, int cardLevel)
+    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievements, int cardLevel)
     {
-        return _userAchievementsRepository.UpdateAchievementLevel(achievements, cardLevel);
+        return await _userAchievementsRepository.UpdateAchievementLevelAsync(achievements, cardLevel);
     }
 
-    public bool UpdateAchievementsBreakthrough(Achievements achievements, int star, double quantity)
+    public async Task<bool> UpdateAchievementBreakthroughAsync(Achievements achievements, int star, double quantity)
     {
-        return _userAchievementsRepository.UpdateAchievementsBreakthrough(achievements, star, quantity);
+        return await _userAchievementsRepository.UpdateAchievementBreakthroughAsync(achievements, star, quantity);
     }
 
-    public Achievements GetUserAchievementsById(string user_id, string Id)
+    public async Task<Achievements> GetUserAchievementByIdAsync(string user_id, string Id)
     {
-        return _userAchievementsRepository.GetUserAchievementsById(user_id, Id);
+        return await _userAchievementsRepository.GetUserAchievementByIdAsync(user_id, Id);
     }
 
-    public Achievements SumPowerUserAchievements()
+    public async Task<Achievements> SumPowerUserAchievementsAsync()
     {
-        return _userAchievementsRepository.SumPowerUserAchievements();
+        return await _userAchievementsRepository.SumPowerUserAchievementsAsync();
     }
 }

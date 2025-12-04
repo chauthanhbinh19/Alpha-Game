@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IDailyCheckinRepository
 {
-    void InsertDailyCheckin(DailyCheckin dailyCheckin);
-    void DeleteDailyCheckin(string dailyCheckinId);
+    Task InsertDailyCheckinAsync(DailyCheckin dailyCheckin);
+    Task DeleteDailyCheckinAsync(string dailyCheckinId);
 }

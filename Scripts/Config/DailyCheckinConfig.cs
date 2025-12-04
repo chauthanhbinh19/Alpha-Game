@@ -1,15 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 public class DailyCheckinConfig : MonoBehaviour
 {
     void Start()
     {
-        CreateDailyCheckin();
+        _=CreateDailyCheckinAsync();
     }
-    public void CreateDailyCheckin()
+    public async Task CreateDailyCheckinAsync()
     {
         // Lấy tháng và năm hiện tại
         DateTime now = DateTime.Now;
@@ -27,19 +28,19 @@ public class DailyCheckinConfig : MonoBehaviour
             for (int day = 1; day <= daysInMonth; day++)
             {
                 DateTime currentDate = new DateTime(year, month, day);
-                DailyCheckinService.Create().DeleteDailyCheckin(day.ToString());
-                CreateAndInsertDailyCheckin(day, currentDate);
+                await DailyCheckinService.Create().DeleteDailyCheckinAsync(day.ToString());
+                await CreateAndInsertDailyCheckinAsync(day, currentDate);
                 // UserDailyCheckinService.Create().InsertUserDailyCheckin(User.CurrentUserId, day.ToString());
             }
         }
     }
-    public void CreateAndInsertDailyCheckin(int day, DateTime currentDate)
+    public async Task CreateAndInsertDailyCheckinAsync(int day, DateTime currentDate)
     {
         List<string> list = new List<string>();
         switch (day)
         {
             case 1:
-                list = CardHeroesService.Create().GetUniqueCardHeroId();
+                list = await CardHeroesService.Create().GetUniqueCardHeroesIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -56,11 +57,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 2:
-                list = AlchemyService.Create().GetUniqueAlchemyId();
+                list = await AlchemiesService.Create().GetUniqueAlchemiesIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -77,11 +78,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 3:
-                list = AvatarsService.Create().GetUniqueAvatarsId();
+                list = await AvatarsService.Create().GetUniqueAvatarsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -98,11 +99,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 4:
-                list = BordersService.Create().GetUniqueBordersId();
+                list = await BordersService.Create().GetUniqueBordersIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -119,11 +120,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 5:
-                list = BooksService.Create().GetUniqueBookId();
+                list = await BooksService.Create().GetUniqueBooksIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -140,11 +141,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 6:
-                list = CardAdmiralsService.Create().GetUniqueCardAdmiralsId();
+                list = await CardAdmiralsService.Create().GetUniqueCardAdmiralsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -161,11 +162,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 7:
-                list = CardCaptainsService.Create().GetUniqueCardCaptainsId();
+                list = await CardCaptainsService.Create().GetUniqueCardCaptainsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -182,11 +183,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 8:
-                list = CardColonelsService.Create().GetUniqueCardColonelsId();
+                list = await CardColonelsService.Create().GetUniqueCardColonelsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -203,11 +204,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 9:
-                list = CardGeneralsService.Create().GetUniqueCardGeneralsId();
+                list = await CardGeneralsService.Create().GetUniqueCardGeneralsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -224,11 +225,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 10:
-                list = CardLifeService.Create().GetUniqueCardLifeId();
+                list = await CardLivesService.Create().GetUniqueCardLivesIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -245,11 +246,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 11:
-                list = CardMilitaryService.Create().GetUniqueCardMilitaryId();
+                list = await CardMilitariesService.Create().GetUniqueCardMilitariesIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -266,11 +267,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 12:
-                list = CardMonstersService.Create().GetUniqueCardMonstersId();
+                list = await CardMonstersService.Create().GetUniqueCardMonstersIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -287,11 +288,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 13:
-                list = CardSpellService.Create().GetUniqueCardSpellId();
+                list = await CardSpellsService.Create().GetUniqueCardSpellsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -308,11 +309,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 14:
-                list = CollaborationEquipmentService.Create().GetUniqueCollaborationEquipmentId();
+                list = await CollaborationEquipmentsService.Create().GetUniqueCollaborationEquipmentsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -329,11 +330,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 15:
-                list = CollaborationService.Create().GetUniqueCollaborationId();
+                list = await CollaborationsService.Create().GetUniqueCollaborationsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -350,11 +351,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 16:
-                list = EquipmentsService.Create().GetUniqueEquipmentsId();
+                list = await EquipmentsService.Create().GetUniqueEquipmentsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -371,11 +372,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 17:
-                list = ForgeService.Create().GetUniqueForgeId();
+                list = await ForgesService.Create().GetUniqueForgesIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -392,11 +393,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 18:
-                list = MagicFormationCircleService.Create().GetUniqueMagicFormationCircleId();
+                list = await MagicFormationCirclesService.Create().GetUniqueMagicFormationCirclesIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -413,11 +414,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 19:
-                list = MedalsService.Create().GetUniqueMedalId();
+                list = await MedalsService.Create().GetUniqueMedalsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -434,11 +435,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 20:
-                list = PetsService.Create().GetUniquePetsId();
+                list = await PetsService.Create().GetUniquePetsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -455,11 +456,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 21:
-                list = PuppetService.Create().GetUniquePuppetId();
+                list = await PuppetsService.Create().GetUniquePuppetsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -476,11 +477,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 22:
-                list = RelicsService.Create().GetUniqueRelicsId();
+                list = await RelicsService.Create().GetUniqueRelicsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -497,11 +498,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 23:
-                list = SkillsService.Create().GetUniqueSkillsId();
+                list = await SkillsService.Create().GetUniqueSkillsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -518,11 +519,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 24:
-                list = SymbolsService.Create().GetUniqueSymbolsId();
+                list = await SymbolsService.Create().GetUniqueSymbolsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -539,11 +540,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 25:
-                list = TalismanService.Create().GetUniqueTalismanId();
+                list = await TalismansService.Create().GetUniqueTalismansIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -560,11 +561,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 26:
-                list = TitlesService.Create().GetUniqueTitleId();
+                list = await TitlesService.Create().GetUniqueTitlesIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -581,11 +582,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 27:
-                list = ItemsService.Create().GetUniqueItemId();
+                list = await ItemsService.Create().GetUniqueItemsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -602,11 +603,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 28:
-                list = ItemsService.Create().GetUniqueItemId();
+                list = await ItemsService.Create().GetUniqueItemsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -623,11 +624,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 29:
-                list = ItemsService.Create().GetUniqueItemId();
+                list = await ItemsService.Create().GetUniqueItemsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -644,11 +645,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 30:
-                list = ItemsService.Create().GetUniqueItemId();
+                list = await ItemsService.Create().GetUniqueItemsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -665,11 +666,11 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             case 31:
-                list = ItemsService.Create().GetUniqueItemId();
+                list = await ItemsService.Create().GetUniqueItemsIdAsync();
                 if (list != null && list.Count > 0)
                 {
                     int randomIndex = UnityEngine.Random.Range(0, list.Count); // [0, list.Count)
@@ -686,7 +687,7 @@ public class DailyCheckinConfig : MonoBehaviour
                         Quantity = 5000
                     };
 
-                    DailyCheckinService.Create().InsertDailyCheckin(dailyCheckin);
+                    await DailyCheckinService.Create().InsertDailyCheckinAsync(dailyCheckin);
                 }
                 break;
             default:

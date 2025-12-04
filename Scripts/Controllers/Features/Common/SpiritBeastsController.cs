@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -80,7 +81,7 @@ public class SpiritBeastsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateSpiritBeastTrade(List<SpiritBeasts> SpiritBeastList, string subType, Transform currentContent,
+    public async Task CreateSpiritBeastTradeAsync(List<SpiritBeasts> SpiritBeastList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var spiritBeast in SpiritBeastList)
@@ -152,7 +153,7 @@ public class SpiritBeastsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetSpiritBeastCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetSpiritBeastsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -264,12 +265,12 @@ public class SpiritBeastsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is SpiritBeasts SpiritBeast)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(SpiritBeast.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(SpiritBeast.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -300,8 +301,8 @@ public class SpiritBeastsController : MonoBehaviour
             if (obj is SpiritBeasts SpiritBeast)
             {
                 SpiritBeast.Quantity = SpiritBeast.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(SpiritBeast.Currency.Id, price);
-                bool success = UserSpiritBeastService.Create().InsertUserSpiritBeast(SpiritBeast);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(SpiritBeast.Currency.Id, price);
+                bool success = await UserSpiritBeastsService.Create().InsertUserSpiritBeastAsync(SpiritBeast);
                 if (!success)
                 {
                     allSuccess = false;
@@ -314,8 +315,8 @@ public class SpiritBeastsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    SpiritBeastGalleryService.Create().InsertSpiritBeastGallery(SpiritBeast.Id);
-                    currencies = UserCurrencyService.Create().GetSpiritBeastCurrency(subType);
+                    await SpiritBeastsGalleryService.Create().InsertSpiritBeastGalleryAsync(SpiritBeast.Id);
+                    currencies = await UserCurrenciesService.Create().GetSpiritBeastsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(SpiritBeast.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -335,7 +336,7 @@ public class SpiritBeastsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

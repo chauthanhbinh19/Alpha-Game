@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -81,7 +82,7 @@ public class SpiritCardsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateSpiritCardTrade(List<SpiritCards> SpiritCardList, string subType, Transform currentContent,
+    public async Task CreateSpiritCardTradeAsync(List<SpiritCards> SpiritCardList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var spiritBeast in SpiritCardList)
@@ -153,7 +154,7 @@ public class SpiritCardsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetSpiritCardCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetSpiritCardsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -265,12 +266,12 @@ public class SpiritCardsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is SpiritCards SpiritCard)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(SpiritCard.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(SpiritCard.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -301,8 +302,8 @@ public class SpiritCardsController : MonoBehaviour
             if (obj is SpiritCards SpiritCard)
             {
                 SpiritCard.Quantity = SpiritCard.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(SpiritCard.Currency.Id, price);
-                bool success = UserSpiritCardService.Create().InsertUserSpiritCard(SpiritCard);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(SpiritCard.Currency.Id, price);
+                bool success = await UserSpiritCardsService.Create().InsertUserSpiritCardAsync(SpiritCard);
                 if (!success)
                 {
                     allSuccess = false;
@@ -315,8 +316,8 @@ public class SpiritCardsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    SpiritCardGalleryService.Create().InsertSpiritCardGallery(SpiritCard.Id);
-                    currencies = UserCurrencyService.Create().GetSpiritCardCurrency(subType);
+                    await SpiritCardsGalleryService.Create().InsertSpiritCardGalleryAsync(SpiritCard.Id);
+                    currencies = await UserCurrenciesService.Create().GetSpiritCardsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(SpiritCard.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -336,7 +337,7 @@ public class SpiritCardsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

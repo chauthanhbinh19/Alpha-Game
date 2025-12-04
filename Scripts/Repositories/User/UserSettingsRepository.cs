@@ -47,7 +47,7 @@ public class UserSettingsRepository : IUserSettingsRepository
 
         return userSettingList;
     }
-    public async Task InsertUserSettingsAsync(string userId, UserSettings userSetting)
+    public async Task InsertUserSettingAsync(string userId, UserSettings userSetting)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -77,7 +77,7 @@ public class UserSettingsRepository : IUserSettingsRepository
             }
         }
     }
-    public async Task UpdateUserSettingsAsync(string userId, UserSettings userSetting)
+    public async Task UpdateUserSettingAsync(string userId, UserSettings userSetting)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -42,10 +43,10 @@ public class ItemsController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateItemsTrade(List<Items> items, Currencies currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
+    public async Task CreateItemsTradeAsync(List<Items> items, Currencies currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
         List<Currencies> currencies = new List<Currencies>();
-        var tempCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.Id);
+        var tempCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(currency.Id);
         currencies.Add(tempCurrency);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
 
@@ -184,9 +185,9 @@ public class ItemsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
-            Currencies userCurrency = userCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.Id);
+            Currencies userCurrency = userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(currency.Id);
             int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
@@ -205,7 +206,7 @@ public class ItemsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
-        confirmButton.onClick.AddListener(() =>
+        confirmButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
@@ -213,8 +214,8 @@ public class ItemsController : MonoBehaviour
 
             if (obj is Items item)
             {
-                UserCurrencyService.Create().UpdateUserCurrency(currency.Id, price);
-                bool success = UserItemsService.Create().InsertUserItems(item, quantity);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, price);
+                bool success = await UserItemsService.Create().InsertUserItemAsync(item, quantity);
                 if (!success)
                 {
                     allSuccess = false;
@@ -226,7 +227,7 @@ public class ItemsController : MonoBehaviour
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
-                    var tempCurrency = UserCurrencyService.Create().GetUserCurrencyById(currency.Id);
+                    var tempCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(currency.Id);
                     currencies.Add(tempCurrency);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserCardsService : IUserCardsService
 {
@@ -14,11 +15,11 @@ public class UserCardsService : IUserCardsService
         return new UserCardsService(new UserCardsRepository());
     }
 
-    public Cards GetNewLevelPower(Cards c, double coefficient)
+    public async Task<Cards> GetNewLevelPowerAsync(Cards c, double coefficient)
     {
         ICardsRepository _repository = new CardsRepository();
         CardsService _service = new CardsService(_repository);
-        Cards orginCard = _service.GetCardsById(c.Id);
+        Cards orginCard = await _service.GetCardByIdAsync(c.Id);
         Cards Cards = new Cards
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserCardsService : IUserCardsService
         );
         return Cards;
     }
-    public Cards GetNewBreakthroughPower(Cards c, double coefficient)
+    public async Task<Cards> GetNewBreakthroughPowerAsync(Cards c, double coefficient)
     {
         ICardsRepository _repository = new CardsRepository();
         CardsService _service = new CardsService(_repository);
-        Cards orginCard = _service.GetCardsById(c.Id);
+        Cards orginCard = await _service.GetCardByIdAsync(c.Id);
         Cards Cards = new Cards
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserCardsService : IUserCardsService
         return Cards;
     }
 
-    public List<Cards> GetUserCards(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Cards>> GetUserCardsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Cards> list = _userCardsRepository.GetUserCards(user_id, pageSize, offset, rare);
+        List<Cards> list = await _userCardsRepository.GetUserCardsAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserCardsCount(string user_id, string rare)
+    public async Task<int> GetUserCardsCountAsync(string user_id, string rare)
     {
-        return _userCardsRepository.GetUserCardsCount(user_id, rare);
+        return await _userCardsRepository.GetUserCardsCountAsync(user_id, rare);
     }
 
-    public bool InsertUserCards(Cards Cards, string userId)
+    public async Task<bool> InsertUserCardAsync(Cards Cards, string userId)
     {
-        return _userCardsRepository.InsertUserCards(Cards, userId);
+        return await _userCardsRepository.InsertUserCardAsync(Cards, userId);
     }
 
-    public bool UpdateCardsLevel(Cards Cards, int cardLevel)
+    public async Task<bool> UpdateCardLevelAsync(Cards Cards, int cardLevel)
     {
-        return _userCardsRepository.UpdateCardsLevel(Cards, cardLevel);
+        return await _userCardsRepository.UpdateCardLevelAsync(Cards, cardLevel);
     }
 
-    public bool UpdateCardsBreakthrough(Cards Cards, int star, double quantity)
+    public async Task<bool> UpdateCardBreakthroughAsync(Cards Cards, int star, double quantity)
     {
-        return _userCardsRepository.UpdateCardsBreakthrough(Cards, star, quantity);
+        return await _userCardsRepository.UpdateCardBreakthroughAsync(Cards, star, quantity);
     }
 
-    public Cards GetUserCardsById(string user_id, string Id)
+    public async Task<Cards> GetUserCardByIdAsync(string user_id, string Id)
     {
-        return _userCardsRepository.GetUserCardsById(user_id, Id);
+        return await _userCardsRepository.GetUserCardByIdAsync(user_id, Id);
     }
 
-    public Cards SumPowerUserCards()
+    public async Task<Cards> SumPowerUserCardsAsync()
     {
-        return _userCardsRepository.SumPowerUserCards();
+        return await _userCardsRepository.SumPowerUserCardsAsync();
     }
 }

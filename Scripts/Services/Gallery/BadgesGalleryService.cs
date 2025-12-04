@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class BadgesGalleryService : IBadgesGalleryService
 {
@@ -14,44 +15,44 @@ public class BadgesGalleryService : IBadgesGalleryService
         return new BadgesGalleryService(new BadgesGalleryRepository());
     }
 
-    public List<Badges> GetBadgesCollection(int pageSize, int offset, string rare)
+    public async Task<List<Badges>> GetBadgesCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<Badges> list = _BadgesGalleryRepository.GetBadgesCollection(pageSize, offset, rare);
+        List<Badges> list = await _BadgesGalleryRepository.GetBadgesCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBadgesCount(string rare)
+    public async Task<int> GetBadgesCountAsync(string rare)
     {
-        return _BadgesGalleryRepository.GetBadgesCount(rare);
+        return await _BadgesGalleryRepository.GetBadgesCountAsync(rare);
     }
 
-    public void InsertBadgesGallery(string Id)
+    public async Task InsertBadgeGalleryAsync(string Id)
     {
         IBadgesRepository _repository = new BadgesRepository();
         BadgesService _service = new BadgesService(_repository);
-        _BadgesGalleryRepository.InsertBadgesGallery(Id, _service.GetBadgesById(Id));
+        await _BadgesGalleryRepository.InsertBadgeGalleryAsync(Id, await _service.GetBadgeByIdAsync(Id));
     }
 
-    public void UpdateStatusBadgesGallery(string Id)
+    public async Task UpdateStatusBadgeGalleryAsync(string Id)
     {
-        _BadgesGalleryRepository.UpdateStatusBadgesGallery(Id);
+        await _BadgesGalleryRepository.UpdateStatusBadgeGalleryAsync(Id);
     }
 
-    public Badges SumPowerBadgesGallery()
+    public async Task<Badges> SumPowerBadgesGalleryAsync()
     {
-        return _BadgesGalleryRepository.SumPowerBadgesGallery();
+        return await _BadgesGalleryRepository.SumPowerBadgesGalleryAsync();
     }
 
-    public void UpdateStarBadgesGallery(string Id, double star)
+    public async Task UpdateStarBadgeGalleryAsync(string Id, double star)
     {
-        _BadgesGalleryRepository.UpdateStarBadgesGallery(Id, star);
+        await _BadgesGalleryRepository.UpdateStarBadgeGalleryAsync(Id, star);
     }
 
-    public void UpdateBadgesGalleryPower(string Id)
+    public async Task UpdateBadgeGalleryPowerAsync(string Id)
     {
         IBadgesRepository _repository = new BadgesRepository();
         BadgesService _service = new BadgesService(_repository);
-        _BadgesGalleryRepository.UpdateBadgesGalleryPower(Id, _service.GetBadgesById(Id));
+        await _BadgesGalleryRepository.UpdateBadgeGalleryPowerAsync(Id, await _service.GetBadgeByIdAsync(Id));
     }
 }

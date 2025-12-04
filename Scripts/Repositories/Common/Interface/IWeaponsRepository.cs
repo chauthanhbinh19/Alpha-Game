@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IWeaponsRepository
 {
-    List<string> GetUniqueWeaponId();
-    List<Weapons> GetWeapons(int pageSize, int offset, string rare);
-    int GetWeaponsCount(string rare);
-    List<Weapons> GetWeaponsWithPrice(int pageSize, int offset);
-    int GetWeaponsWithPriceCount();
-    Weapons GetWeaponsById(string Id);
-    Weapons SumPowerWeaponsPercent();
+    Task<List<string>> GetUniqueWeaponsIdAsync();
+    Task<List<Weapons>> GetWeaponsAsync(int pageSize, int offset, string rare);
+    Task<int> GetWeaponsCountAsync(string rare);
+    Task<List<Weapons>> GetWeaponsWithPriceAsync(int pageSize, int offset);
+    Task<int> GetWeaponsWithPriceCountAsync();
+    Task<Weapons> GetWeaponByIdAsync(string id);
+    Task<Weapons> SumPowerWeaponsPercentAsync();
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class AvatarsService : IAvatarsService
 {
@@ -14,42 +15,42 @@ public class AvatarsService : IAvatarsService
         return new AvatarsService(new AvatarsRepository());
     }
 
-    public List<Avatars> GetAvatars(int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetAvatarsAsync(int pageSize, int offset, string rare)
     {
-        List<Avatars> list = _avatarsRepository.GetAvatars(pageSize, offset, rare);
+        List<Avatars> list = await _avatarsRepository.GetAvatarsAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetAvatarsCount(string rare)
+    public async Task<int> GetAvatarsCountAsync(string rare)
     {
-        return _avatarsRepository.GetAvatarsCount(rare);
+        return await _avatarsRepository.GetAvatarsCountAsync(rare);
     }
 
-    public List<Avatars> GetAvatarsWithPrice(int pageSize, int offset)
+    public async Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset)
     {
-        List<Avatars> list = _avatarsRepository.GetAvatarsWithPrice(pageSize, offset);
+        List<Avatars> list = await _avatarsRepository.GetAvatarsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetAvatarsWithPriceCount()
+    public async Task<int> GetAvatarsWithPriceCountAsync()
     {
-        return _avatarsRepository.GetAvatarsWithPriceCount();
+        return await _avatarsRepository.GetAvatarsWithPriceCountAsync();
     }
 
-    public Avatars GetAvatarsById(string Id)
+    public async Task<Avatars> GetAvatarByIdAsync(string Id)
     {
-        return _avatarsRepository.GetAvatarsById(Id);
+        return await _avatarsRepository.GetAvatarByIdAsync(Id);
     }
 
-    public Avatars SumPowerAvatarsPercent()
+    public async Task<Avatars> SumPowerAvatarsPercentAsync()
     {
-        return _avatarsRepository.SumPowerAvatarsPercent();
+        return await _avatarsRepository.SumPowerAvatarsPercentAsync();
     }
 
-    public List<string> GetUniqueAvatarsId()
+    public async Task<List<string>> GetUniqueAvatarsIdAsync()
     {
-        return _avatarsRepository.GetUniqueAvatarsId();
+        return await _avatarsRepository.GetUniqueAvatarsIdAsync();
     }
 }

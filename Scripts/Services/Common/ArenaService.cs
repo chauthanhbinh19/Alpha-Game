@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ArenaService : IArenaService
 {
@@ -14,28 +15,28 @@ public class ArenaService : IArenaService
         return new ArenaService(new ArenaRepository());
     }
 
-    public List<string> GetUniqueTypes()
+    public async Task<List<string>> GetUniqueTypesAsync()
     {
-        return _arenaRepository.GetUniqueTypes();
+        return await _arenaRepository.GetUniqueTypesAsync();
     }
 
-    public string GetArenaModeId(string type)
+    public async Task<string> GetArenaModeIdAsync(string type)
     {
-        return _arenaRepository.GetArenaModeId(type);
+        return await _arenaRepository.GetArenaModeIdAsync(type);
     }
 
-    public Dictionary<string, int> GetArenaParticipantByRanking(string arena_id)
+    public async Task<Dictionary<string, int>> GetArenaParticipantByRankingAsync(string arena_id)
     {
-        return _arenaRepository.GetArenaParticipantByRanking(arena_id);
+        return await _arenaRepository.GetArenaParticipantByRankingAsync(arena_id);
     }
 
-    public int GetArenaParticipantPoint(string user_id, string arena_id)
+    public async Task<int> GetArenaParticipantPointAsync(string user_id, string arena_id)
     {
-        return _arenaRepository.GetArenaParticipantPoint(user_id, arena_id);
-    }
+        return await _arenaRepository.GetArenaParticipantPointAsync(user_id, arena_id);
+    } 
 
-    public void InsertArenaParticipant(string user_id, string arena_id)
+    public async Task InsertArenaParticipantAsync(string user_id, string arena_id)
     {
-        _arenaRepository.InsertArenaParticipant(user_id, arena_id);
+        await _arenaRepository.InsertArenaParticipantAsync(user_id, arena_id);
     }
 }

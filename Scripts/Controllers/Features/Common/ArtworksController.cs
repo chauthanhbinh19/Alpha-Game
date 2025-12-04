@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,7 +78,7 @@ public class ArtworksController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateArtworkTrade(List<Artworks> alchemies, string subType, Transform currentContent,
+    public async Task CreateArtworkTradeAsync(List<Artworks> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var Artwork in alchemies)
@@ -132,7 +133,7 @@ public class ArtworksController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetArtworkCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetArtworksCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -244,12 +245,12 @@ public class ArtworksController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Artworks Artwork)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(Artwork.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Artwork.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -280,8 +281,8 @@ public class ArtworksController : MonoBehaviour
             if (obj is Artworks artwork)
             {
                 artwork.Quantity = artwork.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(artwork.Currency.Id, price);
-                bool success = UserArtworkService.Create().InsertUserArtwork(artwork, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(artwork.Currency.Id, price);
+                bool success = await UserArtworksService.Create().InsertUserArtworkAsync(artwork, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -294,8 +295,8 @@ public class ArtworksController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    ArtworkGalleryService.Create().InsertArtworkGallery(artwork.Id);
-                    currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
+                    await ArtworksGalleryService.Create().InsertArtworkGalleryAsync(artwork.Id);
+                    currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -315,7 +316,7 @@ public class ArtworksController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

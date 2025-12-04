@@ -2,20 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class LoadTeams
 {
-    public List<CardBase> LoadPlayerTeamCard(string userId, string teamId)
+    public async Task<List<CardBase>> LoadPlayerTeamCardAsync(string userId, string teamId)
     {
-        var cardHeroesList = UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPosition(userId, teamId);
-        var cardCaptainsList = UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPosition(userId, teamId);
-        var cardColonelsList = UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPosition(userId, teamId);
-        var cardGeneralsList = UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPosition(userId, teamId);
-        var cardAdmiralsList = UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPosition(userId, teamId);
-        var cardMonstersList = UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPosition(userId, teamId);
-        var cardMilitaryList = UserCardMilitaryService.Create().GetUserCardMilitaryTeamWithoutPosition(userId, teamId);
-        var cardSpellList = UserCardSpellService.Create().GetUserCardSpellTeamWithoutPosition(userId, teamId);
+        var cardHeroesList = await UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
+        var cardCaptainsList = await UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(userId, teamId);
+        var cardColonelsList = await UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(userId, teamId);
+        var cardGeneralsList = await UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(userId, teamId);
+        var cardAdmiralsList = await UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(userId, teamId);
+        var cardMonstersList = await UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(userId, teamId);
+        var cardMilitaryList = await UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(userId, teamId);
+        var cardSpellList = await UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(userId, teamId);
 
         List<CardBase> allCards = new List<CardBase>();
 

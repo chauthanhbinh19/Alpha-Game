@@ -1,25 +1,29 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserCardHeroesService
 {
-    List<CardHeroes> GetFinalPower(string user_id, List<CardHeroes> CardHeroesList);
-    List<CardHeroes> GetAllEquipmentPower(string user_id, List<CardHeroes> CardHeroesList);
-    List<CardHeroes> GetAllRankPower(string user_id, List<CardHeroes> CardHeroesList);
-    List<CardHeroes> GetAllAnimeStatsPower(string user_id, List<CardHeroes> CardHeroesList);
-    CardHeroes GetNewLevelPower(CardHeroes c, double coefficient);
-    CardHeroes GetNewBreakthroughPower(CardHeroes c, double coefficient);
-    List<CardHeroes> GetSkills(string user_id, List<CardHeroes> CardHeroesList);
-    List<CardHeroes> GetUserCardHeroes(string user_id, string type, int pageSize, int offset, string rare);
-    List<CardHeroes> GetUserCardHeroesTeam(string user_id, string teamId, string position);
-    List<CardHeroes> GetUserCardHeroesTeamWithoutPosition(string user_id, string teamId);
-    Dictionary<string, int> GetUniqueCardHeroTypesTeam(string teamId);
-    int GetUserCardHeroesCount(string user_id, string type, string rare);
-    int GetUserCardHeroesTeamsPositionCount(string user_id, string team_id, string position);
-    int GetUserCardHeroesTeamsCount(string user_id, string team_id);
-    bool InsertUserCardHeroes(CardHeroes CardHeroes);
-    bool UpdateCardHeroesLevel(CardHeroes cardHeroes, int cardLevel);
-    bool UpdateCardHeroesBreakthrough(CardHeroes cardHeroes, int star, double quantity);
-    bool UpdateTeamCardHeroes(string team_id, string position, string card_id);
-    CardHeroes GetUserCardHeroesById(string user_id, string Id);
-    List<CardHeroes> GetAllUserCardHeroesInTeam(string user_id);
+    Task<List<CardHeroes>> GetFinalPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
+    Task<List<CardHeroes>> GetScienceFictionPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
+    Task<List<CardHeroes>> GetAllEquipmentPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
+    Task<List<CardHeroes>> GetAllRankPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
+    Task<List<CardHeroes>> GetAllMasterPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
+    Task<List<CardHeroes>> GetAllAnimeStatsPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
+    Task<List<CardHeroes>> GetAllSpiritBeastPowerAsync(string user_id, List<CardHeroes> cardHeroes);
+    Task<CardHeroes> GetNewLevelPowerAsync(CardHeroes c, double coefficient);
+    Task<CardHeroes> GetNewBreakthroughPowerAsync(CardHeroes c, double coefficient);
+    Task<List<CardHeroes>> GetSkillsAsync(string user_id, List<CardHeroes> CardHeroesList);
+    Task<List<CardHeroes>> GetUserCardHeroesAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string user_id, string teamId, string position);
+    Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string user_id, string teamId);
+    Task<Dictionary<string, int>> GetUniqueCardHeroesTypesTeamAsync(string teamId);
+    Task<bool> UpdateTeamCardHeroAsync(string team_id, string position, string card_id);
+    Task<int> GetUserCardHeroesCountAsync(string user_id, string type, string rare);
+    Task<int> GetUserCardHeroesTeamsPositionCountAsync(string user_id, string team_id, string position);
+    Task<int> GetUserCardHeroesTeamsCountAsync(string user_id, string team_id);
+    Task<bool> InsertUserCardHeroAsync(CardHeroes CardHeroes);
+    Task<bool> UpdateCardHeroLevelAsync(CardHeroes CardHeroes, int cardLevel);
+    Task<bool> UpdateCardHeroBreakthroughAsync(CardHeroes CardHeroes, int star, double quantity);
+    Task<CardHeroes> GetUserCardHeroByIdAsync(string user_id, string Id);
+    Task<List<CardHeroes>> GetAllUserCardHeroesInTeamAsync(string user_id);
 }

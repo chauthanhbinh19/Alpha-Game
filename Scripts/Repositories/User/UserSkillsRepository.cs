@@ -2,34 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using MySqlConnector;
+using System.Threading.Tasks;
 using System.Linq;
 
 public class UserSkillsRepository : IUserSkillsRepository
 {
-    public List<Skills> GetUserSkills(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
         List<Skills> skillsList = new List<Skills>();
-        // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description 
-                from Skills s, user_skills us
-                where s.id=us.skill_id and us.user_id=@userId and s.type= @type AND (@rare = 'All' or s.rare = @rare)
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name limit @limit offset @offset";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description 
+                FROM skills s
+                INNER JOIN user_skills us ON s.id = us.skill_id
+                WHERE us.user_id = @userId 
+                  AND s.type = @type 
+                  AND (@rare = 'All' OR s.rare = @rare)
+                ORDER BY s.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name
+                LIMIT @limit OFFSET @offset;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -106,62 +114,74 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public int GetUserSkillsCount(string user_id, string type, string rare)
+    public async Task<int> GetUserSkillsCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
-        // string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select count(*) from skills s, user_skills us 
-                where s.id=us.skill_id and us.user_id=@userId and s.type= @type AND (@rare = 'All' or s.rare = @rare)";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT COUNT(*) 
+                FROM skills s
+                INNER JOIN user_skills us ON s.id = us.skill_id
+                WHERE us.user_id = @userId 
+                AND s.type = @type 
+                AND (@rare = 'All' OR s.rare = @rare);";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
-                count = Convert.ToInt32(command.ExecuteScalar());
+
+                var result = await command.ExecuteScalarAsync();
+                count = Convert.ToInt32(result);
 
                 return count;
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                return 0;
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
-        return count;
     }
-    public bool InsertUserSkills(Skills skills)
+    public async Task<bool> InsertUserSkillAsync(Skills skills)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) FROM user_skills 
                 WHERE user_id = @user_id AND skill_id = @skill_id;";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                await using var checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@skill_id", skills.Id);
 
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+                var countObj = await checkCommand.ExecuteScalarAsync();
+                int count = Convert.ToInt32(countObj);
+
                 if (count == 0)
                 {
                     string query = @"
@@ -200,7 +220,9 @@ public class UserSkillsRepository : IUserSkillsRepository
                     @normal_damage_rate, @normal_resistance_rate,
                     @skill_damage_rate, @skill_resistance_rate
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
+
+                    await using var command = new MySqlCommand(query, connection);
+
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@skill_id", skills.Id);
                     command.Parameters.AddWithValue("@rare", skills.Rare);
@@ -260,7 +282,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                     command.Parameters.AddWithValue("@normal_resistance_rate", skills.NormalResistanceRate);
                     command.Parameters.AddWithValue("@skill_damage_rate", skills.SkillDamageRate);
                     command.Parameters.AddWithValue("@skill_resistance_rate", skills.SkillResistanceRate);
-                    MySqlDataReader reader = command.ExecuteReader();
+
+                    await command.ExecuteNonQueryAsync();
                 }
                 else
                 {
@@ -270,14 +293,15 @@ public class UserSkillsRepository : IUserSkillsRepository
                     SET quantity = @quantity
                     WHERE user_id = @user_id AND skill_id = @skill_id;";
 
-                    MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                    await using var updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@skill_id", skills.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", skills.Quantity);
 
-                    updateCommand.ExecuteNonQuery();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
 
+                return true;
             }
             catch (MySqlException ex)
             {
@@ -286,20 +310,20 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
-        return true;
     }
-    public bool UpdateSkillsLevel(Skills skills, int cardLevel)
+    public async Task<bool> UpdateSkillLevelAsync(Skills skills, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
+
                 string query = @"
                 UPDATE user_skills
                 SET 
@@ -310,14 +334,15 @@ public class UserSkillsRepository : IUserSkillsRepository
                     atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
                     mental_attack = @mental_attack, mental_defense = @mental_defense, 
                     speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
+                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, 
+                    ignore_critical_rate = @ignore_critical_rate,
                     penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
                     evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
                     ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
                     vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
                     accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
                     tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
                     stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
                     reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
                     reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
@@ -329,7 +354,9 @@ public class UserSkillsRepository : IUserSkillsRepository
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND skill_id = @skill_id;";
-                MySqlCommand command = new MySqlCommand(query, connection);
+
+                await using var command = new MySqlCommand(query, connection);
+
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@skill_id", skills.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
@@ -383,7 +410,9 @@ public class UserSkillsRepository : IUserSkillsRepository
                 command.Parameters.AddWithValue("@normal_resistance_rate", skills.NormalResistanceRate);
                 command.Parameters.AddWithValue("@skill_damage_rate", skills.SkillDamageRate);
                 command.Parameters.AddWithValue("@skill_resistance_rate", skills.SkillResistanceRate);
-                command.ExecuteNonQuery();
+
+                await command.ExecuteNonQueryAsync();
+                return true;
             }
             catch (MySqlException ex)
             {
@@ -392,37 +421,39 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
-        return true;
     }
-    public bool UpdateSkillsBreakthrough(Skills skills, int star, double quantity)
+    public async Task<bool> UpdateSkillBreakthroughAsync(Skills skills, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
+
                 string query = @"
                 UPDATE user_skills
                 SET 
-                    star = @star, quantity = @quantity, power=@power, health = @health, 
+                    star = @star, quantity = @quantity, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
                     magical_attack = @magical_attack, magical_defense = @magical_defense, 
                     chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
                     atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
                     mental_attack = @mental_attack, mental_defense = @mental_defense, 
                     speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
+                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, 
+                    ignore_critical_rate = @ignore_critical_rate,
                     penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
                     evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
                     ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
                     vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
                     accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
                     tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
+                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
                     stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
                     reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
                     reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
@@ -434,7 +465,9 @@ public class UserSkillsRepository : IUserSkillsRepository
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND skill_id = @skill_id;";
-                MySqlCommand command = new MySqlCommand(query, connection);
+
+                await using var command = new MySqlCommand(query, connection);
+
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@skill_id", skills.Id);
                 command.Parameters.AddWithValue("@star", star);
@@ -489,7 +522,9 @@ public class UserSkillsRepository : IUserSkillsRepository
                 command.Parameters.AddWithValue("@normal_resistance_rate", skills.NormalResistanceRate);
                 command.Parameters.AddWithValue("@skill_damage_rate", skills.SkillDamageRate);
                 command.Parameters.AddWithValue("@skill_resistance_rate", skills.SkillResistanceRate);
-                command.ExecuteNonQuery();
+
+                await command.ExecuteNonQueryAsync();
+                return true;
             }
             catch (MySqlException ex)
             {
@@ -498,31 +533,33 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
-        return true;
     }
-    public Skills GetUserSkillsById(string user_id, string Id)
+    public async Task<Skills> GetUserSkillsByIdAsync(string user_id, string Id)
     {
         Skills card = new Skills();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select * from user_skills where skill_id=@id 
-                and user_id=@user_id";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"SELECT * FROM user_skills WHERE skill_id = @id AND user_id = @user_id";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@id", Id);
                 command.Parameters.AddWithValue("@user_id", user_id);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
                 {
                     card = new Skills
                     {
-                        Id = reader.GetString("skills_id"),
+                        Id = reader.GetString("skill_id"),
                         Level = reader.GetInt32("level"),
                         Quality = reader.GetInt32("quality"),
                         Experiment = reader.GetDouble("experiment"),
@@ -586,31 +623,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return card;
     }
-    public List<Skills> GetUserCardHeroesSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, string cardId)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
-                from Skills s, user_skills us left join card_heroes_skills chs
-                on chs.skill_id = us.skill_id AND chs.card_hero_id = @card_hero_id
-                where s.id=us.skill_id AND us.user_id=@userId
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_heroes_skills chs
+                    ON chs.skill_id = us.skill_id AND chs.card_hero_id = @card_hero_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_hero_id", cardId);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -681,8 +727,9 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                reader.Close();
-                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
+
+                // Load Effects cho toàn bộ Skills
+                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -690,31 +737,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public List<Skills> GetUserCardCaptainsSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, string cardId)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
-                from Skills s, user_skills us left join card_captains_skills chs
-                on chs.skill_id = us.skill_id AND chs.card_captain_id = @card_captain_id
-                where s.id=us.skill_id AND us.user_id=@userId
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_captains_skills chs
+                    ON chs.skill_id = us.skill_id AND chs.card_captain_id = @card_captain_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_captain_id", cardId);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -785,8 +841,9 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                reader.Close();
-                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
+
+                // Load Effects cho toàn bộ Skills
+                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -794,31 +851,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public List<Skills> GetUserCardColonelsSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, string cardId)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
-                from Skills s, user_skills us left join card_colonels_skills chs
-                on chs.skill_id = us.skill_id AND chs.card_colonel_id = @card_colonel_id
-                where s.id=us.skill_id AND us.user_id=@userId
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_colonels_skills chs
+                    ON chs.skill_id = us.skill_id AND chs.card_colonel_id = @card_colonel_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_colonel_id", cardId);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -889,8 +955,9 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                reader.Close();
-                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
+
+                // Load Effects cho toàn bộ Skills
+                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -898,31 +965,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public List<Skills> GetUserCardGeneralsSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, string cardId)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
-                from Skills s, user_skills us left join card_generals_skills chs
-                on chs.skill_id = us.skill_id AND chs.card_general_id = @card_general_id
-                where s.id=us.skill_id AND us.user_id=@userId
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_generals_skills chs
+                    ON chs.skill_id = us.skill_id AND chs.card_general_id = @card_general_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_general_id", cardId);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -993,8 +1069,9 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                reader.Close();
-                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
+
+                // Load Effects cho toàn bộ Skills
+                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1002,31 +1079,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public List<Skills> GetUserCardAdmiralsSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, string cardId)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
-                from Skills s, user_skills us left join card_admirals_skills chs
-                on chs.skill_id = us.skill_id AND chs.card_admiral_id = @card_admiral_id
-                where s.id=us.skill_id AND us.user_id=@userId
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_admirals_skills chs
+                    ON chs.skill_id = us.skill_id AND chs.card_admiral_id = @card_admiral_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_admiral_id", cardId);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -1097,8 +1183,9 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                reader.Close();
-                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
+
+                // Load Effects cho toàn bộ Skills đã lấy
+                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1106,31 +1193,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public List<Skills> GetUserCardMilitarySkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, string cardId)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
-                from Skills s, user_skills us left join card_military_skills chs
-                on chs.skill_id = us.skill_id AND chs.card_military_id = @card_military_id
-                where s.id=us.skill_id AND us.user_id=@userId
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_militaries_skills chs
+                    ON chs.skill_id = us.skill_id AND chs.card_military_id = @card_military_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_military_id", cardId);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -1201,8 +1297,9 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                reader.Close();
-                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
+
+                // Load Effects cho toàn bộ Skills đã lấy
+                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1210,31 +1307,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public List<Skills> GetUserCardMonstersSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, string cardId)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
-                from Skills s, user_skills us left join card_monsters_skills chs
-                on chs.skill_id = us.skill_id AND chs.card_monster_id = @card_monster_id
-                where s.id=us.skill_id AND us.user_id=@userId
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_monsters_skills chs
+                    ON chs.skill_id = us.skill_id AND chs.card_monster_id = @card_monster_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_monster_id", cardId);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -1305,8 +1411,9 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                reader.Close();
-                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
+
+                // Load Effects cho toàn bộ Skills đã lấy
+                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1314,31 +1421,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public List<Skills> GetUserCardSpellSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, string cardId)
     {
         List<Skills> skillsList = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, IFNULL(chs.position, 0) AS position
-                from Skills s, user_skills us left join card_spell_skills chs 
-                on chs.skill_id = us.skill_id AND chs.card_spell_id = @card_spell_id
-                where s.id=us.skill_id AND us.user_id=@userId 
-                ORDER BY s.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name";
-                MySqlCommand command = new MySqlCommand(query, connection);
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_spells_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_spell_id = @card_spell_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 command.Parameters.AddWithValue("@card_spell_id", cardId);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
@@ -1409,8 +1525,9 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     skillsList.Add(skill);
                 }
-                reader.Close();
-                skillsList = LoadSkillsWithEffects(user_id, skillsList, connection);
+
+                // Load Effects cho toàn bộ Skills đã lấy
+                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
             }
             catch (MySqlException ex)
             {
@@ -1418,30 +1535,24 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-
         }
+
         return skillsList;
     }
-    public List<Skills> LoadSkillsWithEffects(string userId, List<Skills> skillsList, MySqlConnection connection)
+    public async Task<List<Skills>> LoadSkillsWithEffectsAsync(string userId, List<Skills> skillsList, MySqlConnection connection)
     {
-        // Giả định đây là hàm bạn đang làm việc.
-
-        // ------------------------------------------------------------------------
-        // BƯỚC 2: Tối ưu hóa - Load Effects cho TẤT CẢ Skills trong một truy vấn
-        // ------------------------------------------------------------------------
-
-        // Lấy tất cả Skill IDs vào một danh sách để tạo mệnh đề WHERE IN
+        // Kiểm tra danh sách Skills
         var skillIds = skillsList.Select(s => s.Id).ToList();
-        if (!skillIds.Any()) return skillsList; // Thoát nếu không có kỹ năng
+        if (!skillIds.Any()) return skillsList;
 
-        // Chuyển danh sách ID sang chuỗi: ('id1', 'id2', 'id3', ...)
+        // Chuyển danh sách ID sang chuỗi cho WHERE IN
         string skillIdInClause = string.Join(",", skillIds.Select(id => $"'{id}'"));
 
         string combinedQuery = $@"
         SELECT 
-            s.id AS Skill_Id, -- Chọn Skill ID để biết Effect thuộc về Skill nào
+            s.id AS Skill_Id,
             e.*, 
             ep.*, 
             ea.*
@@ -1453,723 +1564,753 @@ public class UserSkillsRepository : IUserSkillsRepository
         JOIN effect_action ea ON epa.action_id = ea.action_id
         WHERE s.id IN ({skillIdInClause});";
 
-        // Tạo Dictionary để ánh xạ Skill ID tới đối tượng Skill tương ứng
+        // Tạo dictionary Skill ID → Skill
         var skillDict = skillsList.ToDictionary(s => s.Id);
 
-        // Sử dụng 'using' để đảm bảo Command và Reader được đóng
-        using (MySqlCommand command = new MySqlCommand(combinedQuery, connection))
-        using (MySqlDataReader reader = command.ExecuteReader())
+        await using var command = new MySqlCommand(combinedQuery, connection);
+        await using var reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
         {
-            while (reader.Read())
+            string currentSkillId = reader.GetString("Skill_Id");
+            if (!skillDict.TryGetValue(currentSkillId, out Skills currentSkill)) continue;
+
+            var newEffect = new Effects
             {
-                // 1. Tìm Skill gốc
-                string currentSkillId = reader.GetString("Skill_Id");
-                if (!skillDict.TryGetValue(currentSkillId, out Skills currentSkill)) continue;
-
-                // 2. Tạo đối tượng Effect và các đối tượng liên quan
-                Effects newEffect = new Effects
+                Id = reader.GetInt32("id"),
+                Name = reader.GetString("name"),
+                EffectType = reader.GetString("effect_type"),
+                Duration = reader.IsDBNull(reader.GetOrdinal("duration")) ? 0 : reader.GetInt32("duration"),
+                Description = reader.GetString("description"),
+                EffectProperty = new EffectProperty
                 {
-                    Id = reader.GetInt32("id"),
-                    Name = reader.GetString("name"),
-                    EffectType = reader.GetString("effect_type"),
-                    // Xử lý Duration có thể là NULL
-                    Duration = reader.IsDBNull(reader.GetOrdinal("duration")) ? 0 : reader.GetInt32("duration"),
-                    Description = reader.GetString("description"),
+                    PropertyId = reader.GetInt32("property_id"),
+                    PropertyCode = reader.GetString("property_code"),
+                    PropertyName = reader.GetString("property_name"),
+                },
+                EffectAction = new EffectAction
+                {
+                    ActionId = reader.GetInt32("action_id"),
+                    ActionCode = reader.GetString("action_code"),
+                    ActionName = reader.GetString("action_name"),
+                }
+            };
 
-                    EffectProperty = new EffectProperty
-                    {
-                        PropertyId = reader.GetInt32("property_id"),
-                        PropertyCode = reader.GetString("property_code"),
-                        PropertyName = reader.GetString("property_name"),
-                        // LƯU Ý: Nếu có nhiều cột Description, bạn phải đặt alias trong SQL để phân biệt
-                        // Ví dụ: reader.GetString("Effect_Property_Description") 
-                    },
-                    EffectAction = new EffectAction
-                    {
-                        ActionId = reader.GetInt32("action_id"),
-                        ActionCode = reader.GetString("action_code"),
-                        ActionName = reader.GetString("action_name"),
-                        // Tương tự, nếu có Description trùng tên, phải dùng alias
-                    }
-                };
-
-                // 3. Gán Effect vào Skill
-                currentSkill.Effects.Add(newEffect);
-            }
-        } // Reader và Command tự động được Dispose/Close ở đây
+            currentSkill.Effects.Add(newEffect);
+        }
 
         return skillsList;
     }
-    public bool InsertUserCardHeroesSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM card_heroes_skills 
+            WHERE user_id = @user_id AND card_hero_id = @card_hero_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkQuery, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_hero_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
             {
-                connection.Open();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM card_heroes_skills 
-                WHERE user_id = @user_id AND card_hero_id = @card_hero_id AND skill_id=@skill_id AND position=@position;";
-
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_hero_id", cardId);
-                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
-                checkCommand.Parameters.AddWithValue("@position", position);
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    string query = @"
+                string insertQuery = @"
                 INSERT INTO card_heroes_skills (
                     user_id, card_hero_id, skill_id, level, position
                 ) VALUES (
                     @user_id, @card_hero_id, @skill_id, @level, @position
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@card_hero_id", cardId);
-                    command.Parameters.AddWithValue("@skill_id", skillId);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@position", position);
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_hero_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool InsertUserCardCaptainsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM card_captains_skills 
+            WHERE user_id = @user_id AND card_captain_id = @card_captain_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkQuery, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_captain_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
             {
-                connection.Open();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM card_captains_skills 
-                WHERE user_id = @user_id AND card_captain_id = @card_captain_id AND skill_id=@skill_id AND position=@position;";
-
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_captain_id", cardId);
-                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
-                checkCommand.Parameters.AddWithValue("@position", position);
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    string query = @"
+                string insertQuery = @"
                 INSERT INTO card_captains_skills (
                     user_id, card_captain_id, skill_id, level, position
                 ) VALUES (
                     @user_id, @card_captain_id, @skill_id, @level, @position
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@card_captain_id", cardId);
-                    command.Parameters.AddWithValue("@skill_id", skillId);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@position", position);
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_captain_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool InsertUserCardColonelsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM card_colonels_skills 
+            WHERE user_id = @user_id AND card_colonel_id = @card_colonel_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkQuery, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
             {
-                connection.Open();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM card_colonels_skills 
-                WHERE user_id = @user_id AND card_colonel_id = @card_colonel_id AND skill_id=@skill_id AND position=@position;";
-
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
-                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
-                checkCommand.Parameters.AddWithValue("@position", position);
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    string query = @"
+                string insertQuery = @"
                 INSERT INTO card_colonels_skills (
                     user_id, card_colonel_id, skill_id, level, position
                 ) VALUES (
                     @user_id, @card_colonel_id, @skill_id, @level, @position
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@card_colonel_id", cardId);
-                    command.Parameters.AddWithValue("@skill_id", skillId);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@position", position);
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool InsertUserCardGeneralsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardGeneralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM card_generals_skills 
+            WHERE user_id = @user_id AND card_general_id = @card_general_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkQuery, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_general_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
             {
-                connection.Open();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM card_generals_skills 
-                WHERE user_id = @user_id AND card_general_id = @card_general_id AND skill_id=@skill_id AND position=@position;";
-
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_general_id", cardId);
-                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
-                checkCommand.Parameters.AddWithValue("@position", position);
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    string query = @"
+                string insertQuery = @"
                 INSERT INTO card_generals_skills (
                     user_id, card_general_id, skill_id, level, position
                 ) VALUES (
                     @user_id, @card_general_id, @skill_id, @level, @position
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@card_general_id", cardId);
-                    command.Parameters.AddWithValue("@skill_id", skillId);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@position", position);
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_general_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool InsertUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardAdmiralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM card_admirals_skills 
+            WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkQuery, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
             {
-                connection.Open();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM card_admirals_skills 
-                WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id AND skill_id=@skill_id AND position=@position;";
-
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
-                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
-                checkCommand.Parameters.AddWithValue("@position", position);
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    string query = @"
+                string insertQuery = @"
                 INSERT INTO card_admirals_skills (
                     user_id, card_admiral_id, skill_id, level, position
                 ) VALUES (
                     @user_id, @card_admiral_id, @skill_id, @level, @position
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@card_admiral_id", cardId);
-                    command.Parameters.AddWithValue("@skill_id", skillId);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@position", position);
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool InsertUserCardMilitarySkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM card_militaries_skills 
+            WHERE user_id = @user_id AND card_military_id = @card_military_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkQuery, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_military_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
             {
-                connection.Open();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM card_military_skills 
-                WHERE user_id = @user_id AND card_military_id = @card_military_id AND skill_id=@skill_id AND position=@position;";
-
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_military_id", cardId);
-                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
-                checkCommand.Parameters.AddWithValue("@position", position);
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    string query = @"
-                INSERT INTO card_military_skills (
+                string insertQuery = @"
+                INSERT INTO card_militaries_skills (
                     user_id, card_military_id, skill_id, level, position
                 ) VALUES (
                     @user_id, @card_military_id, @skill_id, @level, @position
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@card_military_id", cardId);
-                    command.Parameters.AddWithValue("@skill_id", skillId);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@position", position);
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_military_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool InsertUserCardMonstersSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM card_monsters_skills 
+            WHERE user_id = @user_id AND card_monster_id = @card_monster_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkQuery, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_monster_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
             {
-                connection.Open();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM card_monsters_skills 
-                WHERE user_id = @user_id AND card_monster_id = @card_monster_id AND skill_id=@skill_id AND position=@position;";
-
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_monster_id", cardId);
-                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
-                checkCommand.Parameters.AddWithValue("@position", position);
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    string query = @"
+                string insertQuery = @"
                 INSERT INTO card_monsters_skills (
                     user_id, card_monster_id, skill_id, level, position
                 ) VALUES (
                     @user_id, @card_monster_id, @skill_id, @level, @position
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@card_monster_id", cardId);
-                    command.Parameters.AddWithValue("@skill_id", skillId);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@position", position);
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_monster_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool InsertUserCardSpellSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM card_spells_skills 
+            WHERE user_id = @user_id AND card_spell_id = @card_spell_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkQuery, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_spell_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
             {
-                connection.Open();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-                SELECT COUNT(*) FROM card_spell_skills 
-                WHERE user_id = @user_id AND card_spell_id = @card_spell_id AND skill_id=@skill_id AND position=@position;";
-
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_spell_id", cardId);
-                checkCommand.Parameters.AddWithValue("@skill_id", skillId);
-                checkCommand.Parameters.AddWithValue("@position", position);
-                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-                if (count == 0)
-                {
-                    string query = @"
-                INSERT INTO card_spell_skills (
+                string insertQuery = @"
+                INSERT INTO card_spells_skills (
                     user_id, card_spell_id, skill_id, level, position
                 ) VALUES (
                     @user_id, @card_spell_id, @skill_id, @level, @position
                 );";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@card_spell_id", cardId);
-                    command.Parameters.AddWithValue("@skill_id", skillId);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@position", position);
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_spell_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool DeleteUserCardHeroesSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                connection.Open();
+            await connection.OpenAsync();
 
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string deleteQuery = @"
-                DELETE FROM card_heroes_skills 
-                WHERE user_id = @user_id AND card_hero_id = @card_hero_id AND skill_id=@skill_id AND position=@position;";
+            string deleteQuery = @"
+            DELETE FROM card_heroes_skills 
+            WHERE user_id = @user_id AND card_hero_id = @card_hero_id AND skill_id = @skill_id AND position = @position;";
 
-                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
-                deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                deleteCommand.Parameters.AddWithValue("@card_hero_id", cardId);
-                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
-                deleteCommand.Parameters.AddWithValue("@position", position);
-                deleteCommand.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            await using var deleteCommand = new MySqlCommand(deleteQuery, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_hero_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
 
+            await deleteCommand.ExecuteNonQueryAsync();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool DeleteUserCardCaptainsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                connection.Open();
+            await connection.OpenAsync();
 
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string deleteQuery = @"
-                DELETE FROM card_captains_skills 
-                WHERE user_id = @user_id AND card_captain_id = @card_captain_id AND skill_id=@skill_id AND position=@position;";
+            string deleteQuery = @"
+            DELETE FROM card_captains_skills 
+            WHERE user_id = @user_id AND card_captain_id = @card_captain_id AND skill_id = @skill_id AND position = @position;";
 
-                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
-                deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                deleteCommand.Parameters.AddWithValue("@card_captain_id", cardId);
-                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
-                deleteCommand.Parameters.AddWithValue("@position", position);
-                deleteCommand.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            await using var deleteCommand = new MySqlCommand(deleteQuery, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_captain_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
 
+            await deleteCommand.ExecuteNonQueryAsync();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool DeleteUserCardColonelsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                connection.Open();
+            await connection.OpenAsync();
 
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string deleteQuery = @"
-                DELETE FROM card_colonels_skills 
-                WHERE user_id = @user_id AND card_colonel_id = @card_colonel_id AND skill_id=@skill_id AND position=@position;";
+            string deleteQuery = @"
+            DELETE FROM card_colonels_skills 
+            WHERE user_id = @user_id AND card_colonel_id = @card_colonel_id AND skill_id = @skill_id AND position = @position;";
 
-                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
-                deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                deleteCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
-                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
-                deleteCommand.Parameters.AddWithValue("@position", position);
-                deleteCommand.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            await using var deleteCommand = new MySqlCommand(deleteQuery, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
 
+            await deleteCommand.ExecuteNonQueryAsync();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool DeleteUserCardGeneralsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardGeneralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                connection.Open();
+            await connection.OpenAsync();
 
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string deleteQuery = @"
-                DELETE FROM card_generals_skills 
-                WHERE user_id = @user_id AND card_general_id = @card_general_id AND skill_id=@skill_id AND position=@position;";
+            string deleteQuery = @"
+            DELETE FROM card_generals_skills 
+            WHERE user_id = @user_id AND card_general_id = @card_general_id AND skill_id = @skill_id AND position = @position;";
 
-                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
-                deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                deleteCommand.Parameters.AddWithValue("@card_general_id", cardId);
-                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
-                deleteCommand.Parameters.AddWithValue("@position", position);
-                deleteCommand.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            await using var deleteCommand = new MySqlCommand(deleteQuery, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_general_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
 
+            await deleteCommand.ExecuteNonQueryAsync();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool DeleteUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardAdmiralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                connection.Open();
+            await connection.OpenAsync();
 
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string deleteQuery = @"
-                DELETE FROM card_admirals_skills 
-                WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id AND skill_id=@skill_id AND position=@position;";
+            string deleteQuery = @"
+            DELETE FROM card_admirals_skills 
+            WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id AND skill_id = @skill_id AND position = @position;";
 
-                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
-                deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                deleteCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
-                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
-                deleteCommand.Parameters.AddWithValue("@position", position);
-                deleteCommand.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            await using var deleteCommand = new MySqlCommand(deleteQuery, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
 
+            await deleteCommand.ExecuteNonQueryAsync();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool DeleteUserCardMonstersSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                connection.Open();
+            await connection.OpenAsync();
 
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string deleteQuery = @"
-                DELETE FROM card_monsters_skills 
-                WHERE user_id = @user_id AND card_monster_id = @card_monster_id AND skill_id=@skill_id AND position=@position;";
+            string deleteQuery = @"
+            DELETE FROM card_monsters_skills 
+            WHERE user_id = @user_id AND card_monster_id = @card_monster_id AND skill_id = @skill_id AND position = @position;";
 
-                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
-                deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                deleteCommand.Parameters.AddWithValue("@card_monster_id", cardId);
-                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
-                deleteCommand.Parameters.AddWithValue("@position", position);
-                deleteCommand.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            await using var deleteCommand = new MySqlCommand(deleteQuery, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_monster_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
 
+            await deleteCommand.ExecuteNonQueryAsync();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool DeleteUserCardMilitarySkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                connection.Open();
+            await connection.OpenAsync();
 
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string deleteQuery = @"
-                DELETE FROM card_military_skills 
-                WHERE user_id = @user_id AND card_military_id = @card_military_id AND skill_id=@skill_id AND position=@position;";
+            string deleteQuery = @"
+            DELETE FROM card_militaries_skills 
+            WHERE user_id = @user_id AND card_military_id = @card_military_id AND skill_id = @skill_id AND position = @position;";
 
-                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
-                deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                deleteCommand.Parameters.AddWithValue("@card_military_id", cardId);
-                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
-                deleteCommand.Parameters.AddWithValue("@position", position);
-                deleteCommand.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            await using var deleteCommand = new MySqlCommand(deleteQuery, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_military_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
 
+            await deleteCommand.ExecuteNonQueryAsync();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
-    public bool DeleteUserCardSpellSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
-            {
-                connection.Open();
+            await connection.OpenAsync();
 
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string deleteQuery = @"
-                DELETE FROM card_spell_skills 
-                WHERE user_id = @user_id AND card_spell_id = @card_spell_id AND skill_id=@skill_id AND position=@position;";
+            string deleteQuery = @"
+            DELETE FROM card_spells_skills 
+            WHERE user_id = @user_id AND card_spell_id = @card_spell_id AND skill_id = @skill_id AND position = @position;";
 
-                MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
-                deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                deleteCommand.Parameters.AddWithValue("@card_spell_id", cardId);
-                deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
-                deleteCommand.Parameters.AddWithValue("@position", position);
-                deleteCommand.ExecuteNonQuery();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            await using var deleteCommand = new MySqlCommand(deleteQuery, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_spell_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
 
+            await deleteCommand.ExecuteNonQueryAsync();
         }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
         return true;
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserVehicleService : IUserVehicleService
 {
@@ -14,11 +15,11 @@ public class UserVehicleService : IUserVehicleService
         return new UserVehicleService(new UserVehicleRepository());
     }
 
-    public Vehicles GetNewLevelPower(Vehicles c, double coefficient)
+    public async Task<Vehicles> GetNewLevelPowerAsync(Vehicles c, double coefficient)
     {
         IVehiclesRepository _repository = new VehiclesRepository();
         VehiclesService _service = new VehiclesService(_repository);
-        Vehicles orginCard = _service.GetVehicleById(c.Id);
+        Vehicles orginCard = await _service.GetVehicleByIdAsync(c.Id);
         Vehicles Vehicle = new Vehicles
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserVehicleService : IUserVehicleService
         );
         return Vehicle;
     }
-    public Vehicles GetNewBreakthroughPower(Vehicles c, double coefficient)
+    public async Task<Vehicles> GetNewBreakthroughPowerAsync(Vehicles c, double coefficient)
     {
         IVehiclesRepository _repository = new VehiclesRepository();
         VehiclesService _service = new VehiclesService(_repository);
-        Vehicles orginCard = _service.GetVehicleById(c.Id);
+        Vehicles orginCard = await _service.GetVehicleByIdAsync(c.Id);
         Vehicles Vehicle = new Vehicles
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserVehicleService : IUserVehicleService
         return Vehicle;
     }
 
-    public List<Vehicles> GetUserVehicle(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Vehicles> list = _userVehicleRepository.GetUserVehicle(user_id, type, pageSize, offset, rare);
+        List<Vehicles> list = await _userVehicleRepository.GetUserVehiclesAsync(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserVehicleCount(string user_id, string type, string rare)
+    public async Task<int> GetUserVehiclesCountAsync(string user_id, string type, string rare)
     {
-        return _userVehicleRepository.GetUserVehicleCount(user_id, type, rare);
+        return await _userVehicleRepository.GetUserVehiclesCountAsync(user_id, type, rare);
     }
 
-    public bool InsertUserVehicle(Vehicles Vehicle, string userId)
+    public async Task<bool> InsertUserVehicleAsync(Vehicles Vehicle, string userId)
     {
-        return _userVehicleRepository.InsertUserVehicle(Vehicle, userId);
+        return await _userVehicleRepository.InsertUserVehicleAsync(Vehicle, userId);
     }
 
-    public bool UpdateVehicleLevel(Vehicles Vehicle, int cardLevel)
+    public async Task<bool> UpdateVehicleLevelAsync(Vehicles Vehicle, int cardLevel)
     {
-        return _userVehicleRepository.UpdateVehicleLevel(Vehicle, cardLevel);
+        return await _userVehicleRepository.UpdateVehicleLevelAsync(Vehicle, cardLevel);
     }
 
-    public bool UpdateVehicleBreakthrough(Vehicles Vehicle, int star, double quantity)
+    public async Task<bool> UpdateVehicleBreakthroughAsync(Vehicles Vehicle, int star, double quantity)
     {
-        return _userVehicleRepository.UpdateVehicleBreakthrough(Vehicle, star, quantity);
+        return await _userVehicleRepository.UpdateVehicleBreakthroughAsync(Vehicle, star, quantity);
     }
 
-    public Vehicles GetUserVehicleById(string user_id, string Id)
+    public async Task<Vehicles> GetUserVehicleByIdAsync(string user_id, string Id)
     {
-        return _userVehicleRepository.GetUserVehicleById(user_id, Id);
+        return await _userVehicleRepository.GetUserVehicleByIdAsync(user_id, Id);
     }
 
-    public Vehicles SumPowerUserVehicle()
+    public async Task<Vehicles> SumPowerUserVehiclesAsync()
     {
-        return _userVehicleRepository.SumPowerUserVehicle();
+        return await _userVehicleRepository.SumPowerUserVehiclesAsync();
     }
 }

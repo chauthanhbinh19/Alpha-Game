@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -74,7 +75,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateCollaborationEquipmentsTrade(List<CollaborationEquipments> collaborationEquipmentList, string subType, Transform currentContent,
+    public async Task CreateCollaborationEquipmentsTradeAsync(List<CollaborationEquipments> collaborationEquipmentList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var collaborationEquipment in collaborationEquipmentList)
@@ -127,7 +128,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetCollaborationEquipmentsCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetCollaborationEquipmentsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -239,12 +240,12 @@ public class CollaborationEquipmentsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is CollaborationEquipments collaborationEquipment)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(collaborationEquipment.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(collaborationEquipment.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -275,8 +276,8 @@ public class CollaborationEquipmentsController : MonoBehaviour
             if (obj is CollaborationEquipments collaborationEquipment)
             {
                 collaborationEquipment.Quantity = collaborationEquipment.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(collaborationEquipment.Currency.Id, price);
-                bool success = UserCollaborationEquipmentService.Create().InsertUserCollaborationEquipments(collaborationEquipment, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(collaborationEquipment.Currency.Id, price);
+                bool success = await UserCollaborationEquipmentsService.Create().InsertUserCollaborationEquipmentAsync(collaborationEquipment, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -289,8 +290,8 @@ public class CollaborationEquipmentsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    CollaborationEquipmentGalleryService.Create().InsertCollaborationEquipmentsGallery(collaborationEquipment.Id);
-                    currencies = UserCurrencyService.Create().GetCollaborationEquipmentsCurrency(subType);
+                    await CollaborationEquipmentsGalleryService.Create().InsertCollaborationEquipmentGalleryAsync(collaborationEquipment.Id);
+                    currencies = await UserCurrenciesService.Create().GetCollaborationEquipmentsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -310,7 +311,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

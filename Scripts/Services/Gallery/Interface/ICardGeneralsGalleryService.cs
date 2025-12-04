@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ICardGeneralsGalleryService
 {
-    List<CardGenerals> GetCardGeneralsCollection(string type, int pageSize, int offset, string rare);
-    int GetCardGeneralsCount(string type, string rare);
-    void InsertCardGeneralsGallery(string Id);
-    void UpdateStatusCardGeneralsGallery(string Id);
-    void UpdateStarCardGeneralsGallery(string Id, double star);
-    void UpdateCardGeneralsGalleryPower(string Id);
-    CardGenerals SumPowerCardGeneralsGallery();
+    Task<List<CardGenerals>> GetCardGeneralsCollectionAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetCardGeneralsCountAsync(string type, string rare);
+    Task InsertCardGeneralGalleryAsync(string Id);
+    Task UpdateStatusCardGeneralGalleryAsync(string Id);
+    Task UpdateStarCardGeneralGalleryAsync(string Id, double star);
+    Task UpdateCardGeneralGalleryPowerAsync(string Id);
+    Task<CardGenerals> SumPowerCardGeneralsGalleryAsync();
 }

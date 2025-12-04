@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class BadgesService : IBadgesService
 {
@@ -14,42 +15,42 @@ public class BadgesService : IBadgesService
         return new BadgesService(new BadgesRepository());
     }
 
-    public List<Badges> GetBadges(int pageSize, int offset, string rare)
+    public async Task<List<Badges>> GetBadgesAsync(int pageSize, int offset, string rare)
     {
-        List<Badges> list = _BadgesRepository.GetBadges(pageSize, offset, rare);
+        List<Badges> list = await _BadgesRepository.GetBadgesAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBadgesCount(string rare)
+    public async Task<int> GetBadgesCountAsync(string rare)
     {
-        return _BadgesRepository.GetBadgesCount(rare);
+        return await _BadgesRepository.GetBadgesCountAsync(rare);
     }
 
-    public List<Badges> GetBadgesWithPrice(int pageSize, int offset)
+    public async Task<List<Badges>> GetBadgesWithPriceAsync(int pageSize, int offset)
     {
-        List<Badges> list = _BadgesRepository.GetBadgesWithPrice(pageSize, offset);
+        List<Badges> list = await _BadgesRepository.GetBadgesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBadgesWithPriceCount()
+    public async Task<int> GetBadgesWithPriceCountAsync()
     {
-        return _BadgesRepository.GetBadgesWithPriceCount();
+        return await _BadgesRepository.GetBadgesWithPriceCountAsync();
     }
 
-    public Badges GetBadgesById(string Id)
+    public async Task<Badges> GetBadgeByIdAsync(string Id)
     {
-        return _BadgesRepository.GetBadgesById(Id);
+        return await _BadgesRepository.GetBadgeByIdAsync(Id);
     }
 
-    public Badges SumPowerBadgesPercent()
+    public async Task<Badges> SumPowerBadgesPercentAsync()
     {
-        return _BadgesRepository.SumPowerBadgesPercent();
+        return await _BadgesRepository.SumPowerBadgesPercentAsync();
     }
 
-    public List<string> GetUniqueBadgeId()
+    public async Task<List<string>> GetUniqueBadgesIdAsync()
     {
-        return _BadgesRepository.GetUniqueBadgeId();
+        return await _BadgesRepository.GetUniqueBadgesIdAsync();
     }
 }

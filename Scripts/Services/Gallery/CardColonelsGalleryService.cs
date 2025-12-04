@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CardColonelsGalleryService : ICardColonelsGalleryService
 {
@@ -14,44 +15,44 @@ public class CardColonelsGalleryService : ICardColonelsGalleryService
         return new CardColonelsGalleryService(new CardColonelsGalleryRepository());
     }
 
-    public List<CardColonels> GetCardColonelsCollection(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardColonels>> GetCardColonelsCollectionAsync(string type, int pageSize, int offset, string rare)
     {
-        List<CardColonels> list = _cardColonelsGalleryRepository.GetCardColonelsCollection(type, pageSize, offset, rare);
+        List<CardColonels> list = await _cardColonelsGalleryRepository.GetCardColonelsCollectionAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetCardColonelsCount(string type, string rare)
+    public async Task<int> GetCardColonelsCountAsync(string type, string rare)
     {
-        return _cardColonelsGalleryRepository.GetCardColonelsCount(type, rare);
+        return await _cardColonelsGalleryRepository.GetCardColonelsCountAsync(type, rare);
     }
 
-    public void InsertCardColonelsGallery(string Id)
+    public async Task InsertCardColonelGalleryAsync(string Id)
     {
         ICardColonelsRepository _repository = new CardColonelsRepository();
         CardColonelsService _service = new CardColonelsService(_repository);
-        _cardColonelsGalleryRepository.InsertCardColonelsGallery(Id, _service.GetCardColonelsById(Id));
+        await _cardColonelsGalleryRepository.InsertCardColonelGalleryAsync(Id, await _service.GetCardColonelByIdAsync(Id));
     }
 
-    public void UpdateStatusCardColonelsGallery(string Id)
+    public async Task UpdateStatusCardColonelGalleryAsync(string Id)
     {
-        _cardColonelsGalleryRepository.UpdateStatusCardColonelsGallery(Id);
+        await _cardColonelsGalleryRepository.UpdateStatusCardColonelGalleryAsync(Id);
     }
 
-    public CardColonels SumPowerCardColonelsGallery()
+    public async Task<CardColonels> SumPowerCardColonelsGalleryAsync()
     {
-        return _cardColonelsGalleryRepository.SumPowerCardColonelsGallery();
+        return await _cardColonelsGalleryRepository.SumPowerCardColonelsGalleryAsync();
     }
 
-    public void UpdateStarCardColonelsGallery(string Id, double star)
+    public async Task UpdateStarCardColonelGalleryAsync(string Id, double star)
     {
-        _cardColonelsGalleryRepository.UpdateStarCardColonelsGallery(Id, star);
+        await _cardColonelsGalleryRepository.UpdateStarCardColonelGalleryAsync(Id, star);
     }
 
-    public void UpdateCardColonelsGalleryPower(string Id)
+    public async Task UpdateCardColonelGalleryPowerAsync(string Id)
     {
         ICardColonelsRepository _repository = new CardColonelsRepository();
         CardColonelsService _service = new CardColonelsService(_repository);
-        _cardColonelsGalleryRepository.UpdateCardColonelsGalleryPower(Id, _service.GetCardColonelsById(Id));
+        await _cardColonelsGalleryRepository.UpdateCardColonelGalleryPowerAsync(Id, await _service.GetCardColonelByIdAsync(Id));
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserRobotsService : IUserRobotsService
 {
@@ -14,11 +15,11 @@ public class UserRobotsService : IUserRobotsService
         return new UserRobotsService(new UserRobotsRepository());
     }
 
-    public Robots GetNewLevelPower(Robots c, double coefficient)
+    public async Task<Robots> GetNewLevelPowerAsync(Robots c, double coefficient)
     {
         IRobotsRepository _repository = new RobotsRepository();
         RobotsService _service = new RobotsService(_repository);
-        Robots orginCard = _service.GetRobotsById(c.Id);
+        Robots orginCard = await _service.GetRobotByIdAsync(c.Id);
         Robots Robots = new Robots
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserRobotsService : IUserRobotsService
         );
         return Robots;
     }
-    public Robots GetNewBreakthroughPower(Robots c, double coefficient)
+    public async Task<Robots> GetNewBreakthroughPowerAsync(Robots c, double coefficient)
     {
         IRobotsRepository _repository = new RobotsRepository();
         RobotsService _service = new RobotsService(_repository);
-        Robots orginCard = _service.GetRobotsById(c.Id);
+        Robots orginCard = await _service.GetRobotByIdAsync(c.Id);
         Robots Robots = new Robots
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserRobotsService : IUserRobotsService
         return Robots;
     }
 
-    public List<Robots> GetUserRobots(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetUserRobotsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Robots> list = _userRobotsRepository.GetUserRobots(user_id, pageSize, offset, rare);
+        List<Robots> list = await _userRobotsRepository.GetUserRobotsAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserRobotsCount(string user_id, string rare)
+    public async Task<int> GetUserRobotsCountAsync(string user_id, string rare)
     {
-        return _userRobotsRepository.GetUserRobotsCount(user_id, rare);
+        return await _userRobotsRepository.GetUserRobotsCountAsync(user_id, rare);
     }
 
-    public bool InsertUserRobots(Robots Robots, string userId)
+    public async Task<bool> InsertUserRobotAsync(Robots Robots, string userId)
     {
-        return _userRobotsRepository.InsertUserRobots(Robots, userId);
+        return await _userRobotsRepository.InsertUserRobotAsync(Robots, userId);
     }
 
-    public bool UpdateRobotsLevel(Robots Robots, int cardLevel)
+    public async Task<bool> UpdateRobotLevelAsync(Robots Robots, int cardLevel)
     {
-        return _userRobotsRepository.UpdateRobotsLevel(Robots, cardLevel);
+        return await _userRobotsRepository.UpdateRobotLevelAsync(Robots, cardLevel);
     }
 
-    public bool UpdateRobotsBreakthrough(Robots Robots, int star, double quantity)
+    public async Task<bool> UpdateRobotBreakthroughAsync(Robots Robots, int star, double quantity)
     {
-        return _userRobotsRepository.UpdateRobotsBreakthrough(Robots, star, quantity);
+        return await _userRobotsRepository.UpdateRobotBreakthroughAsync(Robots, star, quantity);
     }
 
-    public Robots GetUserRobotsById(string user_id, string Id)
+    public async Task<Robots> GetUserRobotByIdAsync(string user_id, string Id)
     {
-        return _userRobotsRepository.GetUserRobotsById(user_id, Id);
+        return await _userRobotsRepository.GetUserRobotByIdAsync(user_id, Id);
     }
 
-    public Robots SumPowerUserRobots()
+    public async Task<Robots> SumPowerUserRobotsAsync()
     {
-        return _userRobotsRepository.SumPowerUserRobots();
+        return await _userRobotsRepository.SumPowerUserRobotsAsync();
     }
 }

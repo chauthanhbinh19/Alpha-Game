@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 public class ScienceFictionService : IScienceFictionService
 {
     private readonly IScienceFictionRepository _scienceFictionRepository;
@@ -13,18 +14,18 @@ public class ScienceFictionService : IScienceFictionService
         return new ScienceFictionService(new ScienceFictionRepository());
     }
 
-    public ScienceFiction GetScienceFiction(string type)
+    public async Task<ScienceFiction> GetScienceFictionAsync(string type)
     {
-        return _scienceFictionRepository.GetScienceFiction(type);
+        return await _scienceFictionRepository.GetScienceFictionAsync(type);
     }
 
-    public ScienceFiction GetSumScienceFiction(string user_id)
+    public async Task<ScienceFiction> GetSumScienceFictionAsync(string user_id)
     {
-        return _scienceFictionRepository.GetSumScienceFiction(user_id);
+        return await _scienceFictionRepository.GetSumScienceFictionAsync(user_id);
     }
 
-    public void InsertOrUpdateScienceFiction(string userId, ScienceFiction scienceFiction, string type)
+    public async Task InsertOrUpdateScienceFictionAsync(string userId, ScienceFiction scienceFiction, string type)
     {
-        _scienceFictionRepository.InsertOrUpdateScienceFiction(userId, scienceFiction, type);
+        await _scienceFictionRepository.InsertOrUpdateScienceFictionAsync(userId, scienceFiction, type);
     }
 }

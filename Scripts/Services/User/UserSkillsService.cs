@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserSkillsService : IUserSkillsService
 {
@@ -14,11 +15,11 @@ public class UserSkillsService : IUserSkillsService
         return new UserSkillsService(new UserSkillsRepository());
     }
 
-    public Skills GetNewLevelPower(Skills c, double coefficient)
+    public async Task<Skills> GetNewLevelPowerAsync(Skills c, double coefficient)
     {
         ISkillsRepository _repository = new SkillsRepository();
         SkillsService _service = new SkillsService(_repository);
-        Skills orginCard = _service.GetSkillsById(c.Id);
+        Skills orginCard = await _service.GetSkillByIdAsync(c.Id);
         Skills skills = new Skills
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserSkillsService : IUserSkillsService
         );
         return skills;
     }
-    public Skills GetNewBreakthroughPower(Skills c, double coefficient)
+    public async Task<Skills> GetNewBreakthroughPowerAsync(Skills c, double coefficient)
     {
         ISkillsRepository _repository = new SkillsRepository();
         SkillsService _service = new SkillsService(_repository);
-        Skills orginCard = _service.GetSkillsById(c.Id);
+        Skills orginCard = await _service.GetSkillByIdAsync(c.Id);
         Skills skills = new Skills
         {
             Id = c.Id,
@@ -181,155 +182,155 @@ public class UserSkillsService : IUserSkillsService
         return skills;
     }
 
-    public List<Skills> GetUserSkills(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = _userSkillsRepository.GetUserSkills(user_id, type, pageSize, offset, rare);
+        List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserSkillsCount(string user_id, string type, string rare)
+    public async Task<int> GetUserSkillsCountAsync(string user_id, string type, string rare)
     {
-        return _userSkillsRepository.GetUserSkillsCount(user_id, type, rare);
+        return await _userSkillsRepository.GetUserSkillsCountAsync(user_id, type, rare);
     }
 
-    public bool InsertUserSkills(Skills skills)
+    public async Task<bool> InsertUserSkillsAsync(Skills skills)
     {
-        return _userSkillsRepository.InsertUserSkills(skills);
+        return await _userSkillsRepository.InsertUserSkillAsync(skills);
     }
 
-    public bool UpdateSkillsLevel(Skills skills, int cardLevel)
+    public async Task<bool> UpdateSkillsLevelAsync(Skills skills, int cardLevel)
     {
-        return _userSkillsRepository.UpdateSkillsLevel(skills, cardLevel);
+        return await _userSkillsRepository.UpdateSkillLevelAsync(skills, cardLevel);
     }
 
-    public bool UpdateSkillsBreakthrough(Skills skills, int star, double quantity)
+    public async Task<bool> UpdateSkillsBreakthroughAsync(Skills skills, int star, double quantity)
     {
-        return _userSkillsRepository.UpdateSkillsBreakthrough(skills, star, quantity);
+        return await _userSkillsRepository.UpdateSkillBreakthroughAsync(skills, star, quantity);
     }
 
-    public Skills GetUserSkillsById(string user_id, string Id)
+    public async Task<Skills> GetUserSkillsByIdAsync(string user_id, string Id)
     {
-        return _userSkillsRepository.GetUserSkillsById(user_id, Id);
+        return await _userSkillsRepository.GetUserSkillsByIdAsync(user_id, Id);
     }
 
-    public List<Skills> GetUserCardHeroesSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, string cardId)
     {
-        return _userSkillsRepository.GetUserCardHeroesSkills(user_id, cardId);
+        return await _userSkillsRepository.GetUserCardHeroesSkillsAsync(user_id, cardId);
     }
 
-    public List<Skills> GetUserCardCaptainsSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, string cardId)
     {
-        return _userSkillsRepository.GetUserCardCaptainsSkills(user_id, cardId);
+        return await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(user_id, cardId);
     }
 
-    public List<Skills> GetUserCardColonelsSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, string cardId)
     {
-        return _userSkillsRepository.GetUserCardColonelsSkills(user_id, cardId);
+        return await _userSkillsRepository.GetUserCardColonelsSkillsAsync(user_id, cardId);
     }
 
-    public List<Skills> GetUserCardGeneralsSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, string cardId)
     {
-        return _userSkillsRepository.GetUserCardGeneralsSkills(user_id, cardId);
+        return await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(user_id, cardId);
     }
 
-    public List<Skills> GetUserCardAdmiralsSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, string cardId)
     {
-        return _userSkillsRepository.GetUserCardAdmiralsSkills(user_id, cardId);
+        return await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(user_id, cardId);
     }
 
-    public List<Skills> GetUserCardMilitarySkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, string cardId)
     {
-        return _userSkillsRepository.GetUserCardMilitarySkills(user_id, cardId);
+        return await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(user_id, cardId);
     }
 
-    public List<Skills> GetUserCardMonstersSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, string cardId)
     {
-        return _userSkillsRepository.GetUserCardMonstersSkills(user_id, cardId);
+        return await _userSkillsRepository.GetUserCardMonstersSkillsAsync(user_id, cardId);
     }
 
-    public List<Skills> GetUserCardSpellSkills(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, string cardId)
     {
-        return _userSkillsRepository.GetUserCardSpellSkills(user_id, cardId);
+        return await _userSkillsRepository.GetUserCardSpellsSkillsAsync(user_id, cardId);
     }
 
-    public bool InsertUserCardHeroesSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.InsertUserCardHeroesSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.InsertUserCardHeroSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool InsertUserCardCaptainsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.InsertUserCardCaptainsSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.InsertUserCardCaptainSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool InsertUserCardColonelsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.InsertUserCardColonelsSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.InsertUserCardColonelSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool InsertUserCardGeneralsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardGeneralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.InsertUserCardGeneralsSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.InsertUserCardGeneralSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool InsertUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardAdmiralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.InsertUserCardAdmiralsSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.InsertUserCardAdmiralSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool InsertUserCardMilitarySkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.InsertUserCardMilitarySkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.InsertUserCardMilitarySkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool InsertUserCardMonstersSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.InsertUserCardMonstersSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.InsertUserCardMonsterSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool InsertUserCardSpellSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> InsertUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.InsertUserCardSpellSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.InsertUserCardSpellSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool DeleteUserCardHeroesSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.DeleteUserCardHeroesSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.DeleteUserCardHeroSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool DeleteUserCardCaptainsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.DeleteUserCardCaptainsSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.DeleteUserCardCaptainSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool DeleteUserCardColonelsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.DeleteUserCardColonelsSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.DeleteUserCardColonelSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool DeleteUserCardGeneralsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardGeneralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.DeleteUserCardGeneralsSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.DeleteUserCardGeneralSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool DeleteUserCardAdmiralsSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardAdmiralSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.DeleteUserCardAdmiralsSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.DeleteUserCardAdmiralSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool DeleteUserCardMonstersSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.DeleteUserCardMonstersSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.DeleteUserCardMonsterSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool DeleteUserCardMilitarySkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.DeleteUserCardMilitarySkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.DeleteUserCardMilitarySkillsAsync(userId, cardId, skillId, position);
     }
 
-    public bool DeleteUserCardSpellSkills(string userId, string cardId, string skillId, int position)
+    public async Task<bool> DeleteUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
     {
-        return _userSkillsRepository.DeleteUserCardSpellSkills(userId, cardId, skillId, position);
+        return await _userSkillsRepository.DeleteUserCardSpellSkillsAsync(userId, cardId, skillId, position);
     }
 }

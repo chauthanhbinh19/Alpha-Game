@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MechaBeastsService : IMechaBeastsService
 {
@@ -14,42 +15,42 @@ public class MechaBeastsService : IMechaBeastsService
         return new MechaBeastsService(new MechaBeastsRepository());
     }
 
-    public List<MechaBeasts> GetMechaBeasts(int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetMechaBeastsAsync(int pageSize, int offset, string rare)
     {
-        List<MechaBeasts> list = _MechaBeastsRepository.GetMechaBeasts(pageSize, offset, rare);
+        List<MechaBeasts> list = await _MechaBeastsRepository.GetMechaBeastsAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMechaBeastsCount(string rare)
+    public async Task<int> GetMechaBeastsCountAsync(string rare)
     {
-        return _MechaBeastsRepository.GetMechaBeastsCount(rare);
+        return await _MechaBeastsRepository.GetMechaBeastsCountAsync(rare);
     }
 
-    public List<MechaBeasts> GetMechaBeastsWithPrice(int pageSize, int offset)
+    public async Task<List<MechaBeasts>> GetMechaBeastsWithPriceAsync(int pageSize, int offset)
     {
-        List<MechaBeasts> list = _MechaBeastsRepository.GetMechaBeastsWithPrice(pageSize, offset);
+        List<MechaBeasts> list = await _MechaBeastsRepository.GetMechaBeastsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetMechaBeastsWithPriceCount()
+    public async Task<int> GetMechaBeastsWithPriceCountAsync()
     {
-        return _MechaBeastsRepository.GetMechaBeastsWithPriceCount();
+        return await _MechaBeastsRepository.GetMechaBeastsWithPriceCountAsync();
     }
 
-    public MechaBeasts GetMechaBeastsById(string Id)
+    public async Task<MechaBeasts> GetMechaBeastByIdAsync(string Id)
     {
-        return _MechaBeastsRepository.GetMechaBeastsById(Id);
+        return await _MechaBeastsRepository.GetMechaBeastByIdAsync(Id);
     }
 
-    public MechaBeasts SumPowerMechaBeastsPercent()
+    public async Task<MechaBeasts> SumPowerMechaBeastsPercentAsync()
     {
-        return _MechaBeastsRepository.SumPowerMechaBeastsPercent();
+        return await _MechaBeastsRepository.SumPowerMechaBeastsPercentAsync();
     }
 
-    public List<string> GetUniqueMechaBeastId()
+    public async Task<List<string>> GetUniqueMechaBeastsIdAsync()
     {
-        return _MechaBeastsRepository.GetUniqueMechaBeastId();
+        return await _MechaBeastsRepository.GetUniqueMechaBeastsIdAsync();
     }
 }

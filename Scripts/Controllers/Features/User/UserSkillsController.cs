@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -78,37 +79,47 @@ public class UserSkillsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowSkillsDetails(Skills skills, GameObject currentObject, int buttonType = 1)
+    public void ShowSkillsDetails(Skills skill, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(skills, currentObject);
+            GetDetails(skill, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
+        {
+            _=GetLevelAsync(skill, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
+        {
+            _=GetUpgradeAsync(skill, currentObject);
+            ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(skills, currentObject);
+                GetDetails(skill, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(skills, currentObject);
+                _=GetLevelAsync(skill, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(skills, currentObject);
+                GetSkills(skill, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(skills, currentObject);
+                _=GetUpgradeAsync(skill, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(skills, currentObject);
+                GetDetails(skill, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -146,7 +157,7 @@ public class UserSkillsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, skill, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -160,7 +171,7 @@ public class UserSkillsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.SKILL);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.SKILL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -169,7 +180,7 @@ public class UserSkillsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Skills currentCard = new Skills();
-                currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.Id);
+                currentCard = await UserSkillsService.Create().GetUserSkillsByIdAsync(User.CurrentUserId, skill.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -180,8 +191,8 @@ public class UserSkillsController : MonoBehaviour
                 {
                     Skills newCard = new Skills();
 
-                    newCard = UserSkillsService.Create().GetNewLevelPower(skill, increasePerLevel);
-                    UserSkillsService.Create().UpdateSkillsLevel(newCard, currentLevel + 1);
+                    newCard = await UserSkillsService.Create().GetNewLevelPowerAsync(skill, increasePerLevel);
+                    await UserSkillsService.Create().UpdateSkillsLevelAsync(newCard, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -189,14 +200,14 @@ public class UserSkillsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Skills currentCard = UserSkillsService.Create().GetUserSkillsById(User.CurrentUserId, skill.Id);
+                Skills currentCard = await UserSkillsService.Create().GetUserSkillsByIdAsync(User.CurrentUserId, skill.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -212,8 +223,8 @@ public class UserSkillsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Skills newCard = UserSkillsService.Create().GetNewLevelPower(skill, levelsGained * increasePerLevel);
-                    UserSkillsService.Create().UpdateSkillsLevel(newCard, currentLevel);
+                    Skills newCard = await UserSkillsService.Create().GetNewLevelPowerAsync(skill, levelsGained * increasePerLevel);
+                    await UserSkillsService.Create().UpdateSkillsLevelAsync(newCard, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -222,7 +233,7 @@ public class UserSkillsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -232,7 +243,7 @@ public class UserSkillsController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -249,7 +260,7 @@ public class UserSkillsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.SKILL);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.SKILL);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -323,24 +334,24 @@ public class UserSkillsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Skills newSkill = new Skills();
 
-                    newSkill = UserSkillsService.Create().GetNewBreakthroughPower(skill, increasePerUpgrade);
-                    UserSkillsService.Create().UpdateSkillsBreakthrough(newSkill, skill.Star + 1, skill.Quantity);
+                    newSkill = await UserSkillsService.Create().GetNewBreakthroughPowerAsync(skill, increasePerUpgrade);
+                    await UserSkillsService.Create().UpdateSkillsBreakthroughAsync(newSkill, skill.Star + 1, skill.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    SkillsGalleryService.Create().UpdateStarSkillsGallery(skill.Id, skill.Star + 1);
+                    await SkillsGalleryService.Create().UpdateStarSkillGalleryAsync(skill.Id, skill.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(skill.Star, currentObject);
                 }
                 else

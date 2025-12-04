@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserArchitecturesService
 {
-    Architectures GetNewLevelPower(Architectures c, double coefficient);
-    Architectures GetNewBreakthroughPower(Architectures c, double coefficient);
-    List<Architectures> GetUserArchitectures(string user_id, int pageSize, int offset, string rare);
-    int GetUserArchitecturesCount(string user_id, string rare);
-    bool InsertUserArchitectures(Architectures Architectures, string userId);
-    bool UpdateArchitecturesLevel(Architectures Architectures, int cardLevel);
-    bool UpdateArchitecturesBreakthrough(Architectures Architectures, int star, double quantity);
-    Architectures GetUserArchitecturesById(string user_id, string Id);
-    Architectures SumPowerUserArchitectures();
+    Task<Architectures> GetNewLevelPowerAsync(Architectures c, double coefficient);
+    Task<Architectures> GetNewBreakthroughPowerAsync(Architectures c, double coefficient);
+    Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, int pageSize, int offset, string rare);
+    Task<int> GetUserArchitecturesCountAsync(string user_id, string rare);
+    Task<bool> InsertUserArchitectureAsync(Architectures architectures, string userId);
+    Task<bool> UpdateArchitectureLevelAsync(Architectures architectures, int cardLevel);
+    Task<bool> UpdateArchitectureBreakthroughAsync(Architectures architectures, int star, double quantity);
+    Task<Architectures> GetUserArchitectureByIdAsync(string user_id, string Id);
+    Task<Architectures> SumPowerUserArchitecturesAsync();
 }

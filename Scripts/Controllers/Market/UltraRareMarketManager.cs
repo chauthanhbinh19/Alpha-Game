@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -61,7 +62,7 @@ public class UltraRareMarketManager : MonoBehaviour
         UltraRareMarketPrefab = UIMarketManager.Instance.GetMarketPanel("UltraRareMarketPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
-    public void CreateUltraRareMarket()
+    public async Task CreateUltraRareMarketAsync()
     {
         GameObject ultraRareMarketManagerObject = Instantiate(UltraRareMarketManagerPrefab, MainPanel);
         Transform ultraRareMarketTransform = ultraRareMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
@@ -81,9 +82,8 @@ public class UltraRareMarketManager : MonoBehaviour
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.ULTRA_RARE_MARKET);
 
-        var currencies = CurrencyService.Create()
-            .GetCurrencyList()
-            .Where(c => c.Name != "Diamond" && c.Name != "Gold" && c.Name != "Silver")
+        var allCurrencies = await CurrenciesService.Create().GetCurrencyListAsync();
+        var currencies = allCurrencies.Where(c => c.Name != "Diamond" && c.Name != "Gold" && c.Name != "Silver")
             .ToList();
         foreach (var currency in currencies)
         {
@@ -97,14 +97,14 @@ public class UltraRareMarketManager : MonoBehaviour
             currencyImage.texture = currencyTexture;
 
             Button currencyButton = currencyObject.GetComponent<Button>();
-            currencyButton.onClick.AddListener(() =>
+            currencyButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CreateUltraRareMarketItemUI(currency);
+                await CreateUltraRareMarketItemUIAsync(currency);
             });
         }
     }
-    public void CreateUltraRareMarketItemUI(Currencies currency)
+    public async Task CreateUltraRareMarketItemUIAsync(Currencies currency)
     {
         currentCurrency = currency;
         GameObject ultraRareMarketObject = Instantiate(UltraRareMarketPrefab, MainPanel);
@@ -127,29 +127,29 @@ public class UltraRareMarketManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
-        NextButton.onClick.AddListener(()=>
+        NextButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            ChangeNextPage();
+            await ChangeNextPageAsync();
         });
-        PreviousButton.onClick.AddListener(()=>
+        PreviousButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            ChangePreviousPage();
+            await ChangePreviousPageAsync();
         });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.ULTRA_RARE_MARKET);
 
-        items = ItemsService.Create().GetItems()
-            .Where(item => item.Type.Equals(AppConstants.Market.ULTRA_RARE_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
+        var allItems = await ItemsService.Create().GetItemsAsync();
+        items = allItems.Where(item => item.Type.Equals(AppConstants.Market.ULTRA_RARE_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         totalPage = Mathf.CeilToInt((float)items.Count / pageSize);
         currentPage = 1;
 
-        LoadCurrentPage(currency);
+        await LoadCurrentPageAsync(currency);
     }
-    private void LoadCurrentPage(Currencies currency)
+    private async Task LoadCurrentPageAsync(Currencies currency)
     {
         ClearAllPrefabs();
 
@@ -157,25 +157,25 @@ public class UltraRareMarketManager : MonoBehaviour
 
         var pagedItems = items.Skip(offset).Take(pageSize).ToList();
 
-        ItemsController.Instance.CreateItemsTrade(pagedItems, currency, currentContent, currencyPanel, popupPanel);
+        await ItemsController.Instance.CreateItemsTradeAsync(pagedItems, currency, currentContent, currencyPanel, popupPanel);
 
         PageText.text = $"{currentPage}/{totalPage}";
     }
 
-    public void ChangeNextPage()
+    public async Task ChangeNextPageAsync()
     {
         if (currentPage < totalPage)
         {
             currentPage++;
-            LoadCurrentPage(currentCurrency);
+            await LoadCurrentPageAsync(currentCurrency);
         }
     }
-    public void ChangePreviousPage()
+    public async Task ChangePreviousPageAsync()
     {
         if (currentPage > 1)
         {
             currentPage--;
-            LoadCurrentPage(currentCurrency);
+            await LoadCurrentPageAsync(currentCurrency);
         }
     }
     public void ClearAllPrefabs()

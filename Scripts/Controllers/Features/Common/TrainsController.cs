@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,7 +37,7 @@ public class TrainsController : MonoBehaviour
         TrainButtonPrefab = UIManager.Instance.GetGeneralButton("TrainButtonPrefab");
         TrainPanelPrefab = UIManager.Instance.GetGeneralPanel("TrainPanelPrefab");
     }
-    public void CreateTrainPanel()
+    public async Task CreateTrainPanelAsync()
     {
         GameObject currentObject = Instantiate(TrainPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -53,7 +54,7 @@ public class TrainsController : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        var Trains = TrainsService.Create().GetTrains(User.CurrentUserId, 1000, 0);
+        var Trains = await TrainsService.Create().GetTrainsAsync(User.CurrentUserId, 1000, 0);
         CreateTrains(Trains, contentPanel);
     }
     public void CreateTrains(List<Trains> Trains, Transform contentPanel)

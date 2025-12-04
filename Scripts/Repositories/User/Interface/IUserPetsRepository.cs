@@ -1,15 +1,16 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserPetsRepository
 {
-    List<Pets> GetUserPets(string user_id, string type, int pageSize, int offset, string rare);
-    List<Pets> GetUserPetsTeam(string user_id, string teamId);
-    Dictionary<string, int> GetUniquePetTypesTeam(string teamId);
-    int GetUserPetsCount(string user_id, string type, string rare);
-    bool InsertUserPets(Pets pets, string userId);
-    bool UpdatePetsLevel(Pets pets, int cardLevel);
-    bool UpdatePetsBreakthrough(Pets pets, int star, double quantity);
-    bool UpdateTeamCardPets(string team_id, string card_id);
-    Pets GetUserPetsById(string user_id, string Id);
-    List<Pets> GetAllUserPetsInTeam(string user_id);
+    Task<List<Pets>> GetUserPetsAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<Pets>> GetUserPetsTeamAsync(string user_id, string teamId);
+    Task<Dictionary<string, int>> GetUniquePetsTypesTeamAsync(string teamId);
+    Task<int> GetUserPetsCountAsync(string user_id, string type, string rare);
+    Task<bool> InsertUserPetAsync(Pets pets, string userId);
+    Task<bool> UpdatePetLevelAsync(Pets pets, int cardLevel);
+    Task<bool> UpdatePetBreakthroughAsync(Pets pets, int star, double quantity);
+    Task<bool> UpdateTeamPetAsync(string team_id, string card_id);
+    Task<Pets> GetUserPetByIdAsync(string user_id, string Id);
+    Task<List<Pets>> GetAllUserPetsInTeamAsync(string user_id);
 }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IVehicleGalleryRepository
 {
-    List<Vehicles> GetVehiclesCollection(string type, int pageSize, int offset, string rare);
-    int GetVehiclesCount(string type, string rare);
-    void InsertVehiclesGallery(string Id, Vehicles TitleFromDB);
-    void UpdateStatusVehiclesGallery(string Id);
-    void UpdateStarVehiclesGallery(string Id, double star);
-    void UpdateVehiclesGalleryPower(string Id, Vehicles VehicleFromDB);
-    Vehicles SumPowerVehiclesGallery();
+    Task<List<Vehicles>> GetVehiclesCollectionAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetVehiclesCountAsync(string type, string rare);
+    Task InsertVehicleGalleryAsync(string Id, Vehicles VehicleFromDB);
+    Task UpdateStatusVehicleGalleryAsync(string Id);
+    Task UpdateStarVehicleGalleryAsync(string Id, double star);
+    Task UpdateVehicleGalleryPowerAsync(string Id, Vehicles VehicleFromDB);
+    Task<Vehicles> SumPowerVehiclesGalleryAsync();
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -81,7 +82,7 @@ public class AchievementsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateAchievementsTrade(List<Achievements> achievements, string subType, Transform currentContent,
+    public async Task CreateAchievementsTradeAsync(List<Achievements> achievements, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var achievement in achievements)
@@ -135,7 +136,7 @@ public class AchievementsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetAchievementsCurrency();
+        currencies = await UserCurrenciesService.Create().GetAchievementsCurrencyAsync();
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
     }
     public void GetQuantity(double originPrice, object obj, Transform popupPanel, Transform currencyPanel)
@@ -246,12 +247,12 @@ public class AchievementsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Achievements achievements)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(achievements.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(achievements.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -282,8 +283,8 @@ public class AchievementsController : MonoBehaviour
             if (obj is Achievements achievement)
             {
                 achievement.Quantity = achievement.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(achievement.Currency.Id, price);
-                bool success = UserAchievementsService.Create().InsertUserAchievements(achievement, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(achievement.Currency.Id, price);
+                bool success = await UserAchievementsService.Create().InsertUserAchievementAsync(achievement, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -297,7 +298,7 @@ public class AchievementsController : MonoBehaviour
                     List<Currencies> currencies = new List<Currencies>();
 
                     // achievements.InsertUserAchievements(achievements);
-                    currencies = UserCurrencyService.Create().GetAchievementsCurrency();
+                    currencies = await UserCurrenciesService.Create().GetAchievementsCurrencyAsync();
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -317,7 +318,7 @@ public class AchievementsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                     await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

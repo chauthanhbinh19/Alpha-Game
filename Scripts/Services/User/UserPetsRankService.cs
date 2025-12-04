@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 public class UserPetsRankService : IUserPetsRankService
 {
@@ -15,18 +16,18 @@ public class UserPetsRankService : IUserPetsRankService
         return new UserPetsRankService(new UserPetsRankRepository());
     }
 
-    public Rank GetPetsRank(string type, string card_id)
+    public async Task<Rank> GetPetRankAsync(string type, string card_id)
     {
-        return _userPetsRankRepository.GetPetsRank(type, card_id);
+        return await _userPetsRankRepository.GetPetRankAsync(type, card_id);
     }
 
-    public void InsertOrUpdatePetsRank(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdatePetRankAsync(Rank rank, string type, string card_id)
     {
-        _userPetsRankRepository.InsertOrUpdatePetsRank(rank, type, card_id);
+        await _userPetsRankRepository.InsertOrUpdatePetRankAsync(rank, type, card_id);
     }
 
-    public Rank GetSumPetsRank(string user_id, string card_id)
+    public async Task<Rank> GetSumPetsRankAsync(string user_id, string card_id)
     {
-        return _userPetsRankRepository.GetSumPetsRank(user_id, card_id);;
+        return await _userPetsRankRepository.GetSumPetsRankAsync(user_id, card_id);;
     }
 }

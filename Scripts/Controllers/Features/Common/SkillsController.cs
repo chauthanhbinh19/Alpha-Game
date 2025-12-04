@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -76,7 +77,7 @@ public class SkillsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateSkillsTrade(List<Skills> skillsList, string subType, Transform currentContent,
+    public async Task CreateSkillsTradeAsync(List<Skills> skillsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var skill in skillsList)
@@ -131,7 +132,7 @@ public class SkillsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -243,12 +244,12 @@ public class SkillsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Skills skill)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(skill.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(skill.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -270,7 +271,7 @@ public class SkillsController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
-        confirmButton.onClick.AddListener(() =>
+        confirmButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
@@ -279,8 +280,8 @@ public class SkillsController : MonoBehaviour
             if (obj is Skills skill)
             {
                 skill.Quantity = skill.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(skill.Currency.Id, price);
-                bool success = UserSkillsService.Create().InsertUserSkills(skill);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(skill.Currency.Id, price);
+                bool success = await UserSkillsService.Create().InsertUserSkillsAsync(skill);
                 if (!success)
                 {
                     allSuccess = false;
@@ -293,8 +294,8 @@ public class SkillsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    SkillsGalleryService.Create().InsertSkillsGallery(skill.Id);
-                    currencies = UserCurrencyService.Create().GetSkillsCurrency(subType);
+                    await SkillsGalleryService.Create().InsertSkillGalleryAsync(skill.Id);
+                    currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);

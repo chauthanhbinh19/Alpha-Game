@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IBooksGalleryService
 {
-    List<Books> GetBooksCollection(string type, int pageSize, int offset, string rare);
-    int GetBooksCount(string type, string rare);
-    void InsertBooksGallery(string Id);
-    void UpdateStatusBooksGallery(string Id);
-    void UpdateStarBooksGallery(string Id, double star);
-    void UpdateBooksGalleryPower(string Id);
-    Books SumPowerBooksGallery();
+    Task<List<Books>> GetBooksCollectionAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetBooksCountAsync(string type, string rare);
+    Task InsertBookGalleryAsync(string Id);
+    Task UpdateStatusBookGalleryAsync(string Id);
+    Task UpdateStarBookGalleryAsync(string Id, double star);
+    Task UpdateBookGalleryPowerAsync(string Id);
+    Task<Books> SumPowerBooksGalleryAsync();
 }

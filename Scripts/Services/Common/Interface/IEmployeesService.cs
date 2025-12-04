@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IEmployeesService
 {
-    List<string> GetUniqueEmployeeId();
-    List<Employees> GetEmployees(string userId, int pageSize, int offset);
-    int GetEmployeesCount(string rare);
-    List<Employees> GetEmployeesWithPrice(int pageSize, int offset);
-    int GetEmployeesWithPriceCount();
-    Employees GetEmployeesById(string Id);
-    Employees SumPowerEmployeesPercent();
+    Task<List<string>> GetUniqueEmployeesIdAsync();
+    Task<List<Employees>> GetEmployeesAsync(string userId, int pageSize, int offset);
+    Task<int> GetEmployeesCountAsync(string rare);
+    Task<List<Employees>> GetEmployeesWithPriceAsync(int pageSize, int offset);
+    Task<int> GetEmployeesWithPriceCountAsync();
+    Task<Employees> GetEmployeeByIdAsync(string id);
+    Task<Employees> SumPowerEmployeesPercentAsync();
 }

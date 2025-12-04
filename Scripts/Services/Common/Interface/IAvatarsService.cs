@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IAvatarsService
 {
-    List<string> GetUniqueAvatarsId();
-    List<Avatars> GetAvatars(int pageSize, int offset, string rare);
-    int GetAvatarsCount(string rare);
-    List<Avatars> GetAvatarsWithPrice(int pageSize, int offset);
-    int GetAvatarsWithPriceCount();
-    Avatars GetAvatarsById(string Id);
-    Avatars SumPowerAvatarsPercent();
+    Task<List<string>> GetUniqueAvatarsIdAsync();
+    Task<List<Avatars>> GetAvatarsAsync(int pageSize, int offset, string rare);
+    Task<int> GetAvatarsCountAsync(string rare);
+    Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset);
+    Task<int> GetAvatarsWithPriceCountAsync();
+    Task<Avatars> GetAvatarByIdAsync(string Id);
+    Task<Avatars> SumPowerAvatarsPercentAsync();
 }

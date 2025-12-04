@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using MySql.Data.MySqlClient;
-using System;
-
 public class UserItems
 {
     private string id1;

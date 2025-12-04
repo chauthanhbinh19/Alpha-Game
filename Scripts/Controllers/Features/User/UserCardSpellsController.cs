@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -160,17 +161,17 @@ public class UserCardSpellsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(cardSpell, currentObject);
+            _=GetLevelAsync(cardSpell, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(cardSpell, currentObject);
+            _=GetUpgradeAsync(cardSpell, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_5", RightButtonContent, () =>
         {
-            GetSpiritBeast(cardSpell, currentObject);
+            _=GetSpiritBeastAsync(cardSpell, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_6", RightButtonContent, () =>
@@ -186,19 +187,19 @@ public class UserCardSpellsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(cardSpell, currentObject);
+                _=GetLevelAsync(cardSpell, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(cardSpell, currentObject);
+                _=GetSkillsAsync(cardSpell, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(cardSpell, currentObject);
+                _=GetUpgradeAsync(cardSpell, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             case 5:
-                GetSpiritBeast(cardSpell, currentObject);
+                _=GetSpiritBeastAsync(cardSpell, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
                 break;
             case 6:
@@ -246,7 +247,7 @@ public class UserCardSpellsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, cardSpell, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -260,7 +261,7 @@ public class UserCardSpellsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.CARD_SPELL);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_SPELL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -269,7 +270,7 @@ public class UserCardSpellsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 CardSpells currentCard = new CardSpells();
-                currentCard = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
+                currentCard = await UserCardSpellsService.Create().GetUserCardSpellByIdAsync(User.CurrentUserId, cardSpell.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -280,8 +281,8 @@ public class UserCardSpellsController : MonoBehaviour
                 {
                     CardSpells newCard = new CardSpells();
 
-                    newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, increasePerLevel);
-                    UserCardSpellService.Create().UpdateCardSpellLevel(newCard, currentLevel + 1);
+                    newCard = await UserCardSpellsService.Create().GetNewLevelPowerAsync(cardSpell, increasePerLevel);
+                    await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -289,14 +290,14 @@ public class UserCardSpellsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CardSpells currentCard = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
+                CardSpells currentCard = await UserCardSpellsService.Create().GetUserCardSpellByIdAsync(User.CurrentUserId, cardSpell.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -312,8 +313,8 @@ public class UserCardSpellsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CardSpells newCard = UserCardSpellService.Create().GetNewLevelPower(cardSpell, levelsGained * increasePerLevel);
-                    UserCardSpellService.Create().UpdateCardSpellLevel(newCard, currentLevel);
+                    CardSpells newCard = await UserCardSpellsService.Create().GetNewLevelPowerAsync(cardSpell, levelsGained * increasePerLevel);
+                    await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -322,20 +323,20 @@ public class UserCardSpellsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
         }
     }
-    public void GetSkills(object obj, GameObject currentObject)
+    public async Task GetSkillsAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
         Transform skillContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
         Button setUpButton = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
         if (obj is CardSpells cardSpell)
         {
-            var skills = UserSkillsService.Create().GetUserCardSpellSkills(User.CurrentUserId, cardSpell.Id);
+            var skills = await UserSkillsService.Create().GetUserCardSpellsSkillsAsync(User.CurrentUserId, cardSpell.Id);
             skills = skills.Where(x => x.Position != 0).ToList();
             foreach (var skill in skills)
             {
@@ -352,14 +353,14 @@ public class UserCardSpellsController : MonoBehaviour
                 Texture skillBackgroundImageTexture = Resources.Load<Texture>($"{skillBackground}");
                 skillBackgroundImage.texture = skillBackgroundImageTexture;
             }
-            setUpButton.onClick.AddListener(() =>
+            setUpButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CreateSkillPanel(cardSpell.Id);
+                await CreateSkillPanelAsync(cardSpell.Id);
             });
         }
     }
-    public void CreateSkillPanel(string cardId)
+    public async Task CreateSkillPanelAsync(string cardId)
     {
         skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
         Transform skillGroupContent = skillPanelObject.transform.Find("DictionaryCards/SkillGroup");
@@ -380,8 +381,8 @@ public class UserCardSpellsController : MonoBehaviour
         int passiveSkill1Position = 2;
         int passiveSkill2Position = 3;
 
-        List<string> uniqueTypes = TypeManager.GetUniqueTypes(AppConstants.MainType.SKILL);
-        var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
+        List<string> uniqueTypes = await TypeManager.GetUniqueTypesAsync(AppConstants.MainType.SKILL);
+        var skills = await UserSkillsService.Create().GetUserCardHeroesSkillsAsync(User.CurrentUserId, cardId);
         for (int i = 0; i < uniqueTypes.Count; i++)
         {
             string currentType = uniqueTypes[i];
@@ -422,10 +423,10 @@ public class UserCardSpellsController : MonoBehaviour
             }
             else
             {
-                activeSkillButton.onClick.AddListener(() =>
+                activeSkillButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    CreateSkillPopup(activeSkillPosition, cardId, currentType, AppConstants.Status.ACTIVE);
+                    await CreateSkillPopupAsync(activeSkillPosition, cardId, currentType, AppConstants.Status.ACTIVE);
                 });
             }
 
@@ -443,10 +444,10 @@ public class UserCardSpellsController : MonoBehaviour
             }
             else
             {
-                passiveSkillButton1.onClick.AddListener(() =>
+                passiveSkillButton1.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    CreateSkillPopup(passiveSkill1Position, cardId, currentType, AppConstants.Status.PASSIVE);
+                    await CreateSkillPopupAsync(passiveSkill1Position, cardId, currentType, AppConstants.Status.PASSIVE);
                 });
             }
 
@@ -464,15 +465,15 @@ public class UserCardSpellsController : MonoBehaviour
             }
             else
             {
-                passiveSkillButton2.onClick.AddListener(() =>
+                passiveSkillButton2.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    CreateSkillPopup(passiveSkill2Position, cardId, currentType, AppConstants.Status.PASSIVE);
+                    await CreateSkillPopupAsync(passiveSkill2Position, cardId, currentType, AppConstants.Status.PASSIVE);
                 });
             }
         }
     }
-    public void CreateSkillPopup(int position, string cardId, string type, string skillType, Skills oldSkill = null)
+    public async Task CreateSkillPopupAsync(int position, string cardId, string type, string skillType, Skills oldSkill = null)
     {
         GameObject skillPopupObject = Instantiate(PopupSkillsPanelPrefab, MainPanel);
         Transform skillContent = skillPopupObject.transform.Find("Scroll View/Viewport/Content");
@@ -483,7 +484,7 @@ public class UserCardSpellsController : MonoBehaviour
             Destroy(skillPopupObject);
         });
 
-        var skills = UserSkillsService.Create().GetUserCardHeroesSkills(User.CurrentUserId, cardId);
+        var skills = await UserSkillsService.Create().GetUserCardHeroesSkillsAsync(User.CurrentUserId, cardId);
         skills = skills.Where(x => x.Type.Equals(type)
                                 && x.Position != 1
                                 && x.Position != 2
@@ -506,22 +507,22 @@ public class UserCardSpellsController : MonoBehaviour
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
             Button equipButton = skillObject.transform.Find("EquipButton").GetComponent<Button>();
-            equipButton.onClick.AddListener(() =>
+            equipButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(skillPopupObject);
                 Destroy(skillPanelObject);
                 if (oldSkill != null)
                 {
-                    UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, oldSkill.Id, position);
-                    UserSkillsService.Create().InsertUserCardHeroesSkills(User.CurrentUserId, cardId, skill.Id, position);
+                    await UserSkillsService.Create().DeleteUserCardHeroSkillsAsync(User.CurrentUserId, cardId, oldSkill.Id, position);
+                    await UserSkillsService.Create().InsertUserCardHeroSkillsAsync(User.CurrentUserId, cardId, skill.Id, position);
                 }
                 else
                 {
-                    UserSkillsService.Create().InsertUserCardHeroesSkills(User.CurrentUserId, cardId, skill.Id, position);
+                    await UserSkillsService.Create().InsertUserCardHeroSkillsAsync(User.CurrentUserId, cardId, skill.Id, position);
                 }
-                CreateSkillPanel(cardId);
-            });
+                await CreateSkillPanelAsync(cardId);
+            }));
         }
     }
     public void CreatePopupSkillDetail(int position, string cardId, string type, string skillType, Skills skill)
@@ -542,24 +543,24 @@ public class UserCardSpellsController : MonoBehaviour
         skillTitleText.text = skill.Name;
 
         Button removeButton = popupSkillDetailObject.transform.Find("RemoveButton").GetComponent<Button>();
-        removeButton.onClick.AddListener(() =>
+        removeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupSkillDetailObject);
             Destroy(skillPanelObject);
-            UserSkillsService.Create().DeleteUserCardHeroesSkills(User.CurrentUserId, cardId, skill.Id, position);
-            CreateSkillPanel(cardId);
+            await UserSkillsService.Create().DeleteUserCardHeroSkillsAsync(User.CurrentUserId, cardId, skill.Id, position);
+            await CreateSkillPanelAsync(cardId);
         });
 
         Button swapButton = popupSkillDetailObject.transform.Find("SwapButton").GetComponent<Button>();
-        swapButton.onClick.AddListener(() =>
+        swapButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupSkillDetailObject);       
-            CreateSkillPopup(position, cardId, type, skillType, skill);
+            await CreateSkillPopupAsync(position, cardId, type, skillType, skill);
         });
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -576,7 +577,7 @@ public class UserCardSpellsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.CARD_SPELL);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.CARD_SPELL);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -650,24 +651,24 @@ public class UserCardSpellsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     CardSpells newCard = new CardSpells();
 
-                    newCard = UserCardSpellService.Create().GetNewBreakthroughPower(cardSpell, increasePerUpgrade);
-                    UserCardSpellService.Create().UpdateCardSpellBreakthrough(newCard, cardSpell.Star + 1, cardSpell.Quantity);
+                    newCard = await UserCardSpellsService.Create().GetNewBreakthroughPowerAsync(cardSpell, increasePerUpgrade);
+                    await UserCardSpellsService.Create().UpdateCardSpellBreakthroughAsync(newCard, cardSpell.Star + 1, cardSpell.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    CardSpellGalleryService.Create().UpdateStarCardSpellGallery(cardSpell.Id, cardSpell.Star + 1);
+                    await CardSpellsGalleryService.Create().UpdateStarCardSpellGalleryAsync(cardSpell.Id, cardSpell.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(cardSpell.Star, currentObject);
                 }
                 else
@@ -677,7 +678,7 @@ public class UserCardSpellsController : MonoBehaviour
             });
         }
     }
-    public void GetSpiritBeast(object obj, GameObject currentObject)
+    public async Task GetSpiritBeastAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonSpiritBeastPanels();
         RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Background1").GetComponent<RawImage>();
@@ -692,7 +693,7 @@ public class UserCardSpellsController : MonoBehaviour
 
         if (obj is CardSpells cardSpell)
         {
-            var userCardSpiritBeast = UserSpiritBeastService.Create().GetUserCardSpellSpiritBeast(User.CurrentUserId, cardSpell);
+            var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardSpellSpiritBeastAsync(User.CurrentUserId, cardSpell);
             RawImage spiritBeastImage = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = userCardSpiritBeast.Image != null
                 ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image)
@@ -701,37 +702,37 @@ public class UserCardSpellsController : MonoBehaviour
             spiritBeastImage.texture = texture;
 
             CreateDetailsUI(cardSpell, currentObject);
-            addButton.onClick.AddListener(() =>
+            addButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CreatePopupEquipments(obj, currentObject);
+                await CreatePopupEquipmentsAsync(obj, currentObject);
             });
 
-            removeButton.onClick.AddListener(() =>
+            removeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                UserSpiritBeastService.Create().DeleteUserCardSpellSpiritBeast(User.CurrentUserId, cardSpell, userCardSpiritBeast);
+                await UserSpiritBeastsService.Create().DeleteUserCardSpellSpiritBeastAsync(User.CurrentUserId, cardSpell, userCardSpiritBeast);
                 string fileNameWithoutExtension = "UI/Background4/Background_V4_352";
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 spiritBeastImage.texture = texture;
 
-                var card = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
+                var card = await UserCardSpellsService.Create().GetUserCardSpellByIdAsync(User.CurrentUserId, cardSpell.Id);
                 ShowCardSpellDetails(card, currentObject, 5);
             });
         }
     }
-    public void CreatePopupEquipments(object data, GameObject currentObject, string statusToggle = "NOT EQUIP")
+    public async Task CreatePopupEquipmentsAsync(object data, GameObject currentObject, string statusToggle = "NOT EQUIP")
     {
         popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
         Transform contentPanel = popupSpiritBeastObject.transform.Find("Scroll View/Viewport/Content");
         Text PageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
         Toggle toggle = popupSpiritBeastObject.transform.Find("Toggle").GetComponent<Toggle>();
         toggle.isOn = (statusToggle == "ALL");
-        toggle.onValueChanged.AddListener((bool isOn) =>
+        toggle.onValueChanged.AddListener(async (bool isOn) =>
         {
             string newStatusToggle = isOn ? "ALL" : "NOT EQUIP";
             Destroy(popupSpiritBeastObject);
-            CreatePopupEquipments(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
+            await CreatePopupEquipmentsAsync(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
         Button NextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
         Button PreviousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
@@ -744,24 +745,24 @@ public class UserCardSpellsController : MonoBehaviour
         });
         Equipments equipments = new Equipments();
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
-        spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardSpellSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+        spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardSpellsSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
 
-        int totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.ALL);
+        int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, AppConstants.Rare.ALL);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
         NextButton.onClick.RemoveAllListeners();
         PreviousButton.onClick.RemoveAllListeners();
-        NextButton.onClick.AddListener(() =>
+        NextButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            ChangeNextPage(data, PageText, contentPanel, currentObject);
+            await ChangeNextPageAsync(data, PageText, contentPanel, currentObject);
         });
-        PreviousButton.onClick.AddListener(() =>
+        PreviousButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            ChangePreviousPage(data, PageText, contentPanel, currentObject);
+            await ChangePreviousPageAsync(data, PageText, contentPanel, currentObject);
         });
     }
     public int CalculateTotalPages(int totalRecords, int pageSize)
@@ -800,10 +801,10 @@ public class UserCardSpellsController : MonoBehaviour
                 Destroy(popupSpiritBeastObject);
                 if (data is CardSpells cardSpell)
                 {
-                    UserSpiritBeastService.Create().InsertOrUpdateUserCardSpellSpiritBeast(User.CurrentUserId, cardSpell, spiritBeast);
+                    await UserSpiritBeastsService.Create().InsertOrUpdateUserCardSpellSpiritBeastAsync(User.CurrentUserId, cardSpell, spiritBeast);
 
                     RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
-                    var userCardSpiritBeast = UserSpiritBeastService.Create().GetUserCardSpellSpiritBeast(User.CurrentUserId, cardSpell);
+                    var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardSpellSpiritBeastAsync(User.CurrentUserId, cardSpell);
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image);
                     Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
@@ -813,7 +814,7 @@ public class UserCardSpellsController : MonoBehaviour
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    var card = UserCardSpellService.Create().GetUserCardSpellById(User.CurrentUserId, cardSpell.Id);
+                    var card = await UserCardSpellsService.Create().GetUserCardSpellByIdAsync(User.CurrentUserId, cardSpell.Id);
                     ShowCardSpellDetails(card, currentObject, 5);
                 }
 
@@ -826,36 +827,36 @@ public class UserCardSpellsController : MonoBehaviour
             gridLayout.cellSize = new Vector2(340, 130);
         }
     }
-    public void ChangeNextPage(object data, Text PageText, Transform content, GameObject currentObject)
+    public async Task ChangeNextPageAsync(object data, Text PageText, Transform content, GameObject currentObject)
     {
         if (currentPage < totalPage)
         {
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.ALL);
+            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, AppConstants.Rare.ALL);
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage + 1;
             offset = offset + pageSize;
-            List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardSpellSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardSpellsSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }
     }
-    public void ChangePreviousPage(object data, Text PageText, Transform content, GameObject currentObject)
+    public async Task ChangePreviousPageAsync(object data, Text PageText, Transform content, GameObject currentObject)
     {
         if (currentPage > 1)
         {
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, AppConstants.Rare.ALL);
+            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, AppConstants.Rare.ALL);
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage - 1;
             offset = offset - pageSize;
-            List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetAllUserCardSpellSpiritBeast(User.CurrentUserId, pageSize, offset, statusToggle);
+            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardSpellsSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

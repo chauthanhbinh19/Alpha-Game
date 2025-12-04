@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ItemsService : IItemsService
 {
@@ -14,18 +15,18 @@ public class ItemsService : IItemsService
         return new ItemsService(new ItemsRepository());
     }
 
-    public List<Items> GetItems()
+    public async Task<List<Items>> GetItemsAsync()
     {
-        return _itemsRepository.GetItems();
+        return await _itemsRepository.GetItemsAsync();
     }
 
-    public List<string> GetUniqueItemTypes()
+    public async Task<List<string>> GetUniqueItemsTypesAsync()
     {
-        return _itemsRepository.GetUniqueItemTypes();
+        return await _itemsRepository.GetUniqueItemsTypesAsync();
     }
 
-    public List<string> GetUniqueItemId()
+    public async Task<List<string>> GetUniqueItemsIdAsync()
     {
-        return _itemsRepository.GetUniqueItemId();
+        return await _itemsRepository.GetUniqueItemsIdAsync();
     }
 }

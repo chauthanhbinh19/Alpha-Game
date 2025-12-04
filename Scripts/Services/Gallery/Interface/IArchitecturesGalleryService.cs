@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IArchitecturesGalleryService
 {
-    List<Architectures> GetArchitecturesCollection(int pageSize, int offset, string rare);
-    int GetArchitecturesCount(string rare);
-    void InsertArchitecturesGallery(string Id);
-    void UpdateStatusArchitecturesGallery(string Id);
-    void UpdateStarArchitecturesGallery(string Id, double star);
-    void UpdateArchitecturesGalleryPower(string Id);
-    Architectures SumPowerArchitecturesGallery();
+    Task<List<Architectures>> GetArchitecturesCollectionAsync(int pageSize, int offset, string rare);
+    Task<int> GetArchitecturesCountAsync(string rare);
+    Task InsertArchitectureGalleryAsync(string Id);
+    Task UpdateStatusArchitectureGalleryAsync(string Id);
+    Task UpdateStarArchitectureGalleryAsync(string id, double star);
+    Task UpdateArchitectureGalleryPowerAsync(string id);
+    Task<Architectures> SumPowerArchitecturesGalleryAsync();
 }

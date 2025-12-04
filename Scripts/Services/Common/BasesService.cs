@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class BasesService : IBasesService
 {
@@ -14,42 +15,42 @@ public class BasesService : IBasesService
         return new BasesService(new BasesRepository());
     }
 
-    public List<Bases> GetBases(string userId, int pageSize, int offset)
+    public async Task<List<Bases>> GetBasesAsync(string userId, int pageSize, int offset)
     {
-        List<Bases> list = _BasesRepository.GetBases(userId, pageSize, offset);
+        List<Bases> list = await _BasesRepository.GetBasesAsync(userId, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBasesCount(string rare)
+    public async Task<int> GetBasesCountAsync(string rare)
     {
-        return _BasesRepository.GetBasesCount(rare);
+        return await _BasesRepository.GetBasesCountAsync(rare);
     }
 
-    public List<Bases> GetBasesWithPrice(int pageSize, int offset)
+    public async Task<List<Bases>> GetBasesWithPriceAsync(int pageSize, int offset)
     {
-        List<Bases> list = _BasesRepository.GetBasesWithPrice(pageSize, offset);
+        List<Bases> list = await _BasesRepository.GetBasesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetBasesWithPriceCount()
+    public async Task<int> GetBasesWithPriceCountAsync()
     {
-        return _BasesRepository.GetBasesWithPriceCount();
+        return await _BasesRepository.GetBasesWithPriceCountAsync();
     }
 
-    public Bases GetBasesById(string Id)
+    public async Task<Bases> GetBaseByIdAsync(string Id)
     {
-        return _BasesRepository.GetBasesById(Id);
+        return await _BasesRepository.GetBaseByIdAsync(Id);
     }
 
-    public Bases SumPowerBasesPercent()
+    public async Task<Bases> SumPowerBasesPercentAsync()
     {
-        return _BasesRepository.SumPowerBasesPercent();
+        return await _BasesRepository.SumPowerBasesPercentAsync();
     }
 
-    public List<string> GetUniqueBaseId()
+    public async Task<List<string>> GetUniqueBasesIdAsync()
     {
-        return _BasesRepository.GetUniqueBaseId();
+        return await _BasesRepository.GetUniqueBasesIdAsync();
     }
 }

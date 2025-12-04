@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserRunesService : IUserRunesService
 {
@@ -14,11 +15,11 @@ public class UserRunesService : IUserRunesService
         return new UserRunesService(new UserRunesRepository());
     }
 
-    public Runes GetNewLevelPower(Runes c, double coefficient)
+    public async Task<Runes> GetNewLevelPowerAsync(Runes c, double coefficient)
     {
         IRunesRepository _repository = new RunesRepository();
         RunesService _service = new RunesService(_repository);
-        Runes orginCard = _service.GetRunesById(c.Id);
+        Runes orginCard = await _service.GetRuneByIdAsync(c.Id);
         Runes Runes = new Runes
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserRunesService : IUserRunesService
         );
         return Runes;
     }
-    public Runes GetNewBreakthroughPower(Runes c, double coefficient)
+    public async Task<Runes> GetNewBreakthroughPowerAsync(Runes c, double coefficient)
     {
         IRunesRepository _repository = new RunesRepository();
         RunesService _service = new RunesService(_repository);
-        Runes orginCard = _service.GetRunesById(c.Id);
+        Runes orginCard = await _service.GetRuneByIdAsync(c.Id);
         Runes Runes = new Runes
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserRunesService : IUserRunesService
         return Runes;
     }
 
-    public List<Runes> GetUserRunes(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Runes>> GetUserRunesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Runes> list = _userRunesRepository.GetUserRunes(user_id, pageSize, offset, rare);
+        List<Runes> list = await _userRunesRepository.GetUserRunesAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserRunesCount(string user_id, string rare)
+    public async Task<int> GetUserRunesCountAsync(string user_id, string rare)
     {
-        return _userRunesRepository.GetUserRunesCount(user_id, rare);
+        return await _userRunesRepository.GetUserRunesCountAsync(user_id, rare);
     }
 
-    public bool InsertUserRunes(Runes Runes, string userId)
+    public async Task<bool> InsertUserRuneAsync(Runes Runes, string userId)
     {
-        return _userRunesRepository.InsertUserRunes(Runes, userId);
+        return await _userRunesRepository.InsertUserRuneAsync(Runes, userId);
     }
 
-    public bool UpdateRunesLevel(Runes Runes, int cardLevel)
+    public async Task<bool> UpdateRuneLevelAsync(Runes Runes, int cardLevel)
     {
-        return _userRunesRepository.UpdateRunesLevel(Runes, cardLevel);
+        return await _userRunesRepository.UpdateRuneLevelAsync(Runes, cardLevel);
     }
 
-    public bool UpdateRunesBreakthrough(Runes Runes, int star, double quantity)
+    public async Task<bool> UpdateRuneBreakthroughAsync(Runes Runes, int star, double quantity)
     {
-        return _userRunesRepository.UpdateRunesBreakthrough(Runes, star, quantity);
+        return await _userRunesRepository.UpdateRuneBreakthroughAsync(Runes, star, quantity);
     }
 
-    public Runes GetUserRunesById(string user_id, string Id)
+    public async Task<Runes> GetUserRuneByIdAsync(string user_id, string Id)
     {
-        return _userRunesRepository.GetUserRunesById(user_id, Id);
+        return await _userRunesRepository.GetUserRuneByIdAsync(user_id, Id);
     }
 
-    public Runes SumPowerUserRunes()
+    public async Task<Runes> SumPowerUserRunesAsync()
     {
-        return _userRunesRepository.SumPowerUserRunes();
+        return await _userRunesRepository.SumPowerUserRunesAsync();
     }
 }

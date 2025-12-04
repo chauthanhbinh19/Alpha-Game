@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class VehicleGalleryService : IVehiclesGalleryService
 {
@@ -14,44 +15,44 @@ public class VehicleGalleryService : IVehiclesGalleryService
         return new VehicleGalleryService(new VehicleGalleryRepository());
     }
 
-    public List<Vehicles> GetVehiclesCollection(string type, int pageSize, int offset, string rare)
+    public async Task<List<Vehicles>> GetVehiclesCollectionAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Vehicles> list = _VehicleGalleryRepository.GetVehiclesCollection(type, pageSize, offset, rare);
+        List<Vehicles> list = await _VehicleGalleryRepository.GetVehiclesCollectionAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetVehiclesCount(string type, string rare)
+    public async Task<int> GetVehiclesCountAsync(string type, string rare)
     {
-        return _VehicleGalleryRepository.GetVehiclesCount(type, rare);
+        return await _VehicleGalleryRepository.GetVehiclesCountAsync(type, rare);
     }
 
-    public void InsertVehiclesGallery(string Id)
+    public async Task InsertVehicleGalleryAsync(string Id)
     {
         IVehiclesRepository _repository = new VehiclesRepository();
         VehiclesService _service = new VehiclesService(_repository);
-        _VehicleGalleryRepository.InsertVehiclesGallery(Id, _service.GetVehicleById(Id));
+        await _VehicleGalleryRepository.InsertVehicleGalleryAsync(Id, await _service.GetVehicleByIdAsync(Id));
     }
 
-    public void UpdateStatusVehiclesGallery(string Id)
+    public async Task UpdateStatusVehicleGalleryAsync(string Id)
     {
-        _VehicleGalleryRepository.UpdateStatusVehiclesGallery(Id);
+        await _VehicleGalleryRepository.UpdateStatusVehicleGalleryAsync(Id);
     }
 
-    public Vehicles SumPowerVehiclesGallery()
+    public async Task<Vehicles> SumPowerVehiclesGalleryAsync()
     {
-        return _VehicleGalleryRepository.SumPowerVehiclesGallery();
+        return await _VehicleGalleryRepository.SumPowerVehiclesGalleryAsync();
     }
 
-    public void UpdateStarVehiclesGallery(string Id, double star)
+    public async Task UpdateStarVehicleGalleryAsync(string Id, double star)
     {
-        _VehicleGalleryRepository.UpdateStarVehiclesGallery(Id, star);
+        await _VehicleGalleryRepository.UpdateStarVehicleGalleryAsync(Id, star);
     }
 
-    public void UpdateVehiclesGalleryPower(string Id)
+    public async Task UpdateVehicleGalleryPowerAsync(string Id)
     {
         IVehiclesRepository _repository = new VehiclesRepository();
         VehiclesService _service = new VehiclesService(_repository);
-        _VehicleGalleryRepository.UpdateVehiclesGalleryPower(Id, _service.GetVehicleById(Id));
+        await _VehicleGalleryRepository.UpdateVehicleGalleryPowerAsync(Id, await _service.GetVehicleByIdAsync(Id));
     }
 }

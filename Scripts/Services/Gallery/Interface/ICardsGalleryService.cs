@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ICardsGalleryService
 {
-    List<Cards> GetCardsCollection(int pageSize, int offset, string rare);
-    int GetCardsCount(string rare);
-    void InsertCardsGallery(string Id);
-    void UpdateStatusCardsGallery(string Id);
-    void UpdateStarCardsGallery(string Id, double star);
-    void UpdateCardsGalleryPower(string Id);
-    Cards SumPowerCardsGallery();
+    Task<List<Cards>> GetCardsCollectionAsync(int pageSize, int offset, string rare);
+    Task<int> GetCardsCountAsync(string rare);
+    Task InsertCardGalleryAsync(string Id);
+    Task UpdateStatusCardGalleryAsync(string Id);
+    Task UpdateStarCardGalleryAsync(string id, double star);
+    Task UpdateCardGalleryPowerAsync(string id);
+    Task<Cards> SumPowerCardsGalleryAsync();
 }

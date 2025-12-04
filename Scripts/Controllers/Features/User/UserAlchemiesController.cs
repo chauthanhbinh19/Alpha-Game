@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -93,12 +94,12 @@ public class UserAlchemiesController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(alchemy, currentObject);
+            _=GetLevelAsync(alchemy, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(alchemy, currentObject);
+            _=GetUpgradeAsync(alchemy, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -109,7 +110,7 @@ public class UserAlchemiesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(alchemy, currentObject);
+                _=GetLevelAsync(alchemy, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -117,7 +118,7 @@ public class UserAlchemiesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(alchemy, currentObject);
+                _=GetUpgradeAsync(alchemy, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -159,7 +160,7 @@ public class UserAlchemiesController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, alchemy, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -173,7 +174,7 @@ public class UserAlchemiesController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.ALCHEMY);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ALCHEMY);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -182,7 +183,7 @@ public class UserAlchemiesController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Alchemies currentCard = new Alchemies();
-                currentCard = UserAlchemyService.Create().GetUserAlchemyById(User.CurrentUserId, alchemy.Id);
+                currentCard = await UserAlchemiesService.Create().GetUserAlchemyByIdAsync(User.CurrentUserId, alchemy.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -193,8 +194,8 @@ public class UserAlchemiesController : MonoBehaviour
                 {
                     Alchemies newCard = new Alchemies();
 
-                    newCard = UserAlchemyService.Create().GetNewLevelPower(alchemy, increasePerLevel);
-                    UserAlchemyService.Create().UpdateAlchemyLevel(newCard, currentLevel + 1);
+                    newCard = await UserAlchemiesService.Create().GetNewLevelPowerAsync(alchemy, increasePerLevel);
+                    await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -202,14 +203,14 @@ public class UserAlchemiesController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Alchemies currentCard = UserAlchemyService.Create().GetUserAlchemyById(User.CurrentUserId, alchemy.Id);
+                Alchemies currentCard = await UserAlchemiesService.Create().GetUserAlchemyByIdAsync(User.CurrentUserId, alchemy.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -225,8 +226,8 @@ public class UserAlchemiesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Alchemies newCard = UserAlchemyService.Create().GetNewLevelPower(alchemy, levelsGained * increasePerLevel);
-                    UserAlchemyService.Create().UpdateAlchemyLevel(newCard, currentLevel);
+                    Alchemies newCard = await UserAlchemiesService.Create().GetNewLevelPowerAsync(alchemy, levelsGained * increasePerLevel);
+                    await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -235,7 +236,7 @@ public class UserAlchemiesController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -245,7 +246,7 @@ public class UserAlchemiesController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -262,7 +263,7 @@ public class UserAlchemiesController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.ALCHEMY);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ALCHEMY);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -336,24 +337,24 @@ public class UserAlchemiesController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Alchemies newalchemy = new Alchemies();
 
-                    newalchemy = UserAlchemyService.Create().GetNewBreakthroughPower(alchemy, increasePerUpgrade);
-                    UserAlchemyService.Create().UpdateAlchemyBreakthrough(newalchemy, alchemy.Star + 1, alchemy.Quantity);
+                    newalchemy = await UserAlchemiesService.Create().GetNewBreakthroughPowerAsync(alchemy, increasePerUpgrade);
+                    await UserAlchemiesService.Create().UpdateAlchemyBreakthroughAsync(newalchemy, alchemy.Star + 1, alchemy.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    AlchemyGalleryService.Create().UpdateStarAlchemyGallery(alchemy.Id, alchemy.Star + 1);
+                    await AlchemiesGalleryService.Create().UpdateStarAlchemyGalleryAsync(alchemy.Id, alchemy.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(alchemy.Star, currentObject);
                 }
                 else

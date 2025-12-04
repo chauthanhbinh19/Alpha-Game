@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserCoresService : IUserCoresService
 {
@@ -14,11 +15,11 @@ public class UserCoresService : IUserCoresService
         return new UserCoresService(new UserCoresRepository());
     }
 
-    public Cores GetNewLevelPower(Cores c, double coefficient)
+    public async Task<Cores> GetNewLevelPowerAsync(Cores c, double coefficient)
     {
         ICoresRepository _repository = new CoresRepository();
         CoresService _service = new CoresService(_repository);
-        Cores orginCard = _service.GetCoresById(c.Id);
+        Cores orginCard = await _service.GetCoreByIdAsync(c.Id);
         Cores Cores = new Cores
         {
             Id = c.Id,
@@ -97,11 +98,11 @@ public class UserCoresService : IUserCoresService
         );
         return Cores;
     }
-    public Cores GetNewBreakthroughPower(Cores c, double coefficient)
+    public async Task<Cores> GetNewBreakthroughPowerAsync(Cores c, double coefficient)
     {
         ICoresRepository _repository = new CoresRepository();
         CoresService _service = new CoresService(_repository);
-        Cores orginCard = _service.GetCoresById(c.Id);
+        Cores orginCard = await _service.GetCoreByIdAsync(c.Id);
         Cores Cores = new Cores
         {
             Id = c.Id,
@@ -181,40 +182,40 @@ public class UserCoresService : IUserCoresService
         return Cores;
     }
 
-    public List<Cores> GetUserCores(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Cores>> GetUserCoresAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Cores> list = _userCoresRepository.GetUserCores(user_id, pageSize, offset, rare);
+        List<Cores> list = await _userCoresRepository.GetUserCoresAsync(user_id, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetUserCoresCount(string user_id, string rare)
+    public async Task<int> GetUserCoresCountAsync(string user_id, string rare)
     {
-        return _userCoresRepository.GetUserCoresCount(user_id, rare);
+        return await _userCoresRepository.GetUserCoresCountAsync(user_id, rare);
     }
 
-    public bool InsertUserCores(Cores Cores, string userId)
+    public async Task<bool> InsertUserCoreAsync(Cores Cores, string userId)
     {
-        return _userCoresRepository.InsertUserCores(Cores, userId);
+        return await _userCoresRepository.InsertUserCoreAsync(Cores, userId);
     }
 
-    public bool UpdateCoresLevel(Cores Cores, int cardLevel)
+    public async Task<bool> UpdateCoreLevelAsync(Cores Cores, int cardLevel)
     {
-        return _userCoresRepository.UpdateCoresLevel(Cores, cardLevel);
+        return await _userCoresRepository.UpdateCoreLevelAsync(Cores, cardLevel);
     }
 
-    public bool UpdateCoresBreakthrough(Cores Cores, int star, double quantity)
+    public async Task<bool> UpdateCoreBreakthroughAsync(Cores Cores, int star, double quantity)
     {
-        return _userCoresRepository.UpdateCoresBreakthrough(Cores, star, quantity);
+        return await _userCoresRepository.UpdateCoreBreakthroughAsync(Cores, star, quantity);
     }
 
-    public Cores GetUserCoresById(string user_id, string Id)
+    public async Task<Cores> GetUserCoreByIdAsync(string user_id, string Id)
     {
-        return _userCoresRepository.GetUserCoresById(user_id, Id);
+        return await _userCoresRepository.GetUserCoreByIdAsync(user_id, Id);
     }
 
-    public Cores SumPowerUserCores()
+    public async Task<Cores> SumPowerUserCoresAsync()
     {
-        return _userCoresRepository.SumPowerUserCores();
+        return await _userCoresRepository.SumPowerUserCoresAsync();
     }
 }

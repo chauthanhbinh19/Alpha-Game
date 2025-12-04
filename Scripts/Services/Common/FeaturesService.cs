@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class FeaturesService : IFeaturesService
 {
@@ -14,14 +15,14 @@ public class FeaturesService : IFeaturesService
         return new FeaturesService(new FeaturesRepository());
     }
 
-    public Dictionary<string, int> GetFeaturesByType(string type)
+    public async Task<Dictionary<string, int>> GetFeaturesByTypeAsync(string type)
     {
-        return _featuresRepository.GetFeaturesByType(type);
+        return await _featuresRepository.GetFeaturesByTypeAsync(type);
     }
 
-    public Dictionary<string, int> GetAnimeFeaturesByType(string type)
+    public async Task<Dictionary<string, int>> GetAnimeFeaturesByTypeAsync(string type)
     {
-        return _featuresRepository.GetAnimeFeaturesByType(type);
+        return await _featuresRepository.GetAnimeFeaturesByTypeAsync(type);
     }
 
     // Implement other methods from IFeaturesService by calling the repository

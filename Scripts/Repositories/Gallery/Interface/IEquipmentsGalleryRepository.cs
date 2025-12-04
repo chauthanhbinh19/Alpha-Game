@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IEquipmentsGalleryRepository
 {
-    List<Equipments> GetEquipmentsCollection(string type, int pageSize, int offset, string rare);
-    int GetEquipmentsCount(string type, string rare);
-    void InsertEquipmentsGallery(string Id, Equipments EquipmentFromDB);
-    void UpdateStatusEquipmentsGallery(string Id);
-    void UpdateStarEquipmentsGallery(string Id, double star);
-    void UpdateEquipmentsGalleryPower(string Id, Equipments EquipmentFromDB);
-    Equipments SumPowerEquipmentsGallery();
+    Task<List<Equipments>> GetEquipmentsCollectionAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetEquipmentsCountAsync(string type, string rare);
+    Task InsertEquipmentGalleryAsync(string Id, Equipments EquipmentFromDB);
+    Task UpdateStatusEquipmentGalleryAsync(string Id);
+    Task UpdateStarEquipmentGalleryAsync(string Id, double star);
+    Task UpdateEquipmentGalleryPowerAsync(string Id, Equipments EquipmentFromDB);
+    Task<Equipments> SumPowerEquipmentsGalleryAsync();
 }

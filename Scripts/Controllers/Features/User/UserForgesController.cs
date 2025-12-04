@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -93,12 +94,12 @@ public class UserForgesController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(forge, currentObject);
+            _=GetLevelAsync(forge, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(forge, currentObject);
+            _=GetUpgradeAsync(forge, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -109,7 +110,7 @@ public class UserForgesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(forge, currentObject);
+                _=GetLevelAsync(forge, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -117,7 +118,7 @@ public class UserForgesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(forge, currentObject);
+                _=GetUpgradeAsync(forge, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -159,7 +160,7 @@ public class UserForgesController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, forge, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -173,7 +174,7 @@ public class UserForgesController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.FORGE);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FORGE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -182,7 +183,7 @@ public class UserForgesController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Forges currentCard = new Forges();
-                currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.Id);
+                currentCard = await UserForgesService.Create().GetUserForgeByIdAsync(User.CurrentUserId, forge.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -193,8 +194,8 @@ public class UserForgesController : MonoBehaviour
                 {
                     Forges newCard = new Forges();
 
-                    newCard = UserForgeService.Create().GetNewLevelPower(forge, increasePerLevel);
-                    UserForgeService.Create().UpdateForgeLevel(newCard, currentLevel + 1);
+                    newCard = await UserForgesService.Create().GetNewLevelPowerAsync(forge, increasePerLevel);
+                    await UserForgesService.Create().UpdateForgeLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -202,14 +203,14 @@ public class UserForgesController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Forges currentCard = UserForgeService.Create().GetUserForgeById(User.CurrentUserId, forge.Id);
+                Forges currentCard = await UserForgesService.Create().GetUserForgeByIdAsync(User.CurrentUserId, forge.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -225,8 +226,8 @@ public class UserForgesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Forges newCard = UserForgeService.Create().GetNewLevelPower(forge, levelsGained * increasePerLevel);
-                    UserForgeService.Create().UpdateForgeLevel(newCard, currentLevel);
+                    Forges newCard = await UserForgesService.Create().GetNewLevelPowerAsync(forge, levelsGained * increasePerLevel);
+                    await UserForgesService.Create().UpdateForgeLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -235,7 +236,7 @@ public class UserForgesController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -245,7 +246,7 @@ public class UserForgesController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -262,7 +263,7 @@ public class UserForgesController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.FORGE);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FORGE);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -336,24 +337,24 @@ public class UserForgesController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Forges newforge = new Forges();
 
-                    newforge = UserForgeService.Create().GetNewBreakthroughPower(forge, increasePerUpgrade);
-                    UserForgeService.Create().UpdateForgeBreakthrough(newforge, forge.Star + 1, forge.Quantity);
+                    newforge = await UserForgesService.Create().GetNewBreakthroughPowerAsync(forge, increasePerUpgrade);
+                    await UserForgesService.Create().UpdateForgeBreakthroughAsync(newforge, forge.Star + 1, forge.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    ForgeGalleryService.Create().UpdateStarForgeGallery(forge.Id, forge.Star + 1);
+                    await ForgesGalleryService.Create().UpdateStarForgeGalleryAsync(forge.Id, forge.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(forge.Star, currentObject);
                 }
                 else

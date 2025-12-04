@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class WeaponsGalleryService : IWeaponsGalleryService
 {
@@ -14,44 +15,44 @@ public class WeaponsGalleryService : IWeaponsGalleryService
         return new WeaponsGalleryService(new WeaponsGalleryRepository());
     }
 
-    public List<Weapons> GetWeaponsCollection(int pageSize, int offset, string rare)
+    public async Task<List<Weapons>> GetWeaponsCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<Weapons> list = _WeaponsGalleryRepository.GetWeaponsCollection(pageSize, offset, rare);
+        List<Weapons> list = await _WeaponsGalleryRepository.GetWeaponsCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetWeaponsCount(string rare)
+    public async Task<int> GetWeaponsCountAsync(string rare)
     {
-        return _WeaponsGalleryRepository.GetWeaponsCount(rare);
+        return await _WeaponsGalleryRepository.GetWeaponsCountAsync(rare);
     }
 
-    public void InsertWeaponsGallery(string Id)
+    public async Task InsertWeaponGalleryAsync(string Id)
     {
         IWeaponsRepository _repository = new WeaponsRepository();
         WeaponsService _service = new WeaponsService(_repository);
-        _WeaponsGalleryRepository.InsertWeaponsGallery(Id, _service.GetWeaponsById(Id));
+        await _WeaponsGalleryRepository.InsertWeaponGalleryAsync(Id, await _service.GetWeaponByIdAsync(Id));
     }
 
-    public void UpdateStatusWeaponsGallery(string Id)
+    public async Task UpdateStatusWeaponGalleryAsync(string Id)
     {
-        _WeaponsGalleryRepository.UpdateStatusWeaponsGallery(Id);
+        await _WeaponsGalleryRepository.UpdateStatusWeaponGalleryAsync(Id);
     }
 
-    public Weapons SumPowerWeaponsGallery()
+    public async Task<Weapons> SumPowerWeaponsGalleryAsync()
     {
-        return _WeaponsGalleryRepository.SumPowerWeaponsGallery();
+        return await _WeaponsGalleryRepository.SumPowerWeaponsGalleryAsync();
     }
 
-    public void UpdateStarWeaponsGallery(string Id, double star)
+    public async Task UpdateStarWeaponGalleryAsync(string Id, double star)
     {
-        _WeaponsGalleryRepository.UpdateStarWeaponsGallery(Id, star);
+        await _WeaponsGalleryRepository.UpdateStarWeaponGalleryAsync(Id, star);
     }
 
-    public void UpdateWeaponsGalleryPower(string Id)
+    public async Task UpdateWeaponGalleryPowerAsync(string Id)
     {
         IWeaponsRepository _repository = new WeaponsRepository();
         WeaponsService _service = new WeaponsService(_repository);
-        _WeaponsGalleryRepository.UpdateWeaponsGalleryPower(Id, _service.GetWeaponsById(Id));
+        await _WeaponsGalleryRepository.UpdateWeaponGalleryPowerAsync(Id, await _service.GetWeaponByIdAsync(Id));
     }
 }

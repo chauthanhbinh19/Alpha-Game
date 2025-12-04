@@ -28,21 +28,38 @@ public class TeamsService : ITeamsService
 
     public async Task<double> GetTeamsPowerAsync(string user_id)
     {
-        List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetAllUserCardHeroesInTeam(user_id);
+        List<CardHeroes> cardHeroes = await UserCardHeroesService.Create().GetAllUserCardHeroesInTeamAsync(user_id);
 
         double totalPower = 0;
 
         // Sử dụng Sum() của LINQ
         totalPower += cardHeroes.Sum(c => c.Power);
-        totalPower += UserCardCaptainsService.Create().GetAllUserCardCaptainsInTeam(user_id).Sum(c => c.Power);
-        totalPower += UserCardColonelsService.Create().GetAllUserCardColonelsInTeam(user_id).Sum(c => c.Power);
-        totalPower += UserCardGeneralsService.Create().GetAllUserCardGeneralsInTeam(user_id).Sum(c => c.Power);
-        totalPower += UserCardAdmiralsService.Create().GetAllUserCardAdmiralsInTeam(user_id).Sum(c => c.Power);
-        totalPower += UserCardMonstersService.Create().GetAllUserCardMonstersInTeam(user_id).Sum(c => c.Power);
-        totalPower += UserCardMilitaryService.Create().GetAllUserCardMilitaryInTeam(user_id).Sum(c => c.Power);
-        totalPower += UserCardSpellService.Create().GetAllUserCardSpellInTeam(user_id).Sum(c => c.Power);
-        totalPower += UserBooksService.Create().GetAllUserBooksInTeam(user_id).Sum(c => c.Power);
-        totalPower += UserPetsService.Create().GetAllUserPetsInTeam(user_id).Sum(c => c.Power);
+        totalPower += (await UserCardCaptainsService.Create().GetAllUserCardCaptainsInTeamAsync(user_id))
+            .Sum(c => c.Power);
+
+        totalPower += (await UserCardColonelsService.Create().GetAllUserCardColonelsInTeamAsync(user_id))
+            .Sum(c => c.Power);
+
+        totalPower += (await UserCardGeneralsService.Create().GetAllUserCardGeneralsInTeamAsync(user_id))
+            .Sum(c => c.Power);
+
+        totalPower += (await UserCardAdmiralsService.Create().GetAllUserCardAdmiralsInTeamAsync(user_id))
+            .Sum(c => c.Power);
+
+        totalPower += (await UserCardMonstersService.Create().GetAllUserCardMonstersInTeamAsync(user_id))
+            .Sum(c => c.Power);
+
+        totalPower += (await UserCardMilitariesService.Create().GetAllUserCardMilitariesInTeamAsync(user_id))
+            .Sum(c => c.Power);
+
+        totalPower += (await UserCardSpellsService.Create().GetAllUserCardSpellsInTeamAsync(user_id))
+            .Sum(c => c.Power);
+
+        totalPower += (await UserBooksService.Create().GetAllUserBooksInTeamAsync(user_id))
+            .Sum(c => c.Power);
+
+        totalPower += (await UserPetsService.Create().GetAllUserPetsInTeamAsync(user_id))
+            .Sum(c => c.Power);
 
         await UserService.Create().UpdateUserPowerAsync(user_id, totalPower);
 

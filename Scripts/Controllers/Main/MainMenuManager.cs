@@ -7,6 +7,7 @@ using TMPro;
 using System.Linq;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using System.Threading.Tasks;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -172,10 +173,10 @@ public class MainMenuManager : MonoBehaviour
             GetButtonEvent(popupButtonPanel);
         });
 
-        shopButton.onClick.AddListener(() =>
+        shopButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ShopManager.Instance.CreateShopButton();
+            await ShopManager.Instance.CreateShopButtonAsync();
         });
 
         teamButton.onClick.AddListener(async () =>
@@ -184,7 +185,7 @@ public class MainMenuManager : MonoBehaviour
             await TeamsManager.Instance.CreateTeamsAsync();
         });
 
-        masterBoardButton.onClick.AddListener(() =>
+        masterBoardButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GameObject popupObject = Instantiate(MasterBoardPanelPrefab, MainPanel);
@@ -203,7 +204,7 @@ public class MainMenuManager : MonoBehaviour
             });
             titleTMPText.text = LocalizationManager.Get(AppConstants.MainType.MASTER_BOARD);
             // FindObjectOfType<ButtonLoader>().CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
-            MasterBoardController.Instance.CreateMasterBoard(popupObject);
+            await MasterBoardController.Instance.CreateMasterBoardAsync(popupObject);
         });
 
         scienceFictionButton.onClick.AddListener(() =>
@@ -261,7 +262,7 @@ public class MainMenuManager : MonoBehaviour
             scrollViewPanel.gameObject.SetActive(false);
         });
 
-        equipmentButton.onClick.AddListener(() =>
+        equipmentButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
@@ -273,7 +274,7 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            ButtonLoader.Instance.CreateEquipmentsButton(popupObject.transform.Find("Content"));
+            await ButtonLoader.Instance.CreateEquipmentsButtonAsync(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
             scrollViewPanel.gameObject.SetActive(false);
         });
@@ -284,13 +285,13 @@ public class MainMenuManager : MonoBehaviour
             FeatureManager.Instance.CreateFeature();
         });
 
-        profileButton.onClick.AddListener(() =>
+        profileButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ProfileManager.Instance.CreateProfile();
+            await ProfileManager.Instance.CreateProfileAsync();
         });
 
-        arenaButton.onClick.AddListener(() =>
+        arenaButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
@@ -307,13 +308,13 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
-            ButtonLoader.Instance.CreateArenaButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            await ButtonLoader.Instance.CreateArenaButtonAsync(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         });
 
-        guildButton.onClick.AddListener(() =>
+        guildButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ProfileManager.Instance.CreateProfile();
+            await ProfileManager.Instance.CreateProfileAsync();
         });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
@@ -340,10 +341,10 @@ public class MainMenuManager : MonoBehaviour
 
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
 
-        userButton.onClick.AddListener(() =>
+        userButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ProfileManager.Instance.CreateProfile();
+            await ProfileManager.Instance.CreateProfileAsync();
         });
     }
     public void GetMainButtonEvent(GameObject popupButtonObject)
@@ -415,13 +416,13 @@ public class MainMenuManager : MonoBehaviour
     public void GetType(string type)
     {
         mainType = type; // Gán giá trị cho mainType
-        GetButtonType(); // Gọi hàm xử lý
+        _=GetButtonTypeAsync(); // Gọi hàm xử lý
         if (titleText != null)
         {
             titleText.text = LocalizationManager.Get(type);
         }
     }
-    public void GetButtonType()
+    public async Task GetButtonTypeAsync()
     {
         // MainMenuPanel.SetActive(true);
         if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES) || mainType.Equals(AppConstants.MainType.SUMMON_BOOKS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS) ||
@@ -552,27 +553,27 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.DAILY_CHECKIN))
         {
             canUseRareButton = false;
-            DailyCheckinManager.Instance.CreateDailyCheckinGroup();
+            await DailyCheckinManager.Instance.CreateDailyCheckinGroupAsync();
         }
         else if (mainType.Equals(AppConstants.Market.RARE_MARKET))
         {
             canUseRareButton = false;
-            RareMarketManager.Instance.CreateRareMarket();
+            await RareMarketManager.Instance.CreateRareMarketAsync();
         }
         else if (mainType.Equals(AppConstants.Market.ULTRA_RARE_MARKET))
         {
             canUseRareButton = false;
-            UltraRareMarketManager.Instance.CreateUltraRareMarket();
+            await UltraRareMarketManager.Instance.CreateUltraRareMarketAsync();
         }
         else if (mainType.Equals(AppConstants.Market.LEGENDARY_MARKET))
         {
             canUseRareButton = false;
-            LegendaryMarketManager.Instance.CreateLegendaryMarket();
+            await LegendaryMarketManager.Instance.CreateLegendaryMarketAsync();
         }
         else if (mainType.Equals(AppConstants.Market.MYSTIC_MARKET))
         {
             canUseRareButton = false;
-            MysticMarketManager.Instance.CreateMysticMarket();
+            await MysticMarketManager.Instance.CreateMysticMarketAsync();
         }
         else
         {
@@ -618,12 +619,12 @@ public class MainMenuManager : MonoBehaviour
             CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");
 
             List<Currencies> currencies = new List<Currencies>();
-            currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
+            currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
             FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
         }
 
         List<string> uniqueRaries = QualityEvaluator.rarities;
-        List<string> uniqueTypes = TypeManager.GetUniqueTypes(mainType);
+        List<string> uniqueTypes = await TypeManager.GetUniqueTypesAsync(mainType);
 
         if (uniqueRaries.Count > 0 && uniqueTypes.Count > 0 && !mainType.Equals(AppConstants.MainType.ITEM) && canUseRareButton)
         {
@@ -650,7 +651,7 @@ public class MainMenuManager : MonoBehaviour
                         rare = selectedRare;
                         button.transform.Find("Active").gameObject.SetActive(true);
                         button.transform.Find("Unactive").gameObject.SetActive(false);
-                        LoadCurrentPage();
+                        _=LoadCurrentPageAsync();
                     }
                 }
                 else
@@ -702,7 +703,7 @@ public class MainMenuManager : MonoBehaviour
                     {
                         ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.SUMMON_BUTTON_AFTER_CLICK_URL);
                     }
-                    LoadCurrentPage();
+                    _=LoadCurrentPageAsync();
 
                 }
                 else
@@ -724,107 +725,107 @@ public class MainMenuManager : MonoBehaviour
             int listCount = 0;
             if (mainType.Equals(AppConstants.MainType.COLLABORATION))
             {
-                List<Collaborations> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
+                List<Collaborations> collaborations = await UserCollaborationsService.Create().GetUserCollaborationsAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserCollaborationsController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
                 listCount = collaborations.Count;
 
-                totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
+                totalRecord = await UserCollaborationsService.Create().GetUserCollaborationsCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.MEDAL))
             {
-                List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
+                List<Medals> medals = await UserMedalsService.Create().GetUserMedalsAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
                 listCount = medals.Count;
 
-                totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
+                totalRecord = await UserMedalsService.Create().GetUserMedalsCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.TITLE))
             {
-                List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
+                List<Titles> titles = await UserTitlesService.Create().GetUserTitlesAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
                 listCount = titles.Count;
 
-                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
+                totalRecord = await UserTitlesService.Create().GetUserTitlesCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
             {
-                List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
+                List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetUserSpiritBeastsAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserSpiritBeastsController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
                 listCount = spiritBeasts.Count;
 
-                totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
+                totalRecord = await UserTitlesService.Create().GetUserTitlesCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.CARD))
             {
-                List<Cards> cards = UserCardsService.Create().GetUserCards(User.CurrentUserId, pageSize, offset, rare);
+                List<Cards> cards = await UserCardsService.Create().GetUserCardsAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserCardsController.Instance.CreateUserCards(cards, DictionaryContentPanel);
                 listCount = cards.Count;
 
-                totalRecord = UserCardsService.Create().GetUserCardsCount(User.CurrentUserId, rare);
+                totalRecord = await UserCardsService.Create().GetUserCardsCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
             {
-                List<Architectures> architectures = UserArchitecturesService.Create().GetUserArchitectures(User.CurrentUserId, pageSize, offset, rare);
+                List<Architectures> architectures = await UserArchitecturesService.Create().GetUserArchitecturesAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserArchitecturesController.Instance.CreateUserArchitectures(architectures, DictionaryContentPanel);
                 listCount = architectures.Count;
 
-                totalRecord = UserArchitecturesService.Create().GetUserArchitecturesCount(User.CurrentUserId, rare);
+                totalRecord = await UserArchitecturesService.Create().GetUserArchitecturesCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
             {
-                List<Technologies> technologies = UserTechnologiesService.Create().GetUserTechnologies(User.CurrentUserId, pageSize, offset, rare);
+                List<Technologies> technologies = await UserTechnologiesService.Create().GetUserTechnologiesAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserTechnologiesController.Instance.CreateUserTechnologies(technologies, DictionaryContentPanel);
                 listCount = technologies.Count;
 
-                totalRecord = UserTechnologiesService.Create().GetUserTechnologiesCount(User.CurrentUserId, rare);
+                totalRecord = await UserTechnologiesService.Create().GetUserTechnologiesCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.CORE))
             {
-                List<Cores> cores = UserCoresService.Create().GetUserCores(User.CurrentUserId, pageSize, offset, rare);
+                List<Cores> cores = await UserCoresService.Create().GetUserCoresAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserCoresController.Instance.CreateUserCores(cores, DictionaryContentPanel);
                 listCount = cores.Count;
 
-                totalRecord = UserCoresService.Create().GetUserCoresCount(User.CurrentUserId, rare);
+                totalRecord = await UserCoresService.Create().GetUserCoresCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.WEAPON))
             {
-                List<Weapons> weapons = UserWeaponsService.Create().GetUserWeapons(User.CurrentUserId, pageSize, offset, rare);
+                List<Weapons> weapons = await UserWeaponsService.Create().GetUserWeaponsAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserWeaponsController.Instance.CreateUserWeapons(weapons, DictionaryContentPanel);
                 listCount = weapons.Count;
 
-                totalRecord = UserWeaponsService.Create().GetUserWeaponsCount(User.CurrentUserId, rare);
+                totalRecord = await UserWeaponsService.Create().GetUserWeaponsCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.ROBOT))
             {
-                List<Robots> robots = UserRobotsService.Create().GetUserRobots(User.CurrentUserId, pageSize, offset, rare);
+                List<Robots> robots = await UserRobotsService.Create().GetUserRobotsAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserRobotsController.Instance.CreateUserRobots(robots, DictionaryContentPanel);
                 listCount = robots.Count;
 
-                totalRecord = UserRobotsService.Create().GetUserRobotsCount(User.CurrentUserId, rare);
+                totalRecord = await UserRobotsService.Create().GetUserRobotsCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.BADGE))
             {
-                List<Badges> badges = UserBadgesService.Create().GetUserBadges(User.CurrentUserId, pageSize, offset, rare);
+                List<Badges> badges = await UserBadgesService.Create().GetUserBadgesAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserBadgesController.Instance.CreateUserBadges(badges, DictionaryContentPanel);
                 listCount = badges.Count;
 
-                totalRecord = UserBadgesService.Create().GetUserBadgesCount(User.CurrentUserId, rare);
+                totalRecord = await UserBadgesService.Create().GetUserBadgesCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
             {
-                List<MechaBeasts> mechaBeasts = UserMechaBeastsService.Create().GetUserMechaBeasts(User.CurrentUserId, pageSize, offset, rare);
+                List<MechaBeasts> mechaBeasts = await UserMechaBeastsService.Create().GetUserMechaBeastsAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserMechaBeastsController.Instance.CreateUserMechaBeasts(mechaBeasts, DictionaryContentPanel);
                 listCount = mechaBeasts.Count;
 
-                totalRecord = UserMechaBeastsService.Create().GetUserMechaBeastsCount(User.CurrentUserId, rare);
+                totalRecord = await UserMechaBeastsService.Create().GetUserMechaBeastsCountAsync(User.CurrentUserId, rare);
             }
             else if (mainType.Equals(AppConstants.MainType.RUNE))
             {
-                List<Runes> runes = UserRunesService.Create().GetUserRunes(User.CurrentUserId, pageSize, offset, rare);
+                List<Runes> runes = await UserRunesService.Create().GetUserRunesAsync(User.CurrentUserId, pageSize, offset, rare);
                 UserRunesController.Instance.CreateUserRunes(runes, DictionaryContentPanel);
                 listCount = runes.Count;
 
-                totalRecord = UserRunesService.Create().GetUserRunesCount(User.CurrentUserId, rare);
+                totalRecord = await UserRunesService.Create().GetUserRunesCountAsync(User.CurrentUserId, rare);
             }
 
             if (listCount > 0)
@@ -889,7 +890,7 @@ public class MainMenuManager : MonoBehaviour
         {
             ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.SUMMON_BUTTON_AFTER_CLICK_URL);
         }
-        LoadCurrentPage();
+        _=LoadCurrentPageAsync();
     }
     public void OnRareTabButtonClick(GameObject clickedButton, string selectedRare)
     {
@@ -909,9 +910,9 @@ public class MainMenuManager : MonoBehaviour
         ClearAllPrefabs();
         clickedButton.transform.Find("Active").gameObject.SetActive(true);
         clickedButton.transform.Find("Unactive").gameObject.SetActive(false);
-        LoadCurrentPage();
+        _=LoadCurrentPageAsync();
     }
-    public void LoadCurrentPage()
+    public async Task LoadCurrentPageAsync()
     {
         int totalRecord = 0;
         int listCount = 0;
@@ -919,183 +920,183 @@ public class MainMenuManager : MonoBehaviour
 
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
-            List<CardHeroes> cardHeroes = UserCardHeroesService.Create().GetUserCardHeroes(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardHeroes> cardHeroes = await UserCardHeroesService.Create().GetUserCardHeroesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardHeroesController.Instance.CreateUserCardHeroes(cardHeroes, DictionaryContentPanel);
             listCount = cardHeroes.Count;
 
-            totalRecord = UserCardHeroesService.Create().GetUserCardHeroesCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardHeroesService.Create().GetUserCardHeroesCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.BOOK))
         {
-            List<Books> books = UserBooksService.Create().GetUserBooks(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Books> books = await UserBooksService.Create().GetUserBooksAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserBooksController.Instance.CreateUserBooks(books, DictionaryContentPanel);
             listCount = books.Count;
 
-            totalRecord = UserBooksService.Create().GetUserBooksCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserBooksService.Create().GetUserBooksCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
-            List<CardCaptains> cardCaptains = UserCardCaptainsService.Create().GetUserCardCaptains(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardCaptains> cardCaptains = await UserCardCaptainsService.Create().GetUserCardCaptainsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardCaptainsController.Instance.CreateUserCardCaptains(cardCaptains, DictionaryContentPanel);
             listCount = cardCaptains.Count;
 
-            totalRecord = UserCardCaptainsService.Create().GetUserCardCaptainsCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardCaptainsService.Create().GetUserCardCaptainsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
-            List<CollaborationEquipments> collaborationEquipments = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipments(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CollaborationEquipments> collaborationEquipments = await UserCollaborationEquipmentsService.Create().GetUserCollaborationEquipmentsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCollaborationEquipmentsController.Instance.CreateUserCollaborationEquipments(collaborationEquipments, DictionaryContentPanel);
             listCount = collaborationEquipments.Count;
 
-            totalRecord = UserCollaborationEquipmentService.Create().GetUserCollaborationEquipmentCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCollaborationEquipmentsService.Create().GetUserCollaborationEquipmentsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ITEM))
         {
-            List<Items> items = UserItemsService.Create().GetUserItems(User.CurrentUserId, type, pageSize, offset);
+            List<Items> items = await UserItemsService.Create().GetUserItemsAsync(User.CurrentUserId, type, pageSize, offset);
             Close(DictionaryContentPanel);
             UserItemsController.Instance.CreateUserItems(items, DictionaryContentPanel);
             listCount = items.Count;
 
-            totalRecord = UserItemsService.Create().GetUserItemCount(User.CurrentUserId, type);
+            totalRecord = await UserItemsService.Create().GetUserItemsCountAsync(User.CurrentUserId, type);
         }
         else if (mainType.Equals(AppConstants.MainType.PET))
         {
-            List<Pets> pets = UserPetsService.Create().GetUserPets(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Pets> pets = await UserPetsService.Create().GetUserPetsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserPetsController.Instance.CreateUserPets(pets, DictionaryContentPanel);
             listCount = pets.Count;
 
-            totalRecord = UserPetsService.Create().GetUserPetsCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserPetsService.Create().GetUserPetsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.SKILL))
         {
-            List<Skills> skills = UserSkillsService.Create().GetUserSkills(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Skills> skills = await UserSkillsService.Create().GetUserSkillsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserSkillsController.Instance.CreateUserSkills(skills, DictionaryContentPanel);
             listCount = skills.Count;
 
-            totalRecord = UserSkillsService.Create().GetUserSkillsCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserSkillsService.Create().GetUserSkillsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.SYMBOL))
         {
-            List<Symbols> symbols = UserSymbolsService.Create().GetUserSymbols(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Symbols> symbols = await UserSymbolsService.Create().GetUserSymbolsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserSymbolsController.Instance.CreateUserSymbols(symbols, DictionaryContentPanel);
             listCount = symbols.Count;
 
-            totalRecord = UserSymbolsService.Create().GetUserSymbolsCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserSymbolsService.Create().GetUserSymbolsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
-            List<CardMilitaries> cardMilitaries = UserCardMilitaryService.Create().GetUserCardMilitary(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardMilitaries> cardMilitaries = await UserCardMilitariesService.Create().GetUserCardMilitariesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardMilitariesController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
             listCount = cardMilitaries.Count;
 
-            totalRecord = UserCardMilitaryService.Create().GetUserCardMilitaryCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardMilitariesService.Create().GetUserCardMilitariesCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
-            List<CardSpells> cardSpells = UserCardSpellService.Create().GetUserCardSpell(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardSpells> cardSpells = await UserCardSpellsService.Create().GetUserCardSpellsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardSpellsController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
             listCount = cardSpells.Count;
 
-            totalRecord = UserCardSpellService.Create().GetUserCardSpellCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardSpellsService.Create().GetUserCardSpellsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
         {
-            List<Collaborations> collaborations = UserCollaborationService.Create().GetUserCollaboration(User.CurrentUserId, pageSize, offset, rare);
+            List<Collaborations> collaborations = await UserCollaborationsService.Create().GetUserCollaborationsAsync(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCollaborationsController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
             listCount = collaborations.Count;
 
-            totalRecord = UserCollaborationService.Create().GetUserCollaborationCount(User.CurrentUserId, rare);
+            totalRecord = await UserCollaborationsService.Create().GetUserCollaborationsCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.MEDAL))
         {
-            List<Medals> medals = UserMedalsService.Create().GetUserMedals(User.CurrentUserId, pageSize, offset, rare);
+            List<Medals> medals = await UserMedalsService.Create().GetUserMedalsAsync(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
             listCount = medals.Count;
 
-            totalRecord = UserMedalsService.Create().GetUserMedalsCount(User.CurrentUserId, rare);
+            totalRecord = await UserMedalsService.Create().GetUserMedalsCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
-            List<Titles> titles = UserTitlesService.Create().GetUserTitles(User.CurrentUserId, pageSize, offset, rare);
+            List<Titles> titles = await UserTitlesService.Create().GetUserTitlesAsync(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
             listCount = titles.Count;
 
-            totalRecord = UserTitlesService.Create().GetUserTitlesCount(User.CurrentUserId, rare);
+            totalRecord = await UserTitlesService.Create().GetUserTitlesCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
-            List<MagicFormationCircles> magicFormationCircles = UserMagicFormationCircleService.Create().GetUserMagicFormationCircle(User.CurrentUserId, type, pageSize, offset, rare);
+            List<MagicFormationCircles> magicFormationCircles = await UserMagicFormationCirclesService.Create().GetUserMagicFormationCirclesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserMagicFormationCirclesController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
             listCount = magicFormationCircles.Count;
 
-            totalRecord = UserMagicFormationCircleService.Create().GetUserMagicFormationCircleCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserMagicFormationCirclesService.Create().GetUserMagicFormationCirclesCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.RELIC))
         {
-            List<Relics> relics = UserRelicsService.Create().GetUserRelics(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Relics> relics = await UserRelicsService.Create().GetUserRelicsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserRelicsController.Instance.CreateUserRelics(relics, DictionaryContentPanel);
             listCount = relics.Count;
 
-            totalRecord = UserRelicsService.Create().GetUserRelicsCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserRelicsService.Create().GetUserRelicsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
-            List<CardMonsters> cardMonsters = UserCardMonstersService.Create().GetUserCardMonsters(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardMonsters> cardMonsters = await UserCardMonstersService.Create().GetUserCardMonstersAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardMonstersController.Instance.CreateUserCardMonsters(cardMonsters, DictionaryContentPanel);
             listCount = cardMonsters.Count;
 
-            totalRecord = UserCardMonstersService.Create().GetUserCardMonstersCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardMonstersService.Create().GetUserCardMonstersCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
-            List<CardColonels> cardColonels = UserCardColonelsService.Create().GetUserCardColonels(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardColonels> cardColonels = await UserCardColonelsService.Create().GetUserCardColonelsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardColonelsController.Instance.CreateUserCardColonels(cardColonels, DictionaryContentPanel);
             listCount = cardColonels.Count;
 
-            totalRecord = UserCardColonelsService.Create().GetUserCardColonelsCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardColonelsService.Create().GetUserCardColonelsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
-            List<CardGenerals> cardGenerals = UserCardGeneralsService.Create().GetUserCardGenerals(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardGenerals> cardGenerals = await UserCardGeneralsService.Create().GetUserCardGeneralsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardGeneralsController.Instance.CreateUserCardGenerals(cardGenerals, DictionaryContentPanel);
             listCount = cardGenerals.Count;
 
-            totalRecord = UserCardGeneralsService.Create().GetUserCardGeneralsCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardGeneralsService.Create().GetUserCardGeneralsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
-            List<CardAdmirals> cardAdmirals = UserCardAdmiralsService.Create().GetUserCardAdmirals(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardAdmirals> cardAdmirals = await UserCardAdmiralsService.Create().GetUserCardAdmiralsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardAdmiralsController.Instance.CreateUserCardAdmirals(cardAdmirals, DictionaryContentPanel);
             listCount = cardAdmirals.Count;
 
-            totalRecord = UserCardAdmiralsService.Create().GetUserCardAdmiralsCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardAdmiralsService.Create().GetUserCardAdmiralsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
         {
-            List<CardHeroes> cardHeroes = CardHeroesService.Create().GetCardHeroesRandom(type, 3);
+            List<CardHeroes> cardHeroes = await CardHeroesService.Create().GetCardHeroesRandomAsync(type, 3);
             UserCardHeroesController.Instance.CreateUserCardHeroesForSummon(cardHeroes, PositionPanel);
 
 
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HEROES_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1106,12 +1107,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1125,12 +1126,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1143,10 +1144,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS))
         {
-            List<Books> books = BooksService.Create().GetBooksRandom(type, 3);
+            List<Books> books = await BooksService.Create().GetBooksRandomAsync(type, 3);
             UserBooksController.Instance.CreateUserBooksForSummon(books, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HEROES_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1157,12 +1158,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1175,12 +1176,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_HEROES_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HEROES_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1193,10 +1194,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
         {
-            List<CardCaptains> cardCaptains = CardCaptainsService.Create().GetCardCaptainsRandom(type, 3);
+            List<CardCaptains> cardCaptains = await CardCaptainsService.Create().GetCardCaptainsRandomAsync(type, 3);
             UserCardCaptainsController.Instance.CreateUserCardCaptainsForSummon(cardCaptains, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAINS_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1207,12 +1208,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAINS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1225,12 +1226,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_CAPTAINS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAINS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1243,10 +1244,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
         {
-            List<CardMilitaries> cardMilitaries = CardMilitaryService.Create().GetCardMilitaryRandom(type, 3);
+            List<CardMilitaries> cardMilitaries = await CardMilitariesService.Create().GetCardMilitariesRandomAsync(type, 3);
             UserCardMilitariesController.Instance.CreateUserCardMilitaryForSummon(cardMilitaries, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1257,12 +1258,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1275,12 +1276,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MILITARY_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1293,10 +1294,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
         {
-            List<CardSpells> cardSpells = CardSpellService.Create().GetCardSpellRandom(type, 3);
+            List<CardSpells> cardSpells = await CardSpellsService.Create().GetCardSpellsRandomAsync(type, 3);
             UserCardSpellsController.Instance.CreateUserCardSpellForSummon(cardSpells, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1307,12 +1308,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1325,12 +1326,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_SPELL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1343,10 +1344,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
         {
-            List<CardMonsters> cardMonsters = CardMonstersService.Create().GetCardMonstersRandom(type, 3);
+            List<CardMonsters> cardMonsters = await CardMonstersService.Create().GetCardMonstersRandomAsync(type, 3);
             UserCardMonstersController.Instance.CreateUserCardMonstersForSummon(cardMonsters, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTERS_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1357,12 +1358,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTERS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1375,12 +1376,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_MONSTERS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTERS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1393,10 +1394,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
         {
-            List<CardColonels> cardColonels = CardColonelsService.Create().GetCardColonelsRandom(type, 3);
+            List<CardColonels> cardColonels = await CardColonelsService.Create().GetCardColonelsRandomAsync(type, 3);
             UserCardColonelsController.Instance.CreateUserCardColonelsForSummon(cardColonels, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONELS_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1407,12 +1408,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONELS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1425,12 +1426,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_COLONELS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONELS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1443,10 +1444,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
         {
-            List<CardGenerals> cardGenerals = CardGeneralsService.Create().GetCardGeneralsRandom(type, 3);
+            List<CardGenerals> cardGenerals = await CardGeneralsService.Create().GetCardGeneralsRandomAsync(type, 3);
             UserCardGeneralsController.Instance.CreateUserCardGeneralsForSummon(cardGenerals, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERALS_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1457,12 +1458,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERALS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1475,12 +1476,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_GENERALS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERALS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1493,10 +1494,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
         {
-            List<CardAdmirals> cardAdmirals = CardAdmiralsService.Create().GetCardAdmiralsRandom(type, 3);
+            List<CardAdmirals> cardAdmirals = await CardAdmiralsService.Create().GetCardAdmiralsRandomAsync(type, 3);
             UserCardAdmiralsController.Instance.CreateUserCardAdmiralsForSummon(cardAdmirals, PositionPanel);
 
-            List<Items> items = new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRALS_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -1507,12 +1508,12 @@ public class MainMenuManager : MonoBehaviour
             SummonButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRALS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1525,12 +1526,12 @@ public class MainMenuManager : MonoBehaviour
             Summon10Button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, (success) =>
+                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
                 {
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { UserItemsService.Create().GetUserItemByName(ItemConstants.CARD_ADMIRALS_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRALS_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -1543,156 +1544,156 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
-            List<Talismans> talismans = UserTalismanService.Create().GetUserTalisman(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Talismans> talismans = await UserTalismansService.Create().GetUserTalismansAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserTalismansController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
             listCount = talismans.Count;
 
-            totalRecord = UserTalismanService.Create().GetUserTalismanCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserTalismansService.Create().GetUserTalismansCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
-            List<Puppets> puppets = UserPuppetService.Create().GetUserPuppet(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Puppets> puppets = await UserPuppetsService.Create().GetUserPuppetsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserPuppetsController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
             listCount = puppets.Count;
 
-            totalRecord = UserPuppetService.Create().GetUserPuppetCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserPuppetsService.Create().GetUserPuppetsCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
-            List<Alchemies> alchemies = UserAlchemyService.Create().GetUserAlchemy(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Alchemies> alchemies = await UserAlchemiesService.Create().GetUserAlchemiesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserAlchemiesController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
             listCount = alchemies.Count;
 
-            totalRecord = UserAlchemyService.Create().GetUserAlchemyCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserAlchemiesService.Create().GetUserAlchemiesCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
-            List<Forges> forges = UserForgeService.Create().GetUserForge(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Forges> forges = await UserForgesService.Create().GetUserForgesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserForgesController.Instance.CreateUserForge(forges, DictionaryContentPanel);
             listCount = forges.Count;
 
-            totalRecord = UserForgeService.Create().GetUserForgeCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserForgesService.Create().GetUserForgesCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
-            List<CardLives> cardLives = UserCardLifeService.Create().GetUserCardLife(User.CurrentUserId, type, pageSize, offset, rare);
+            List<CardLives> cardLives = await UserCardLivesService.Create().GetUserCardLivesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserCardLivesController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
             listCount = cardLives.Count;
 
-            totalRecord = UserCardLifeService.Create().GetUserCardLifeCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserCardLivesService.Create().GetUserCardLivesCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
-            List<Artworks> artworks = UserArtworkService.Create().GetUserArtwork(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Artworks> artworks = await UserArtworksService.Create().GetUserArtworksAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserArtworksController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
             listCount = artworks.Count;
 
-            totalRecord = UserArtworkService.Create().GetUserArtworkCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserArtworksService.Create().GetUserArtworksCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
-            List<SpiritBeasts> spiritBeasts = UserSpiritBeastService.Create().GetUserSpiritBeast(User.CurrentUserId, pageSize, offset, rare);
+            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetUserSpiritBeastsAsync(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserSpiritBeastsController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
             listCount = spiritBeasts.Count;
 
-            totalRecord = UserSpiritBeastService.Create().GetUserSpiritBeastCount(User.CurrentUserId, rare);
+            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
-            List<SpiritCards> spiritCards = UserSpiritCardService.Create().GetUserSpiritCard(User.CurrentUserId, type, pageSize, offset, rare);
+            List<SpiritCards> spiritCards = await UserSpiritCardsService.Create().GetUserSpiritCardAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserSpiritCardsController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
             listCount = spiritCards.Count;
 
-            totalRecord = UserSpiritCardService.Create().GetUserSpiritCardCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserSpiritCardsService.Create().GetUserSpiritCardCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD))
         {
-            List<Cards> cards = UserCardsService.Create().GetUserCards(User.CurrentUserId, pageSize, offset, rare);
+            List<Cards> cards = await UserCardsService.Create().GetUserCardsAsync(User.CurrentUserId, pageSize, offset, rare);
             UserCardsController.Instance.CreateUserCards(cards, DictionaryContentPanel);
             listCount = cards.Count;
 
-            totalRecord = UserCardsService.Create().GetUserCardsCount(User.CurrentUserId, rare);
+            totalRecord = await UserCardsService.Create().GetUserCardsCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {
-            List<Architectures> architectures = UserArchitecturesService.Create().GetUserArchitectures(User.CurrentUserId, pageSize, offset, rare);
+            List<Architectures> architectures = await UserArchitecturesService.Create().GetUserArchitecturesAsync(User.CurrentUserId, pageSize, offset, rare);
             UserArchitecturesController.Instance.CreateUserArchitectures(architectures, DictionaryContentPanel);
             listCount = architectures.Count;
 
-            totalRecord = UserArchitecturesService.Create().GetUserArchitecturesCount(User.CurrentUserId, rare);
+            totalRecord = await UserArchitecturesService.Create().GetUserArchitecturesCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
         {
-            List<Technologies> technologies = UserTechnologiesService.Create().GetUserTechnologies(User.CurrentUserId, pageSize, offset, rare);
+            List<Technologies> technologies = await UserTechnologiesService.Create().GetUserTechnologiesAsync(User.CurrentUserId, pageSize, offset, rare);
             UserTechnologiesController.Instance.CreateUserTechnologies(technologies, DictionaryContentPanel);
             listCount = technologies.Count;
 
-            totalRecord = UserTechnologiesService.Create().GetUserTechnologiesCount(User.CurrentUserId, rare);
+            totalRecord = await UserTechnologiesService.Create().GetUserTechnologiesCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.VEHICLE))
         {
-            List<Vehicles> vehicles = UserVehicleService.Create().GetUserVehicle(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Vehicles> vehicles = await UserVehicleService.Create().GetUserVehiclesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserVehiclesController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
             listCount = vehicles.Count;
 
-            totalRecord = UserVehicleService.Create().GetUserVehicleCount(User.CurrentUserId, type, rare);
+            totalRecord = await UserVehicleService.Create().GetUserVehiclesCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CORE))
         {
-            List<Cores> cores = UserCoresService.Create().GetUserCores(User.CurrentUserId, pageSize, offset, rare);
+            List<Cores> cores = await UserCoresService.Create().GetUserCoresAsync(User.CurrentUserId, pageSize, offset, rare);
             UserCoresController.Instance.CreateUserCores(cores, DictionaryContentPanel);
             listCount = cores.Count;
 
-            totalRecord = UserCoresService.Create().GetUserCoresCount(User.CurrentUserId, rare);
+            totalRecord = await UserCoresService.Create().GetUserCoresCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.WEAPON))
         {
-            List<Weapons> weapons = UserWeaponsService.Create().GetUserWeapons(User.CurrentUserId, pageSize, offset, rare);
+            List<Weapons> weapons = await UserWeaponsService.Create().GetUserWeaponsAsync(User.CurrentUserId, pageSize, offset, rare);
             UserWeaponsController.Instance.CreateUserWeapons(weapons, DictionaryContentPanel);
             listCount = weapons.Count;
 
-            totalRecord = UserWeaponsService.Create().GetUserWeaponsCount(User.CurrentUserId, rare);
+            totalRecord = await UserWeaponsService.Create().GetUserWeaponsCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ROBOT))
         {
-            List<Robots> robots = UserRobotsService.Create().GetUserRobots(User.CurrentUserId, pageSize, offset, rare);
+            List<Robots> robots = await UserRobotsService.Create().GetUserRobotsAsync(User.CurrentUserId, pageSize, offset, rare);
             UserRobotsController.Instance.CreateUserRobots(robots, DictionaryContentPanel);
             listCount = robots.Count;
 
-            totalRecord = UserRobotsService.Create().GetUserRobotsCount(User.CurrentUserId, rare);
+            totalRecord = await UserRobotsService.Create().GetUserRobotsCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.BADGE))
         {
-            List<Badges> badges = UserBadgesService.Create().GetUserBadges(User.CurrentUserId, pageSize, offset, rare);
+            List<Badges> badges = await UserBadgesService.Create().GetUserBadgesAsync(User.CurrentUserId, pageSize, offset, rare);
             UserBadgesController.Instance.CreateUserBadges(badges, DictionaryContentPanel);
             listCount = badges.Count;
 
-            totalRecord = UserBadgesService.Create().GetUserBadgesCount(User.CurrentUserId, rare);
+            totalRecord = await UserBadgesService.Create().GetUserBadgesCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
         {
-            List<MechaBeasts> mechaBeasts = UserMechaBeastsService.Create().GetUserMechaBeasts(User.CurrentUserId, pageSize, offset, rare);
+            List<MechaBeasts> mechaBeasts = await UserMechaBeastsService.Create().GetUserMechaBeastsAsync(User.CurrentUserId, pageSize, offset, rare);
             UserMechaBeastsController.Instance.CreateUserMechaBeasts(mechaBeasts, DictionaryContentPanel);
             listCount = mechaBeasts.Count;
 
-            totalRecord = UserMechaBeastsService.Create().GetUserMechaBeastsCount(User.CurrentUserId, rare);
+            totalRecord = await UserMechaBeastsService.Create().GetUserMechaBeastsCountAsync(User.CurrentUserId, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.RUNE))
         {
-            List<Runes> runes = UserRunesService.Create().GetUserRunes(User.CurrentUserId, pageSize, offset, rare);
+            List<Runes> runes = await UserRunesService.Create().GetUserRunesAsync(User.CurrentUserId, pageSize, offset, rare);
             UserRunesController.Instance.CreateUserRunes(runes, DictionaryContentPanel);
             listCount = runes.Count;
 
-            totalRecord = UserRunesService.Create().GetUserRunesCount(User.CurrentUserId, rare);
+            totalRecord = await UserRunesService.Create().GetUserRunesCountAsync(User.CurrentUserId, rare);
         }
 
         if (listCount > 0)
@@ -1787,7 +1788,7 @@ public class MainMenuManager : MonoBehaviour
             ClearAllPrefabs();
             currentPage = currentPage + 1;
             offset = offset + pageSize;
-            LoadCurrentPage();
+            _=LoadCurrentPageAsync();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -1800,7 +1801,7 @@ public class MainMenuManager : MonoBehaviour
             ClearAllPrefabs();
             currentPage = currentPage - 1;
             offset = offset - pageSize;
-            LoadCurrentPage();
+            _=LoadCurrentPageAsync();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 

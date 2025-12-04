@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -96,12 +97,12 @@ public class UserSymbolsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(symbols, currentObject);
+            _=GetLevelAsync(symbols, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(symbols, currentObject);
+            _=GetUpgradeAsync(symbols, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -112,7 +113,7 @@ public class UserSymbolsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(symbols, currentObject);
+                _=GetLevelAsync(symbols, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -120,7 +121,7 @@ public class UserSymbolsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(symbols, currentObject);
+                _=GetUpgradeAsync(symbols, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -162,7 +163,7 @@ public class UserSymbolsController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, symbol, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -176,7 +177,7 @@ public class UserSymbolsController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.SYMBOL);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.SYMBOL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -185,7 +186,7 @@ public class UserSymbolsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Symbols currentCard = new Symbols();
-                currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
+                currentCard = await UserSymbolsService.Create().GetUserSymbolByIdAsync(User.CurrentUserId, symbol.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -196,8 +197,8 @@ public class UserSymbolsController : MonoBehaviour
                 {
                     Symbols newCard = new Symbols();
 
-                    newCard = UserSymbolsService.Create().GetNewLevelPower(symbol, increasePerLevel);
-                    UserSymbolsService.Create().UpdateSymbolsLevel(newCard, currentLevel + 1);
+                    newCard = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, increasePerLevel);
+                    await UserSymbolsService.Create().UpdateSymbolLevelAsync(newCard, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -205,14 +206,14 @@ public class UserSymbolsController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Symbols currentCard = UserSymbolsService.Create().GetUserSymbolsById(User.CurrentUserId, symbol.Id);
+                Symbols currentCard = await UserSymbolsService.Create().GetUserSymbolByIdAsync(User.CurrentUserId, symbol.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -228,8 +229,8 @@ public class UserSymbolsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Symbols newCard = UserSymbolsService.Create().GetNewLevelPower(symbol, levelsGained * increasePerLevel);
-                    UserSymbolsService.Create().UpdateSymbolsLevel(newCard, currentLevel);
+                    Symbols newCard = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, levelsGained * increasePerLevel);
+                    await UserSymbolsService.Create().UpdateSymbolLevelAsync(newCard, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -238,7 +239,7 @@ public class UserSymbolsController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -248,7 +249,7 @@ public class UserSymbolsController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -265,7 +266,7 @@ public class UserSymbolsController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.SYMBOL);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.SYMBOL);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -339,24 +340,24 @@ public class UserSymbolsController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Symbols newSymbol = new Symbols();
 
-                    newSymbol = UserSymbolsService.Create().GetNewBreakthroughPower(symbol, increasePerUpgrade);
-                    UserSymbolsService.Create().UpdateSymbolsBreakthrough(newSymbol, symbol.Star + 1, symbol.Quantity);
+                    newSymbol = await UserSymbolsService.Create().GetNewBreakthroughPowerAsync(symbol, increasePerUpgrade);
+                    await UserSymbolsService.Create().UpdateSymbolBreakthroughAsync(newSymbol, symbol.Star + 1, symbol.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    SymbolsGalleryService.Create().UpdateStarSymbolsGallery(symbol.Id, symbol.Star + 1);
+                    await SymbolsGalleryService.Create().UpdateStarSymbolGalleryAsync(symbol.Id, symbol.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(symbol.Star, currentObject);
                 }
                 else

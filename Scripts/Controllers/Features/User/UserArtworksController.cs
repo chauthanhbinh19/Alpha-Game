@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -92,12 +93,12 @@ public class UserArtworksController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            GetLevel(Artwork, currentObject);
+            _=GetLevelAsync(Artwork, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            GetUpgrade(Artwork, currentObject);
+            _=GetUpgradeAsync(Artwork, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -108,7 +109,7 @@ public class UserArtworksController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                GetLevel(Artwork, currentObject);
+                _=GetLevelAsync(Artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -116,7 +117,7 @@ public class UserArtworksController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                GetUpgrade(Artwork, currentObject);
+                _=GetUpgradeAsync(Artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -158,7 +159,7 @@ public class UserArtworksController : MonoBehaviour
             UIManager.Instance.CreatePropertyUI(1, properties, Artwork, currentObject);
         }
     }
-    public void GetLevel(object obj, GameObject currentObject)
+    public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
         Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
@@ -172,7 +173,7 @@ public class UserArtworksController : MonoBehaviour
 
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForLevel(AppConstants.MainType.ARTWORK);
+            items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ARTWORK);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
 
             up1LevelButton.onClick.RemoveAllListeners();
@@ -181,7 +182,7 @@ public class UserArtworksController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Artworks currentCard = new Artworks();
-                currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.Id);
+                currentCard = await UserArtworksService.Create().GetUserArtworkByIdAsync(User.CurrentUserId, Artwork.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -192,8 +193,8 @@ public class UserArtworksController : MonoBehaviour
                 {
                     Artworks newCard = new Artworks();
 
-                    newCard = UserArtworkService.Create().GetNewLevelPower(Artwork, increasePerLevel);
-                    UserArtworkService.Create().UpdateArtworkLevel(newCard, currentLevel + 1);
+                    newCard = await UserArtworksService.Create().GetNewLevelPowerAsync(Artwork, increasePerLevel);
+                    await UserArtworksService.Create().UpdateArtworkLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -201,14 +202,14 @@ public class UserArtworksController : MonoBehaviour
 
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Artworks currentCard = UserArtworkService.Create().GetUserArtworkById(User.CurrentUserId, Artwork.Id);
+                Artworks currentCard = await UserArtworksService.Create().GetUserArtworkByIdAsync(User.CurrentUserId, Artwork.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -224,8 +225,8 @@ public class UserArtworksController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Artworks newCard = UserArtworkService.Create().GetNewLevelPower(Artwork, levelsGained * increasePerLevel);
-                    UserArtworkService.Create().UpdateArtworkLevel(newCard, currentLevel);
+                    Artworks newCard = await UserArtworksService.Create().GetNewLevelPowerAsync(Artwork, levelsGained * increasePerLevel);
+                    await UserArtworksService.Create().UpdateArtworkLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -234,7 +235,7 @@ public class UserArtworksController : MonoBehaviour
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(LevelElementContent);
                     ButtonEvent.Instance.Close(LevelMaterialContent);
-                    GetLevel(obj, currentObject);
+                    await GetLevelAsync(obj, currentObject);
                     UIManager.Instance.CreateLevelUI(currentLevel, currentObject);
                 }
             });
@@ -244,7 +245,7 @@ public class UserArtworksController : MonoBehaviour
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
     }
-    public void GetUpgrade(object obj, GameObject currentObject)
+    public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
@@ -261,7 +262,7 @@ public class UserArtworksController : MonoBehaviour
             }
             Items item = new Items();
             List<Items> items = new List<Items>();
-            items = userItemsService.GetItemForBreakthourgh(AppConstants.MainType.ARTWORK);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ARTWORK);
             string fileNameWithoutExtension = "";
             foreach (Items items1 in items)
             {
@@ -335,24 +336,24 @@ public class UserArtworksController : MonoBehaviour
 
                     foreach (Items items1 in items)
                     {
-                        userItemsService.UpdateUserItemsQuantity(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(items1);
                     }
                     // Cập nhật cấp sao (Star)
                     Artworks newArtwork = new Artworks();
 
-                    newArtwork = UserArtworkService.Create().GetNewBreakthroughPower(Artwork, increasePerUpgrade);
-                    UserArtworkService.Create().UpdateArtworkBreakthrough(newArtwork, Artwork.Star + 1, Artwork.Quantity);
+                    newArtwork = await UserArtworksService.Create().GetNewBreakthroughPowerAsync(Artwork, increasePerUpgrade);
+                    await UserArtworksService.Create().UpdateArtworkBreakthroughAsync(newArtwork, Artwork.Star + 1, Artwork.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    ArtworkGalleryService.Create().UpdateStarArtworkGallery(Artwork.Id, Artwork.Star + 1);
+                    await ArtworksGalleryService.Create().UpdateStarArtworkGalleryAsync(Artwork.Id, Artwork.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
-                    GetUpgrade(obj, currentObject);
+                    await GetUpgradeAsync(obj, currentObject);
                     UIManager.Instance.CreateStarUI(Artwork.Star, currentObject);
                 }
                 else

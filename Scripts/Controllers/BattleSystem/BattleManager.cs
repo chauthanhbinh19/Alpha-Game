@@ -72,7 +72,7 @@ public class BattleManager : MonoBehaviour
         var firstTeam = teams.FirstOrDefault(t => t.TeamNumber == 1);
 
         attacker = new PlayerController();
-        attacker.GetPlayerCard(userId, firstTeam.TeamId);
+        await attacker.GetPlayerCardAsync(userId, firstTeam.TeamId);
         defender = new PlayerController();
 
         turnManager = new TurnManager(attacker, defender, maxTurn);

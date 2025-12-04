@@ -103,7 +103,7 @@ public class ArchitecturesGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var titleGalleryService = ArchitecturesGalleryService.Create();
-                titleGalleryService.UpdateStatusArchitecturesGallery(architecture.Id);
+                await titleGalleryService.UpdateStatusArchitectureGalleryAsync(architecture.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -111,7 +111,7 @@ public class ArchitecturesGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -128,10 +128,10 @@ public class ArchitecturesGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                ArchitecturesGalleryService.Create().UpdateArchitecturesGalleryPower(architecture.Id);
+                await ArchitecturesGalleryService.Create().UpdateArchitectureGalleryPowerAsync(architecture.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

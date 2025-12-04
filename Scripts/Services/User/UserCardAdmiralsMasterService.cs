@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 public class UserCardAdmiralsMasterService : IUserCardAdmiralsMasterService
 {
     private readonly IUserCardAdmiralsMasterRepository _cardAdmiralsMasterRepository;
@@ -12,18 +14,18 @@ public class UserCardAdmiralsMasterService : IUserCardAdmiralsMasterService
         return new UserCardAdmiralsMasterService(new UserCardAdmiralsMasterRepository());
     }
 
-    public Master GetCardAdmiralsMaster(string type, string card_id)
+    public async Task<Master> GetCardAdmiralMasterAsync(string type, string card_id)
     {
-        return _cardAdmiralsMasterRepository.GetCardAdmiralsMaster(type, card_id);
+        return await _cardAdmiralsMasterRepository.GetCardAdmiralMasterAsync(type, card_id);
     }
 
-    public void InsertOrUpdateCardAdmiralsMaster(Master master, string type, string card_id)
+    public async Task InsertOrUpdateCardAdmiralMasterAsync(Master master, string type, string card_id)
     {
-        _cardAdmiralsMasterRepository.InsertOrUpdateCardAdmiralsMaster(master, type, card_id);
+        await _cardAdmiralsMasterRepository.InsertOrUpdateCardAdmiralMasterAsync(master, type, card_id);
     }
 
-    public Master GetSumCardAdmiralsMaster(string user_id, string card_id)
+    public async Task<Master> GetSumCardAdmiralsMasterAsync(string user_id, string card_id)
     {
-        return _cardAdmiralsMasterRepository.GetSumCardAdmiralsMaster(user_id, card_id);
+        return await _cardAdmiralsMasterRepository.GetSumCardAdmiralsMasterAsync(user_id, card_id);
     }
 }

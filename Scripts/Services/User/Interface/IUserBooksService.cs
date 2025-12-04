@@ -1,21 +1,24 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserBooksService
 {
-    List<Books> GetFinalPower(string user_id, List<Books> BooksList);
-    List<Books> GetAllEquipmentPower(string user_id, List<Books> BooksList);
-    List<Books> GetAllRankPower(string user_id, List<Books> BooksList);
-    List<Books> GetAllAnimeStatsPower(string user_id, List<Books> BooksList);
-    Books GetNewLevelPower(Books c, double coefficient);
-    Books GetNewBreakthroughPower(Books c, double coefficient);
-    List<Books> GetUserBooks(string user_id, string type, int pageSize, int offset, string rare);
-    List<Books> GetUserBooksTeam(string user_id, string teamId, string position);
-    Dictionary<string, int> GetUniqueBookTypesTeam(string teamId);
-    int GetUserBooksCount(string user_id, string type, string rare);
-    bool InsertUserBooks(Books books);
-    bool UpdateBooksLevel(Books books, int cardLevel);
-    bool UpdateBooksBreakthrough(Books books, int star, double quantity);
-    bool UpdateTeamBooks(string team_id, string position, string book_id);
-    Books GetUserBooksById(string user_id, string Id);
-    List<Books> GetAllUserBooksInTeam(string user_id);
+    Task<List<Books>> GetFinalPowerAsync(string user_id, List<Books> BooksList);
+    Task<List<Books>> GetScienceFictionPowerAsync(string user_id, List<Books> BooksList);
+    Task<List<Books>> GetAllEquipmentPowerAsync(string user_id, List<Books> BooksList);
+    Task<List<Books>> GetAllRankPowerAsync(string user_id, List<Books> BooksList);
+    Task<List<Books>> GetAllMasterPowerAsync(string user_id, List<Books> BooksList);
+    Task<List<Books>> GetAllAnimeStatsPowerAsync(string user_id, List<Books> BooksList);
+    Task<Books> GetNewLevelPowerAsync(Books c, double coefficient);
+    Task<Books> GetNewBreakthroughPowerAsync(Books c, double coefficient);
+    Task<List<Books>> GetUserBooksAsync(string user_id, string type, int pageSize, int offset, string rare);
+    // Task<List<Books>> GetUserBooksTeamAsync(string teamId);
+    Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId);
+    Task<int> GetUserBooksCountAsync(string user_id, string type, string rare);
+    Task<bool> InsertUserBookAsync(Books books);
+    Task<bool> UpdateBookLevelAsync(Books books, int cardLevel);
+    Task<bool> UpdateBookBreakthroughAsync(Books books, int star, double quantity);
+    Task<bool> UpdateTeamBookAsync(string team_id, string position, string book_id);
+    Task<Books> GetUserBookByIdAsync(string user_id, string Id);
+    Task<List<Books>> GetAllUserBooksInTeamAsync(string user_id);
 }

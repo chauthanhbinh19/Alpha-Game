@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class SkillsService : ISkillsService
 {
@@ -14,42 +15,42 @@ public class SkillsService : ISkillsService
         return new SkillsService(new SkillsRepository());
     }
 
-    public List<string> GetUniqueSkillsTypes()
+    public async Task<List<string>> GetUniqueSkillsTypesAsync()
     {
-        return _skillsRepository.GetUniqueSkillsTypes();
+        return await _skillsRepository.GetUniqueSkillsTypesAsync();
     }
 
-    public List<Skills> GetSkills(string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetSkillsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = _skillsRepository.GetSkills(type, pageSize, offset, rare);
+        List<Skills> list = await _skillsRepository.GetSkillsAsync(type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSkillsCount(string type, string rare)
+    public async Task<int> GetSkillsCountAsync(string type, string rare)
     {
-        return _skillsRepository.GetSkillsCount(type, rare);
+        return await _skillsRepository.GetSkillsCountAsync(type, rare);
     }
 
-    public List<Skills> GetSkillsWithPrice(string type, int pageSize, int offset)
+    public async Task<List<Skills>> GetSkillsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Skills> list = _skillsRepository.GetSkillsWithPrice(type, pageSize, offset);
+        List<Skills> list = await _skillsRepository.GetSkillsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetSkillsWithPriceCount(string type)
+    public async Task<int> GetSkillsWithPriceCountAsync(string type)
     {
-        return _skillsRepository.GetSkillsWithPriceCount(type);
+        return await _skillsRepository.GetSkillsWithPriceCountAsync(type);
     }
 
-    public Skills GetSkillsById(string Id)
+    public async Task<Skills> GetSkillByIdAsync(string Id)
     {
-        return _skillsRepository.GetSkillsById(Id);
+        return await _skillsRepository.GetSkillByIdAsync(Id);
     }
 
-    public List<string> GetUniqueSkillsId()
+    public async Task<List<string>> GetUniqueSkillsIdAsync()
     {
-        return _skillsRepository.GetUniqueSkillsId();
+        return await _skillsRepository.GetUniqueSkillsIdAsync();
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -78,7 +79,7 @@ public class MedalsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateMedalsTrade(List<Medals> medalsList, string subType, Transform currentContent,
+    public async Task CreateMedalsTradeAsync(List<Medals> medalsList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var medal in medalsList)
@@ -131,7 +132,7 @@ public class MedalsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetMedalsCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetMedalsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -243,12 +244,12 @@ public class MedalsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Medals medals)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(medals.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(medals.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -279,8 +280,8 @@ public class MedalsController : MonoBehaviour
             if (obj is Medals medal)
             {
                 medal.Quantity = medal.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(medal.Currency.Id, price);
-                bool success = UserMedalsService.Create().InsertUserMedals(medal, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(medal.Currency.Id, price);
+                bool success = await UserMedalsService.Create().InsertUserMedalAsync(medal, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -293,8 +294,8 @@ public class MedalsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    MedalsGalleryService.Create().InsertMedalsGallery(medal.Id);
-                    currencies = UserCurrencyService.Create().GetMedalsCurrency(subType);
+                    await MedalsGalleryService.Create().InsertMedalGalleryAsync(medal.Id);
+                    currencies = await UserCurrenciesService.Create().GetMedalsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -314,7 +315,7 @@ public class MedalsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

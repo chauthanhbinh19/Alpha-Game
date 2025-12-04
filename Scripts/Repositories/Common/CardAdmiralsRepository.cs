@@ -2,554 +2,631 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using MySqlConnector;
+using System.Threading.Tasks;
 public class CardAdmiralsRepository : ICardAdmiralsRepository
-{ 
-    public List<string> GetUniqueCardAdmiralsTypes()
+{
+    public async Task<List<string>> GetUniqueCardAdmiralsTypesAsync()
     {
         List<string> typeList = new List<string>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            connection.Open();
 
-            string query = "Select distinct type from card_admirals";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                typeList.Add(reader.GetString(0));
-            }
-            connection.Close();
-        }
-        return typeList;
-    }
-    public List<string> GetUniqueCardAdmiralsId()
-    {
-        List<string> typeList = new List<string>();
-        string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            connection.Open();
-
-            string query = "Select distinct id from card_admirals";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                typeList.Add(reader.GetString(0));
-            }
-            connection.Close();
-        }
-        return typeList;
-    }
-    public int GetCardAdmiralsCount(string type, string rare)
-    {
-        int count = 0;
-        string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = "Select count(*) from card_admirals where type= @type AND (@rare = 'All' or rare = @rare)";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@type", type);
-                command.Parameters.AddWithValue("@rare", rare);
-                count = Convert.ToInt32(command.ExecuteScalar());
+                await connection.OpenAsync();
 
-                connection.Close();
+                string query = "SELECT DISTINCT type FROM card_admirals";
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        typeList.Add(reader.GetString(0));
+                    }
+                }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
         }
+
+        return typeList;
+    }
+    public async Task<List<string>> GetUniqueCardAdmiralsIdAsync()
+    {
+        List<string> idList = new List<string>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = "SELECT DISTINCT id FROM card_admirals";
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        idList.Add(reader.GetString(0));
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+
+        return idList;
+    }
+    public async Task<int> GetCardAdmiralsCountAsync(string type, string rare)
+    {
+        int count = 0;
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = "SELECT COUNT(*) FROM card_admirals WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@type", type);
+                    command.Parameters.AddWithValue("@rare", rare);
+
+                    object result = await command.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+
         return count;
     }
-    public List<CardAdmirals> GetCardAdmirals(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardAdmirals>> GetCardAdmiralsAsync(string type, int pageSize, int offset, string rare)
     {
-        List<CardAdmirals> CardAdmiralsList = new List<CardAdmirals>();
+        List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"Select * from card_admirals where type= @type AND (@rare = 'All' or rare = @rare)
-                ORDER BY card_admirals.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(card_admirals.name, '[0-9]+$') AS UNSIGNED), card_admirals.name limit @limit offset @offset";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@type", type);
-                command.Parameters.AddWithValue("@rare", rare);
-                command.Parameters.AddWithValue("@limit", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    CardAdmirals captain = new CardAdmirals
-                    {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
-                        Type = reader.GetString("type"),
-                        Star = reader.GetInt32("star"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        Description = reader.GetString("description")
-                    };
+                await connection.OpenAsync();
 
-                    CardAdmiralsList.Add(captain);
+                string query = @"SELECT * FROM card_admirals 
+                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             ORDER BY card_admirals.name REGEXP '[0-9]+$', 
+                                      CAST(REGEXP_SUBSTR(card_admirals.name, '[0-9]+$') AS UNSIGNED), 
+                                      card_admirals.name
+                             LIMIT @limit OFFSET @offset";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@type", type);
+                    command.Parameters.AddWithValue("@rare", rare);
+                    command.Parameters.AddWithValue("@limit", pageSize);
+                    command.Parameters.AddWithValue("@offset", offset);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardAdmirals captain = new CardAdmirals
+                            {
+                                Id = reader.GetString("id"),
+                                Name = reader.GetString("name"),
+                                Image = reader.GetString("image"),
+                                Rare = reader.GetString("rare"),
+                                Quality = reader.GetInt32("quality"),
+                                Type = reader.GetString("type"),
+                                Star = reader.GetInt32("star"),
+                                Power = reader.GetDouble("power"),
+                                Health = reader.GetDouble("health"),
+                                PhysicalAttack = reader.GetDouble("physical_attack"),
+                                PhysicalDefense = reader.GetDouble("physical_defense"),
+                                MagicalAttack = reader.GetDouble("magical_attack"),
+                                MagicalDefense = reader.GetDouble("magical_defense"),
+                                ChemicalAttack = reader.GetDouble("chemical_attack"),
+                                ChemicalDefense = reader.GetDouble("chemical_defense"),
+                                AtomicAttack = reader.GetDouble("atomic_attack"),
+                                AtomicDefense = reader.GetDouble("atomic_defense"),
+                                MentalAttack = reader.GetDouble("mental_attack"),
+                                MentalDefense = reader.GetDouble("mental_defense"),
+                                Speed = reader.GetDouble("speed"),
+                                CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                                CriticalRate = reader.GetDouble("critical_rate"),
+                                CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDouble("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDouble("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDouble("accuracy_rate"),
+                                LifestealRate = reader.GetDouble("lifesteal_rate"),
+                                ShieldStrength = reader.GetDouble("shield_strength"),
+                                Tenacity = reader.GetDouble("tenacity"),
+                                ResistanceRate = reader.GetDouble("resistance_rate"),
+                                ComboRate = reader.GetDouble("combo_rate"),
+                                IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                                StunRate = reader.GetDouble("stun_rate"),
+                                IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDouble("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                                Mana = reader.GetFloat("mana"),
+                                ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                                Description = reader.GetString("description")
+                            };
+
+                            cardAdmirals.Add(captain);
+                        }
+                    }
                 }
-                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-
         }
-        return CardAdmiralsList;
+
+        return cardAdmirals;
     }
-    public List<CardAdmirals> GetCardAdmiralsRandom(string type,int pageSize)
+    public async Task<List<CardAdmirals>> GetCardAdmiralsRandomAsync(string type, int pageSize)
     {
-        List<CardAdmirals> CardAdmiralsList = new List<CardAdmirals>();
+        List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = "Select * from card_admirals where type= @type ORDER BY RAND() limit @limit";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@type", type);
-                command.Parameters.AddWithValue("@limit", pageSize);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    CardAdmirals captain = new CardAdmirals
-                    {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
-                        Type = reader.GetString("type"),
-                        Star = reader.GetInt32("star"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        Description = reader.GetString("description")
-                    };
+                await connection.OpenAsync();
 
-                    CardAdmiralsList.Add(captain);
+                string query = "SELECT * FROM card_admirals WHERE type = @type ORDER BY RAND() LIMIT @limit";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@type", type);
+                    command.Parameters.AddWithValue("@limit", pageSize);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardAdmirals captain = new CardAdmirals
+                            {
+                                Id = reader.GetString("id"),
+                                Name = reader.GetString("name"),
+                                Image = reader.GetString("image"),
+                                Rare = reader.GetString("rare"),
+                                Quality = reader.GetInt32("quality"),
+                                Type = reader.GetString("type"),
+                                Star = reader.GetInt32("star"),
+                                Power = reader.GetDouble("power"),
+                                Health = reader.GetDouble("health"),
+                                PhysicalAttack = reader.GetDouble("physical_attack"),
+                                PhysicalDefense = reader.GetDouble("physical_defense"),
+                                MagicalAttack = reader.GetDouble("magical_attack"),
+                                MagicalDefense = reader.GetDouble("magical_defense"),
+                                ChemicalAttack = reader.GetDouble("chemical_attack"),
+                                ChemicalDefense = reader.GetDouble("chemical_defense"),
+                                AtomicAttack = reader.GetDouble("atomic_attack"),
+                                AtomicDefense = reader.GetDouble("atomic_defense"),
+                                MentalAttack = reader.GetDouble("mental_attack"),
+                                MentalDefense = reader.GetDouble("mental_defense"),
+                                Speed = reader.GetDouble("speed"),
+                                CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                                CriticalRate = reader.GetDouble("critical_rate"),
+                                CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDouble("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDouble("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDouble("accuracy_rate"),
+                                LifestealRate = reader.GetDouble("lifesteal_rate"),
+                                ShieldStrength = reader.GetDouble("shield_strength"),
+                                Tenacity = reader.GetDouble("tenacity"),
+                                ResistanceRate = reader.GetDouble("resistance_rate"),
+                                ComboRate = reader.GetDouble("combo_rate"),
+                                IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                                StunRate = reader.GetDouble("stun_rate"),
+                                IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDouble("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                                Mana = reader.GetFloat("mana"),
+                                ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                                Description = reader.GetString("description")
+                            };
+
+                            cardAdmirals.Add(captain);
+                        }
+                    }
                 }
-                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-
         }
-        return CardAdmiralsList;
+
+        return cardAdmirals;
     }
-    public List<CardAdmirals> GetAllCardAdmirals(string type)
+    public async Task<List<CardAdmirals>> GetAllCardAdmiralsAsync(string type)
     {
-        List<CardAdmirals> CardAdmiralsList = new List<CardAdmirals>();
+        List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = "Select * from card_admirals where type= @type";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@type", type);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    CardAdmirals captain = new CardAdmirals
-                    {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
-                        Type = reader.GetString("type"),
-                        Star = reader.GetInt32("star"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        Description = reader.GetString("description")
-                    };
+                await connection.OpenAsync();
 
-                    CardAdmiralsList.Add(captain);
+                string query = "SELECT * FROM card_admirals WHERE type = @type";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@type", type);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardAdmirals captain = new CardAdmirals
+                            {
+                                Id = reader.GetString("id"),
+                                Name = reader.GetString("name"),
+                                Image = reader.GetString("image"),
+                                Rare = reader.GetString("rare"),
+                                Quality = reader.GetInt32("quality"),
+                                Type = reader.GetString("type"),
+                                Star = reader.GetInt32("star"),
+                                Power = reader.GetDouble("power"),
+                                Health = reader.GetDouble("health"),
+                                PhysicalAttack = reader.GetDouble("physical_attack"),
+                                PhysicalDefense = reader.GetDouble("physical_defense"),
+                                MagicalAttack = reader.GetDouble("magical_attack"),
+                                MagicalDefense = reader.GetDouble("magical_defense"),
+                                ChemicalAttack = reader.GetDouble("chemical_attack"),
+                                ChemicalDefense = reader.GetDouble("chemical_defense"),
+                                AtomicAttack = reader.GetDouble("atomic_attack"),
+                                AtomicDefense = reader.GetDouble("atomic_defense"),
+                                MentalAttack = reader.GetDouble("mental_attack"),
+                                MentalDefense = reader.GetDouble("mental_defense"),
+                                Speed = reader.GetDouble("speed"),
+                                CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                                CriticalRate = reader.GetDouble("critical_rate"),
+                                CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDouble("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDouble("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDouble("accuracy_rate"),
+                                LifestealRate = reader.GetDouble("lifesteal_rate"),
+                                ShieldStrength = reader.GetDouble("shield_strength"),
+                                Tenacity = reader.GetDouble("tenacity"),
+                                ResistanceRate = reader.GetDouble("resistance_rate"),
+                                ComboRate = reader.GetDouble("combo_rate"),
+                                IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                                StunRate = reader.GetDouble("stun_rate"),
+                                IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDouble("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                                Mana = reader.GetFloat("mana"),
+                                ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                                Description = reader.GetString("description")
+                            };
+
+                            cardAdmirals.Add(captain);
+                        }
+                    }
                 }
-                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-
         }
-        return CardAdmiralsList;
+
+        return cardAdmirals;
     }
-    public CardAdmirals GetCardAdmiralsById(string Id)
+    public async Task<CardAdmirals> GetCardAdmiralByIdAsync(string Id)
     {
-        CardAdmirals captain = new CardAdmirals();
+        CardAdmirals cardAdmiral = new CardAdmirals();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = "Select * from card_admirals where card_admirals.id=@id";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@id", Id);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                await connection.OpenAsync();
+
+                string query = "SELECT * FROM card_admirals WHERE id = @id";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    captain = new CardAdmirals
+                    command.Parameters.AddWithValue("@id", Id);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
-                        Type = reader.GetString("type"),
-                        Star = reader.GetInt32("star"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        Description = reader.GetString("description")
-                    };
+                        if (await reader.ReadAsync())
+                        {
+                            cardAdmiral = new CardAdmirals
+                            {
+                                Id = reader.GetString("id"),
+                                Name = reader.GetString("name"),
+                                Image = reader.GetString("image"),
+                                Rare = reader.GetString("rare"),
+                                Quality = reader.GetInt32("quality"),
+                                Type = reader.GetString("type"),
+                                Star = reader.GetInt32("star"),
+                                Power = reader.GetDouble("power"),
+                                Health = reader.GetDouble("health"),
+                                PhysicalAttack = reader.GetDouble("physical_attack"),
+                                PhysicalDefense = reader.GetDouble("physical_defense"),
+                                MagicalAttack = reader.GetDouble("magical_attack"),
+                                MagicalDefense = reader.GetDouble("magical_defense"),
+                                ChemicalAttack = reader.GetDouble("chemical_attack"),
+                                ChemicalDefense = reader.GetDouble("chemical_defense"),
+                                AtomicAttack = reader.GetDouble("atomic_attack"),
+                                AtomicDefense = reader.GetDouble("atomic_defense"),
+                                MentalAttack = reader.GetDouble("mental_attack"),
+                                MentalDefense = reader.GetDouble("mental_defense"),
+                                Speed = reader.GetDouble("speed"),
+                                CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                                CriticalRate = reader.GetDouble("critical_rate"),
+                                CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDouble("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDouble("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDouble("accuracy_rate"),
+                                LifestealRate = reader.GetDouble("lifesteal_rate"),
+                                ShieldStrength = reader.GetDouble("shield_strength"),
+                                Tenacity = reader.GetDouble("tenacity"),
+                                ResistanceRate = reader.GetDouble("resistance_rate"),
+                                ComboRate = reader.GetDouble("combo_rate"),
+                                IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                                StunRate = reader.GetDouble("stun_rate"),
+                                IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDouble("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                                Mana = reader.GetFloat("mana"),
+                                ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                                Description = reader.GetString("description")
+                            };
+                        }
+                    }
                 }
-                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-
         }
-        return captain;
+
+        return cardAdmiral;
     }
-    public List<CardAdmirals> GetCardAdmiralsWithPrice(string type,int pageSize, int offset)
+    public async Task<List<CardAdmirals>> GetCardAdmiralsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CardAdmirals> CardAdmiralsList = new List<CardAdmirals>();
+        List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"select c.*, ct.price, cu.image as currency_image, cu.id as currency_id
-                from card_admirals c, card_admiral_trade ct, currency cu
-                where c.id=ct.card_admiral_id and ct.currency_id = cu.id and c.type =@type
-                ORDER BY c.name REGEXP '[0-9]+$',CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name limit @limit offset @offset;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@type", type);
-                command.Parameters.AddWithValue("@limit", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    CardAdmirals captain = new CardAdmirals
-                    {
-                        Id = reader.GetString("id"),
-                        Name = reader.GetString("name"),
-                        Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
-                        Quality = reader.GetInt32("quality"),
-                        Type = reader.GetString("type"),
-                        Star = reader.GetInt32("star"),
-                        Power = reader.GetDouble("power"),
-                        Health = reader.GetDouble("health"),
-                        PhysicalAttack = reader.GetDouble("physical_attack"),
-                        PhysicalDefense = reader.GetDouble("physical_defense"),
-                        MagicalAttack = reader.GetDouble("magical_attack"),
-                        MagicalDefense = reader.GetDouble("magical_defense"),
-                        ChemicalAttack = reader.GetDouble("chemical_attack"),
-                        ChemicalDefense = reader.GetDouble("chemical_defense"),
-                        AtomicAttack = reader.GetDouble("atomic_attack"),
-                        AtomicDefense = reader.GetDouble("atomic_defense"),
-                        MentalAttack = reader.GetDouble("mental_attack"),
-                        MentalDefense = reader.GetDouble("mental_defense"),
-                        Speed = reader.GetDouble("speed"),
-                        CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
-                        CriticalRate = reader.GetDouble("critical_rate"),
-                        CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDouble("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDouble("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDouble("accuracy_rate"),
-                        LifestealRate = reader.GetDouble("lifesteal_rate"),
-                        ShieldStrength = reader.GetDouble("shield_strength"),
-                        Tenacity = reader.GetDouble("tenacity"),
-                        ResistanceRate = reader.GetDouble("resistance_rate"),
-                        ComboRate = reader.GetDouble("combo_rate"),
-                        IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDouble("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
-                        StunRate = reader.GetDouble("stun_rate"),
-                        IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDouble("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
-                        Mana = reader.GetFloat("mana"),
-                        ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDouble("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDouble("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                        Description = reader.GetString("description")
-                    };
-                    captain.Currency = new Currencies
-                    {
-                        Id = reader.GetString("currency_id"),
-                        Image = reader.GetString("currency_image"),
-                        Quantity = reader.GetInt32("price")
-                    };
+                await connection.OpenAsync();
 
-                    CardAdmiralsList.Add(captain);
+                string query = @"
+                SELECT c.*, ct.price, cu.image AS currency_image, cu.id AS currency_id
+                FROM card_admirals c
+                JOIN card_admiral_trade ct ON c.id = ct.card_admiral_id
+                JOIN currencies cu ON ct.currency_id = cu.id
+                WHERE c.type = @type
+                ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
+                LIMIT @limit OFFSET @offset;";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@type", type);
+                    command.Parameters.AddWithValue("@limit", pageSize);
+                    command.Parameters.AddWithValue("@offset", offset);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardAdmirals captain = new CardAdmirals
+                            {
+                                Id = reader.GetString("id"),
+                                Name = reader.GetString("name"),
+                                Image = reader.GetString("image"),
+                                Rare = reader.GetString("rare"),
+                                Quality = reader.GetInt32("quality"),
+                                Type = reader.GetString("type"),
+                                Star = reader.GetInt32("star"),
+                                Power = reader.GetDouble("power"),
+                                Health = reader.GetDouble("health"),
+                                PhysicalAttack = reader.GetDouble("physical_attack"),
+                                PhysicalDefense = reader.GetDouble("physical_defense"),
+                                MagicalAttack = reader.GetDouble("magical_attack"),
+                                MagicalDefense = reader.GetDouble("magical_defense"),
+                                ChemicalAttack = reader.GetDouble("chemical_attack"),
+                                ChemicalDefense = reader.GetDouble("chemical_defense"),
+                                AtomicAttack = reader.GetDouble("atomic_attack"),
+                                AtomicDefense = reader.GetDouble("atomic_defense"),
+                                MentalAttack = reader.GetDouble("mental_attack"),
+                                MentalDefense = reader.GetDouble("mental_defense"),
+                                Speed = reader.GetDouble("speed"),
+                                CriticalDamageRate = reader.GetDouble("critical_damage_rate"),
+                                CriticalRate = reader.GetDouble("critical_rate"),
+                                CriticalResistanceRate = reader.GetDouble("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDouble("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDouble("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDouble("accuracy_rate"),
+                                LifestealRate = reader.GetDouble("lifesteal_rate"),
+                                ShieldStrength = reader.GetDouble("shield_strength"),
+                                Tenacity = reader.GetDouble("tenacity"),
+                                ResistanceRate = reader.GetDouble("resistance_rate"),
+                                ComboRate = reader.GetDouble("combo_rate"),
+                                IgnoreComboRate = reader.GetDouble("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDouble("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDouble("combo_resistance_rate"),
+                                StunRate = reader.GetDouble("stun_rate"),
+                                IgnoreStunRate = reader.GetDouble("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDouble("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDouble("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate"),
+                                Mana = reader.GetFloat("mana"),
+                                ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDouble("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDouble("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
+                                Description = reader.GetString("description")
+                            };
+
+                            captain.Currency = new Currencies
+                            {
+                                Id = reader.GetString("currency_id"),
+                                Image = reader.GetString("currency_image"),
+                                Quantity = reader.GetInt32("price")
+                            };
+
+                            cardAdmirals.Add(captain);
+                        }
+                    }
                 }
-                connection.Close();
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-
         }
-        return CardAdmiralsList;
+
+        return cardAdmirals;
     }
-    public int GetCardAdmiralsWithPriceCount(string type)
+    public async Task<int> GetCardAdmiralsWithPriceCountAsync(string type)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
-                connection.Open();
-                string query = @"select count(*)
-                from card_admirals c, card_admiral_trade ct, currency cu
-                where c.id=ct.card_admiral_id and ct.currency_id = cu.id and c.type =@type;";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@type", type);
-                count = Convert.ToInt32(command.ExecuteScalar());
+                await connection.OpenAsync();
 
-                connection.Close();
+                string query = @"
+                SELECT COUNT(*)
+                FROM card_admirals c
+                JOIN card_admiral_trade ct ON c.id = ct.card_admiral_id
+                JOIN currencies cu ON ct.currency_id = cu.id
+                WHERE c.type = @type;";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@type", type);
+                    object result = await command.ExecuteScalarAsync();
+                    count = Convert.ToInt32(result);
+                }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
         }
+
         return count;
     }
 }

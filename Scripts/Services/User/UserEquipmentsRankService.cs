@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 public class UserEquipmentsRankService : IUserEquipmentsRankService
 {
     private readonly IUserEquipmentsRankRepository _userEquipmentsRankRepository;
@@ -12,18 +14,18 @@ public class UserEquipmentsRankService : IUserEquipmentsRankService
         return new UserEquipmentsRankService(new UserEquipmentsRankRepository());
     }
 
-    public Rank GetEquipmentsRank(string type, string card_id)
+    public async Task<Rank> GetEquipmentRankAsync(string type, string card_id)
     {
-        return _userEquipmentsRankRepository.GetEquipmentsRank(type, card_id);
+        return await _userEquipmentsRankRepository.GetEquipmentRankAsync(type, card_id);
     }
 
-    public void InsertOrUpdateEquipmentsRank(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdateEquipmentRankAsync(Rank rank, string type, string card_id)
     {
-        _userEquipmentsRankRepository.InsertOrUpdateEquipmentsRank(rank, type, card_id);
+        await _userEquipmentsRankRepository.InsertOrUpdateEquipmentRankAsync(rank, type, card_id);
     }
 
-    public Rank GetSumEquipmentsRank(string user_id, string card_id)
+    public async Task<Rank> GetSumEquipmentsRankAsync(string user_id, string card_id)
     {
-        return _userEquipmentsRankRepository.GetSumEquipmentsRank(user_id, card_id);
+        return await _userEquipmentsRankRepository.GetSumEquipmentsRankAsync(user_id, card_id);
     }
 }

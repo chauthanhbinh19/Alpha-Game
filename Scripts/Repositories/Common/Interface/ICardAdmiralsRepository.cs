@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface ICardAdmiralsRepository
 {
-    List<string> GetUniqueCardAdmiralsTypes();
-    List<string> GetUniqueCardAdmiralsId();
-    List<CardAdmirals> GetCardAdmirals(string type, int pageSize, int offset, string rare);
-    int GetCardAdmiralsCount(string type, string rare);    
-    List<CardAdmirals> GetCardAdmiralsRandom(string type, int pageSize);
-    List<CardAdmirals> GetAllCardAdmirals(string type);
-    CardAdmirals GetCardAdmiralsById(string Id);
-    List<CardAdmirals> GetCardAdmiralsWithPrice(string type, int pageSize, int offset);
-    int GetCardAdmiralsWithPriceCount(string type);
+    Task<List<string>> GetUniqueCardAdmiralsTypesAsync();
+    Task<List<string>> GetUniqueCardAdmiralsIdAsync();
+    Task<List<CardAdmirals>> GetCardAdmiralsAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetCardAdmiralsCountAsync(string type, string rare);    
+    Task<List<CardAdmirals>> GetCardAdmiralsRandomAsync(string type, int pageSize);
+    Task<List<CardAdmirals>> GetAllCardAdmiralsAsync(string type);
+    Task<CardAdmirals> GetCardAdmiralByIdAsync(string Id);
+    Task<List<CardAdmirals>> GetCardAdmiralsWithPriceAsync(string type, int pageSize, int offset);
+    Task<int> GetCardAdmiralsWithPriceCountAsync(string type);
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,7 +78,7 @@ public class TalismansController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateTalismanTrade(List<Talismans> talismans, string subType, Transform currentContent,
+    public async Task CreateTalismanTradeAsync(List<Talismans> talismans, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var talisman in talismans)
@@ -132,7 +133,7 @@ public class TalismansController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetTalismanCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetTalismansCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -244,12 +245,12 @@ public class TalismansController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Talismans talisman)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(talisman.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(talisman.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -280,8 +281,8 @@ public class TalismansController : MonoBehaviour
             if (obj is Talismans talisman)
             {
                 talisman.Quantity = talisman.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(talisman.Currency.Id, price);
-                bool success = UserTalismanService.Create().InsertUserTalisman(talisman, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(talisman.Currency.Id, price);
+                bool success = await UserTalismansService.Create().InsertUserTalismanAsync(talisman, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -294,8 +295,8 @@ public class TalismansController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    TalismanGalleryService.Create().InsertTalismanGallery(talisman.Id);
-                    currencies = UserCurrencyService.Create().GetTalismanCurrency(subType);
+                    await TalismansGalleryService.Create().InsertTalismanGalleryAsync(talisman.Id);
+                    currencies = await UserCurrenciesService.Create().GetTalismansCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -315,7 +316,7 @@ public class TalismansController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

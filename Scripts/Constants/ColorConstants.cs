@@ -10,12 +10,12 @@ public static class ColorConstants
     public const string DISABLED_TEXT_COLOR = "#AAAAAA";
     public const string RED_COLOR       = "#9e2f3cff";
     public const string GREEN_COLOR     = "#064E3B";
-    public const string BLUE_COLOR      = "#0B3D91";
+    public const string BLUE_COLOR      = "#3E79F6";
     public const string YELLOW_COLOR    = "#B45309";
     public const string CYAN_COLOR      = "#00FFFF";
     public const string MAGENTA_COLOR   = "#FF00FF";
     public const string ORANGE_COLOR    = "#C2410C";
-    public const string PURPLE_COLOR    = "#4C1D95";
+    public const string PURPLE_COLOR    = "#9A60A2";
     public const string PINK_COLOR      = "#BE185D";
     public const string BROWN_COLOR     = "#A52A2A";
     public const string GRAY_COLOR      = "#646464";

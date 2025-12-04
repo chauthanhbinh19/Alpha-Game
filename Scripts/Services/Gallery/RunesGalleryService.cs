@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class RunesGalleryService : IRunesGalleryService
 {
@@ -14,44 +15,44 @@ public class RunesGalleryService : IRunesGalleryService
         return new RunesGalleryService(new RunesGalleryRepository());
     }
 
-    public List<Runes> GetRunesCollection(int pageSize, int offset, string rare)
+    public async Task<List<Runes>> GetRunesCollectionAsync(int pageSize, int offset, string rare)
     {
-        List<Runes> list = _RunesGalleryRepository.GetRunesCollection(pageSize, offset, rare);
+        List<Runes> list = await _RunesGalleryRepository.GetRunesCollectionAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetRunesCount(string rare)
+    public async Task<int> GetRunesCountAsync(string rare)
     {
-        return _RunesGalleryRepository.GetRunesCount(rare);
+        return await _RunesGalleryRepository.GetRunesCountAsync(rare);
     }
 
-    public void InsertRunesGallery(string Id)
+    public async Task InsertRuneGalleryAsync(string Id)
     {
         IRunesRepository _repository = new RunesRepository();
         RunesService _service = new RunesService(_repository);
-        _RunesGalleryRepository.InsertRunesGallery(Id, _service.GetRunesById(Id));
+        await _RunesGalleryRepository.InsertRuneGalleryAsync(Id, await _service.GetRuneByIdAsync(Id));
     }
 
-    public void UpdateStatusRunesGallery(string Id)
+    public async Task UpdateStatusRuneGalleryAsync(string Id)
     {
-        _RunesGalleryRepository.UpdateStatusRunesGallery(Id);
+        await _RunesGalleryRepository.UpdateStatusRuneGalleryAsync(Id);
     }
 
-    public Runes SumPowerRunesGallery()
+    public async Task<Runes> SumPowerRunesGalleryAsync()
     {
-        return _RunesGalleryRepository.SumPowerRunesGallery();
+        return await _RunesGalleryRepository.SumPowerRunesGalleryAsync();
     }
 
-    public void UpdateStarRunesGallery(string Id, double star)
+    public async Task UpdateStarRuneGalleryAsync(string Id, double star)
     {
-        _RunesGalleryRepository.UpdateStarRunesGallery(Id, star);
+        await _RunesGalleryRepository.UpdateStarRuneGalleryAsync(Id, star);
     }
 
-    public void UpdateRunesGalleryPower(string Id)
+    public async Task UpdateRuneGalleryPowerAsync(string Id)
     {
         IRunesRepository _repository = new RunesRepository();
         RunesService _service = new RunesService(_repository);
-        _RunesGalleryRepository.UpdateRunesGalleryPower(Id, _service.GetRunesById(Id));
+        await _RunesGalleryRepository.UpdateRuneGalleryPowerAsync(Id, await _service.GetRuneByIdAsync(Id));
     }
 }

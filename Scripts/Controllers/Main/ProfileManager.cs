@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,7 +57,7 @@ public class ProfileManager : MonoBehaviour
         NewsPanelPrefab = UIManager.Instance.GetNewsPanel("NewsPanelPrefab");
         NewsButtonPrefab = UIManager.Instance.GetNewsPanel("NewsButtonPrefab");
     }
-    public void CreateProfile()
+    public async Task CreateProfileAsync()
     {
         profileObject = Instantiate(ProfilePanelPrefab, MainPanel);
         Transform profileTransform = profileObject.transform.Find("Scroll View/Viewport/Content");
@@ -92,7 +93,7 @@ public class ProfileManager : MonoBehaviour
         powerText.text = User.CurrentUserPower.ToString();
         idText.text = User.CurrentUserId.ToString();
 
-        var currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
+        var currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
         var silver = currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.SILVER);
         var gold = currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.GOLD);
         var diamond = currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.DIAMOND);
@@ -116,10 +117,10 @@ public class ProfileManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             CreateEditNamePanel();
         });
-        moreCurrencyButton.onClick.AddListener(() =>
+        moreCurrencyButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            CreateCurrencyPanel();
+            await CreateCurrencyPanelAsync();
         });
 
         Button logoutButton = profileObject.transform.Find("Group1/LogoutButton").GetComponent<Button>();
@@ -171,7 +172,7 @@ public class ProfileManager : MonoBehaviour
                 await UserService.Create().UpdateUserNameAsync(User.CurrentUserId, name);
                 Destroy(editNamePanelObject);
                 Destroy(profileObject);
-                CreateProfile();
+                await CreateProfileAsync();
             }
             else
             {
@@ -179,7 +180,7 @@ public class ProfileManager : MonoBehaviour
             }
         });
     }
-    public void CreateCurrencyPanel()
+    public async Task CreateCurrencyPanelAsync()
     {
         GameObject currencyObject = Instantiate(CurrencyPanelPrefab, MainPanel);
         Button closeButton = currencyObject.transform.Find("CloseButton").GetComponent<Button>();
@@ -190,7 +191,7 @@ public class ProfileManager : MonoBehaviour
             Destroy(currencyObject);
         });
 
-        var currencies = UserCurrencyService.Create().GetUserCurrency(User.CurrentUserId);
+        var currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
         CurrenciesManager.Instance.createCurrency(currencies, currencyPanel);
     }
     public void CreateLogoutPanel()
@@ -406,19 +407,19 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.SFX, 100);
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.VOICE, 100);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.MUSIC,
                 SettingValue = maxValue.ToString(),
             });
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.SFX,
                 SettingValue = maxValue.ToString(),
             });
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.VOICE,
                 SettingValue = maxValue.ToString(),
@@ -432,7 +433,7 @@ public class ProfileManager : MonoBehaviour
             int v = Mathf.RoundToInt(rounded * 100);
             musicQuantityText.text = v.ToString();
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.MUSIC, v);
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.MUSIC,
                 SettingValue = v.ToString(),
@@ -446,7 +447,7 @@ public class ProfileManager : MonoBehaviour
             int v = Mathf.RoundToInt(rounded * 100);
             sfxQuantityText.text = v.ToString();
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.SFX, v);
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.SFX,
                 SettingValue = v.ToString(),
@@ -460,7 +461,7 @@ public class ProfileManager : MonoBehaviour
             int v = Mathf.RoundToInt(rounded * 100);
             voiceQuantityText.text = v.ToString();
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.VOICE, v);
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.VOICE,
                 SettingValue = v.ToString(),
@@ -507,7 +508,7 @@ public class ProfileManager : MonoBehaviour
         defaultButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "en",
@@ -521,7 +522,7 @@ public class ProfileManager : MonoBehaviour
         englishButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "en",
@@ -535,7 +536,7 @@ public class ProfileManager : MonoBehaviour
         vietnameseButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.LANGUAGE,
                 SettingValue = "vi",
@@ -622,7 +623,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, false);
             ChangeResolutionButtonColor(veryHighButton, false);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Very Low",
@@ -640,7 +641,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, false);
             ChangeResolutionButtonColor(veryHighButton, false);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Low",
@@ -658,7 +659,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, false);
             ChangeResolutionButtonColor(veryHighButton, false);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Medium",
@@ -676,7 +677,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, true);
             ChangeResolutionButtonColor(veryHighButton, false);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "High",
@@ -694,7 +695,7 @@ public class ProfileManager : MonoBehaviour
             ChangeResolutionButtonColor(highButton, false);
             ChangeResolutionButtonColor(veryHighButton, true);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.RESOLUTION,
                 SettingValue = "Very High",
@@ -773,7 +774,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(highButton, false);
             ChangeTextureButtonColor(veryHighButton, false);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.TEXTURE,
                 SettingValue = "Low",
@@ -790,7 +791,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(highButton, false);
             ChangeTextureButtonColor(veryHighButton, false);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.TEXTURE,
                 SettingValue = "Medium",
@@ -807,7 +808,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(highButton, true);
             ChangeTextureButtonColor(veryHighButton, false);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.TEXTURE,
                 SettingValue = "High",
@@ -824,7 +825,7 @@ public class ProfileManager : MonoBehaviour
             ChangeTextureButtonColor(highButton, false);
             ChangeTextureButtonColor(veryHighButton, true);
 
-            await UserSettingsService.Create().UpdateUserSettingsAsync(User.CurrentUserId, new UserSettings
+            await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
                 SettingKey = AppConstants.Setting.TEXTURE,
                 SettingValue = "Very High",

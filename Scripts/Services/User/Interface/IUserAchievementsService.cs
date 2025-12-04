@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using System.Threading.Tasks;
 
 public interface IUserAchievementsService
 {
-    public Achievements GetNewLevelPower(Achievements c, double coefficient);
-    public Achievements GetNewBreakthroughPower(Achievements c, double coefficient);
-    List<Achievements> GetUserAchievements(string user_id, int pageSize, int offset, string rare);
-    int GetUserCollaborationCount(string user_id, string rare);
-    bool InsertUserAchievements(Achievements Achievements, string userId);
-    bool UpdateAchievementLevel(Achievements achievements, int cardLevel);
-    bool UpdateAchievementsBreakthrough(Achievements achievements, int star, double quantity);
-    Achievements GetUserAchievementsById(string user_id, string Id);
-    Achievements SumPowerUserAchievements();
+    Task<Achievements> GetNewLevelPowerAsync(Achievements c, double coefficient);
+    Task<Achievements> GetNewBreakthroughPowerAsync(Achievements c, double coefficient);
+    Task<List<Achievements>> GetUserAchievementsAsync(string user_id, int pageSize, int offset, string rare);
+    Task<int> GetUserAchievementsCountAsync(string user_id, string rare);
+    Task<bool> InsertUserAchievementAsync(Achievements achievements, string userId);
+    Task<bool> UpdateAchievementLevelAsync(Achievements achievements, int cardLevel);
+    Task<bool> UpdateAchievementBreakthroughAsync(Achievements achievements, int star, double quantity);
+    Task<Achievements> GetUserAchievementByIdAsync(string user_id, string id);
+    Task<Achievements> SumPowerUserAchievementsAsync();
 }

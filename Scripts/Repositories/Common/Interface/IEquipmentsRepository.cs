@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IEquipmentsRepository
 {
-    List<string> GetUniqueEquipmentsTypes();
-    List<string> GetUniqueEquipmentsId();
-    List<Equipments> GetEquipments(string type, int pageSize, int offset, string rare);
-    int GetEquipmentsCount(string type, string rare);
-    List<Equipments> GetEquipmentsWithCurrency(string type, int pageSize, int offset);
-    List<string> GetEquipmentsSet(string type);
-    Equipments GetEquipmentById(string Id);
+    Task<List<string>> GetUniqueEquipmentsTypesAsync();
+    Task<List<string>> GetUniqueEquipmentsIdAsync();
+    Task<List<Equipments>> GetEquipmentsAsync(string type, int pageSize, int offset, string rare);
+    Task<int> GetEquipmentsCountAsync(string type, string rare);
+    Task<List<Equipments>> GetEquipmentsWithCurrencyAsync(string type, int pageSize, int offset);
+    Task<List<string>> GetEquipmentsSetAsync(string type);
+    Task<Equipments> GetEquipmentByIdAsync(string id);
 }

@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
-using MySql.Data.MySqlClient;
-using System.Xml.Linq;
+using System.Threading.Tasks;
 
 public class AchievementsService : IAchievementsService
 {
@@ -20,38 +17,38 @@ public class AchievementsService : IAchievementsService
     }
 
 
-    public List<Achievements> GetAchievement(int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetAchievementsAsync(int pageSize, int offset, string rare)
     {
-        List<Achievements> list = _achievementsRepository.GetAchievement(pageSize, offset, rare);
+        List<Achievements> list = await _achievementsRepository.GetAchievementsAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetAchievementCount(string rare)
+    public async Task<int> GetAchievementsCountAsync(string rare)
     {
-        return _achievementsRepository.GetAchievementCount(rare);
+        return await _achievementsRepository.GetAchievementsCountAsync(rare);
     }
 
-    public Achievements GetAchievementsById(string Id)
+    public async Task<Achievements> GetAchievementByIdAsync(string Id)
     {
-        return _achievementsRepository.GetAchievementsById(Id);
+        return await _achievementsRepository.GetAchievementByIdAsync(Id);
     }
 
-    public List<Achievements> GetAchievementsWithPrice(int pageSize, int offset)
+    public async Task<List<Achievements>> GetAchievementsWithPriceAsync(int pageSize, int offset)
     {
-        List<Achievements> list = _achievementsRepository.GetAchievementsWithPrice(pageSize, offset);
+        List<Achievements> list = await _achievementsRepository.GetAchievementsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetAchievementsWithPriceCount()
+    public async Task<int> GetAchievementsWithPriceCountAsync()
     {
-        return _achievementsRepository.GetAchievementsWithPriceCount();
+        return await _achievementsRepository.GetAchievementsWithPriceCountAsync();
     }
     
-    public Achievements SumPowerAchievementsPercent()
+    public async Task<Achievements> SumPowerAchievementsPercentAsync()
     {
-        return _achievementsRepository.SumPowerAchievementsPercent();
+        return await _achievementsRepository.SumPowerAchievementsPercentAsync();
     }
     
 }

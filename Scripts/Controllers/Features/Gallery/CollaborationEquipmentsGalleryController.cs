@@ -79,8 +79,8 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
             Unlock.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var collaborationEquipmentGalleryService = CollaborationEquipmentGalleryService.Create();
-                collaborationEquipmentGalleryService.UpdateStatusCollaborationEquipmentsGallery(collaborationEquipment.Id);
+                var collaborationEquipmentGalleryService = CollaborationEquipmentsGalleryService.Create();
+                await collaborationEquipmentGalleryService.UpdateStatusCollaborationEquipmentGalleryAsync(collaborationEquipment.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -88,7 +88,7 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -105,10 +105,10 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CollaborationEquipmentGalleryService.Create().UpdateCollaborationEquipmentsGalleryPower(collaborationEquipment.Id);
+                await CollaborationEquipmentsGalleryService.Create().UpdateCollaborationEquipmentGalleryPowerAsync(collaborationEquipment.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

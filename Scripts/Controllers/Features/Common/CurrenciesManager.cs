@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using TMPro;
+using System.Threading.Tasks;
 
 public class CurrenciesManager : MonoBehaviour
 {
@@ -74,11 +75,11 @@ public class CurrenciesManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(180, 100);
         }
     }
-    public void GetEquipmentsCurrency(string type, Transform panel)
+    public async Task GetEquipmentsCurrencyAsync(string type, Transform panel)
     {
-        IUserCurrencyRepository userCurrencyRepository = new UserCurrencyRepository();
-        UserCurrencyService userCurrencyService = new UserCurrencyService(userCurrencyRepository);
-        List<Currencies> currencies = userCurrencyService.GetEquipmentsCurrency(type);
+        IUserCurrenciesRepository userCurrencyRepository = new UserCurrenciesRepository();
+        UserCurrenciesService userCurrencyService = new UserCurrenciesService(userCurrencyRepository);
+        List<Currencies> currencies = await userCurrencyService.GetEquipmentsCurrencyAsync(type);
         createCurrency(currencies, panel);
     }
     public void GetMainCurrency(List<Currencies> currencies, Transform panel)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,7 +78,7 @@ public class CollaborationsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateCollaborationTrade(List<Collaborations> collaborationList, string subType, Transform currentContent,
+    public async Task CreateCollaborationTradeAsync(List<Collaborations> collaborationList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var collaboration in collaborationList)
@@ -130,7 +131,7 @@ public class CollaborationsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetCollaborationsCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetCollaborationsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -242,12 +243,12 @@ public class CollaborationsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Collaborations collaboration)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(collaboration.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(collaboration.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -278,8 +279,8 @@ public class CollaborationsController : MonoBehaviour
             if (obj is Collaborations collaboration)
             {
                 collaboration.Quantity = collaboration.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(collaboration.Currency.Id, price);
-                bool success = UserCollaborationService.Create().InsertUserCollaborations(collaboration, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(collaboration.Currency.Id, price);
+                bool success = await UserCollaborationsService.Create().InsertUserCollaborationAsync(collaboration, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -292,8 +293,8 @@ public class CollaborationsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    CollaborationGalleryService.Create().InsertCollaborationsGallery(collaboration.Id);
-                    currencies = UserCurrencyService.Create().GetCardMilitaryCurrency(subType);
+                    await CollaborationsGalleryService.Create().InsertCollaborationGalleryAsync(collaboration.Id);
+                    currencies = await UserCurrenciesService.Create().GetCardMilitariesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -313,7 +314,7 @@ public class CollaborationsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

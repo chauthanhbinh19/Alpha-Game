@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,7 +78,7 @@ public class RelicsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateRelicsTrade(List<Relics> relics, string subType, Transform currentContent,
+    public async Task CreateRelicsTradeAsync(List<Relics> relics, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var relic in relics)
@@ -131,7 +132,7 @@ public class RelicsController : MonoBehaviour
         }
 
         List<Currencies> currencies = new List<Currencies>();
-        currencies = UserCurrencyService.Create().GetRelicsCurrency(subType);
+        currencies = await UserCurrenciesService.Create().GetRelicsCurrencyAsync(subType);
         FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -243,12 +244,12 @@ public class RelicsController : MonoBehaviour
             }
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
-        maxButton.onClick.AddListener(() =>
+        maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
             if (obj is Relics relics)
             {
-                userCurrency = UserCurrencyService.Create().GetUserCurrencyById(relics.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(relics.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -279,8 +280,8 @@ public class RelicsController : MonoBehaviour
             if (obj is Relics relic)
             {
                 relic.Quantity = relic.Quantity + quantity;
-                UserCurrencyService.Create().UpdateUserCurrency(relic.Currency.Id, price);
-                bool success = UserRelicsService.Create().InsertUserReclis(relic, User.CurrentUserId);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(relic.Currency.Id, price);
+                bool success = await UserRelicsService.Create().InsertUserRelicAsync(relic, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -293,8 +294,8 @@ public class RelicsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    RelicsGalleryService.Create().InsertRelicsGallery(relic.Id);
-                    currencies = UserCurrencyService.Create().GetRelicsCurrency(subType);
+                    await RelicsGalleryService.Create().InsertRelicGalleryAsync(relic.Id);
+                    currencies = await UserCurrenciesService.Create().GetRelicsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
@@ -314,7 +315,7 @@ public class RelicsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

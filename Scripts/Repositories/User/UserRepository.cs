@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using System.Data;
 using MySqlConnector;
+using UnityEditor.MemoryProfiler;
 
 public class UserRepository : IUserRepository
 {
@@ -12,32 +13,43 @@ public class UserRepository : IUserRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (var connection = new MySqlConnection(connectionString))
+        await using (var connection = new MySqlConnection(connectionString))
         {
-            await connection.OpenAsync();
-
-            string query = "SELECT * FROM users WHERE username = @username";
-            using (var command = new MySqlCommand(query, connection))
+            try
             {
-                command.Parameters.AddWithValue("@username", username);
+                await connection.OpenAsync();
 
-                using (var reader = await command.ExecuteReaderAsync())
+                string query = "SELECT * FROM users WHERE username = @username";
+                await using (var command = new MySqlCommand(query, connection))
                 {
-                    if (await reader.ReadAsync())
+                    command.Parameters.AddWithValue("@username", username);
+
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
-                        return new User
+                        if (await reader.ReadAsync())
                         {
-                            Id = reader["id"].ToString(),
-                            Username = reader.GetString("username"),
-                            Password = reader.GetString("password"),
-                            Name = reader["name"].ToString(),
-                            Level = reader.GetInt32("level"),
-                            Experiment = reader.GetInt32("experiment"),
-                            Vip = reader.GetInt32("vip"),
-                            Power = reader.GetDouble("power")
-                        };
+                            return new User
+                            {
+                                Id = reader["id"].ToString(),
+                                Username = reader.GetString("username"),
+                                Password = reader.GetString("password"),
+                                Name = reader["name"].ToString(),
+                                Level = reader.GetInt32("level"),
+                                Experiment = reader.GetInt32("experiment"),
+                                Vip = reader.GetInt32("vip"),
+                                Power = reader.GetDouble("power")
+                            };
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -97,18 +109,6 @@ public class UserRepository : IUserRepository
             }
         }
     }
-    // private int GetMaxId(MySqlConnection connection)
-    // {
-    //     string query = "SELECT MAX(id) FROM users";
-    //     MySqlCommand command = new MySqlCommand(query, connection);
-    //     object result = command.ExecuteScalar();
-
-    //     if (result != DBNull.Value)
-    //     {
-    //         return Convert.ToInt32(result);
-    //     }
-    //     return 0; // Nếu bảng rỗng, trả về 0
-    // }
     public async Task<User> SignInWithUsernameAndPasswordAsync(string username, string password)
     {
         if (string.IsNullOrEmpty(username)) username = User.SavedUsername;
@@ -367,17 +367,28 @@ public class UserRepository : IUserRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (var connection = new MySqlConnection(connectionString))
+        await using (var connection = new MySqlConnection(connectionString))
         {
-            await connection.OpenAsync(); // mở kết nối async
-
-            string updateQuery = "UPDATE Users SET name = @name WHERE id = @id";
-            using (var command = new MySqlCommand(updateQuery, connection))
+            try
             {
-                command.Parameters.AddWithValue("@name", new_name);
-                command.Parameters.AddWithValue("@id", user_id);
+                await connection.OpenAsync(); // mở kết nối async
 
-                await command.ExecuteNonQueryAsync(); // chạy query async
+                string updateQuery = "UPDATE Users SET name = @name WHERE id = @id";
+                await using (var command = new MySqlCommand(updateQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@name", new_name);
+                    command.Parameters.AddWithValue("@id", user_id);
+
+                    await command.ExecuteNonQueryAsync(); // chạy query async
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -388,17 +399,28 @@ public class UserRepository : IUserRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (var connection = new MySqlConnection(connectionString))
+        await using (var connection = new MySqlConnection(connectionString))
         {
-            await connection.OpenAsync(); // mở kết nối async
-
-            string updateQuery = "UPDATE Users SET power = @power WHERE id = @id";
-            using (var command = new MySqlCommand(updateQuery, connection))
+            try
             {
-                command.Parameters.AddWithValue("@power", power);
-                command.Parameters.AddWithValue("@id", user_id);
+                await connection.OpenAsync(); // mở kết nối async
 
-                await command.ExecuteNonQueryAsync(); // chạy query async
+                string updateQuery = "UPDATE Users SET power = @power WHERE id = @id";
+                await using (var command = new MySqlCommand(updateQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@power", power);
+                    command.Parameters.AddWithValue("@id", user_id);
+
+                    await command.ExecuteNonQueryAsync(); // chạy query async
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }
@@ -406,21 +428,32 @@ public class UserRepository : IUserRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (var connection = new MySqlConnection(connectionString))
+        await using (var connection = new MySqlConnection(connectionString))
         {
-            await connection.OpenAsync(); // mở connection async
-
-            for (int currencyId = 1; currencyId <= 73; currencyId++)
+            try
             {
-                string insertQuery = "INSERT INTO user_currency (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
-                using (var command = new MySqlCommand(insertQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@currency_id", currencyId);
-                    command.Parameters.AddWithValue("@quantity", 1000000000);
+                await connection.OpenAsync(); // mở connection async
 
-                    await command.ExecuteNonQueryAsync(); // insert async
+                for (int currencyId = 1; currencyId <= 73; currencyId++)
+                {
+                    string insertQuery = "INSERT INTO user_currency (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
+                    await using (var command = new MySqlCommand(insertQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", Id);
+                        command.Parameters.AddWithValue("@currency_id", currencyId);
+                        command.Parameters.AddWithValue("@quantity", 1000000000);
+
+                        await command.ExecuteNonQueryAsync(); // insert async
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }
@@ -428,19 +461,31 @@ public class UserRepository : IUserRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (var connection = new MySqlConnection(connectionString))
+        await using (var connection = new MySqlConnection(connectionString))
         {
-            await connection.OpenAsync(); // mở connection async
-
-            string query = "SELECT COUNT(*) FROM users WHERE name = @name";
-            using (var command = new MySqlCommand(query, connection))
+            try
             {
-                command.Parameters.AddWithValue("@name", name);
+                await connection.OpenAsync(); // mở connection async
 
-                object result = await command.ExecuteScalarAsync(); // chạy query async
-                int count = Convert.ToInt32(result);
+                string query = "SELECT COUNT(*) FROM users WHERE name = @name";
+                await using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@name", name);
 
-                return count > 0; // Nếu > 0 nghĩa là tồn tại Name
+                    object result = await command.ExecuteScalarAsync(); // chạy query async
+                    int count = Convert.ToInt32(result);
+
+                    return count > 0; // Nếu > 0 nghĩa là tồn tại Name
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }

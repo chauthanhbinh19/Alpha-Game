@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class UserBooksService : IUserBooksService
 {
@@ -14,9 +15,9 @@ public class UserBooksService : IUserBooksService
         return new UserBooksService(new UserBooksRepository());
     }
 
-    public List<Books> GetFinalPower(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetFinalPowerAsync(string user_id, List<Books> BooksList)
     {
-        PowerManager powerManager = PowerManagerService.Create().GetUserStats(user_id);
+        PowerManager powerManager = await PowerManagerService.Create().GetUserStatsAsync(user_id);
         foreach (var c in BooksList)
         {
             c.Health = c.Health + powerManager.Health + c.BaseStats.Health * powerManager.PercentAllHealth / 100;
@@ -95,9 +96,9 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
-    public List<Books> GetScienceFictionPower(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetScienceFictionPowerAsync(string user_id, List<Books> BooksList)
     {
-        ScienceFiction scienceFiction = ScienceFictionService.Create().GetSumScienceFiction(user_id);
+        ScienceFiction scienceFiction = await ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
         foreach (var c in BooksList)
         {
             c.Health = c.Health + scienceFiction.Health + c.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -176,11 +177,11 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
-    public List<Books> GetAllEquipmentPower(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetAllEquipmentPowerAsync(string user_id, List<Books> BooksList)
     {
         foreach (var c in BooksList)
         {
-            Equipments equipments = UserEquipmentsService.Create().GetAllEquipmentsByBooksId(user_id, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByBookIdAsync(user_id, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
@@ -257,11 +258,11 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
-    public List<Books> GetAllRankPower(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetAllRankPowerAsync(string user_id, List<Books> BooksList)
     {
         foreach (var c in BooksList)
         {
-            Rank rank = UserBooksRankService.Create().GetSumBooksRank(user_id, c.Id);
+            Rank rank = await UserBooksRankService.Create().GetSumBooksRankAsync(user_id, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -338,11 +339,11 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
-    public List<Books> GetAllMasterPower(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetAllMasterPowerAsync(string user_id, List<Books> BooksList)
     {
         foreach (var c in BooksList)
         {
-            Master master = UserBooksMasterService.Create().GetSumBooksMaster(user_id, c.Id);
+            Master master = await UserBooksMasterService.Create().GetSumBooksMasterAsync(user_id, c.Id);
             c.Health = c.Health + master.Health + c.BaseStats.Health * master.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + c.BaseStats.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + c.BaseStats.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
@@ -419,11 +420,11 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
-    public List<Books> GetAllAnimeStatsPower(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetAllAnimeStatsPowerAsync(string user_id, List<Books> BooksList)
     {
         foreach (var c in BooksList)
         {
-            AnimeStats animeStats = AnimeStatsService.Create().GetSumAnimeStats(user_id);
+            AnimeStats animeStats = await AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
             c.Health = c.Health + animeStats.Health + c.BaseStats.Health * animeStats.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + animeStats.PhysicalAttack + c.BaseStats.PhysicalAttack * animeStats.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + animeStats.PhysicalDefense + c.BaseStats.PhysicalDefense * animeStats.PercentAllPhysicalDefense / 100;
@@ -500,11 +501,11 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
-    public Books GetNewLevelPower(Books c, double coefficient)
+    public async Task<Books> GetNewLevelPowerAsync(Books c, double coefficient)
     {
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
-        Books orginCard = _service.GetBooksById(c.Id);
+        Books orginCard = await _service.GetBookByIdAsync(c.Id);
         Books books = new Books
         {
             Id = c.Id,
@@ -583,11 +584,11 @@ public class UserBooksService : IUserBooksService
         );
         return books;
     }
-    public Books GetNewBreakthroughPower(Books c, double coefficient)
+    public async Task<Books> GetNewBreakthroughPowerAsync(Books c, double coefficient)
     {
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
-        Books orginCard = _service.GetBooksById(c.Id);
+        Books orginCard = await _service.GetBookByIdAsync(c.Id);
         Books books = new Books
         {
             Id = c.Id,
@@ -667,77 +668,77 @@ public class UserBooksService : IUserBooksService
         return books;
     }
 
-    public List<Books> GetUserBooks(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetUserBooksAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = _userBooksRepository.GetUserBooks(user_id, type, pageSize, offset, rare);
+        List<Books> list = await _userBooksRepository.GetUserBooksAsync(user_id, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
-        list = GetFinalPower(user_id, list);
-        list = GetAllEquipmentPower(user_id, list);
-        list = GetAllRankPower(user_id, list);
-        list = GetAllMasterPower(user_id, list);
-        list = GetAllAnimeStatsPower(user_id, list);
-        list = GetScienceFictionPower(user_id, list);
+        list = await GetFinalPowerAsync(user_id, list);
+        list = await GetAllEquipmentPowerAsync(user_id, list);
+        list = await GetAllRankPowerAsync(user_id, list);
+        list = await GetAllMasterPowerAsync(user_id, list);
+        list = await GetAllAnimeStatsPowerAsync(user_id, list);
+        list = await GetScienceFictionPowerAsync(user_id, list);
         return list;
     }
 
-    public List<Books> GetUserBooksTeam(string user_id, string teamId, string position)
+    public async Task<List<Books>> GetUserBooksTeamAsync(string user_id, string teamId, string position)
     {
-        List<Books> list = _userBooksRepository.GetUserBooksTeam(teamId);
+        List<Books> list = await _userBooksRepository.GetUserBooksTeamAsync(teamId);
         list = QualityEvaluator.GetQualityPower(list);
-        list = GetFinalPower(user_id, list);
-        list = GetAllEquipmentPower(user_id, list);
-        list = GetAllRankPower(user_id, list);
-        list = GetAllMasterPower(user_id, list);
-        list = GetAllAnimeStatsPower(user_id, list);
-        list = GetScienceFictionPower(user_id, list);
+        list = await GetFinalPowerAsync(user_id, list);
+        list = await GetAllEquipmentPowerAsync(user_id, list);
+        list = await GetAllRankPowerAsync(user_id, list);
+        list = await GetAllMasterPowerAsync(user_id, list);
+        list = await GetAllAnimeStatsPowerAsync(user_id, list);
+        list = await GetScienceFictionPowerAsync(user_id, list);
         return list;
     }
 
-    public Dictionary<string, int> GetUniqueBookTypesTeam(string teamId)
+    public async Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId)
     {
-        return _userBooksRepository.GetUniqueBookTypesTeam(teamId);
+        return await _userBooksRepository.GetUniqueBooksTypesTeamAsync(teamId);
     }
 
-    public int GetUserBooksCount(string user_id, string type, string rare)
+    public async Task<int> GetUserBooksCountAsync(string user_id, string type, string rare)
     {
-        return _userBooksRepository.GetUserBooksCount(user_id, type, rare);
+        return await _userBooksRepository.GetUserBooksCountAsync(user_id, type, rare);
     }
 
-    public bool InsertUserBooks(Books books)
+    public async Task<bool> InsertUserBookAsync(Books books)
     {
-        return _userBooksRepository.InsertUserBooks(books);
+        return await _userBooksRepository.InsertUserBookAsync(books);
     }
 
-    public bool UpdateBooksLevel(Books books, int cardLevel)
+    public async Task<bool> UpdateBookLevelAsync(Books books, int cardLevel)
     {
-        return _userBooksRepository.UpdateBooksLevel(books, cardLevel);
+        return await _userBooksRepository.UpdateBookLevelAsync(books, cardLevel);
     }
 
-    public bool UpdateBooksBreakthrough(Books books, int star, double quantity)
+    public async Task<bool> UpdateBookBreakthroughAsync(Books books, int star, double quantity)
     {
-        return _userBooksRepository.UpdateBooksBreakthrough(books, star, quantity);
+        return await _userBooksRepository.UpdateBookBreakthroughAsync(books, star, quantity);
     }
 
-    public bool UpdateTeamBooks(string team_id, string position, string book_id)
+    public async Task<bool> UpdateTeamBookAsync(string team_id, string position, string book_id)
     {
-        return _userBooksRepository.UpdateTeamBooks(team_id, position, book_id);
+        return await _userBooksRepository.UpdateTeamBookAsync(team_id, position, book_id);
     }
 
-    public Books GetUserBooksById(string user_id, string Id)
+    public async Task<Books> GetUserBookByIdAsync(string user_id, string Id)
     {
-        return _userBooksRepository.GetUserBooksById(user_id, Id);
+        return await _userBooksRepository.GetUserBookByIdAsync(user_id, Id);
     }
 
-    public List<Books> GetAllUserBooksInTeam(string user_id)
+    public async Task<List<Books>> GetAllUserBooksInTeamAsync(string user_id)
     {
-        List<Books> list = _userBooksRepository.GetAllUserBooksInTeam(user_id);
+        List<Books> list = await _userBooksRepository.GetAllUserBooksInTeamAsync(user_id);
         list = QualityEvaluator.GetQualityPower(list);
-        list = GetFinalPower(user_id, list);
-        list = GetAllEquipmentPower(user_id, list);
-        list = GetAllRankPower(user_id, list);
-        list = GetAllMasterPower(user_id, list);
-        list = GetAllAnimeStatsPower(user_id, list);
-        list = GetScienceFictionPower(user_id, list);
+        list = await GetFinalPowerAsync(user_id, list);
+        list = await GetAllEquipmentPowerAsync(user_id, list);
+        list = await GetAllRankPowerAsync(user_id, list);
+        list = await GetAllMasterPowerAsync(user_id, list);
+        list = await GetAllAnimeStatsPowerAsync(user_id, list);
+        list = await GetScienceFictionPowerAsync(user_id, list);
         return list;
     }
 }

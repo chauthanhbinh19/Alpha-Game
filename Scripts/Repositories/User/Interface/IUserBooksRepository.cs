@@ -1,15 +1,16 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public interface IUserBooksRepository
 {
-    List<Books> GetUserBooks(string user_id, string type, int pageSize, int offset, string rare);
-    List<Books> GetUserBooksTeam(string teamId);
-    Dictionary<string, int> GetUniqueBookTypesTeam(string teamId);
-    int GetUserBooksCount(string user_id, string type, string rare);
-    bool InsertUserBooks(Books books);
-    bool UpdateBooksLevel(Books books, int cardLevel);
-    bool UpdateBooksBreakthrough(Books books, int star, double quantity);
-    bool UpdateTeamBooks(string team_id, string position, string book_id);
-    Books GetUserBooksById(string user_id, string Id);
-    List<Books> GetAllUserBooksInTeam(string user_id);
+    Task<List<Books>> GetUserBooksAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<Books>> GetUserBooksTeamAsync(string teamId);
+    Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId);
+    Task<int> GetUserBooksCountAsync(string user_id, string type, string rare);
+    Task<bool> InsertUserBookAsync(Books books);
+    Task<bool> UpdateBookLevelAsync(Books books, int cardLevel);
+    Task<bool> UpdateBookBreakthroughAsync(Books books, int star, double quantity);
+    Task<bool> UpdateTeamBookAsync(string team_id, string position, string book_id);
+    Task<Books> GetUserBookByIdAsync(string user_id, string Id);
+    Task<List<Books>> GetAllUserBooksInTeamAsync(string user_id);
 }

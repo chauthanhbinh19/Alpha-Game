@@ -1,0 +1,221 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+public class UserPuppetsService : IUserPuppetsService
+{
+    private readonly IUserPuppetsRepository _userPuppetRepository;
+
+    public UserPuppetsService(IUserPuppetsRepository userPuppetRepository)
+    {
+        _userPuppetRepository = userPuppetRepository;
+    }
+
+    public static UserPuppetsService Create()
+    {
+        return new UserPuppetsService(new UserPuppetsRepository());
+    }
+
+    public async Task<Puppets> GetNewLevelPowerAsync(Puppets c, double coefficient)
+    {
+        IPuppetsRepository _repository = new PuppetsRepository();
+        PuppetsService _service = new PuppetsService(_repository);
+        Puppets orginCard = await _service.GetPuppetByIdAsync(c.Id);
+        Puppets Puppet = new Puppets
+        {
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
+        };
+        Puppet.Power = EvaluatePower.CalculatePower(
+            Puppet.Health,
+            Puppet.PhysicalAttack, Puppet.PhysicalDefense,
+            Puppet.MagicalAttack, Puppet.MagicalDefense,
+            Puppet.ChemicalAttack, Puppet.ChemicalDefense,
+            Puppet.AtomicAttack, Puppet.AtomicDefense,
+            Puppet.MentalAttack, Puppet.MentalDefense,
+            Puppet.Speed,
+            Puppet.CriticalDamageRate, Puppet.CriticalRate, Puppet.CriticalResistanceRate, Puppet.IgnoreCriticalRate,
+            Puppet.PenetrationRate, Puppet.PenetrationResistanceRate, Puppet.EvasionRate,
+            Puppet.DamageAbsorptionRate, Puppet.IgnoreDamageAbsorptionRate, Puppet.AbsorbedDamageRate,
+            Puppet.VitalityRegenerationRate, Puppet.VitalityRegenerationResistanceRate,
+            Puppet.AccuracyRate, Puppet.LifestealRate,
+            Puppet.ShieldStrength, Puppet.Tenacity, Puppet.ResistanceRate,
+            Puppet.ComboRate, Puppet.IgnoreComboRate, Puppet.ComboDamageRate, Puppet.ComboResistanceRate,
+            Puppet.StunRate, Puppet.IgnoreStunRate,
+            Puppet.ReflectionRate, Puppet.IgnoreReflectionRate, Puppet.ReflectionDamageRate, Puppet.ReflectionResistanceRate,
+            Puppet.Mana, Puppet.ManaRegenerationRate,
+            Puppet.DamageToDifferentFactionRate, Puppet.ResistanceToDifferentFactionRate,
+            Puppet.DamageToSameFactionRate, Puppet.ResistanceToSameFactionRate,
+            Puppet.NormalDamageRate, Puppet.NormalResistanceRate,
+            Puppet.SkillDamageRate, Puppet.SkillResistanceRate
+        );
+        return Puppet;
+    }
+    public async Task<Puppets> GetNewBreakthroughPowerAsync(Puppets c, double coefficient)
+    {
+        IPuppetsRepository _repository = new PuppetsRepository();
+        PuppetsService _service = new PuppetsService(_repository);
+        Puppets orginCard = await _service.GetPuppetByIdAsync(c.Id);
+        Puppets Puppet = new Puppets
+        {
+            Id = c.Id,
+            Health = c.Health + orginCard.Health * coefficient,
+            PhysicalAttack = c.PhysicalAttack + orginCard.PhysicalAttack * coefficient,
+            PhysicalDefense = c.PhysicalDefense + orginCard.PhysicalDefense * coefficient,
+            MagicalAttack = c.MagicalAttack + orginCard.MagicalAttack * coefficient,
+            MagicalDefense = c.MagicalDefense + orginCard.MagicalDefense * coefficient,
+            ChemicalAttack = c.ChemicalAttack + orginCard.ChemicalAttack * coefficient,
+            ChemicalDefense = c.ChemicalDefense + orginCard.ChemicalDefense * coefficient,
+            AtomicAttack = c.AtomicAttack + orginCard.AtomicAttack * coefficient,
+            AtomicDefense = c.AtomicDefense + orginCard.AtomicDefense * coefficient,
+            MentalAttack = c.MentalAttack + orginCard.MentalAttack * coefficient,
+            MentalDefense = c.MentalDefense + orginCard.MentalDefense * coefficient,
+            Speed = c.Speed + orginCard.Speed * coefficient,
+            CriticalDamageRate = c.CriticalDamageRate + orginCard.CriticalDamageRate * coefficient,
+            CriticalRate = c.CriticalRate + orginCard.CriticalRate * coefficient,
+            CriticalResistanceRate = c.CriticalResistanceRate + orginCard.CriticalResistanceRate * coefficient,
+            IgnoreCriticalRate = c.IgnoreCriticalRate + orginCard.IgnoreCriticalRate * coefficient,
+            PenetrationRate = c.PenetrationRate + orginCard.PenetrationRate * coefficient,
+            PenetrationResistanceRate = c.PenetrationResistanceRate + orginCard.PenetrationResistanceRate * coefficient,
+            EvasionRate = c.EvasionRate + orginCard.EvasionRate * coefficient,
+            DamageAbsorptionRate = c.DamageAbsorptionRate + orginCard.DamageAbsorptionRate * coefficient,
+            IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + orginCard.IgnoreDamageAbsorptionRate * coefficient,
+            AbsorbedDamageRate = c.AbsorbedDamageRate + orginCard.AbsorbedDamageRate * coefficient,
+            VitalityRegenerationRate = c.VitalityRegenerationRate + orginCard.VitalityRegenerationRate * coefficient,
+            VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + orginCard.VitalityRegenerationResistanceRate * coefficient,
+            AccuracyRate = c.AccuracyRate + orginCard.AccuracyRate * coefficient,
+            LifestealRate = c.LifestealRate + orginCard.LifestealRate * coefficient,
+            ShieldStrength = c.ShieldStrength + orginCard.ShieldStrength * coefficient,
+            Tenacity = c.Tenacity + orginCard.Tenacity * coefficient,
+            ResistanceRate = c.ResistanceRate + orginCard.ResistanceRate * coefficient,
+            ComboRate = c.ComboRate + orginCard.ComboRate * coefficient,
+            IgnoreComboRate = c.IgnoreComboRate + orginCard.IgnoreComboRate * coefficient,
+            ComboDamageRate = c.ComboDamageRate + orginCard.ComboDamageRate * coefficient,
+            ComboResistanceRate = c.ComboResistanceRate + orginCard.ComboResistanceRate * coefficient,
+            StunRate = c.StunRate + orginCard.StunRate * coefficient,
+            IgnoreStunRate = c.IgnoreStunRate + orginCard.IgnoreStunRate * coefficient,
+            ReflectionRate = c.ReflectionRate + orginCard.ReflectionRate * coefficient,
+            IgnoreReflectionRate  = c.IgnoreReflectionRate + orginCard.IgnoreReflectionRate * coefficient,
+            ReflectionDamageRate = c.ReflectionDamageRate + orginCard.ReflectionDamageRate * coefficient,
+            ReflectionResistanceRate = c.ReflectionResistanceRate + orginCard.ReflectionResistanceRate * coefficient,
+            Mana = c.Mana + orginCard.Mana * (float)coefficient,
+            ManaRegenerationRate = c.ManaRegenerationRate + orginCard.ManaRegenerationRate * coefficient,
+            DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + orginCard.DamageToDifferentFactionRate * coefficient,
+            ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + orginCard.ResistanceToDifferentFactionRate * coefficient,
+            DamageToSameFactionRate = c.DamageToSameFactionRate + orginCard.DamageToSameFactionRate * coefficient,
+            ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + orginCard.ResistanceToSameFactionRate * coefficient,
+            NormalDamageRate = c.NormalDamageRate + orginCard.NormalDamageRate * coefficient,
+            NormalResistanceRate = c.NormalResistanceRate + orginCard.NormalResistanceRate * coefficient,
+            SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
+            SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
+        };
+        Puppet.Power = EvaluatePower.CalculatePower(
+            Puppet.Health,
+            Puppet.PhysicalAttack, Puppet.PhysicalDefense,
+            Puppet.MagicalAttack, Puppet.MagicalDefense,
+            Puppet.ChemicalAttack, Puppet.ChemicalDefense,
+            Puppet.AtomicAttack, Puppet.AtomicDefense,
+            Puppet.MentalAttack, Puppet.MentalDefense,
+            Puppet.Speed,
+            Puppet.CriticalDamageRate, Puppet.CriticalRate, Puppet.CriticalResistanceRate, Puppet.IgnoreCriticalRate,
+            Puppet.PenetrationRate, Puppet.PenetrationResistanceRate, Puppet.EvasionRate,
+            Puppet.DamageAbsorptionRate, Puppet.IgnoreDamageAbsorptionRate, Puppet.AbsorbedDamageRate,
+            Puppet.VitalityRegenerationRate, Puppet.VitalityRegenerationResistanceRate,
+            Puppet.AccuracyRate, Puppet.LifestealRate,
+            Puppet.ShieldStrength, Puppet.Tenacity, Puppet.ResistanceRate,
+            Puppet.ComboRate, Puppet.IgnoreComboRate, Puppet.ComboDamageRate, Puppet.ComboResistanceRate,
+            Puppet.StunRate, Puppet.IgnoreStunRate,
+            Puppet.ReflectionRate, Puppet.IgnoreReflectionRate, Puppet.ReflectionDamageRate, Puppet.ReflectionResistanceRate,
+            Puppet.Mana, Puppet.ManaRegenerationRate,
+            Puppet.DamageToDifferentFactionRate, Puppet.ResistanceToDifferentFactionRate,
+            Puppet.DamageToSameFactionRate, Puppet.ResistanceToSameFactionRate,
+            Puppet.NormalDamageRate, Puppet.NormalResistanceRate,
+            Puppet.SkillDamageRate, Puppet.SkillResistanceRate
+        );
+        return Puppet;
+    }
+
+    public async Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    {
+        List<Puppets> list = await _userPuppetRepository.GetUserPuppetsAsync(user_id, type, pageSize, offset, rare);
+        list = QualityEvaluator.GetQualityPower(list);
+        return list;
+    }
+
+    public async Task<int> GetUserPuppetsCountAsync(string user_id, string type, string rare)
+    {
+        return await _userPuppetRepository.GetUserPuppetsCountAsync(user_id, type, rare);
+    }
+
+    public async Task<bool> InsertUserPuppetAsync(Puppets puppet, string userId)
+    {
+        return await _userPuppetRepository.InsertUserPuppetAsync(puppet, userId);
+    }
+
+    public async Task<bool> UpdatePuppetLevelAsync(Puppets puppet, int cardLevel)
+    {
+        return await _userPuppetRepository.UpdatePuppetLevelAsync(puppet, cardLevel);
+    }
+
+    public async Task<bool> UpdatePuppetBreakthroughAsync(Puppets puppet, int star, double quantity)
+    {
+        return await _userPuppetRepository.UpdatePuppetBreakthroughAsync(puppet, star, quantity);
+    }
+
+    public async Task<Puppets> GetUserPuppetByIdAsync(string user_id, string Id)
+    {
+        return await _userPuppetRepository.GetUserPuppetByIdAsync(user_id, Id);
+    }
+
+    public async Task<Puppets> SumPowerUserPuppetsAsync()
+    {
+        return await _userPuppetRepository.SumPowerUserPuppetsAsync();
+    }
+}

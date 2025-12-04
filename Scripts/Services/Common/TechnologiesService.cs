@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class TechnologiesService : ITechnologiesService
 {
@@ -14,42 +15,42 @@ public class TechnologiesService : ITechnologiesService
         return new TechnologiesService(new TechnologiesRepository());
     }
 
-    public List<Technologies> GetTechnologies(int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetTechnologiesAsync(int pageSize, int offset, string rare)
     {
-        List<Technologies> list = _TechnologiesRepository.GetTechnologies(pageSize, offset, rare);
+        List<Technologies> list = await _TechnologiesRepository.GetTechnologiesAsync(pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTechnologiesCount(string rare)
+    public async Task<int> GetTechnologiesCountAsync(string rare)
     {
-        return _TechnologiesRepository.GetTechnologiesCount(rare);
+        return await _TechnologiesRepository.GetTechnologiesCountAsync(rare);
     }
 
-    public List<Technologies> GetTechnologiesWithPrice(int pageSize, int offset)
+    public async Task<List<Technologies>> GetTechnologiesWithPriceAsync(int pageSize, int offset)
     {
-        List<Technologies> list = _TechnologiesRepository.GetTechnologiesWithPrice(pageSize, offset);
+        List<Technologies> list = await _TechnologiesRepository.GetTechnologiesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public int GetTechnologiesWithPriceCount()
+    public async Task<int> GetTechnologiesWithPriceCountAsync()
     {
-        return _TechnologiesRepository.GetTechnologiesWithPriceCount();
+        return await _TechnologiesRepository.GetTechnologiesWithPriceCountAsync();
     }
 
-    public Technologies GetTechnologiesById(string Id)
+    public async Task<Technologies> GetTechnologyByIdAsync(string Id)
     {
-        return _TechnologiesRepository.GetTechnologiesById(Id);
+        return await _TechnologiesRepository.GetTechnologyByIdAsync(Id);
     }
 
-    public Technologies SumPowerTechnologiesPercent()
+    public async Task<Technologies> SumPowerTechnologiesPercentAsync()
     {
-        return _TechnologiesRepository.SumPowerTechnologiesPercent();
+        return await _TechnologiesRepository.SumPowerTechnologiesPercentAsync();
     }
 
-    public List<string> GetUniqueTechnologyId()
+    public async Task<List<string>> GetUniqueTechnologiesIdAsync()
     {
-        return _TechnologiesRepository.GetUniqueTechnologyId();
+        return await _TechnologiesRepository.GetUniqueTechnologiesIdAsync();
     }
 }

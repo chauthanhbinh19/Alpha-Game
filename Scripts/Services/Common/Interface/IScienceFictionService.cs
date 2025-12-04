@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 public interface IScienceFictionService
 { 
-    ScienceFiction GetScienceFiction(string type);
-    void InsertOrUpdateScienceFiction(string userId, ScienceFiction scienceFiction, string type);
-    ScienceFiction GetSumScienceFiction(string user_id);
+    Task<ScienceFiction> GetScienceFictionAsync(string type);
+    Task InsertOrUpdateScienceFictionAsync(string user_id, ScienceFiction scienceFiction, string type);
+    Task<ScienceFiction> GetSumScienceFictionAsync(string user_id);
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,116 +42,115 @@ public class DailyCheckinManager : MonoBehaviour
         DailyCheckinPanelPrefab = UIManager.Instance.GetGameObject("DailyCheckinPanelPrefab");
         DailyCheckinComponentPrefab = UIManager.Instance.GetGameObject("DailyCheckinComponentPrefab");
     }
-    private static readonly Dictionary<string, Func<string, CheckinItemInfoDTO>> DailyCheckinResolvers =
-    new Dictionary<string, Func<string, CheckinItemInfoDTO>>
+    private static readonly Dictionary<string, Func<string, Task<CheckinItemInfoDTO>>> DailyCheckinResolvers =
+    new Dictionary<string, Func<string, Task<CheckinItemInfoDTO>>>
 {
-    { AppConstants.MainType.CARD_HERO, id => {
-        var obj = CardHeroesService.Create().GetCardHeroesById(id);
+    { AppConstants.MainType.CARD_HERO, async id => {
+        var obj = await CardHeroesService.Create().GetCardHeroByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.ALCHEMY, id => {
-        var obj = AlchemyService.Create().GetAlchemyById(id);
+    { AppConstants.MainType.ALCHEMY, async id => {
+        var obj = await AlchemiesService.Create().GetAlchemyByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.AVATAR, id => {
-        var obj = AvatarsService.Create().GetAvatarsById(id);
+    { AppConstants.MainType.AVATAR, async id => {
+        var obj = await AvatarsService.Create().GetAvatarByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.BORDER, id => {
-        var obj = BordersService.Create().GetBordersById(id);
+    { AppConstants.MainType.BORDER, async id => {
+        var obj = await BordersService.Create().GetBorderByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.BOOK, id => {
-        var obj = BooksService.Create().GetBooksById(id);
+    { AppConstants.MainType.BOOK, async id => {
+        var obj = await BooksService.Create().GetBookByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.CARD_ADMIRAL, id => {
-        var obj = CardAdmiralsService.Create().GetCardAdmiralsById(id);
+    { AppConstants.MainType.CARD_ADMIRAL, async id => {
+        var obj = await CardAdmiralsService.Create().GetCardAdmiralByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.CARD_CAPTAIN, id => {
-        var obj = CardCaptainsService.Create().GetCardCaptainsById(id);
+    { AppConstants.MainType.CARD_CAPTAIN, async id => {
+        var obj = await CardCaptainsService.Create().GetCardCaptainByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.CARD_COLONEL, id => {
-        var obj = CardColonelsService.Create().GetCardColonelsById(id);
+    { AppConstants.MainType.CARD_COLONEL, async id => {
+        var obj = await CardColonelsService.Create().GetCardColonelByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.CARD_GENERAL, id => {
-        var obj = CardGeneralsService.Create().GetCardGeneralsById(id);
+    { AppConstants.MainType.CARD_GENERAL, async id => {
+        var obj = await CardGeneralsService.Create().GetCardGeneralByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.CARD_LIFE, id => {
-        var obj = CardLifeService.Create().GetCardLifeById(id);
+    { AppConstants.MainType.CARD_LIFE, async id => {
+        var obj = await CardLivesService.Create().GetCardLifeByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.CARD_MILITARY, id => {
-        var obj = CardMilitaryService.Create().GetCardMilitaryById(id);
+    { AppConstants.MainType.CARD_MILITARY, async id => {
+        var obj = await CardMilitariesService.Create().GetCardMilitaryByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.CARD_MONSTER, id => {
-        var obj = CardMonstersService.Create().GetCardMonstersById(id);
+    { AppConstants.MainType.CARD_MONSTER, async id => {
+        var obj = await CardMonstersService.Create().GetCardMonsterByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.CARD_SPELL, id => {
-        var obj = CardSpellService.Create().GetCardSpellById(id);
+    { AppConstants.MainType.CARD_SPELL, async id => {
+        var obj = await CardSpellsService.Create().GetCardSpellByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.COLLABORATION_EQUIPMENT, id => {
-        var obj = CollaborationEquipmentService.Create().GetCollaborationEquipmentsById(id);
+    { AppConstants.MainType.COLLABORATION_EQUIPMENT, async id => {
+        var obj = await CollaborationEquipmentsService.Create().GetCollaborationEquipmentByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.COLLABORATION, id => {
-        var obj = CollaborationService.Create().GetCollaborationsById(id);
+    { AppConstants.MainType.COLLABORATION, async id => {
+        var obj = await CollaborationsService.Create().GetCollaborationByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.EQUIPMENT, id => {
-        var obj = EquipmentsService.Create().GetEquipmentById(id);
+    { AppConstants.MainType.EQUIPMENT, async id => {
+        var obj = await EquipmentsService.Create().GetEquipmentByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.FORGE, id => {
-        var obj = ForgeService.Create().GetForgeById(id);
+    { AppConstants.MainType.FORGE, async id => {
+        var obj = await ForgesService.Create().GetForgeByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.MAGIC_FORMATION_CIRCLE, id => {
-        var obj = MagicFormationCircleService.Create().GetMagicFormationCircleById(id);
+    { AppConstants.MainType.MAGIC_FORMATION_CIRCLE, async id => {
+        var obj = await MagicFormationCirclesService.Create().GetMagicFormationCircleByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.MEDAL, id => {
-        var obj = MedalsService.Create().GetMedalsById(id);
+    { AppConstants.MainType.MEDAL, async id => {
+        var obj = await MedalsService.Create().GetMedalByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.PET, id => {
-        var obj = PetsService.Create().GetPetsById(id);
+    { AppConstants.MainType.PET, async id => {
+        var obj = await PetsService.Create().GetPetByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.PUPPET, id => {
-        var obj = PuppetService.Create().GetPuppetById(id);
+    { AppConstants.MainType.PUPPET, async id => {
+        var obj = await PuppetsService.Create().GetPuppetByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.RELIC, id => {
-        var obj = RelicsService.Create().GetRelicsById(id);
+    { AppConstants.MainType.RELIC, async id => {
+        var obj = await RelicsService.Create().GetRelicByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.SKILL, id => {
-        var obj = SkillsService.Create().GetSkillsById(id);
+    { AppConstants.MainType.SKILL, async id => {
+        var obj = await SkillsService.Create().GetSkillByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.SYMBOL, id => {
-        var obj = SymbolsService.Create().GetSymbolsById(id);
+    { AppConstants.MainType.SYMBOL, async id => {
+        var obj = await SymbolsService.Create().GetSymbolByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.TALISMAN, id => {
-        var obj = TalismanService.Create().GetTalismanById(id);
+    { AppConstants.MainType.TALISMAN, async id => {
+        var obj = await TalismansService.Create().GetTalismanByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    { AppConstants.MainType.TITLE, id => {
-        var obj = TitlesService.Create().GetTitlesById(id);
+    { AppConstants.MainType.TITLE, async id => {
+        var obj = await TitlesService.Create().GetTitleByIdAsync(id);
         return new CheckinItemInfoDTO(obj.Image, obj.Quantity);
     }},
-    // { AppConstants.MainType.Item, id => { var obj = ItemsService.Create().GetItemsById(id); return new CheckinItemInfoDTO(obj.image, obj.quantity); } },
 };
-    public void CreateDailyCheckinGroup()
+    public async Task CreateDailyCheckinGroupAsync()
     {
         GameObject popupObject = Instantiate(DailyCheckinPanelPrefab, MainPanel);
         TextMeshProUGUI titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
@@ -184,10 +184,10 @@ public class DailyCheckinManager : MonoBehaviour
                 buttonText.text = uniqueType.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(() =>
+                btn.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    OnButtonClick(button, subType);
+                    await OnButtonClickAsync(button, subType);
                 });
 
                 if (index == 0)
@@ -196,8 +196,8 @@ public class DailyCheckinManager : MonoBehaviour
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     if (mainType.Equals("daily_checkin"))
                     {
-                        List<UserDailyCheckin> userDailyCheckins = UserDailyCheckinService.Create().GetUserDailyCheckin(User.CurrentUserId);
-                        CheckObjectType(userDailyCheckins);
+                        List<UserDailyCheckin> userDailyCheckins = await UserDailyCheckinService.Create().GetUserDailyCheckinAsync(User.CurrentUserId);
+                        _=CheckObjectTypeAsync(userDailyCheckins);
                     }
                 }
                 else
@@ -208,7 +208,7 @@ public class DailyCheckinManager : MonoBehaviour
             }
         }
     }
-    void OnButtonClick(GameObject clickedButton, string type)
+    async Task OnButtonClickAsync(GameObject clickedButton, string type)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -225,11 +225,11 @@ public class DailyCheckinManager : MonoBehaviour
         UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
         if (mainType.Equals("daily_checkin"))
         {
-            List<UserDailyCheckin> userDailyCheckins = UserDailyCheckinService.Create().GetUserDailyCheckin(User.CurrentUserId);
-            CheckObjectType(userDailyCheckins);
+            List<UserDailyCheckin> userDailyCheckins = await UserDailyCheckinService.Create().GetUserDailyCheckinAsync(User.CurrentUserId);
+            _=CheckObjectTypeAsync(userDailyCheckins);
         }
     }
-    public void CheckObjectType(List<UserDailyCheckin> userDailyCheckins)
+    public async Task CheckObjectTypeAsync(List<UserDailyCheckin> userDailyCheckins)
     {
         foreach (UserDailyCheckin userDailyCheckin in userDailyCheckins)
         {
@@ -239,7 +239,7 @@ public class DailyCheckinManager : MonoBehaviour
 
             if (DailyCheckinResolvers.TryGetValue(type, out var resolver))
             {
-                CheckinItemInfoDTO item = resolver(objectId);
+                CheckinItemInfoDTO item = await resolver(objectId);
                 CreateDailyCheckinUI(item.Image, quantity);
             }
             else

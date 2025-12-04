@@ -1,10 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using MySql.Data.MySqlClient;
-using System;
-
-
 public class PowerManager
 {
     public double Power { get; set; } = 0;
@@ -34,7 +27,7 @@ public class PowerManager
     public double VitalityRegenerationResistanceRate { get; set; } = 0;
     public double AccuracyRate { get; set; } = 0;
     public double LifestealRate { get; set; } = 0;
-    public float Mana { get; set; } = 0;
+    public double Mana { get; set; } = 0;
     public double ManaRegenerationRate { get; set; } = 0;
     public double ShieldStrength { get; set; } = 0;
     public double Tenacity { get; set; } = 0;

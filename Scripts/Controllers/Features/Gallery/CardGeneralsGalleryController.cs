@@ -81,7 +81,7 @@ public class CardGeneralsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var generalGalleryService = CardGeneralsGalleryService.Create();
-                generalGalleryService.UpdateStatusCardGeneralsGallery(general.Id);
+                await generalGalleryService.UpdateStatusCardGeneralGalleryAsync(general.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -89,7 +89,7 @@ public class CardGeneralsGalleryController : MonoBehaviour
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
 
-                powerManagerService.UpdateUserStats(User.CurrentUserId);
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -106,10 +106,10 @@ public class CardGeneralsGalleryController : MonoBehaviour
                 Upgrade.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(() =>
+            Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CardGeneralsGalleryService.Create().UpdateCardGeneralsGalleryPower(general.Id);
+                await CardGeneralsGalleryService.Create().UpdateCardGeneralGalleryPowerAsync(general.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MasterService : IMasterService
 {
@@ -163,47 +164,47 @@ public class MasterService : IMasterService
         master.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return master;
     }
-    public void UpLevel(object data, Master master, string type)
+    public async Task UpLevelAsync(object data, Master master, string type)
     {
         if (data is CardHeroes cardHeroes)
         {
-            UserCardHeroesMasterService.Create().InsertOrUpdateCardHeroesMaster(master, type, cardHeroes.Id);
+            await UserCardHeroesMasterService.Create().InsertOrUpdateCardHeroMasterAsync(master, type, cardHeroes.Id);
         }
         else if (data is Books books)
         {
-            UserBooksMasterService.Create().InsertOrUpdateBooksMaster(master, type, books.Id);
+            await UserBooksMasterService.Create().InsertOrUpdateBookMasterAsync(master, type, books.Id);
         }
         else if (data is CardCaptains cardCaptains)
         {
-            UserCardCaptainsMasterService.Create().InsertOrUpdateCardCaptainsMaster(master, type, cardCaptains.Id);
+            await UserCardCaptainsMasterService.Create().InsertOrUpdateCardCaptainMasterAsync(master, type, cardCaptains.Id);
         }
         else if (data is Pets pets)
         {
-            UserPetsMasterService.Create().InsertOrUpdatePetsMaster(master, type, pets.Id);
+            await UserPetsMasterService.Create().InsertOrUpdatePetMasterAsync(master, type, pets.Id);
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            UserCardMilitaryMasterService.Create().InsertOrUpdateCardMilitaryMaster(master, type, cardMilitary.Id);
+            await UserCardMilitariesMasterService.Create().InsertOrUpdateCardMilitaryMasterAsync(master, type, cardMilitary.Id);
         }
         else if (data is CardSpells cardSpell)
         {
-            UserCardSpellMasterService.Create().InsertOrUpdateCardSpellMaster(master, type, cardSpell.Id);
+            await UserCardSpellsMasterService.Create().InsertOrUpdateCardSpellMasterAsync(master, type, cardSpell.Id);
         }
         else if (data is CardMonsters cardMonsters)
         {
-            UserCardMonstersMasterService.Create().InsertOrUpdateCardMonstersMaster(master, type, cardMonsters.Id);
+            await UserCardMonstersMasterService.Create().InsertOrUpdateCardMonsterMasterAsync(master, type, cardMonsters.Id);
         }
         else if (data is CardColonels cardColonels)
         {
-            UserCardColonelsMasterService.Create().InsertOrUpdateCardColonelsMaster(master, type, cardColonels.Id);
+            await UserCardColonelsMasterService.Create().InsertOrUpdateCardColonelMasterAsync(master, type, cardColonels.Id);
         }
         else if (data is CardGenerals cardGenerals)
         {
-            UserCardGeneralsMasterService.Create().InsertOrUpdateCardGeneralsMaster(master, type, cardGenerals.Id);
+            await UserCardGeneralsMasterService.Create().InsertOrUpdateCardGeneralMasterAsync(master, type, cardGenerals.Id);
         }
         else if (data is CardAdmirals cardAdmirals)
         {
-            UserCardAdmiralsMasterService.Create().InsertOrUpdateCardAdmiralsMaster(master, type, cardAdmirals.Id);
+            await UserCardAdmiralsMasterService.Create().InsertOrUpdateCardAdmiralMasterAsync(master, type, cardAdmirals.Id);
         }
     }
 }

@@ -21,8 +21,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
     UserCardGeneralsService userCardGeneralsService;
     UserCardAdmiralsService userCardAdmiralsService;
     UserCardMonstersService userCardMonstersService;
-    UserCardMilitaryService userCardMilitaryService;
-    UserCardSpellService userCardSpellService;
+    UserCardMilitariesService userCardMilitaryService;
+    UserCardSpellsService userCardSpellService;
     TeamsService teamsService;
     public void OnDrop(PointerEventData eventData)
     {
@@ -37,8 +37,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
         userCardGeneralsService = UserCardGeneralsService.Create();
         userCardAdmiralsService = UserCardAdmiralsService.Create();
         userCardMonstersService = UserCardMonstersService.Create();
-        userCardMilitaryService = UserCardMilitaryService.Create();
-        userCardSpellService = UserCardSpellService.Create();
+        userCardMilitaryService = UserCardMilitariesService.Create();
+        userCardSpellService = UserCardSpellsService.Create();
         teamsService = TeamsService.Create();
 
         CardDragHandler draggedCard = eventData.pointerDrag.GetComponent<CardDragHandler>();
@@ -59,8 +59,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {
-                    userCardHeroesService.UpdateTeamCardHeroes(null, null, card_id);
-                    userCardHeroesService.UpdateTeamCardHeroes(draggedCard.team_id, position, cardHeroes.Id);
+                    await userCardHeroesService.UpdateTeamCardHeroAsync(null, null, card_id);
+                    await userCardHeroesService.UpdateTeamCardHeroAsync(draggedCard.team_id, position, cardHeroes.Id);
                     if (cardHeroes.Power >= card_power)
                     {
                         double diffPower = cardHeroes.Power - card_power;
@@ -84,7 +84,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    userCardHeroesService.UpdateTeamCardHeroes(draggedCard.team_id, position, cardHeroes.Id);
+                    await userCardHeroesService.UpdateTeamCardHeroAsync(draggedCard.team_id, position, cardHeroes.Id);
                     double updatedPower = currentPower + cardHeroes.Power;
                     await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
@@ -96,8 +96,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {
-                    userCardCaptainsService.UpdateTeamCardCaptains(null, null, card_id);
-                    userCardCaptainsService.UpdateTeamCardCaptains(draggedCard.team_id, position, cardCaptains.Id);
+                    await userCardCaptainsService.UpdateTeamCardCaptainAsync(null, null, card_id);
+                    await userCardCaptainsService.UpdateTeamCardCaptainAsync(draggedCard.team_id, position, cardCaptains.Id);
                     if (cardCaptains.Power >= card_power)
                     {
                         double diffPower = cardCaptains.Power - card_power;
@@ -121,7 +121,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    userCardCaptainsService.UpdateTeamCardCaptains(draggedCard.team_id, position, cardCaptains.Id);
+                    await userCardCaptainsService.UpdateTeamCardCaptainAsync(draggedCard.team_id, position, cardCaptains.Id);
                     double updatedPower = currentPower + cardCaptains.Power;
                     await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
@@ -133,8 +133,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {
-                    userCardColonelsService.UpdateTeamCardColonels(null, null, card_id);
-                    userCardColonelsService.UpdateTeamCardColonels(draggedCard.team_id, position, cardColonels.Id);
+                    await userCardColonelsService.UpdateTeamCardColonelAsync(null, null, card_id);
+                    await userCardColonelsService.UpdateTeamCardColonelAsync(draggedCard.team_id, position, cardColonels.Id);
                     if (cardColonels.Power >= card_power)
                     {
                         double diffPower = cardColonels.Power - card_power;
@@ -158,7 +158,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    userCardColonelsService.UpdateTeamCardColonels(draggedCard.team_id, position, cardColonels.Id);
+                    await userCardColonelsService.UpdateTeamCardColonelAsync(draggedCard.team_id, position, cardColonels.Id);
                     double updatedPower = currentPower + cardColonels.Power;
                     await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
@@ -170,8 +170,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {
-                    userCardGeneralsService.UpdateTeamCardGenerals(null, null, card_id);
-                    userCardGeneralsService.UpdateTeamCardGenerals(draggedCard.team_id, position, cardGenerals.Id);
+                    await userCardGeneralsService.UpdateTeamCardGeneralAsync(null, null, card_id);
+                    await userCardGeneralsService.UpdateTeamCardGeneralAsync(draggedCard.team_id, position, cardGenerals.Id);
                     if (cardGenerals.Power >= card_power)
                     {
                         double diffPower = cardGenerals.Power - card_power;
@@ -195,7 +195,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    userCardGeneralsService.UpdateTeamCardGenerals(draggedCard.team_id, position, cardGenerals.Id);
+                    await userCardGeneralsService.UpdateTeamCardGeneralAsync(draggedCard.team_id, position, cardGenerals.Id);
                     double updatedPower = currentPower + cardGenerals.Power;
                     await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
@@ -207,8 +207,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {
-                    userCardAdmiralsService.UpdateTeamCardAdmirals(null, null, card_id);
-                    userCardAdmiralsService.UpdateTeamCardAdmirals(draggedCard.team_id, position, cardAdmirals.Id);
+                    await userCardAdmiralsService.UpdateTeamCardAdmiralAsync(null, null, card_id);
+                    await userCardAdmiralsService.UpdateTeamCardAdmiralAsync(draggedCard.team_id, position, cardAdmirals.Id);
                     if (cardAdmirals.Power >= card_power)
                     {
                         double diffPower = cardAdmirals.Power - card_power;
@@ -232,7 +232,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    userCardAdmiralsService.UpdateTeamCardAdmirals(draggedCard.team_id, position, cardAdmirals.Id);
+                    await userCardAdmiralsService.UpdateTeamCardAdmiralAsync(draggedCard.team_id, position, cardAdmirals.Id);
                     double updatedPower = currentPower + cardAdmirals.Power;
                     await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
@@ -244,8 +244,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {
-                    userCardMonstersService.UpdateTeamCardMonsters(null, null, card_id);
-                    userCardMonstersService.UpdateTeamCardMonsters(draggedCard.team_id, position, cardMonsters.Id);
+                    await userCardMonstersService.UpdateTeamCardMonsterAsync(null, null, card_id);
+                    await userCardMonstersService.UpdateTeamCardMonsterAsync(draggedCard.team_id, position, cardMonsters.Id);
                     if (cardMonsters.Power >= card_power)
                     {
                         double diffPower = cardMonsters.Power - card_power;
@@ -269,7 +269,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    userCardMonstersService.UpdateTeamCardMonsters(draggedCard.team_id, position, cardMonsters.Id);
+                    await userCardMonstersService.UpdateTeamCardMonsterAsync(draggedCard.team_id, position, cardMonsters.Id);
                     double updatedPower = currentPower + cardMonsters.Power;
                     await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
@@ -281,8 +281,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {
-                    userCardMilitaryService.UpdateTeamCardMilitary(null, null, card_id);
-                    userCardMilitaryService.UpdateTeamCardMilitary(draggedCard.team_id, position, cardMilitary.Id);
+                    await userCardMilitaryService.UpdateTeamCardMilitaryAsync(null, null, card_id);
+                    await userCardMilitaryService.UpdateTeamCardMilitaryAsync(draggedCard.team_id, position, cardMilitary.Id);
                     if (cardMilitary.Power >= card_power)
                     {
                         double diffPower = cardMilitary.Power - card_power;
@@ -306,7 +306,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    userCardMilitaryService.UpdateTeamCardMilitary(draggedCard.team_id, position, cardMilitary.Id);
+                    await userCardMilitaryService.UpdateTeamCardMilitaryAsync(draggedCard.team_id, position, cardMilitary.Id);
                     double updatedPower = currentPower + cardMilitary.Power;
                     await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
@@ -318,8 +318,8 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {
-                    userCardSpellService.UpdateTeamCardSpell(null, null, card_id);
-                    userCardSpellService.UpdateTeamCardSpell(draggedCard.team_id, position, cardSpell.Id);
+                    await userCardSpellService.UpdateTeamCardSpellAsync(null, null, card_id);
+                    await userCardSpellService.UpdateTeamCardSpellAsync(draggedCard.team_id, position, cardSpell.Id);
                     if (cardSpell.Power >= card_power)
                     {
                         double diffPower = cardSpell.Power - card_power;
@@ -343,7 +343,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
                 }
                 else
                 {
-                    userCardSpellService.UpdateTeamCardSpell(draggedCard.team_id, position, cardSpell.Id);
+                    await userCardSpellService.UpdateTeamCardSpellAsync(draggedCard.team_id, position, cardSpell.Id);
                     double updatedPower = currentPower + cardSpell.Power;
                     await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
                     User.CurrentUserPower = updatedPower;
