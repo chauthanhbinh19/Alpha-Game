@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ public class TitlesController : MonoBehaviour
 {
     public static TitlesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject TitleButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,27 +38,43 @@ public class TitlesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        TitleButtonPrefab = UIManager.Instance.GetGeneralButton("TitleButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateTitlesGallery(List<Titles> titlesList, Transform contentPanel)
+    public void CreateTitlesGallery(List<Titles> titles, Transform contentPanel)
     {
-        foreach (var title in titlesList)
+        foreach (var title in titles)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject titleObject = Instantiate(TitleButtonPrefab, contentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = titleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = title.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -77,7 +94,7 @@ public class TitlesController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

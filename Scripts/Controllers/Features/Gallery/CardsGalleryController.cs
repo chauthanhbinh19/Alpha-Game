@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class CardsGalleryController : MonoBehaviour
 {
     public static CardsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,21 +32,39 @@ public class CardsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
+        CardBlockButtonPrefab = UIManager.Instance.GetGeneralButton("CardBlockButtonPrefab");
     }
     public void CreateCardsGallery(List<Cards> cards, Transform contentPanel)
     {
         foreach (var card in cards)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardObject = Instantiate(CardBlockButtonPrefab, contentPanel);
 
-            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = cardObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = card.Name.Replace("_", " ");
 
-            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = cardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -59,12 +78,12 @@ public class CardsGalleryController : MonoBehaviour
             rareImage.texture = rareTexture;
 
             RawImage blockImage = cardObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = cardObject.transform.Find("Unlock").GetComponent<Button>();
+            Button Unlock = cardObject.transform.Find("UnlockButton").GetComponent<Button>();
             if (card.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
             else if (card.Status.Equals("pending"))
             {
@@ -83,7 +102,7 @@ public class CardsGalleryController : MonoBehaviour
                 await CardsGalleryService.Create().UpdateStatusCardGalleryAsync(card.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();

@@ -11,7 +11,7 @@ public class UserArtworksController : MonoBehaviour
 {
     public static UserArtworksController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject ArtworkFirstPrefab;
+    private GameObject ArtworkButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,36 +39,54 @@ public class UserArtworksController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArtworkFirstPrefab = UIManager.Instance.GetGameObject("ArtworkFirstPrefab");
+        ArtworkButtonPrefab = UIManager.Instance.GetGeneralButton("ArtworkButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserArtwork(List<Artworks> alchemies, Transform contentPanel)
+    public void CreateUserArtwork(List<Artworks> artworks, Transform contentPanel)
     {
-        foreach (var Artwork in alchemies)
+        foreach (var artwork in artworks)
         {
-            GameObject ArtworkObject = Instantiate(ArtworkFirstPrefab, contentPanel);
+            GameObject artworkObject = Instantiate(ArtworkButtonPrefab, contentPanel);
 
-            Text Title = ArtworkObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = Artwork.Name.Replace("_", " ");
+            TextMeshProUGUI Title = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = artwork.Name.Replace("_", " ");
 
-            RawImage Image = ArtworkObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image);
+            RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
-            Button button = ArtworkObject.GetComponent<Button>();
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            Button button = artworkObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                MainMenuDetailsManager.Instance.PopupDetails(Artwork, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(artwork, MainPanel);
             });
 
-            RawImage frameImage = ArtworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = artworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            RawImage rareImage = ArtworkObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.Rare}");
+            RawImage rareImage = artworkObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.Rare}");
             rareImage.texture = rareTexture;
 
         }

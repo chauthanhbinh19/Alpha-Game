@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +10,7 @@ public class SpiritBeastsGalleryController : MonoBehaviour
 {
     public static SpiritBeastsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject SpiritBeastBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,97 +33,120 @@ public class SpiritBeastsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+        SpiritBeastBlockButtonPrefab = UIManager.Instance.GetGeneralButton("SpiritBeastBlockButtonPrefab");
     }
-    public void CreateSpiritBeastGallery(List<SpiritBeasts> SpiritBeastList, Transform contentPanel)
+    public void CreateSpiritBeastGallery(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
     {
-        foreach (var spiritBeast in SpiritBeastList)
+        foreach (var spiritBeast in spiritBeasts)
         {
-            GameObject spiritBeastObject = Instantiate(equipmentsPrefab, contentPanel);
-
-            Text Title = spiritBeastObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spiritBeast.Name.Replace("_", " ");
-
-            RawImage Image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
-
-            Button button = spiritBeastObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            try
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(spiritBeast, MainPanel);
-            });
+                GameObject spiritBeastObject = Instantiate(SpiritBeastBlockButtonPrefab, contentPanel);
 
-            RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.Rare}");
-            rareImage.texture = rareTexture;
+                TextMeshProUGUI Title = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = spiritBeast.Name.Replace("_", " ");
 
-            RawImage blockImage = spiritBeastObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = spiritBeastObject.transform.Find("Unlock").GetComponent<Button>();
-            if (spiritBeast.Status.Equals("available"))
-            {
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                image.texture = texture;
+
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                Button button = spiritBeastObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(spiritBeast, MainPanel);
+                });
+
+                RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.Rare}");
+                rareImage.texture = rareTexture;
+
+                RawImage blockImage = spiritBeastObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = spiritBeastObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (spiritBeast.Status.Equals("available"))
+                {
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+                }
+                else if (spiritBeast.Status.Equals("pending"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(true);
+                }
+                else if (spiritBeast.Status.Equals("block"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(false);
+                }
+
+                RawImage rareBackgroundImage = spiritBeastObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                rareImage.gameObject.SetActive(false);
+                rareBackgroundImage.gameObject.SetActive(false);
+
+                Unlock.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    var spiritBeastGalleryService = SpiritBeastsGalleryService.Create();
+                    await spiritBeastGalleryService.UpdateStatusSpiritBeastGalleryAsync(spiritBeast.Id);
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+
+                    var powerManagerService = PowerManagerService.Create();
+                    var teamsService = TeamsService.Create();
+
+                    await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                });
+
+                Button Upgrade = spiritBeastObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((spiritBeast.CurrentStar < spiritBeast.TempStar) && spiritBeast.Status.Equals("available"))
+                {
+                    Upgrade.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Upgrade.gameObject.SetActive(false);
+                }
+
+                Upgrade.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await TitlesGalleryService.Create().UpdateTitleGalleryPowerAsync(spiritBeast.Id);
+                });
             }
-            else if (spiritBeast.Status.Equals("pending"))
+            catch (Exception ex)
             {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
+                Debug.LogError("Error: " + ex.Message);
             }
-            else if (spiritBeast.Status.Equals("block"))
-            {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
-            }
-
-            RawImage rareBackgroundImage = spiritBeastObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
-
-            Unlock.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var spiritBeastGalleryService = SpiritBeastsGalleryService.Create();
-                await spiritBeastGalleryService.UpdateStatusSpiritBeastGalleryAsync(spiritBeast.Id);
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
-
-                var powerManagerService = PowerManagerService.Create();
-                var teamsService = TeamsService.Create();
-
-                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
-                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-            });
-
-            Button Upgrade = spiritBeastObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((spiritBeast.CurrentStar < spiritBeast.TempStar) && spiritBeast.Status.Equals("available"))
-            {
-                Upgrade.gameObject.SetActive(true);
-            }
-            else
-            {
-                Upgrade.gameObject.SetActive(false);
-            }
-
-            Upgrade.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await TitlesGalleryService.Create().UpdateTitleGalleryPowerAsync(spiritBeast.Id);
-            });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

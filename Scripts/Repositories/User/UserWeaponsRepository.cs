@@ -9,7 +9,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 {
     public async Task<List<Weapons>> GetUserWeaponsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Weapons> WeaponsList = new List<Weapons>();
+        List<Weapons> weapons = new List<Weapons>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Weapons Weapon = new Weapons
+                            Weapons weapon = new Weapons
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            WeaponsList.Add(Weapon);
+                            weapons.Add(weapon);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return WeaponsList;
+        return weapons;
     }
     public async Task<int> GetUserWeaponsCountAsync(string user_id, string rare)
     {
@@ -147,6 +151,10 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -526,7 +538,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
     }
     public async Task<Weapons> GetUserWeaponByIdAsync(string user_id, string Id)
     {
-        Weapons Weapon = new Weapons();
+        Weapons weapon = new Weapons();
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -544,7 +556,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Weapon = new Weapons
+                            weapon = new Weapons
                             {
                                 Id = reader.GetString("Weapon_id"),
                                 Level = reader.GetInt32("level"),
@@ -616,7 +628,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             }
 
         }
-        return Weapon;
+        return weapon;
     }
     public async Task<Weapons> SumPowerUserWeaponsAsync()
     {

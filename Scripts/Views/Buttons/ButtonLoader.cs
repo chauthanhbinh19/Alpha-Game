@@ -50,7 +50,7 @@ public class ButtonLoader : MonoBehaviour
         AdvancedButtonFirst = UIManager.Instance.GetGameObject("AdvancedButtonFirst");
         ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
         AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
-        ReactorButtonPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorButtonPrefab");
+        ReactorButtonPrefab = UIManager.Instance.GetScienceFictionPanel("ReactorButtonPrefab");
         PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
         FeatureButtonPrefab = UIManager.Instance.GetFeaturePanel("FeatureButtonPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");

@@ -9,7 +9,7 @@ public class UserTitlesRepository : IUserTitlesRepository
 {
     public async Task<List<Titles>> GetUserTitlesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Titles> TitlesList = new List<Titles>();
+        List<Titles> titles = new List<Titles>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Titles Title = new Titles
+                            Titles title = new Titles
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                                 Description = reader.GetString("description")
                             };
 
-                            TitlesList.Add(Title);
+                            titles.Add(title);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserTitlesRepository : IUserTitlesRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return TitlesList;
+        return titles;
     }
     public async Task<int> GetUserTitlesCountAsync(string user_id, string rare)
     {
@@ -147,6 +151,10 @@ public class UserTitlesRepository : IUserTitlesRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserTitlesRepository : IUserTitlesRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -526,7 +538,7 @@ public class UserTitlesRepository : IUserTitlesRepository
     }
     public async Task<Titles> GetUserTitleByIdAsync(string user_id, string Id)
     {
-        Titles Title = new Titles();
+        Titles title = new Titles();
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -544,7 +556,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Title = new Titles
+                            title = new Titles
                             {
                                 Id = reader.GetString("Title_id"),
                                 Level = reader.GetInt32("level"),
@@ -616,7 +628,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             }
 
         }
-        return Title;
+        return title;
     }
     public async Task<Titles> SumPowerUserTitlesAsync()
     {

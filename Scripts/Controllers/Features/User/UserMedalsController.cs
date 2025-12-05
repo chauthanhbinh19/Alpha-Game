@@ -11,7 +11,7 @@ public class UserMedalsController : MonoBehaviour
 {
     public static UserMedalsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject MedalButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,24 +39,42 @@ public class UserMedalsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        MedalButtonPrefab = UIManager.Instance.GetGeneralButton("MedalButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserMedals(List<Medals> medalsList, Transform contentPanel)
+    public void CreateUserMedals(List<Medals> medals, Transform contentPanel)
     {
-        foreach (var medal in medalsList)
+        foreach (var medal in medals)
         {
-            GameObject medalObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject medalObject = Instantiate(MedalButtonPrefab, contentPanel);
 
-            Text Title = medalObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = medalObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = medal.Name.Replace("_", " ");
 
-            RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = medalObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = medalObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

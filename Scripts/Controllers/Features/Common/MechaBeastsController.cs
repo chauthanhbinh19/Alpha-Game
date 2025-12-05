@@ -10,7 +10,7 @@ public class MechaBeastsController : MonoBehaviour
 {
     public static MechaBeastsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject MechaBeastButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,19 +37,19 @@ public class MechaBeastsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        MechaBeastButtonPrefab = UIManager.Instance.GetGeneralButton("MechaBeastButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateMechaBeastsGallery(List<MechaBeasts> MechaBeastsList, Transform contentPanel)
+    public void CreateMechaBeastsGallery(List<MechaBeasts> mechaBeasts, Transform contentPanel)
     {
-        foreach (var MechaBeast in MechaBeastsList)
+        foreach (var MechaBeast in mechaBeasts)
         {
-            GameObject MechaBeastObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject MechaBeastObject = Instantiate(MechaBeastButtonPrefab, contentPanel);
 
-            Text Title = MechaBeastObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = MechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = MechaBeast.Name.Replace("_", " ");
 
             RawImage image = MechaBeastObject.transform.Find("Image").GetComponent<RawImage>();
@@ -93,7 +93,7 @@ public class MechaBeastsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

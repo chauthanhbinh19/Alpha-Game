@@ -9,7 +9,7 @@ public class UserWorldsRepository : IUserWorldsRepository
 {
     public async Task<List<Worlds>> GetUserWorldsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Worlds> WorldsList = new List<Worlds>();
+        List<Worlds> worlds = new List<Worlds>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Worlds World = new Worlds
+                            Worlds world = new Worlds
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            WorldsList.Add(World);
+                            worlds.Add(world);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserWorldsRepository : IUserWorldsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return WorldsList;
+        return worlds;
     }
     public async Task<int> GetUserWorldsCountAsync(string user_id, string rare)
     {
@@ -147,6 +151,10 @@ public class UserWorldsRepository : IUserWorldsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserWorldsRepository : IUserWorldsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -526,7 +538,7 @@ public class UserWorldsRepository : IUserWorldsRepository
     }
     public async Task<Worlds> GetUserWorldByIdAsync(string user_id, string Id)
     {
-        Worlds World = new Worlds();
+        Worlds world = new Worlds();
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -544,7 +556,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            World = new Worlds
+                            world = new Worlds
                             {
                                 Id = reader.GetString("World_id"),
                                 Level = reader.GetInt32("level"),
@@ -616,7 +628,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             }
 
         }
-        return World;
+        return world;
     }
     public async Task<Worlds> SumPowerUserWorldsAsync()
     {

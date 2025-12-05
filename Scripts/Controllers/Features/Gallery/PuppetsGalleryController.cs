@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +10,7 @@ public class PuppetsGalleryController : MonoBehaviour
 {
     public static PuppetsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject PuppetBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,94 +33,119 @@ public class PuppetsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+        PuppetBlockButtonPrefab = UIManager.Instance.GetGeneralButton("PuppetBlockButtonPrefab");
     }
     public void CreatePuppetGallery(List<Puppets> puppets, Transform contentPanel)
     {
         foreach (var puppet in puppets)
         {
-            GameObject puppetObject = Instantiate(equipmentsPrefab, contentPanel);
-
-            Text Title = puppetObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = puppet.Name.Replace("_", " ");
-
-            RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            // RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            // frameImage.gameObject.SetActive(true);
-
-            Button button = puppetObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            try
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(puppet, MainPanel);
-            });
+                GameObject puppetObject = Instantiate(PuppetBlockButtonPrefab, contentPanel);
 
-            RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.Rare}");
-            rareImage.texture = rareTexture;
+                TextMeshProUGUI Title = puppetObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = puppet.Name.Replace("_", " ");
 
-            RawImage blockImage = puppetObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = puppetObject.transform.Find("Unlock").GetComponent<Button>();
-            if (puppet.Status.Equals("available"))
-            {
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                RawImage image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                image.texture = texture;
+
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                // RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
+                // frameImage.gameObject.SetActive(true);
+
+                Button button = puppetObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(puppet, MainPanel);
+                });
+
+                RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.Rare}");
+                rareImage.texture = rareTexture;
+
+                RawImage blockImage = puppetObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = puppetObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (puppet.Status.Equals("available"))
+                {
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+                }
+                else if (puppet.Status.Equals("pending"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(true);
+                }
+                else if (puppet.Status.Equals("block"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(false);
+                }
+
+                Unlock.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    var puppetGalleryService = PuppetsGalleryService.Create();
+                    await puppetGalleryService.UpdateStatusPuppetGalleryAsync(puppet.Id);
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+
+                    var powerManagerService = PowerManagerService.Create();
+                    var teamsService = TeamsService.Create();
+
+                    await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                });
+
+                Button Upgrade = puppetObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((puppet.CurrentStar < puppet.TempStar) && puppet.Status.Equals("available"))
+                {
+                    Upgrade.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Upgrade.gameObject.SetActive(false);
+                }
+
+                Upgrade.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await PuppetsGalleryService.Create().UpdatePuppetGalleryPowerAsync(puppet.Id);
+                });
             }
-            else if (puppet.Status.Equals("pending"))
+            catch (Exception ex)
             {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
+                Debug.LogError("Error: " + ex.Message);
             }
-            else if (puppet.Status.Equals("block"))
-            {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
-            }
-
-            Unlock.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var puppetGalleryService = PuppetsGalleryService.Create();
-                await puppetGalleryService.UpdateStatusPuppetGalleryAsync(puppet.Id);
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
-
-                var powerManagerService = PowerManagerService.Create();
-                var teamsService = TeamsService.Create();
-
-                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
-                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-            });
-
-            Button Upgrade = puppetObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((puppet.CurrentStar < puppet.TempStar) && puppet.Status.Equals("available"))
-            {
-                Upgrade.gameObject.SetActive(true);
-            }
-            else
-            {
-                Upgrade.gameObject.SetActive(false);
-            }
-
-            Upgrade.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await PuppetsGalleryService.Create().UpdatePuppetGalleryPowerAsync(puppet.Id);
-            });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 250);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

@@ -11,7 +11,7 @@ public class UserVehiclesController : MonoBehaviour
 {
     public static UserVehiclesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject VehicleButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,22 +39,22 @@ public class UserVehiclesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        VehicleButtonPrefab = UIManager.Instance.GetGeneralButton("VehicleButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserVehicle(List<Vehicles> Vehicles, Transform contentPanel)
+    public void CreateUserVehicle(List<Vehicles> vehicles, Transform contentPanel)
     {
-        foreach (var Vehicle in Vehicles)
+        foreach (var vehicle in vehicles)
         {
-            GameObject VehicleObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject VehicleObject = Instantiate(VehicleButtonPrefab, contentPanel);
 
-            Text Title = VehicleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = Vehicle.Name.Replace("_", " ");
+            TextMeshProUGUI Title = VehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = vehicle.Name.Replace("_", " ");
 
             RawImage image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -80,14 +80,14 @@ public class UserVehiclesController : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(Vehicle, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(vehicle, MainPanel);
             });
 
             RawImage frameImage = VehicleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
             RawImage rareImage = VehicleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Vehicle.Rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{vehicle.Rare}");
             rareImage.texture = rareTexture;
 
         }

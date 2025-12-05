@@ -9,7 +9,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 {
     public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            SpiritBeasts title = new SpiritBeasts
+                            SpiritBeasts spiritBeast = new SpiritBeasts
                             {
                                 Id = reader.GetString("spirit_beast_id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            SpiritBeastList.Add(title);
+                            spiritBeasts.Add(spiritBeast);
                         }
                     }
                 }
@@ -119,11 +119,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             }
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string user_id, int pageSize, int offset)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -152,7 +152,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            SpiritBeasts title = new SpiritBeasts
+                            SpiritBeasts spiritBeast = new SpiritBeasts
                             {
                                 Id = reader.GetString("spirit_beast_id"),
                                 Name = reader.GetString("name"),
@@ -216,7 +216,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            SpiritBeastList.Add(title);
+                            spiritBeasts.Add(spiritBeast);
                         }
                     }
                 }
@@ -231,7 +231,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             }
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<int> GetUserSpiritBeastsCountAsync(string user_id, string rare)
     {
@@ -2105,7 +2105,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
     }
     public async Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -2203,7 +2203,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetString("equip_status")
                 };
 
-                SpiritBeastList.Add(sb);
+                spiritBeasts.Add(sb);
             }
         }
         catch (MySqlException ex)
@@ -2215,11 +2215,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await connection.CloseAsync();
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<List<SpiritBeasts>> GetAllUserCardCaptainsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -2317,7 +2317,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetString("equip_status")
                 };
 
-                SpiritBeastList.Add(sb);
+                spiritBeasts.Add(sb);
             }
         }
         catch (MySqlException ex)
@@ -2329,11 +2329,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await connection.CloseAsync();
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<List<SpiritBeasts>> GetAllUserCardColonelsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -2431,7 +2431,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetString("equip_status")
                 };
 
-                SpiritBeastList.Add(sb);
+                spiritBeasts.Add(sb);
             }
         }
         catch (MySqlException ex)
@@ -2443,11 +2443,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await connection.CloseAsync();
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<List<SpiritBeasts>> GetAllUserCardGeneralsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -2545,7 +2545,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetString("equip_status")
                 };
 
-                SpiritBeastList.Add(sb);
+                spiritBeasts.Add(sb);
             }
         }
         catch (MySqlException ex)
@@ -2557,11 +2557,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await connection.CloseAsync();
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<List<SpiritBeasts>> GetAllUserCardAdmiralsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -2659,7 +2659,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetString("equip_status")
                 };
 
-                SpiritBeastList.Add(sb);
+                spiritBeasts.Add(sb);
             }
         }
         catch (MySqlException ex)
@@ -2671,11 +2671,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await connection.CloseAsync();
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<List<SpiritBeasts>> GetAllUserCardMilitariesSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -2773,7 +2773,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetString("equip_status")
                 };
 
-                SpiritBeastList.Add(sb);
+                spiritBeasts.Add(sb);
             }
         }
         catch (MySqlException ex)
@@ -2785,11 +2785,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await connection.CloseAsync();
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<List<SpiritBeasts>> GetAllUserCardMonstersSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -2887,7 +2887,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetString("equip_status")
                 };
 
-                SpiritBeastList.Add(sb);
+                spiritBeasts.Add(sb);
             }
         }
         catch (MySqlException ex)
@@ -2899,11 +2899,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await connection.CloseAsync();
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<List<SpiritBeasts>> GetAllUserCardSpellsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
     {
-        List<SpiritBeasts> SpiritBeastList = new List<SpiritBeasts>();
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -3001,7 +3001,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetString("equip_status")
                 };
 
-                SpiritBeastList.Add(sb);
+                spiritBeasts.Add(sb);
             }
         }
         catch (MySqlException ex)
@@ -3013,7 +3013,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await connection.CloseAsync();
         }
 
-        return SpiritBeastList;
+        return spiritBeasts;
     }
     public async Task<bool> DeleteUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHeroes, SpiritBeasts spiritBeast)
     {
@@ -3497,7 +3497,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
     }
     public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string user_id, string Id)
     {
-        SpiritBeasts card = new SpiritBeasts();
+        SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3521,7 +3521,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new SpiritBeasts
+                            spiritBeast = new SpiritBeasts
                             {
                                 Id = reader.GetString("spirit_beast_id"),
                                 Level = reader.GetInt32("level"),
@@ -3593,11 +3593,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             }
         }
 
-        return card;
+        return spiritBeast;
     }
     public async Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync()
     {
-        SpiritBeasts sumSpiritBeast = new SpiritBeasts();
+        SpiritBeasts sumSpiritBeasts = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3670,56 +3670,56 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            sumSpiritBeast.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
-                            sumSpiritBeast.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
-                            sumSpiritBeast.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
-                            sumSpiritBeast.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
-                            sumSpiritBeast.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
-                            sumSpiritBeast.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
-                            sumSpiritBeast.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
-                            sumSpiritBeast.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
-                            sumSpiritBeast.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
-                            sumSpiritBeast.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
-                            sumSpiritBeast.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
-                            sumSpiritBeast.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
-                            sumSpiritBeast.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
-                            sumSpiritBeast.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
-                            sumSpiritBeast.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
-                            sumSpiritBeast.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
-                            sumSpiritBeast.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
-                            sumSpiritBeast.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
-                            sumSpiritBeast.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
-                            sumSpiritBeast.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
-                            sumSpiritBeast.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
-                            sumSpiritBeast.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
-                            sumSpiritBeast.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
-                            sumSpiritBeast.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
-                            sumSpiritBeast.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
-                            sumSpiritBeast.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
-                            sumSpiritBeast.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
-                            sumSpiritBeast.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
-                            sumSpiritBeast.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
-                            sumSpiritBeast.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
-                            sumSpiritBeast.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
-                            sumSpiritBeast.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
-                            sumSpiritBeast.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
-                            sumSpiritBeast.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
-                            sumSpiritBeast.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
-                            sumSpiritBeast.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
-                            sumSpiritBeast.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
-                            sumSpiritBeast.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
-                            sumSpiritBeast.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
-                            sumSpiritBeast.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
-                            sumSpiritBeast.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
-                            sumSpiritBeast.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
-                            sumSpiritBeast.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
-                            sumSpiritBeast.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
-                            sumSpiritBeast.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
-                            sumSpiritBeast.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
-                            sumSpiritBeast.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
-                            sumSpiritBeast.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
-                            sumSpiritBeast.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
-                            sumSpiritBeast.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
+                            sumSpiritBeasts.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDouble("total_power");
+                            sumSpiritBeasts.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDouble("total_health");
+                            sumSpiritBeasts.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDouble("total_mana");
+                            sumSpiritBeasts.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDouble("total_physical_attack");
+                            sumSpiritBeasts.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDouble("total_physical_defense");
+                            sumSpiritBeasts.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDouble("total_magical_attack");
+                            sumSpiritBeasts.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDouble("total_magical_defense");
+                            sumSpiritBeasts.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDouble("total_chemical_attack");
+                            sumSpiritBeasts.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDouble("total_chemical_defense");
+                            sumSpiritBeasts.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDouble("total_atomic_attack");
+                            sumSpiritBeasts.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDouble("total_atomic_defense");
+                            sumSpiritBeasts.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDouble("total_mental_attack");
+                            sumSpiritBeasts.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDouble("total_mental_defense");
+                            sumSpiritBeasts.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDouble("total_speed");
+                            sumSpiritBeasts.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDouble("total_critical_damage_rate");
+                            sumSpiritBeasts.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDouble("total_critical_rate");
+                            sumSpiritBeasts.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDouble("total_critical_resistance_rate");
+                            sumSpiritBeasts.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDouble("total_ignore_critical_rate");
+                            sumSpiritBeasts.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDouble("total_penetration_rate");
+                            sumSpiritBeasts.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDouble("total_penetration_resistance_rate");
+                            sumSpiritBeasts.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDouble("total_evasion_rate");
+                            sumSpiritBeasts.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDouble("total_damage_absorption_rate");
+                            sumSpiritBeasts.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDouble("total_ignore_damage_absorption_rate");
+                            sumSpiritBeasts.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDouble("total_absorbed_damage_rate");
+                            sumSpiritBeasts.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_rate");
+                            sumSpiritBeasts.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDouble("total_vitality_regeneration_resistance_rate");
+                            sumSpiritBeasts.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDouble("total_accuracy_rate");
+                            sumSpiritBeasts.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDouble("total_lifesteal_rate");
+                            sumSpiritBeasts.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDouble("total_shield_strength");
+                            sumSpiritBeasts.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDouble("total_tenacity");
+                            sumSpiritBeasts.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDouble("total_resistance_rate");
+                            sumSpiritBeasts.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDouble("total_combo_rate");
+                            sumSpiritBeasts.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDouble("total_ignore_combo_rate");
+                            sumSpiritBeasts.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDouble("total_combo_damage_rate");
+                            sumSpiritBeasts.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDouble("total_combo_resistance_rate");
+                            sumSpiritBeasts.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDouble("total_stun_rate");
+                            sumSpiritBeasts.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDouble("total_ignore_stun_rate");
+                            sumSpiritBeasts.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDouble("total_reflection_rate");
+                            sumSpiritBeasts.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDouble("total_ignore_reflection_rate");
+                            sumSpiritBeasts.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDouble("total_reflection_damage_rate");
+                            sumSpiritBeasts.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDouble("total_reflection_resistance_rate");
+                            sumSpiritBeasts.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDouble("total_mana_regeneration_rate");
+                            sumSpiritBeasts.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_different_faction_rate");
+                            sumSpiritBeasts.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_different_faction_rate");
+                            sumSpiritBeasts.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDouble("total_damage_to_same_faction_rate");
+                            sumSpiritBeasts.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDouble("total_resistance_to_same_faction_rate");
+                            sumSpiritBeasts.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDouble("total_normal_damage_rate");
+                            sumSpiritBeasts.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDouble("total_normal_resistance_rate");
+                            sumSpiritBeasts.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDouble("total_skill_damage_rate");
+                            sumSpiritBeasts.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDouble("total_skill_resistance_rate");
                         }
                     }
                 }
@@ -3734,6 +3734,6 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             }
         }
 
-        return sumSpiritBeast;
+        return sumSpiritBeasts;
     }
 }

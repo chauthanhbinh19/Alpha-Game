@@ -11,7 +11,7 @@ public class UserRobotsController : MonoBehaviour
 {
     public static UserRobotsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject RobotButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,22 +39,22 @@ public class UserRobotsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        RobotButtonPrefab = UIManager.Instance.GetGeneralButton("RobotButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserRobots(List<Robots> RobotsList, Transform contentPanel)
+    public void CreateUserRobots(List<Robots> robots, Transform contentPanel)
     {
-        foreach (var title in RobotsList)
+        foreach (var robot in robots)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject robotObject = Instantiate(RobotButtonPrefab, contentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.Name.Replace("_", " ");
+            TextMeshProUGUI Title = robotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = robot.Name.Replace("_", " ");
 
-            RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage image = robotObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -76,18 +76,18 @@ public class UserRobotsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            Button button = titleObject.GetComponent<Button>();
+            Button button = robotObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(title, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(robot, MainPanel);
             });
 
-            RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
+            RawImage rareImage = robotObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{robot.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = robotObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 

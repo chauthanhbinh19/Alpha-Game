@@ -9,10 +9,10 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 {
     public async Task<List<CardLives>> GetUserCardLivesAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CardLives> CardLifes = new List<CardLives>();
+        List<CardLives> cardLives = new List<CardLives>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,11 +37,11 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            CardLives CardLife = new CardLives
+                            CardLives cardLife = new CardLives
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -105,7 +105,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                                 Description = reader.GetString("description")
                             };
 
-                            CardLifes.Add(CardLife);
+                            cardLives.Add(cardLife);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserCardLivesRepository : IUserCardLivesRepository
             }
         }
 
-        return CardLifes;
+        return cardLives;
     }
     public async Task<int> GetUserCardLivesCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -176,12 +176,12 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) 
-                FROM user_card_lives 
-                WHERE user_id = @user_id AND card_life_id = @card_life_id;
-            ";
+                    SELECT COUNT(*) 
+                    FROM user_card_lives 
+                    WHERE user_id = @user_id AND card_life_id = @card_life_id;
+                ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@card_life_id", CardLife.Id);
@@ -297,12 +297,12 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_CardLife
-                        SET quantity = @quantity
-                        WHERE user_id = @user_id AND CardLife_id = @CardLife_id;
-                    ";
+                            UPDATE user_CardLife
+                            SET quantity = @quantity
+                            WHERE user_id = @user_id AND CardLife_id = @CardLife_id;
+                        ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@CardLife_id", CardLife.Id);
@@ -330,7 +330,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -444,7 +444,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 WHERE user_id = @user_id AND card_life_id = @card_life_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@card_life_id", CardLife.Id);
@@ -556,10 +556,10 @@ public class UserCardLivesRepository : IUserCardLivesRepository
     }
     public async Task<CardLives> GetUserCardLifeByIdAsync(string user_id, string Id)
     {
-        CardLives card = null;
+        CardLives cardLife = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,16 +568,16 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 string query = @"SELECT * FROM user_card_lives
                              WHERE card_life_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new CardLives
+                            cardLife = new CardLives
                             {
                                 Id = reader.GetString("card_life_id"),
                                 Level = reader.GetInt32("level"),
@@ -649,14 +649,14 @@ public class UserCardLivesRepository : IUserCardLivesRepository
             }
         }
 
-        return card;
+        return cardLife;
     }
     public async Task<CardLives> SumPowerUserCardLivesAsync()
     {
         CardLives sumCardLives = new CardLives();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 FROM user_card_lives
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

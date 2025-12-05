@@ -9,10 +9,10 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
 {
     public async Task<List<MagicFormationCircles>> GetUserMagicFormationCirclesAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircles> MagicFormationCircles = new List<MagicFormationCircles>();
+        List<MagicFormationCircles> magicFormationCircles = new List<MagicFormationCircles>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,7 +37,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -105,7 +105,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                                 Description = reader.GetString("description")
                             };
 
-                            MagicFormationCircles.Add(MagicFormationCircle);
+                            magicFormationCircles.Add(MagicFormationCircle);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
             }
         }
 
-        return MagicFormationCircles;
+        return magicFormationCircles;
     }
     public async Task<int> GetUserMagicFormationCirclesCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -181,7 +181,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 WHERE user_id = @user_id AND mfc_id = @mfc_id;
             ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
@@ -228,7 +228,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                         );
                     ";
 
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
@@ -302,7 +302,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                         WHERE user_id = @user_id AND mfc_id = @mfc_id;
                     ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
@@ -330,7 +330,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -368,7 +368,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 WHERE user_id = @user_id AND mfc_id = @mfc_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
@@ -444,7 +444,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 WHERE user_id = @user_id AND mfc_id = @mfc_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
@@ -556,10 +556,10 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
     }
     public async Task<MagicFormationCircles> GetUserMagicFormationCircleByIdAsync(string user_id, string Id)
     {
-        MagicFormationCircles card = null;
+        MagicFormationCircles magicFormationCircle = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,16 +568,16 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 string query = @"SELECT * FROM user_magic_formation_circles
                              WHERE mfc_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new MagicFormationCircles
+                            magicFormationCircle = new MagicFormationCircles
                             {
                                 Id = reader.GetString("mfc_id"),
                                 Level = reader.GetInt32("level"),
@@ -649,14 +649,14 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
             }
         }
 
-        return card;
+        return magicFormationCircle;
     }
     public async Task<MagicFormationCircles> SumPowerUserMagicFormationCirclesAsync()
     {
         MagicFormationCircles sumMagicFormationCircles = new MagicFormationCircles();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 FROM user_magic_formation_circles
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

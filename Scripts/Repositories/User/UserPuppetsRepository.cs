@@ -9,10 +9,10 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 {
     public async Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Puppets> Puppets = new List<Puppets>();
+        List<Puppets> puppets = new List<Puppets>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,11 +37,11 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Puppets Puppet = new Puppets
+                            Puppets puppet = new Puppets
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -105,7 +105,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            Puppets.Add(Puppet);
+                            puppets.Add(puppet);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserPuppetsRepository : IUserPuppetsRepository
             }
         }
 
-        return Puppets;
+        return puppets;
     }
     public async Task<int> GetUserPuppetsCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -176,12 +176,12 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) 
-                FROM user_puppets
-                WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
-            ";
+                    SELECT COUNT(*) 
+                    FROM user_puppets
+                    WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
+                ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
@@ -228,7 +228,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                         );
                     ";
 
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
@@ -302,7 +302,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                         WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
                     ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
@@ -330,7 +330,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -368,7 +368,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
@@ -444,7 +444,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
@@ -556,10 +556,10 @@ public class UserPuppetsRepository : IUserPuppetsRepository
     }
     public async Task<Puppets> GetUserPuppetByIdAsync(string user_id, string Id)
     {
-        Puppets card = null;
+        Puppets puppet = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,16 +568,16 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 string query = @"SELECT * FROM user_puppets
                              WHERE Puppet_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Puppets
+                            puppet = new Puppets
                             {
                                 Id = reader.GetString("Puppet_id"),
                                 Level = reader.GetInt32("level"),
@@ -649,14 +649,14 @@ public class UserPuppetsRepository : IUserPuppetsRepository
             }
         }
 
-        return card;
+        return puppet;
     }
     public async Task<Puppets> SumPowerUserPuppetsAsync()
     {
         Puppets sumPuppets = new Puppets();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 FROM user_puppets
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

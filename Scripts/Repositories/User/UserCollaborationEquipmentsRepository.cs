@@ -9,10 +9,10 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 {
     public async Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipments> CollaborationEquipments = new List<CollaborationEquipments>();
+        List<CollaborationEquipments> collaborationEquipments = new List<CollaborationEquipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,11 +37,11 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            CollaborationEquipments CollaborationEquipment = new CollaborationEquipments
+                            CollaborationEquipments collaborationEquipment = new CollaborationEquipments
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -105,7 +105,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                                 Description = reader.GetString("description")
                             };
 
-                            CollaborationEquipments.Add(CollaborationEquipment);
+                            collaborationEquipments.Add(collaborationEquipment);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
             }
         }
 
-        return CollaborationEquipments;
+        return collaborationEquipments;
     }
     public async Task<int> GetUserCollaborationEquipmentsCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -181,7 +181,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
             ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@collaboration_equipment_id", CollaborationEquipment.Id);
@@ -302,7 +302,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                         WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
                     ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", CollaborationEquipment.Id);
@@ -330,7 +330,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -368,7 +368,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@collaboration_equipment_id", CollaborationEquipment.Id);
@@ -444,7 +444,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@collaboration_equipment_id", CollaborationEquipment.Id);
@@ -559,7 +559,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
         CollaborationEquipments collaborationEquipment = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,12 +568,12 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 string query = @"SELECT * FROM user_collaboration_equipments
                              WHERE collaboration_equipment_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -656,7 +656,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
         CollaborationEquipments sumCollaborationEquipments = new CollaborationEquipments();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 FROM user_collaboration_equipments
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

@@ -11,7 +11,7 @@ public class UserRelicsController : MonoBehaviour
 {
     public static UserRelicsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject RelicButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,7 +39,7 @@ public class UserRelicsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        RelicButtonPrefab = UIManager.Instance.GetGeneralButton("RelicButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
@@ -48,15 +48,33 @@ public class UserRelicsController : MonoBehaviour
     {
         foreach (var relic in relics)
         {
-            GameObject relicObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject relicObject = Instantiate(RelicButtonPrefab, contentPanel);
 
-            Text Title = relicObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = relicObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = relic.Name.Replace("_", " ");
 
-            RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = relicObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = relicObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

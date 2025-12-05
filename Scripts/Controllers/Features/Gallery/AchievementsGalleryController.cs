@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +9,7 @@ public class AchievementsGalleryController : MonoBehaviour
 {
     public static AchievementsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject AchievementBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -30,97 +32,120 @@ public class AchievementsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+        AchievementBlockButtonPrefab = UIManager.Instance.GetGeneralButton("AchievementBlockButtonPrefab");
     }
     public void CreateAchievementsGallery(List<Achievements> achievements, Transform contentPanel)
     {
         foreach (var achievement in achievements)
         {
-            GameObject AvatarObject = Instantiate(equipmentsPrefab, contentPanel);
-
-            Text Title = AvatarObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = achievement.Name.Replace("_", " ");
-
-            RawImage Image = AvatarObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-
-            Button button = AvatarObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            try
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);
-            });
+                GameObject AvatarObject = Instantiate(AchievementBlockButtonPrefab, contentPanel);
 
-            RawImage rareImage = AvatarObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievement.Rare}");
-            rareImage.texture = rareTexture;
+                TextMeshProUGUI Title = AvatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = achievement.Name.Replace("_", " ");
 
-            RawImage rareBackgroundImage = AvatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+                RawImage image = AvatarObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                image.texture = texture;
 
-            RawImage blockImage = AvatarObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = AvatarObject.transform.Find("Unlock").GetComponent<Button>();
-            if (achievement.Status.Equals("available"))
-            {
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                Button button = AvatarObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);
+                });
+
+                RawImage rareImage = AvatarObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievement.Rare}");
+                rareImage.texture = rareTexture;
+
+                RawImage rareBackgroundImage = AvatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                rareImage.gameObject.SetActive(false);
+                rareBackgroundImage.gameObject.SetActive(false);
+
+                RawImage blockImage = AvatarObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = AvatarObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (achievement.Status.Equals("available"))
+                {
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+                }
+                else if (achievement.Status.Equals("pending"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(true);
+                }
+                else if (achievement.Status.Equals("block"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(false);
+                }
+
+                Unlock.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    var AvatarGalleryService = AvatarsGalleryService.Create();
+                    await AvatarGalleryService.UpdateStatusAvatarGalleryAsync(achievement.Id);
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+
+                    var powerManagerService = PowerManagerService.Create();
+                    var teamsService = TeamsService.Create();
+
+                    await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                });
+
+                Button Upgrade = AvatarObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((achievement.CurrentStar < achievement.TempStar) && achievement.Status.Equals("available"))
+                {
+                    Upgrade.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Upgrade.gameObject.SetActive(false);
+                }
+
+                Upgrade.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(achievement.Id);
+                });
             }
-            else if (achievement.Status.Equals("pending"))
+            catch (Exception ex)
             {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
+                Debug.LogError("Error: " + ex.Message);
             }
-            else if (achievement.Status.Equals("block"))
-            {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
-            }
-
-            Unlock.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var AvatarGalleryService = AvatarsGalleryService.Create();
-                await AvatarGalleryService.UpdateStatusAvatarGalleryAsync(achievement.Id);
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
-
-                var powerManagerService = PowerManagerService.Create();
-                var teamsService = TeamsService.Create();
-
-                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
-                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-            });
-
-            Button Upgrade = AvatarObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((achievement.CurrentStar < achievement.TempStar) && achievement.Status.Equals("available"))
-            {
-                Upgrade.gameObject.SetActive(true);
-            }
-            else
-            {
-                Upgrade.gameObject.SetActive(false);
-            }
-
-            Upgrade.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(achievement.Id);
-            });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

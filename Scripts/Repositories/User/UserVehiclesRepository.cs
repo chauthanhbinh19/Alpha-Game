@@ -9,10 +9,10 @@ public class UserVehicleRepository : IUserVehicleRepository
 {
     public async Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Vehicles> Vehicles = new List<Vehicles>();
+        List<Vehicles> vehicles = new List<Vehicles>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,11 +37,11 @@ public class UserVehicleRepository : IUserVehicleRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Vehicles Vehicle = new Vehicles
+                            Vehicles vehicle = new Vehicles
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -105,7 +105,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                                 Description = reader.GetString("description")
                             };
 
-                            Vehicles.Add(Vehicle);
+                            vehicles.Add(vehicle);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserVehicleRepository : IUserVehicleRepository
             }
         }
 
-        return Vehicles;
+        return vehicles;
     }
     public async Task<int> GetUserVehiclesCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserVehicleRepository : IUserVehicleRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -181,7 +181,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
             ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
@@ -228,7 +228,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                         );
                     ";
 
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
@@ -302,7 +302,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                         WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
                     ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
@@ -330,7 +330,7 @@ public class UserVehicleRepository : IUserVehicleRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -368,7 +368,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
@@ -444,7 +444,7 @@ public class UserVehicleRepository : IUserVehicleRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserVehicleRepository : IUserVehicleRepository
                 WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
@@ -556,10 +556,10 @@ public class UserVehicleRepository : IUserVehicleRepository
     }
     public async Task<Vehicles> GetUserVehicleByIdAsync(string user_id, string Id)
     {
-        Vehicles card = null;
+        Vehicles vehicle = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,16 +568,16 @@ public class UserVehicleRepository : IUserVehicleRepository
                 string query = @"SELECT * FROM user_vehicles 
                              WHERE Vehicle_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Vehicles
+                            vehicle = new Vehicles
                             {
                                 Id = reader.GetString("Vehicle_id"),
                                 Level = reader.GetInt32("level"),
@@ -649,14 +649,14 @@ public class UserVehicleRepository : IUserVehicleRepository
             }
         }
 
-        return card;
+        return vehicle;
     }
     public async Task<Vehicles> SumPowerUserVehiclesAsync()
     {
         Vehicles sumVehicles = new Vehicles();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserVehicleRepository : IUserVehicleRepository
                 FROM user_vehicles
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

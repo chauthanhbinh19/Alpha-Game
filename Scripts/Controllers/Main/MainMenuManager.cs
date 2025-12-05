@@ -100,7 +100,7 @@ public class MainMenuManager : MonoBehaviour
         PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
         ArenaPanelPrefab = UIManager.Instance.GetGameObject("ArenaPanelPrefab");
         AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
-        ReactorPanelPrefab = UIManager.Instance.GetGameObjectScienceFiction("ReactorPanelPrefab");
+        ReactorPanelPrefab = UIManager.Instance.GetScienceFictionPanel("ReactorPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
         FeaturePanelPrefab = UIManager.Instance.GetFeaturePanel("FeaturePanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
@@ -419,7 +419,7 @@ public class MainMenuManager : MonoBehaviour
     public void GetType(string type)
     {
         mainType = type; // Gán giá trị cho mainType
-        _=GetButtonTypeAsync(); // Gọi hàm xử lý
+        _ = GetButtonTypeAsync(); // Gọi hàm xử lý
         if (titleText != null)
         {
             titleText.text = LocalizationManager.Get(type);
@@ -654,7 +654,7 @@ public class MainMenuManager : MonoBehaviour
                         rare = selectedRare;
                         button.transform.Find("Active").gameObject.SetActive(true);
                         button.transform.Find("Unactive").gameObject.SetActive(false);
-                        _=LoadCurrentPageAsync();
+                        _ = LoadCurrentPageAsync();
                     }
                 }
                 else
@@ -706,7 +706,7 @@ public class MainMenuManager : MonoBehaviour
                     {
                         ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.SUMMON_BUTTON_AFTER_CLICK_URL);
                     }
-                    _=LoadCurrentPageAsync();
+                    _ = LoadCurrentPageAsync();
 
                 }
                 else
@@ -724,118 +724,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
-            int totalRecord = 0;
-            int listCount = 0;
-            if (mainType.Equals(AppConstants.MainType.COLLABORATION))
-            {
-                List<Collaborations> collaborations = await UserCollaborationsService.Create().GetUserCollaborationsAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserCollaborationsController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
-                listCount = collaborations.Count;
-
-                totalRecord = await UserCollaborationsService.Create().GetUserCollaborationsCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.MEDAL))
-            {
-                List<Medals> medals = await UserMedalsService.Create().GetUserMedalsAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserMedalsController.Instance.CreateUserMedals(medals, DictionaryContentPanel);
-                listCount = medals.Count;
-
-                totalRecord = await UserMedalsService.Create().GetUserMedalsCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TITLE))
-            {
-                List<Titles> titles = await UserTitlesService.Create().GetUserTitlesAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserTitlesController.Instance.CreateUserTitles(titles, DictionaryContentPanel);
-                listCount = titles.Count;
-
-                totalRecord = await UserTitlesService.Create().GetUserTitlesCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
-            {
-                List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetUserSpiritBeastsAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserSpiritBeastsController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
-                listCount = spiritBeasts.Count;
-
-                totalRecord = await UserTitlesService.Create().GetUserTitlesCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD))
-            {
-                List<Cards> cards = await UserCardsService.Create().GetUserCardsAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserCardsController.Instance.CreateUserCards(cards, DictionaryContentPanel);
-                listCount = cards.Count;
-
-                totalRecord = await UserCardsService.Create().GetUserCardsCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
-            {
-                List<Architectures> architectures = await UserArchitecturesService.Create().GetUserArchitecturesAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserArchitecturesController.Instance.CreateUserArchitectures(architectures, DictionaryContentPanel);
-                listCount = architectures.Count;
-
-                totalRecord = await UserArchitecturesService.Create().GetUserArchitecturesCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
-            {
-                List<Technologies> technologies = await UserTechnologiesService.Create().GetUserTechnologiesAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserTechnologiesController.Instance.CreateUserTechnologies(technologies, DictionaryContentPanel);
-                listCount = technologies.Count;
-
-                totalRecord = await UserTechnologiesService.Create().GetUserTechnologiesCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CORE))
-            {
-                List<Cores> cores = await UserCoresService.Create().GetUserCoresAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserCoresController.Instance.CreateUserCores(cores, DictionaryContentPanel);
-                listCount = cores.Count;
-
-                totalRecord = await UserCoresService.Create().GetUserCoresCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.WEAPON))
-            {
-                List<Weapons> weapons = await UserWeaponsService.Create().GetUserWeaponsAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserWeaponsController.Instance.CreateUserWeapons(weapons, DictionaryContentPanel);
-                listCount = weapons.Count;
-
-                totalRecord = await UserWeaponsService.Create().GetUserWeaponsCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ROBOT))
-            {
-                List<Robots> robots = await UserRobotsService.Create().GetUserRobotsAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserRobotsController.Instance.CreateUserRobots(robots, DictionaryContentPanel);
-                listCount = robots.Count;
-
-                totalRecord = await UserRobotsService.Create().GetUserRobotsCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.BADGE))
-            {
-                List<Badges> badges = await UserBadgesService.Create().GetUserBadgesAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserBadgesController.Instance.CreateUserBadges(badges, DictionaryContentPanel);
-                listCount = badges.Count;
-
-                totalRecord = await UserBadgesService.Create().GetUserBadgesCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
-            {
-                List<MechaBeasts> mechaBeasts = await UserMechaBeastsService.Create().GetUserMechaBeastsAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserMechaBeastsController.Instance.CreateUserMechaBeasts(mechaBeasts, DictionaryContentPanel);
-                listCount = mechaBeasts.Count;
-
-                totalRecord = await UserMechaBeastsService.Create().GetUserMechaBeastsCountAsync(User.CurrentUserId, rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.RUNE))
-            {
-                List<Runes> runes = await UserRunesService.Create().GetUserRunesAsync(User.CurrentUserId, pageSize, offset, rare);
-                UserRunesController.Instance.CreateUserRunes(runes, DictionaryContentPanel);
-                listCount = runes.Count;
-
-                totalRecord = await UserRunesService.Create().GetUserRunesCountAsync(User.CurrentUserId, rare);
-            }
-
-            if (listCount > 0)
-            {
-                totalPage = CalculateTotalPages(totalRecord, pageSize);
-                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-            }
+            _ = LoadCurrentPageAsync();
         }
         LoadAnimation();
     }
@@ -878,12 +767,14 @@ public class MainMenuManager : MonoBehaviour
                     {
                         if (i == 0)
                         {
-                            rare = QualityEvaluator.rarities[0]; // hoặc AppConstants.MainType.All
-                            ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
+                            rare = QualityEvaluator.rarities[0];
+                            rareButton.transform.Find("Active").gameObject.SetActive(true);
+                            rareButton.transform.Find("Unactive").gameObject.SetActive(false);
                         }
                         else
                         {
-                            ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
+                            rareButton.transform.Find("Active").gameObject.SetActive(false);
+                            rareButton.transform.Find("Unactive").gameObject.SetActive(true);
                         }
                     }
                 }
@@ -893,7 +784,7 @@ public class MainMenuManager : MonoBehaviour
         {
             ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.SUMMON_BUTTON_AFTER_CLICK_URL);
         }
-        _=LoadCurrentPageAsync();
+        _ = LoadCurrentPageAsync();
     }
     public void OnRareTabButtonClick(GameObject clickedButton, string selectedRare)
     {
@@ -913,7 +804,7 @@ public class MainMenuManager : MonoBehaviour
         ClearAllPrefabs();
         clickedButton.transform.Find("Active").gameObject.SetActive(true);
         clickedButton.transform.Find("Unactive").gameObject.SetActive(false);
-        _=LoadCurrentPageAsync();
+        _ = LoadCurrentPageAsync();
     }
     public async Task LoadCurrentPageAsync()
     {
@@ -1791,7 +1682,7 @@ public class MainMenuManager : MonoBehaviour
             ClearAllPrefabs();
             currentPage = currentPage + 1;
             offset = offset + pageSize;
-            _=LoadCurrentPageAsync();
+            _ = LoadCurrentPageAsync();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -1804,7 +1695,7 @@ public class MainMenuManager : MonoBehaviour
             ClearAllPrefabs();
             currentPage = currentPage - 1;
             offset = offset - pageSize;
-            _=LoadCurrentPageAsync();
+            _ = LoadCurrentPageAsync();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 

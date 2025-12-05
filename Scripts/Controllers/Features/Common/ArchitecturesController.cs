@@ -10,7 +10,7 @@ public class ArchitecturesController : MonoBehaviour
 {
     public static ArchitecturesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject ArchitectureButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,7 +37,7 @@ public class ArchitecturesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        ArchitectureButtonPrefab = UIManager.Instance.GetGeneralButton("ArchitectureButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
@@ -47,9 +47,9 @@ public class ArchitecturesController : MonoBehaviour
     {
         foreach (var architecture in ArchitecturesList)
         {
-            GameObject architectureObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject architectureObject = Instantiate(ArchitectureButtonPrefab, contentPanel);
 
-            Text Title = architectureObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = architectureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = architecture.Name.Replace("_", " ");
 
             RawImage image = architectureObject.transform.Find("Image").GetComponent<RawImage>();
@@ -93,7 +93,7 @@ public class ArchitecturesController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

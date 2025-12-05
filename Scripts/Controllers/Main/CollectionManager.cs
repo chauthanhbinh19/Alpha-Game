@@ -229,137 +229,7 @@ public class CollectionManager : MonoBehaviour
         }
         else
         {
-            int totalRecord = 0;
-            if (mainType.Equals(AppConstants.MainType.COLLABORATION))
-            {
-                var collaborationGalleryService = CollaborationsGalleryService.Create();
-                List<Collaborations> collaborations = await collaborationGalleryService.GetCollaborationsCollectionAsync(pageSize, offset, rare);
-                CollaborationsGalleryController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
-
-                totalRecord = await collaborationGalleryService.GetCollaborationsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.MEDAL))
-            {
-                var medalsGalleryService = MedalsGalleryService.Create();
-                List<Medals> medals = await medalsGalleryService.GetMedalsCollectionAsync(pageSize, offset, rare);
-                MedalsGalleryController.Instance.CreateMedalsGallery(medals, DictionaryContentPanel);
-
-                totalRecord = await medalsGalleryService.GetMedalsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TITLE))
-            {
-                var titlesGalleryService = TitlesGalleryService.Create();
-                List<Titles> titles = await titlesGalleryService.GetTitlesCollectionAsync(pageSize, offset, rare);
-                TitlesGalleryController.Instance.CreateTitlesGallery(titles, DictionaryContentPanel);
-
-                totalRecord = await titlesGalleryService.GetTitlesCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.BORDER))
-            {
-                var bordersGalleryService = BordersGalleryService.Create();
-                List<Borders> borders = await bordersGalleryService.GetBordersCollectionAsync(pageSize, offset, rare);
-                BordersGalleryController.Instance.CreateBordersGallery(borders, DictionaryContentPanel);
-
-                totalRecord = await bordersGalleryService.GetBordersCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
-            {
-                var spiritBeastGalleryService = SpiritBeastsGalleryService.Create();
-                List<SpiritBeasts> spiritBeasts = await spiritBeastGalleryService.GetSpiritBeastsCollectionAsync(pageSize, offset, rare);
-                SpiritBeastsGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
-
-                totalRecord = await spiritBeastGalleryService.GetSpiritBeastsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.AVATAR))
-            {
-                var avatarsGalleryService = AvatarsGalleryService.Create();
-                List<Avatars> avatars = await avatarsGalleryService.GetAvatarsCollectionAsync(pageSize, offset, rare);
-                AvatarsGalleryController.Instance.CreateAvatarsGallery(avatars, DictionaryContentPanel);
-
-                totalRecord = await avatarsGalleryService.GetAvatarsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
-            {
-                var achievementsGalleryService = AchievementsGalleryService.Create();
-                List<Achievements> achievements = await achievementsGalleryService.GetAchievementCollectionAsync(pageSize, offset, rare);
-                AchievementsGalleryController.Instance.CreateAchievementsGallery(achievements, DictionaryContentPanel);
-
-                totalRecord = await achievementsGalleryService.GetAchievementsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CARD))
-            {
-                var cardsGalleryService = CardsGalleryService.Create();
-                List<Cards> cards = await cardsGalleryService.GetCardsCollectionAsync(pageSize, offset, rare);
-                CardsGalleryController.Instance.CreateCardsGallery(cards, DictionaryContentPanel);
-
-                totalRecord = await cardsGalleryService.GetCardsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
-            {
-                var architecturesGalleryService = ArchitecturesGalleryService.Create();
-                List<Architectures> architectures = await architecturesGalleryService.GetArchitecturesCollectionAsync(pageSize, offset, rare);
-                ArchitecturesGalleryController.Instance.CreateArchitecturesGallery(architectures, DictionaryContentPanel);
-
-                totalRecord = await architecturesGalleryService.GetArchitecturesCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
-            {
-                var technologiesGalleryService = TechnologiesGalleryService.Create();
-                List<Technologies> technologies = await technologiesGalleryService.GetTechnologiesCollectionAsync(pageSize, offset, rare);
-                TechnologiesGalleryController.Instance.CreateTechnologiesGallery(technologies, DictionaryContentPanel);
-
-                totalRecord = await technologiesGalleryService.GetTechnologiesCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.CORE))
-            {
-                var coresGalleryService = CoresGalleryService.Create();
-                List<Cores> cores = await coresGalleryService.GetCoresCollectionAsync(pageSize, offset, rare);
-                CoresGalleryController.Instance.CreateCoresGallery(cores, DictionaryContentPanel);
-
-                totalRecord = await coresGalleryService.GetCoresCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.WEAPON))
-            {
-                var weaponsGalleryService = WeaponsGalleryService.Create();
-                List<Weapons> weapons = await weaponsGalleryService.GetWeaponsCollectionAsync(pageSize, offset, rare);
-                WeaponsGalleryController.Instance.CreateWeaponsGallery(weapons, DictionaryContentPanel);
-
-                totalRecord = await weaponsGalleryService.GetWeaponsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.ROBOT))
-            {
-                var robotsGalleryService = RobotsGalleryService.Create();
-                List<Robots> robots = await robotsGalleryService.GetRobotsCollectionAsync(pageSize, offset, rare);
-                RobotsGalleryController.Instance.CreateRobotsGallery(robots, DictionaryContentPanel);
-
-                totalRecord = await robotsGalleryService.GetRobotsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.BADGE))
-            {
-                var badgesGalleryService = BadgesGalleryService.Create();
-                List<Badges> badges = await badgesGalleryService.GetBadgesCollectionAsync(pageSize, offset, rare);
-                BadgesGalleryController.Instance.CreateBadgesGallery(badges, DictionaryContentPanel);
-
-                totalRecord = await badgesGalleryService.GetBadgesCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
-            {
-                var mechaBeastsGalleryService = MechaBeastsGalleryService.Create();
-                List<MechaBeasts> mechaBeasts = await mechaBeastsGalleryService.GetMechaBeastsCollectionAsync(pageSize, offset, rare);
-                MechaBeastsGalleryController.Instance.CreateMechaBeastsGallery(mechaBeasts, DictionaryContentPanel);
-
-                totalRecord = await mechaBeastsGalleryService.GetMechaBeastsCountAsync(rare);
-            }
-            else if (mainType.Equals(AppConstants.MainType.RUNE))
-            {
-                var runesGalleryService = RunesGalleryService.Create();
-                List<Runes> runes = await runesGalleryService.GetRunesCollectionAsync(pageSize, offset, rare);
-                RunesGalleryController.Instance.CreateRunesGallery(runes, DictionaryContentPanel);
-
-                totalRecord = await runesGalleryService.GetRunesCountAsync(rare);
-            }
-            totalPage = CalculateTotalPages(totalRecord, pageSize);
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            _=LoadCurrentPageAsync();
         }
         LoadAnimation();
     }
@@ -391,12 +261,14 @@ public class CollectionManager : MonoBehaviour
                 {
                     if (i == 0)
                     {
-                        rare = QualityEvaluator.rarities[0]; // hoặc AppConstants.MainType.All
-                        ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RARE_BUTTON_AFTER_CLICK_URL);
+                        rare = QualityEvaluator.rarities[0];
+                        rareButton.transform.Find("Active").gameObject.SetActive(true);
+                        rareButton.transform.Find("Unactive").gameObject.SetActive(false);
                     }
                     else
                     {
-                        ButtonLoader.Instance.ChangeButtonBackground(child.gameObject, ImageConstants.Button.RARE_BUTTON_BEFORE_CLICK_URL);
+                        rareButton.transform.Find("Active").gameObject.SetActive(false);
+                        rareButton.transform.Find("Unactive").gameObject.SetActive(true);
                     }
                 }
             }

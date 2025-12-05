@@ -10,7 +10,7 @@ public class SymbolsController : MonoBehaviour
 {
     public static SymbolsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject SymbolButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,25 +37,43 @@ public class SymbolsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        SymbolButtonPrefab = UIManager.Instance.GetGeneralButton("SymbolButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateSymbolsGallery(List<Symbols> symbolsList, Transform contentPanel)
+    public void CreateSymbolsGallery(List<Symbols> symbols, Transform contentPanel)
     {
-        foreach (var symbol in symbolsList)
+        foreach (var symbol in symbols)
         {
-            GameObject symbolObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject symbolObject = Instantiate(SymbolButtonPrefab, contentPanel);
 
-            Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = symbol.Name.Replace("_", " ");
 
-            RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = symbolObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -77,14 +95,14 @@ public class SymbolsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateSymbolsTradeAsync(List<Symbols> symbolsList, string subType, Transform currentContent,
+    public async Task CreateSymbolsTradeAsync(List<Symbols> symbols, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var symbol in symbolsList)
+        foreach (var symbol in symbols)
         {
             GameObject symbolObject = Instantiate(equipmentsShopPrefab, currentContent);
 

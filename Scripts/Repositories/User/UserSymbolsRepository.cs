@@ -9,10 +9,10 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 {
     public async Task<List<Symbols>> GetUserSymbolsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> Symbols = new List<Symbols>();
+        List<Symbols> symbols = new List<Symbols>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,11 +37,11 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Symbols Symbol = new Symbols
+                            Symbols symbol = new Symbols
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -105,7 +105,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            Symbols.Add(Symbol);
+                            symbols.Add(symbol);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             }
         }
 
-        return Symbols;
+        return symbols;
     }
     public async Task<int> GetUserSymbolsCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -176,12 +176,12 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) 
-                FROM user_Symbols 
-                WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
-            ";
+                    SELECT COUNT(*) 
+                    FROM user_Symbols 
+                    WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
+                ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@Symbol_id", Symbol.Id);
@@ -228,7 +228,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                         );
                     ";
 
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@Symbol_id", Symbol.Id);
@@ -302,7 +302,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                         WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
                     ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@Symbol_id", Symbol.Id);
@@ -330,7 +330,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -368,7 +368,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Symbol_id", Symbol.Id);
@@ -444,7 +444,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Symbol_id", Symbol.Id);
@@ -556,10 +556,10 @@ public class UserSymbolsRepository : IUserSymbolsRepository
     }
     public async Task<Symbols> GetUserSymbolByIdAsync(string user_id, string Id)
     {
-        Symbols card = null;
+        Symbols symbol = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,16 +568,16 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 string query = @"SELECT * FROM user_Symbols 
                              WHERE Symbol_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Symbols
+                            symbol = new Symbols
                             {
                                 Id = reader.GetString("Symbol_id"),
                                 Level = reader.GetInt32("level"),
@@ -649,14 +649,14 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             }
         }
 
-        return card;
+        return symbol;
     }
     public async Task<Symbols> SumPowerUserSymbolsAsync()
     {
         Symbols sumSymbols = new Symbols();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 FROM user_Symbols
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

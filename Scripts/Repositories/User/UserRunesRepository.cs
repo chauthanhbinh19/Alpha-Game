@@ -9,7 +9,7 @@ public class UserRunesRepository : IUserRunesRepository
 {
     public async Task<List<Runes>> GetUserRunesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Runes> RunesList = new List<Runes>();
+        List<Runes> runes = new List<Runes>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserRunesRepository : IUserRunesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Runes Rune = new Runes
+                            Runes rune = new Runes
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserRunesRepository : IUserRunesRepository
                                 Description = reader.GetString("description")
                             };
 
-                            RunesList.Add(Rune);
+                            runes.Add(rune);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserRunesRepository : IUserRunesRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return RunesList;
+        return runes;
     }
     public async Task<int> GetUserRunesCountAsync(string user_id, string rare)
     {
@@ -147,6 +151,10 @@ public class UserRunesRepository : IUserRunesRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserRunesRepository : IUserRunesRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -526,7 +538,7 @@ public class UserRunesRepository : IUserRunesRepository
     }
     public async Task<Runes> GetUserRuneByIdAsync(string user_id, string Id)
     {
-        Runes Rune = new Runes();
+        Runes rune = new Runes();
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -544,7 +556,7 @@ public class UserRunesRepository : IUserRunesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Rune = new Runes
+                            rune = new Runes
                             {
                                 Id = reader.GetString("Rune_id"),
                                 Level = reader.GetInt32("level"),
@@ -616,7 +628,7 @@ public class UserRunesRepository : IUserRunesRepository
             }
 
         }
-        return Rune;
+        return rune;
     }
     public async Task<Runes> SumPowerUserRunesAsync()
     {

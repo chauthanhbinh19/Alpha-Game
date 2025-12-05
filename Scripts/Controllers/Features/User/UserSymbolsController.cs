@@ -11,7 +11,7 @@ public class UserSymbolsController : MonoBehaviour
 {
     public static UserSymbolsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject SymbolButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,24 +39,42 @@ public class UserSymbolsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        SymbolButtonPrefab = UIManager.Instance.GetGeneralButton("SymbolButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserSymbols(List<Symbols> symbolsList, Transform contentPanel)
+    public void CreateUserSymbols(List<Symbols> symbols, Transform contentPanel)
     {
-        foreach (var symbol in symbolsList)
+        foreach (var symbol in symbols)
         {
-            GameObject symbolObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject symbolObject = Instantiate(SymbolButtonPrefab, contentPanel);
 
-            Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = symbol.Name.Replace("_", " ");
 
-            RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = symbolObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -83,7 +101,7 @@ public class UserSymbolsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowSymbolsDetails(Symbols symbols, GameObject currentObject, int buttonType = 1)
+    public void ShowSymbolsDetails(Symbols symbol, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -92,40 +110,40 @@ public class UserSymbolsController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(symbols, currentObject);
+            GetDetails(symbol, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(symbols, currentObject);
+            _=GetLevelAsync(symbol, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(symbols, currentObject);
+            _=GetUpgradeAsync(symbol, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(symbols, currentObject);
+                GetDetails(symbol, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(symbols, currentObject);
+                _=GetLevelAsync(symbol, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(symbols, currentObject);
+                GetSkills(symbol, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(symbols, currentObject);
+                _=GetUpgradeAsync(symbol, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(symbols, currentObject);
+                GetDetails(symbol, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }

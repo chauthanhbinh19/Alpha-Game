@@ -11,7 +11,7 @@ public class UserBadgesController : MonoBehaviour
 {
     public static UserBadgesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject BadgeButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,22 +39,22 @@ public class UserBadgesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        BadgeButtonPrefab = UIManager.Instance.GetGeneralButton("BadgeButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserBadges(List<Badges> BadgesList, Transform contentPanel)
+    public void CreateUserBadges(List<Badges> badges, Transform contentPanel)
     {
-        foreach (var title in BadgesList)
+        foreach (var badge in badges)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject badgeObject = Instantiate(BadgeButtonPrefab, contentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.Name.Replace("_", " ");
+            TextMeshProUGUI Title = badgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = badge.Name.Replace("_", " ");
 
-            RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage image = badgeObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -76,18 +76,18 @@ public class UserBadgesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            Button button = titleObject.GetComponent<Button>();
+            Button button = badgeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(title, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(badge, MainPanel);
             });
 
-            RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
+            RawImage rareImage = badgeObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{badge.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = badgeObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 

@@ -10,7 +10,7 @@ public class RobotsController : MonoBehaviour
 {
     public static RobotsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject RobotButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,7 +37,7 @@ public class RobotsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        RobotButtonPrefab = UIManager.Instance.GetGeneralButton("RobotButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
@@ -47,9 +47,9 @@ public class RobotsController : MonoBehaviour
     {
         foreach (var robot in RobotsList)
         {
-            GameObject robotObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject robotObject = Instantiate(RobotButtonPrefab, contentPanel);
 
-            Text Title = robotObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = robotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = robot.Name.Replace("_", " ");
 
             RawImage image = robotObject.transform.Find("Image").GetComponent<RawImage>();
@@ -93,14 +93,14 @@ public class RobotsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateRobotsTradeAsync(List<Robots> RobotsList, string subType, Transform currentContent,
+    public async Task CreateRobotsTradeAsync(List<Robots> robots, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var robot in RobotsList)
+        foreach (var robot in robots)
         {
             GameObject robotObject = Instantiate(equipmentsShopPrefab, currentContent);
 

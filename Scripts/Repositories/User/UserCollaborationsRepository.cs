@@ -9,7 +9,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 {
     public async Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Collaborations> collaborationList = new List<Collaborations>();
+        List<Collaborations> collaborations = new List<Collaborations>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -100,7 +100,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                         Description = reader.GetString("description")
                     };
 
-                    collaborationList.Add(collaboration);
+                    collaborations.Add(collaboration);
                 }
             }
             catch (MySqlException ex)
@@ -113,7 +113,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
             }
         }
 
-        return collaborationList;
+        return collaborations;
     }
     public async Task<int> GetUserCollaborationsCountAsync(string user_id, string rare)
     {
@@ -544,7 +544,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
     }
     public async Task<Collaborations> GetUserCollaborationByIdAsync(string user_id, string Id)
     {
-        Collaborations card = null;
+        Collaborations collaboration = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -569,7 +569,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Collaborations
+                            collaboration = new Collaborations
                             {
                                 Id = reader.GetString("collaboration_id"),
                                 Level = reader.GetInt32("level"),
@@ -641,7 +641,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
             }
         }
 
-        return card;
+        return collaboration;
     }
     public async Task<Collaborations> SumPowerUserCollaborationsAsync()
     {

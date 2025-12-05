@@ -10,7 +10,7 @@ public class WeaponsController : MonoBehaviour
 {
     public static WeaponsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject WeaponButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,19 +37,19 @@ public class WeaponsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        WeaponButtonPrefab = UIManager.Instance.GetGeneralButton("WeaponButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateWeaponsGallery(List<Weapons> WeaponsList, Transform contentPanel)
+    public void CreateWeaponsGallery(List<Weapons> weapons, Transform contentPanel)
     {
-        foreach (var weapon in WeaponsList)
+        foreach (var weapon in weapons)
         {
-            GameObject weaponObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject weaponObject = Instantiate(WeaponButtonPrefab, contentPanel);
 
-            Text Title = weaponObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = weaponObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = weapon.Name.Replace("_", " ");
 
             RawImage image = weaponObject.transform.Find("Image").GetComponent<RawImage>();
@@ -93,14 +93,14 @@ public class WeaponsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateWeaponsTradeAsync(List<Weapons> WeaponsList, string subType, Transform currentContent,
+    public async Task CreateWeaponsTradeAsync(List<Weapons> weapons, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var weapon in WeaponsList)
+        foreach (var weapon in weapons)
         {
             GameObject weaponObject = Instantiate(equipmentsShopPrefab, currentContent);
 

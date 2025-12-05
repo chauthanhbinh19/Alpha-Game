@@ -9,7 +9,7 @@ public class UserCardsRepository : IUserCardsRepository
 {
     public async Task<List<Cards>> GetUserCardsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Cards> CardsList = new List<Cards>();
+        List<Cards> cards = new List<Cards>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -104,7 +104,7 @@ public class UserCardsRepository : IUserCardsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            CardsList.Add(card);
+                            cards.Add(card);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserCardsRepository : IUserCardsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return CardsList;
+        return cards;
     }
     public async Task<int> GetUserCardsCountAsync(string user_id, string rare)
     {
@@ -147,6 +151,10 @@ public class UserCardsRepository : IUserCardsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserCardsRepository : IUserCardsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 

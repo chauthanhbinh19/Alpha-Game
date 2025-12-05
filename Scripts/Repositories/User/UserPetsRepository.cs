@@ -9,7 +9,7 @@ public class UserPetsRepository : IUserPetsRepository
 {
     public async Task<List<Pets>> GetUserPetsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Pets> petsList = new List<Pets>();
+        List<Pets> pets = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -154,7 +154,7 @@ public class UserPetsRepository : IUserPetsRepository
                     }
                 };
 
-                petsList.Add(pet);
+                pets.Add(pet);
             }
         }
         catch (MySqlException ex)
@@ -162,7 +162,7 @@ public class UserPetsRepository : IUserPetsRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return petsList;
+        return pets;
     }
     public async Task<List<Pets>> GetUserPetsTeamAsync(string user_id, string teamId)
     {

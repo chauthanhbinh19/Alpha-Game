@@ -10,7 +10,7 @@ public class CollaborationsController : MonoBehaviour
 {
     public static CollaborationsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CollaborationButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,7 +37,7 @@ public class CollaborationsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        CollaborationButtonPrefab = UIManager.Instance.GetGeneralButton("CollaborationButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
@@ -47,15 +47,33 @@ public class CollaborationsController : MonoBehaviour
     {
         foreach (var collaboration in collaborationList)
         {
-            GameObject collaborationObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject collaborationObject = Instantiate(CollaborationButtonPrefab, contentPanel);
 
-            Text Title = collaborationObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = collaborationObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = collaboration.Name.Replace("_", " ");
 
-            RawImage Image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = collaborationObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -68,13 +86,13 @@ public class CollaborationsController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
             rareImage.texture = rareTexture;
 
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

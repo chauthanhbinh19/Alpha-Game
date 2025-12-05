@@ -9,7 +9,7 @@ public class UserItemsRepository : IUserItemsRepository
 {
     public async Task<List<Items>> GetUserItemsAsync(string user_id, string type, int pageSize, int offset)
     {
-        List<Items> Items = new List<Items>();
+        List<Items> items = new List<Items>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -45,7 +45,7 @@ public class UserItemsRepository : IUserItemsRepository
                                 Quantity = reader.GetDouble("quantity")
                             };
 
-                            Items.Add(item);
+                            items.Add(item);
                         }
                     }
                 }
@@ -54,9 +54,13 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return Items;
+        return items;
     }
     public async Task<int> GetUserItemsCountAsync(string user_id, string type)
     {
@@ -87,6 +91,10 @@ public class UserItemsRepository : IUserItemsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -132,6 +140,10 @@ public class UserItemsRepository : IUserItemsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -183,6 +195,10 @@ public class UserItemsRepository : IUserItemsRepository
                 Debug.LogError("Error: " + ex.Message);
                 return false;
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
         return true;
@@ -214,6 +230,10 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
         return items;
@@ -244,6 +264,10 @@ public class UserItemsRepository : IUserItemsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +10,7 @@ public class PetsGalleryController : MonoBehaviour
 {
     public static PetsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject PetBlockButtonPrefab;
     private GameObject equipmentsPrefab;
     private void Awake()
     {
@@ -32,115 +34,118 @@ public class PetsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
+        PetBlockButtonPrefab = UIManager.Instance.GetGeneralButton("PetBlockButtonPrefab");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
     }
     public void CreatePetsGallery(List<Pets> petsList, Transform contentPanel)
     {
         foreach (var pet in petsList)
         {
-            GameObject petsObject;
-            if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
+            try
             {
-                petsObject = Instantiate(cardsPrefab, contentPanel);
-                RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
-                Background.gameObject.SetActive(true);
+                GameObject petsObject = Instantiate(PetBlockButtonPrefab, contentPanel);
 
-                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-                if (gridLayout != null)
+                TextMeshProUGUI Title = petsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = pet.Name.Replace("_", " ");
+
+                RawImage image = petsObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                image.texture = texture;
+
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                Button button = petsObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
                 {
-                    gridLayout.cellSize = new Vector2(280, 280);
-                }
-            }
-            else
-            {
-                petsObject = Instantiate(equipmentsPrefab, contentPanel);
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);
+                });
 
-                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-                if (gridLayout != null)
+                RawImage blockImage = petsObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = petsObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (pet.Status.Equals("available"))
                 {
-                    gridLayout.cellSize = new Vector2(200, 230);
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
                 }
+                else if (pet.Status.Equals("pending"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(true);
+                }
+                else if (pet.Status.Equals("block"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(false);
+                }
+
+                if (pet.Type.Equals("Prime_Monster"))
+                {
+                    image.SetNativeSize();
+                    image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+                }
+
+                RawImage rareImage = petsObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
+                rareImage.texture = rareTexture;
+
+                Unlock.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    var petGalleryService = PetsGalleryService.Create();
+                    await petGalleryService.UpdateStatusPetGalleryAsync(pet.Id);
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+
+                    var powerManagerService = PowerManagerService.Create();
+                    var teamsService = TeamsService.Create();
+
+                    await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                });
+
+                Button Upgrade = petsObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((pet.CurrentStar < pet.TempStar) && pet.Status.Equals("available"))
+                {
+                    Upgrade.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Upgrade.gameObject.SetActive(false);
+                }
+
+                Upgrade.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await PetsGalleryService.Create().UpdatePetGalleryPowerAsync(pet.Id);
+                });
             }
-
-            Text Title = petsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = pet.Name.Replace("_", " ");
-
-            RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            Button button = petsObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            catch (Exception ex)
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);
-            });
-
-            RawImage blockImage = petsObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = petsObject.transform.Find("Unlock").GetComponent<Button>();
-            if (pet.Status.Equals("available"))
-            {
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                Debug.LogError("Error: " + ex.Message);
             }
-            else if (pet.Status.Equals("pending"))
-            {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
-            }
-            else if (pet.Status.Equals("block"))
-            {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
-            }
-
-            if (pet.Type.Equals("Prime_Monster"))
-            {
-                Image.SetNativeSize();
-                Image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            }
-
-            RawImage rareImage = petsObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            rareImage.texture = rareTexture;
-
-            Unlock.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var petGalleryService = PetsGalleryService.Create();
-                await petGalleryService.UpdateStatusPetGalleryAsync(pet.Id);
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
-
-                var powerManagerService = PowerManagerService.Create();
-                var teamsService = TeamsService.Create();
-
-                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
-                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-            });
-
-            Button Upgrade = petsObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((pet.CurrentStar < pet.TempStar) && pet.Status.Equals("available"))
-            {
-                Upgrade.gameObject.SetActive(true);
-            }
-            else
-            {
-                Upgrade.gameObject.SetActive(false);
-            }
-
-            Upgrade.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await PetsGalleryService.Create().UpdatePetGalleryPowerAsync(pet.Id);
-            });
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

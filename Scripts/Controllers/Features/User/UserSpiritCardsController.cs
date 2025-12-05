@@ -11,7 +11,7 @@ public class UserSpiritCardsController : MonoBehaviour
 {
     public static UserSpiritCardsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject SpiritCardButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,40 +39,55 @@ public class UserSpiritCardsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        SpiritCardButtonPrefab = UIManager.Instance.GetGeneralButton("SpiritCardButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserSpiritCard(List<SpiritCards> SpiritCardList, Transform contentPanel)
+    public void CreateUserSpiritCard(List<SpiritCards> spiritCards, Transform contentPanel)
     {
-        foreach (var title in SpiritCardList)
+        foreach (var spiritCard in spiritCards)
         {
-            GameObject titleObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject spiritCardObject = Instantiate(SpiritCardButtonPrefab, contentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = title.Name.Replace("_", " ");
+            TextMeshProUGUI Title = spiritCardObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = spiritCard.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
+            RawImage image = spiritCardObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            RectTransform rect = Image.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(200f, 400f);
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
 
-            Button button = titleObject.GetComponent<Button>();
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            Button button = spiritCardObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(title, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(spiritCard, MainPanel);
             });
 
-            RawImage rareImage = titleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
+            RawImage rareImage = spiritCardObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritCard.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = spiritCardObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
 

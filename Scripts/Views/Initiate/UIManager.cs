@@ -65,8 +65,6 @@ public class UIManager : MonoBehaviour
     public GameObject EquipmentSecondPrefab;
     public GameObject EquipmentFirstPrefab;
     public GameObject EquipmentFourthPrefab;
-    public GameObject ArtworkFirstPrefab;
-    public GameObject ArtworkSecondPrefab;
     public GameObject ElementDetailsPrefab;
     public GameObject ElementDetails2Prefab;
     public GameObject MainMenuDetailPanelPrefab;
@@ -122,11 +120,91 @@ public class UIManager : MonoBehaviour
     public GameObject EmployeeButtonPrefab;
     public GameObject RareButtonPrefab;
     public GameObject ItemShopButtonPrefab;
+    public GameObject AchievementButtonPrefab;
+    public GameObject AchievementBlockButtonPrefab;
+    public GameObject AlchemyButtonPrefab;
+    public GameObject AlchemyBlockButtonPrefab;
+    public GameObject ArchitectureButtonPrefab;
+    public GameObject ArchitectureBlockButtonPrefab;
+    public GameObject ArtworkButtonPrefab;
+    public GameObject ArtworkBlockButtonPrefab;
+    public GameObject AvatarButtonPrefab;
+    public GameObject AvatarBlockButtonPrefab;
+    public GameObject BadgeButtonPrefab;
+    public GameObject BadgeBlockButtonPrefab;
+    public GameObject BookButtonPrefab;
+    public GameObject BookBlockButtonPrefab;
+    public GameObject BorderButtonPrefab;
+    public GameObject BorderBlockButtonPrefab;
+    public GameObject CardAdmiralButtonPrefab;
+    public GameObject CardAdmiralBlockButtonPrefab;
+    public GameObject CardCaptainButtonPrefab;
+    public GameObject CardCaptainBlockButtonPrefab;
+    public GameObject CardColonelButtonPrefab;
+    public GameObject CardColonelBlockButtonPrefab;
+    public GameObject CardGeneralButtonPrefab;
+    public GameObject CardGeneralBlockButtonPrefab;
+    public GameObject CardHeroButtonPrefab;
+    public GameObject CardHeroBlockButtonPrefab;
+    public GameObject CardLifeButtonPrefab;
+    public GameObject CardLifeBlockButtonPrefab;
+    public GameObject CardMilitaryButtonPrefab;
+    public GameObject CardMilitaryBlockButtonPrefab;
+    public GameObject CardMonsterButtonPrefab;
+    public GameObject CardMonsterBlockButtonPrefab;
+    public GameObject CardButtonPrefab;
+    public GameObject CardBlockButtonPrefab;
+    public GameObject CardSpellButtonPrefab;
+    public GameObject CardSpellBlockButtonPrefab;
+    public GameObject CollaborationEquipmentButtonPrefab;
+    public GameObject CollaborationEquipmentBlockButtonPrefab;
+    public GameObject CollaborationButtonPrefab;
+    public GameObject CollaborationBlockButtonPrefab;
+    public GameObject CoreButtonPrefab;
+    public GameObject CoreBlockButtonPrefab;
+    public GameObject EquipmentButtonPrefab;
+    public GameObject EquipmentBlockButtonPrefab;
+    public GameObject ForgeButtonPrefab;
+    public GameObject ForgeBlockButtonPrefab;
+    public GameObject MagicFormationCirlceButtonPrefab;
+    public GameObject MagicFormationCirlceBlockButtonPrefab;
+    public GameObject MechaBeastButtonPrefab;
+    public GameObject MechaBeastBlockButtonPrefab;
+    public GameObject MedalButtonPrefab;
+    public GameObject MedalBlockButtonPrefab;
+    public GameObject PetButtonPrefab;
+    public GameObject PetBlockButtonPrefab;
+    public GameObject PuppetButtonPrefab;
+    public GameObject PuppetBlockButtonPrefab;
+    public GameObject RelicButtonPrefab;
+    public GameObject RelicBlockButtonPrefab;
+    public GameObject RobotButtonPrefab;
+    public GameObject RobotBlockButtonPrefab;
+    public GameObject RuneButtonPrefab;
+    public GameObject RuneBlockButtonPrefab;
+    public GameObject SkillButtonPrefab;
+    public GameObject SkillBlockButtonPrefab;
+    public GameObject SpiritBeastButtonPrefab;
+    public GameObject SpiritBeastBlockButtonPrefab;
+    public GameObject SpiritCardButtonPrefab;
+    public GameObject SpiritCardBlockButtonPrefab;
+    public GameObject SymbolButtonPrefab;
+    public GameObject SymbolBlockButtonPrefab;
+    public GameObject TalismanButtonPrefab;
+    public GameObject TalismanBlockButtonPrefab;
+    public GameObject TechnologyButtonPrefab;
+    public GameObject TechnologyBlockButtonPrefab;
+    public GameObject TitleButtonPrefab;
+    public GameObject TitleBlockButtonPrefab;
+    public GameObject VehicleButtonPrefab;
+    public GameObject VehicleBlockButtonPrefab;
+    public GameObject WeaponButtonPrefab;
+    public GameObject WeaponBlockButtonPrefab;
     [Header("Science Fiction")]
     public GameObject ReactorPanelPrefab;
     public GameObject ReactorButtonPrefab;
     public GameObject ReactorPanelNumberPrefab;
-    
+
     [Header("Other")]
     public GameObject MainMenuAnimePanelPrefab;
     public GameObject AnimePanelPrefab;
@@ -151,7 +229,7 @@ public class UIManager : MonoBehaviour
     public GameObject ArenaButtonPrefab;
     public GameObject AnimeButtonPrefab;
     public GameObject DailyCheckinComponentPrefab;
-    
+
     [Header("Other")]
     public GameObject AnimeSlotPrefab;
     public GameObject MasterBoardNodePrefab;
@@ -250,10 +328,6 @@ public class UIManager : MonoBehaviour
                 return EquipmentFirstPrefab;
             case "EquipmentFourthPrefab":
                 return EquipmentFourthPrefab;
-            case "ArtworkSecondPrefab":
-                return ArtworkSecondPrefab;
-            case "ArtworkFirstPrefab":
-                return ArtworkFirstPrefab;
             case "ElementDetailsPrefab":
                 return ElementDetailsPrefab;
             case "MainMenuDetailPanelPrefab":
@@ -385,7 +459,7 @@ public class UIManager : MonoBehaviour
                 return PopupButtonPrefab;
             case "AdvancedButtonFirst":
                 return AdvancedButtonFirst;
-            
+
             default:
                 Debug.LogWarning($"Prefab {prefabName} not found.");
                 return null;
@@ -467,7 +541,7 @@ public class UIManager : MonoBehaviour
                 return NewsPanelPrefab;
         }
     }
-    public GameObject GetGameObjectScienceFiction(string prefabName)
+    public GameObject GetScienceFictionPanel(string prefabName)
     {
         switch (prefabName)
         {
@@ -524,6 +598,166 @@ public class UIManager : MonoBehaviour
                 return RareButtonPrefab;
             case "ItemShopButtonPrefab":
                 return ItemShopButtonPrefab;
+            case "AchievementButtonPrefab":
+                return AchievementButtonPrefab;
+            case "AchievementBlockButtonPrefab":
+                return AchievementBlockButtonPrefab;
+            case "AlchemyButtonPrefab":
+                return AlchemyButtonPrefab;
+            case "AlchemyBlockButtonPrefab":
+                return AlchemyBlockButtonPrefab;
+            case "ArchitectureButtonPrefab":
+                return ArchitectureButtonPrefab;
+            case "ArchitectureBlockButtonPrefab":
+                return ArchitectureBlockButtonPrefab;
+            case "ArtworkButtonPrefab":
+                return ArtworkButtonPrefab;
+            case "ArtworkBlockButtonPrefab":
+                return ArtworkBlockButtonPrefab;
+            case "AvatarButtonPrefab":
+                return AvatarButtonPrefab;
+            case "AvatarBlockButtonPrefab":
+                return AvatarBlockButtonPrefab;
+            case "BadgeButtonPrefab":
+                return BadgeButtonPrefab;
+            case "BadgeBlockButtonPrefab":
+                return BadgeBlockButtonPrefab;
+            case "BookButtonPrefab":
+                return BookButtonPrefab;
+            case "BookBlockButtonPrefab":
+                return BookBlockButtonPrefab;
+            case "BorderButtonPrefab":
+                return BorderButtonPrefab;
+            case "BorderBlockButtonPrefab":
+                return BorderBlockButtonPrefab;
+            case "CardAdmiralButtonPrefab":
+                return CardAdmiralButtonPrefab;
+            case "CardAdmiralBlockButtonPrefab":
+                return CardAdmiralBlockButtonPrefab;
+            case "CardCaptainButtonPrefab":
+                return CardCaptainButtonPrefab;
+            case "CardCaptainBlockButtonPrefab":
+                return CardCaptainBlockButtonPrefab;
+            case "CardColonelButtonPrefab":
+                return CardColonelButtonPrefab;
+            case "CardColonelBlockButtonPrefab":
+                return CardColonelBlockButtonPrefab;
+            case "CardGeneralButtonPrefab":
+                return CardGeneralButtonPrefab;
+            case "CardGeneralBlockButtonPrefab":
+                return CardGeneralBlockButtonPrefab;
+            case "CardHeroButtonPrefab":
+                return CardHeroButtonPrefab;
+            case "CardHeroBlockButtonPrefab":
+                return CardHeroBlockButtonPrefab;
+            case "CardLifeButtonPrefab":
+                return CardLifeButtonPrefab;
+            case "CardLifeBlockButtonPrefab":
+                return CardLifeBlockButtonPrefab;
+            case "CardMilitaryButtonPrefab":
+                return CardMilitaryButtonPrefab;
+            case "CardMilitaryBlockButtonPrefab":
+                return CardMilitaryBlockButtonPrefab;
+            case "CardMonsterButtonPrefab":
+                return CardMonsterButtonPrefab;
+            case "CardMonsterBlockButtonPrefab":
+                return CardMonsterBlockButtonPrefab;
+            case "CardButtonPrefab":
+                return CardButtonPrefab;
+            case "CardBlockButtonPrefab":
+                return CardBlockButtonPrefab;
+            case "CardSpellButtonPrefab":
+                return CardSpellButtonPrefab;
+            case "CardSpellBlockButtonPrefab":
+                return CardSpellBlockButtonPrefab;
+            case "CollaborationEquipmentButtonPrefab":
+                return CollaborationEquipmentButtonPrefab;
+            case "CollaborationEquipmentBlockButtonPrefab":
+                return CollaborationEquipmentBlockButtonPrefab;
+            case "CollaborationButtonPrefab":
+                return CollaborationButtonPrefab;
+            case "CollaborationBlockButtonPrefab":
+                return CollaborationBlockButtonPrefab;
+            case "CoreButtonPrefab":
+                return CoreButtonPrefab;
+            case "CoreBlockButtonPrefab":
+                return CoreBlockButtonPrefab;
+            case "EquipmentButtonPrefab":
+                return EquipmentButtonPrefab;
+            case "EquipmentBlockButtonPrefab":
+                return EquipmentBlockButtonPrefab;
+            case "ForgeButtonPrefab":
+                return ForgeButtonPrefab;
+            case "ForgeBlockButtonPrefab":
+                return ForgeBlockButtonPrefab;
+            case "MagicFormationCirlceButtonPrefab":
+                return MagicFormationCirlceButtonPrefab;
+            case "MagicFormationCirlceBlockButtonPrefab":
+                return MagicFormationCirlceBlockButtonPrefab;
+            case "MechaBeastButtonPrefab":
+                return MechaBeastButtonPrefab;
+            case "MechaBeastBlockButtonPrefab":
+                return MechaBeastBlockButtonPrefab;
+            case "MedalButtonPrefab":
+                return MedalButtonPrefab;
+            case "MedalBlockButtonPrefab":
+                return MedalBlockButtonPrefab;
+            case "PetButtonPrefab":
+                return PetButtonPrefab;
+            case "PetBlockButtonPrefab":
+                return PetBlockButtonPrefab;
+            case "PuppetButtonPrefab":
+                return PuppetButtonPrefab;
+            case "PuppetBlockButtonPrefab":
+                return PuppetBlockButtonPrefab;
+            case "RelicButtonPrefab":
+                return RelicButtonPrefab;
+            case "RelicBlockButtonPrefab":
+                return RelicBlockButtonPrefab;
+            case "RobotButtonPrefab":
+                return RobotButtonPrefab;
+            case "RobotBlockButtonPrefab":
+                return RobotBlockButtonPrefab;
+            case "RuneButtonPrefab":
+                return RuneButtonPrefab;
+            case "RuneBlockButtonPrefab":
+                return RuneBlockButtonPrefab;
+            case "SkillButtonPrefab":
+                return SkillButtonPrefab;
+            case "SkillBlockButtonPrefab":
+                return SkillBlockButtonPrefab;
+            case "SpiritBeastButtonPrefab":
+                return SpiritBeastButtonPrefab;
+            case "SpiritBeastBlockButtonPrefab":
+                return SpiritBeastBlockButtonPrefab;
+            case "SpiritCardButtonPrefab":
+                return SpiritCardButtonPrefab;
+            case "SpiritCardBlockButtonPrefab":
+                return SpiritCardBlockButtonPrefab;
+            case "SymbolButtonPrefab":
+                return SymbolButtonPrefab;
+            case "SymbolBlockButtonPrefab":
+                return SymbolBlockButtonPrefab;
+            case "TalismanButtonPrefab":
+                return TalismanButtonPrefab;
+            case "TalismanBlockButtonPrefab":
+                return TalismanBlockButtonPrefab;
+            case "TechnologyButtonPrefab":
+                return TechnologyButtonPrefab;
+            case "TechnologyBlockButtonPrefab":
+                return TechnologyBlockButtonPrefab;
+            case "TitleButtonPrefab":
+                return TitleButtonPrefab;
+            case "TitleBlockButtonPrefab":
+                return TitleBlockButtonPrefab;
+            case "VehicleButtonPrefab":
+                return VehicleButtonPrefab;
+            case "VehicleBlockButtonPrefab":
+                return VehicleBlockButtonPrefab;
+            case "WeaponButtonPrefab":
+                return WeaponButtonPrefab;
+            case "WeaponBlockButtonPrefab":
+                return WeaponBlockButtonPrefab;
             default:
                 return WorldButtonPrefab;
         }
@@ -717,7 +951,7 @@ public class UIManager : MonoBehaviour
         // Transform element2PopupPanel = elementDetails2Object.transform.Find("ElementDetails");
         // Transform descriptionPopupPanel = descriptionDetailsObject.transform.Find("ElementDetails");
         if (!property.Name.Equals(AppConstants.StatFields.ID) && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
-                && !property.Name.Equals(AppConstants.StatFields.EXPERIMENT) && !property.Name.Equals(AppConstants.StatFields.QUANTITY) 
+                && !property.Name.Equals(AppConstants.StatFields.EXPERIMENT) && !property.Name.Equals(AppConstants.StatFields.QUANTITY)
                 && !property.Name.Equals(AppConstants.StatFields.BLOCK)
                 && !property.Name.Equals(AppConstants.StatFields.STATUS) && !property.Name.Equals(AppConstants.StatFields.NAME)
                 && !property.Name.Equals(AppConstants.StatFields.IMAGE))
@@ -754,7 +988,7 @@ public class UIManager : MonoBehaviour
                 //     gridLayout.cellSize = new Vector2(670, 800);
                 // }
             }
-            else if (property.Name.Equals(AppConstants.StatFields.POWER) 
+            else if (property.Name.Equals(AppConstants.StatFields.POWER)
             || property.Name.Equals(AppConstants.StatFields.RARE) || property.Name.Equals(AppConstants.StatFields.TYPE)
             || property.Name.Equals(AppConstants.StatFields.STAR) || property.Name.Equals(AppConstants.StatFields.LEVEL))
             {
@@ -998,19 +1232,23 @@ public class UIManager : MonoBehaviour
             runeTexture = Resources.Load<Texture>(ImageConstants.Rune.HEALTH_RUNE_URL);
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.SPEED)) {
+        else if (title.Equals(AppConstants.StatFields.SPEED))
+        {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SPEED_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.CRITICAL_RATE)) {
+        else if (title.Equals(AppConstants.StatFields.CRITICAL_RATE))
+        {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.CRITICAL_DAMAGE_RATE)) {
+        else if (title.Equals(AppConstants.StatFields.CRITICAL_DAMAGE_RATE))
+        {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
-        else if (title.Equals(AppConstants.StatFields.DAMAGE_ABSORPTION_RATE)) {
+        else if (title.Equals(AppConstants.StatFields.DAMAGE_ABSORPTION_RATE))
+        {
             runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }

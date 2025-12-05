@@ -9,10 +9,10 @@ public class UserRelicsRepository : IUserRelicsRepository
 {
     public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Relics> Relics = new List<Relics>();
+        List<Relics> relics = new List<Relics>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,11 +37,11 @@ public class UserRelicsRepository : IUserRelicsRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Relics Relic = new Relics
+                            Relics relic = new Relics
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -105,7 +105,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            Relics.Add(Relic);
+                            relics.Add(relic);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserRelicsRepository : IUserRelicsRepository
             }
         }
 
-        return Relics;
+        return relics;
     }
     public async Task<int> GetUserRelicsCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserRelicsRepository : IUserRelicsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -176,12 +176,12 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) 
-                FROM user_relics
-                WHERE user_id = @user_id AND Relic_id = @Relic_id;
-            ";
+                    SELECT COUNT(*) 
+                    FROM user_relics
+                    WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@Relic_id", Relic.Id);
@@ -228,7 +228,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                         );
                     ";
 
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@Relic_id", Relic.Id);
@@ -297,12 +297,12 @@ public class UserRelicsRepository : IUserRelicsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_relics
-                        SET quantity = @quantity
-                        WHERE user_id = @user_id AND Relic_id = @Relic_id;
-                    ";
+                            UPDATE user_relics
+                            SET quantity = @quantity
+                            WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                        ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@Relic_id", Relic.Id);
@@ -330,7 +330,7 @@ public class UserRelicsRepository : IUserRelicsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -368,7 +368,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 WHERE user_id = @user_id AND Relic_id = @Relic_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Relic_id", Relic.Id);
@@ -444,7 +444,7 @@ public class UserRelicsRepository : IUserRelicsRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 WHERE user_id = @user_id AND Relic_id = @Relic_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Relic_id", Relic.Id);
@@ -556,10 +556,10 @@ public class UserRelicsRepository : IUserRelicsRepository
     }
     public async Task<Relics> GetUserRelicByIdAsync(string user_id, string Id)
     {
-        Relics card = null;
+        Relics relic = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,16 +568,16 @@ public class UserRelicsRepository : IUserRelicsRepository
                 string query = @"SELECT * FROM user_Relics 
                              WHERE Relic_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Relics
+                            relic = new Relics
                             {
                                 Id = reader.GetString("Relic_id"),
                                 Level = reader.GetInt32("level"),
@@ -649,14 +649,14 @@ public class UserRelicsRepository : IUserRelicsRepository
             }
         }
 
-        return card;
+        return relic;
     }
     public async Task<Relics> SumPowerUserRelicsAsync()
     {
         Relics sumRelics = new Relics();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserRelicsRepository : IUserRelicsRepository
                 FROM user_Relics
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

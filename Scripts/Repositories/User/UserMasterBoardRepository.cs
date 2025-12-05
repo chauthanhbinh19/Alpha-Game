@@ -115,6 +115,10 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
         return masterBoards;
@@ -254,6 +258,10 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
     }
     public async Task UpdateUserMasterBoardAsync(string user_id, MasterBoard masterBoard)
@@ -386,6 +394,10 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }

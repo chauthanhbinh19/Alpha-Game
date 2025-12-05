@@ -175,6 +175,9 @@
   { "key": "Gallery.Cores", "value": "Cores Gallery" },
   { "key": "Gallery.Weapons", "value": "Weapons Gallery" },
   { "key": "Gallery.Robots", "value": "Robots Gallery" },
+  { "key": "Gallery.Badges", "value": "Badges Gallery" },
+  { "key": "Gallery.MechaBeasts", "value": "Mecha Beasts Gallery" },
+  { "key": "Gallery.Runes", "value": "Runes Gallery" },
 
   { "key": "Collection.CardHeroes", "value": "Card Heroes Collection" },
   { "key": "Collection.Books", "value": "Books Collection" },
@@ -213,6 +216,9 @@
   { "key": "Collection.Cores", "value": "Cores Collection" },
   { "key": "Collection.Weapons", "value": "Weapons Collection" },
   { "key": "Collection.Robots", "value": "Robots Collection" },
+  { "key": "Collection.Badges", "value": "Badges Collection" },
+  { "key": "Collection.MechaBeasts", "value": "Mecha Beasts Collection" },
+  { "key": "Collection.Runes", "value": "Runes Collection" },
 
   { "key": "CardHeroes", "value": "Card Heroes" },
   { "key": "Books", "value": "Books" },

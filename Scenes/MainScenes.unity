@@ -15441,8 +15441,6 @@ MonoBehaviour:
   EquipmentSecondPrefab: {fileID: 8708252175272485654, guid: 7baad8dfa4549664a90a3caec7494394, type: 3}
   EquipmentFirstPrefab: {fileID: 8708252175272485654, guid: bf10e02aad212674b92552951a9b7f34, type: 3}
   EquipmentFourthPrefab: {fileID: 8708252175272485654, guid: 48851e939d3c3e24782ada1017c67ea6, type: 3}
-  ArtworkFirstPrefab: {fileID: 8708252175272485654, guid: 6f08123ab57d8074bb5d39a84bb41dd6, type: 3}
-  ArtworkSecondPrefab: {fileID: 8708252175272485654, guid: a9566dfea5275ad48b14a03b9c6ad030, type: 3}
   ElementDetailsPrefab: {fileID: 3336894875229122267, guid: a155ff5e34396694a98fbedccd46c40a, type: 3}
   ElementDetails2Prefab: {fileID: 3336894875229122267, guid: 07c7005436ff44c48bb5de685d4f0deb, type: 3}
   MainMenuDetailPanelPrefab: {fileID: 5745659240395072349, guid: ad6f21f2970273d4cbef5eb4a0f9e0ec, type: 3}
@@ -15496,6 +15494,86 @@ MonoBehaviour:
   EmployeeButtonPrefab: {fileID: 8708252175272485654, guid: 043ce1e2d83d533438c0c6c59a8e0044, type: 3}
   RareButtonPrefab: {fileID: 5647053732788993068, guid: 1e580788d16b1784b801738fb4345d81, type: 3}
   ItemShopButtonPrefab: {fileID: 8708252175272485654, guid: 7fb4c63072a56e4449068e51883ce2ae, type: 3}
+  AchievementButtonPrefab: {fileID: 8708252175272485654, guid: 8373295f11127f34e82e46698e847f96, type: 3}
+  AchievementBlockButtonPrefab: {fileID: 8708252175272485654, guid: 92703ee04297f614299ded11c6c7c8ad, type: 3}
+  AlchemyButtonPrefab: {fileID: 8708252175272485654, guid: 5661a1162a36dab4fb8f8b9d1dbdb76e, type: 3}
+  AlchemyBlockButtonPrefab: {fileID: 8708252175272485654, guid: 4372a08f6e4033d43805dd25437a292e, type: 3}
+  ArchitectureButtonPrefab: {fileID: 8708252175272485654, guid: 016e420d812bfd5438f2a17a3aa02d90, type: 3}
+  ArchitectureBlockButtonPrefab: {fileID: 8708252175272485654, guid: 708d86cf428c3c248bbd4085499f7fb7, type: 3}
+  ArtworkButtonPrefab: {fileID: 8708252175272485654, guid: 128614efabb5bd84b96e59ca3e621c95, type: 3}
+  ArtworkBlockButtonPrefab: {fileID: 8708252175272485654, guid: 890ba8b830ad7cb4da38526de8bdc6eb, type: 3}
+  AvatarButtonPrefab: {fileID: 8708252175272485654, guid: 223f82f44477c604484d13ae9bf11326, type: 3}
+  AvatarBlockButtonPrefab: {fileID: 8708252175272485654, guid: c25377c2510a94144b0cc44d4f8448c2, type: 3}
+  BadgeButtonPrefab: {fileID: 8708252175272485654, guid: 32eb41d9902c252458e4caa4f81ead94, type: 3}
+  BadgeBlockButtonPrefab: {fileID: 8708252175272485654, guid: 3870e0d169bce9641a31e1bf6007ea03, type: 3}
+  BookButtonPrefab: {fileID: 8708252175272485654, guid: 0bd8564a4262a7c4f9edc12b9d08274a, type: 3}
+  BookBlockButtonPrefab: {fileID: 8708252175272485654, guid: 2f1885fe9cd160b49871b20bae049d30, type: 3}
+  BorderButtonPrefab: {fileID: 8708252175272485654, guid: c3e931a02f127e94faf0af06ee228c8f, type: 3}
+  BorderBlockButtonPrefab: {fileID: 8708252175272485654, guid: e49805e9d8c32ce4f8f9dc52da65c629, type: 3}
+  CardAdmiralButtonPrefab: {fileID: 8708252175272485654, guid: d0fdc23dbef8e2040ab7fb4293790786, type: 3}
+  CardAdmiralBlockButtonPrefab: {fileID: 8708252175272485654, guid: e818efa87006b9e4887e808168d0339d, type: 3}
+  CardCaptainButtonPrefab: {fileID: 8708252175272485654, guid: 4f6f12a114b07c14c9353a9c7e2fa943, type: 3}
+  CardCaptainBlockButtonPrefab: {fileID: 8708252175272485654, guid: ad6f5cc9d211ad34c80be42c0d5e180c, type: 3}
+  CardColonelButtonPrefab: {fileID: 8708252175272485654, guid: 48c9a90bb9effcb46bdee5475c628905, type: 3}
+  CardColonelBlockButtonPrefab: {fileID: 8708252175272485654, guid: 45bae3bac3be93942a891c602d08271b, type: 3}
+  CardGeneralButtonPrefab: {fileID: 8708252175272485654, guid: 6866096830eab32468e3364f446b26bc, type: 3}
+  CardGeneralBlockButtonPrefab: {fileID: 8708252175272485654, guid: 5103a234404163b41beef6ce49c7fd4a, type: 3}
+  CardHeroButtonPrefab: {fileID: 8708252175272485654, guid: f47551fe78389c44b90dd35b7c2ff299, type: 3}
+  CardHeroBlockButtonPrefab: {fileID: 8708252175272485654, guid: d643089f09fa9184c843fd94ef50e088, type: 3}
+  CardLifeButtonPrefab: {fileID: 8708252175272485654, guid: e1cea9fb153fa6b4ebfe0360897a2a24, type: 3}
+  CardLifeBlockButtonPrefab: {fileID: 8708252175272485654, guid: f8b926e84431c7b458ea9a62228f9b78, type: 3}
+  CardMilitaryButtonPrefab: {fileID: 8708252175272485654, guid: 0b1d431e47e0f4e429c031e9c0f09764, type: 3}
+  CardMilitaryBlockButtonPrefab: {fileID: 8708252175272485654, guid: 74940b73b7eab594c9748abed86b56b1, type: 3}
+  CardMonsterButtonPrefab: {fileID: 8708252175272485654, guid: 3df75a77c7eaded4f8961437d32291f0, type: 3}
+  CardMonsterBlockButtonPrefab: {fileID: 8708252175272485654, guid: c03d762f067c2bb43850d7a97a785bc9, type: 3}
+  CardButtonPrefab: {fileID: 8708252175272485654, guid: d730bdd09ca256b42935eef862938375, type: 3}
+  CardBlockButtonPrefab: {fileID: 8708252175272485654, guid: 7f7bd5844e061754caa25689660bb2fe, type: 3}
+  CardSpellButtonPrefab: {fileID: 8708252175272485654, guid: 6d51f66117403874fab777dbbb5ce98c, type: 3}
+  CardSpellBlockButtonPrefab: {fileID: 8708252175272485654, guid: af3229d4921436f498bec3b6c5e4715f, type: 3}
+  CollaborationEquipmentButtonPrefab: {fileID: 8708252175272485654, guid: c8a164eff7c221b4ba0e70117ac60a3b, type: 3}
+  CollaborationEquipmentBlockButtonPrefab: {fileID: 8708252175272485654, guid: be0b952a6231a374f861709334481a9c, type: 3}
+  CollaborationButtonPrefab: {fileID: 8708252175272485654, guid: 5d1d05d0ddae15f47a9a5c00ebca5605, type: 3}
+  CollaborationBlockButtonPrefab: {fileID: 8708252175272485654, guid: e7953cba23404f44dac12aaa3aa4fd5b, type: 3}
+  CoreButtonPrefab: {fileID: 8708252175272485654, guid: 7ed0b767c01b30945bd544722bd20f38, type: 3}
+  CoreBlockButtonPrefab: {fileID: 8708252175272485654, guid: c146d74b5987b6249992d59661dcdc3f, type: 3}
+  EquipmentButtonPrefab: {fileID: 8708252175272485654, guid: d100031a54ed0394f9584408722d9dc1, type: 3}
+  EquipmentBlockButtonPrefab: {fileID: 8708252175272485654, guid: 148e14ebcb6201d4f83ba1bbe2b40887, type: 3}
+  ForgeButtonPrefab: {fileID: 8708252175272485654, guid: a1081bf1908be514c800fbee5d981250, type: 3}
+  ForgeBlockButtonPrefab: {fileID: 8708252175272485654, guid: b7c396b5f36b09e4faa979e7a3fef754, type: 3}
+  MagicFormationCirlceButtonPrefab: {fileID: 8708252175272485654, guid: 95ce2a7ea118d6347b546626b1cc027b, type: 3}
+  MagicFormationCirlceBlockButtonPrefab: {fileID: 8708252175272485654, guid: 86274e23746c0444da6410ca6cc00d78, type: 3}
+  MechaBeastButtonPrefab: {fileID: 8708252175272485654, guid: f5d1df6ab47c0784faf154e84353cc11, type: 3}
+  MechaBeastBlockButtonPrefab: {fileID: 8708252175272485654, guid: 5c922f2bd91460e4d8acc637fca0ddfb, type: 3}
+  MedalButtonPrefab: {fileID: 8708252175272485654, guid: 8177deaf915fae24287c7a464fdc8935, type: 3}
+  MedalBlockButtonPrefab: {fileID: 8708252175272485654, guid: b95a5266e4beb7647b28c71726df72d0, type: 3}
+  PetButtonPrefab: {fileID: 8708252175272485654, guid: bb85f0d70475c6b4695402f73e2e44a0, type: 3}
+  PetBlockButtonPrefab: {fileID: 8708252175272485654, guid: 32868c21fafd3db4d9f6539efe5d4493, type: 3}
+  PuppetButtonPrefab: {fileID: 8708252175272485654, guid: c723faf7d2424a54fb97da21800b7bb8, type: 3}
+  PuppetBlockButtonPrefab: {fileID: 8708252175272485654, guid: fe28ee1d356a4b94581e0798db6d2b52, type: 3}
+  RelicButtonPrefab: {fileID: 8708252175272485654, guid: f06ec833b596e164abafa94176000cb2, type: 3}
+  RelicBlockButtonPrefab: {fileID: 8708252175272485654, guid: cc353b4d08820c64189578535fc072de, type: 3}
+  RobotButtonPrefab: {fileID: 8708252175272485654, guid: 537d76367dd65a4468d78add1487e023, type: 3}
+  RobotBlockButtonPrefab: {fileID: 8708252175272485654, guid: 695448c1c996c994b84b06a14f0871b1, type: 3}
+  RuneButtonPrefab: {fileID: 8708252175272485654, guid: e9bee9687c8d011409587d2b678fec4c, type: 3}
+  RuneBlockButtonPrefab: {fileID: 8708252175272485654, guid: dabef607d78441e4796caaa7d26cb21a, type: 3}
+  SkillButtonPrefab: {fileID: 8708252175272485654, guid: 2048ccb33c7201642ac87df6d2a17fba, type: 3}
+  SkillBlockButtonPrefab: {fileID: 8708252175272485654, guid: b26315c94b2ce3e4fa08221e6896884c, type: 3}
+  SpiritBeastButtonPrefab: {fileID: 8708252175272485654, guid: d8f480648cde0304a9716a62e93e2528, type: 3}
+  SpiritBeastBlockButtonPrefab: {fileID: 8708252175272485654, guid: 07f51697b489595469194c371e3953bf, type: 3}
+  SpiritCardButtonPrefab: {fileID: 8708252175272485654, guid: fe6d8cd9501053742b6430b99eaa6274, type: 3}
+  SpiritCardBlockButtonPrefab: {fileID: 8708252175272485654, guid: 116dd7d17e8b05b479b6b754a528dbab, type: 3}
+  SymbolButtonPrefab: {fileID: 8708252175272485654, guid: 268fbad6ed4b3354ab2055d2b195cb9d, type: 3}
+  SymbolBlockButtonPrefab: {fileID: 8708252175272485654, guid: 8ffd595e8de476c488cb1a73bd931938, type: 3}
+  TalismanButtonPrefab: {fileID: 8708252175272485654, guid: eba53ccf834c3c94997e9884deaca5d8, type: 3}
+  TalismanBlockButtonPrefab: {fileID: 8708252175272485654, guid: 33241429e8a5dde4aa8a24b9ea0e8942, type: 3}
+  TechnologyButtonPrefab: {fileID: 8708252175272485654, guid: 9798e7c1d73921746936655c400af75c, type: 3}
+  TechnologyBlockButtonPrefab: {fileID: 8708252175272485654, guid: 9a2fb8c8f6404154091e6613146fbe9a, type: 3}
+  TitleButtonPrefab: {fileID: 8708252175272485654, guid: b01987d51028b4c4ea3094e55799b57e, type: 3}
+  TitleBlockButtonPrefab: {fileID: 8708252175272485654, guid: 46df67f447d60354f8b4a15d7c7475d5, type: 3}
+  VehicleButtonPrefab: {fileID: 8708252175272485654, guid: 12102ddf4fbcbbd479187bad0fe34419, type: 3}
+  VehicleBlockButtonPrefab: {fileID: 8708252175272485654, guid: 369998c265e4d9246a470bd27f0503c0, type: 3}
+  WeaponButtonPrefab: {fileID: 8708252175272485654, guid: 03b4b3be287730e438ca063799c494f7, type: 3}
+  WeaponBlockButtonPrefab: {fileID: 8708252175272485654, guid: a8e72496b5af5334396db236082074b6, type: 3}
   ReactorPanelPrefab: {fileID: 5745659240395072349, guid: 4631e5596c21e6a41877541d96a4241d, type: 3}
   ReactorButtonPrefab: {fileID: 8708252175272485654, guid: 00e6aff5ada6a2946901257d89389044, type: 3}
   ReactorPanelNumberPrefab: {fileID: 5745659240395072349, guid: feecd0567b8aa2043944271f8b5486b2, type: 3}

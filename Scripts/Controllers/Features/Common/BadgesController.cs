@@ -10,7 +10,7 @@ public class BadgesController : MonoBehaviour
 {
     public static BadgesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject BadgeButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,7 +37,7 @@ public class BadgesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        BadgeButtonPrefab = UIManager.Instance.GetGeneralButton("BadgeButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
@@ -47,9 +47,9 @@ public class BadgesController : MonoBehaviour
     {
         foreach (var Badge in BadgesList)
         {
-            GameObject BadgeObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject BadgeObject = Instantiate(BadgeButtonPrefab, contentPanel);
 
-            Text Title = BadgeObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = BadgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = Badge.Name.Replace("_", " ");
 
             RawImage image = BadgeObject.transform.Find("Image").GetComponent<RawImage>();
@@ -93,7 +93,7 @@ public class BadgesController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

@@ -11,7 +11,7 @@ public class UserAlchemiesController : MonoBehaviour
 {
     public static UserAlchemiesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject AlchemyButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,7 +39,7 @@ public class UserAlchemiesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        AlchemyButtonPrefab = UIManager.Instance.GetGeneralButton("AlchemyButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
@@ -48,15 +48,33 @@ public class UserAlchemiesController : MonoBehaviour
     {
         foreach (var alchemy in alchemies)
         {
-            GameObject alchemyObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject alchemyObject = Instantiate(AlchemyButtonPrefab, contentPanel);
 
-            Text Title = alchemyObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = alchemyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = alchemy.Name.Replace("_", " ");
 
-            RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = alchemyObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

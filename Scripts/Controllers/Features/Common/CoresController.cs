@@ -10,7 +10,7 @@ public class CoresController : MonoBehaviour
 {
     public static CoresController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject CoreButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,7 +37,7 @@ public class CoresController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        CoreButtonPrefab = UIManager.Instance.GetGeneralButton("CoreButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
@@ -47,9 +47,9 @@ public class CoresController : MonoBehaviour
     {
         foreach (var core in CoresList)
         {
-            GameObject coreObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject coreObject = Instantiate(CoreButtonPrefab, contentPanel);
 
-            Text Title = coreObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = coreObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = core.Name.Replace("_", " ");
 
             RawImage image = coreObject.transform.Find("Image").GetComponent<RawImage>();
@@ -93,7 +93,7 @@ public class CoresController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

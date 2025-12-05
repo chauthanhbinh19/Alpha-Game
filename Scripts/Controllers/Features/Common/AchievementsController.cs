@@ -11,7 +11,7 @@ public class AchievementsController : MonoBehaviour
 {
     public static AchievementsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject AchievementButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -38,7 +38,7 @@ public class AchievementsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        AchievementButtonPrefab = UIManager.Instance.GetGeneralButton("AchievementButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
@@ -48,9 +48,9 @@ public class AchievementsController : MonoBehaviour
     {
         foreach (var achievement in achievements)
         {
-            GameObject avatarObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject avatarObject = Instantiate(AchievementButtonPrefab, contentPanel);
 
-            Text Title = avatarObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = avatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = achievement.Name.Replace("_", " ");
 
             RawImage Image = avatarObject.transform.Find("Image").GetComponent<RawImage>();
@@ -78,7 +78,7 @@ public class AchievementsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

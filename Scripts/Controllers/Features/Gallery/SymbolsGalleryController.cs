@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +10,7 @@ public class SymbolsGalleryController : MonoBehaviour
 {
     public static SymbolsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject SymbolBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,97 +33,104 @@ public class SymbolsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+        SymbolBlockButtonPrefab = UIManager.Instance.GetGeneralButton("SymbolBlockButtonPrefab");
     }
-    public void CreateSymbolsGallery(List<Symbols> symbolsList, Transform contentPanel)
+    public void CreateSymbolsGallery(List<Symbols> symbols, Transform contentPanel)
     {
-        foreach (var symbol in symbolsList)
+        foreach (var symbol in symbols)
         {
-            GameObject symbolObject = Instantiate(equipmentsPrefab, contentPanel);
-
-            Text Title = symbolObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = symbol.Name.Replace("_", " ");
-
-            RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            Button button = symbolObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            try
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(symbol, MainPanel);
-            });
-            // cardImage.SetNativeSize();
-            // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+                GameObject symbolObject = Instantiate(SymbolBlockButtonPrefab, contentPanel);
 
-            RawImage rareImage = symbolObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.Rare}");
-            rareImage.texture = rareTexture;
+                TextMeshProUGUI Title = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = symbol.Name.Replace("_", " ");
 
-            RawImage blockImage = symbolObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = symbolObject.transform.Find("Unlock").GetComponent<Button>();
-            if (symbol.Status.Equals("available"))
-            {
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Image.texture = texture;
+
+                Button button = symbolObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(symbol, MainPanel);
+                });
+                // cardImage.SetNativeSize();
+                // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+
+                RawImage rareImage = symbolObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.Rare}");
+                rareImage.texture = rareTexture;
+
+                RawImage blockImage = symbolObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = symbolObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (symbol.Status.Equals("available"))
+                {
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    Image.color = Color.white;
+                }
+                else if (symbol.Status.Equals("pending"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(true);
+                }
+                else if (symbol.Status.Equals("block"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(false);
+                }
+
+                RawImage rareBackgroundImage = symbolObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                rareImage.gameObject.SetActive(false);
+                rareBackgroundImage.gameObject.SetActive(false);
+
+                Unlock.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    var symbolGalleryService = SymbolsGalleryService.Create();
+                    await symbolGalleryService.UpdateStatusSymbolGalleryAsync(symbol.Id);
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    Image.color = Color.white;
+
+                    var powerManagerService = PowerManagerService.Create();
+                    var teamsService = TeamsService.Create();
+
+                    await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                });
+
+                Button Upgrade = symbolObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((symbol.CurrentStar < symbol.TempStar) && symbol.Status.Equals("available"))
+                {
+                    Upgrade.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Upgrade.gameObject.SetActive(false);
+                }
+
+                Upgrade.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await SymbolsGalleryService.Create().UpdateSymbolGalleryPowerAsync(symbol.Id);
+                });
             }
-            else if (symbol.Status.Equals("pending"))
+            catch (Exception ex)
             {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
+                Debug.LogError("Error: " + ex.Message);
             }
-            else if (symbol.Status.Equals("block"))
-            {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
-            }
-
-            RawImage rareBackgroundImage = symbolObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
-
-            Unlock.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var symbolGalleryService = SymbolsGalleryService.Create();
-                await symbolGalleryService.UpdateStatusSymbolGalleryAsync(symbol.Id);
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
-
-                var powerManagerService = PowerManagerService.Create();
-                var teamsService = TeamsService.Create();
-
-                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
-                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-            });
-
-            Button Upgrade = symbolObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((symbol.CurrentStar < symbol.TempStar) && symbol.Status.Equals("available"))
-            {
-                Upgrade.gameObject.SetActive(true);
-            }
-            else
-            {
-                Upgrade.gameObject.SetActive(false);
-            }
-
-            Upgrade.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await SymbolsGalleryService.Create().UpdateSymbolGalleryPowerAsync(symbol.Id);
-            });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

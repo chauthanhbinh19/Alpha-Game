@@ -9,7 +9,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 {
     public async Task<List<Robots>> GetUserRobotsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Robots> RobotsList = new List<Robots>();
+        List<Robots> robots = new List<Robots>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Robots Robot = new Robots
+                            Robots robot = new Robots
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            RobotsList.Add(Robot);
+                            robots.Add(robot);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserRobotsRepository : IUserRobotsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return RobotsList;
+        return robots;
     }
     public async Task<int> GetUserRobotsCountAsync(string user_id, string rare)
     {
@@ -147,6 +151,10 @@ public class UserRobotsRepository : IUserRobotsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserRobotsRepository : IUserRobotsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -526,7 +538,7 @@ public class UserRobotsRepository : IUserRobotsRepository
     }
     public async Task<Robots> GetUserRobotByIdAsync(string user_id, string Id)
     {
-        Robots Robot = new Robots();
+        Robots robot = new Robots();
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -544,7 +556,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Robot = new Robots
+                            robot = new Robots
                             {
                                 Id = reader.GetString("Robot_id"),
                                 Level = reader.GetInt32("level"),
@@ -616,7 +628,7 @@ public class UserRobotsRepository : IUserRobotsRepository
             }
 
         }
-        return Robot;
+        return robot;
     }
     public async Task<Robots> SumPowerUserRobotsAsync()
     {

@@ -11,7 +11,7 @@ public class UserArchitecturesController : MonoBehaviour
 {
     public static UserArchitecturesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject ArchitectureButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,7 +39,7 @@ public class UserArchitecturesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        ArchitectureButtonPrefab = UIManager.Instance.GetGeneralButton("ArchitectureButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
@@ -48,9 +48,9 @@ public class UserArchitecturesController : MonoBehaviour
     {
         foreach (var title in ArchitecturesList)
         {
-            GameObject titleObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject titleObject = Instantiate(ArchitectureButtonPrefab, contentPanel);
 
-            Text Title = titleObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = titleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = title.Name.Replace("_", " ");
 
             RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();

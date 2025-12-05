@@ -9,7 +9,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 {
     public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -167,7 +167,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 }
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -182,7 +182,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<int> GetUserEquipmentsCountAsync(string user_id, string type, string rare)
     {
@@ -228,7 +228,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
     }
     public async Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id)
     {
-        Equipments card = new Equipments();
+        Equipments equipment = new Equipments();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -250,7 +250,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Equipments
+                            equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Level = reader.GetInt32("level"),
@@ -376,7 +376,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
 
-        return card;
+        return equipment;
     }
     public async Task<bool> BuyEquipmentAsync(string Id, Equipments EquipmentFromDB)
     {
@@ -825,6 +825,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
     }
     public async Task InsertCardHeroEquipmentsAsync(string Id, Equipments equipments, int position)
@@ -879,6 +883,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }
@@ -935,6 +943,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
     }
     public async Task InsertCardColonelEquipmentsAsync(string Id, Equipments equipments, int position)
@@ -989,6 +1001,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }
@@ -1045,6 +1061,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
     }
     public async Task InsertCardAdmiralEquipmentsAsync(string Id, Equipments equipments, int position)
@@ -1099,6 +1119,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }
@@ -1155,6 +1179,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
     }
     public async Task InsertCardMilitaryEquipmentsAsync(string Id, Equipments equipments, int position)
@@ -1209,6 +1237,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }
@@ -1265,6 +1297,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
     }
     public async Task InsertBookEquipmentsAsync(string Id, Equipments equipments, int position)
@@ -1319,6 +1355,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
     }
@@ -1375,11 +1415,15 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
     }
     public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1409,7 +1453,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -1485,7 +1529,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -1494,13 +1538,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetCardCaptainsEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1530,7 +1578,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -1606,7 +1654,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -1615,13 +1663,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetCardColonelsEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1651,7 +1703,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -1727,7 +1779,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -1736,13 +1788,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetCardGeneralsEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1772,7 +1828,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -1848,7 +1904,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -1857,13 +1913,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetCardAdmiralsEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1893,7 +1953,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -1969,7 +2029,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -1978,13 +2038,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetCardMonstersEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2014,7 +2078,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -2090,7 +2154,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -2099,13 +2163,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetCardMilitariesEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2135,7 +2203,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -2211,7 +2279,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -2222,11 +2290,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetCardSpellsEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2256,7 +2324,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -2332,7 +2400,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -2341,13 +2409,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetBooksEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2377,7 +2449,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -2453,7 +2525,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -2462,13 +2534,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetPetsEquipmentsAsync(string user_id, string card_id, string type)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2498,7 +2574,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -2574,7 +2650,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position")
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -2583,13 +2659,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllCardHeroesEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2627,7 +2707,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.IsDBNull(reader.GetOrdinal("equipment_id")) ? null : reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -2703,7 +2783,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -2712,13 +2792,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllCardCaptainsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2756,7 +2840,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.IsDBNull(reader.GetOrdinal("equipment_id")) ? null : reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -2832,7 +2916,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -2841,13 +2925,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllCardColonelsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2884,7 +2972,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -2960,7 +3048,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -2969,13 +3057,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllCardGeneralsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3012,7 +3104,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -3088,7 +3180,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -3099,11 +3191,11 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllCardAdmiralsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3140,7 +3232,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -3216,7 +3308,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -3225,13 +3317,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllCardMonstersEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3268,7 +3364,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -3344,7 +3440,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -3353,13 +3449,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllCardMilitariesEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3396,7 +3496,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -3472,7 +3572,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -3481,13 +3581,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllCardSpellsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3524,7 +3628,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -3600,7 +3704,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -3609,13 +3713,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllBooksEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3652,7 +3760,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -3728,7 +3836,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -3737,13 +3845,17 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public async Task<List<Equipments>> GetAllPetsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
-        List<Equipments> equipmentList = new List<Equipments>();
+        List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -3780,7 +3892,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Equipments equipments = new Equipments
+                            Equipments equipment = new Equipments
                             {
                                 Id = reader.GetString("equipment_id"),
                                 Name = reader.GetString("name"),
@@ -3856,7 +3968,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetInt32("position"),
                             };
 
-                            equipmentList.Add(equipments);
+                            equipments.Add(equipment);
                         }
                     }
                 }
@@ -3865,9 +3977,13 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return equipmentList;
+        return equipments;
     }
     public Equipments ChangeValueToZero(Equipments equipments)
     {
@@ -4088,6 +4204,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
         return equipment;
     }
@@ -4261,6 +4381,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
         return equipment;
@@ -4436,6 +4560,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
         return equipment;
     }
@@ -4609,6 +4737,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
         return equipment;
@@ -4784,6 +4916,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
         return equipment;
     }
@@ -4957,6 +5093,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
         return equipment;
@@ -5132,6 +5272,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
         return equipment;
     }
@@ -5305,6 +5449,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
         return equipment;
@@ -5480,6 +5628,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
         return equipment;
     }
@@ -5653,6 +5805,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
         return equipment;

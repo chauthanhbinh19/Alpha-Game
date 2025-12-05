@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +10,7 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
 {
     public static CollaborationEquipmentsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject CollaborationEquipmentBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,90 +33,115 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentSecondPrefab");
+        CollaborationEquipmentBlockButtonPrefab = UIManager.Instance.GetGeneralButton("CollaborationEquipmentBlockButtonPrefab");
     }
     public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipments> collaborationEquipmentList, Transform contentPanel)
     {
         foreach (var collaborationEquipment in collaborationEquipmentList)
         {
-            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, contentPanel);
-
-            Text Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = collaborationEquipment.Name.Replace("_", " ");
-
-            RawImage Image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-
-            Button button = collaborationEquipmentObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            try
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(collaborationEquipment, MainPanel);
-            });
+                GameObject collaborationEquipmentObject = Instantiate(CollaborationEquipmentBlockButtonPrefab, contentPanel);
 
-            RawImage rareImage = collaborationEquipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.Rare}");
-            rareImage.texture = rareTexture;
+                TextMeshProUGUI Title = collaborationEquipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = collaborationEquipment.Name.Replace("_", " ");
 
-            RawImage blockImage = collaborationEquipmentObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = collaborationEquipmentObject.transform.Find("Unlock").GetComponent<Button>();
-            if (collaborationEquipment.Status.Equals("available"))
-            {
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                RawImage image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                image.texture = texture;
+
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                Button button = collaborationEquipmentObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(collaborationEquipment, MainPanel);
+                });
+
+                RawImage rareImage = collaborationEquipmentObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.Rare}");
+                rareImage.texture = rareTexture;
+
+                RawImage blockImage = collaborationEquipmentObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = collaborationEquipmentObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (collaborationEquipment.Status.Equals("available"))
+                {
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+                }
+                else if (collaborationEquipment.Status.Equals("pending"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(true);
+                }
+                else if (collaborationEquipment.Status.Equals("block"))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(false);
+                }
+                Unlock.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    var collaborationEquipmentGalleryService = CollaborationEquipmentsGalleryService.Create();
+                    await collaborationEquipmentGalleryService.UpdateStatusCollaborationEquipmentGalleryAsync(collaborationEquipment.Id);
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+
+                    var powerManagerService = PowerManagerService.Create();
+                    var teamsService = TeamsService.Create();
+
+                    await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                });
+
+                Button Upgrade = collaborationEquipmentObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((collaborationEquipment.CurrentStar < collaborationEquipment.TempStar) && collaborationEquipment.Status.Equals("available"))
+                {
+                    Upgrade.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Upgrade.gameObject.SetActive(false);
+                }
+
+                Upgrade.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await CollaborationEquipmentsGalleryService.Create().UpdateCollaborationEquipmentGalleryPowerAsync(collaborationEquipment.Id);
+                });
             }
-            else if (collaborationEquipment.Status.Equals("pending"))
+            catch (Exception ex)
             {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
+                Debug.LogError("Error: " + ex.Message);
             }
-            else if (collaborationEquipment.Status.Equals("block"))
-            {
-                blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
-            }
-            Unlock.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var collaborationEquipmentGalleryService = CollaborationEquipmentsGalleryService.Create();
-                await collaborationEquipmentGalleryService.UpdateStatusCollaborationEquipmentGalleryAsync(collaborationEquipment.Id);
-                blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
-
-                var powerManagerService = PowerManagerService.Create();
-                var teamsService = TeamsService.Create();
-
-                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
-                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-            });
-
-            Button Upgrade = collaborationEquipmentObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((collaborationEquipment.CurrentStar < collaborationEquipment.TempStar) && collaborationEquipment.Status.Equals("available"))
-            {
-                Upgrade.gameObject.SetActive(true);
-            }
-            else
-            {
-                Upgrade.gameObject.SetActive(false);
-            }
-
-            Upgrade.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CollaborationEquipmentsGalleryService.Create().UpdateCollaborationEquipmentGalleryPowerAsync(collaborationEquipment.Id);
-            });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

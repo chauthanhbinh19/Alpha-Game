@@ -11,7 +11,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
 {
     public static UserCollaborationEquipmentsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject CollaborationEquipmentButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,24 +39,42 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        CollaborationEquipmentButtonPrefab = UIManager.Instance.GetGeneralButton("CollaborationEquipmentButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCollaborationEquipments(List<CollaborationEquipments> collaborationEquipmentList, Transform contentPanel)
+    public void CreateUserCollaborationEquipments(List<CollaborationEquipments> collaborationEquipments, Transform contentPanel)
     {
-        foreach (var collaborationEquipment in collaborationEquipmentList)
+        foreach (var collaborationEquipment in collaborationEquipments)
         {
-            GameObject collaborationEquipmentObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject collaborationEquipmentObject = Instantiate(CollaborationEquipmentButtonPrefab, contentPanel);
 
-            Text Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = collaborationEquipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = collaborationEquipment.Name.Replace("_", " ");
 
-            RawImage Image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = collaborationEquipmentObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

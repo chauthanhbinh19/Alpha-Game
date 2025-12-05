@@ -9,7 +9,7 @@ public class UserCoresRepository : IUserCoresRepository
 {
     public async Task<List<Cores>> GetUserCoresAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Cores> CoresList = new List<Cores>();
+        List<Cores> cores = new List<Cores>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -36,7 +36,7 @@ public class UserCoresRepository : IUserCoresRepository
                 await using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
-                    Cores card = new Cores
+                    Cores core = new Cores
                     {
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
@@ -100,7 +100,7 @@ public class UserCoresRepository : IUserCoresRepository
                         Description = reader.GetString("description")
                     };
 
-                    CoresList.Add(card);
+                    cores.Add(core);
                 }
             }
             catch (MySqlException ex)
@@ -113,7 +113,7 @@ public class UserCoresRepository : IUserCoresRepository
             }
         }
 
-        return CoresList;
+        return cores;
     }
     public async Task<int> GetUserCoresCountAsync(string user_id, string rare)
     {
@@ -534,7 +534,7 @@ public class UserCoresRepository : IUserCoresRepository
     }
     public async Task<Cores> GetUserCoreByIdAsync(string user_id, string Id)
     {
-        Cores card = null;
+        Cores core = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -553,7 +553,7 @@ public class UserCoresRepository : IUserCoresRepository
                 await using MySqlDataReader reader = await command.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
-                    card = new Cores
+                    core = new Cores
                     {
                         Id = reader.GetString("core_id"),
                         Level = reader.GetInt32("level"),
@@ -623,7 +623,7 @@ public class UserCoresRepository : IUserCoresRepository
             }
         }
 
-        return card;
+        return core;
     }
     public async Task<Cores> SumPowerUserCoresAsync()
     {

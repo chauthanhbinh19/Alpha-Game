@@ -9,7 +9,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 {
     public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Technologies> TechnologiesList = new List<Technologies>();
+        List<Technologies> technologies = new List<Technologies>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Technologies Technology = new Technologies
+                            Technologies technology = new Technologies
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                                 Description = reader.GetString("description")
                             };
 
-                            TechnologiesList.Add(Technology);
+                            technologies.Add(technology);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return TechnologiesList;
+        return technologies;
     }
     public async Task<int> GetUserTechnologiesCountAsync(string user_id, string rare)
     {
@@ -147,6 +151,10 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 

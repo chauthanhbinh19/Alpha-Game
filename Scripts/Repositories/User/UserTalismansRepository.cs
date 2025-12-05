@@ -9,10 +9,10 @@ public class UserTalismansRepository : IUserTalismansRepository
 {
     public async Task<List<Talismans>> GetUserTalismansAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Talismans> Talismans = new List<Talismans>();
+        List<Talismans> talismans = new List<Talismans>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,11 +37,11 @@ public class UserTalismansRepository : IUserTalismansRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Talismans Talisman = new Talismans
+                            Talismans talisman = new Talismans
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -105,7 +105,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                                 Description = reader.GetString("description")
                             };
 
-                            Talismans.Add(Talisman);
+                            talismans.Add(talisman);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserTalismansRepository : IUserTalismansRepository
             }
         }
 
-        return Talismans;
+        return talismans;
     }
     public async Task<int> GetUserTalismansCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserTalismansRepository : IUserTalismansRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -181,7 +181,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
             ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@Talisman_id", Talisman.Id);
@@ -228,7 +228,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                         );
                     ";
 
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@Talisman_id", Talisman.Id);
@@ -302,7 +302,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                         WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
                     ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@Talisman_id", Talisman.Id);
@@ -330,7 +330,7 @@ public class UserTalismansRepository : IUserTalismansRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -368,7 +368,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Talisman_id", Talisman.Id);
@@ -444,7 +444,7 @@ public class UserTalismansRepository : IUserTalismansRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@Talisman_id", Talisman.Id);
@@ -556,10 +556,10 @@ public class UserTalismansRepository : IUserTalismansRepository
     }
     public async Task<Talismans> GetUserTalismanByIdAsync(string user_id, string Id)
     {
-        Talismans card = null;
+        Talismans talisman = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,16 +568,16 @@ public class UserTalismansRepository : IUserTalismansRepository
                 string query = @"SELECT * FROM user_Talismans
                              WHERE Talisman_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Talismans
+                            talisman = new Talismans
                             {
                                 Id = reader.GetString("Talisman_id"),
                                 Level = reader.GetInt32("level"),
@@ -649,14 +649,14 @@ public class UserTalismansRepository : IUserTalismansRepository
             }
         }
 
-        return card;
+        return talisman;
     }
     public async Task<Talismans> SumPowerUserTalismansAsync()
     {
         Talismans sumTalismans = new Talismans();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserTalismansRepository : IUserTalismansRepository
                 FROM user_Talismans
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

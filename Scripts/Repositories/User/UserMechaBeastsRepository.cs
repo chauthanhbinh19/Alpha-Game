@@ -9,7 +9,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 {
     public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<MechaBeasts> MechaBeastsList = new List<MechaBeasts>();
+        List<MechaBeasts> mechaBeasts = new List<MechaBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            MechaBeasts Title = new MechaBeasts
+                            MechaBeasts mechaBeast = new MechaBeasts
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            MechaBeastsList.Add(Title);
+                            mechaBeasts.Add(mechaBeast);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return MechaBeastsList;
+        return mechaBeasts;
     }
     public async Task<int> GetUserMechaBeastsCountAsync(string user_id, string rare)
     {
@@ -147,6 +151,10 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 

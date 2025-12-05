@@ -10,7 +10,7 @@ public class TechnologiesController : MonoBehaviour
 {
     public static TechnologiesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject TechnologyButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,19 +37,19 @@ public class TechnologiesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        TechnologyButtonPrefab = UIManager.Instance.GetGeneralButton("TechnologyButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateTechnologiesGallery(List<Technologies> TechnologiesList, Transform contentPanel)
+    public void CreateTechnologiesGallery(List<Technologies> technologies, Transform contentPanel)
     {
-        foreach (var technology in TechnologiesList)
+        foreach (var technology in technologies)
         {
-            GameObject technologyObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject technologyObject = Instantiate(TechnologyButtonPrefab, contentPanel);
 
-            Text Title = technologyObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = technologyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = technology.Name.Replace("_", " ");
 
             RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
@@ -93,7 +93,7 @@ public class TechnologiesController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

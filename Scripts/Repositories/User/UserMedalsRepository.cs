@@ -9,7 +9,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 {
     public async Task<List<Medals>> GetUserMedalsAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Medals> MedalsList = new List<Medals>();
+        List<Medals> medals = new List<Medals>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -40,7 +40,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Medals Title = new Medals
+                            Medals medal = new Medals
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -104,7 +104,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                                 Description = reader.GetString("description")
                             };
 
-                            MedalsList.Add(Title);
+                            medals.Add(medal);
                         }
                     }
                 }
@@ -113,9 +113,13 @@ public class UserMedalsRepository : IUserMedalsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
             }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
 
-        return MedalsList;
+        return medals;
     }
     public async Task<int> GetUserMedalsCountAsync(string user_id, string rare)
     {
@@ -129,11 +133,11 @@ public class UserMedalsRepository : IUserMedalsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                SELECT COUNT(*) 
-                FROM Medals t
-                INNER JOIN user_Medals ut ON t.id = ut.medal_id
-                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare);
-            ";
+                    SELECT COUNT(*) 
+                    FROM Medals t
+                    INNER JOIN user_Medals ut ON t.id = ut.medal_id
+                    WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare);
+                ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -147,6 +151,10 @@ public class UserMedalsRepository : IUserMedalsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -301,6 +309,10 @@ public class UserMedalsRepository : IUserMedalsRepository
             {
                 Debug.LogError("Error: " + ex.Message);
                 return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 
@@ -526,7 +538,7 @@ public class UserMedalsRepository : IUserMedalsRepository
     }
     public async Task<Medals> GetUserMedalByIdAsync(string user_id, string Id)
     {
-        Medals Title = new Medals();
+        Medals medal = new Medals();
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
@@ -544,7 +556,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Title = new Medals
+                            medal = new Medals
                             {
                                 Id = reader.GetString("medal_id"),
                                 Level = reader.GetInt32("level"),
@@ -616,7 +628,7 @@ public class UserMedalsRepository : IUserMedalsRepository
             }
 
         }
-        return Title;
+        return medal;
     }
     public async Task<Medals> SumPowerUserMedalsAsync()
     {

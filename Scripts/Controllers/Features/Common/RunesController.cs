@@ -10,7 +10,7 @@ public class RunesController : MonoBehaviour
 {
     public static RunesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject RuneButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,19 +37,19 @@ public class RunesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        RuneButtonPrefab = UIManager.Instance.GetGeneralButton("RuneButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateRunesGallery(List<Runes> RunesList, Transform contentPanel)
+    public void CreateRunesGallery(List<Runes> runes, Transform contentPanel)
     {
-        foreach (var Rune in RunesList)
+        foreach (var Rune in runes)
         {
-            GameObject RuneObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject RuneObject = Instantiate(RuneButtonPrefab, contentPanel);
 
-            Text Title = RuneObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = RuneObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = Rune.Name.Replace("_", " ");
 
             RawImage image = RuneObject.transform.Find("Image").GetComponent<RawImage>();
@@ -93,7 +93,7 @@ public class RunesController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(200, 230);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

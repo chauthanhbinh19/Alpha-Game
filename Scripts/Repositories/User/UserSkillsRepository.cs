@@ -10,7 +10,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 {
     public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -105,7 +105,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
             }
             catch (MySqlException ex)
@@ -118,7 +118,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<int> GetUserSkillsCountAsync(string user_id, string type, string rare)
     {
@@ -539,7 +539,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     }
     public async Task<Skills> GetUserSkillsByIdAsync(string user_id, string Id)
     {
-        Skills card = new Skills();
+        Skills skill = new Skills();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -557,7 +557,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await using var reader = await command.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
-                    card = new Skills
+                    skill = new Skills
                     {
                         Id = reader.GetString("skill_id"),
                         Level = reader.GetInt32("level"),
@@ -627,11 +627,11 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return card;
+        return skill;
     }
     public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, string cardId)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -725,11 +725,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
+                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -741,11 +741,11 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, string cardId)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -839,11 +839,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
+                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -855,11 +855,11 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, string cardId)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -953,11 +953,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
+                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -969,11 +969,11 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, string cardId)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1067,11 +1067,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
+                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1083,11 +1083,11 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, string cardId)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1181,11 +1181,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
+                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1197,11 +1197,11 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, string cardId)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1295,11 +1295,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
+                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1311,11 +1311,11 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, string cardId)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1409,11 +1409,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
+                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1425,11 +1425,11 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, string cardId)
     {
-        List<Skills> skillsList = new List<Skills>();
+        List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1523,11 +1523,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Description = reader.GetString("description")
                     };
 
-                    skillsList.Add(skill);
+                    skills.Add(skill);
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skillsList = await LoadSkillsWithEffectsAsync(user_id, skillsList, connection);
+                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1539,7 +1539,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
 
-        return skillsList;
+        return skills;
     }
     public async Task<List<Skills>> LoadSkillsWithEffectsAsync(string userId, List<Skills> skillsList, MySqlConnection connection)
     {

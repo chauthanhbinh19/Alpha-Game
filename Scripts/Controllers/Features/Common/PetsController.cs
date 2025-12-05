@@ -10,7 +10,7 @@ public class PetsController : MonoBehaviour
 {
     public static PetsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject PetButtonPrefab;
     private GameObject equipmentsPrefab;
     private GameObject equipmentsShopPrefab;
     private GameObject quantityPopupPrefab;
@@ -38,48 +38,44 @@ public class PetsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        PetButtonPrefab = UIManager.Instance.GetGeneralButton("PetButtonPrefab");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreatePetsGallery(List<Pets> petsList, Transform contentPanel)
+    public void CreatePetsGallery(List<Pets> pets, Transform contentPanel)
     {
-        foreach (var pet in petsList)
+        foreach (var pet in pets)
         {
-            GameObject petsObject;
-            if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
-            {
-                petsObject = Instantiate(cardsPrefab, contentPanel);
-                RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
-                Background.gameObject.SetActive(true);
+            GameObject petsObject = Instantiate(PetButtonPrefab, contentPanel);
 
-                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-                if (gridLayout != null)
-                {
-                    gridLayout.cellSize = new Vector2(280, 280);
-                }
-            }
-            else
-            {
-                petsObject = Instantiate(equipmentsPrefab, contentPanel);
-
-                GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-                if (gridLayout != null)
-                {
-                    gridLayout.cellSize = new Vector2(200, 230);
-                }
-            }
-
-            Text Title = petsObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = petsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = pet.Name.Replace("_", " ");
 
-            RawImage Image = petsObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = petsObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -87,12 +83,6 @@ public class PetsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
-
-            if (pet.Type.Equals("Prime_Monster"))
-            {
-                Image.SetNativeSize();
-                Image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            }
 
             RawImage rareImage = petsObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
