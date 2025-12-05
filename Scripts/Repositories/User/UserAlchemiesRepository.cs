@@ -9,27 +9,27 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 {
     public async Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Alchemies> alchemys = new List<Alchemies>();
+        List<Alchemies> alchemies = new List<Alchemies>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 await connection.OpenAsync();
 
                 string query = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
-                FROM alchemies m
-                JOIN user_alchemies um ON m.id = um.alchemy_id
-                WHERE um.user_id = @userId 
-                  AND m.type = @type 
-                  AND (@rare = 'All' OR m.rare = @rare)
-                ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
-                LIMIT @limit OFFSET @offset;
-            ";
+                    SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                    FROM alchemies m
+                    JOIN user_alchemies um ON m.id = um.alchemy_id
+                    WHERE um.user_id = @userId 
+                    AND m.type = @type 
+                    AND (@rare = 'All' OR m.rare = @rare)
+                    ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
+                    LIMIT @limit OFFSET @offset;
+                ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,7 +37,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -105,7 +105,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                                 Description = reader.GetString("description")
                             };
 
-                            alchemys.Add(alchemy);
+                            alchemies.Add(alchemy);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             }
         }
 
-        return alchemys;
+        return alchemies;
     }
     public async Task<int> GetUserAlchemiesCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                   AND (@rare = 'All' OR m.rare = @rare);
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -168,7 +168,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -176,12 +176,12 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) 
-                FROM user_alchemies
-                WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
-            ";
+                    SELECT COUNT(*) 
+                    FROM user_alchemies
+                    WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
+                ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
@@ -228,7 +228,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                         );
                     ";
 
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
@@ -302,7 +302,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                         WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
                     ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
@@ -330,7 +330,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -368,7 +368,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
@@ -444,7 +444,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -481,7 +481,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@alchemy_id", Alchemy.Id);
@@ -556,10 +556,10 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
     }
     public async Task<Alchemies> GetUserAlchemyByIdAsync(string user_id, string Id)
     {
-        Alchemies card = null;
+        Alchemies alchemy = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -568,16 +568,16 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 string query = @"SELECT * FROM user_alchemies
                              WHERE alchemy_id=@id AND user_id=@user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Alchemies
+                            alchemy = new Alchemies
                             {
                                 Id = reader.GetString("alchemy_id"),
                                 Level = reader.GetInt32("level"),
@@ -649,14 +649,14 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             }
         }
 
-        return card;
+        return alchemy;
     }
     public async Task<Alchemies> SumPowerUserAlchemiesAsync()
     {
         Alchemies sumAlchemies = new Alchemies();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -717,11 +717,11 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 FROM user_alchemies
                 WHERE user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

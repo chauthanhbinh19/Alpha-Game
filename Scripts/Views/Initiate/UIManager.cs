@@ -121,6 +121,7 @@ public class UIManager : MonoBehaviour
     public GameObject ResearchButtonPrefab;
     public GameObject EmployeeButtonPrefab;
     public GameObject RareButtonPrefab;
+    public GameObject ItemShopButtonPrefab;
     [Header("Science Fiction")]
     public GameObject ReactorPanelPrefab;
     public GameObject ReactorButtonPrefab;
@@ -521,6 +522,8 @@ public class UIManager : MonoBehaviour
                 return EmployeeButtonPrefab;
             case "RareButtonPrefab":
                 return RareButtonPrefab;
+            case "ItemShopButtonPrefab":
+                return ItemShopButtonPrefab;
             default:
                 return WorldButtonPrefab;
         }

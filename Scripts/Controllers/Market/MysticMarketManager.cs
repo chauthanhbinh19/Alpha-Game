@@ -24,7 +24,7 @@ public class MysticMarketManager : MonoBehaviour
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    private Text PageText;
+    private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
     private Text titleText;
@@ -109,7 +109,7 @@ public class MysticMarketManager : MonoBehaviour
         currentContent = mysticMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = mysticMarketObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = mysticMarketObject.transform.Find("DictionaryCards/Currency");
-        PageText = mysticMarketObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        PageText = mysticMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
         NextButton = mysticMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = mysticMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = mysticMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();

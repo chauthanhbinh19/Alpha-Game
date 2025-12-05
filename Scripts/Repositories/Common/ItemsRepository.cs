@@ -92,7 +92,7 @@ public class ItemsRepository : IItemsRepository
                             Name = reader.GetString("name"),
                             Image = reader.GetString("image"),
                             Type = reader.GetString("type"),
-                            Price = reader.GetInt32("price")
+                            Price = reader.GetDouble("price")
                         };
                         items.Add(item);
                     }

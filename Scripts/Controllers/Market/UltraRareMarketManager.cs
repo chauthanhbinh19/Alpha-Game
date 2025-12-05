@@ -25,7 +25,7 @@ public class UltraRareMarketManager : MonoBehaviour
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    private Text PageText;
+    private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
     private Text titleText;
@@ -111,7 +111,7 @@ public class UltraRareMarketManager : MonoBehaviour
         currentContent = ultraRareMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = ultraRareMarketObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = ultraRareMarketObject.transform.Find("DictionaryCards/Currency");
-        PageText = ultraRareMarketObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        PageText = ultraRareMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
         NextButton = ultraRareMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = ultraRareMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = ultraRareMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();

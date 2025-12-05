@@ -9,10 +9,10 @@ public class UserArtworksRepository : IUserArtworksRepository
 {
     public async Task<List<Artworks>> GetUserArtworksAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Artworks> artworksList = new List<Artworks>();
+        List<Artworks> artworks = new List<Artworks>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,7 +29,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 LIMIT @limit OFFSET @offset
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -37,7 +37,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -105,7 +105,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                                 Description = reader.GetString("description")
                             };
 
-                            artworksList.Add(artwork);
+                            artworks.Add(artwork);
                         }
                     }
                 }
@@ -120,14 +120,14 @@ public class UserArtworksRepository : IUserArtworksRepository
             }
         }
 
-        return artworksList;
+        return artworks;
     }
     public async Task<int> GetUserArtworksCountAsync(string user_id, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -142,7 +142,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                   AND (@rare = 'All' OR m.rare = @rare)
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@type", type);
@@ -169,7 +169,7 @@ public class UserArtworksRepository : IUserArtworksRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -182,7 +182,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 WHERE user_id = @user_id AND Artwork_id = @Artwork_id;
             ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@Artwork_id", Artwork.Id);
@@ -230,7 +230,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                         );
                     ";
 
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@artwork_id", Artwork.Id);
@@ -304,7 +304,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                         WHERE user_id = @user_id AND Artwork_id = @Artwork_id;
                     ";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@Artwork_id", Artwork.Id);
@@ -332,7 +332,7 @@ public class UserArtworksRepository : IUserArtworksRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -370,7 +370,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 WHERE user_id = @user_id AND artwork_id = @artwork_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@artwork_id", Artwork.Id);
@@ -446,7 +446,7 @@ public class UserArtworksRepository : IUserArtworksRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -484,7 +484,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 WHERE user_id = @user_id AND artwork_id = @artwork_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@artwork_id", Artwork.Id);
@@ -559,10 +559,10 @@ public class UserArtworksRepository : IUserArtworksRepository
     }
     public async Task<Artworks> GetUserArtworkByIdAsync(string user_id, string Id)
     {
-        Artworks card = null; // null nếu không tìm thấy
+        Artworks artwork = null; // null nếu không tìm thấy
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -571,16 +571,16 @@ public class UserArtworksRepository : IUserArtworksRepository
                 string query = @"SELECT * FROM user_artworks
                              WHERE Artwork_id = @id AND user_id = @user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Artworks
+                            artwork = new Artworks
                             {
                                 Id = reader.GetString("Artwork_id"),
                                 Level = reader.GetInt32("level"),
@@ -652,14 +652,14 @@ public class UserArtworksRepository : IUserArtworksRepository
             }
         }
 
-        return card;
+        return artwork;
     }
     public async Task<Artworks> SumPowerUserArtworksAsync()
     {
         Artworks sumArtworks = new Artworks();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -721,11 +721,11 @@ public class UserArtworksRepository : IUserArtworksRepository
                 WHERE user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

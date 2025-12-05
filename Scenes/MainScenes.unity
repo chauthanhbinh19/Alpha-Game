@@ -15495,6 +15495,7 @@ MonoBehaviour:
   ResearchButtonPrefab: {fileID: 8708252175272485654, guid: 6d14733a16404b9408f6549656d77c3b, type: 3}
   EmployeeButtonPrefab: {fileID: 8708252175272485654, guid: 043ce1e2d83d533438c0c6c59a8e0044, type: 3}
   RareButtonPrefab: {fileID: 5647053732788993068, guid: 1e580788d16b1784b801738fb4345d81, type: 3}
+  ItemShopButtonPrefab: {fileID: 8708252175272485654, guid: 7fb4c63072a56e4449068e51883ce2ae, type: 3}
   ReactorPanelPrefab: {fileID: 5745659240395072349, guid: 4631e5596c21e6a41877541d96a4241d, type: 3}
   ReactorButtonPrefab: {fileID: 8708252175272485654, guid: 00e6aff5ada6a2946901257d89389044, type: 3}
   ReactorPanelNumberPrefab: {fileID: 5745659240395072349, guid: feecd0567b8aa2043944271f8b5486b2, type: 3}

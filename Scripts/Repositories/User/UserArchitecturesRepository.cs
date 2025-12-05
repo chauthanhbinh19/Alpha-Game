@@ -9,10 +9,10 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 {
     public async Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, int pageSize, int offset, string rare)
     {
-        List<Architectures> ArchitecturesList = new List<Architectures>();
+        List<Architectures> architectures = new List<Architectures>();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -29,14 +29,14 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                          t.name
                 LIMIT @limit OFFSET @offset;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -104,7 +104,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                                 Description = reader.GetString("description")
                             };
 
-                            ArchitecturesList.Add(architecture);
+                            architectures.Add(architecture);
                         }
                     }
                 }
@@ -119,14 +119,14 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
             }
         }
 
-        return ArchitecturesList;
+        return architectures;
     }
     public async Task<int> GetUserArchitecturesCountAsync(string user_id, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -139,7 +139,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 WHERE ut.user_id = @userId 
                 AND (@rare = 'All' OR t.rare = @rare);";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@rare", rare);
@@ -164,7 +164,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -175,7 +175,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 SELECT COUNT(*) FROM user_Architectures 
                 WHERE user_id = @user_id AND architecture_id = @architecture_id;";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@architecture_id", architectures.Id);
@@ -221,7 +221,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                             @skill_damage_rate, @skill_resistance_rate
                         );";
 
-                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        await using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@user_id", userId);
                             command.Parameters.AddWithValue("@architecture_id", architectures.Id);
@@ -294,7 +294,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND architecture_id = @architecture_id;";
 
-                        using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@architecture_id", architectures.Id);
@@ -322,7 +322,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -358,7 +358,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND architecture_id = @architecture_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@architecture_id", architectures.Id);
@@ -434,7 +434,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -470,7 +470,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND architecture_id = @architecture_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     command.Parameters.AddWithValue("@architecture_id", architectures.Id);
@@ -545,10 +545,10 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
     }
     public async Task<Architectures> GetUserArchitectureByIdAsync(string user_id, string Id)
     {
-        Architectures card = null;
+        Architectures architecture = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -559,16 +559,16 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 FROM user_Architectures 
                 WHERE architecture_id = @id AND user_id = @user_id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
                     command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            card = new Architectures
+                            architecture = new Architectures
                             {
                                 Id = reader.GetString("architecture_id"),
                                 Level = reader.GetInt32("level"),
@@ -640,14 +640,14 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
             }
         }
 
-        return card;
+        return architecture;
     }
     public async Task<Architectures> SumPowerUserArchitecturesAsync()
     {
         Architectures sumArchitectures = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -709,11 +709,11 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 WHERE user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

@@ -24,7 +24,7 @@ public class RareMarketManager : MonoBehaviour
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    private Text PageText;
+    private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
     private Text titleText;
@@ -110,7 +110,7 @@ public class RareMarketManager : MonoBehaviour
         currentContent = RareMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = RareMarketObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = RareMarketObject.transform.Find("DictionaryCards/Currency");
-        PageText = RareMarketObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        PageText = RareMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
         NextButton = RareMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = RareMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = RareMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();

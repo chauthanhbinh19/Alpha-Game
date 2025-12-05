@@ -11,7 +11,7 @@ public class ItemsController : MonoBehaviour
     public static ItemsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject equipmentsPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject ItemShopButtonPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,7 +38,7 @@ public class ItemsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
+        ItemShopButtonPrefab = UIManager.Instance.GetGeneralButton("ItemShopButtonPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
@@ -52,7 +52,7 @@ public class ItemsController : MonoBehaviour
 
         foreach (var item in items)
         {
-            GameObject itemObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject itemObject = Instantiate(ItemShopButtonPrefab, currentContent);
 
             TextMeshProUGUI Title = itemObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = item.Name.Replace("_", " ");

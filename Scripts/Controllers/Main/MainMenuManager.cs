@@ -385,6 +385,9 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_32", contentPanel, () => GetType(AppConstants.MainType.CORE));
         ButtonEvent.Instance.AssignButtonEvent("Button_33", contentPanel, () => GetType(AppConstants.MainType.WEAPON));
         ButtonEvent.Instance.AssignButtonEvent("Button_34", contentPanel, () => GetType(AppConstants.MainType.ROBOT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_35", contentPanel, () => GetType(AppConstants.MainType.BADGE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_36", contentPanel, () => GetType(AppConstants.MainType.MECHA_BEAST));
+        ButtonEvent.Instance.AssignButtonEvent("Button_37", contentPanel, () => GetType(AppConstants.MainType.RUNE));
     }
     public void GetPrimaryButtonEvent()
     {

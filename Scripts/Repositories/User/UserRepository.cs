@@ -35,7 +35,7 @@ public class UserRepository : IUserRepository
                                 Password = reader.GetString("password"),
                                 Name = reader["name"].ToString(),
                                 Level = reader.GetInt32("level"),
-                                Experiment = reader.GetInt32("experiment"),
+                                Experiment = reader.GetDouble("experiment"),
                                 Vip = reader.GetInt32("vip"),
                                 Power = reader.GetDouble("power")
                             };
@@ -155,7 +155,7 @@ public class UserRepository : IUserRepository
                     string currencyQuery = @"
                     SELECT c.image, c.name, uc.currency_id, uc.quantity 
                     FROM user_currencies uc
-                    JOIN currency c ON uc.currency_id = c.id
+                    JOIN currencies c ON uc.currency_id = c.id
                     WHERE uc.user_id = @userId";
 
                     using (var currencyCommand = new MySqlCommand(currencyQuery, connection))
@@ -241,7 +241,7 @@ public class UserRepository : IUserRepository
                     string currencyQuery = @"
                     SELECT c.image, c.name, uc.currency_id, uc.quantity 
                     FROM user_currencies uc
-                    JOIN currency c ON uc.currency_id = c.id
+                    JOIN currencies c ON uc.currency_id = c.id
                     WHERE uc.user_id = @userId";
 
                     using (var currencyCommand = new MySqlCommand(currencyQuery, connection))
@@ -310,7 +310,7 @@ public class UserRepository : IUserRepository
                     string password = reader.GetString("password");
                     int Level = reader.GetInt32("level");
                     int Vip = reader.GetInt32("vip");
-                    int Experiment = reader.GetInt32("experiment");
+                    double Experiment = reader.GetDouble("experiment");
 
                     double Power = await TeamsService.Create().GetTeamsPowerAsync(Id);
 
@@ -319,7 +319,7 @@ public class UserRepository : IUserRepository
                     // --- Lấy thông tin user_currencies ---
                     string currencyQuery = @"SELECT c.image, c.name, uc.currency_id, uc.quantity 
                                          FROM user_currencies uc
-                                         JOIN currency c ON uc.currency_id = c.id
+                                         JOIN currencies c ON uc.currency_id = c.id
                                          WHERE uc.user_id = @userId";
 
                     using (var currencyCommand = new MySqlCommand(currencyQuery, connection))

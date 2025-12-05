@@ -24,7 +24,7 @@ public class LegendaryMarketManager : MonoBehaviour
     private int currentPage;
     private int totalPage;
     private int pageSize;
-    private Text PageText;
+    private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
     private Text titleText;
@@ -110,7 +110,7 @@ public class LegendaryMarketManager : MonoBehaviour
         currentContent = LegendaryMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = LegendaryMarketObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = LegendaryMarketObject.transform.Find("DictionaryCards/Currency");
-        PageText = LegendaryMarketObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        PageText = LegendaryMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
         NextButton = LegendaryMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = LegendaryMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = LegendaryMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();

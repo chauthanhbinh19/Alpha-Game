@@ -8,7 +8,7 @@ public static class TypeManager
     new Dictionary<string, Func<Task<List<string>>>>(StringComparer.OrdinalIgnoreCase)
 {
     { AppConstants.MainType.CARD_HERO, async () => await CardHeroesService.Create().GetUniqueCardHeroesTypesAsync() },
-    { AppConstants.MainType.BOOK, async () => await BooksService.Create().GetUniqueBooksIdAsync() },
+    { AppConstants.MainType.BOOK, async () => await BooksService.Create().GetUniqueBooksTypesAsync() },
     { AppConstants.MainType.CARD_CAPTAIN, async () => await CardCaptainsService.Create().GetUniqueCardCaptainsTypesAsync() },
     { AppConstants.MainType.COLLABORATION_EQUIPMENT, async () => await CollaborationEquipmentsService.Create().GetUniqueCollaborationEquipmentsTypesAsync() },
     { AppConstants.MainType.EQUIPMENT, async () => await EquipmentsService.Create().GetUniqueEquipmentsTypesAsync() },
@@ -32,7 +32,7 @@ public static class TypeManager
 
     // SUMMON
     { AppConstants.MainType.SUMMON_CARD_HEROES, async () => await CardHeroesService.Create().GetUniqueCardHeroesTypesAsync() },
-    { AppConstants.MainType.SUMMON_BOOKS, async () => await BooksService.Create().GetUniqueBooksIdAsync() },
+    { AppConstants.MainType.SUMMON_BOOKS, async () => await BooksService.Create().GetUniqueBooksTypesAsync() },
     { AppConstants.MainType.SUMMON_CARD_CAPTAINS, async () => await CardCaptainsService.Create().GetUniqueCardCaptainsTypesAsync() },
     { AppConstants.MainType.SUMMON_CARD_MILITARY, async () => await CardMilitariesService.Create().GetUniqueCardMilitariesTypesAsync() },
     { AppConstants.MainType.SUMMON_CARD_SPELLS, async () => await CardSpellsService.Create().GetUniqueCardSpellsTypesAsync() },

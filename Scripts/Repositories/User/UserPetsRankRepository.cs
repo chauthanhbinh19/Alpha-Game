@@ -12,7 +12,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -24,13 +24,13 @@ public class UserPetsRankRepository : IUserPetsRankRepository
                 WHERE user_id = @user_id AND Rank_type = @type AND user_pet_id = @card_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", user_id);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@card_id", card_id);
 
-                    using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -117,7 +117,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -129,7 +129,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
                 WHERE user_id = @user_id AND user_pet_id = @card_id AND Rank_type = @Rank_type;
             ";
 
-                using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, connection))
                 {
                     checkCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCmd.Parameters.AddWithValue("@card_id", card_id);
@@ -175,7 +175,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
                             percent_all_mental_defense = @percent_all_mental_defense
                         WHERE user_id = @user_id AND user_pet_id = @card_id AND Rank_type = @Rank_type;
                         ";
-                        using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
                             // Thêm tất cả các parameter như cũ
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -306,7 +306,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
                             @percent_all_mental_attack, @percent_all_mental_defense
                         );
                         ";
-                        using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                         {
                             // Thêm các parameter giống như trên (giữ nguyên)
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -544,6 +544,10 @@ public class UserPetsRankRepository : IUserPetsRankRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
             }
         }
 

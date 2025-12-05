@@ -85,6 +85,9 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_35", () => GetType(AppConstants.MainType.CORE));
         AssignButtonEvent("Button_36", () => GetType(AppConstants.MainType.WEAPON));
         AssignButtonEvent("Button_37", () => GetType(AppConstants.MainType.ROBOT));
+        AssignButtonEvent("Button_38", () => GetType(AppConstants.MainType.BADGE));
+        AssignButtonEvent("Button_39", () => GetType(AppConstants.MainType.MECHA_BEAST));
+        AssignButtonEvent("Button_40", () => GetType(AppConstants.MainType.RUNE));
         // GetCardsType();
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)

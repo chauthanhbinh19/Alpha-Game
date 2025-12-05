@@ -8,9 +8,9 @@ public class UserBooksRepository : IUserBooksRepository
 {
     public async Task<List<Books>> GetUserBooksAsync(string user_id, string type, int pageSize, int offset, string rare)
     {
-        List<Books> bookslist = new List<Books>();
+        List<Books> books = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -22,7 +22,7 @@ public class UserBooksRepository : IUserBooksRepository
                 ORDER BY b.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(b.name, '[0-9]+$') AS UNSIGNED), b.name
                 LIMIT @limit OFFSET @offset;
                 ";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@rare", rare);
@@ -30,7 +30,7 @@ public class UserBooksRepository : IUserBooksRepository
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -157,7 +157,7 @@ public class UserBooksRepository : IUserBooksRepository
                                 }
                             };
 
-                            bookslist.Add(book);
+                            books.Add(book);
                         }
                     }
                 }
@@ -172,13 +172,13 @@ public class UserBooksRepository : IUserBooksRepository
             }
 
         }
-        return bookslist;
+        return books;
     }
     public async Task<List<Books>> GetUserBooksTeamAsync(string teamId)
     {
-        List<Books> bookslist = new List<Books>();
+        List<Books> books = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -189,12 +189,12 @@ public class UserBooksRepository : IUserBooksRepository
                 WHERE ub.user_id = @userId AND ub.team_id=@team_id
                 ORDER BY b.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(b.name, '[0-9]+$') AS UNSIGNED), b.name;
                 ";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", User.CurrentUserId);
                     command.Parameters.AddWithValue("@team_id", teamId);
 
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    await using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -320,7 +320,7 @@ public class UserBooksRepository : IUserBooksRepository
                                 }
                             };
 
-                            bookslist.Add(book);
+                            books.Add(book);
                         }
                     }
                 }
@@ -335,13 +335,13 @@ public class UserBooksRepository : IUserBooksRepository
             }
 
         }
-        return bookslist;
+        return books;
     }
     public async Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId)
     {
         var result = new Dictionary<string, int>();
         string connectionString = DatabaseConfig.ConnectionString;
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
@@ -353,12 +353,12 @@ public class UserBooksRepository : IUserBooksRepository
                 WHERE uc.user_id =@userId and uc.team_id=@team_id
                 group by c.type, c.type";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", User.CurrentUserId);
                     command.Parameters.AddWithValue("@team_id", teamId);
 
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    await using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -558,9 +558,9 @@ public class UserBooksRepository : IUserBooksRepository
                     {
                         // 3. UPDATE EXISTING
                         string updateQuery = @"
-                    UPDATE user_books
-                    SET quantity = @quantity
-                    WHERE user_id = @user_id AND book_id = @book_id;";
+                            UPDATE user_books
+                            SET quantity = @quantity
+                            WHERE user_id = @user_id AND book_id = @book_id;";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
@@ -866,7 +866,7 @@ public class UserBooksRepository : IUserBooksRepository
     }
     public async Task<Books> GetUserBookByIdAsync(string user_id, string Id)
     {
-        Books card = new Books();
+        Books book = new Books();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -890,7 +890,7 @@ public class UserBooksRepository : IUserBooksRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            card = new Books
+                            book = new Books
                             {
                                 Id = reader.GetString("book_id"),
                                 Level = reader.GetInt32("level"),
@@ -1015,7 +1015,7 @@ public class UserBooksRepository : IUserBooksRepository
             }
         }
 
-        return card;
+        return book;
     }
     public async Task<List<Books>> GetAllUserBooksInTeamAsync(string user_id)
     {

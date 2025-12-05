@@ -21,7 +21,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM magic_formation_circles m
-                JOIN user_magic_formation_circles um ON m.id = um.magic_formation_circle_id
+                JOIN user_magic_formation_circles um ON m.id = um.mfc_id
                 WHERE um.user_id = @userId 
                   AND m.type = @type 
                   AND (@rare = 'All' OR m.rare = @rare)
@@ -136,7 +136,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 string query = @"
                 SELECT COUNT(*) 
                 FROM magic_formation_circles m
-                JOIN user_magic_formation_circles um ON m.id = um.magic_formation_circle_id
+                JOIN user_magic_formation_circles um ON m.id = um.mfc_id
                 WHERE um.user_id = @userId 
                   AND m.type = @type 
                   AND (@rare = 'All' OR m.rare = @rare);
@@ -178,13 +178,13 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM user_magic_formation_circles 
-                WHERE user_id = @user_id AND magic_formation_circle_id = @magic_formation_circle_id;
+                WHERE user_id = @user_id AND mfc_id = @mfc_id;
             ";
 
                 using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@magic_formation_circle_id", MagicFormationCircle.Id);
+                    checkCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -192,7 +192,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                     {
                         string insertQuery = @"
                         INSERT INTO user_magic_formation_circles (
-                            user_id, magic_formation_circle_id, rare, level, experiment, star, quality, block, quantity,
+                            user_id, mfc_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -209,7 +209,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @magic_formation_circle_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @mfc_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -231,7 +231,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                         using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@magic_formation_circle_id", MagicFormationCircle.Id);
+                            insertCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
                             insertCommand.Parameters.AddWithValue("@rare", MagicFormationCircle.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -299,13 +299,13 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                         string updateQuery = @"
                         UPDATE user_magic_formation_circles
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND magic_formation_circle_id = @magic_formation_circle_id;
+                        WHERE user_id = @user_id AND mfc_id = @mfc_id;
                     ";
 
                         using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@magic_formation_circle_id", MagicFormationCircle.Id);
+                            updateCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", MagicFormationCircle.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -365,13 +365,13 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND magic_formation_circle_id = @magic_formation_circle_id;
+                WHERE user_id = @user_id AND mfc_id = @mfc_id;
             ";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@magic_formation_circle_id", MagicFormationCircle.Id);
+                    command.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", MagicFormationCircle.Power);
                     command.Parameters.AddWithValue("@health", MagicFormationCircle.Health);
@@ -478,13 +478,13 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND magic_formation_circle_id = @magic_formation_circle_id;
+                WHERE user_id = @user_id AND mfc_id = @mfc_id;
             ";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@magic_formation_circle_id", MagicFormationCircle.Id);
+                    command.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", MagicFormationCircle.Power);
@@ -566,7 +566,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM user_magic_formation_circles
-                             WHERE magic_formation_circle_id=@id AND user_id=@user_id";
+                             WHERE mfc_id=@id AND user_id=@user_id";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -579,7 +579,7 @@ public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRep
                         {
                             card = new MagicFormationCircles
                             {
-                                Id = reader.GetString("magic_formation_circle_id"),
+                                Id = reader.GetString("mfc_id"),
                                 Level = reader.GetInt32("level"),
                                 Quality = reader.GetDouble("quality"),
                                 Experiment = reader.GetDouble("experiment"),
