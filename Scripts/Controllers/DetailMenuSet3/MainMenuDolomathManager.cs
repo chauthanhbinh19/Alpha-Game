@@ -28,9 +28,9 @@ public class MainMenuDolomathManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuDolomathPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuDolomathPanelPrefab");
+        MainMenuDolomathPanelPrefab = UIManager.Instance.Get("MainMenuDolomathPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("DolomathSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("DolomathSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuDolomathManagerAsync(object data)

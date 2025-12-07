@@ -28,9 +28,9 @@ public class MainMenuXylkorManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuXylkorPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuXylkorPanelPrefab");
+        MainMenuXylkorPanelPrefab = UIManager.Instance.Get("MainMenuXylkorPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("XylkorSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("XylkorSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuXylkorManagerAsync(object data)

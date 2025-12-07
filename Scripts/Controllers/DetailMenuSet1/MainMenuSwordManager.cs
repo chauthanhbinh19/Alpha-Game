@@ -28,9 +28,9 @@ public class MainMenuSwordManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuSwordPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuSwordPanelPrefab");
+        MainMenuSwordPanelPrefab = UIManager.Instance.Get("MainMenuSwordPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("SwordSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("SwordSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuSwordManagerAsync(object data)

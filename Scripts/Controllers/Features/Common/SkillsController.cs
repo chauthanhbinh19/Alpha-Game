@@ -37,7 +37,7 @@ public class SkillsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SkillButtonPrefab = UIManager.Instance.GetGeneralButton("SkillButtonPrefab");
+        SkillButtonPrefab = UIManager.Instance.Get("SkillButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

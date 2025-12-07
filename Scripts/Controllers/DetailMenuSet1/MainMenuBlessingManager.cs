@@ -28,9 +28,9 @@ public class MainMenuBlessingManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuBlessingPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuBlessingPanelPrefab");
+        MainMenuBlessingPanelPrefab = UIManager.Instance.Get("MainMenuBlessingPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("BlessingSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("BlessingSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuBlessingManagerAsync(object data)

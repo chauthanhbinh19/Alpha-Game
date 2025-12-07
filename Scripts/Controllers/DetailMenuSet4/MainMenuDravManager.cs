@@ -28,9 +28,9 @@ public class MainMenuDravManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuDravPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuDravPanelPrefab");
+        MainMenuDravPanelPrefab = UIManager.Instance.Get("MainMenuDravPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("DravSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("DravSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuDravManagerAsync(object data)

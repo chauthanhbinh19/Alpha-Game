@@ -37,7 +37,7 @@ public class ForgesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ForgeButtonPrefab = UIManager.Instance.GetGeneralButton("ForgeButtonPrefab");
+        ForgeButtonPrefab = UIManager.Instance.Get("ForgeButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

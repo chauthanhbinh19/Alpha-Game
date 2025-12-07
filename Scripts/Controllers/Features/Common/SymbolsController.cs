@@ -37,7 +37,7 @@ public class SymbolsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SymbolButtonPrefab = UIManager.Instance.GetGeneralButton("SymbolButtonPrefab");
+        SymbolButtonPrefab = UIManager.Instance.Get("SymbolButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

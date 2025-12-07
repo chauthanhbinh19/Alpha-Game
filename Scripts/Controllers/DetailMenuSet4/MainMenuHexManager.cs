@@ -28,9 +28,9 @@ public class MainMenuHexManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuHexPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuHexPanelPrefab");
+        MainMenuHexPanelPrefab = UIManager.Instance.Get("MainMenuHexPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("HexSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("HexSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuHexManagerAsync(object data)

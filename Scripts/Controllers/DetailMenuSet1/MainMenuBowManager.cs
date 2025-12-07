@@ -28,9 +28,9 @@ public class MainMenuBowManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuBowPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuBowPanelPrefab");
+        MainMenuBowPanelPrefab = UIManager.Instance.Get("MainMenuBowPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("BowSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("BowSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuBowManagerAsync(object data)

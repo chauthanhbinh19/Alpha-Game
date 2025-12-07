@@ -28,9 +28,9 @@ public class MainMenuKronManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuKronPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuKronPanelPrefab");
+        MainMenuKronPanelPrefab = UIManager.Instance.Get("MainMenuKronPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("KronSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("KronSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuKronManagerAsync(object data)

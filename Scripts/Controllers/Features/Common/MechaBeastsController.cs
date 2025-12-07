@@ -37,7 +37,7 @@ public class MechaBeastsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MechaBeastButtonPrefab = UIManager.Instance.GetGeneralButton("MechaBeastButtonPrefab");
+        MechaBeastButtonPrefab = UIManager.Instance.Get("MechaBeastButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

@@ -33,7 +33,7 @@ public class VehiclesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        VehicleBlockButtonPrefab = UIManager.Instance.GetGeneralButton("VehicleBlockButtonPrefab");
+        VehicleBlockButtonPrefab = UIManager.Instance.Get("VehicleBlockButtonPrefab");
     }
     public void CreateVehicleGallery(List<Vehicles> vehicles, Transform contentPanel)
     {

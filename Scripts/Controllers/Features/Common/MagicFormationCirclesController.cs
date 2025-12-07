@@ -37,7 +37,7 @@ public class MagicFormationCirclesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MagicFormationCirlceButtonPrefab = UIManager.Instance.GetGeneralButton("MagicFormationCirlceButtonPrefab");
+        MagicFormationCirlceButtonPrefab = UIManager.Instance.Get("MagicFormationCirlceButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

@@ -28,9 +28,9 @@ public class MainMenuPsionicsManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuPsionicsPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuPsionicsPanelPrefab");
+        MainMenuPsionicsPanelPrefab = UIManager.Instance.Get("MainMenuPsionicsPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("PsionicsSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("PsionicsSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuPsionicsManagerAsync(object data)

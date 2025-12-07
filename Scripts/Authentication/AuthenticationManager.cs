@@ -50,8 +50,8 @@ public class AuthenticationManager : MonoBehaviour
     {
         WaitingPanel = UIManager.Instance.GetTransform("WaitingPanel");
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
-        signInPanel = UIManager.Instance.GetGameObject("SignInPanel");
-        signUpPanel = UIManager.Instance.GetGameObject("SignUpPanel");
+        signInPanel = UIManager.Instance.Get("SignInPanelPrefab");
+        signUpPanel = UIManager.Instance.Get("SignUpPanelPrefab");
         createNamePanel = UIManager.Instance.GetGameObject("CreateNamePanel");
         currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
         startButton = WaitingPanel.transform.Find("StartButton").GetComponent<Button>();

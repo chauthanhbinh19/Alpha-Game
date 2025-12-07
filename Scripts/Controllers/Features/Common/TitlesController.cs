@@ -38,7 +38,7 @@ public class TitlesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        TitleButtonPrefab = UIManager.Instance.GetGeneralButton("TitleButtonPrefab");
+        TitleButtonPrefab = UIManager.Instance.Get("TitleButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

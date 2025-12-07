@@ -30,9 +30,9 @@ public class MainMenuAntimatterManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuAntimatterPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuAntimatterPanelPrefab");
+        MainMenuAntimatterPanelPrefab = UIManager.Instance.Get("MainMenuAntimatterPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("AntimatterSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("AntimatterSlotPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }

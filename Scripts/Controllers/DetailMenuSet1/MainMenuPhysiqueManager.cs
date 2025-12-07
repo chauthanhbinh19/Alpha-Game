@@ -28,9 +28,9 @@ public class MainMenuPhysiqueManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuPhysiquePanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuPhysiquePanelPrefab");
+        MainMenuPhysiquePanelPrefab = UIManager.Instance.Get("MainMenuPhysiquePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("PhysiqueSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("PhysiqueSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuPhysiqueManagerAsync(object data)

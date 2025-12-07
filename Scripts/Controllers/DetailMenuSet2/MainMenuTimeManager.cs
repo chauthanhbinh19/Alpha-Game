@@ -28,9 +28,9 @@ public class MainMenuTimeManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuTimePanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuTimePanelPrefab");
+        MainMenuTimePanelPrefab = UIManager.Instance.Get("MainMenuTimePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("TimeSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("TimeSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuTimeManagerAsync(object data)

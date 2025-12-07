@@ -39,7 +39,7 @@ public class UserSkillsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SkillButtonPrefab = UIManager.Instance.GetGeneralButton("SkillButtonPrefab");
+        SkillButtonPrefab = UIManager.Instance.Get("SkillButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

@@ -28,9 +28,9 @@ public class MainMenuIceManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuIcePanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuIcePanelPrefab");
+        MainMenuIcePanelPrefab = UIManager.Instance.Get("MainMenuIcePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("IceSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("IceSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuIceManagerAsync(object data)

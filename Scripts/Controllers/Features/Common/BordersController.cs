@@ -37,7 +37,7 @@ public class BordersController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        BorderButtonPrefab = UIManager.Instance.GetGeneralButton("BorderButtonPrefab");
+        BorderButtonPrefab = UIManager.Instance.Get("BorderButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

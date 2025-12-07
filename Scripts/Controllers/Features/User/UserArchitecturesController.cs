@@ -39,7 +39,7 @@ public class UserArchitecturesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArchitectureButtonPrefab = UIManager.Instance.GetGeneralButton("ArchitectureButtonPrefab");
+        ArchitectureButtonPrefab = UIManager.Instance.Get("ArchitectureButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

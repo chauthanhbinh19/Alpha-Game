@@ -40,8 +40,8 @@ public class MasterBoardController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        MasterBoardNodePrefab = UIManager.Instance.GetGameObject("MasterBoardNodePrefab");
-        MasterBoardPopupPrefab = UIManager.Instance.GetGameObject("MasterBoardPopupPrefab");
+        MasterBoardNodePrefab = UIManager.Instance.Get("MasterBoardNodePrefab");
+        MasterBoardPopupPrefab = UIManager.Instance.Get("MasterBoardPopupPrefab");
 
         userItemsService = UserItemsService.Create();
         teamsService = TeamsService.Create();

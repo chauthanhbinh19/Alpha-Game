@@ -29,9 +29,9 @@ public class MainMenuOmnivoryManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuOmnivoryPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuOmnivoryPanelPrefab");
+        MainMenuOmnivoryPanelPrefab = UIManager.Instance.Get("MainMenuOmnivoryPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("OmnivorySlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("OmnivorySlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuOmnivoryManagerAsync(object data)

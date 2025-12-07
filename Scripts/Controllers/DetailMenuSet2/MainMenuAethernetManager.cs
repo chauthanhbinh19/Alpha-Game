@@ -28,9 +28,9 @@ public class MainMenuAethernetManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuAethernetPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuAethernetPanelPrefab");
+        MainMenuAethernetPanelPrefab = UIManager.Instance.Get("MainMenuAethernetPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("AethernetSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("AethernetSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuAethernetManagerAsync(object data)

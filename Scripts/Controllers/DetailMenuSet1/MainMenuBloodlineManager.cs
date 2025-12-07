@@ -28,9 +28,9 @@ public class MainMenuBloodlineManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuBloodlinePanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuBloodlinePanelPrefab");
+        MainMenuBloodlinePanelPrefab = UIManager.Instance.Get("MainMenuBloodlinePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("BloodlineSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("BloodlineSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuBloodlineManagerAsync(object data)

@@ -28,9 +28,9 @@ public class MainMenuAzathothManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuAzathothPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuAzathothPanelPrefab");
+        MainMenuAzathothPanelPrefab = UIManager.Instance.Get("MainMenuAzathothPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("AzathothSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("AzathothSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuAzathothManagerAsync(object data)

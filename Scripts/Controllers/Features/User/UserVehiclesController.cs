@@ -39,7 +39,7 @@ public class UserVehiclesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        VehicleButtonPrefab = UIManager.Instance.GetGeneralButton("VehicleButtonPrefab");
+        VehicleButtonPrefab = UIManager.Instance.Get("VehicleButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

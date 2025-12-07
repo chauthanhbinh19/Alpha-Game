@@ -28,9 +28,9 @@ public class MainMenuJorrManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuJorrPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuJorrPanelPrefab");
+        MainMenuJorrPanelPrefab = UIManager.Instance.Get("MainMenuJorrPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("JorrSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("JorrSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuJorrManagerAsync(object data)

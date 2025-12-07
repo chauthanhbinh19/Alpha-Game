@@ -37,7 +37,7 @@ public class AlchemiesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AlchemyButtonPrefab = UIManager.Instance.GetGeneralButton("AlchemyButtonPrefab");
+        AlchemyButtonPrefab = UIManager.Instance.Get("AlchemyButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

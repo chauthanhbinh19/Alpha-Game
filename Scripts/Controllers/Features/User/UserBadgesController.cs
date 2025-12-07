@@ -39,7 +39,7 @@ public class UserBadgesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        BadgeButtonPrefab = UIManager.Instance.GetGeneralButton("BadgeButtonPrefab");
+        BadgeButtonPrefab = UIManager.Instance.Get("BadgeButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

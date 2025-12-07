@@ -42,9 +42,9 @@ public class MasterOfPhysicalManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfPhysicalPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfPhysicalPanelPrefab");
+        MasterOfPhysicalPanelPrefab = UIManager.Instance.Get("MasterOfPhysicalPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfPhysicalSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("MasterOfPhysicalSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMasterOfPhysicalManagerAsync(object data)

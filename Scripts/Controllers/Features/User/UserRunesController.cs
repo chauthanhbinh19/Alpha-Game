@@ -39,7 +39,7 @@ public class UserRunesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RuneButtonPrefab = UIManager.Instance.GetGeneralButton("RuneButtonPrefab");
+        RuneButtonPrefab = UIManager.Instance.Get("RuneButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

@@ -30,7 +30,7 @@ public class CurrenciesManager : MonoBehaviour
     }
     public void Initialize()
     {
-        currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
+        currencyPrefab = UIManager.Instance.Get("CurrencyPrefab");
     }
     public void createCurrency(List<Currencies> currencies, Transform CurrencyPanel)
     {

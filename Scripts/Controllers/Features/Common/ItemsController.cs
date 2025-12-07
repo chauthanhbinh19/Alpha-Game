@@ -38,7 +38,7 @@ public class ItemsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
-        ItemShopButtonPrefab = UIManager.Instance.GetGeneralButton("ItemShopButtonPrefab");
+        ItemShopButtonPrefab = UIManager.Instance.Get("ItemShopButtonPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");

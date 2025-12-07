@@ -28,9 +28,9 @@ public class MainMenuArathorManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuArathorPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuArathorPanelPrefab");
+        MainMenuArathorPanelPrefab = UIManager.Instance.Get("MainMenuArathorPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("ArathorSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ArathorSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuArathorManagerAsync(object data)

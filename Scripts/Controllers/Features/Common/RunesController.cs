@@ -37,7 +37,7 @@ public class RunesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RuneButtonPrefab = UIManager.Instance.GetGeneralButton("RuneButtonPrefab");
+        RuneButtonPrefab = UIManager.Instance.Get("RuneButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

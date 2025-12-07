@@ -28,9 +28,9 @@ public class MainMenuOrbitalisManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuOrbitalisPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuOrbitalisPanelPrefab");
+        MainMenuOrbitalisPanelPrefab = UIManager.Instance.Get("MainMenuOrbitalisPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("OrbitalisSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("OrbitalisSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuOrbitalisManagerAsync(object data)

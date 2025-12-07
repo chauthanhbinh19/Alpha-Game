@@ -28,9 +28,9 @@ public class MainMenuIxithraManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuIxithraPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuIxithraPanelPrefab");
+        MainMenuIxithraPanelPrefab = UIManager.Instance.Get("MainMenuIxithraPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("IxithraSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("IxithraSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuIxithraManagerAsync(object data)

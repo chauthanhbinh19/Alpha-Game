@@ -28,9 +28,9 @@ public class MainMenuZilthrosManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuZilthrosPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuZilthrosPanelPrefab");
+        MainMenuZilthrosPanelPrefab = UIManager.Instance.Get("MainMenuZilthrosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("ZilthrosSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ZilthrosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuZilthrosManagerAsync(object data)

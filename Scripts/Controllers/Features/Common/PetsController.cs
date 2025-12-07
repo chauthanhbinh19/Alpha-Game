@@ -38,7 +38,7 @@ public class PetsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PetButtonPrefab = UIManager.Instance.GetGeneralButton("PetButtonPrefab");
+        PetButtonPrefab = UIManager.Instance.Get("PetButtonPrefab");
         equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");

@@ -39,7 +39,7 @@ public class UserForgesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ForgeButtonPrefab = UIManager.Instance.GetGeneralButton("ForgeButtonPrefab");
+        ForgeButtonPrefab = UIManager.Instance.Get("ForgeButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

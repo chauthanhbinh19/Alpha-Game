@@ -28,9 +28,9 @@ public class MainMenuSpearManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuSpearPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuSpearPanelPrefab");
+        MainMenuSpearPanelPrefab = UIManager.Instance.Get("MainMenuSpearPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("SpearSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("SpearSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuSpearManagerAsync(object data)

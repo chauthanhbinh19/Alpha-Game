@@ -28,9 +28,9 @@ public class MainMenuDemonManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuDemonPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuDemonPanelPrefab");
+        MainMenuDemonPanelPrefab = UIManager.Instance.Get("MainMenuDemonPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("DemonSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("DemonSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuDemonManagerAsync(object data)

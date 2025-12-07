@@ -89,7 +89,7 @@ public class MainMenuManager : MonoBehaviour
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         MainPanelPrefab = UIManager.Instance.GetGameObject("MainPanelPrefab");
         PopupButtonPrefab = UIManager.Instance.GetGameObject("PopupButtonPrefab");
-        RareButtonPrefab = UIManager.Instance.GetGeneralButton("RareButtonPrefab");
+        RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
         buttonPrefab2 = UIManager.Instance.GetGameObject("TabButton2");
@@ -102,7 +102,7 @@ public class MainMenuManager : MonoBehaviour
         AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
         ReactorPanelPrefab = UIManager.Instance.GetScienceFictionPanel("ReactorPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
-        FeaturePanelPrefab = UIManager.Instance.GetFeaturePanel("FeaturePanelPrefab");
+        FeaturePanelPrefab = UIManager.Instance.Get("FeaturePanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
         UI_Red_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.GetRedMaterial("UI_Red_Gradient_Radius_Mat_MaskPercent_45");
         fontSize = 24;

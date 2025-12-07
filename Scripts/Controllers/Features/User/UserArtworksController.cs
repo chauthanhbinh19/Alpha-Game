@@ -39,7 +39,7 @@ public class UserArtworksController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArtworkButtonPrefab = UIManager.Instance.GetGeneralButton("ArtworkButtonPrefab");
+        ArtworkButtonPrefab = UIManager.Instance.Get("ArtworkButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

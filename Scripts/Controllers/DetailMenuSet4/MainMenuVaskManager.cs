@@ -28,9 +28,9 @@ public class MainMenuVaskManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuVaskPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuVaskPanelPrefab");
+        MainMenuVaskPanelPrefab = UIManager.Instance.Get("MainMenuVaskPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("VaskSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("VaskSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuVaskManagerAsync(object data)

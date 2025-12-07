@@ -33,7 +33,7 @@ public class WeaponsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        WeaponBlockButtonPrefab = UIManager.Instance.GetGeneralButton("WeaponBlockButtonPrefab");
+        WeaponBlockButtonPrefab = UIManager.Instance.Get("WeaponBlockButtonPrefab");
     }
     public void CreateWeaponsGallery(List<Weapons> weapons, Transform contentPanel)
     {

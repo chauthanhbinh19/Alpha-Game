@@ -28,9 +28,9 @@ public class MainMenuZephManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuZephPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuZephPanelPrefab");
+        MainMenuZephPanelPrefab = UIManager.Instance.Get("MainMenuZephPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("ZephSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ZephSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuZephManagerAsync(object data)

@@ -37,7 +37,7 @@ public class CoresController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CoreButtonPrefab = UIManager.Instance.GetGeneralButton("CoreButtonPrefab");
+        CoreButtonPrefab = UIManager.Instance.Get("CoreButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

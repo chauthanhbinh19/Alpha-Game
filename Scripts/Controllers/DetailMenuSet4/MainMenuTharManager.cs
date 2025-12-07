@@ -28,9 +28,9 @@ public class MainMenuTharManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuTharPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuTharPanelPrefab");
+        MainMenuTharPanelPrefab = UIManager.Instance.Get("MainMenuTharPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("TharSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("TharSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuTharManagerAsync(object data)

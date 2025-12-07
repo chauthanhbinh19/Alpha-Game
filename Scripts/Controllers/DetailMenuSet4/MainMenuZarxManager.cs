@@ -28,9 +28,9 @@ public class MainMenuZarxManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuZarxPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuZarxPanelPrefab");
+        MainMenuZarxPanelPrefab = UIManager.Instance.Get("MainMenuZarxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("ZarxSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ZarxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuZarxManagerAsync(object data)

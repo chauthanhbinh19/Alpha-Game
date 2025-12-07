@@ -29,9 +29,9 @@ public class MainMenuAngelManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuAngelPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuAngelPanelPrefab");
+        MainMenuAngelPanelPrefab = UIManager.Instance.Get("MainMenuAngelPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("AngelSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("AngelSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuAngelManagerAsync(object data)

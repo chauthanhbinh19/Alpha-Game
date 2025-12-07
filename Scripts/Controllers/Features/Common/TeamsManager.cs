@@ -79,7 +79,7 @@ public class TeamsManager : MonoBehaviour
         TeamsPositionPrefab = UIManager.Instance.GetGameObject("TeamsPositionPrefab");
         TeamTypePrefab = UIManager.Instance.GetGameObject("TeamTypePrefab");
         TeamSlotPrefab = UIManager.Instance.GetGameObject("TeamSlotPrefab");
-        RareButtonPrefab = UIManager.Instance.GetGeneralButton("RareButtonPrefab");
+        RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
 

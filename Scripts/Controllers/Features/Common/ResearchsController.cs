@@ -34,7 +34,7 @@ public class ResearchsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ResearchButtonPrefab = UIManager.Instance.GetGeneralButton("ResearchButtonPrefab");
+        ResearchButtonPrefab = UIManager.Instance.Get("ResearchButtonPrefab");
         ResearchPanelPrefab = UIManager.Instance.GetGeneralPanel("ResearchPanelPrefab");
     }
     public async Task CreateResearchPanelAsync()

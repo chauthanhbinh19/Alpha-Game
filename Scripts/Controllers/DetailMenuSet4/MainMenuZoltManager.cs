@@ -28,9 +28,9 @@ public class MainMenuZoltManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuZoltPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuZoltPanelPrefab");
+        MainMenuZoltPanelPrefab = UIManager.Instance.Get("MainMenuZoltPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("ZoltSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ZoltSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuZoltManagerAsync(object data)

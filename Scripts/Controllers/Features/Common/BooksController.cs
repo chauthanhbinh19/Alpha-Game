@@ -37,7 +37,7 @@ public class BooksController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        BookButtonPrefab = UIManager.Instance.GetGeneralButton("BookButtonPrefab");
+        BookButtonPrefab = UIManager.Instance.Get("BookButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

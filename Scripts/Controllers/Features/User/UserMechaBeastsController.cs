@@ -39,7 +39,7 @@ public class UserMechaBeastsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MechaBeastButtonPrefab = UIManager.Instance.GetGeneralButton("MechaBeastButtonPrefab");
+        MechaBeastButtonPrefab = UIManager.Instance.Get("MechaBeastButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

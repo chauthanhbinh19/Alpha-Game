@@ -37,7 +37,7 @@ public class RelicsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RelicButtonPrefab = UIManager.Instance.GetGeneralButton("RelicButtonPrefab");
+        RelicButtonPrefab = UIManager.Instance.Get("RelicButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

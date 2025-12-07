@@ -33,7 +33,7 @@ public class RunesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RuneBlockButtonPrefab = UIManager.Instance.GetGeneralButton("RuneBlockButtonPrefab");
+        RuneBlockButtonPrefab = UIManager.Instance.Get("RuneBlockButtonPrefab");
     }
     public void CreateRunesGallery(List<Runes> runes, Transform contentPanel)
     {

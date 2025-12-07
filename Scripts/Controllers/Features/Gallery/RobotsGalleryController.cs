@@ -33,7 +33,7 @@ public class RobotsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RobotBlockButtonPrefab = UIManager.Instance.GetGeneralButton("RobotBlockButtonPrefab");
+        RobotBlockButtonPrefab = UIManager.Instance.Get("RobotBlockButtonPrefab");
     }
     public void CreateRobotsGallery(List<Robots> robots, Transform contentPanel)
     {

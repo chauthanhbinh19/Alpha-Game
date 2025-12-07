@@ -28,9 +28,9 @@ public class MainMenuOmnipotenceManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuOmnipotencePanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuOmnipotencePanelPrefab");
+        MainMenuOmnipotencePanelPrefab = UIManager.Instance.Get("MainMenuOmnipotencePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("OmnipotenceSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("OmnipotenceSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuOmnipotenceManagerAsync(object data)

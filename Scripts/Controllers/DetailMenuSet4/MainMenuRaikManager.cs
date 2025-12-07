@@ -28,9 +28,9 @@ public class MainMenuRaikManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuRaikPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuRaikPanelPrefab");
+        MainMenuRaikPanelPrefab = UIManager.Instance.Get("MainMenuRaikPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("RaikSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("RaikSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuRaikManagerAsync(object data)

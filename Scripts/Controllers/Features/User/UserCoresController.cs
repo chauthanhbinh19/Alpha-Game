@@ -39,7 +39,7 @@ public class UserCoresController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CoreButtonPrefab = UIManager.Instance.GetGeneralButton("CoreButtonPrefab");
+        CoreButtonPrefab = UIManager.Instance.Get("CoreButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

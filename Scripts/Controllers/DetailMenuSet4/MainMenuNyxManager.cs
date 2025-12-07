@@ -28,9 +28,9 @@ public class MainMenuNyxManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuNyxPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuNyxPanelPrefab");
+        MainMenuNyxPanelPrefab = UIManager.Instance.Get("MainMenuNyxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("NyxSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("NyxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuNyxManagerAsync(object data)

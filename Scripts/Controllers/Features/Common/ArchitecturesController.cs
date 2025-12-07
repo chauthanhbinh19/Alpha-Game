@@ -37,7 +37,7 @@ public class ArchitecturesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArchitectureButtonPrefab = UIManager.Instance.GetGeneralButton("ArchitectureButtonPrefab");
+        ArchitectureButtonPrefab = UIManager.Instance.Get("ArchitectureButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

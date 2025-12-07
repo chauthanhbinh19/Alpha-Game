@@ -43,7 +43,7 @@ public class GalleryManager : MonoBehaviour
         rare = AppConstants.Rare.ALL;
         galleryMenuPanel = GalleryMenuPanel;
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        RareButtonPrefab = UIManager.Instance.GetGeneralButton("RareButtonPrefab");
+        RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UI_Blue_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Gradient_Radius_Mat_MaskPercent_45");

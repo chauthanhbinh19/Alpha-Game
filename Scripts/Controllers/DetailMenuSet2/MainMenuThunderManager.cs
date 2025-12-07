@@ -28,9 +28,9 @@ public class MainMenuThunderManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuThunderPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuThunderPanelPrefab");
+        MainMenuThunderPanelPrefab = UIManager.Instance.Get("MainMenuThunderPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("ThunderSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ThunderSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuThunderManagerAsync(object data)

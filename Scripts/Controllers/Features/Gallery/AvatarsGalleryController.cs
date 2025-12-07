@@ -33,7 +33,7 @@ public class AvatarsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AvatarBlockButtonPrefab = UIManager.Instance.GetGeneralButton("AvatarBlockButtonPrefab");
+        AvatarBlockButtonPrefab = UIManager.Instance.Get("AvatarBlockButtonPrefab");
     }
     public void CreateAvatarsGallery(List<Avatars> avatars, Transform contentPanel)
     {

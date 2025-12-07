@@ -37,7 +37,7 @@ public class VehiclesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        VehicleButtonPrefab = UIManager.Instance.GetGeneralButton("VehicleButtonPrefab");
+        VehicleButtonPrefab = UIManager.Instance.Get("VehicleButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

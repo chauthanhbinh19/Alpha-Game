@@ -32,7 +32,7 @@ public class AchievementsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AchievementBlockButtonPrefab = UIManager.Instance.GetGeneralButton("AchievementBlockButtonPrefab");
+        AchievementBlockButtonPrefab = UIManager.Instance.Get("AchievementBlockButtonPrefab");
     }
     public void CreateAchievementsGallery(List<Achievements> achievements, Transform contentPanel)
     {

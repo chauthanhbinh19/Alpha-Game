@@ -37,7 +37,7 @@ public class ArtworksController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArtworkButtonPrefab = UIManager.Instance.GetGeneralButton("ArtworkButtonPrefab");
+        ArtworkButtonPrefab = UIManager.Instance.Get("ArtworkButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

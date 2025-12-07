@@ -28,9 +28,9 @@ public class MainMenuThorindarManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuThorindarPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuThorindarPanelPrefab");
+        MainMenuThorindarPanelPrefab = UIManager.Instance.Get("MainMenuThorindarPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("ThorindarSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ThorindarSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuThorindarManagerAsync(object data)

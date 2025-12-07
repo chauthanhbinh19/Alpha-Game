@@ -33,7 +33,7 @@ public class ArchitecturesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArchitectureBlockButtonPrefab = UIManager.Instance.GetGeneralButton("ArchitectureBlockButtonPrefab");
+        ArchitectureBlockButtonPrefab = UIManager.Instance.Get("ArchitectureBlockButtonPrefab");
     }
     public void CreateArchitecturesGallery(List<Architectures> architectures, Transform contentPanel)
     {

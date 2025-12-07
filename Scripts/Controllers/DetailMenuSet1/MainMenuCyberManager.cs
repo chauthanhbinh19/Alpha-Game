@@ -28,9 +28,9 @@ public class MainMenuCyberManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuCyberPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuCyberPanelPrefab");
+        MainMenuCyberPanelPrefab = UIManager.Instance.Get("MainMenuCyberPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("CyberSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("CyberSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuCyberManagerAsync(object data)

@@ -48,14 +48,14 @@ public class ProfileManager : MonoBehaviour
         WaitingPanel = UIManager.Instance.GetTransform("WaitingPanel");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
-        ProfilePanelPrefab = UIManager.Instance.GetProfilePanel("ProfilePanelPrefab");
-        EditNamePanelPrefab = UIManager.Instance.GetEditNamePanel("EditNamePanelPrefab");
-        CurrencyPanelPrefab = UIManager.Instance.GetCurrencyPanel("CurrencyPanelPrefab");
-        SettingPanelPrefab = UIManager.Instance.GetSettingPanel("SettingPanelPrefab");
-        SettingButtonPrefab = UIManager.Instance.GetSettingPanel("SettingButtonPrefab");
-        LanguageButtonPrefab = UIManager.Instance.GetLanguagePanel("LanguageButtonPrefab");
-        NewsPanelPrefab = UIManager.Instance.GetNewsPanel("NewsPanelPrefab");
-        NewsButtonPrefab = UIManager.Instance.GetNewsPanel("NewsButtonPrefab");
+        ProfilePanelPrefab = UIManager.Instance.Get("ProfilePanelPrefab");
+        EditNamePanelPrefab = UIManager.Instance.Get("EditNamePanelPrefab");
+        CurrencyPanelPrefab = UIManager.Instance.Get("CurrencyPanelPrefab");
+        SettingPanelPrefab = UIManager.Instance.Get("SettingPanelPrefab");
+        SettingButtonPrefab = UIManager.Instance.Get("SettingButtonPrefab");
+        LanguageButtonPrefab = UIManager.Instance.Get("LanguageButtonPrefab");
+        NewsPanelPrefab = UIManager.Instance.Get("NewsPanelPrefab");
+        NewsButtonPrefab = UIManager.Instance.Get("NewsButtonPrefab");
     }
     public async Task CreateProfileAsync()
     {

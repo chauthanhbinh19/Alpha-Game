@@ -39,7 +39,7 @@ public class UserRelicsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RelicButtonPrefab = UIManager.Instance.GetGeneralButton("RelicButtonPrefab");
+        RelicButtonPrefab = UIManager.Instance.Get("RelicButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

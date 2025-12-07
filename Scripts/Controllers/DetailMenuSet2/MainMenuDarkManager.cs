@@ -28,9 +28,9 @@ public class MainMenuDarkManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuDarkPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuDarkPanelPrefab");
+        MainMenuDarkPanelPrefab = UIManager.Instance.Get("MainMenuDarkPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("DarkSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("DarkSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuDarkManagerAsync(object data)

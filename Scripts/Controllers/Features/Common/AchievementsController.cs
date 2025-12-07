@@ -38,7 +38,7 @@ public class AchievementsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AchievementButtonPrefab = UIManager.Instance.GetGeneralButton("AchievementButtonPrefab");
+        AchievementButtonPrefab = UIManager.Instance.Get("AchievementButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

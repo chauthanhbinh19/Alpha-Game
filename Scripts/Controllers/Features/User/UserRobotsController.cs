@@ -39,7 +39,7 @@ public class UserRobotsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RobotButtonPrefab = UIManager.Instance.GetGeneralButton("RobotButtonPrefab");
+        RobotButtonPrefab = UIManager.Instance.Get("RobotButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

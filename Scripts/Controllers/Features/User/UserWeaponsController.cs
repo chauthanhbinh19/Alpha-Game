@@ -39,7 +39,7 @@ public class UserWeaponsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        WeaponButtonPrefab = UIManager.Instance.GetGeneralButton("WeaponButtonPrefab");
+        WeaponButtonPrefab = UIManager.Instance.Get("WeaponButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

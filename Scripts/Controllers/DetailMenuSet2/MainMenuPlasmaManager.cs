@@ -28,9 +28,9 @@ public class MainMenuPlasmaManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuPlasmaPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuPlasmaPanelPrefab");
+        MainMenuPlasmaPanelPrefab = UIManager.Instance.Get("MainMenuPlasmaPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("PlasmaSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("PlasmaSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuPlasmaManagerAsync(object data)

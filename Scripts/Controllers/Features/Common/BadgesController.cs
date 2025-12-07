@@ -37,7 +37,7 @@ public class BadgesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        BadgeButtonPrefab = UIManager.Instance.GetGeneralButton("BadgeButtonPrefab");
+        BadgeButtonPrefab = UIManager.Instance.Get("BadgeButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

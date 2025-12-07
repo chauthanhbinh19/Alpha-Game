@@ -33,7 +33,7 @@ public class PuppetsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PuppetBlockButtonPrefab = UIManager.Instance.GetGeneralButton("PuppetBlockButtonPrefab");
+        PuppetBlockButtonPrefab = UIManager.Instance.Get("PuppetBlockButtonPrefab");
     }
     public void CreatePuppetGallery(List<Puppets> puppets, Transform contentPanel)
     {

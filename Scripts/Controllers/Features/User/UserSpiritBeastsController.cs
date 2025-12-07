@@ -39,7 +39,7 @@ public class UserSpiritBeastsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SpiritBeastButtonPrefab = UIManager.Instance.GetGeneralButton("SpiritBeastButtonPrefab");
+        SpiritBeastButtonPrefab = UIManager.Instance.Get("SpiritBeastButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

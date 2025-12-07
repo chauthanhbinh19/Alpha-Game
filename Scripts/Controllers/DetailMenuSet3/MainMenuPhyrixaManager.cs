@@ -28,9 +28,9 @@ public class MainMenuPhyrixaManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuPhyrixaPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuPhyrixaPanelPrefab");
+        MainMenuPhyrixaPanelPrefab = UIManager.Instance.Get("MainMenuPhyrixaPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("PhyrixaSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("PhyrixaSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuPhyrixaManagerAsync(object data)

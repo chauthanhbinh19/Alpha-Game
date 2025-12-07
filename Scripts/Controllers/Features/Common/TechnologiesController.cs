@@ -37,7 +37,7 @@ public class TechnologiesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        TechnologyButtonPrefab = UIManager.Instance.GetGeneralButton("TechnologyButtonPrefab");
+        TechnologyButtonPrefab = UIManager.Instance.Get("TechnologyButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

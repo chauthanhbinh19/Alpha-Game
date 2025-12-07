@@ -32,7 +32,7 @@ public class BooksGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        BookBlockButtonPrefab = UIManager.Instance.GetGeneralButton("BookBlockButtonPrefab");
+        BookBlockButtonPrefab = UIManager.Instance.Get("BookBlockButtonPrefab");
     }
     public void CreateBooksGallery(List<Books> books, Transform contentPanel)
     {

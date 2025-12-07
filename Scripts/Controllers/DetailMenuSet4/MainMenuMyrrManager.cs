@@ -28,9 +28,9 @@ public class MainMenuMyrrManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuMyrrPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuMyrrPanelPrefab");
+        MainMenuMyrrPanelPrefab = UIManager.Instance.Get("MainMenuMyrrPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MyrrSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("MyrrSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuMyrrManagerAsync(object data)

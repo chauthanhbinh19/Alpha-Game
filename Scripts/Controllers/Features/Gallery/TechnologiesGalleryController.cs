@@ -33,7 +33,7 @@ public class TechnologiesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        TechnologyBlockButtonPrefab = UIManager.Instance.GetGeneralButton("TechnologyBlockButtonPrefab");
+        TechnologyBlockButtonPrefab = UIManager.Instance.Get("TechnologyBlockButtonPrefab");
     }
     public void CreateTechnologiesGallery(List<Technologies> technologies, Transform contentPanel)
     {

@@ -37,7 +37,7 @@ public class CardsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CardButtonPrefab = UIManager.Instance.GetGeneralButton("CardButtonPrefab");
+        CardButtonPrefab = UIManager.Instance.Get("CardButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

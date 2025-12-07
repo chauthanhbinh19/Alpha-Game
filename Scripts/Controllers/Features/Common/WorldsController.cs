@@ -34,7 +34,7 @@ public class WorldsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        WorldButtonPrefab = UIManager.Instance.GetGeneralButton("WorldButtonPrefab");
+        WorldButtonPrefab = UIManager.Instance.Get("WorldButtonPrefab");
         WorldPanelPrefab = UIManager.Instance.GetGeneralPanel("WorldPanelPrefab");
     }
     public async Task CreateWorldPanelAsync()

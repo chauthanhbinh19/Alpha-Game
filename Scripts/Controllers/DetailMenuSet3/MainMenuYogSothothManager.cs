@@ -28,9 +28,9 @@ public class MainMenuYogSothothManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuYogSothothPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuYogSothothPanelPrefab");
+        MainMenuYogSothothPanelPrefab = UIManager.Instance.Get("MainMenuYogSothothPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("YogSothothSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("YogSothothSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuYogSothothManagerAsync(object data)

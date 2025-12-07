@@ -37,7 +37,7 @@ public class WeaponsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        WeaponButtonPrefab = UIManager.Instance.GetGeneralButton("WeaponButtonPrefab");
+        WeaponButtonPrefab = UIManager.Instance.Get("WeaponButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

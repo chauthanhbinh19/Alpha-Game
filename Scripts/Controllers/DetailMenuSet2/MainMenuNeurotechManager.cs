@@ -28,9 +28,9 @@ public class MainMenuNeurotechManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuNeurotechPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuNeurotechPanelPrefab");
+        MainMenuNeurotechPanelPrefab = UIManager.Instance.Get("MainMenuNeurotechPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("NeurotechSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("NeurotechSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuNeurotechManagerAsync(object data)

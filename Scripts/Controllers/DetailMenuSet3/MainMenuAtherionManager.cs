@@ -28,9 +28,9 @@ public class MainMenuAtherionManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuAtherionPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuAtherionPanelPrefab");
+        MainMenuAtherionPanelPrefab = UIManager.Instance.Get("MainMenuAtherionPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("AtherionSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("AtherionSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuAtherionManagerAsync(object data)

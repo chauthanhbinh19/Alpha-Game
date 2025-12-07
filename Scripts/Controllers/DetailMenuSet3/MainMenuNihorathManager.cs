@@ -28,9 +28,9 @@ public class MainMenuNihorathManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuNihorathPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuNihorathPanelPrefab");
+        MainMenuNihorathPanelPrefab = UIManager.Instance.Get("MainMenuNihorathPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("NihorathSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("NihorathSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuNihorathManagerAsync(object data)

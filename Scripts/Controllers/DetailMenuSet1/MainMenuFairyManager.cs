@@ -28,9 +28,9 @@ public class MainMenuFairyManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuFairyPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuFairyPanelPrefab");
+        MainMenuFairyPanelPrefab = UIManager.Instance.Get("MainMenuFairyPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("FairySlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("FairySlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuFairyManagerAsync(object data)

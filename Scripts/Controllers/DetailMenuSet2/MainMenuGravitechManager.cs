@@ -28,9 +28,9 @@ public class MainMenuGravitechManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuGravitechPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuGravitechPanelPrefab");
+        MainMenuGravitechPanelPrefab = UIManager.Instance.Get("MainMenuGravitechPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("GravitechSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("GravitechSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuGravitechManagerAsync(object data)

@@ -28,9 +28,9 @@ public class MainMenuDraxManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuDraxPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuDraxPanelPrefab");
+        MainMenuDraxPanelPrefab = UIManager.Instance.Get("MainMenuDraxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("DraxSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("DraxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuDraxManagerAsync(object data)

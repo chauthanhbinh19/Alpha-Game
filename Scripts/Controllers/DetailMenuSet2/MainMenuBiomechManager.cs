@@ -28,9 +28,9 @@ public class MainMenuBiomechManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuBiomechPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuBiomechPanelPrefab");
+        MainMenuBiomechPanelPrefab = UIManager.Instance.Get("MainMenuBiomechPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("BiomechSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("BiomechSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuBiomechManagerAsync(object data)

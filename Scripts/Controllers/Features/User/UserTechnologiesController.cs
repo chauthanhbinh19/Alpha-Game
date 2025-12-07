@@ -39,7 +39,7 @@ public class UserTechnologiesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        TechnologyButtonPrefab = UIManager.Instance.GetGeneralButton("TechnologyButtonPrefab");
+        TechnologyButtonPrefab = UIManager.Instance.Get("TechnologyButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

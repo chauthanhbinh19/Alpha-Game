@@ -28,9 +28,9 @@ public class MainMenuStarforgeManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuStarforgePanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuStarforgePanelPrefab");
+        MainMenuStarforgePanelPrefab = UIManager.Instance.Get("MainMenuStarforgePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("StarforgeSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("StarforgeSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuStarforgeManagerAsync(object data)

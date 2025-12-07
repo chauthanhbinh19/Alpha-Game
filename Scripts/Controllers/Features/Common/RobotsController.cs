@@ -37,7 +37,7 @@ public class RobotsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RobotButtonPrefab = UIManager.Instance.GetGeneralButton("RobotButtonPrefab");
+        RobotButtonPrefab = UIManager.Instance.Get("RobotButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

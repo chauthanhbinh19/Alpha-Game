@@ -28,9 +28,9 @@ public class MainMenuShieldManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuShieldPanelPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("MainMenuShieldPanelPrefab");
+        MainMenuShieldPanelPrefab = UIManager.Instance.Get("MainMenuShieldPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet1Manager.Instance.GetGameObjectMainMenu1("ShieldSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ShieldSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuShieldManagerAsync(object data)

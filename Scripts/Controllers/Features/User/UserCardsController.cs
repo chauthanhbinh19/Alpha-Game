@@ -39,7 +39,7 @@ public class UserCardsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CardButtonPrefab = UIManager.Instance.GetGeneralButton("CardButtonPrefab");
+        CardButtonPrefab = UIManager.Instance.Get("CardButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

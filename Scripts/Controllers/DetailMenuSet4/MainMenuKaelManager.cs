@@ -28,9 +28,9 @@ public class MainMenuKaelManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuKaelPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuKaelPanelPrefab");
+        MainMenuKaelPanelPrefab = UIManager.Instance.Get("MainMenuKaelPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("KaelSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("KaelSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuKaelManagerAsync(object data)

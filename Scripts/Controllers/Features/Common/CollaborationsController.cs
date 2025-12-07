@@ -37,7 +37,7 @@ public class CollaborationsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CollaborationButtonPrefab = UIManager.Instance.GetGeneralButton("CollaborationButtonPrefab");
+        CollaborationButtonPrefab = UIManager.Instance.Get("CollaborationButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

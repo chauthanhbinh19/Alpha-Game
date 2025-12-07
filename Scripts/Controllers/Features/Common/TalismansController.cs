@@ -37,7 +37,7 @@ public class TalismansController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        TalismanButtonPrefab = UIManager.Instance.GetGeneralButton("TalismanButtonPrefab");
+        TalismanButtonPrefab = UIManager.Instance.Get("TalismanButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

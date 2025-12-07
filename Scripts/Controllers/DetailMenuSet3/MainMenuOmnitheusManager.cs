@@ -28,9 +28,9 @@ public class MainMenuOmnitheusManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuOmnitheusPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuOmnitheusPanelPrefab");
+        MainMenuOmnitheusPanelPrefab = UIManager.Instance.Get("MainMenuOmnitheusPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("OmnitheusSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("OmnitheusSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuOmnitheusManagerAsync(object data)

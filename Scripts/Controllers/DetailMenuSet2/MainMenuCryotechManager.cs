@@ -28,9 +28,9 @@ public class MainMenuCryotechManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuCryotechPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuCryotechPanelPrefab");
+        MainMenuCryotechPanelPrefab = UIManager.Instance.Get("MainMenuCryotechPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("CryotechSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("CryotechSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuCryotechManagerAsync(object data)

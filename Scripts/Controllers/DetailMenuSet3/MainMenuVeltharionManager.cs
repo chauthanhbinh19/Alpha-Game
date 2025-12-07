@@ -28,9 +28,9 @@ public class MainMenuVeltharionManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuVeltharionPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuVeltharionPanelPrefab");
+        MainMenuVeltharionPanelPrefab = UIManager.Instance.Get("MainMenuVeltharionPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("VeltharionSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("VeltharionSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuVeltharionManagerAsync(object data)

@@ -39,7 +39,7 @@ public class UserMedalsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MedalButtonPrefab = UIManager.Instance.GetGeneralButton("MedalButtonPrefab");
+        MedalButtonPrefab = UIManager.Instance.Get("MedalButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

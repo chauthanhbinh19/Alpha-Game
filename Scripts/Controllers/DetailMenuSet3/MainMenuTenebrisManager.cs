@@ -28,9 +28,9 @@ public class MainMenuTenebrisManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuTenebrisPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuTenebrisPanelPrefab");
+        MainMenuTenebrisPanelPrefab = UIManager.Instance.Get("MainMenuTenebrisPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("TenebrisSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("TenebrisSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuTenebrisManagerAsync(object data)

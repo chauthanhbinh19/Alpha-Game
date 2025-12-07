@@ -28,9 +28,9 @@ public class MainMenuHolographyManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuHolographyPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuHolographyPanelPrefab");
+        MainMenuHolographyPanelPrefab = UIManager.Instance.Get("MainMenuHolographyPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("HolographySlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("HolographySlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuHolographyManagerAsync(object data)

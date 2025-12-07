@@ -28,9 +28,9 @@ public class MainMenuArcanosManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuArcanosPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuArcanosPanelPrefab");
+        MainMenuArcanosPanelPrefab = UIManager.Instance.Get("MainMenuArcanosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("ArcanosSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("ArcanosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuArcanosManagerAsync(object data)

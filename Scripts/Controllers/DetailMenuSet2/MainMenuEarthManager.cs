@@ -28,9 +28,9 @@ public class MainMenuEarthManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuEarthPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuEarthPanelPrefab");
+        MainMenuEarthPanelPrefab = UIManager.Instance.Get("MainMenuEarthPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("EarthSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("EarthSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuEarthManagerAsync(object data)

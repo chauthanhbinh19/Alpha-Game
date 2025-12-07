@@ -39,7 +39,7 @@ public class UserPuppetsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PuppetButtonPrefab = UIManager.Instance.GetGeneralButton("PuppetButtonPrefab");
+        PuppetButtonPrefab = UIManager.Instance.Get("PuppetButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

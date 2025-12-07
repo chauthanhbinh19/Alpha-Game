@@ -42,9 +42,9 @@ public class MasterOfChemicalManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfChemicalPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfChemicalPanelPrefab");
+        MasterOfChemicalPanelPrefab = UIManager.Instance.Get("MasterOfChemicalPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfChemicalSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("MasterOfChemicalSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMasterOfChemicalManagerAsync(object data)

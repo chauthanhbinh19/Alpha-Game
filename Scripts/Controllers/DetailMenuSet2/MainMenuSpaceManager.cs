@@ -28,9 +28,9 @@ public class MainMenuSpaceManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuSpacePanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuSpacePanelPrefab");
+        MainMenuSpacePanelPrefab = UIManager.Instance.Get("MainMenuSpacePanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("SpaceSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("SpaceSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuSpaceManagerAsync(object data)

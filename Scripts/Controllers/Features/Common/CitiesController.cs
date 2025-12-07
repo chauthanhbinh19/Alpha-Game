@@ -34,7 +34,7 @@ public class CitiesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CityButtonPrefab = UIManager.Instance.GetGeneralButton("CityButtonPrefab");
+        CityButtonPrefab = UIManager.Instance.Get("CityButtonPrefab");
         CityPanelPrefab = UIManager.Instance.GetGeneralPanel("CityPanelPrefab");
     }
     public async Task CreateCityPanelAsync()

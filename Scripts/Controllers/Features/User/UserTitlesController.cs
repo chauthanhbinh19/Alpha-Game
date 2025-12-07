@@ -39,7 +39,7 @@ public class UserTitlesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        TitleButtonPrefab = UIManager.Instance.GetGeneralButton("TitleButtonPrefab");
+        TitleButtonPrefab = UIManager.Instance.Get("TitleButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();

@@ -33,7 +33,7 @@ public class CoresGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CoreBlockButtonPrefab = UIManager.Instance.GetGeneralButton("CoreBlockButtonPrefab");
+        CoreBlockButtonPrefab = UIManager.Instance.Get("CoreBlockButtonPrefab");
     }
     public void CreateCoresGallery(List<Cores> cores, Transform contentPanel)
     {

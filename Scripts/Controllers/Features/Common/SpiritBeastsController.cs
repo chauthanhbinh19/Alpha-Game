@@ -37,7 +37,7 @@ public class SpiritBeastsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SpiritBeastButtonPrefab = UIManager.Instance.GetGeneralButton("SpiritBeastButtonPrefab");
+        SpiritBeastButtonPrefab = UIManager.Instance.Get("SpiritBeastButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

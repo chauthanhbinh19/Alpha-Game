@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: ec919d7f88562b840b84cde32db12068, type: 3}
+  m_Texture: {fileID: 2800000, guid: 93a99feee24be744690d6e5d6ec8c174, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -462,10 +462,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 'Res: 1.0.0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
+  m_sharedMaterial: {fileID: -5273589510770900895, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2135,96 +2135,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &220131811
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 220131812}
-  - component: {fileID: 220131813}
-  m_Layer: 0
-  m_Name: UIMainMenuSet3Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &220131812
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 220131811}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 478225728}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &220131813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 220131811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17e766055acf10b4c8d90c5542ce0e36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainMenuAzathothPanelPrefab: {fileID: 0}
-  MainMenuYogSothothPanelPrefab: {fileID: 0}
-  MainMenuNyarlathotepPanelPrefab: {fileID: 0}
-  MainMenuShubNiggurathPanelPrefab: {fileID: 0}
-  MainMenuNihorathPanelPrefab: {fileID: 0}
-  MainMenuAeonaxPanelPrefab: {fileID: 0}
-  MainMenuSeraphirosPanelPrefab: {fileID: 0}
-  MainMenuThorindarPanelPrefab: {fileID: 0}
-  MainMenuZilthrosPanelPrefab: {fileID: 0}
-  MainMenuKhorazalPanelPrefab: {fileID: 0}
-  MainMenuIxithraPanelPrefab: {fileID: 0}
-  MainMenuOmnitheusPanelPrefab: {fileID: 0}
-  MainMenuPhyrixaPanelPrefab: {fileID: 0}
-  MainMenuAtherionPanelPrefab: {fileID: 0}
-  MainMenuVorathosPanelPrefab: {fileID: 0}
-  MainMenuTenebrisPanelPrefab: {fileID: 0}
-  MainMenuXylkorPanelPrefab: {fileID: 0}
-  MainMenuVeltharionPanelPrefab: {fileID: 0}
-  MainMenuArcanosPanelPrefab: {fileID: 0}
-  MainMenuDolomathPanelPrefab: {fileID: 0}
-  MainMenuArathorPanelPrefab: {fileID: 0}
-  MainMenuXyphosPanelPrefab: {fileID: 0}
-  MainMenuVaelithPanelPrefab: {fileID: 0}
-  AzathothSlotPrefab: {fileID: 0}
-  YogSothothSlotPrefab: {fileID: 0}
-  NyarlathotepSlotPrefab: {fileID: 0}
-  ShubNiggurathSlotPrefab: {fileID: 0}
-  NihorathSlotPrefab: {fileID: 0}
-  AeonaxSlotPrefab: {fileID: 0}
-  SeraphirosSlotPrefab: {fileID: 0}
-  ThorindarSlotPrefab: {fileID: 0}
-  ZilthrosSlotPrefab: {fileID: 0}
-  KhorazalSlotPrefab: {fileID: 0}
-  IxithraSlotPrefab: {fileID: 0}
-  OmnitheusSlotPrefab: {fileID: 0}
-  PhyrixaSlotPrefab: {fileID: 0}
-  AtherionSlotPrefab: {fileID: 0}
-  VorathosSlotPrefab: {fileID: 0}
-  TenebrisSlotPrefab: {fileID: 0}
-  XylkorSlotPrefab: {fileID: 0}
-  VeltharionSlotPrefab: {fileID: 0}
-  ArcanosSlotPrefab: {fileID: 0}
-  DolomathSlotPrefab: {fileID: 0}
-  ArathorSlotPrefab: {fileID: 0}
-  XyphosSlotPrefab: {fileID: 0}
-  VaelithSlotPrefab: {fileID: 0}
 --- !u!1 &247838754
 GameObject:
   m_ObjectHideFlags: 0
@@ -3184,96 +3094,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405153851}
   m_CullTransparentMesh: 1
---- !u!1 &413369762
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 413369763}
-  - component: {fileID: 413369764}
-  m_Layer: 0
-  m_Name: UIMainMenuSet2Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &413369763
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413369762}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 478225728}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &413369764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413369762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb39c62ca1d6eb4429b642be2e05c54c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainMenuDarkPanelPrefab: {fileID: 0}
-  MainMenuLightPanelPrefab: {fileID: 0}
-  MainMenuFirePanelPrefab: {fileID: 0}
-  MainMenuIcePanelPrefab: {fileID: 0}
-  MainMenuEarthPanelPrefab: {fileID: 0}
-  MainMenuThunderPanelPrefab: {fileID: 0}
-  MainMenuLifePanelPrefab: {fileID: 0}
-  MainMenuSpacePanelPrefab: {fileID: 0}
-  MainMenuTimePanelPrefab: {fileID: 0}
-  MainMenuNanotechPanelPrefab: {fileID: 0}
-  MainMenuQuantumPanelPrefab: {fileID: 0}
-  MainMenuHolographyPanelPrefab: {fileID: 0}
-  MainMenuPlasmaPanelPrefab: {fileID: 0}
-  MainMenuBiomechPanelPrefab: {fileID: 0}
-  MainMenuCryotechPanelPrefab: {fileID: 0}
-  MainMenuPsionicsPanelPrefab: {fileID: 0}
-  MainMenuNeurotechPanelPrefab: {fileID: 0}
-  MainMenuAntimatterPanelPrefab: {fileID: 0}
-  MainMenuPhantomwarePanelPrefab: {fileID: 0}
-  MainMenuGravitechPanelPrefab: {fileID: 0}
-  MainMenuAethernetPanelPrefab: {fileID: 0}
-  MainMenuStarforgePanelPrefab: {fileID: 0}
-  MainMenuOrbitalisPanelPrefab: {fileID: 0}
-  DarkSlotPrefab: {fileID: 0}
-  LightSlotPrefab: {fileID: 0}
-  FireSlotPrefab: {fileID: 0}
-  IceSlotPrefab: {fileID: 0}
-  EarthSlotPrefab: {fileID: 0}
-  ThunderSlotPrefab: {fileID: 0}
-  LifeSlotPrefab: {fileID: 0}
-  SpaceSlotPrefab: {fileID: 0}
-  TimeSlotPrefab: {fileID: 0}
-  NanotechSlotPrefab: {fileID: 0}
-  QuantumSlotPrefab: {fileID: 0}
-  HolographySlotPrefab: {fileID: 0}
-  PlasmaSlotPrefab: {fileID: 0}
-  BiomechSlotPrefab: {fileID: 0}
-  CryotechSlotPrefab: {fileID: 0}
-  PsionicsSlotPrefab: {fileID: 0}
-  NeurotechSlotPrefab: {fileID: 0}
-  AntimatterSlotPrefab: {fileID: 0}
-  PhantomwareSlotPrefab: {fileID: 0}
-  GravitechSlotPrefab: {fileID: 0}
-  AethernetSlotPrefab: {fileID: 0}
-  StarforgeSlotPrefab: {fileID: 0}
-  OrbitalisSlotPrefab: {fileID: 0}
 --- !u!1 &437658273
 GameObject:
   m_ObjectHideFlags: 0
@@ -3786,12 +3606,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1865394598}
-  - {fileID: 1192191707}
-  - {fileID: 413369763}
-  - {fileID: 220131812}
-  - {fileID: 834057718}
-  - {fileID: 1009544192}
-  - {fileID: 1202313339}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3805,7 +3619,7 @@ GameObject:
   m_Component:
   - component: {fileID: 495709220}
   m_Layer: 5
-  m_Name: Popup
+  m_Name: PopupPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3925,7 +3739,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: ec919d7f88562b840b84cde32db12068, type: 3}
+  m_Texture: {fileID: 2800000, guid: 93a99feee24be744690d6e5d6ec8c174, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -4816,14 +4630,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 1
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &743997028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5237,7 +5043,7 @@ GameObject:
   - component: {fileID: 810530868}
   - component: {fileID: 810530869}
   m_Layer: 5
-  m_Name: Notification
+  m_Name: NotificationPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5470,96 +5276,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829683612}
   m_CullTransparentMesh: 1
---- !u!1 &834057717
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 834057718}
-  - component: {fileID: 834057719}
-  m_Layer: 0
-  m_Name: UIMainMenuSet4Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &834057718
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834057717}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 478225728}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &834057719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834057717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0747b6b179b2cca468fb7494c3e2defc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainMenuZarxPanelPrefab: {fileID: 0}
-  MainMenuRaikPanelPrefab: {fileID: 0}
-  MainMenuDraxPanelPrefab: {fileID: 0}
-  MainMenuKronPanelPrefab: {fileID: 0}
-  MainMenuZoltPanelPrefab: {fileID: 0}
-  MainMenuGorrPanelPrefab: {fileID: 0}
-  MainMenuRyzePanelPrefab: {fileID: 0}
-  MainMenuJaxxPanelPrefab: {fileID: 0}
-  MainMenuTharPanelPrefab: {fileID: 0}
-  MainMenuVornPanelPrefab: {fileID: 0}
-  MainMenuNyxPanelPrefab: {fileID: 0}
-  MainMenuArosPanelPrefab: {fileID: 0}
-  MainMenuHexPanelPrefab: {fileID: 0}
-  MainMenuLornPanelPrefab: {fileID: 0}
-  MainMenuBaxxPanelPrefab: {fileID: 0}
-  MainMenuZephPanelPrefab: {fileID: 0}
-  MainMenuKaelPanelPrefab: {fileID: 0}
-  MainMenuDravPanelPrefab: {fileID: 0}
-  MainMenuTornPanelPrefab: {fileID: 0}
-  MainMenuMyrrPanelPrefab: {fileID: 0}
-  MainMenuVaskPanelPrefab: {fileID: 0}
-  MainMenuJorrPanelPrefab: {fileID: 0}
-  MainMenuQuenPanelPrefab: {fileID: 0}
-  ZarxSlotPrefab: {fileID: 0}
-  RaikSlotPrefab: {fileID: 0}
-  DraxSlotPrefab: {fileID: 0}
-  KronSlotPrefab: {fileID: 0}
-  ZoltSlotPrefab: {fileID: 0}
-  GorrSlotPrefab: {fileID: 0}
-  RyzeSlotPrefab: {fileID: 0}
-  JaxxSlotPrefab: {fileID: 0}
-  TharSlotPrefab: {fileID: 0}
-  VornSlotPrefab: {fileID: 0}
-  NyxSlotPrefab: {fileID: 0}
-  ArosSlotPrefab: {fileID: 0}
-  HexSlotPrefab: {fileID: 0}
-  LornSlotPrefab: {fileID: 0}
-  BaxxSlotPrefab: {fileID: 0}
-  ZephSlotPrefab: {fileID: 0}
-  KaelSlotPrefab: {fileID: 0}
-  DravSlotPrefab: {fileID: 0}
-  TornSlotPrefab: {fileID: 0}
-  MyrrSlotPrefab: {fileID: 0}
-  VaskSlotPrefab: {fileID: 0}
-  JorrSlotPrefab: {fileID: 0}
-  QuenSlotPrefab: {fileID: 0}
 --- !u!1 &845965146
 GameObject:
   m_ObjectHideFlags: 0
@@ -6337,10 +6053,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 'App: 1.0.0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
+  m_sharedMaterial: {fileID: -5273589510770900895, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6600,7 +6316,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: c89e8beb99f106647b94c42158fe9bc1, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -6758,72 +6474,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007387248}
   m_CullTransparentMesh: 1
---- !u!1 &1009544191
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1009544192}
-  - component: {fileID: 1009544193}
-  m_Layer: 0
-  m_Name: UIMasterManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1009544192
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009544191}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 478225728}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1009544193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009544191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ee70e01f776cfc49856b26c932d35f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MasterOfBeastPanelPrefab: {fileID: 0}
-  MasterOfBeastSlotPrefab: {fileID: 0}
-  MasterOfDragonPanelPrefab: {fileID: 0}
-  MasterOfDragonSlotPrefab: {fileID: 0}
-  MasterOfMagicPanelPrefab: {fileID: 0}
-  MasterOfMagicSlotPrefab: {fileID: 0}
-  MasterOfMusicPanelPrefab: {fileID: 0}
-  MasterOfMusicSlotPrefab: {fileID: 0}
-  MasterOfSciencePanelPrefab: {fileID: 0}
-  MasterOfScienceSlotPrefab: {fileID: 0}
-  MasterOfSpiritPanelPrefab: {fileID: 0}
-  MasterOfSpiritSlotPrefab: {fileID: 0}
-  MasterOfWeaponPanelPrefab: {fileID: 0}
-  MasterOfWeaponSlotPrefab: {fileID: 0}
-  MasterOfChemicalPanelPrefab: {fileID: 0}
-  MasterOfChemicalSlotPrefab: {fileID: 0}
-  MasterOfPhysicalPanelPrefab: {fileID: 0}
-  MasterOfPhysicalSlotPrefab: {fileID: 0}
-  MasterOfAtomicPanelPrefab: {fileID: 0}
-  MasterOfAtomicSlotPrefab: {fileID: 0}
-  MasterOfMentalPanelPrefab: {fileID: 0}
-  MasterOfMentalSlotPrefab: {fileID: 0}
 --- !u!1 &1055957199
 GameObject:
   m_ObjectHideFlags: 0
@@ -6941,150 +6591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bcc18052a30fe419aedf509e31c519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1192191706
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1192191707}
-  - component: {fileID: 1192191708}
-  m_Layer: 0
-  m_Name: UIMainMenuSet1Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1192191707
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192191706}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 478225728}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1192191708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192191706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9cc9d89ffbee94d90bfc279fae8c42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainMenuEquipmentPanelPrefab: {fileID: 0}
-  MainMenuAptitudePanelPrefab: {fileID: 0}
-  MainMenuUpgradePanelPrefab: {fileID: 0}
-  MainMenuAffinityPanelPrefab: {fileID: 0}
-  MainMenuBlessingPanelPrefab: {fileID: 0}
-  MainMenuCorePanelPrefab: {fileID: 0}
-  MainMenuRealmPanelPrefab: {fileID: 0}
-  MainMenuPhysiquePanelPrefab: {fileID: 0}
-  MainMenuBloodlinePanelPrefab: {fileID: 0}
-  MainMenuOmnivisionPanelPrefab: {fileID: 0}
-  MainMenuOmnipotencePanelPrefab: {fileID: 0}
-  MainMenuOmnipresencePanelPrefab: {fileID: 0}
-  MainMenuOmnivoryPanelPrefab: {fileID: 0}
-  MainMenuOmnisciencePanelPrefab: {fileID: 0}
-  MainMenuAngelPanelPrefab: {fileID: 0}
-  MainMenuDemonPanelPrefab: {fileID: 0}
-  MainMenuSwordPanelPrefab: {fileID: 0}
-  MainMenuSpearPanelPrefab: {fileID: 0}
-  MainMenuShieldPanelPrefab: {fileID: 0}
-  MainMenuBowPanelPrefab: {fileID: 0}
-  MainMenuGunPanelPrefab: {fileID: 0}
-  MainMenuCyberPanelPrefab: {fileID: 0}
-  MainMenuFairyPanelPrefab: {fileID: 0}
-  AptitudeSlotPrefab: {fileID: 0}
-  UpgradeSlotPrefab: {fileID: 0}
-  BlessingSlotPrefab: {fileID: 0}
-  CoreSlotPrefab: {fileID: 0}
-  RealmSlotPrefab: {fileID: 0}
-  PhysiqueSlotPrefab: {fileID: 0}
-  BloodlineSlotPrefab: {fileID: 0}
-  OmnivisionSlotPrefab: {fileID: 0}
-  OmnipotenceSlotPrefab: {fileID: 0}
-  OmnipresenceSlotPrefab: {fileID: 0}
-  OmnivorySlotPrefab: {fileID: 0}
-  OmniscienceSlotPrefab: {fileID: 0}
-  AngelSlotPrefab: {fileID: 0}
-  DemonSlotPrefab: {fileID: 0}
-  SwordSlotPrefab: {fileID: 0}
-  SpearSlotPrefab: {fileID: 0}
-  ShieldSlotPrefab: {fileID: 0}
-  BowSlotPrefab: {fileID: 0}
-  GunSlotPrefab: {fileID: 0}
-  CyberSlotPrefab: {fileID: 0}
-  FairySlotPrefab: {fileID: 0}
---- !u!1 &1202313338
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1202313339}
-  - component: {fileID: 1202313340}
-  m_Layer: 0
-  m_Name: UIMarketManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1202313339
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202313338}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 478225728}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1202313340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202313338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95e58cead425b884c91f5943aecec24a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RareMarketManagerPrefab: {fileID: 0}
-  RareMarketPrefab: {fileID: 0}
-  RareMarketButtonPrefab: {fileID: 0}
-  UltraRareMarketManagerPrefab: {fileID: 0}
-  UltraRareMarketPrefab: {fileID: 0}
-  UltraRareMarketButtonPrefab: {fileID: 0}
-  LegendaryMarketManagerPrefab: {fileID: 0}
-  LegendaryMarketPrefab: {fileID: 0}
-  LegendaryMarketButtonPrefab: {fileID: 0}
-  MysticMarketManagerPrefab: {fileID: 0}
-  MysticMarketPrefab: {fileID: 0}
-  MysticMarketButtonPrefab: {fileID: 0}
 --- !u!1 &1205977549
 GameObject:
   m_ObjectHideFlags: 0
@@ -8221,7 +7727,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1468034300}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf4faa76a7f29524abf521d08737fcce, type: 3}
   m_Name: 
@@ -13537,7 +13043,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: ec919d7f88562b840b84cde32db12068, type: 3}
+  m_Texture: {fileID: 2800000, guid: 93a99feee24be744690d6e5d6ec8c174, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -14464,7 +13970,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 486251822e29b1047908da71ac56c0bc, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -14528,12 +14034,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d7a737eb7bbfec4dbf2f2d64fc34536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RootPanel: {fileID: 0}
-  notificationPanel: {fileID: 0}
-  WaitingPanel: {fileID: 0}
-  MainPanel: {fileID: 0}
-  popupPanel: {fileID: 0}
-  LoadingPanel: {fileID: 0}
+  RootPanel: {fileID: 318610450}
+  notificationPanel: {fileID: 810530868}
+  WaitingPanel: {fileID: 1473037408}
+  MainPanel: {fileID: 1481069417}
+  popupPanel: {fileID: 495709220}
+  LoadingPanel: {fileID: 806078345}
   SignInPanel: {fileID: 0}
   SignUpPanel: {fileID: 0}
   CreateNamePanel: {fileID: 0}
@@ -14878,7 +14384,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: ec919d7f88562b840b84cde32db12068, type: 3}
+  m_Texture: {fileID: 2800000, guid: 93a99feee24be744690d6e5d6ec8c174, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

@@ -28,9 +28,9 @@ public class MainMenuVaelithManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuVaelithPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuVaelithPanelPrefab");
+        MainMenuVaelithPanelPrefab = UIManager.Instance.Get("MainMenuVaelithPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("VaelithSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("VaelithSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuVaelithManagerAsync(object data)

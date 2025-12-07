@@ -28,9 +28,9 @@ public class MainMenuJaxxManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuJaxxPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuJaxxPanelPrefab");
+        MainMenuJaxxPanelPrefab = UIManager.Instance.Get("MainMenuJaxxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("JaxxSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("JaxxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuJaxxManagerAsync(object data)

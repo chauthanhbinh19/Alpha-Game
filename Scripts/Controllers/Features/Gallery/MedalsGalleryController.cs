@@ -33,7 +33,7 @@ public class MedalsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MedalBlockButtonPrefab = UIManager.Instance.GetGeneralButton("MedalBlockButtonPrefab");
+        MedalBlockButtonPrefab = UIManager.Instance.Get("MedalBlockButtonPrefab");
     }
     public void CreateMedalsGallery(List<Medals> medals, Transform contentPanel)
     {

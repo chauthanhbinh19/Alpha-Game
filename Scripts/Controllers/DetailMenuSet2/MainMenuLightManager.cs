@@ -28,9 +28,9 @@ public class MainMenuLightManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuLightPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuLightPanelPrefab");
+        MainMenuLightPanelPrefab = UIManager.Instance.Get("MainMenuLightPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("LightSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("LightSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuLightManagerAsync(object data)

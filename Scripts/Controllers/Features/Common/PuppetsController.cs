@@ -37,7 +37,7 @@ public class PuppetsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PuppetButtonPrefab = UIManager.Instance.GetGeneralButton("PuppetButtonPrefab");
+        PuppetButtonPrefab = UIManager.Instance.Get("PuppetButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

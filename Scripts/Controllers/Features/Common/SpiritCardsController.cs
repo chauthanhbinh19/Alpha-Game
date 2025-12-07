@@ -37,7 +37,7 @@ public class SpiritCardsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SpiritCardButtonPrefab = UIManager.Instance.GetGeneralButton("SpiritCardButtonPrefab");
+        SpiritCardButtonPrefab = UIManager.Instance.Get("SpiritCardButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

@@ -42,9 +42,9 @@ public class MasterOfMusicManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterOfMusicPanelPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfMusicPanelPrefab");
+        MasterOfMusicPanelPrefab = UIManager.Instance.Get("MasterOfMusicPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMasterManager.Instance.GetGameObjectMaster("MasterOfMusicSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("MasterOfMusicSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMasterOfMusicManagerAsync(object data)

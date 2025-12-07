@@ -28,9 +28,9 @@ public class MainMenuAeonaxManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuAeonaxPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuAeonaxPanelPrefab");
+        MainMenuAeonaxPanelPrefab = UIManager.Instance.Get("MainMenuAeonaxPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("AeonaxSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("AeonaxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuAeonaxManagerAsync(object data)

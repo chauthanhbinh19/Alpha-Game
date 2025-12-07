@@ -36,7 +36,7 @@ public class AvatarsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AvatarButtonPrefab = UIManager.Instance.GetGeneralButton("AvatarButtonPrefab");
+        AvatarButtonPrefab = UIManager.Instance.Get("AvatarButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
         quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");

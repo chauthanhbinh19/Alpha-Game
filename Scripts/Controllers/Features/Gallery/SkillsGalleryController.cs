@@ -33,7 +33,7 @@ public class SkillsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SkillBlockButtonPrefab = UIManager.Instance.GetGeneralButton("SkillBlockButtonPrefab");
+        SkillBlockButtonPrefab = UIManager.Instance.Get("SkillBlockButtonPrefab");
     }
     public void CreateSkillsGallery(List<Skills> skills, Transform contentPanel)
     {

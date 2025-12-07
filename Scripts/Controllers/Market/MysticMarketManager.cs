@@ -55,9 +55,9 @@ public class MysticMarketManager : MonoBehaviour
         pageSize = 100;
         items = new List<Items>();
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MysticMarketButtonPrefab = UIMarketManager.Instance.GetMarketPanel("MysticMarketButtonPrefab");
-        MysticMarketManagerPrefab = UIMarketManager.Instance.GetMarketPanel("MysticMarketManagerPrefab");
-        MysticMarketPrefab = UIMarketManager.Instance.GetMarketPanel("MysticMarketPrefab");
+        MysticMarketButtonPrefab = UIManager.Instance.Get("MysticMarketButtonPrefab");
+        MysticMarketManagerPrefab = UIManager.Instance.Get("MysticMarketManagerPrefab");
+        MysticMarketPrefab = UIManager.Instance.Get("MysticMarketPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
     public async Task CreateMysticMarketAsync()

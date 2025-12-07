@@ -28,9 +28,9 @@ public class MainMenuQuantumManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuQuantumPanelPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("MainMenuQuantumPanelPrefab");
+        MainMenuQuantumPanelPrefab = UIManager.Instance.Get("MainMenuQuantumPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet2Manager.Instance.GetGameObjectMainMenu2("QuantumSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("QuantumSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuQuantumManagerAsync(object data)

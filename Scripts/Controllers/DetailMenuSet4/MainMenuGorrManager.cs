@@ -28,9 +28,9 @@ public class MainMenuGorrManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuGorrPanelPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("MainMenuGorrPanelPrefab");
+        MainMenuGorrPanelPrefab = UIManager.Instance.Get("MainMenuGorrPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet4Manager.Instance.GetGameObjectMainMenu4("GorrSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("GorrSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuGorrManagerAsync(object data)

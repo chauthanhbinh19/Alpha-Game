@@ -28,9 +28,9 @@ public class MainMenuSeraphirosManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuSeraphirosPanelPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("MainMenuSeraphirosPanelPrefab");
+        MainMenuSeraphirosPanelPrefab = UIManager.Instance.Get("MainMenuSeraphirosPanelPrefab");
         buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        SlotPrefab = UIMainMenuSet3Manager.Instance.GetGameObjectMainMenu3("SeraphirosSlotPrefab");
+        SlotPrefab = UIManager.Instance.Get("SeraphirosSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
     public async Task CreateMainMenuSeraphirosManagerAsync(object data)

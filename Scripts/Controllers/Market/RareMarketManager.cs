@@ -56,9 +56,9 @@ public class RareMarketManager : MonoBehaviour
         pageSize = 100;
         items = new List<Items>();
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RareMarketButtonPrefab = UIMarketManager.Instance.GetMarketPanel("RareMarketButtonPrefab");
-        RareMarketManagerPrefab = UIMarketManager.Instance.GetMarketPanel("RareMarketManagerPrefab");
-        RareMarketPrefab = UIMarketManager.Instance.GetMarketPanel("RareMarketPrefab");
+        RareMarketButtonPrefab = UIManager.Instance.Get("RareMarketButtonPrefab");
+        RareMarketManagerPrefab = UIManager.Instance.Get("RareMarketManagerPrefab");
+        RareMarketPrefab = UIManager.Instance.Get("RareMarketPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
     public async Task CreateRareMarketAsync()
