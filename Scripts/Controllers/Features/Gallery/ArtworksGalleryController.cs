@@ -35,50 +35,68 @@ public class ArtworksGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ArtworkBlockButtonPrefab = UIManager.Instance.GetGeneralButton("ArtworkBlockButtonPrefab");
     }
-    public void CreateArtworkGallery(List<Artworks> alchemies, Transform contentPanel)
+    public void CreateArtworkGallery(List<Artworks> artworks, Transform contentPanel)
     {
-        foreach (var Artwork in alchemies)
+        foreach (var artwork in artworks)
         {
             try
             {
-                GameObject ArtworkObject = Instantiate(ArtworkBlockButtonPrefab, contentPanel);
+                GameObject artworkObject = Instantiate(ArtworkBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = ArtworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = Artwork.Name.Replace("_", " ");
+                TextMeshProUGUI Title = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = artwork.Name.Replace("_", " ");
 
-                RawImage Image = ArtworkObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image);
+                RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-                Image.texture = texture;
+                image.texture = texture;
 
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+                
                 // RawImage frameImage = ArtworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
                 // frameImage.gameObject.SetActive(true);
 
-                Button button = ArtworkObject.GetComponent<Button>();
+                Button button = artworkObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(Artwork, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(artwork, MainPanel);
                 });
 
-                RawImage rareImage = ArtworkObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artwork.Rare}");
+                RawImage rareImage = artworkObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.Rare}");
                 rareImage.texture = rareTexture;
 
-                RawImage blockImage = ArtworkObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = ArtworkObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (Artwork.Status.Equals("available"))
+                RawImage blockImage = artworkObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = artworkObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (artwork.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
-                    Image.color = Color.white;
+                    image.color = Color.white;
                 }
-                else if (Artwork.Status.Equals("pending"))
+                else if (artwork.Status.Equals("pending"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (Artwork.Status.Equals("block"))
+                else if (artwork.Status.Equals("block"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -88,10 +106,10 @@ public class ArtworksGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var artworkGalleryService = ArtworksGalleryService.Create();
-                    await artworkGalleryService.UpdateStatusArtworkGalleryAsync(Artwork.Id);
+                    await artworkGalleryService.UpdateStatusArtworkGalleryAsync(artwork.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
-                    Image.color = Color.white;
+                    image.color = Color.white;
 
                     var powerManagerService = PowerManagerService.Create();
                     var teamsService = TeamsService.Create();
@@ -103,8 +121,8 @@ public class ArtworksGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = ArtworkObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((Artwork.CurrentStar < Artwork.TempStar) && Artwork.Status.Equals("available"))
+                Button Upgrade = artworkObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((artwork.CurrentStar < artwork.TempStar) && artwork.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -116,7 +134,7 @@ public class ArtworksGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await ArtworksGalleryService.Create().UpdateArtworkGalleryPowerAsync(Artwork.Id);
+                    await ArtworksGalleryService.Create().UpdateArtworkGalleryPowerAsync(artwork.Id);
                 });
             }
             catch (Exception ex)

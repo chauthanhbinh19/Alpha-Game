@@ -48,30 +48,47 @@ public class AchievementsController : MonoBehaviour
     {
         foreach (var achievement in achievements)
         {
-            GameObject avatarObject = Instantiate(AchievementButtonPrefab, contentPanel);
+            GameObject achievementObject = Instantiate(AchievementButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = avatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI Title = achievementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = achievement.Name.Replace("_", " ");
 
-            RawImage Image = avatarObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.rectTransform.sizeDelta = new Vector2(128, 128);
+            image.texture = texture;
 
-            Button button = avatarObject.GetComponent<Button>();
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+
+            Button button = achievementObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);
             });
 
-            RawImage rareImage = avatarObject.transform.Find("Rare").GetComponent<RawImage>();
+            RawImage rareImage = achievementObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievement.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage rareBackgroundImage = avatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = achievementObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
@@ -318,7 +335,7 @@ public class AchievementsController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                     await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
+                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

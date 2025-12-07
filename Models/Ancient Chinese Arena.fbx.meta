@@ -1,19 +1,9 @@
 fileFormatVersion: 2
-guid: c02bb2f2c94e29b4eb7524f4e449adeb
+guid: 61ed372ccd588e84586cae2ea9494e38
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Arena_color
-    second: {fileID: 2100000, guid: 5cdfad51b5707334783530eabe605955, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Arena_transparent
-    second: {fileID: 2100000, guid: 57d32a01f98999c418ef31fe2e5b11e4, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

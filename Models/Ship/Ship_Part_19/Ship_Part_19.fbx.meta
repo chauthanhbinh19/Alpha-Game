@@ -1,34 +1,9 @@
 fileFormatVersion: 2
-guid: 7482300742b6bd14c8dfd7105d10c9bf
+guid: d2a3aa28c187cb6429d8016bcd7cbff6
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: tripo_mat_01b243c7
-    second: {fileID: 2100000, guid: 8358bdae5f441104388f7f1ac65c6867, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: tripo_image_01b243c7-5fe0-4921-a606-ec7941f70fb4_Metallic
-    second: {fileID: 2800000, guid: 5cd12f11f592f844caa63c328294ae4c, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: tripo_image_01b243c7-5fe0-4921-a606-ec7941f70fb4_Roughness
-    second: {fileID: 2800000, guid: 5bf49b33926ed56408187c410114a6b8, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: tripo_image_01b243c7_0
-    second: {fileID: 2800000, guid: 4e3ca9018a7c72143898314aa6be694d, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: tripo_image_01b243c7_2
-    second: {fileID: 2800000, guid: c4375a97df8a6004a9ecbaee2a57cfa1, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -60,7 +35,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 100
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -91,7 +66,7 @@ ModelImporter:
     secondaryUVMinLightmapResolution: 40
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
-    useFileScale: 0
+    useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -113,7 +88,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 100
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

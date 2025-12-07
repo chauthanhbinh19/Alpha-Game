@@ -1,49 +1,9 @@
 fileFormatVersion: 2
-guid: d905a1bef64988847956debd6a12310a
+guid: c1b6aaac83db2f244a15e5b57e29d72a
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mat_0
-    second: {fileID: 2100000, guid: 8ac47b0457d018543ae5bb876abaf5ab, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mat_1
-    second: {fileID: 2100000, guid: 1569684cd296ba14d938bc1bef7aab80, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mat_2
-    second: {fileID: 2100000, guid: 25c8d5ad70ba4e142818688b87f5f2f7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mat_3
-    second: {fileID: 2100000, guid: 0674a00827ab78346be394440bb43154, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Base_baseColor
-    second: {fileID: 2800000, guid: db3221cb8d8ac1747ac48cdf30224fcd, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Emisive_baseColor
-    second: {fileID: 2800000, guid: 92a1f451378c9384f817fef3554f788d, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Parts_baseColor
-    second: {fileID: 2800000, guid: 97a50899422cc3640823faada290953b, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wheels_baseColor
-    second: {fileID: 2800000, guid: 749466ef4ce9c0d46be1aaddeda5230d, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -82,8 +42,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
@@ -106,7 +66,7 @@ ModelImporter:
     secondaryUVMinLightmapResolution: 40
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
-    useFileScale: 0
+    useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

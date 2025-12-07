@@ -35,53 +35,69 @@ public class AvatarsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         AvatarBlockButtonPrefab = UIManager.Instance.GetGeneralButton("AvatarBlockButtonPrefab");
     }
-    public void CreateAvatarsGallery(List<Avatars> Avatars, Transform contentPanel)
+    public void CreateAvatarsGallery(List<Avatars> avatars, Transform contentPanel)
     {
-        foreach (var Avatar in Avatars)
+        foreach (var avatar in avatars)
         {
             try
             {
-                GameObject AvatarObject = Instantiate(AvatarBlockButtonPrefab, contentPanel);
+                GameObject avatarObject = Instantiate(AvatarBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = AvatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = Avatar.Name.Replace("_", " ");
+                TextMeshProUGUI Title = avatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = avatar.Name.Replace("_", " ");
 
-                RawImage Image = AvatarObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Avatar.Image);
+                RawImage image = avatarObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(avatar.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-                Image.texture = texture;
-                Image.SetNativeSize();
-                Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+                image.texture = texture;
 
-                Button button = AvatarObject.GetComponent<Button>();
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                Button button = avatarObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(Avatar, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(avatar, MainPanel);
                 });
 
-                RawImage rareImage = AvatarObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Avatar.Rare}");
+                RawImage rareImage = avatarObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{avatar.Rare}");
                 rareImage.texture = rareTexture;
 
-                RawImage rareBackgroundImage = AvatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                RawImage rareBackgroundImage = avatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
                 rareImage.gameObject.SetActive(false);
                 rareBackgroundImage.gameObject.SetActive(false);
 
-                RawImage blockImage = AvatarObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = AvatarObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (Avatar.Status.Equals("available"))
+                RawImage blockImage = avatarObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = avatarObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (avatar.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
-                    Image.color = Color.white;
+                    image.color = Color.white;
                 }
-                else if (Avatar.Status.Equals("pending"))
+                else if (avatar.Status.Equals("pending"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (Avatar.Status.Equals("block"))
+                else if (avatar.Status.Equals("block"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -91,10 +107,10 @@ public class AvatarsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var AvatarGalleryService = AvatarsGalleryService.Create();
-                    await AvatarGalleryService.UpdateStatusAvatarGalleryAsync(Avatar.Id);
+                    await AvatarGalleryService.UpdateStatusAvatarGalleryAsync(avatar.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
-                    Image.color = Color.white;
+                    image.color = Color.white;
 
                     var powerManagerService = PowerManagerService.Create();
                     var teamsService = TeamsService.Create();
@@ -106,8 +122,8 @@ public class AvatarsGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = AvatarObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((Avatar.CurrentStar < Avatar.TempStar) && Avatar.Status.Equals("available"))
+                Button Upgrade = avatarObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((avatar.CurrentStar < avatar.TempStar) && avatar.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -119,7 +135,7 @@ public class AvatarsGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(Avatar.Id);
+                    await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(avatar.Id);
                 });
             }
             catch (Exception ex)

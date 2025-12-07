@@ -40,12 +40,12 @@ public class AchievementsGalleryController : MonoBehaviour
         {
             try
             {
-                GameObject AvatarObject = Instantiate(AchievementBlockButtonPrefab, contentPanel);
+                GameObject achievementObject = Instantiate(AchievementBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = AvatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI Title = achievementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 Title.text = achievement.Name.Replace("_", " ");
 
-                RawImage image = AvatarObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 image.texture = texture;
@@ -68,23 +68,23 @@ public class AchievementsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                Button button = AvatarObject.GetComponent<Button>();
+                Button button = achievementObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);
                 });
 
-                RawImage rareImage = AvatarObject.transform.Find("Rare").GetComponent<RawImage>();
+                RawImage rareImage = achievementObject.transform.Find("Rare").GetComponent<RawImage>();
                 Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievement.Rare}");
                 rareImage.texture = rareTexture;
 
-                RawImage rareBackgroundImage = AvatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                RawImage rareBackgroundImage = achievementObject.transform.Find("RareBackground").GetComponent<RawImage>();
                 rareImage.gameObject.SetActive(false);
                 rareBackgroundImage.gameObject.SetActive(false);
 
-                RawImage blockImage = AvatarObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = AvatarObject.transform.Find("UnlockButton").GetComponent<Button>();
+                RawImage blockImage = achievementObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = achievementObject.transform.Find("UnlockButton").GetComponent<Button>();
                 if (achievement.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
@@ -121,7 +121,7 @@ public class AchievementsGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = AvatarObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                Button Upgrade = achievementObject.transform.Find("UpgradeButton").GetComponent<Button>();
                 if ((achievement.CurrentStar < achievement.TempStar) && achievement.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);

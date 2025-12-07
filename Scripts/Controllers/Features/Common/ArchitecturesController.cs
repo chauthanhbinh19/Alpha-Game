@@ -43,9 +43,9 @@ public class ArchitecturesController : MonoBehaviour
         receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
         ItemThird = UIManager.Instance.GetGameObject("ItemThird");
     }
-    public void CreateArchitecturesGallery(List<Architectures> ArchitecturesList, Transform contentPanel)
+    public void CreateArchitecturesGallery(List<Architectures> architectures, Transform contentPanel)
     {
-        foreach (var architecture in ArchitecturesList)
+        foreach (var architecture in architectures)
         {
             GameObject architectureObject = Instantiate(ArchitectureButtonPrefab, contentPanel);
 
@@ -56,7 +56,7 @@ public class ArchitecturesController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
-            
+
             // Kích thước của RawImage (khung hiển thị)
             RectTransform rect = image.GetComponent<RectTransform>();
             float maxWidth = rect.rect.width;
@@ -111,7 +111,7 @@ public class ArchitecturesController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
-            
+
             // Kích thước của RawImage (khung hiển thị)
             RectTransform rect = image.GetComponent<RectTransform>();
             float maxWidth = rect.rect.width;

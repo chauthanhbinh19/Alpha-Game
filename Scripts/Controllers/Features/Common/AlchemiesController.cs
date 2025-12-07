@@ -183,7 +183,7 @@ public class AlchemiesController : MonoBehaviour
         double price = originPrice;
         int quantity = 1;
         quantityText.text = quantity.ToString();
-        
+
         if (idProperty != null && imageProperty != null && currencyProperty != null)
         {
             string id = (string)idProperty.GetValue(obj);

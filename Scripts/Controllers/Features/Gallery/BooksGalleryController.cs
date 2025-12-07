@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class BooksGalleryController : MonoBehaviour
 {
     public static BooksGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject BookBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,21 +32,39 @@ public class BooksGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
+        BookBlockButtonPrefab = UIManager.Instance.GetGeneralButton("BookBlockButtonPrefab");
     }
     public void CreateBooksGallery(List<Books> books, Transform contentPanel)
     {
         foreach (var book in books)
         {
-            GameObject bookObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject bookObject = Instantiate(BookBlockButtonPrefab, contentPanel);
 
-            Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = bookObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = book.Name.Replace("_", " ");
 
-            RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = bookObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -58,7 +77,7 @@ public class BooksGalleryController : MonoBehaviour
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
             rareImage.texture = rareTexture;
             // Đặt kích thước gốc
-            Image.SetNativeSize();
+            image.SetNativeSize();
 
             RawImage blockImage = bookObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = bookObject.transform.Find("Unlock").GetComponent<Button>();
@@ -66,7 +85,7 @@ public class BooksGalleryController : MonoBehaviour
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
             else if (book.Status.Equals("pending"))
             {
@@ -82,27 +101,27 @@ public class BooksGalleryController : MonoBehaviour
             // Thay đổi tỉ lệ
             if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
             {
-                Image.transform.localScale = new Vector3(0.32f, 0.32f, 0.32f);
+                image.transform.localScale = new Vector3(0.32f, 0.32f, 0.32f);
             }
             else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
             {
-                Image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
+                image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
             }
             else if (texture.width <= 700 && texture.height <= 700)
             {
-                Image.transform.localScale = new Vector3(0.60f, 0.6f, 0.6f);
+                image.transform.localScale = new Vector3(0.60f, 0.6f, 0.6f);
             }
             else if (texture.width <= 700 && texture.height <= 1100)
             {
-                Image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             }
             else if (texture.width > 700 && texture.height <= 700)
             {
-                Image.transform.localScale = new Vector3(0.3f, 0.4f, 0.3f);
+                image.transform.localScale = new Vector3(0.3f, 0.4f, 0.3f);
             }
             else
             {
-                Image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
+                image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
             }
             Unlock.onClick.AddListener(async () =>
             {
@@ -111,7 +130,7 @@ public class BooksGalleryController : MonoBehaviour
                 await booksGalleryService.UpdateStatusBookGalleryAsync(book.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();
@@ -142,7 +161,7 @@ public class BooksGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 300);
+            gridLayout.cellSize = new Vector2(280, 340);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

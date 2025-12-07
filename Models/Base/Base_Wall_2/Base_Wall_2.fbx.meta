@@ -1,34 +1,9 @@
 fileFormatVersion: 2
-guid: 2d3249544f4a0284db360827dfbcb4fa
+guid: e78874d86b2cf5b42a2f7ca2ad9e6f99
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: tripo_mat_4befeef7
-    second: {fileID: 2100000, guid: 6fe39f9909c7c0040871cbe88e5174bf, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: tripo_image_4befeef7-f6c3-406d-862c-0058534f4c7b_Metallic
-    second: {fileID: 2800000, guid: 9e74de888352a4548b6f6acc5c13da8e, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: tripo_image_4befeef7-f6c3-406d-862c-0058534f4c7b_Roughness
-    second: {fileID: 2800000, guid: e13032e41a96b2a4593ee88d0e101313, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: tripo_image_4befeef7_0
-    second: {fileID: 2800000, guid: ed2e59a044ac08545ad24075f707c689, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: tripo_image_4befeef7_2
-    second: {fileID: 2800000, guid: 853afd26a629bd14ea8503fc3cf03580, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -91,7 +66,7 @@ ModelImporter:
     secondaryUVMinLightmapResolution: 40
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
-    useFileScale: 0
+    useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

@@ -322,12 +322,6 @@ public class MainMenuManager : MonoBehaviour
         Transform userPanel = currentObject.transform.Find("User");
         Button userButton = userPanel.GetComponent<Button>();
         Transform currencyPanel = currentObject.transform.Find("Currency");
-        TextMeshProUGUI nameText = userPanel.transform.Find("UserGroup/NameText").GetComponent<TextMeshProUGUI>();
-        nameText.text = authResult.User.Name;
-        TextMeshProUGUI levelText = userPanel.transform.Find("UserGroup/LevelText").GetComponent<TextMeshProUGUI>();
-        levelText.text = authResult.User.Level.ToString();
-        TextMeshProUGUI powerText = userPanel.transform.Find("UserGroup/PowerText").GetComponent<TextMeshProUGUI>();
-        powerText.text = authResult.User.Power.ToString();
         RawImage avatarImage = userPanel.transform.Find("UserGroup/AvatarImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
@@ -339,13 +333,41 @@ public class MainMenuManager : MonoBehaviour
         Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 
-        FindObjectOfType<CurrenciesManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
+        // FindObjectOfType<CurrenciesManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
 
         userButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             await ProfileManager.Instance.CreateProfileAsync();
         });
+
+        Transform userInformationPanel = currentObject.transform.Find("MainPanel/MainMenu/UserInformation");
+        TextMeshProUGUI nameText = userInformationPanel.transform.Find("Name/TitleText").GetComponent<TextMeshProUGUI>();
+        nameText.text = authResult.User.Name;
+        TextMeshProUGUI levelText = userInformationPanel.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = authResult.User.Level.ToString();
+        TextMeshProUGUI powerText = userInformationPanel.transform.Find("Power/TitleText").GetComponent<TextMeshProUGUI>();
+        powerText.text = authResult.User.Power.ToString();
+
+        var gold = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.GOLD);
+        var silver = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.SILVER);
+        var diamond = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.DIAMOND);
+
+        Image goldImage = userInformationPanel.transform.Find("GoldCurrency/Image").GetComponent<Image>();
+        Image silverImage = userInformationPanel.transform.Find("SilverCurrency/Image").GetComponent<Image>();
+        Image diamondImage = userInformationPanel.transform.Find("DiamondCurrency/Image").GetComponent<Image>();
+
+        goldImage.sprite = Resources.Load<Sprite>(ImageExtensionHandler.RemoveImageExtension(gold.Image));
+        silverImage.sprite = Resources.Load<Sprite>(ImageExtensionHandler.RemoveImageExtension(silver.Image));
+        diamondImage.sprite = Resources.Load<Sprite>(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
+
+        TextMeshProUGUI goldText = userInformationPanel.transform.Find("GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI silverText = userInformationPanel.transform.Find("SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI diamondText = userInformationPanel.transform.Find("DiamondCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+
+        goldText.text = gold.Quantity.ToString();
+        silverText.text = silver.Quantity.ToString();
+        diamondText.text = diamond.Quantity.ToString();
     }
     public void GetMainButtonEvent(GameObject popupButtonObject)
     {

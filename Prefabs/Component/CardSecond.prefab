@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2542097132128333582}
   - component: {fileID: 3122256502753746312}
-  - component: {fileID: 3002227433743868885}
+  - component: {fileID: 3633258971572799270}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -46,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19499727266705131}
   m_CullTransparentMesh: 1
---- !u!114 &3002227433743868885
+--- !u!114 &3633258971572799270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
+  m_Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 4e6063e47a41b42418723b6334972516, type: 3}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
