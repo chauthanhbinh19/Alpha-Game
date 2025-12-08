@@ -40,7 +40,7 @@ public class UserSpiritCardsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         SpiritCardButtonPrefab = UIManager.Instance.Get("SpiritCardButtonPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }

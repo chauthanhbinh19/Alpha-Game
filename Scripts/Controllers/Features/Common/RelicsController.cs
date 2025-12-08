@@ -11,7 +11,7 @@ public class RelicsController : MonoBehaviour
     public static RelicsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject RelicButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class RelicsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         RelicButtonPrefab = UIManager.Instance.Get("RelicButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateRelicsGallery(List<Relics> relics, Transform contentPanel)
     {
@@ -101,7 +101,7 @@ public class RelicsController : MonoBehaviour
     {
         foreach (var relic in relics)
         {
-            GameObject relicObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject relicObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = relicObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = relic.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class RelicsController : MonoBehaviour
             });
 
             RawImage topImage = relicObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetOrangeMaterial("UI_Orange_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Orange_Radius_Mat");
             RawImage circleImage = relicObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             Outline bottomOutline = relicObject.transform.Find("BottomImage").GetComponent<Outline>();

@@ -35,11 +35,7 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuShopPanel;
     public GameObject MainMenuEnhancementPanel;
     public GameObject MainMenuCampaignPanel;
-    [Header("News")]
-    public GameObject NewsPanelPrefab;
-    public GameObject NewsButtonPrefab;
     [Header("General")]
-    public GameObject quantityPopupPrefab;
     public GameObject equipmentsPrefab;
     public GameObject equipmentsShopPrefab;
     public GameObject currencyPrefab;
@@ -49,17 +45,10 @@ public class UIManager : MonoBehaviour
     public GameObject EquipmentSecondPrefab;
     public GameObject EquipmentFirstPrefab;
     public GameObject EquipmentFourthPrefab;
-    public GameObject ElementDetailsPrefab;
-    public GameObject ElementDetails2Prefab;
-    public GameObject MainMenuDetailPanelPrefab;
-    public GameObject MainMenuDetailPanel2Prefab;
     public GameObject SummonPanelPrefab;
     public GameObject PositionPrefab;
     public GameObject CampaignPrefab;
     public GameObject CampaignDetailPrefab;
-    public GameObject ShopManagerPrefab;
-    public GameObject ShopButtonPrefab;
-    public GameObject ShopPrefab;
     public GameObject NumberDetailPrefab;
     public GameObject NumberDetail2Prefab;
     public GameObject NumberDetail3Prefab;
@@ -86,28 +75,6 @@ public class UIManager : MonoBehaviour
     public GameObject Skill2Prefab;
     public GameObject PopupSkillDetailPrefab;
     public GameObject PopupButtonPrefab;
-    public GameObject CardContractPrefab;
-    public GameObject CardPenaltyPrefab;
-    [Header("General Panel")]
-    public GameObject WorldPanelPrefab;
-    public GameObject CityPanelPrefab;
-    public GameObject BasePanelPrefab;
-    public GameObject TrainPanelPrefab;
-    public GameObject ResearchPanelPrefab;
-    public GameObject EmployeePanelPrefab;
-    [Header("General Button")]
-    public GameObject WorldButtonPrefab;
-    public GameObject CityButtonPrefab;
-    public GameObject BaseButtonPrefab;
-    public GameObject TrainButtonPrefab;
-    public GameObject ResearchButtonPrefab;
-    public GameObject EmployeeButtonPrefab;
-    public GameObject RareButtonPrefab;
-    public GameObject ItemShopButtonPrefab;
-    [Header("Science Fiction")]
-    public GameObject ReactorPanelPrefab;
-    public GameObject ReactorButtonPrefab;
-    public GameObject ReactorPanelNumberPrefab;
 
     [Header("Other")]
     public GameObject MainMenuAnimePanelPrefab;
@@ -166,6 +133,12 @@ public class UIManager : MonoBehaviour
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Master"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Component"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/General"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/ScienceFiction"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Shop"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Skill"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Anime"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Arena"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Equipment"));
 
         foreach (var prefab in prefabs)
         {
@@ -179,7 +152,7 @@ public class UIManager : MonoBehaviour
     {
         if (prefabDict.TryGetValue(prefabName, out var prefab))
         {
-            Debug.Log("OK");
+            // Debug.Log("Prefab OK");
             return prefab;
         }
 
@@ -205,224 +178,6 @@ public class UIManager : MonoBehaviour
             default:
                 Debug.LogWarning($"Panel {panelName} not found.");
                 return null;
-        }
-    }
-    public GameObject GetGameObject(string prefabName)
-    {
-        switch (prefabName)
-        {
-            case "CreateNamePanel":
-                return CreateNamePanel;
-            case "buttonPrefab":
-                return buttonPrefab;
-            case "itemSecondPrefab":
-                return itemSecondPrefab;
-            case "notificationPrefab":
-                return notificationPrefab;
-            case "DictionaryPanel":
-                return DictionaryPanel;
-            case "TabButton":
-                return TabButton;
-            case "ItemPrefab":
-                return ItemPrefab;
-            case "MainButtonPrefab":
-                return MainButtonPrefab;
-            case "MainMenuPanel":
-                return MainMenuPanel;
-            case "MainPanelPrefab":
-                return MainPanelPrefab;
-            case "MainMenuShopPanel":
-                return MainMenuShopPanel;
-            case "MainMenuEnhancementPanel":
-                return MainMenuEnhancementPanel;
-            case "MainMenuCampaignPanel":
-                return MainMenuCampaignPanel;
-            case "quantityPopupPrefab":
-                return quantityPopupPrefab;
-            case "equipmentsPrefab":
-                return equipmentsPrefab;
-            case "equipmentsShopPrefab":
-                return equipmentsShopPrefab;
-            case "currencyPrefab":
-                return currencyPrefab;
-            case "EquipmentsPanelPrefab":
-                return EquipmentsPanelPrefab;
-            case "CardsPrefab":
-                return CardsPrefab;
-            case "CardsSecondPrefab":
-                return CardsSecondPrefab;
-            case "CardsThirdPrefab":
-                return CardsThirdPrefab;
-            case "EquipmentSecondPrefab":
-                return EquipmentSecondPrefab;
-            case "EquipmentFirstPrefab":
-                return EquipmentFirstPrefab;
-            case "EquipmentFourthPrefab":
-                return EquipmentFourthPrefab;
-            case "ElementDetailsPrefab":
-                return ElementDetailsPrefab;
-            case "MainMenuDetailPanelPrefab":
-                return MainMenuDetailPanelPrefab;
-            case "MainMenuDetailPanel2Prefab":
-                return MainMenuDetailPanel2Prefab;
-            case "SummonPanelPrefab":
-                return SummonPanelPrefab;
-            case "PositionPrefab":
-                return PositionPrefab;
-            case "CampaignPrefab":
-                return CampaignPrefab;
-            case "CampaignDetailPrefab":
-                return CampaignDetailPrefab;
-            case "ShopButtonPrefab":
-                return ShopButtonPrefab;
-            case "ShopManagerPrefab":
-                return ShopManagerPrefab;
-            case "ShopPrefab":
-                return ShopPrefab;
-            case "NumberDetailPrefab":
-                return NumberDetailPrefab;
-            case "NumberDetail2Prefab":
-                return NumberDetail2Prefab;
-            case "NumberDetail3Prefab":
-                return NumberDetail3Prefab;
-            case "TabButton2":
-                return TabButton2;
-            case "TabButton4":
-                return TabButton4;
-            case "ReceivedNotification":
-                return ReceivedNotification;
-            case "ItemThird":
-                return ItemThird;
-            case "PopupTeamFirstPrefab":
-                return PopupTeamFirstPrefab;
-            case "PopupTeamSecondPrefab":
-                return PopupTeamSecondPrefab;
-            case "TeamsPanelPrefab":
-                return TeamsPanelPrefab;
-            case "TeamsPositionPrefab":
-                return TeamsPositionPrefab;
-            case "TeamTypePrefab":
-                return TeamTypePrefab;
-            case "TeamSlotPrefab":
-                return TeamSlotPrefab;
-            case "StarPrefab":
-                return StarPrefab;
-            case "ElementDetails2Prefab":
-                return ElementDetails2Prefab;
-            case "PowerPrefab":
-                return PowerPrefab;
-            case "LoadingPanelPrefab":
-                return LoadingPanelPrefab;
-            case "SkillGroupPrefab":
-                return SkillGroupPrefab;
-            case "SkillPanelPrefab":
-                return SkillPanelPrefab;
-            case "Skill1Prefab":
-                return Skill1Prefab;
-            case "Skill2Prefab":
-                return Skill2Prefab;
-            case "PopupSkillDetailPrefab":
-                return PopupSkillDetailPrefab;
-            case "CardPenaltyPrefab":
-                return CardPenaltyPrefab;
-            case "CardContractPrefab":
-                return CardContractPrefab;
-
-            case "MainMenuAnimePanelPrefab":
-                return MainMenuAnimePanelPrefab;
-            case "ArenaPanelPrefab":
-                return ArenaPanelPrefab;
-            case "AnimePanelPrefab":
-                return AnimePanelPrefab;
-            case "MasterBoardPanelPrefab":
-                return MasterBoardPanelPrefab;
-            case "DailyCheckinPanelPrefab":
-                return DailyCheckinPanelPrefab;
-            case "ArenaDetailsPanelPrefab":
-                return ArenaDetailsPanelPrefab;
-            case "TowerDetailsPanelPrefab":
-                return TowerDetailsPanelPrefab;
-            case "PopupEquipmentsPanelPrefab":
-                return PopupEquipmentsPanelPrefab;
-            case "PopupSpiritBeastPanelPrefab":
-                return PopupSpiritBeastPanelPrefab;
-            case "PopupMenuPanelPrefab":
-                return PopupMenuPanelPrefab;
-            case "PopupSkillsPanelPrefab":
-                return PopupSkillsPanelPrefab;
-            case "EquipmentsWearingPrefab":
-                return EquipmentsWearingPrefab;
-            case "ArenaButtonPrefab":
-                return ArenaButtonPrefab;
-            case "AnimeButtonPrefab":
-                return AnimeButtonPrefab;
-            case "DailyCheckinComponentPrefab":
-                return DailyCheckinComponentPrefab;
-            case "AnimeSlotPrefab":
-                return AnimeSlotPrefab;
-            case "ArenaSlotPrefab":
-                return ArenaSlotPrefab;
-            case "TabButton5":
-                return TabButton5;
-            case "TabButton6":
-                return TabButton6;
-            case "PopupButtonPrefab":
-                return PopupButtonPrefab;
-            case "AdvancedButtonFirst":
-                return AdvancedButtonFirst;
-
-            default:
-                Debug.LogWarning($"Prefab {prefabName} not found.");
-                return null;
-        }
-    }
-    public GameObject GetNewsPanel(string prefabName)
-    {
-        switch (prefabName)
-        {
-            case "NewsPanelPrefab":
-                return NewsPanelPrefab;
-            case "NewsButtonPrefab":
-                return NewsButtonPrefab;
-            default:
-                return NewsPanelPrefab;
-        }
-    }
-    public GameObject GetScienceFictionPanel(string prefabName)
-    {
-        switch (prefabName)
-        {
-            case "ReactorPanelPrefab":
-                return ReactorPanelPrefab;
-            case "ReactorButtonPrefab":
-                return ReactorButtonPrefab;
-
-            case "ReactorPanelNumberPrefab":
-                return ReactorPanelNumberPrefab;
-
-            default:
-                Debug.LogWarning($"Prefab name '{prefabName}' not found!");
-                return null;
-        }
-    }
-    public GameObject GetGeneralPanel(string prefabName)
-    {
-        switch (prefabName)
-        {
-            case "WorldPanelPrefab":
-                return WorldPanelPrefab;
-            case "CityPanelPrefab":
-                return CityPanelPrefab;
-            case "BasePanelPrefab":
-                return BasePanelPrefab;
-            case "TrainPanelPrefab":
-                return TrainPanelPrefab;
-            case "ResearchPanelPrefab":
-                return ResearchPanelPrefab;
-            case "EmployeePanelPrefab":
-                return EmployeePanelPrefab;
-            default:
-                return WorldButtonPrefab;
         }
     }
     public TMP_FontAsset GetTMPFontAsset(string fontName)
@@ -527,8 +282,8 @@ public class UIManager : MonoBehaviour
         Transform MaxLevelMaterial = gameobject.transform.Find("DictionaryCards/MaxLevelMaterial");
         ButtonEvent.Instance.Close(OneLevelMaterial);
         ButtonEvent.Instance.Close(MaxLevelMaterial);
-        GameObject oneLevelMaterialObject = Instantiate(ElementDetails2Prefab, OneLevelMaterial);
-        GameObject maxLevelMaterialObject = Instantiate(ElementDetails2Prefab, MaxLevelMaterial);
+        GameObject oneLevelMaterialObject = Instantiate(Get("ElementDetails2Prefab"), OneLevelMaterial);
+        GameObject maxLevelMaterialObject = Instantiate(Get("ElementDetails2Prefab"), MaxLevelMaterial);
 
         RawImage oneLevelImage = oneLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
         Texture oneLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
@@ -675,7 +430,7 @@ public class UIManager : MonoBehaviour
                     if (shouldDisplay)
                     {
                         // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, generalInformationPanel);
+                        GameObject elementObject = Instantiate(Get("ElementDetailsPrefab"), generalInformationPanel);
 
                         // Gán tên thuộc tính vào TitleText
                         TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -708,7 +463,7 @@ public class UIManager : MonoBehaviour
                     if (value is double intValue && intValue != -1)
                     {
                         // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, statsInformationPanel);
+                        GameObject elementObject = Instantiate(Get("ElementDetailsPrefab"), statsInformationPanel);
 
                         // Gán tên thuộc tính vào TitleText
                         TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -1092,7 +847,7 @@ public class UIManager : MonoBehaviour
                     if (!property.Name.Contains("all"))
                     {
                         // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, LevelElementContent);
+                        GameObject elementObject = Instantiate(Get("ElementDetailsPrefab"), LevelElementContent);
 
                         // Gán tên thuộc tính vào TitleText
                         TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -1140,7 +895,7 @@ public class UIManager : MonoBehaviour
                     if (!property.Name.Contains("all"))
                     {
                         // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(ElementDetailsPrefab, UpgradeElementContent);
+                        GameObject elementObject = Instantiate(Get("ElementDetailsPrefab"), UpgradeElementContent);
 
                         // Gán tên thuộc tính vào TitleText
                         TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();

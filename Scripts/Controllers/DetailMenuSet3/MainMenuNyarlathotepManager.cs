@@ -29,7 +29,7 @@ public class MainMenuNyarlathotepManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuNyarlathotepPanelPrefab = UIManager.Instance.Get("MainMenuNyarlathotepPanelPrefab");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
         SlotPrefab = UIManager.Instance.Get("NyarlathotepSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }

@@ -29,7 +29,7 @@ public class MainMenuTimeManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuTimePanelPrefab = UIManager.Instance.Get("MainMenuTimePanelPrefab");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
         SlotPrefab = UIManager.Instance.Get("TimeSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }

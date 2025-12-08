@@ -29,7 +29,7 @@ public class MainMenuRyzeManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuRyzePanelPrefab = UIManager.Instance.Get("MainMenuRyzePanelPrefab");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
         SlotPrefab = UIManager.Instance.Get("RyzeSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }

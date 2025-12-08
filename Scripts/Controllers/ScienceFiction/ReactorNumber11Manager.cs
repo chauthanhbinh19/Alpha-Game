@@ -38,7 +38,7 @@ public class ReactorNumber11Manager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ReactorPanelNumberPrefab = UIManager.Instance.GetScienceFictionPanel("ReactorPanelNumberPrefab");
+        ReactorPanelNumberPrefab = UIManager.Instance.Get("ReactorPanelNumberPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
         fontSize = 26;
         teamsService = TeamsService.Create();

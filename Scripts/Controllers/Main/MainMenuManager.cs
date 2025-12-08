@@ -87,24 +87,24 @@ public class MainMenuManager : MonoBehaviour
         buttonType = "";
         rare = AppConstants.Rare.ALL;
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
-        MainPanelPrefab = UIManager.Instance.GetGameObject("MainPanelPrefab");
-        PopupButtonPrefab = UIManager.Instance.GetGameObject("PopupButtonPrefab");
+        MainPanelPrefab = UIManager.Instance.Get("MainPanelPrefab");
+        PopupButtonPrefab = UIManager.Instance.Get("PopupButtonPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        buttonPrefab2 = UIManager.Instance.GetGameObject("TabButton2");
-        DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
+        buttonPrefab2 = UIManager.Instance.Get("TabButton2");
+        DictionaryPanel = UIManager.Instance.Get("DictionaryPanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
-        SummonPanel = UIManager.Instance.GetGameObject("SummonPanelPrefab");
-        PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
-        ArenaPanelPrefab = UIManager.Instance.GetGameObject("ArenaPanelPrefab");
-        AnimePanelPrefab = UIManager.Instance.GetGameObject("AnimePanelPrefab");
-        ReactorPanelPrefab = UIManager.Instance.GetScienceFictionPanel("ReactorPanelPrefab");
-        MasterBoardPanelPrefab = UIManager.Instance.GetGameObject("MasterBoardPanelPrefab");
+        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
+        SummonPanel = UIManager.Instance.Get("SummonPanelPrefab");
+        PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
+        ArenaPanelPrefab = UIManager.Instance.Get("ArenaPanelPrefab");
+        AnimePanelPrefab = UIManager.Instance.Get("AnimePanelPrefab");
+        ReactorPanelPrefab = UIManager.Instance.Get("ReactorPanelPrefab");
+        MasterBoardPanelPrefab = UIManager.Instance.Get("MasterBoardPanelPrefab");
         FeaturePanelPrefab = UIManager.Instance.Get("FeaturePanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
-        UI_Red_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.GetRedMaterial("UI_Red_Gradient_Radius_Mat_MaskPercent_45");
+        UI_Red_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_45");
         fontSize = 24;
     }
     public void CreateMainPanel()

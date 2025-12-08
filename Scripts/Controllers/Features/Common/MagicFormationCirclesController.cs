@@ -11,7 +11,7 @@ public class MagicFormationCirclesController : MonoBehaviour
     public static MagicFormationCirclesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject MagicFormationCirlceButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class MagicFormationCirclesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MagicFormationCirlceButtonPrefab = UIManager.Instance.Get("MagicFormationCirlceButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {
@@ -101,7 +101,7 @@ public class MagicFormationCirclesController : MonoBehaviour
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
-            GameObject magicFormationCircleObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject magicFormationCircleObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = magicFormationCircle.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class MagicFormationCirclesController : MonoBehaviour
             });
 
             RawImage topImage = magicFormationCircleObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Red_Radius_Mat");
             RawImage circleImage = magicFormationCircleObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = magicFormationCircleObject.transform.Find("BottomImage").GetComponent<Outline>();

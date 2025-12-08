@@ -11,7 +11,7 @@ public class MedalsController : MonoBehaviour
     public static MedalsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject MedalButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class MedalsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MedalButtonPrefab = UIManager.Instance.Get("MedalButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateMedalsGallery(List<Medals> medals, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class MedalsController : MonoBehaviour
     {
         foreach (var medal in medalsList)
         {
-            GameObject medalObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject medalObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = medalObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = medal.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class MedalsController : MonoBehaviour
             });
 
             RawImage topImage = medalObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGreenMaterial("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
             RawImage circleImage = medalObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = medalObject.transform.Find("BottomImage").GetComponent<Outline>();

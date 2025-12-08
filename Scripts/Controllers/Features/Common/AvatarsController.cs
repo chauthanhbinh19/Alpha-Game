@@ -10,7 +10,7 @@ public class AvatarsController : MonoBehaviour
     public static AvatarsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject AvatarButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -37,10 +37,10 @@ public class AvatarsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         AvatarButtonPrefab = UIManager.Instance.Get("AvatarButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateAvatarsGallery(List<Avatars> avatars, Transform contentPanel)
     {
@@ -85,7 +85,7 @@ public class AvatarsController : MonoBehaviour
     {
         foreach (var avatar in avatars)
         {
-            GameObject avatarObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject avatarObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = avatarObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = avatar.Name.Replace("_", " ");
@@ -104,7 +104,7 @@ public class AvatarsController : MonoBehaviour
             });
 
             RawImage topImage = avatarObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetOrangeMaterial("UI_Orange_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Orange_Radius_Mat");
             RawImage circleImage = avatarObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             Outline bottomOutline = avatarObject.transform.Find("BottomImage").GetComponent<Outline>();

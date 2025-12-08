@@ -12,7 +12,7 @@ public class AchievementsController : MonoBehaviour
     public static AchievementsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject AchievementButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -39,10 +39,10 @@ public class AchievementsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         AchievementButtonPrefab = UIManager.Instance.Get("AchievementButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateAchievementsGallery(List<Achievements> achievements, Transform contentPanel)
     {
@@ -104,7 +104,7 @@ public class AchievementsController : MonoBehaviour
     {
         foreach (var achievement in achievements)
         {
-            GameObject achievementObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject achievementObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = achievementObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = achievement.Name.Replace("_", " ");
@@ -123,7 +123,7 @@ public class AchievementsController : MonoBehaviour
             });
 
             RawImage topImage = achievementObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Red_Radius_Mat");
             RawImage circleImage = achievementObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = achievementObject.transform.Find("BottomImage").GetComponent<Outline>();

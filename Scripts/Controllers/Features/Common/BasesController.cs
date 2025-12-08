@@ -35,7 +35,7 @@ public class BasesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         BaseButtonPrefab = UIManager.Instance.Get("BaseButtonPrefab");
-        BasePanelPrefab = UIManager.Instance.GetGeneralPanel("BasePanelPrefab");
+        BasePanelPrefab = UIManager.Instance.Get("BasePanelPrefab");
     }
     public async Task CreateBasePanelAsync()
     {

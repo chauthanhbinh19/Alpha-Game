@@ -39,7 +39,7 @@ public class MasterBoardController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
         MasterBoardNodePrefab = UIManager.Instance.Get("MasterBoardNodePrefab");
         MasterBoardPopupPrefab = UIManager.Instance.Get("MasterBoardPopupPrefab");
 

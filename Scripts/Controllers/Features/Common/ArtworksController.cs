@@ -11,7 +11,7 @@ public class ArtworksController : MonoBehaviour
     public static ArtworksController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject ArtworkButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class ArtworksController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ArtworkButtonPrefab = UIManager.Instance.Get("ArtworkButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateArtworkGallery(List<Artworks> artworks, Transform contentPanel)
     {
@@ -101,7 +101,7 @@ public class ArtworksController : MonoBehaviour
     {
         foreach (var Artwork in alchemies)
         {
-            GameObject ArtworkObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject ArtworkObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = ArtworkObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = Artwork.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class ArtworksController : MonoBehaviour
             });
 
             RawImage topImage = ArtworkObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Blue_Radius_Mat");
             RawImage circleImage = ArtworkObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             Outline bottomOutline = ArtworkObject.transform.Find("BottomImage").GetComponent<Outline>();

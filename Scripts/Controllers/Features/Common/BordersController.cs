@@ -11,7 +11,7 @@ public class BordersController : MonoBehaviour
     public static BordersController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject BorderButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class BordersController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         BorderButtonPrefab = UIManager.Instance.Get("BorderButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateBordersGallery(List<Borders> borders, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class BordersController : MonoBehaviour
     {
         foreach (var border in borders)
         {
-            GameObject borderObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject borderObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = borderObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = border.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class BordersController : MonoBehaviour
             });
 
             RawImage topImage = borderObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetYellowMaterial("UI_Yellow_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Yellow_Radius_Mat");
             RawImage circleImage = borderObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
             Outline bottomOutline = borderObject.transform.Find("BottomImage").GetComponent<Outline>();

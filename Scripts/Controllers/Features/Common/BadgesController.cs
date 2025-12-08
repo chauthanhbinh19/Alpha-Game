@@ -11,7 +11,7 @@ public class BadgesController : MonoBehaviour
     public static BadgesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject BadgeButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class BadgesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         BadgeButtonPrefab = UIManager.Instance.Get("BadgeButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateBadgesGallery(List<Badges> BadgesList, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class BadgesController : MonoBehaviour
     {
         foreach (var Badge in BadgesList)
         {
-            GameObject BadgeObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject BadgeObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = BadgeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = Badge.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class BadgesController : MonoBehaviour
             });
 
             RawImage topImage = BadgeObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGrayMaterial("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
             RawImage circleImage = BadgeObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = BadgeObject.transform.Find("BottomImage").GetComponent<Outline>();

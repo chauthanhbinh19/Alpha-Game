@@ -11,7 +11,7 @@ public class RunesController : MonoBehaviour
     public static RunesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject RuneButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class RunesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         RuneButtonPrefab = UIManager.Instance.Get("RuneButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateRunesGallery(List<Runes> runes, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class RunesController : MonoBehaviour
     {
         foreach (var Rune in RunesList)
         {
-            GameObject RuneObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject RuneObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = RuneObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = Rune.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class RunesController : MonoBehaviour
             });
 
             RawImage topImage = RuneObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGrayMaterial("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
             RawImage circleImage = RuneObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = RuneObject.transform.Find("BottomImage").GetComponent<Outline>();

@@ -38,9 +38,9 @@ public class DailyCheckinManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        DailyCheckinPanelPrefab = UIManager.Instance.GetGameObject("DailyCheckinPanelPrefab");
-        DailyCheckinComponentPrefab = UIManager.Instance.GetGameObject("DailyCheckinComponentPrefab");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
+        DailyCheckinPanelPrefab = UIManager.Instance.Get("DailyCheckinPanelPrefab");
+        DailyCheckinComponentPrefab = UIManager.Instance.Get("DailyCheckinComponentPrefab");
     }
     private static readonly Dictionary<string, Func<string, Task<CheckinItemInfoDTO>>> DailyCheckinResolvers =
     new Dictionary<string, Func<string, Task<CheckinItemInfoDTO>>>

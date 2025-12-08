@@ -11,7 +11,7 @@ public class TalismansController : MonoBehaviour
     public static TalismansController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject TalismanButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class TalismansController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         TalismanButtonPrefab = UIManager.Instance.Get("TalismanButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateTalismanGallery(List<Talismans> talismans, Transform contentPanel)
     {
@@ -101,7 +101,7 @@ public class TalismansController : MonoBehaviour
     {
         foreach (var talisman in talismans)
         {
-            GameObject talismanObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject talismanObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = talismanObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = talisman.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class TalismansController : MonoBehaviour
             });
 
             RawImage topImage = talismanObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPinkMaterial("UI_Pink_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Pink_Radius_Mat");
             RawImage circleImage = talismanObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             Outline bottomOutline = talismanObject.transform.Find("BottomImage").GetComponent<Outline>();

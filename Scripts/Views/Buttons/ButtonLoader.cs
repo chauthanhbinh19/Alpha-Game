@@ -43,15 +43,15 @@ public class ButtonLoader : MonoBehaviour
 
     public void Initialize()
     {
-        buttonPrefab = UIManager.Instance.GetGameObject("buttonPrefab");
-        MainButtonPrefab = UIManager.Instance.GetGameObject("MainButtonPrefab");
-        TabButton4 = UIManager.Instance.GetGameObject("TabButton4");
-        TabButton6 = UIManager.Instance.GetGameObject("TabButton6");
-        AdvancedButtonFirst = UIManager.Instance.GetGameObject("AdvancedButtonFirst");
-        ArenaButtonPrefab = UIManager.Instance.GetGameObject("ArenaButtonPrefab");
-        AnimeButtonPrefab = UIManager.Instance.GetGameObject("AnimeButtonPrefab");
-        ReactorButtonPrefab = UIManager.Instance.GetScienceFictionPanel("ReactorButtonPrefab");
-        PopupMenuPanelPrefab = UIManager.Instance.GetGameObject("PopupMenuPanelPrefab");
+        buttonPrefab = UIManager.Instance.Get("buttonPrefab");
+        MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
+        TabButton4 = UIManager.Instance.Get("TabButton4");
+        TabButton6 = UIManager.Instance.Get("TabButton6");
+        AdvancedButtonFirst = UIManager.Instance.Get("AdvancedButtonFirst");
+        ArenaButtonPrefab = UIManager.Instance.Get("ArenaButtonPrefab");
+        AnimeButtonPrefab = UIManager.Instance.Get("AnimeButtonPrefab");
+        ReactorButtonPrefab = UIManager.Instance.Get("ReactorButtonPrefab");
+        PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
         FeatureButtonPrefab = UIManager.Instance.Get("FeatureButtonPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
 

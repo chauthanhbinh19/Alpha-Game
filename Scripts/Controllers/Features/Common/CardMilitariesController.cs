@@ -11,7 +11,7 @@ public class CardMilitariesController : MonoBehaviour
     public static CardMilitariesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject cardsPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -37,11 +37,11 @@ public class CardMilitariesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCardMilitaryGallery(List<CardMilitaries> militaryList, Transform contentPanel)
     {
@@ -80,7 +80,7 @@ public class CardMilitariesController : MonoBehaviour
     {
         foreach (var military in militaryList)
         {
-            GameObject militaryObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject militaryObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = militaryObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = military.Name.Replace("_", " ");
@@ -118,7 +118,7 @@ public class CardMilitariesController : MonoBehaviour
             });
 
             RawImage topImage = militaryObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetOrangeMaterial("UI_Orange_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Orange_Radius_Mat");
             RawImage circleImage = militaryObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             Outline bottomOutline = militaryObject.transform.Find("BottomImage").GetComponent<Outline>();

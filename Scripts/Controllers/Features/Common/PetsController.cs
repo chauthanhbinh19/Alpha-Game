@@ -12,7 +12,7 @@ public class PetsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject PetButtonPrefab;
     private GameObject equipmentsPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -39,11 +39,11 @@ public class PetsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         PetButtonPrefab = UIManager.Instance.Get("PetButtonPrefab");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreatePetsGallery(List<Pets> pets, Transform contentPanel)
     {
@@ -99,7 +99,7 @@ public class PetsController : MonoBehaviour
             GameObject petsObject;
             if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
             {
-                petsObject = Instantiate(equipmentsShopPrefab, currentContent);
+                petsObject = Instantiate(EquipmentShopPrefab, currentContent);
                 RawImage Background = petsObject.transform.Find("Background").GetComponent<RawImage>();
                 Background.gameObject.SetActive(true);
 
@@ -111,7 +111,7 @@ public class PetsController : MonoBehaviour
             }
             else
             {
-                petsObject = Instantiate(equipmentsShopPrefab, currentContent);
+                petsObject = Instantiate(EquipmentShopPrefab, currentContent);
 
                 // GridLayoutGroup gridLayout = currentContent.GetComponent<GridLayoutGroup>();
                 // if (gridLayout != null)
@@ -162,7 +162,7 @@ public class PetsController : MonoBehaviour
             // }
 
             RawImage topImage = petsObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Blue_Radius_Mat");
             RawImage circleImage = petsObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             Outline bottomOutline = petsObject.transform.Find("BottomImage").GetComponent<Outline>();

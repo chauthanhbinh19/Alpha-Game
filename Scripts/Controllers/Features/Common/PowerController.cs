@@ -32,7 +32,7 @@ public class PowerController : MonoBehaviour
     }
     public void Initialize()
     {
-        PowerPrefab = UIManager.Instance.GetGameObject("PowerPrefab");
+        PowerPrefab = UIManager.Instance.Get("PowerPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
         greenGradient = new VertexGradient(
             HexToColor("#C5FFBFFF"),

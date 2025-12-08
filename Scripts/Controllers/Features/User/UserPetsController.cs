@@ -41,8 +41,8 @@ public class UserPetsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         PetButtonPrefab = UIManager.Instance.Get("PetButtonPrefab");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
+        ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }

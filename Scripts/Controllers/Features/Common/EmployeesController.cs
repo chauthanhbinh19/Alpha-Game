@@ -35,7 +35,7 @@ public class EmployeesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         EmployeeButtonPrefab = UIManager.Instance.Get("EmployeeButtonPrefab");
-        EmployeePanelPrefab = UIManager.Instance.GetGeneralPanel("EmployeePanelPrefab");
+        EmployeePanelPrefab = UIManager.Instance.Get("EmployeePanelPrefab");
     }
     public async Task CreateEmployeePanelAsync()
     {

@@ -11,7 +11,7 @@ public class PuppetsController : MonoBehaviour
     public static PuppetsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject PuppetButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class PuppetsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         PuppetButtonPrefab = UIManager.Instance.Get("PuppetButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreatePuppetGallery(List<Puppets> puppets, Transform contentPanel)
     {
@@ -101,7 +101,7 @@ public class PuppetsController : MonoBehaviour
     {
         foreach (var puppet in puppets)
         {
-            GameObject puppetObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject puppetObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = puppetObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = puppet.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class PuppetsController : MonoBehaviour
             });
 
             RawImage topImage = puppetObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Purple_Radius_Mat");
             RawImage circleImage = puppetObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
             Outline bottomOutline = puppetObject.transform.Find("BottomImage").GetComponent<Outline>();

@@ -19,8 +19,8 @@ public class ArenaManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArenaDetailsPanelPrefab = UIManager.Instance.GetGameObject("ArenaDetailsPanelPrefab");
-        ArenaSlotPrefab = UIManager.Instance.GetGameObject("ArenaSlotPrefab");
+        ArenaDetailsPanelPrefab = UIManager.Instance.Get("ArenaDetailPanelPrefab");
+        ArenaSlotPrefab = UIManager.Instance.Get("ArenaSlotPrefab");
     }
     public void CreateArenaButton(Transform arenaMenuPanel)
     {

@@ -11,7 +11,7 @@ public class CoresController : MonoBehaviour
     public static CoresController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject CoreButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class CoresController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CoreButtonPrefab = UIManager.Instance.Get("CoreButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCoresGallery(List<Cores> CoresList, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class CoresController : MonoBehaviour
     {
         foreach (var core in CoresList)
         {
-            GameObject coreObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject coreObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = coreObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = core.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class CoresController : MonoBehaviour
             });
 
             RawImage topImage = coreObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Purple_Radius_Mat");
             RawImage circleImage = coreObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
             Outline bottomOutline = coreObject.transform.Find("BottomImage").GetComponent<Outline>();

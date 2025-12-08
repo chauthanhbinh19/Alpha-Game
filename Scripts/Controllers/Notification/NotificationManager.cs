@@ -29,7 +29,7 @@ public class NotificationManager : MonoBehaviour
     public void Initialize()
     {
         notificationPanel = UIManager.Instance.GetTransform("notificationPanel");
-        notificationPrefab = UIManager.Instance.GetGameObject("notificationPrefab");
+        notificationPrefab = UIManager.Instance.Get("notificationPrefab");
     }
     public void ShowNotification(string message)
     {

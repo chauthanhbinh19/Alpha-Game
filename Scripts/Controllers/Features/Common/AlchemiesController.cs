@@ -11,7 +11,7 @@ public class AlchemiesController : MonoBehaviour
     public static AlchemiesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject AlchemyButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class AlchemiesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         AlchemyButtonPrefab = UIManager.Instance.Get("AlchemyButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateAlchemyGallery(List<Alchemies> alchemies, Transform contentPanel)
     {
@@ -101,7 +101,7 @@ public class AlchemiesController : MonoBehaviour
     {
         foreach (var alchemy in alchemies)
         {
-            GameObject alchemyObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject alchemyObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = alchemyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = alchemy.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class AlchemiesController : MonoBehaviour
             });
 
             RawImage topImage = alchemyObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGreenMaterial("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
             RawImage circleImage = alchemyObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = alchemyObject.transform.Find("BottomImage").GetComponent<Outline>();

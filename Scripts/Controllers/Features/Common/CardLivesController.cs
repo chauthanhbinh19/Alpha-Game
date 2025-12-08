@@ -11,7 +11,7 @@ public class CardLivesController : MonoBehaviour
     public static CardLivesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject cardsPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -37,11 +37,11 @@ public class CardLivesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCardLifeGallery(List<CardLives> cards, Transform contentPanel)
     {
@@ -80,7 +80,7 @@ public class CardLivesController : MonoBehaviour
     {
         foreach (var card in cards)
         {
-            GameObject cardObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject cardObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = cardObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = card.Name.Replace("_", " ");
@@ -118,7 +118,7 @@ public class CardLivesController : MonoBehaviour
             });
 
             RawImage topImage = cardObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPinkMaterial("UI_Pink_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Pink_Radius_Mat");
             RawImage circleImage = cardObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             Outline bottomOutline = cardObject.transform.Find("BottomImage").GetComponent<Outline>();

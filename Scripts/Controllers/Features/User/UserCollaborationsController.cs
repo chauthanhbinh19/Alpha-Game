@@ -40,7 +40,7 @@ public class UserCollaborationsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CollaborationButtonPrefab = UIManager.Instance.Get("CollaborationButtonPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }

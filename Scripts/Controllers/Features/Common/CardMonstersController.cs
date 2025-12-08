@@ -11,7 +11,7 @@ public class CardMonstersController : MonoBehaviour
     public static CardMonstersController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject cardsPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -37,11 +37,11 @@ public class CardMonstersController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCardMonstersGallery(List<CardMonsters> monstersList, Transform contentPanel)
     {
@@ -80,7 +80,7 @@ public class CardMonstersController : MonoBehaviour
     {
         foreach (var monster in monstersList)
         {
-            GameObject monstersObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject monstersObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = monstersObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = monster.Name.Replace("_", " ");
@@ -118,7 +118,7 @@ public class CardMonstersController : MonoBehaviour
             });
 
             RawImage topImage = monstersObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Purple_Radius_Mat");
             RawImage circleImage = monstersObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
             Outline bottomOutline = monstersObject.transform.Find("BottomImage").GetComponent<Outline>();

@@ -32,7 +32,6 @@ public class AuthenticationManager : MonoBehaviour
     private Text SU_ErrorUsername;
     private Text SU_ErrorPassword;
     private Text SU_ErrorConfirmPassword;
-    private GameObject currencyPrefab;
     GameObject currentObject;
     private AuthResult authResult;
     private void Awake()
@@ -52,8 +51,7 @@ public class AuthenticationManager : MonoBehaviour
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         signInPanel = UIManager.Instance.Get("SignInPanelPrefab");
         signUpPanel = UIManager.Instance.Get("SignUpPanelPrefab");
-        createNamePanel = UIManager.Instance.GetGameObject("CreateNamePanel");
-        currencyPrefab = UIManager.Instance.GetGameObject("currencyPrefab");
+        createNamePanel = UIManager.Instance.Get("CreateNamePanel");
         startButton = WaitingPanel.transform.Find("StartButton").GetComponent<Button>();
         createSignInButton = WaitingPanel.transform.Find("SignInButton").GetComponent<Button>();
 

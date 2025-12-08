@@ -11,7 +11,7 @@ public class SkillsController : MonoBehaviour
     public static SkillsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject SkillButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class SkillsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         SkillButtonPrefab = UIManager.Instance.Get("SkillButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateSkillsGallery(List<Skills> skills, Transform contentPanel)
     {
@@ -100,7 +100,7 @@ public class SkillsController : MonoBehaviour
     {
         foreach (var skill in skillsList)
         {
-            GameObject skillObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject skillObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = skillObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = skill.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class SkillsController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage topImage = skillObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPinkMaterial("UI_Pink_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Pink_Radius_Mat");
             RawImage circleImage = skillObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             Outline bottomOutline = skillObject.transform.Find("BottomImage").GetComponent<Outline>();

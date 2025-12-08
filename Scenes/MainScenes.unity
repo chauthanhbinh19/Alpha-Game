@@ -4842,147 +4842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859b199840ef034448ba4a5a32930fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI_Red_Gradient_Mat: {fileID: 0}
-  UI_Red_Radius_Mat: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_Red_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
-  UI_Green_Gradient_Mat: {fileID: 0}
-  UI_Green_Radius_Mat: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_Green_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
-  UI_Blue_Gradient_Mat: {fileID: 0}
-  UI_Blue_Radius_Mat: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_Blue_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
-  UI_Orange_Gradient_Mat: {fileID: 0}
-  UI_Orange_Radius_Mat: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_Orange_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
-  UI_Purple_Gradient_Mat: {fileID: 0}
-  UI_Purple_Radius_Mat: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_Purple_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
-  UI_Yellow_Gradient_Mat: {fileID: 0}
-  UI_Yellow_Radius_Mat: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_Yellow_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
-  UI_Pink_Gradient_Mat: {fileID: 0}
-  UI_Pink_Radius_Mat: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_Pink_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
-  UI_Gray_Gradient_Mat: {fileID: 0}
-  UI_Gray_Radius_Mat: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_Gray_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
-  UI_Black_Gradient_Mat: {fileID: 0}
-  UI_Black_Radius_Mat: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_10: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_20: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_30: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_40: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_45: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_50: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_60: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_70: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_80: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_90: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Top_100: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_10: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_20: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_30: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_40: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_45: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_50: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_60: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_70: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_80: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_90: {fileID: 0}
-  UI_Black_Gradient_Radius_Mat_MaskPercent_Bottom_100: {fileID: 0}
-  UI_White_Gradient_Mat: {fileID: 0}
-  UI_White_Radius_Mat: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_10: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_20: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_30: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_40: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_45: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_50: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_60: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_70: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_80: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_90: {fileID: 0}
-  UI_White_Gradient_Radius_Mat_MaskPercent_100: {fileID: 0}
 --- !u!1 &806078344
 GameObject:
   m_ObjectHideFlags: 0
@@ -5656,7 +5515,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 951028683}
-  - component: {fileID: 951028684}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -5679,18 +5537,6 @@ Transform:
   m_Father: {fileID: 1553028487}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &951028684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 951028682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e3491f4308376e48a24a1486ef1a32b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -6556,7 +6402,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1135815238}
-  - component: {fileID: 1135815239}
   m_Layer: 0
   m_Name: CardDisplayManager
   m_TagString: Untagged
@@ -6579,18 +6424,6 @@ Transform:
   m_Father: {fileID: 1553028487}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1135815239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1135815237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95bcc18052a30fe419aedf509e31c519, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1205977549
 GameObject:
   m_ObjectHideFlags: 0
@@ -14040,8 +13873,6 @@ MonoBehaviour:
   MainPanel: {fileID: 1481069417}
   popupPanel: {fileID: 495709220}
   LoadingPanel: {fileID: 806078345}
-  SignInPanel: {fileID: 0}
-  SignUpPanel: {fileID: 0}
   CreateNamePanel: {fileID: 0}
   buttonPrefab: {fileID: 0}
   itemSecondPrefab: {fileID: 0}
@@ -14055,17 +13886,6 @@ MonoBehaviour:
   MainMenuShopPanel: {fileID: 0}
   MainMenuEnhancementPanel: {fileID: 0}
   MainMenuCampaignPanel: {fileID: 0}
-  ProfilePanelPrefab: {fileID: 0}
-  SettingPanelPrefab: {fileID: 0}
-  SettingButtonPrefab: {fileID: 0}
-  NewsPanelPrefab: {fileID: 0}
-  NewsButtonPrefab: {fileID: 0}
-  LanguageButtonPrefab: {fileID: 0}
-  EditNamePanelPrefab: {fileID: 0}
-  CurrencyPanelPrefab: {fileID: 0}
-  FeaturePanelPrefab: {fileID: 0}
-  FeatureButtonPrefab: {fileID: 0}
-  quantityPopupPrefab: {fileID: 0}
   equipmentsPrefab: {fileID: 0}
   equipmentsShopPrefab: {fileID: 0}
   currencyPrefab: {fileID: 0}
@@ -14075,17 +13895,10 @@ MonoBehaviour:
   EquipmentSecondPrefab: {fileID: 0}
   EquipmentFirstPrefab: {fileID: 0}
   EquipmentFourthPrefab: {fileID: 0}
-  ElementDetailsPrefab: {fileID: 0}
-  ElementDetails2Prefab: {fileID: 0}
-  MainMenuDetailPanelPrefab: {fileID: 0}
-  MainMenuDetailPanel2Prefab: {fileID: 0}
   SummonPanelPrefab: {fileID: 0}
   PositionPrefab: {fileID: 0}
   CampaignPrefab: {fileID: 0}
   CampaignDetailPrefab: {fileID: 0}
-  ShopManagerPrefab: {fileID: 0}
-  ShopButtonPrefab: {fileID: 0}
-  ShopPrefab: {fileID: 0}
   NumberDetailPrefab: {fileID: 0}
   NumberDetail2Prefab: {fileID: 0}
   NumberDetail3Prefab: {fileID: 0}
@@ -14112,105 +13925,6 @@ MonoBehaviour:
   Skill2Prefab: {fileID: 0}
   PopupSkillDetailPrefab: {fileID: 0}
   PopupButtonPrefab: {fileID: 0}
-  CardContractPrefab: {fileID: 0}
-  CardPenaltyPrefab: {fileID: 0}
-  WorldPanelPrefab: {fileID: 0}
-  CityPanelPrefab: {fileID: 0}
-  BasePanelPrefab: {fileID: 0}
-  TrainPanelPrefab: {fileID: 0}
-  ResearchPanelPrefab: {fileID: 0}
-  EmployeePanelPrefab: {fileID: 0}
-  WorldButtonPrefab: {fileID: 0}
-  CityButtonPrefab: {fileID: 0}
-  BaseButtonPrefab: {fileID: 0}
-  TrainButtonPrefab: {fileID: 0}
-  ResearchButtonPrefab: {fileID: 0}
-  EmployeeButtonPrefab: {fileID: 0}
-  RareButtonPrefab: {fileID: 0}
-  ItemShopButtonPrefab: {fileID: 0}
-  AchievementButtonPrefab: {fileID: 0}
-  AchievementBlockButtonPrefab: {fileID: 0}
-  AlchemyButtonPrefab: {fileID: 0}
-  AlchemyBlockButtonPrefab: {fileID: 0}
-  ArchitectureButtonPrefab: {fileID: 0}
-  ArchitectureBlockButtonPrefab: {fileID: 0}
-  ArtworkButtonPrefab: {fileID: 0}
-  ArtworkBlockButtonPrefab: {fileID: 0}
-  AvatarButtonPrefab: {fileID: 0}
-  AvatarBlockButtonPrefab: {fileID: 0}
-  BadgeButtonPrefab: {fileID: 0}
-  BadgeBlockButtonPrefab: {fileID: 0}
-  BookButtonPrefab: {fileID: 0}
-  BookBlockButtonPrefab: {fileID: 0}
-  BorderButtonPrefab: {fileID: 0}
-  BorderBlockButtonPrefab: {fileID: 0}
-  CardAdmiralButtonPrefab: {fileID: 0}
-  CardAdmiralBlockButtonPrefab: {fileID: 0}
-  CardCaptainButtonPrefab: {fileID: 0}
-  CardCaptainBlockButtonPrefab: {fileID: 0}
-  CardColonelButtonPrefab: {fileID: 0}
-  CardColonelBlockButtonPrefab: {fileID: 0}
-  CardGeneralButtonPrefab: {fileID: 0}
-  CardGeneralBlockButtonPrefab: {fileID: 0}
-  CardHeroButtonPrefab: {fileID: 0}
-  CardHeroBlockButtonPrefab: {fileID: 0}
-  CardLifeButtonPrefab: {fileID: 0}
-  CardLifeBlockButtonPrefab: {fileID: 0}
-  CardMilitaryButtonPrefab: {fileID: 0}
-  CardMilitaryBlockButtonPrefab: {fileID: 0}
-  CardMonsterButtonPrefab: {fileID: 0}
-  CardMonsterBlockButtonPrefab: {fileID: 0}
-  CardButtonPrefab: {fileID: 0}
-  CardBlockButtonPrefab: {fileID: 0}
-  CardSpellButtonPrefab: {fileID: 0}
-  CardSpellBlockButtonPrefab: {fileID: 0}
-  CollaborationEquipmentButtonPrefab: {fileID: 0}
-  CollaborationEquipmentBlockButtonPrefab: {fileID: 0}
-  CollaborationButtonPrefab: {fileID: 0}
-  CollaborationBlockButtonPrefab: {fileID: 0}
-  CoreButtonPrefab: {fileID: 0}
-  CoreBlockButtonPrefab: {fileID: 0}
-  EquipmentButtonPrefab: {fileID: 0}
-  EquipmentBlockButtonPrefab: {fileID: 0}
-  ForgeButtonPrefab: {fileID: 0}
-  ForgeBlockButtonPrefab: {fileID: 0}
-  MagicFormationCirlceButtonPrefab: {fileID: 0}
-  MagicFormationCirlceBlockButtonPrefab: {fileID: 0}
-  MechaBeastButtonPrefab: {fileID: 0}
-  MechaBeastBlockButtonPrefab: {fileID: 0}
-  MedalButtonPrefab: {fileID: 0}
-  MedalBlockButtonPrefab: {fileID: 0}
-  PetButtonPrefab: {fileID: 0}
-  PetBlockButtonPrefab: {fileID: 0}
-  PuppetButtonPrefab: {fileID: 0}
-  PuppetBlockButtonPrefab: {fileID: 0}
-  RelicButtonPrefab: {fileID: 0}
-  RelicBlockButtonPrefab: {fileID: 0}
-  RobotButtonPrefab: {fileID: 0}
-  RobotBlockButtonPrefab: {fileID: 0}
-  RuneButtonPrefab: {fileID: 0}
-  RuneBlockButtonPrefab: {fileID: 0}
-  SkillButtonPrefab: {fileID: 0}
-  SkillBlockButtonPrefab: {fileID: 0}
-  SpiritBeastButtonPrefab: {fileID: 0}
-  SpiritBeastBlockButtonPrefab: {fileID: 0}
-  SpiritCardButtonPrefab: {fileID: 0}
-  SpiritCardBlockButtonPrefab: {fileID: 0}
-  SymbolButtonPrefab: {fileID: 0}
-  SymbolBlockButtonPrefab: {fileID: 0}
-  TalismanButtonPrefab: {fileID: 0}
-  TalismanBlockButtonPrefab: {fileID: 0}
-  TechnologyButtonPrefab: {fileID: 0}
-  TechnologyBlockButtonPrefab: {fileID: 0}
-  TitleButtonPrefab: {fileID: 0}
-  TitleBlockButtonPrefab: {fileID: 0}
-  VehicleButtonPrefab: {fileID: 0}
-  VehicleBlockButtonPrefab: {fileID: 0}
-  WeaponButtonPrefab: {fileID: 0}
-  WeaponBlockButtonPrefab: {fileID: 0}
-  ReactorPanelPrefab: {fileID: 0}
-  ReactorButtonPrefab: {fileID: 0}
-  ReactorPanelNumberPrefab: {fileID: 0}
   MainMenuAnimePanelPrefab: {fileID: 0}
   AnimePanelPrefab: {fileID: 0}
   MasterBoardPanelPrefab: {fileID: 0}
@@ -14223,20 +13937,10 @@ MonoBehaviour:
   PopupSkillsPanelPrefab: {fileID: 0}
   PopupMenuPanelPrefab: {fileID: 0}
   EquipmentsWearingPrefab: {fileID: 0}
-  Slot1Prefab: {fileID: 0}
-  Slot4Prefab: {fileID: 0}
-  Slot6Prefab: {fileID: 0}
-  Slot8Prefab: {fileID: 0}
-  Slot10Prefab: {fileID: 0}
-  Slot12Prefab: {fileID: 0}
-  Slot14Prefab: {fileID: 0}
-  Slot16Prefab: {fileID: 0}
   ArenaButtonPrefab: {fileID: 0}
   AnimeButtonPrefab: {fileID: 0}
   DailyCheckinComponentPrefab: {fileID: 0}
   AnimeSlotPrefab: {fileID: 0}
-  MasterBoardNodePrefab: {fileID: 0}
-  MasterBoardPopupPrefab: {fileID: 0}
   ArenaSlotPrefab: {fileID: 0}
   EuroStyleNormalFont: {fileID: 0}
 --- !u!1 &1881260152

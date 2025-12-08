@@ -11,7 +11,7 @@ public class BooksController : MonoBehaviour
     public static BooksController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject BookButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class BooksController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         BookButtonPrefab = UIManager.Instance.Get("BookButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateBooksGallery(List<Books> books, Transform contentPanel)
     {
@@ -126,7 +126,7 @@ public class BooksController : MonoBehaviour
     {
         foreach (var book in books)
         {
-            GameObject bookObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject bookObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = bookObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = book.Name.Replace("_", " ");
@@ -164,7 +164,7 @@ public class BooksController : MonoBehaviour
             });
 
             RawImage topImage = bookObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPurpleMaterial("UI_Purple_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Purple_Radius_Mat");
             RawImage circleImage = bookObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
             Outline bottomOutline = bookObject.transform.Find("BottomImage").GetComponent<Outline>();

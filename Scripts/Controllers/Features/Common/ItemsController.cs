@@ -37,11 +37,11 @@ public class ItemsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
+        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
         ItemShopButtonPrefab = UIManager.Instance.Get("ItemShopButtonPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public async Task CreateItemsTradeAsync(List<Items> items, Currencies currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
@@ -63,7 +63,7 @@ public class ItemsController : MonoBehaviour
             Image.texture = texture;
 
             RawImage topImage = itemObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetYellowMaterial("UI_Yellow_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Yellow_Radius_Mat");
             RawImage circleImage = itemObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
             Outline bottomOutline = itemObject.transform.Find("BottomImage").GetComponent<Outline>();

@@ -11,7 +11,7 @@ public class SpiritBeastsController : MonoBehaviour
     public static SpiritBeastsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject SpiritBeastButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class SpiritBeastsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         SpiritBeastButtonPrefab = UIManager.Instance.Get("SpiritBeastButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateSpiritBeastGallery(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class SpiritBeastsController : MonoBehaviour
     {
         foreach (var spiritBeast in SpiritBeastList)
         {
-            GameObject spiritBeastObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject spiritBeastObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = spiritBeastObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = spiritBeast.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class SpiritBeastsController : MonoBehaviour
             });
 
             RawImage topImage = spiritBeastObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGrayMaterial("UI_Gray_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Gray_Radius_Mat");
             RawImage circleImage = spiritBeastObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
             Outline bottomOutline = spiritBeastObject.transform.Find("BottomImage").GetComponent<Outline>();

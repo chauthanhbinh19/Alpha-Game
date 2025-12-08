@@ -11,7 +11,7 @@ public class MechaBeastsController : MonoBehaviour
     public static MechaBeastsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject MechaBeastButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class MechaBeastsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MechaBeastButtonPrefab = UIManager.Instance.Get("MechaBeastButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateMechaBeastsGallery(List<MechaBeasts> mechaBeasts, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class MechaBeastsController : MonoBehaviour
     {
         foreach (var MechaBeast in MechaBeastsList)
         {
-            GameObject MechaBeastObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject MechaBeastObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = MechaBeastObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = MechaBeast.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class MechaBeastsController : MonoBehaviour
             });
 
             RawImage topImage = MechaBeastObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGrayMaterial("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
             RawImage circleImage = MechaBeastObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = MechaBeastObject.transform.Find("BottomImage").GetComponent<Outline>();

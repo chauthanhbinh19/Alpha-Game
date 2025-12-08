@@ -33,8 +33,8 @@ public class PopupDetailsManager : MonoBehaviour
 
     public void Initialize()
     {
-        MainMenuDetailPanelPrefab = UIManager.Instance.GetGameObject("MainMenuDetailPanelPrefab");
-        ElementDetailsPrefab = UIManager.Instance.GetGameObject("ElementDetailsPrefab");
+        MainMenuDetailPanelPrefab = UIManager.Instance.Get("MainMenuDetailPanelPrefab");
+        ElementDetailsPrefab = UIManager.Instance.Get("ElementDetailsPrefab");
     }
     public void PopupDetails(object data, Transform panel)
     {

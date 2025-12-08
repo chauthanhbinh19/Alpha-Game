@@ -11,7 +11,7 @@ public class WeaponsController : MonoBehaviour
     public static WeaponsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject WeaponButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class WeaponsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         WeaponButtonPrefab = UIManager.Instance.Get("WeaponButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateWeaponsGallery(List<Weapons> weapons, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class WeaponsController : MonoBehaviour
     {
         foreach (var weapon in weapons)
         {
-            GameObject weaponObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject weaponObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = weaponObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = weapon.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class WeaponsController : MonoBehaviour
             });
 
             RawImage topImage = weaponObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetOrangeMaterial("UI_Orange_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Orange_Radius_Mat");
             RawImage circleImage = weaponObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             Outline bottomOutline = weaponObject.transform.Find("BottomImage").GetComponent<Outline>();

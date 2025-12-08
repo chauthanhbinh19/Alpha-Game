@@ -11,7 +11,7 @@ public class CardCaptainsController : MonoBehaviour
     public static CardCaptainsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject cardsPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -37,11 +37,11 @@ public class CardCaptainsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCardCaptainsGallery(List<CardCaptains> captainsList, Transform contentPanel)
     {
@@ -80,7 +80,7 @@ public class CardCaptainsController : MonoBehaviour
     {
         foreach (var captain in captainsList)
         {
-            GameObject captainsObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject captainsObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = captainsObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = captain.Name.Replace("_", " ");
@@ -118,7 +118,7 @@ public class CardCaptainsController : MonoBehaviour
             });
 
             RawImage topImage = captainsObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Red_Radius_Mat");
             RawImage circleImage = captainsObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = captainsObject.transform.Find("BottomImage").GetComponent<Outline>();

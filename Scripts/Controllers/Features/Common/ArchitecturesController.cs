@@ -11,7 +11,7 @@ public class ArchitecturesController : MonoBehaviour
     public static ArchitecturesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject ArchitectureButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class ArchitecturesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ArchitectureButtonPrefab = UIManager.Instance.Get("ArchitectureButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateArchitecturesGallery(List<Architectures> architectures, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class ArchitecturesController : MonoBehaviour
     {
         foreach (var architecture in ArchitecturesList)
         {
-            GameObject architectureObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject architectureObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = architectureObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = architecture.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class ArchitecturesController : MonoBehaviour
             });
 
             RawImage topImage = architectureObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Red_Radius_Mat");
             RawImage circleImage = architectureObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = architectureObject.transform.Find("BottomImage").GetComponent<Outline>();

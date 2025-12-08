@@ -11,7 +11,7 @@ public class VehiclesController : MonoBehaviour
     public static VehiclesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject VehicleButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class VehiclesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         VehicleButtonPrefab = UIManager.Instance.Get("VehicleButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateVehicleGallery(List<Vehicles> vehicles, Transform contentPanel)
     {
@@ -101,7 +101,7 @@ public class VehiclesController : MonoBehaviour
     {
         foreach (var Vehicle in Vehicles)
         {
-            GameObject VehicleObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject VehicleObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = VehicleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = Vehicle.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class VehiclesController : MonoBehaviour
             });
 
             RawImage topImage = VehicleObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGreenMaterial("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
             RawImage circleImage = VehicleObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = VehicleObject.transform.Find("BottomImage").GetComponent<Outline>();

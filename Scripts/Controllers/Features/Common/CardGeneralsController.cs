@@ -11,7 +11,7 @@ public class CardGeneralsController : MonoBehaviour
     public static CardGeneralsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject cardsPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -37,11 +37,11 @@ public class CardGeneralsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCardGeneralsGallery(List<CardGenerals> cardGenerals, Transform contentPanel)
     {
@@ -80,7 +80,7 @@ public class CardGeneralsController : MonoBehaviour
     {
         foreach (var cardGeneral in cardGenerals)
         {
-            GameObject cardGeneralObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject cardGeneralObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = cardGeneralObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = cardGeneral.Name.Replace("_", " ");
@@ -118,7 +118,7 @@ public class CardGeneralsController : MonoBehaviour
             });
 
             RawImage topImage = cardGeneralObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Blue_Radius_Mat");
             RawImage circleImage = cardGeneralObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             Outline bottomOutline = cardGeneralObject.transform.Find("BottomImage").GetComponent<Outline>();

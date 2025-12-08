@@ -43,11 +43,11 @@ public class CollectionManager : MonoBehaviour
         pageSize = 100;
         rare = AppConstants.Rare.ALL;
         collectionMenuPanel = CollectionMenuPanel;
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
-        DictionaryPanel = UIManager.Instance.GetGameObject("DictionaryPanel");
+        DictionaryPanel = UIManager.Instance.Get("DictionaryPanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UI_Green_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.GetGreenMaterial("UI_Green_Gradient_Radius_Mat_MaskPercent_45");
+        UI_Green_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_45");
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK));

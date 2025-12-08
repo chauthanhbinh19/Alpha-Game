@@ -24,15 +24,7 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform UpgradeElementContent;
     private Transform UpgradeMaterialContent;
     private GameObject currentObject;
-    // private GameObject firstDetailsObject;
-    // private GameObject elementDetailsObject;
-    // private GameObject elementDetails2Object;
-    // private GameObject descriptionDetailsObject;
     private GameObject TabButton5;
-    // private Transform firstPopupPanel;
-    // private Transform elementPopupPanel;
-    // private Transform element2PopupPanel;
-    // private Transform descriptionPopupPanel;
     private Transform buttonGroupPanel1;
     private Transform buttonGroupPanel2;
     private Transform buttonGroupPanel3;
@@ -63,9 +55,9 @@ public class MainMenuDetailsManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainMenuDetailPanel2Prefab = UIManager.Instance.GetGameObject("MainMenuDetailPanel2Prefab");
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
 
-        TabButton5 = UIManager.Instance.GetGameObject("TabButton5");
+        TabButton5 = UIManager.Instance.Get("TabButton5");
 
         // teamsService = TeamsService.Create();
         // userItemsService = UserItemsService.Create();

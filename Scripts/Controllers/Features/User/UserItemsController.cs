@@ -32,8 +32,8 @@ public class UserItemsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.GetGameObject("EquipmentFirstPrefab");
-        itemPrefab = UIManager.Instance.GetGameObject("itemSecondPrefab");
+        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
+        itemPrefab = UIManager.Instance.Get("itemSecondPrefab");
     }
     public void CreateUserItems(List<Items> items, Transform contentPanel)
     {

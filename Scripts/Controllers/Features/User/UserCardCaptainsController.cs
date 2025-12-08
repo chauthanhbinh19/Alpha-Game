@@ -58,17 +58,17 @@ public class UserCardCaptainsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
-        PopupSpiritBeastPanelPrefab = UIManager.Instance.GetGameObject("PopupSpiritBeastPanelPrefab");
-        EquipmentsWearingPrefab = UIManager.Instance.GetGameObject("EquipmentsWearingPrefab");
-        SkillPanelPrefab = UIManager.Instance.GetGameObject("SkillPanelPrefab");
-        SkillGroupPrefab = UIManager.Instance.GetGameObject("SkillGroupPrefab");
-        Skill1Prefab = UIManager.Instance.GetGameObject("Skill1Prefab");
-        Skill2Prefab = UIManager.Instance.GetGameObject("Skill2Prefab");
-        PopupSkillsPanelPrefab = UIManager.Instance.GetGameObject("PopupSkillsPanelPrefab");
-        PopupSkillDetailPrefab = UIManager.Instance.GetGameObject("PopupSkillDetailPrefab");
+        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        PositionPrefab = UIManager.Instance.Get("PositionPrefab");
+        ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
+        PopupSpiritBeastPanelPrefab = UIManager.Instance.Get("PopupSpiritBeastPanelPrefab");
+        EquipmentsWearingPrefab = UIManager.Instance.Get("EquipmentsWearingPrefab");
+        SkillPanelPrefab = UIManager.Instance.Get("SkillPanelPrefab");
+        SkillGroupPrefab = UIManager.Instance.Get("SkillGroupPrefab");
+        Skill1Prefab = UIManager.Instance.Get("Skill1Prefab");
+        Skill2Prefab = UIManager.Instance.Get("Skill2Prefab");
+        PopupSkillsPanelPrefab = UIManager.Instance.Get("PopupSkillsPanelPrefab");
+        PopupSkillDetailPrefab = UIManager.Instance.Get("PopupSkillDetailPrefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }

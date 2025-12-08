@@ -31,7 +31,7 @@ public class CardHeroesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsSecondPrefab");
+        cardsPrefab = UIManager.Instance.Get("CardsSecondPrefab");
     }
     public void CreateCardHeroesGallery(List<CardHeroes> cards, Transform contentPanel)
     {

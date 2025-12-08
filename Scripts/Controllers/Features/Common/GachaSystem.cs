@@ -142,7 +142,7 @@ public class GachaSystem : MonoBehaviour
         // isSummonAreaActive = true;
         AddCloseEvent();
 
-        cardPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
+        cardPrefab = UIManager.Instance.Get("CardsPrefab");
 
         if (cardPrefab == null)
         {

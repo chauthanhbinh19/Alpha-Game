@@ -40,9 +40,9 @@ public class UserBooksController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        PositionPrefab = UIManager.Instance.GetGameObject("PositionPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        PositionPrefab = UIManager.Instance.Get("PositionPrefab");
+        ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }

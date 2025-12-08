@@ -12,7 +12,7 @@ public class TitlesController : MonoBehaviour
     public static TitlesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject TitleButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -39,10 +39,10 @@ public class TitlesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         TitleButtonPrefab = UIManager.Instance.Get("TitleButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateTitlesGallery(List<Titles> titles, Transform contentPanel)
     {
@@ -103,7 +103,7 @@ public class TitlesController : MonoBehaviour
     {
         foreach (var title in titlesList)
         {
-            GameObject titleObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject titleObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = titleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = title.Name.Replace("_", " ");
@@ -124,7 +124,7 @@ public class TitlesController : MonoBehaviour
             });
 
             RawImage topImage = titleObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Red_Radius_Mat");
             RawImage circleImage = titleObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = titleObject.transform.Find("BottomImage").GetComponent<Outline>();

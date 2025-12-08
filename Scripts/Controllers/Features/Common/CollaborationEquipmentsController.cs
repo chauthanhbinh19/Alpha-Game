@@ -11,7 +11,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
     public static CollaborationEquipmentsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject CollaborationEquipmentButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class CollaborationEquipmentsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CollaborationEquipmentButtonPrefab = UIManager.Instance.Get("CollaborationEquipmentButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipments> collaborationEquipmentList, Transform contentPanel)
     {
@@ -98,7 +98,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
     {
         foreach (var collaborationEquipment in collaborationEquipmentList)
         {
-            GameObject collaborationEquipmentObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject collaborationEquipmentObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = collaborationEquipmentObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = collaborationEquipment.Name.Replace("_", " ");
@@ -117,7 +117,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
             });
 
             RawImage topImage = collaborationEquipmentObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetPinkMaterial("UI_Pink_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Pink_Radius_Mat");
             RawImage circleImage = collaborationEquipmentObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             Outline bottomOutline = collaborationEquipmentObject.transform.Find("BottomImage").GetComponent<Outline>();

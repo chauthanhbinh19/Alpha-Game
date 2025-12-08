@@ -16,7 +16,7 @@ public class LoadingManager : MonoBehaviour
     public void Initialize()
     {
         LoadingPanel = UIManager.Instance.GetTransform("LoadingPanel");
-        LoadingPanelPrefab = UIManager.Instance.GetGameObject("LoadingPanelPrefab");
+        LoadingPanelPrefab = UIManager.Instance.Get("LoadingPanelPrefab");
     }
     public void Loading(Transform firstPanel, Transform secondPanel)
     {

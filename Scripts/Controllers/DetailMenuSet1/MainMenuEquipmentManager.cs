@@ -54,19 +54,19 @@ public class MainMenuEquipmentManager : MonoBehaviour
         rare = AppConstants.Rare.ALL;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuEquipmentPanelPrefab = UIManager.Instance.Get("MainMenuEquipmentPanelPrefab");
-        PopupEquipmentsPanelPrefab = UIManager.Instance.GetGameObject("PopupEquipmentsPanelPrefab");
-        EquipmentsWearingPrefab = UIManager.Instance.GetGameObject("EquipmentsWearingPrefab");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        Slot1Prefab = UIManager.Instance.GetGameObject("Slot1Prefab");
-        Slot4Prefab = UIManager.Instance.GetGameObject("Slot4Prefab");
-        Slot6Prefab = UIManager.Instance.GetGameObject("Slot6Prefab");
-        Slot8Prefab = UIManager.Instance.GetGameObject("Slot8Prefab");
-        Slot10Prefab = UIManager.Instance.GetGameObject("Slot10Prefab");
-        Slot12Prefab = UIManager.Instance.GetGameObject("Slot12Prefab");
-        Slot14Prefab = UIManager.Instance.GetGameObject("Slot14Prefab");
-        Slot16Prefab = UIManager.Instance.GetGameObject("Slot16Prefab");
-        TabButton5 = UIManager.Instance.GetGameObject("TabButton5");
-        StarPrefab = UIManager.Instance.GetGameObject("StarPrefab");
+        PopupEquipmentsPanelPrefab = UIManager.Instance.Get("PopupEquipmentsPanelPrefab");
+        EquipmentsWearingPrefab = UIManager.Instance.Get("EquipmentsWearingPrefab");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
+        Slot1Prefab = UIManager.Instance.Get("Slot1Prefab");
+        Slot4Prefab = UIManager.Instance.Get("Slot4Prefab");
+        Slot6Prefab = UIManager.Instance.Get("Slot6Prefab");
+        Slot8Prefab = UIManager.Instance.Get("Slot8Prefab");
+        Slot10Prefab = UIManager.Instance.Get("Slot10Prefab");
+        Slot12Prefab = UIManager.Instance.Get("Slot12Prefab");
+        Slot14Prefab = UIManager.Instance.Get("Slot14Prefab");
+        Slot16Prefab = UIManager.Instance.Get("Slot16Prefab");
+        TabButton5 = UIManager.Instance.Get("TabButton5");
+        StarPrefab = UIManager.Instance.Get("StarPrefab");
 
         teamsService = TeamsService.Create();
     }

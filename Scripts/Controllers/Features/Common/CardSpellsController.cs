@@ -11,7 +11,7 @@ public class CardSpellsController : MonoBehaviour
     public static CardSpellsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject cardsPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -37,11 +37,11 @@ public class CardSpellsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.GetGameObject("CardsPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCardSpellGallery(List<CardSpells> spellList, Transform contentPanel)
     {
@@ -80,7 +80,7 @@ public class CardSpellsController : MonoBehaviour
     {
         foreach (var spell in spellList)
         {
-            GameObject spellObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject spellObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = spellObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = spell.Name.Replace("_", " ");
@@ -118,7 +118,7 @@ public class CardSpellsController : MonoBehaviour
             });
 
             RawImage topImage = spellObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetYellowMaterial("UI_Yellow_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Yellow_Radius_Mat");
             RawImage circleImage = spellObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
             Outline bottomOutline = spellObject.transform.Find("BottomImage").GetComponent<Outline>();

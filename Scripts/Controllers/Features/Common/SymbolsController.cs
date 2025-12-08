@@ -11,7 +11,7 @@ public class SymbolsController : MonoBehaviour
     public static SymbolsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject SymbolButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class SymbolsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         SymbolButtonPrefab = UIManager.Instance.Get("SymbolButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateSymbolsGallery(List<Symbols> symbols, Transform contentPanel)
     {
@@ -104,7 +104,7 @@ public class SymbolsController : MonoBehaviour
     {
         foreach (var symbol in symbols)
         {
-            GameObject symbolObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject symbolObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = symbolObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = symbol.Name.Replace("_", " ");
@@ -123,7 +123,7 @@ public class SymbolsController : MonoBehaviour
             });
 
             RawImage topImage = symbolObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetRedMaterial("UI_Red_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Red_Radius_Mat");
             RawImage circleImage = symbolObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = symbolObject.transform.Find("BottomImage").GetComponent<Outline>();

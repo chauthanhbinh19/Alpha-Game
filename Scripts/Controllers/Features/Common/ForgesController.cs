@@ -11,7 +11,7 @@ public class ForgesController : MonoBehaviour
     public static ForgesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject ForgeButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class ForgesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ForgeButtonPrefab = UIManager.Instance.Get("ForgeButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateForgeGallery(List<Forges> forges, Transform contentPanel)
     {
@@ -101,7 +101,7 @@ public class ForgesController : MonoBehaviour
     {
         foreach (var forge in forges)
         {
-            GameObject forgeObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject forgeObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = forgeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = forge.Name.Replace("_", " ");
@@ -121,7 +121,7 @@ public class ForgesController : MonoBehaviour
             });
 
             RawImage topImage = forgeObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGrayMaterial("UI_Gray_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Gray_Radius_Mat");
             RawImage circleImage = forgeObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
             Outline bottomOutline = forgeObject.transform.Find("BottomImage").GetComponent<Outline>();

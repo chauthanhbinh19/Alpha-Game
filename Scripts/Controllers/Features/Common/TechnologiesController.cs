@@ -11,7 +11,7 @@ public class TechnologiesController : MonoBehaviour
     public static TechnologiesController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject TechnologyButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class TechnologiesController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         TechnologyButtonPrefab = UIManager.Instance.Get("TechnologyButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateTechnologiesGallery(List<Technologies> technologies, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class TechnologiesController : MonoBehaviour
     {
         foreach (var technology in TechnologiesList)
         {
-            GameObject technologyObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject technologyObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = technologyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = technology.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class TechnologiesController : MonoBehaviour
             });
 
             RawImage topImage = technologyObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetBlueMaterial("UI_Blue_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Blue_Radius_Mat");
             RawImage circleImage = technologyObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             Outline bottomOutline = technologyObject.transform.Find("BottomImage").GetComponent<Outline>();

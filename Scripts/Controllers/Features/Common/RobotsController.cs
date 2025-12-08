@@ -11,7 +11,7 @@ public class RobotsController : MonoBehaviour
     public static RobotsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject RobotButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
     private GameObject ItemThird;
@@ -38,10 +38,10 @@ public class RobotsController : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         RobotButtonPrefab = UIManager.Instance.Get("RobotButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.GetGameObject("equipmentsShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.GetGameObject("quantityPopupPrefab");
-        receivedNotification = UIManager.Instance.GetGameObject("ReceivedNotification");
-        ItemThird = UIManager.Instance.GetGameObject("ItemThird");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateRobotsGallery(List<Robots> RobotsList, Transform contentPanel)
     {
@@ -102,7 +102,7 @@ public class RobotsController : MonoBehaviour
     {
         foreach (var robot in robots)
         {
-            GameObject robotObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject robotObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             TextMeshProUGUI Title = robotObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = robot.Name.Replace("_", " ");
@@ -140,7 +140,7 @@ public class RobotsController : MonoBehaviour
             });
 
             RawImage topImage = robotObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.GetGrayMaterial("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
             RawImage circleImage = robotObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = robotObject.transform.Find("BottomImage").GetComponent<Outline>();

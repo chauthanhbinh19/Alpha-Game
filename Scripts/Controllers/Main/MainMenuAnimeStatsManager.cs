@@ -32,10 +32,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuAnimePanelPrefab = UIManager.Instance.GetGameObject("MainMenuAnimePanelPrefab");
-        buttonPrefab = UIManager.Instance.GetGameObject("TabButton");
-        AnimeSlotPrefab = UIManager.Instance.GetGameObject("AnimeSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.GetGameObject("ElementDetails2Prefab");
+        MainMenuAnimePanelPrefab = UIManager.Instance.Get("MainMenuAnimePanelPrefab");
+        buttonPrefab = UIManager.Instance.Get("TabButton");
+        AnimeSlotPrefab = UIManager.Instance.Get("AnimeSlotPrefab");
+        ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
 
         userItemsService = UserItemsService.Create();
         teamsService = TeamsService.Create();
