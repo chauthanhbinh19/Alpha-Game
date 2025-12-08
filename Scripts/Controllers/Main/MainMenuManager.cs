@@ -13,14 +13,14 @@ public class MainMenuManager : MonoBehaviour
 {
     private Transform RootPanel;
     private GameObject MainPanelPrefab;
-    private GameObject buttonPrefab;
-    private GameObject DictionaryPanel;
+    private GameObject TypeButtonPrefab;
+    private GameObject DictionaryPanelPrefab;
     private GameObject PopupMenuPanelPrefab;
     private GameObject ArenaPanelPrefab;
     private GameObject AnimePanelPrefab;
     private GameObject ReactorPanelPrefab;
     private GameObject MasterBoardPanelPrefab;
-    private GameObject PopupButtonPrefab;
+    private GameObject PopupButtonPanelPrefab;
     private GameObject FeaturePanelPrefab;
     private GameObject RareButtonPrefab;
     private Transform MainPanel;
@@ -34,12 +34,12 @@ public class MainMenuManager : MonoBehaviour
     private Transform LeftScrollViewContentPanel;
     private GameObject buttonPrefab2;
 
-    private GameObject SummonPanel;
+    private GameObject SummonPanelPrefab;
     private Transform PositionPanel;
     private GameObject summonObject;
     private Transform CurrencyPanel;
     private GameObject currentObject;
-    private Material UI_Red_Gradient_Radius_Mat_MaskPercent_45;
+    private Material UI_Red_Gradient_Radius_Mat_MaskPercent_70;
     //Variable for pagination
     private int offset;
     private int currentPage;
@@ -88,15 +88,15 @@ public class MainMenuManager : MonoBehaviour
         rare = AppConstants.Rare.ALL;
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         MainPanelPrefab = UIManager.Instance.Get("MainPanelPrefab");
-        PopupButtonPrefab = UIManager.Instance.Get("PopupButtonPrefab");
+        PopupButtonPanelPrefab = UIManager.Instance.Get("PopupButtonPanelPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         buttonPrefab2 = UIManager.Instance.Get("TabButton2");
-        DictionaryPanel = UIManager.Instance.Get("DictionaryPanelPrefab");
+        DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
-        SummonPanel = UIManager.Instance.Get("SummonPanelPrefab");
+        SummonPanelPrefab = UIManager.Instance.Get("SummonPanelPrefab");
         PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
         ArenaPanelPrefab = UIManager.Instance.Get("ArenaPanelPrefab");
         AnimePanelPrefab = UIManager.Instance.Get("AnimePanelPrefab");
@@ -104,7 +104,7 @@ public class MainMenuManager : MonoBehaviour
         MasterBoardPanelPrefab = UIManager.Instance.Get("MasterBoardPanelPrefab");
         FeaturePanelPrefab = UIManager.Instance.Get("FeaturePanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
-        UI_Red_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_45");
+        UI_Red_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_70");
         fontSize = 24;
     }
     public void CreateMainPanel()
@@ -136,7 +136,7 @@ public class MainMenuManager : MonoBehaviour
         inventoryButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupButtonPanel = Instantiate(PopupButtonPrefab, MainPanel);
+            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
             CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
@@ -149,6 +149,12 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
+            RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
+            RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+            RawImage titleBackground = popupButtonPanel.transform.Find("TitleBackground").GetComponent<RawImage>();
+            closeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+            homeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+            titleBackground.texture =Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
             ButtonLoader.Instance.CreateInventoryButton(popupButtonPanel);
             GetMainButtonEvent(popupButtonPanel);
         });
@@ -156,7 +162,7 @@ public class MainMenuManager : MonoBehaviour
         eventButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupButtonPanel = Instantiate(PopupButtonPrefab, MainPanel);
+            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
             CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
@@ -169,6 +175,12 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
+            RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
+            RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+            RawImage titleBackground = popupButtonPanel.transform.Find("TitleBackground").GetComponent<RawImage>();
+            closeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+            homeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+            titleBackground.texture =Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
             ButtonLoader.Instance.CreateEventButton(popupButtonPanel);
             GetButtonEvent(popupButtonPanel);
         });
@@ -202,6 +214,12 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
+            RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
+            RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+            RawImage titleBackground = popupObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
+            closeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+            homeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+            titleBackground.texture =Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
             titleTMPText.text = LocalizationManager.Get(AppConstants.MainType.MASTER_BOARD);
             // FindObjectOfType<ButtonLoader>().CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             await MasterBoardController.Instance.CreateMasterBoardAsync(popupObject);
@@ -224,6 +242,12 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
+            RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
+            RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+            RawImage titleBackground = popupObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
+            closeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+            homeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+            titleBackground.texture =Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
             ButtonLoader.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             ScienceFictionManager.Instance.GetScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         });
@@ -308,6 +332,12 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
             });
+            RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
+            RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+            RawImage titleBackground = popupObject.transform.Find("TitleBackground").GetComponent<RawImage>();
+            closeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+            homeButtonBackground.texture =Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+            titleBackground.texture =Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
             await ButtonLoader.Instance.CreateArenaButtonAsync(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         });
 
@@ -353,13 +383,13 @@ public class MainMenuManager : MonoBehaviour
         var silver = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.SILVER);
         var diamond = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.DIAMOND);
 
-        Image goldImage = userInformationPanel.transform.Find("GoldCurrency/Image").GetComponent<Image>();
-        Image silverImage = userInformationPanel.transform.Find("SilverCurrency/Image").GetComponent<Image>();
-        Image diamondImage = userInformationPanel.transform.Find("DiamondCurrency/Image").GetComponent<Image>();
+        RawImage goldImage = userInformationPanel.transform.Find("GoldCurrency/Image").GetComponent<RawImage>();
+        RawImage silverImage = userInformationPanel.transform.Find("SilverCurrency/Image").GetComponent<RawImage>();
+        RawImage diamondImage = userInformationPanel.transform.Find("DiamondCurrency/Image").GetComponent<RawImage>();
 
-        goldImage.sprite = Resources.Load<Sprite>(ImageExtensionHandler.RemoveImageExtension(gold.Image));
-        silverImage.sprite = Resources.Load<Sprite>(ImageExtensionHandler.RemoveImageExtension(silver.Image));
-        diamondImage.sprite = Resources.Load<Sprite>(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
+        goldImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(gold.Image));
+        silverImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(silver.Image));
+        diamondImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
 
         TextMeshProUGUI goldText = userInformationPanel.transform.Find("GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI silverText = userInformationPanel.transform.Find("SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
@@ -456,7 +486,7 @@ public class MainMenuManager : MonoBehaviour
         {
             buttonType = "button2";
             canUseRareButton = false;
-            summonObject = Instantiate(SummonPanel, MainPanel);
+            summonObject = Instantiate(SummonPanelPrefab, MainPanel);
             DictionaryContentPanel = summonObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             LeftScrollViewContentPanel = summonObject.transform.Find("Scroll View/Viewport/ButtonContent");
             PositionPanel = summonObject.transform.Find("DictionaryCards/Position");
@@ -604,7 +634,7 @@ public class MainMenuManager : MonoBehaviour
         {
             buttonType = "button1";
             canUseRareButton = true;
-            GameObject mainMenuObject = Instantiate(DictionaryPanel, MainPanel);
+            GameObject mainMenuObject = Instantiate(DictionaryPanelPrefab, MainPanel);
             DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
             LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
@@ -636,8 +666,8 @@ public class MainMenuManager : MonoBehaviour
                 ChangePreviousPage();
             });
 
-            RawImage topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<RawImage>();
-            topBackgroundImage.material = UI_Red_Gradient_Radius_Mat_MaskPercent_45;
+            Image topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
+            topBackgroundImage.material = UI_Red_Gradient_Radius_Mat_MaskPercent_70;
             TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
             subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.INVENTORY);
 
@@ -699,8 +729,8 @@ public class MainMenuManager : MonoBehaviour
                 GameObject button = null;
                 if (buttonType.Equals("button1"))
                 {
-                    button = Instantiate(buttonPrefab, LeftScrollViewContentPanel);
-                    Text buttonText = button.GetComponentInChildren<Text>();
+                    button = Instantiate(TypeButtonPrefab, LeftScrollViewContentPanel);
+                    TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                     buttonText.text = subType.Replace("_", " ");
                 }
                 else if (buttonType.Equals("button2"))

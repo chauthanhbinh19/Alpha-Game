@@ -40,7 +40,7 @@ public class ArchitecturesController : MonoBehaviour
         ArchitectureButtonPrefab = UIManager.Instance.Get("ArchitectureButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateArchitecturesGallery(List<Architectures> architectures, Transform contentPanel)

@@ -40,7 +40,7 @@ public class ItemsController : MonoBehaviour
         equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
         ItemShopButtonPrefab = UIManager.Instance.Get("ItemShopButtonPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public async Task CreateItemsTradeAsync(List<Items> items, Currencies currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)

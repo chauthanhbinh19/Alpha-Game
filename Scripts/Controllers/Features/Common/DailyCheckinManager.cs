@@ -38,7 +38,7 @@ public class DailyCheckinManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        buttonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         DailyCheckinPanelPrefab = UIManager.Instance.Get("DailyCheckinPanelPrefab");
         DailyCheckinComponentPrefab = UIManager.Instance.Get("DailyCheckinComponentPrefab");
     }
@@ -180,7 +180,7 @@ public class DailyCheckinManager : MonoBehaviour
                 string subType = uniqueType;
                 GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = uniqueType.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

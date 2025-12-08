@@ -15,6 +15,8 @@ Shader "Unlit/UI_Gradient_Radius_RawImage"
         _StencilWriteMask ("Stencil Write Mask", Float) = 255
         _StencilReadMask ("Stencil Read Mask", Float) = 255
         _ColorMask ("Color Mask", Float) = 15
+        _Color ("Tint Color", Color) = (1,1,1,1)
+
     }
 
     SubShader

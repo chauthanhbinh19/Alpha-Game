@@ -56,7 +56,7 @@ public class MaterialManager : MonoBehaviour
         {
             // Key = tên prefab
             materialDict[material.name] = material;
-            // Debug.Log($"Loaded: {prefab.name}");
+            // Debug.Log($"Loaded: {material.name}");
         }
     }
 

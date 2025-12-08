@@ -40,7 +40,7 @@ public class TalismansController : MonoBehaviour
         TalismanButtonPrefab = UIManager.Instance.Get("TalismanButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateTalismanGallery(List<Talismans> talismans, Transform contentPanel)

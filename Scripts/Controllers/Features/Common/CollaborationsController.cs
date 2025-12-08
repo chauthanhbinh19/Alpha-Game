@@ -40,7 +40,7 @@ public class CollaborationsController : MonoBehaviour
         CollaborationButtonPrefab = UIManager.Instance.Get("CollaborationButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCollaborationGallery(List<Collaborations> collaborationList, Transform contentPanel)

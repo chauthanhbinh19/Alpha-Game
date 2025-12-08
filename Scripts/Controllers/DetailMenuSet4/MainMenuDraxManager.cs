@@ -12,7 +12,7 @@ public class MainMenuDraxManager : MonoBehaviour
     private Transform SlotPanel;
     private GameObject MainMenuDraxPanelPrefab;
     private GameObject SlotPrefab;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject currentObject;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
@@ -29,7 +29,7 @@ public class MainMenuDraxManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuDraxPanelPrefab = UIManager.Instance.Get("MainMenuDraxPanelPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         SlotPrefab = UIManager.Instance.Get("DraxSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
@@ -70,9 +70,9 @@ public class MainMenuDraxManager : MonoBehaviour
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
                 int value = kvp.Value;
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

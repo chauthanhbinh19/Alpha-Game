@@ -43,10 +43,10 @@ public class CurrenciesManager : MonoBehaviour
             Title.text = currency.Quantity.ToString();
             Title.text = NumberFormatter.FormatNumber(currency.Quantity, false);
 
-            Image Image = currencyObject.transform.Find("Image").GetComponent<Image>();
+            RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
-            Sprite sprite = Resources.Load<Sprite>($"{fileNameWithoutExtension}");
-            Image.sprite = sprite;
+            Texture texutre = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texutre;
         }
         GridLayoutGroup gridLayout = CurrencyPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -64,10 +64,10 @@ public class CurrenciesManager : MonoBehaviour
             TextMeshProUGUI Title = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             Title.text = NumberFormatter.FormatNumber(item.Quantity, false);
 
-            Image Image = currencyObject.transform.Find("Image").GetComponent<Image>();
+            RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
-            Sprite sprite = Resources.Load<Sprite>($"{fileNameWithoutExtension}");
-            Image.sprite = sprite;
+            Texture texutre = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Image.texture = texutre;
         }
         GridLayoutGroup gridLayout = itemPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

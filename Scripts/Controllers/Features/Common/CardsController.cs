@@ -40,7 +40,7 @@ public class CardsController : MonoBehaviour
         CardButtonPrefab = UIManager.Instance.Get("CardButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCardsGallery(List<Cards> cards, Transform contentPanel)

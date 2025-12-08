@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 public class GalleryManager : MonoBehaviour
 {
     private Transform galleryMenuPanel;
-    private GameObject buttonPrefab;
-    private GameObject DictionaryPanel;
+    private GameObject TypeButtonPrefab;
+    private GameObject DictionaryPanelPrefab;
     private GameObject RareButtonPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
-    private Material UI_Blue_Gradient_Radius_Mat_MaskPercent_45;
+    private Material UI_Blue_Gradient_Radius_Mat_MaskPercent_70;
     private Button CloseButton;
     private Button HomeButton;
     //Variable for pagination
@@ -42,11 +42,11 @@ public class GalleryManager : MonoBehaviour
         pageSize = 100;
         rare = AppConstants.Rare.ALL;
         galleryMenuPanel = GalleryMenuPanel;
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
-        DictionaryPanel = UIManager.Instance.Get("DictionaryPanelPrefab");
+        DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UI_Blue_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_45");
+        UI_Blue_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_70");
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK));
@@ -113,13 +113,13 @@ public class GalleryManager : MonoBehaviour
     public void GetType(string type)
     {
         mainType = type; // Gán giá trị cho mainType
-        _=GetButtonTypeAsync(); // Gọi hàm xử lý
+        _ = GetButtonTypeAsync(); // Gọi hàm xử lý
         titleText.text = LocalizationManager.Get(type);
     }
     public async Task GetButtonTypeAsync()
     {
         // DictionaryPanel.SetActive(true);
-        GameObject mainMenuObject = Instantiate(DictionaryPanel, MainPanel);
+        GameObject mainMenuObject = Instantiate(DictionaryPanelPrefab, MainPanel);
         DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
         RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
         LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
@@ -151,8 +151,8 @@ public class GalleryManager : MonoBehaviour
             ChangePreviousPage();
         });
 
-        RawImage topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<RawImage>();
-        topBackgroundImage.material = UI_Blue_Gradient_Radius_Mat_MaskPercent_45;
+        Image topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
+        topBackgroundImage.material = UI_Blue_Gradient_Radius_Mat_MaskPercent_70;
         TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
         subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GALLERY);
 
@@ -202,9 +202,9 @@ public class GalleryManager : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subType = uniqueTypes[i];
-                GameObject button = Instantiate(buttonPrefab, LeftScrollViewContentPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, LeftScrollViewContentPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subType.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();
@@ -218,7 +218,7 @@ public class GalleryManager : MonoBehaviour
                 {
                     type = subType;
                     ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                    _=LoadCurrentPageAsync();
+                    _ = LoadCurrentPageAsync();
                 }
                 else
                 {
@@ -228,7 +228,7 @@ public class GalleryManager : MonoBehaviour
         }
         else
         {
-            _=LoadCurrentPageAsync();
+            _ = LoadCurrentPageAsync();
         }
         LoadAnimation();
     }
@@ -275,7 +275,7 @@ public class GalleryManager : MonoBehaviour
             }
         }
 
-        _=LoadCurrentPageAsync();
+        _ = LoadCurrentPageAsync();
     }
     public void OnRareTabButtonClick(GameObject clickedButton, string selectedRare)
     {
@@ -295,7 +295,7 @@ public class GalleryManager : MonoBehaviour
         ClearAllPrefabs();
         clickedButton.transform.Find("Active").gameObject.SetActive(true);
         clickedButton.transform.Find("Unactive").gameObject.SetActive(false);
-        _=LoadCurrentPageAsync();
+        _ = LoadCurrentPageAsync();
     }
     public async Task LoadCurrentPageAsync()
     {
@@ -629,7 +629,7 @@ public class GalleryManager : MonoBehaviour
             ClearAllPrefabs();
             currentPage = currentPage + 1;
             offset = offset + pageSize;
-            _=LoadCurrentPageAsync();
+            _ = LoadCurrentPageAsync();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
@@ -642,7 +642,7 @@ public class GalleryManager : MonoBehaviour
             ClearAllPrefabs();
             currentPage = currentPage - 1;
             offset = offset - pageSize;
-            _=LoadCurrentPageAsync();
+            _ = LoadCurrentPageAsync();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }

@@ -12,7 +12,7 @@ public class MainMenuRyzeManager : MonoBehaviour
     private Transform SlotPanel;
     private GameObject MainMenuRyzePanelPrefab;
     private GameObject SlotPrefab;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject currentObject;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
@@ -29,7 +29,7 @@ public class MainMenuRyzeManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuRyzePanelPrefab = UIManager.Instance.Get("MainMenuRyzePanelPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         SlotPrefab = UIManager.Instance.Get("RyzeSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
@@ -69,9 +69,9 @@ public class MainMenuRyzeManager : MonoBehaviour
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
                 int value = kvp.Value;
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

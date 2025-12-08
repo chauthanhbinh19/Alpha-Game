@@ -13,7 +13,7 @@ public class MasterOfAtomicManager : MonoBehaviour
     private Transform SlotPanel;
     private GameObject MasterOfAtomicPanelPrefab;
     private GameObject SlotPrefab;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject currentObject;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
@@ -43,7 +43,7 @@ public class MasterOfAtomicManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MasterOfAtomicPanelPrefab = UIManager.Instance.Get("MasterOfAtomicPanelPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         SlotPrefab = UIManager.Instance.Get("MasterOfAtomicSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
@@ -83,9 +83,9 @@ public class MasterOfAtomicManager : MonoBehaviour
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
                 int value = kvp.Value;
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

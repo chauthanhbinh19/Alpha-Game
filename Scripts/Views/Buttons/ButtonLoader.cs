@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class ButtonLoader : MonoBehaviour
 {
-    private GameObject buttonPrefab; // Prefab của button
+    private GameObject ItemButtonPrefab; // Prefab của button
     private GameObject MainButtonPrefab;
     private GameObject TabButton4;
     private GameObject TabButton6;
@@ -43,7 +43,7 @@ public class ButtonLoader : MonoBehaviour
 
     public void Initialize()
     {
-        buttonPrefab = UIManager.Instance.Get("buttonPrefab");
+        ItemButtonPrefab = UIManager.Instance.Get("ItemButtonPrefab");
         MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
         TabButton4 = UIManager.Instance.Get("TabButton4");
         TabButton6 = UIManager.Instance.Get("TabButton6");
@@ -164,7 +164,7 @@ public class ButtonLoader : MonoBehaviour
     private void CreateButtonWithName(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(buttonPrefab, panel);
+        GameObject newButton = Instantiate(ItemButtonPrefab, panel);
         newButton.name = itemName;
 
         // Gán màu cho itemBackground
@@ -381,7 +381,7 @@ public class ButtonLoader : MonoBehaviour
     private void CreateGalleryButtonUI(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(buttonPrefab, panel);
+        GameObject newButton = Instantiate(ItemButtonPrefab, panel);
         newButton.name = "Button_" + index;
 
         // Gán màu cho itemBackground
@@ -456,7 +456,7 @@ public class ButtonLoader : MonoBehaviour
     private void CreateCollectionButtonUI(int index, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(buttonPrefab, panel);
+        GameObject newButton = Instantiate(ItemButtonPrefab, panel);
         newButton.name = "Button_" + index;
 
         // Gán màu cho itemBackground

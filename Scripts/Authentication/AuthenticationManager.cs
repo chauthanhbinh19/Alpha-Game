@@ -51,7 +51,7 @@ public class AuthenticationManager : MonoBehaviour
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         signInPanel = UIManager.Instance.Get("SignInPanelPrefab");
         signUpPanel = UIManager.Instance.Get("SignUpPanelPrefab");
-        createNamePanel = UIManager.Instance.Get("CreateNamePanel");
+        createNamePanel = UIManager.Instance.Get("CreateNamePanelPrefab");
         startButton = WaitingPanel.transform.Find("StartButton").GetComponent<Button>();
         createSignInButton = WaitingPanel.transform.Find("SignInButton").GetComponent<Button>();
 

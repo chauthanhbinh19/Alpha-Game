@@ -40,7 +40,7 @@ public class MedalsController : MonoBehaviour
         MedalButtonPrefab = UIManager.Instance.Get("MedalButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateMedalsGallery(List<Medals> medals, Transform contentPanel)

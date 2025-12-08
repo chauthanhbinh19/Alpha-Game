@@ -41,7 +41,7 @@ public class TitlesController : MonoBehaviour
         TitleButtonPrefab = UIManager.Instance.Get("TitleButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateTitlesGallery(List<Titles> titles, Transform contentPanel)

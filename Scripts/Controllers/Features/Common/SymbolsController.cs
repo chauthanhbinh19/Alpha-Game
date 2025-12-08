@@ -40,7 +40,7 @@ public class SymbolsController : MonoBehaviour
         SymbolButtonPrefab = UIManager.Instance.Get("SymbolButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateSymbolsGallery(List<Symbols> symbols, Transform contentPanel)

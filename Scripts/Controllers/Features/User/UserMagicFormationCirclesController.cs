@@ -11,7 +11,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
 {
     public static UserMagicFormationCirclesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject MagicFormationCirlceButtonPrefab;
+    private GameObject MagicFormationCircleButtonPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
     private double increasePerUpgrade = 1.1;
@@ -39,7 +39,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MagicFormationCirlceButtonPrefab = UIManager.Instance.Get("MagicFormationCirlceButtonPrefab");
+        MagicFormationCircleButtonPrefab = UIManager.Instance.Get("MagicFormationCircleButtonPrefab");
         ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
@@ -48,7 +48,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
-            GameObject magicFormationCircleObject = Instantiate(MagicFormationCirlceButtonPrefab, contentPanel);
+            GameObject magicFormationCircleObject = Instantiate(MagicFormationCircleButtonPrefab, contentPanel);
 
             TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = magicFormationCircle.Name.Replace("_", " ");

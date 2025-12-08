@@ -13,7 +13,7 @@ public class MasterBoardController : MonoBehaviour
     private Transform TabButtonPanel;
     private Transform Content;
     private GameObject currentObject;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject MasterBoardNodePrefab;
     private GameObject MasterBoardPopupPrefab;
     private string mainType;
@@ -39,7 +39,7 @@ public class MasterBoardController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         MasterBoardNodePrefab = UIManager.Instance.Get("MasterBoardNodePrefab");
         MasterBoardPopupPrefab = UIManager.Instance.Get("MasterBoardPopupPrefab");
 
@@ -61,9 +61,9 @@ public class MasterBoardController : MonoBehaviour
             int index = 0;
             foreach (var name in uniqueTypes)
             {
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = name.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

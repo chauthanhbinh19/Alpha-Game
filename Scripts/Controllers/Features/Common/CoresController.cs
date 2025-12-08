@@ -40,7 +40,7 @@ public class CoresController : MonoBehaviour
         CoreButtonPrefab = UIManager.Instance.Get("CoreButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCoresGallery(List<Cores> CoresList, Transform contentPanel)

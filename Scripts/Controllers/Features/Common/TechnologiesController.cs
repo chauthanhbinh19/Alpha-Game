@@ -40,7 +40,7 @@ public class TechnologiesController : MonoBehaviour
         TechnologyButtonPrefab = UIManager.Instance.Get("TechnologyButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateTechnologiesGallery(List<Technologies> technologies, Transform contentPanel)

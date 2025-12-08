@@ -12,7 +12,7 @@ public class MainMenuSpaceManager : MonoBehaviour
     private Transform SlotPanel;
     private GameObject MainMenuSpacePanelPrefab;
     private GameObject SlotPrefab;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject currentObject;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
@@ -29,7 +29,7 @@ public class MainMenuSpaceManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuSpacePanelPrefab = UIManager.Instance.Get("MainMenuSpacePanelPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         SlotPrefab = UIManager.Instance.Get("SpaceSlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
@@ -69,9 +69,9 @@ public class MainMenuSpaceManager : MonoBehaviour
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
                 int value = kvp.Value;
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

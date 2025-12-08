@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 public class CollectionManager : MonoBehaviour
 {
     private Transform collectionMenuPanel;
-    private GameObject buttonPrefab;
-    private GameObject DictionaryPanel;
+    private GameObject TypeButtonPrefab;
+    private GameObject DictionaryPanelPrefab;
     private GameObject RareButtonPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
-    private Material UI_Green_Gradient_Radius_Mat_MaskPercent_45;
+    private Material UI_Green_Gradient_Radius_Mat_MaskPercent_70;
     private Button CloseButton;
     private Button HomeButton;
     //Variable for pagination
@@ -43,11 +43,11 @@ public class CollectionManager : MonoBehaviour
         pageSize = 100;
         rare = AppConstants.Rare.ALL;
         collectionMenuPanel = CollectionMenuPanel;
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
-        DictionaryPanel = UIManager.Instance.Get("DictionaryPanelPrefab");
+        DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UI_Green_Gradient_Radius_Mat_MaskPercent_45 = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_45");
+        UI_Green_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_70");
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK));
@@ -119,7 +119,7 @@ public class CollectionManager : MonoBehaviour
     public async Task GetButtonTypeAsync()
     {
         // DictionaryPanel.SetActive(true);
-        GameObject mainMenuObject = Instantiate(DictionaryPanel, MainPanel);
+        GameObject mainMenuObject = Instantiate(DictionaryPanelPrefab, MainPanel);
         DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
         RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
         LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
@@ -151,8 +151,8 @@ public class CollectionManager : MonoBehaviour
             ChangePreviousPage();
         });
 
-        RawImage topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<RawImage>();
-        topBackgroundImage.material = UI_Green_Gradient_Radius_Mat_MaskPercent_45;
+        Image topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
+        topBackgroundImage.material = UI_Green_Gradient_Radius_Mat_MaskPercent_70;
         TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
         subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLECTION);
 
@@ -203,9 +203,9 @@ public class CollectionManager : MonoBehaviour
             for (int i = 0; i < uniqueTypes.Count; i++)
             {
                 string subType = uniqueTypes[i];
-                GameObject button = Instantiate(buttonPrefab, LeftScrollViewContentPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, LeftScrollViewContentPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subType.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

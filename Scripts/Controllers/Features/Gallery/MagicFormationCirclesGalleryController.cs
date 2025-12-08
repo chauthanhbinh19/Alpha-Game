@@ -10,7 +10,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
 {
     public static MagicFormationCirclesGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject MagicFormationCirlceBlockButtonPrefab;
+    private GameObject MagicFormationCircleBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -33,7 +33,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MagicFormationCirlceBlockButtonPrefab = UIManager.Instance.Get("MagicFormationCirlceBlockButtonPrefab");
+        MagicFormationCircleBlockButtonPrefab = UIManager.Instance.Get("MagicFormationCircleBlockButtonPrefab");
     }
     public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {
@@ -41,7 +41,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
         {
             try
             {
-                GameObject magicFormationCircleObject = Instantiate(MagicFormationCirlceBlockButtonPrefab, contentPanel);
+                GameObject magicFormationCircleObject = Instantiate(MagicFormationCircleBlockButtonPrefab, contentPanel);
 
                 TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 Title.text = magicFormationCircle.Name.Replace("_", " ");

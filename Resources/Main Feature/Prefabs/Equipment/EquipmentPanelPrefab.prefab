@@ -219,7 +219,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 878bbef7c3d82694886b0df1b6cab704, type: 3}
+  m_Texture: {fileID: 2800000, guid: aaa594eadd4a369448e920723e248a54, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -414,7 +414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4193796301188756373}
   m_Layer: 5
-  m_Name: EquipmentPanel
+  m_Name: EquipmentPanelPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -666,7 +666,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 1dd4903df8c67b74ebec5d3ffd8ae8ee, type: 3}
+  m_Texture: {fileID: 2800000, guid: d304cb80b1f3f854aab2c00f5e9c0974, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -785,7 +785,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 7157cca7519eed247b5434cdfcef142f, type: 3}
+  m_Texture: {fileID: 2800000, guid: d02b5a39f88e0d84e92bf3af2cba12e2, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -904,7 +904,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 7157cca7519eed247b5434cdfcef142f, type: 3}
+  m_Texture: {fileID: 2800000, guid: d02b5a39f88e0d84e92bf3af2cba12e2, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 7157cca7519eed247b5434cdfcef142f, type: 3}
+  m_Texture: {fileID: 2800000, guid: d02b5a39f88e0d84e92bf3af2cba12e2, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1242,7 +1242,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 7157cca7519eed247b5434cdfcef142f, type: 3}
+  m_Texture: {fileID: 2800000, guid: d02b5a39f88e0d84e92bf3af2cba12e2, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1361,7 +1361,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 7157cca7519eed247b5434cdfcef142f, type: 3}
+  m_Texture: {fileID: 2800000, guid: d02b5a39f88e0d84e92bf3af2cba12e2, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1574,7 +1574,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 56a2ec7d20742134d96420fdb6890e03, type: 3}
+  m_Texture: {fileID: 2800000, guid: 68a1fca9d5913cf47bdc4f3cd78bad23, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1693,7 +1693,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 4fce120e3f4b6a04aa84e0ea0677012a, type: 3}
+  m_Texture: {fileID: 2800000, guid: 0e9fc311d9f95a44880bcbd82cb6f866, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1992,7 +1992,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 7fd1e7bee27fd5c4088b265d7f6e1133, type: 3}
+  m_Texture: {fileID: 2800000, guid: 84192ffa84484204494a0946faeedae5, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

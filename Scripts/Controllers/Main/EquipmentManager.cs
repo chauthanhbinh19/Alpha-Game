@@ -15,11 +15,11 @@ public class EquipmentManager : MonoBehaviour
     private GameObject ItemsPrefab;
     private GameObject EquipmentsPanelPrefab;
     // public Transform content;
-    private GameObject MainMenuPanel;
+    private GameObject MainMenuPanelPrefab;
     private Transform MainMenuContent;
-    private GameObject MainMenuShopPanel;
+    private GameObject MainMenuShopPanelPrefab;
     private Transform MainMenuShopContent;
-    private GameObject MainMenuEnhancementPanel;
+    private GameObject MainMenuEnhancementPanelPrefab;
     private Transform MainMenuEnhancementContent;
     private GameObject MainMenuCampaignPanel;
     private GameObject equipmentsPrefab;
@@ -50,9 +50,9 @@ public class EquipmentManager : MonoBehaviour
         equipmentMenuPanel = EquipmentMenuPanel.gameObject;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ItemsPrefab = UIManager.Instance.Get("ItemPrefab");
-        MainMenuPanel = UIManager.Instance.Get("MainMenuPanel");
-        MainMenuShopPanel = UIManager.Instance.Get("MainMenuShopPanel");
-        MainMenuEnhancementPanel = UIManager.Instance.Get("MainMenuEnhancementPanel");
+        MainMenuPanelPrefab = UIManager.Instance.Get("MainMenuPanelPrefab");
+        MainMenuShopPanelPrefab = UIManager.Instance.Get("MainMenuShopPanelPrefab");
+        MainMenuEnhancementPanelPrefab = UIManager.Instance.Get("MainMenuEnhancementPanelPrefab");
         MainMenuCampaignPanel = UIManager.Instance.Get("MainMenuCampaignPanel");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
@@ -67,9 +67,9 @@ public class EquipmentManager : MonoBehaviour
         ReceivedNotification = UIManager.Instance.Get("ReceivedNotification");
         ItemThird = UIManager.Instance.Get("ItemThird");
 
-        MainMenuContent = MainMenuPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
-        MainMenuShopContent = MainMenuShopPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel").GetComponent<Transform>();
-        MainMenuEnhancementContent = MainMenuEnhancementPanel.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel").GetComponent<Transform>();
+        MainMenuContent = MainMenuPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
+        MainMenuShopContent = MainMenuShopPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel").GetComponent<Transform>();
+        MainMenuEnhancementContent = MainMenuEnhancementPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel").GetComponent<Transform>();
         // Lấy tất cả các button con trong equipmentMenuPanel
         Button[] buttons = equipmentMenuPanel.GetComponentsInChildren<Button>();
         foreach (Button button in buttons)
@@ -341,7 +341,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetBagAsync(string type)
     {
-        currentObject = Instantiate(MainMenuPanel, MainPanel);
+        currentObject = Instantiate(MainMenuPanelPrefab, MainPanel);
         int totalRecord = 0;
         var userEquipmentsService = UserEquipmentsService.Create();
         List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, type, pageSize, offset, rare);
@@ -400,7 +400,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetShopAsync(string type)
     {
-        currentObject = Instantiate(MainMenuShopPanel, MainPanel);
+        currentObject = Instantiate(MainMenuShopPanelPrefab, MainPanel);
         int totalRecord = 0;
         var equipmentsService = EquipmentsService.Create();
         List<Equipments> equipments = await equipmentsService.GetEquipmentsWithCurrencyAsync(type, pageSize, offset);
@@ -457,7 +457,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetEnhancementAsync(string type)
     {
-        currentObject = Instantiate(MainMenuEnhancementPanel, MainPanel);
+        currentObject = Instantiate(MainMenuEnhancementPanelPrefab, MainPanel);
         int totalRecord = 0;
         var userEquipmentsService = UserEquipmentsService.Create();
         List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, type, pageSize, offset, rare);

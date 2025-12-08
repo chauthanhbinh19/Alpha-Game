@@ -40,7 +40,7 @@ public class CardMilitariesController : MonoBehaviour
         cardsPrefab = UIManager.Instance.Get("CardsPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateCardMilitaryGallery(List<CardMilitaries> militaryList, Transform contentPanel)

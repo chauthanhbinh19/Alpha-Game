@@ -13,7 +13,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
     private Transform SlotPanel;
     private GameObject MainMenuOmnivoryPanelPrefab;
     private GameObject SlotPrefab;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject currentObject;
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
@@ -30,7 +30,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuOmnivoryPanelPrefab = UIManager.Instance.Get("MainMenuOmnivoryPanelPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         SlotPrefab = UIManager.Instance.Get("OmnivorySlotPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }
@@ -56,6 +56,16 @@ public class MainMenuOmnivoryManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
+        RawImage background = currentObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
+        background.texture = Resources.Load<Texture>(ImageConstants.Background.BACKGROUND_52_URL);
+        RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
+        RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+        closeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+        homeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+        RawImage scrollViewBackground = currentObject.transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
+        scrollViewBackground.texture = Resources.Load<Texture>(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
+        RawImage titleBackground = currentObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
+        titleBackground.texture = Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
 
         LevelCondition = currentObject.transform.Find("DictionaryCards/LevelCondition");
 
@@ -70,9 +80,9 @@ public class MainMenuOmnivoryManager : MonoBehaviour
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
                 int value = kvp.Value;
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

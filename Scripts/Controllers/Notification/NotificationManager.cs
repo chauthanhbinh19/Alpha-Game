@@ -7,7 +7,7 @@ using TMPro;
 public class NotificationManager : MonoBehaviour
 {
     public static NotificationManager Instance { get; private set; }
-    private GameObject notificationPrefab; // Prefab chứa thông báo
+    private GameObject NotificationPrefab; // Prefab chứa thông báo
     private Transform notificationPanel; 
     private void Awake()
     {
@@ -29,12 +29,12 @@ public class NotificationManager : MonoBehaviour
     public void Initialize()
     {
         notificationPanel = UIManager.Instance.GetTransform("notificationPanel");
-        notificationPrefab = UIManager.Instance.Get("notificationPrefab");
+        NotificationPrefab = UIManager.Instance.Get("NotificationPrefab");
     }
     public void ShowNotification(string message)
     {
         // Tạo thông báo từ prefab
-        GameObject notification = Instantiate(notificationPrefab, notificationPanel);
+        GameObject notification = Instantiate(NotificationPrefab, notificationPanel);
         
         // Đặt thông báo ở giữa màn hình
         RectTransform rectTransform = notification.GetComponent<RectTransform>();

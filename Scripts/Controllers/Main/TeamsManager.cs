@@ -24,7 +24,6 @@ public class TeamsManager : MonoBehaviour
     private GameObject PositionPrefab;
     private Button CloseButton;
     private Button HomeButton;
-    private GameObject buttonPrefab;
     private TextMeshProUGUI powerText;
     // private int offset;
     private int currentPage;
@@ -73,15 +72,14 @@ public class TeamsManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         cardsPrefab3 = UIManager.Instance.Get("CardsThirdPrefab");
-        PopupTeamFirstPrefab = UIManager.Instance.Get("PopupTeamFirstPrefab");
-        PopupTeamSecondPrefab = UIManager.Instance.Get("PopupTeamSecondPrefab");
+        PopupTeamFirstPrefab = UIManager.Instance.Get("PopupTeamFirstPanelPrefab");
+        PopupTeamSecondPrefab = UIManager.Instance.Get("PopupTeamSecondPanelPrefab");
         TeamsPanelPrefab = UIManager.Instance.Get("TeamsPanelPrefab");
         TeamsPositionPrefab = UIManager.Instance.Get("TeamsPositionPrefab");
         TeamTypePrefab = UIManager.Instance.Get("TeamTypePrefab");
         TeamSlotPrefab = UIManager.Instance.Get("TeamSlotPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
 
         userCardHeroesService = UserCardHeroesService.Create();
         userCardCaptainsService = UserCardCaptainsService.Create();

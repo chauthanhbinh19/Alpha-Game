@@ -19,7 +19,7 @@ public class ShopManager : MonoBehaviour
     private GameObject ShopManagerPrefab;
     private GameObject currentObject;
     private GameObject ShopPrefab;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject equipmentsShopPrefab;
     private Transform popupPanel;
     private RawImage firstDecorationImage;
@@ -66,7 +66,7 @@ public class ShopManager : MonoBehaviour
         ShopButtonPrefab = UIManager.Instance.Get("ShopButtonPrefab");
         ShopManagerPrefab = UIManager.Instance.Get("ShopManagerPrefab");
         ShopPrefab = UIManager.Instance.Get("ShopPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         equipmentsShopPrefab = UIManager.Instance.Get("equipmentsShopPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
@@ -149,6 +149,9 @@ public class ShopManager : MonoBehaviour
         CreateButton(33, AppDisplayConstants.MainType.CORES, Resources.Load<Texture2D>(ImageConstants.Gallery.CORE_URL), tempContent);
         CreateButton(34, AppDisplayConstants.MainType.WEAPONS, Resources.Load<Texture2D>(ImageConstants.Gallery.WEAPON_URL), tempContent);
         CreateButton(35, AppDisplayConstants.MainType.ROBOTS, Resources.Load<Texture2D>(ImageConstants.Gallery.ROBOT_URL), tempContent);
+        CreateButton(36, AppDisplayConstants.MainType.BADGES, Resources.Load<Texture2D>(ImageConstants.Gallery.BADGE_URL), tempContent);
+        CreateButton(37, AppDisplayConstants.MainType.MECHA_BEAST, Resources.Load<Texture2D>(ImageConstants.Gallery.MECHA_BEAST_URL), tempContent);
+        CreateButton(38, AppDisplayConstants.MainType.RUNES, Resources.Load<Texture2D>(ImageConstants.Gallery.RUNE_URL), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.MainType.BOOK));
@@ -185,6 +188,9 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_33", tempContent, () => GetType(AppConstants.MainType.CORE));
         AssignButtonEvent("Button_34", tempContent, () => GetType(AppConstants.MainType.WEAPON));
         AssignButtonEvent("Button_35", tempContent, () => GetType(AppConstants.MainType.ROBOT));
+        AssignButtonEvent("Button_36", tempContent, () => GetType(AppConstants.MainType.BADGE));
+        AssignButtonEvent("Button_37", tempContent, () => GetType(AppConstants.MainType.MECHA_BEAST));
+        AssignButtonEvent("Button_38", tempContent, () => GetType(AppConstants.MainType.RUNE));
 
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -263,9 +269,9 @@ public class ShopManager : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = uniqueTypes[i];
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

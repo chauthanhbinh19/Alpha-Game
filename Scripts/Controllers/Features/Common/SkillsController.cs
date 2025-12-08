@@ -40,7 +40,7 @@ public class SkillsController : MonoBehaviour
         SkillButtonPrefab = UIManager.Instance.Get("SkillButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateSkillsGallery(List<Skills> skills, Transform contentPanel)

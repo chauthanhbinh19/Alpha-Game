@@ -152,7 +152,7 @@ public class UIManager : MonoBehaviour
     {
         if (prefabDict.TryGetValue(prefabName, out var prefab))
         {
-            // Debug.Log("Prefab OK");
+            // Debug.Log(prefabName);
             return prefab;
         }
 

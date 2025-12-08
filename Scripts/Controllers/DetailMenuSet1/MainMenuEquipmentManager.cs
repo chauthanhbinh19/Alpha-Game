@@ -13,7 +13,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private Transform TabButtonPanel;
     private Transform SlotPanel;
     private Transform SetPanel;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject MainMenuEquipmentPanelPrefab;
     private GameObject PopupEquipmentsPanelPrefab;
     private GameObject EquipmentsWearingPrefab;
@@ -56,7 +56,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         MainMenuEquipmentPanelPrefab = UIManager.Instance.Get("MainMenuEquipmentPanelPrefab");
         PopupEquipmentsPanelPrefab = UIManager.Instance.Get("PopupEquipmentsPanelPrefab");
         EquipmentsWearingPrefab = UIManager.Instance.Get("EquipmentsWearingPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         Slot1Prefab = UIManager.Instance.Get("Slot1Prefab");
         Slot4Prefab = UIManager.Instance.Get("Slot4Prefab");
         Slot6Prefab = UIManager.Instance.Get("Slot6Prefab");
@@ -91,6 +91,16 @@ public class MainMenuEquipmentManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
+        RawImage background = currentObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
+        background.texture = Resources.Load<Texture>(ImageConstants.Background.BACKGROUND_52_URL);
+        RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
+        RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+        closeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+        homeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+        RawImage scrollViewBackground = currentObject.transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
+        scrollViewBackground.texture = Resources.Load<Texture>(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
+        RawImage titleBackground = currentObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
+        titleBackground.texture = Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
 
         List<string> uniqueTypes = await EquipmentsService.Create().GetUniqueEquipmentsTypesAsync();
         if (uniqueTypes.Count > 0)
@@ -99,9 +109,9 @@ public class MainMenuEquipmentManager : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = uniqueTypes[i];
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

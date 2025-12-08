@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UI_Green_Gradient_Radius_Mat_MaskPercent_45
+  m_Name: UI_Green_Gradient_Radius_Mat_MaskPercent_60
   m_Shader: {fileID: 4800000, guid: 925b8550e32851f4fad4c4b821f0f058, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

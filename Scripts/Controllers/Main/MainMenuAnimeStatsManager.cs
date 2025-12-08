@@ -12,7 +12,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     private Transform SlotPanel;
     private GameObject MainMenuAnimePanelPrefab;
     private GameObject AnimeSlotPrefab;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject currentObject;
     private GameObject slotObject;
     private GameObject ElementDetails2Prefab;
@@ -33,7 +33,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuAnimePanelPrefab = UIManager.Instance.Get("MainMenuAnimePanelPrefab");
-        buttonPrefab = UIManager.Instance.Get("TabButton");
+        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         AnimeSlotPrefab = UIManager.Instance.Get("AnimeSlotPrefab");
         ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
 
@@ -90,9 +90,9 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
                 int value = kvp.Value;
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
-                Text buttonText = button.GetComponentInChildren<Text>();
+                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("_", " ");
 
                 Button btn = button.GetComponent<Button>();

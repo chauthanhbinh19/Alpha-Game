@@ -10,7 +10,7 @@ public class MagicFormationCirclesController : MonoBehaviour
 {
     public static MagicFormationCirclesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject MagicFormationCirlceButtonPrefab;
+    private GameObject MagicFormationCircleButtonPrefab;
     private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,17 +37,17 @@ public class MagicFormationCirclesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MagicFormationCirlceButtonPrefab = UIManager.Instance.Get("MagicFormationCirlceButtonPrefab");
+        MagicFormationCircleButtonPrefab = UIManager.Instance.Get("MagicFormationCircleButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
-            GameObject magicFormationCircleObject = Instantiate(MagicFormationCirlceButtonPrefab, contentPanel);
+            GameObject magicFormationCircleObject = Instantiate(MagicFormationCircleButtonPrefab, contentPanel);
 
             TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = magicFormationCircle.Name.Replace("_", " ");

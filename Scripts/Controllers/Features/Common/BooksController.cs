@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -40,78 +41,85 @@ public class BooksController : MonoBehaviour
         BookButtonPrefab = UIManager.Instance.Get("BookButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotification");
+        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
     public void CreateBooksGallery(List<Books> books, Transform contentPanel)
     {
         foreach (var book in books)
         {
-            GameObject bookObject = Instantiate(BookButtonPrefab, contentPanel);
-
-            TextMeshProUGUI Title = bookObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = book.Name.Replace("_", " ");
-
-            RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            image.texture = texture;
-
-            // Kích thước của RawImage (khung hiển thị)
-            RectTransform rect = image.GetComponent<RectTransform>();
-            float maxWidth = rect.rect.width;
-            float maxHeight = rect.rect.height;
-
-            // Kích thước thật của texture
-            float texWidth = texture.width;
-            float texHeight = texture.height;
-
-            // Tính scale để texture nằm gọn trong khung
-            float widthRatio = maxWidth / texWidth;
-            float heightRatio = maxHeight / texHeight;
-            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
-
-            // Áp dụng scale theo tỉ lệ đúng
-            image.SetNativeSize();
-            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
-
-            Button button = bookObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            try
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(book, MainPanel);
-            });
+                GameObject bookObject = Instantiate(BookButtonPrefab, contentPanel);
 
-            RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
-            rareImage.texture = rareTexture;
-            // Đặt kích thước gốc
-            image.SetNativeSize();
+                TextMeshProUGUI Title = bookObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = book.Name.Replace("_", " ");
 
-            // Thay đổi tỉ lệ
-            if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
-            {
-                image.transform.localScale = new Vector3(0.32f, 0.32f, 0.32f);
+                RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                image.texture = texture;
+
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                Button button = bookObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(book, MainPanel);
+                });
+
+                RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
+                rareImage.texture = rareTexture;
+                // Đặt kích thước gốc
+                image.SetNativeSize();
+
+                // Thay đổi tỉ lệ
+                if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
+                {
+                    image.transform.localScale = new Vector3(0.32f, 0.32f, 0.32f);
+                }
+                else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
+                {
+                    image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
+                }
+                else if (texture.width <= 700 && texture.height <= 700)
+                {
+                    image.transform.localScale = new Vector3(0.60f, 0.6f, 0.6f);
+                }
+                else if (texture.width <= 700 && texture.height <= 1100)
+                {
+                    image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                }
+                else if (texture.width > 700 && texture.height <= 700)
+                {
+                    image.transform.localScale = new Vector3(0.3f, 0.4f, 0.3f);
+                }
+                else
+                {
+                    image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
+                }
             }
-            else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
+            catch (Exception ex)
             {
-                image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
-            }
-            else if (texture.width <= 700 && texture.height <= 700)
-            {
-                image.transform.localScale = new Vector3(0.60f, 0.6f, 0.6f);
-            }
-            else if (texture.width <= 700 && texture.height <= 1100)
-            {
-                image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-            }
-            else if (texture.width > 700 && texture.height <= 700)
-            {
-                image.transform.localScale = new Vector3(0.3f, 0.4f, 0.3f);
-            }
-            else
-            {
-                image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
+                Debug.Log("Error:" + ex.Message);
             }
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -215,7 +223,7 @@ public class BooksController : MonoBehaviour
         RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
 
         TextMeshProUGUI buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
+        buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
         // Lấy thuộc tính `Id` và `Image` từ object
         var idProperty = obj.GetType().GetProperty(AppConstants.StatFields.ID);
         var imageProperty = obj.GetType().GetProperty(AppConstants.StatFields.IMAGE);
