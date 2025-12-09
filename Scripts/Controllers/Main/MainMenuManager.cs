@@ -131,7 +131,7 @@ public class MainMenuManager : MonoBehaviour
         Button missionButton = currentObject.transform.Find("RightButtonGroup/MissionButton").GetComponent<Button>();
         Button guildButton = currentObject.transform.Find("RightButtonGroup/GuildButton").GetComponent<Button>();
 
-        content.AddComponent<RotateAnimation>();
+        // content.gameObject.AddComponent<RotateAnimation>();
 
         inventoryButton.onClick.AddListener(() =>
         {

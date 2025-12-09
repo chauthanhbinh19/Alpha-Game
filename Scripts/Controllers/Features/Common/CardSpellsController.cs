@@ -43,29 +43,29 @@ public class CardSpellsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCardSpellGallery(List<CardSpells> spellList, Transform contentPanel)
+    public void CreateCardSpellGallery(List<CardSpells> cardSpells, Transform contentPanel)
     {
-        foreach (var spell in spellList)
+        foreach (var cardSpell in cardSpells)
         {
-            GameObject spellObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardSpellObject = Instantiate(cardsPrefab, contentPanel);
 
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.Name.Replace("_", " ");
+            Text Title = cardSpellObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = cardSpell.Name.Replace("_", " ");
 
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
+            RawImage Image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = spellObject.GetComponent<Button>();
+            Button button = cardSpellObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(spell, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardSpell, MainPanel);
             });
 
-            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
+            RawImage rareImage = cardSpellObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

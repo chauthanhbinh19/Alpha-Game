@@ -45,27 +45,27 @@ public class CardGeneralsController : MonoBehaviour
     }
     public void CreateCardGeneralsGallery(List<CardGenerals> cardGenerals, Transform contentPanel)
     {
-        foreach (var spell in cardGenerals)
+        foreach (var cardGeneral in cardGenerals)
         {
-            GameObject spellObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardGeneralObject = Instantiate(cardsPrefab, contentPanel);
 
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = spell.Name.Replace("_", " ");
+            Text Title = cardGeneralObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = cardGeneral.Name.Replace("_", " ");
 
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
+            RawImage Image = cardGeneralObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = spellObject.GetComponent<Button>();
+            Button button = cardGeneralObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(spell, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardGeneral, MainPanel);
             });
 
-            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
+            RawImage rareImage = cardGeneralObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardGeneral.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

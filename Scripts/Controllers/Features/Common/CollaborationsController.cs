@@ -43,9 +43,9 @@ public class CollaborationsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCollaborationGallery(List<Collaborations> collaborationList, Transform contentPanel)
+    public void CreateCollaborationGallery(List<Collaborations> collaborations, Transform contentPanel)
     {
-        foreach (var collaboration in collaborationList)
+        foreach (var collaboration in collaborations)
         {
             GameObject collaborationObject = Instantiate(CollaborationButtonPrefab, contentPanel);
 

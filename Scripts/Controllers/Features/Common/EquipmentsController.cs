@@ -33,9 +33,9 @@ public class EquipmentsController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
     }
-    public void CreateEquipmentsGallery(List<Equipments> equipmentList, Transform contentPanel)
+    public void CreateEquipmentsGallery(List<Equipments> equipments, Transform contentPanel)
     {
-        foreach (var equipment in equipmentList)
+        foreach (var equipment in equipments)
         {
             GameObject equipmentObject = Instantiate(equipmentsPrefab, contentPanel);
 

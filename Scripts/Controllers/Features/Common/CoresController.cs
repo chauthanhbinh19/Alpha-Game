@@ -43,9 +43,9 @@ public class CoresController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCoresGallery(List<Cores> CoresList, Transform contentPanel)
+    public void CreateCoresGallery(List<Cores> cores, Transform contentPanel)
     {
-        foreach (var core in CoresList)
+        foreach (var core in cores)
         {
             GameObject coreObject = Instantiate(CoreButtonPrefab, contentPanel);
 

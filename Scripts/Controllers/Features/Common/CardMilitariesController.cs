@@ -43,29 +43,29 @@ public class CardMilitariesController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCardMilitaryGallery(List<CardMilitaries> militaryList, Transform contentPanel)
+    public void CreateCardMilitaryGallery(List<CardMilitaries> cardMilitaries, Transform contentPanel)
     {
-        foreach (var military in militaryList)
+        foreach (var cardMilitary in cardMilitaries)
         {
-            GameObject militaryObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardMilitaryObject = Instantiate(cardsPrefab, contentPanel);
 
-            Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = military.Name.Replace("_", " ");
+            Text Title = cardMilitaryObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = cardMilitary.Name.Replace("_", " ");
 
-            RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Image);
+            RawImage Image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = militaryObject.GetComponent<Button>();
+            Button button = cardMilitaryObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(military, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardMilitary, MainPanel);
             });
 
-            RawImage rareImage = militaryObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.Rare}");
+            RawImage rareImage = cardMilitaryObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMilitary.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -237,8 +237,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ITEMS
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2ca85fcd427adf544a03ddd8a6f40907, type: 2}
+  m_sharedMaterial: {fileID: -2773168472792738541, guid: 2ca85fcd427adf544a03ddd8a6f40907, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: e551ae0b6f0f0144e83938aec5c17ec0, type: 3}
+  m_Texture: {fileID: 2800000, guid: 799bd6f7b0a8490409e4a212652add54, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -639,8 +639,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Spirit Beasts
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
+  m_sharedMaterial: {fileID: -5273589510770900895, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -772,7 +772,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: b9575cab3a3d2d641aeb7a0a9127e557, type: 3}
+  m_Texture: {fileID: 2800000, guid: 53072c63023ccc84dbb33826725d974e, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -941,8 +941,8 @@ RectTransform:
   m_GameObject: {fileID: 3908898190348956332}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1915164047438335219}
   - {fileID: 1323658628953715741}
@@ -992,7 +992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000065353146}
+  m_AnchoredPosition: {x: 0, y: 0.0000073424}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8039495752266338567
@@ -1165,8 +1165,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Chose your best options
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
+  m_sharedMaterial: {fileID: -5273589510770900895, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1242,7 +1242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7902153484548195681}
   - component: {fileID: 2012881763008146969}
-  - component: {fileID: 5175964438151219949}
+  - component: {fileID: 3167480032918237228}
   m_Layer: 5
   m_Name: TopImage
   m_TagString: Untagged
@@ -1278,7 +1278,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4572686738867635212}
   m_CullTransparentMesh: 1
---- !u!114 &5175964438151219949
+--- !u!114 &3167480032918237228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1287,10 +1287,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4572686738867635212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 3c1520e98064d3544b3151be10320d96, type: 2}
+  m_Material: {fileID: 2100000, guid: 92d8dc4a1525bd3499a24f54bf72727b, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1298,13 +1298,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4706917938544245487
 GameObject:
   m_ObjectHideFlags: 0
@@ -1749,8 +1752,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Show All Spirit Beasts
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 12334ee6eea61ae4b8418ad855e7f2da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
+  m_sharedMaterial: {fileID: -5273589510770900895, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2036,7 +2039,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7617421649371678430}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99996114
+  m_Size: 0.99837476
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

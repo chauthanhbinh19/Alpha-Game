@@ -43,29 +43,29 @@ public class CardMonstersController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCardMonstersGallery(List<CardMonsters> monstersList, Transform contentPanel)
+    public void CreateCardMonstersGallery(List<CardMonsters> cardMonsters, Transform contentPanel)
     {
-        foreach (var monster in monstersList)
+        foreach (var cardMonster in cardMonsters)
         {
-            GameObject monstersObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardMonstersObject = Instantiate(cardsPrefab, contentPanel);
 
-            Text Title = monstersObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = monster.Name.Replace("_", " ");
+            Text Title = cardMonstersObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = cardMonster.Name.Replace("_", " ");
 
-            RawImage Image = monstersObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monster.Image);
+            RawImage Image = cardMonstersObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = monstersObject.GetComponent<Button>();
+            Button button = cardMonstersObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(monster, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardMonster, MainPanel);
             });
 
-            RawImage rareImage = monstersObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monster.Rare}");
+            RawImage rareImage = cardMonstersObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonster.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -43,29 +43,29 @@ public class CardCaptainsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCardCaptainsGallery(List<CardCaptains> captainsList, Transform contentPanel)
+    public void CreateCardCaptainsGallery(List<CardCaptains> cardCaptains, Transform contentPanel)
     {
-        foreach (var captain in captainsList)
+        foreach (var cardCaptain in cardCaptains)
         {
-            GameObject captainsObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardCaptainObject = Instantiate(cardsPrefab, contentPanel);
 
-            Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = captain.Name.Replace("_", " ");
+            Text Title = cardCaptainObject.transform.Find("Title").GetComponent<Text>();
+            Title.text = cardCaptain.Name.Replace("_", " ");
 
-            RawImage Image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.Image);
+            RawImage Image = cardCaptainObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = captainsObject.GetComponent<Button>();
+            Button button = cardCaptainObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(captain, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardCaptain, MainPanel);
             });
 
-            RawImage rareImage = captainsObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.Rare}");
+            RawImage rareImage = cardCaptainObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardCaptain.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
