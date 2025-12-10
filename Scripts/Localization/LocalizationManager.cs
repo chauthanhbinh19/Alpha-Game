@@ -26,7 +26,7 @@ public static class LocalizationManager
 
         if (!File.Exists(filePath))
         {
-            Debug.LogError("Không tìm thấy file: " + filePath);
+            Debug.LogError("File not found: " + filePath);
             return;
         }
 
