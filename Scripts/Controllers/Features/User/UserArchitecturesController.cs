@@ -57,7 +57,7 @@ public class UserArchitecturesController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
-            
+
             // Kích thước của RawImage (khung hiển thị)
             RectTransform rect = image.GetComponent<RectTransform>();
             float maxWidth = rect.rect.width;
@@ -90,12 +90,11 @@ public class UserArchitecturesController : MonoBehaviour
             RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
-
-            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-            if (gridLayout != null)
-            {
-                gridLayout.cellSize = new Vector2(200, 230);
-            }
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -113,12 +112,12 @@ public class UserArchitecturesController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(Architectures, currentObject);
+            _ = GetLevelAsync(Architectures, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(Architectures, currentObject);
+            _ = GetUpgradeAsync(Architectures, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -129,7 +128,7 @@ public class UserArchitecturesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(Architectures, currentObject);
+                _ = GetLevelAsync(Architectures, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -137,7 +136,7 @@ public class UserArchitecturesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(Architectures, currentObject);
+                _ = GetUpgradeAsync(Architectures, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -190,7 +189,7 @@ public class UserArchitecturesController : MonoBehaviour
         {
             PropertyInfo[] properties = title.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
-            
+
             Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);

@@ -131,8 +131,6 @@ public class MainMenuManager : MonoBehaviour
         Button missionButton = currentObject.transform.Find("RightButtonGroup/MissionButton").GetComponent<Button>();
         Button guildButton = currentObject.transform.Find("RightButtonGroup/GuildButton").GetComponent<Button>();
 
-        // content.gameObject.AddComponent<RotateAnimation>();
-
         inventoryButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

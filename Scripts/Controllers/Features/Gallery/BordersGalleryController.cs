@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -42,7 +43,7 @@ public class BordersGalleryController : MonoBehaviour
             {
                 GameObject borderObject = Instantiate(BorderBlockButtonPrefab, contentPanel);
 
-                Text Title = borderObject.transform.Find("Title").GetComponent<Text>();
+                TextMeshProUGUI Title = borderObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 Title.text = border.Name.Replace("_", " ");
 
                 RawImage image = borderObject.transform.Find("Image").GetComponent<RawImage>();

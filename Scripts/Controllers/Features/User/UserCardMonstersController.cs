@@ -13,7 +13,7 @@ public class UserCardMonstersController : MonoBehaviour
 {
     public static UserCardMonstersController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardMonsterButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
@@ -58,7 +58,7 @@ public class UserCardMonstersController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        CardMonsterButtonPrefab = UIManager.Instance.Get("CardMonsterButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
         ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         PopupSpiritBeastPanelPrefab = UIManager.Instance.Get("PopupSpiritBeastPanelPrefab");
@@ -72,44 +72,44 @@ public class UserCardMonstersController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardMonsters(List<CardMonsters> monstersList, Transform contentPanel)
+    public void CreateUserCardMonsters(List<CardMonsters> cardMonsters, Transform contentPanel)
     {
-        foreach (var card in monstersList)
+        foreach (var cardMonster in cardMonsters)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardMonsterObject = Instantiate(CardMonsterButtonPrefab, contentPanel);
 
-            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = card.Name.Replace("_", " ");
+            TextMeshProUGUI Title = cardMonsterObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = cardMonster.Name.Replace("_", " ");
 
-            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
+            RawImage Image = cardMonsterObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Transform teamPanel = cardObject.transform.Find("Team");
-            if(card.Team.TeamNumber != 0)
+            Transform teamPanel = cardMonsterObject.transform.Find("Team");
+            if(cardMonster.Team.TeamNumber != 0)
             {
                 teamPanel.gameObject.SetActive(true);
-                RawImage teamBackgroundImage = cardObject.transform.Find("Team/Background").GetComponent<RawImage>();
-                TextMeshProUGUI teamTitleText = cardObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
+                RawImage teamBackgroundImage = cardMonsterObject.transform.Find("Team/Background").GetComponent<RawImage>();
+                TextMeshProUGUI teamTitleText = cardMonsterObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
                 Texture teamBackgroundTexture = Resources.Load<Texture>(ImageConstants.Team.TEAM_BACKGROUND_5);
                 teamBackgroundImage.texture = teamBackgroundTexture;
-                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + card.Team.TeamNumber.ToString();
+                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardMonster.Team.TeamNumber.ToString();
             }
             else
             {
                 teamPanel.gameObject.SetActive(false);
             }
 
-            Button button = cardObject.GetComponent<Button>();
+            Button button = cardMonsterObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(cardMonster, MainPanel);
             });
 
-            RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
+            RawImage rareImage = cardMonsterObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonster.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -93,7 +93,7 @@ public class UserArtworksController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(270, 220);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

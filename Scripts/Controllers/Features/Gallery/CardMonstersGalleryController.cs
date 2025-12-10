@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class CardMonstersGalleryController : MonoBehaviour
 {
     public static CardMonstersGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardMonsterBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,47 +32,47 @@ public class CardMonstersGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsSecondPrefab");
+        CardMonsterBlockButtonPrefab = UIManager.Instance.Get("CardMonsterBlockButtonPrefab");
     }
-    public void CreateCardMonstersGallery(List<CardMonsters> monstersList, Transform contentPanel)
+    public void CreateCardMonstersGallery(List<CardMonsters> cardMonsters, Transform contentPanel)
     {
-        foreach (var monster in monstersList)
+        foreach (var cardMonster in cardMonsters)
         {
-            GameObject monstersObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardMonstersObject = Instantiate(CardMonsterBlockButtonPrefab, contentPanel);
 
-            Text Title = monstersObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = monster.Name.Replace("_", " ");
+            TextMeshProUGUI Title = cardMonstersObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = cardMonster.Name.Replace("_", " ");
 
-            RawImage Image = monstersObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monster.Image);
+            RawImage Image = cardMonstersObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = monstersObject.GetComponent<Button>();
+            Button button = cardMonstersObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(monster, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardMonster, MainPanel);
             });
 
-            RawImage rareImage = monstersObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monster.Rare}");
+            RawImage rareImage = cardMonstersObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonster.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = monstersObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = monstersObject.transform.Find("Unlock").GetComponent<Button>();
-            if (monster.Status.Equals("available"))
+            RawImage blockImage = cardMonstersObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = cardMonstersObject.transform.Find("UnlockButton").GetComponent<Button>();
+            if (cardMonster.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (monster.Status.Equals("pending"))
+            else if (cardMonster.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (monster.Status.Equals("block"))
+            else if (cardMonster.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -80,7 +81,7 @@ public class CardMonstersGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var monsterGalleryService = CardMonstersGalleryService.Create();
-                await monsterGalleryService.UpdateStatusCardMonsterGalleryAsync(monster.Id);
+                await monsterGalleryService.UpdateStatusCardMonsterGalleryAsync(cardMonster.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -95,8 +96,8 @@ public class CardMonstersGalleryController : MonoBehaviour
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = monstersObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((monster.CurrentStar < monster.TempStar) && monster.Status.Equals("available"))
+            Button Upgrade = cardMonstersObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((cardMonster.CurrentStar < cardMonster.TempStar) && cardMonster.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -108,7 +109,7 @@ public class CardMonstersGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CardMonstersGalleryService.Create().UpdateCardMonsterGalleryPowerAsync(monster.Id);
+                await CardMonstersGalleryService.Create().UpdateCardMonsterGalleryPowerAsync(cardMonster.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

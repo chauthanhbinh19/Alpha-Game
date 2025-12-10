@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class EquipmentsGalleryController : MonoBehaviour
 {
     public static EquipmentsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject EquipmentBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,23 +32,41 @@ public class EquipmentsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.Get("EquipmentSecondPrefab");
+        EquipmentBlockButtonPrefab = UIManager.Instance.Get("EquipmentBlockButtonPrefab");
     }
-    public void CreateEquipmentsGallery(List<Equipments> equipmentList, Transform contentPanel)
+    public void CreateEquipmentsGallery(List<Equipments> equipments, Transform contentPanel)
     {
-        foreach (var equipment in equipmentList)
+        foreach (var equipment in equipments)
         {
-            GameObject equipmentObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject equipmentObject = Instantiate(EquipmentBlockButtonPrefab, contentPanel);
 
-            Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = equipment.Name.Replace("_", " ");
 
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
-            Button button = equipmentsPrefab.GetComponent<Button>();
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            Button button = EquipmentBlockButtonPrefab.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -61,12 +80,12 @@ public class EquipmentsGalleryController : MonoBehaviour
             rareImage.texture = rareTexture;
 
             RawImage blockImage = equipmentObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = equipmentObject.transform.Find("Unlock").GetComponent<Button>();
+            Button Unlock = equipmentObject.transform.Find("UnlockButton").GetComponent<Button>();
             if (equipment.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
             else if (equipment.Status.Equals("pending"))
             {
@@ -86,7 +105,7 @@ public class EquipmentsGalleryController : MonoBehaviour
                 await equipmentGalleryService.UpdateStatusEquipmentGalleryAsync(equipment.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();

@@ -96,6 +96,11 @@ public class UserPetsController : MonoBehaviour
             rareImage.texture = rareTexture;
 
         }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
+        }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowPetsDetails(Pets pets, GameObject currentObject, int buttonType = 1)

@@ -57,7 +57,7 @@ public class UserSpiritCardsController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
-            
+
             // Kích thước của RawImage (khung hiển thị)
             RectTransform rect = image.GetComponent<RectTransform>();
             float maxWidth = rect.rect.width;
@@ -90,12 +90,11 @@ public class UserSpiritCardsController : MonoBehaviour
             RawImage rareBackgroundImage = spiritCardObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
-
-            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-            if (gridLayout != null)
-            {
-                gridLayout.cellSize = new Vector2(200, 400);
-            }
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 400);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -113,12 +112,12 @@ public class UserSpiritCardsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(SpiritCard, currentObject);
+            _ = GetLevelAsync(SpiritCard, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(SpiritCard, currentObject);
+            _ = GetUpgradeAsync(SpiritCard, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -129,7 +128,7 @@ public class UserSpiritCardsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(SpiritCard, currentObject);
+                _ = GetLevelAsync(SpiritCard, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -137,7 +136,7 @@ public class UserSpiritCardsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(SpiritCard, currentObject);
+                _ = GetUpgradeAsync(SpiritCard, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -190,7 +189,7 @@ public class UserSpiritCardsController : MonoBehaviour
         {
             PropertyInfo[] properties = title.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
-            
+
             Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.SPIRIT_CARD);
@@ -215,7 +214,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
                     newCard = await UserSpiritCardsService.Create().GetNewLevelPowerAsync(title, increasePerLevel);
                     await UserSpiritCardsService.Create().UpdateSpiritCardLevelAsync(newCard, currentLevel + 1);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -247,7 +246,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
                     SpiritCards newCard = await UserSpiritCardsService.Create().GetNewLevelPowerAsync(title, levelsGained * increasePerLevel);
                     await UserSpiritCardsService.Create().UpdateSpiritCardLevelAsync(newCard, currentLevel);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -363,7 +362,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
                     newTitle = await UserSpiritCardsService.Create().GetNewBreakthroughPowerAsync(spiritBeast, increasePerUpgrade);
                     await UserSpiritCardsService.Create().UpdateSpiritCardBreakthroughAsync(newTitle, spiritBeast.Star + 1, spiritBeast.Quantity);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

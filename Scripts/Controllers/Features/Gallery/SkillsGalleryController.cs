@@ -83,7 +83,7 @@ public class SkillsGalleryController : MonoBehaviour
                 rareImage.texture = rareTexture;
 
                 RawImage blockImage = skillObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = skillObject.transform.Find("Unlock").GetComponent<Button>();
+                Button Unlock = skillObject.transform.Find("UnlockButton").GetComponent<Button>();
                 if (skill.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);

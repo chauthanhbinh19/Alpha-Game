@@ -57,7 +57,7 @@ public class UserTitlesController : MonoBehaviour
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
-            
+
             // Kích thước của RawImage (khung hiển thị)
             RectTransform rect = image.GetComponent<RectTransform>();
             float maxWidth = rect.rect.width;
@@ -90,12 +90,11 @@ public class UserTitlesController : MonoBehaviour
             RawImage rareBackgroundImage = titleObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
-
-            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-            if (gridLayout != null)
-            {
-                gridLayout.cellSize = new Vector2(200, 230);
-            }
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -113,12 +112,12 @@ public class UserTitlesController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(title, currentObject);
+            _ = GetLevelAsync(title, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(title, currentObject);
+            _ = GetUpgradeAsync(title, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -129,7 +128,7 @@ public class UserTitlesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(title, currentObject);
+                _ = GetLevelAsync(title, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -137,7 +136,7 @@ public class UserTitlesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(title, currentObject);
+                _ = GetUpgradeAsync(title, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -190,7 +189,7 @@ public class UserTitlesController : MonoBehaviour
         {
             PropertyInfo[] properties = title.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
-            
+
             Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
@@ -215,7 +214,7 @@ public class UserTitlesController : MonoBehaviour
 
                     newCard = await UserTitlesService.Create().GetNewLevelPowerAsync(title, increasePerLevel);
                     await UserTitlesService.Create().UpdateTitleLevelAsync(newCard, currentLevel + 1);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -247,7 +246,7 @@ public class UserTitlesController : MonoBehaviour
 
                     Titles newCard = await UserTitlesService.Create().GetNewLevelPowerAsync(title, levelsGained * increasePerLevel);
                     await UserTitlesService.Create().UpdateTitleLevelAsync(newCard, currentLevel);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -363,7 +362,7 @@ public class UserTitlesController : MonoBehaviour
 
                     newTitle = await UserTitlesService.Create().GetNewBreakthroughPowerAsync(title, increasePerUpgrade);
                     await UserTitlesService.Create().UpdateTitleBreakthroughAsync(newTitle, title.Star + 1, title.Quantity);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
 {
     public static CardCaptainsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardCaptainBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,15 +32,15 @@ public class CardCaptainsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsSecondPrefab");
+        CardCaptainBlockButtonPrefab = UIManager.Instance.Get("CardCaptainBlockButtonPrefab");
     }
-    public void CreateCardCaptainsGallery(List<CardCaptains> captainsList, Transform contentPanel)
+    public void CreateCardCaptainsGallery(List<CardCaptains> cardCaptains, Transform contentPanel)
     {
-        foreach (var captain in captainsList)
+        foreach (var captain in cardCaptains)
         {
-            GameObject captainsObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject captainsObject = Instantiate(CardCaptainBlockButtonPrefab, contentPanel);
 
-            Text Title = captainsObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = captainsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = captain.Name.Replace("_", " ");
 
             RawImage Image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
@@ -59,7 +60,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             rareImage.texture = rareTexture;
 
             RawImage blockImage = captainsObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = captainsObject.transform.Find("Unlock").GetComponent<Button>();
+            Button Unlock = captainsObject.transform.Find("UnlockButton").GetComponent<Button>();
             if (captain.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);

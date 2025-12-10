@@ -5,8 +5,6 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using TMPro;
-using System.Reflection;
-using UnityEngine.EventSystems;
 using System.Threading.Tasks;
 
 public class CollectionManager : MonoBehaviour

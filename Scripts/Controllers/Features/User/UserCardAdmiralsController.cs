@@ -13,7 +13,7 @@ public class UserCardAdmiralsController : MonoBehaviour
 {
     public static UserCardAdmiralsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardAdmiralButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
@@ -58,7 +58,7 @@ public class UserCardAdmiralsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        CardAdmiralButtonPrefab = UIManager.Instance.Get("CardAdmiralButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
         ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         PopupSpiritBeastPanelPrefab = UIManager.Instance.Get("PopupSpiritBeastPanelPrefab");
@@ -74,41 +74,41 @@ public class UserCardAdmiralsController : MonoBehaviour
     }
     public void CreateUserCardAdmirals(List<CardAdmirals> cardAdmirals, Transform contentPanel)
     {
-        foreach (var card in cardAdmirals)
+        foreach (var cardAdmiral in cardAdmirals)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardAdmiralObject = Instantiate(CardAdmiralButtonPrefab, contentPanel);
 
-            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = card.Name.Replace("_", " ");
+            TextMeshProUGUI Title = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = cardAdmiral.Name.Replace("_", " ");
 
-            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
+            RawImage Image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Transform teamPanel = cardObject.transform.Find("Team");
-            if(card.Team.TeamNumber != 0)
+            Transform teamPanel = cardAdmiralObject.transform.Find("Team");
+            if(cardAdmiral.Team.TeamNumber != 0)
             {
                 teamPanel.gameObject.SetActive(true);
-                RawImage teamBackgroundImage = cardObject.transform.Find("Team/Background").GetComponent<RawImage>();
-                TextMeshProUGUI teamTitleText = cardObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
+                RawImage teamBackgroundImage = cardAdmiralObject.transform.Find("Team/Background").GetComponent<RawImage>();
+                TextMeshProUGUI teamTitleText = cardAdmiralObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
                 Texture teamBackgroundTexture = Resources.Load<Texture>(ImageConstants.Team.TEAM_BACKGROUND_6);
                 teamBackgroundImage.texture = teamBackgroundTexture;
-                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + card.Team.TeamNumber.ToString();
+                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardAdmiral.Team.TeamNumber.ToString();
             }
             else
             {
                 teamPanel.gameObject.SetActive(false);
             }
 
-            Button button = cardObject.GetComponent<Button>();
+            Button button = cardAdmiralObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
             });
 
-            RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
+            RawImage rareImage = cardAdmiralObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmiral.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

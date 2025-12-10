@@ -147,6 +147,11 @@ public class PetsGalleryController : MonoBehaviour
                 Debug.LogError("Error: " + ex.Message);
             }
         }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
+        }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
 }

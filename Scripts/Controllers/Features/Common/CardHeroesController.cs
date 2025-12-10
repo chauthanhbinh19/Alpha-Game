@@ -10,7 +10,7 @@ public class CardHeroesController : MonoBehaviour
 {
     public static CardHeroesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardHeroButtonPrefab;
     private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,7 +37,7 @@ public class CardHeroesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        CardHeroButtonPrefab = UIManager.Instance.Get("CardHeroButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
@@ -47,9 +47,9 @@ public class CardHeroesController : MonoBehaviour
     {
         foreach (var cardHero in cardHeroes)
         {
-            GameObject cardHeroObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardHeroObject = Instantiate(CardHeroButtonPrefab, contentPanel);
 
-            Text Title = cardHeroObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = cardHeroObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = cardHero.Name.Replace("_", " ");
 
             RawImage Image = cardHeroObject.transform.Find("Image").GetComponent<RawImage>();

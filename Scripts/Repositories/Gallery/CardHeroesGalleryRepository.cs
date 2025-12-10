@@ -49,7 +49,7 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            CardHeroes CardHero = new CardHeroes
+                            CardHeroes cardHero = new CardHeroes
                             {
                                 Id = reader.GetString("id"),
                                 Name = reader.GetString("name"),
@@ -109,28 +109,28 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
                                 SkillDamageRate = reader.GetDouble("skill_damage_rate"),
                                 SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
 
-                                PercentAllHealth = reader.GetDouble("percent_all_health"),
-                                PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
-                                PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
-                                PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
-                                PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
-                                PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
-                                PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
-                                PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
-                                PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
-                                PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
-                                PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
+                                // PercentAllHealth = reader.GetDouble("percent_all_health"),
+                                // PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack"),
+                                // PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense"),
+                                // PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack"),
+                                // PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense"),
+                                // PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack"),
+                                // PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense"),
+                                // PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack"),
+                                // PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
+                                // PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
+                                // PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
 
                                 Description = reader.GetString("description"),
                                 Status = reader.GetString("status"),
                             };
 
-                            cardHeros.Add(CardHero);
+                            cardHeros.Add(cardHero);
                         }
                     }
                 }
             }
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }

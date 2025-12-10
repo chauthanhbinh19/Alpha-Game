@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
 {
     public static CardMilitariesGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardMilitaryBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,47 +32,47 @@ public class CardMilitariesGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsSecondPrefab");
+        CardMilitaryBlockButtonPrefab = UIManager.Instance.Get("CardMilitaryBlockButtonPrefab");
     }
-    public void CreateCardMilitaryGallery(List<CardMilitaries> militaryList, Transform contentPanel)
+    public void CreateCardMilitaryGallery(List<CardMilitaries> cardMilitaries, Transform contentPanel)
     {
-        foreach (var military in militaryList)
+        foreach (var cardMilitary in cardMilitaries)
         {
-            GameObject militaryObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardMilitaryObject = Instantiate(CardMilitaryBlockButtonPrefab, contentPanel);
 
-            Text Title = militaryObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = military.Name.Replace("_", " ");
+            TextMeshProUGUI Title = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = cardMilitary.Name.Replace("_", " ");
 
-            RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Image);
+            RawImage Image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = militaryObject.GetComponent<Button>();
+            Button button = cardMilitaryObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(military, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardMilitary, MainPanel);
             });
 
-            RawImage rareImage = militaryObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.Rare}");
+            RawImage rareImage = cardMilitaryObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMilitary.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = militaryObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = militaryObject.transform.Find("Unlock").GetComponent<Button>();
-            if (military.Status.Equals("available"))
+            RawImage blockImage = cardMilitaryObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = cardMilitaryObject.transform.Find("UnlockButton").GetComponent<Button>();
+            if (cardMilitary.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (military.Status.Equals("pending"))
+            else if (cardMilitary.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (military.Status.Equals("block"))
+            else if (cardMilitary.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -81,7 +82,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var militaryGalleryService = CardMilitariesGalleryService.Create();
-                await militaryGalleryService.UpdateStatusCardMilitaryGalleryAsync(military.Id);
+                await militaryGalleryService.UpdateStatusCardMilitaryGalleryAsync(cardMilitary.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -96,8 +97,8 @@ public class CardMilitariesGalleryController : MonoBehaviour
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = militaryObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((military.CurrentStar < military.TempStar) && military.Status.Equals("available"))
+            Button Upgrade = cardMilitaryObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((cardMilitary.CurrentStar < cardMilitary.TempStar) && cardMilitary.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -109,7 +110,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CardMilitariesGalleryService.Create().UpdateCardMilitaryGalleryPowerAsync(military.Id);
+                await CardMilitariesGalleryService.Create().UpdateCardMilitaryGalleryPowerAsync(cardMilitary.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

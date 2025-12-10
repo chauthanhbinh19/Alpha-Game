@@ -88,12 +88,11 @@ public class UserSkillsController : MonoBehaviour
             RawImage rareImage = skillObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.Rare}");
             rareImage.texture = rareTexture;
-
-            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-            if (gridLayout != null)
-            {
-                gridLayout.cellSize = new Vector2(200, 230);
-            }
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -109,12 +108,12 @@ public class UserSkillsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(skill, currentObject);
+            _ = GetLevelAsync(skill, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(skill, currentObject);
+            _ = GetUpgradeAsync(skill, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -125,7 +124,7 @@ public class UserSkillsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(skill, currentObject);
+                _ = GetLevelAsync(skill, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -133,7 +132,7 @@ public class UserSkillsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(skill, currentObject);
+                _ = GetUpgradeAsync(skill, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -211,7 +210,7 @@ public class UserSkillsController : MonoBehaviour
 
                     newCard = await UserSkillsService.Create().GetNewLevelPowerAsync(skill, increasePerLevel);
                     await UserSkillsService.Create().UpdateSkillsLevelAsync(newCard, currentLevel + 1);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -243,7 +242,7 @@ public class UserSkillsController : MonoBehaviour
 
                     Skills newCard = await UserSkillsService.Create().GetNewLevelPowerAsync(skill, levelsGained * increasePerLevel);
                     await UserSkillsService.Create().UpdateSkillsLevelAsync(newCard, currentLevel);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -359,7 +358,7 @@ public class UserSkillsController : MonoBehaviour
 
                     newSkill = await UserSkillsService.Create().GetNewBreakthroughPowerAsync(skill, increasePerUpgrade);
                     await UserSkillsService.Create().UpdateSkillsBreakthroughAsync(newSkill, skill.Star + 1, skill.Quantity);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

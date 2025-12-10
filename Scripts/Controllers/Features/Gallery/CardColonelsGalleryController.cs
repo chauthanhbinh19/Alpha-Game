@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class CardColonelsGalleryController : MonoBehaviour
 {
     public static CardColonelsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardColonelBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,47 +32,47 @@ public class CardColonelsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsSecondPrefab");
+        CardColonelBlockButtonPrefab = UIManager.Instance.Get("CardColonelBlockButtonPrefab");
     }
     public void CreateCardColonelsGallery(List<CardColonels> cardColonels, Transform contentPanel)
     {
-        foreach (var colonel in cardColonels)
+        foreach (var cardColonel in cardColonels)
         {
-            GameObject spellObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardColonelObject = Instantiate(CardColonelBlockButtonPrefab, contentPanel);
 
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = colonel.Name.Replace("_", " ");
+            TextMeshProUGUI Title = cardColonelObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = cardColonel.Name.Replace("_", " ");
 
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(colonel.Image);
+            RawImage Image = cardColonelObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonel.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = spellObject.GetComponent<Button>();
+            Button button = cardColonelObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(colonel, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardColonel, MainPanel);
             });
 
-            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{colonel.Rare}");
+            RawImage rareImage = cardColonelObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardColonel.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = spellObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = spellObject.transform.Find("Unlock").GetComponent<Button>();
-            if (colonel.Status.Equals("available"))
+            RawImage blockImage = cardColonelObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = cardColonelObject.transform.Find("UnlockButton").GetComponent<Button>();
+            if (cardColonel.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (colonel.Status.Equals("pending"))
+            else if (cardColonel.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (colonel.Status.Equals("block"))
+            else if (cardColonel.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -81,7 +82,7 @@ public class CardColonelsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var colonelGalleryService = CardColonelsGalleryService.Create();
-                await colonelGalleryService.UpdateStatusCardColonelGalleryAsync(colonel.Id);
+                await colonelGalleryService.UpdateStatusCardColonelGalleryAsync(cardColonel.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -96,8 +97,8 @@ public class CardColonelsGalleryController : MonoBehaviour
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = spellObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((colonel.CurrentStar < colonel.TempStar) && colonel.Status.Equals("available"))
+            Button Upgrade = cardColonelObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((cardColonel.CurrentStar < cardColonel.TempStar) && cardColonel.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -109,7 +110,7 @@ public class CardColonelsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CardColonelsGalleryService.Create().UpdateCardColonelGalleryPowerAsync(colonel.Id);
+                await CardColonelsGalleryService.Create().UpdateCardColonelGalleryPowerAsync(cardColonel.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class EquipmentsController : MonoBehaviour
 {
     public static EquipmentsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject EquipmentButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,21 +32,39 @@ public class EquipmentsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
+        EquipmentButtonPrefab = UIManager.Instance.Get("EquipmentButtonPrefab");
     }
     public void CreateEquipmentsGallery(List<Equipments> equipments, Transform contentPanel)
     {
         foreach (var equipment in equipments)
         {
-            GameObject equipmentObject = Instantiate(equipmentsPrefab, contentPanel);
+            GameObject equipmentObject = Instantiate(EquipmentButtonPrefab, contentPanel);
 
-            Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = equipment.Name.Replace("_", " ");
 
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             Button button = equipmentObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

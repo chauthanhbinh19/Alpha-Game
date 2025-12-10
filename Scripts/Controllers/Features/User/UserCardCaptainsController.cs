@@ -13,7 +13,7 @@ public class UserCardCaptainsController : MonoBehaviour
 {
     public static UserCardCaptainsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardCaptainButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject ElementDetails2Prefab;
     private double increasePerLevel = 0.01;
@@ -58,7 +58,7 @@ public class UserCardCaptainsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        CardCaptainButtonPrefab = UIManager.Instance.Get("CardCaptainButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
         ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         PopupSpiritBeastPanelPrefab = UIManager.Instance.Get("PopupSpiritBeastPanelPrefab");
@@ -72,51 +72,50 @@ public class UserCardCaptainsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardCaptains(List<CardCaptains> captainsList, Transform contentPanel)
+    public void CreateUserCardCaptains(List<CardCaptains> cardCaptains, Transform contentPanel)
     {
-        foreach (var card in captainsList)
+        foreach (var cardCaptain in cardCaptains)
         {
-            GameObject cardObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardCaptainObject = Instantiate(CardCaptainButtonPrefab, contentPanel);
 
-            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = card.Name.Replace("_", " ");
+            TextMeshProUGUI Title = cardCaptainObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = cardCaptain.Name.Replace("_", " ");
 
-            RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
+            RawImage Image = cardCaptainObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
+            RawImage rareImage = cardCaptainObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardCaptain.Rare}");
             rareImage.texture = rareTexture;
 
-            Transform teamPanel = cardObject.transform.Find("Team");
-            if(card.Team.TeamNumber != 0)
+            Transform teamPanel = cardCaptainObject.transform.Find("Team");
+            if (cardCaptain.Team.TeamNumber != 0)
             {
                 teamPanel.gameObject.SetActive(true);
-                RawImage teamBackgroundImage = cardObject.transform.Find("Team/Background").GetComponent<RawImage>();
-                TextMeshProUGUI teamTitleText = cardObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
+                RawImage teamBackgroundImage = cardCaptainObject.transform.Find("Team/Background").GetComponent<RawImage>();
+                TextMeshProUGUI teamTitleText = cardCaptainObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
                 Texture teamBackgroundTexture = Resources.Load<Texture>(ImageConstants.Team.TEAM_BACKGROUND_2);
                 teamBackgroundImage.texture = teamBackgroundTexture;
-                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + card.Team.TeamNumber.ToString();
+                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardCaptain.Team.TeamNumber.ToString();
             }
             else
             {
                 teamPanel.gameObject.SetActive(false);
             }
 
-            Button button = cardObject.GetComponent<Button>();
+            Button button = cardCaptainObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(cardCaptain, MainPanel);
             });
-
-            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-            if (gridLayout != null)
-            {
-                gridLayout.cellSize = new Vector2(280, 350);
-            }
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(280, 350);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -163,22 +162,22 @@ public class UserCardCaptainsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(cardCaptains, currentObject);
+            _ = GetLevelAsync(cardCaptains, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
         {
-            _=GetSkillsAsync(cardCaptains, currentObject);
+            _ = GetSkillsAsync(cardCaptains, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(cardCaptains, currentObject);
+            _ = GetUpgradeAsync(cardCaptains, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_5", RightButtonContent, () =>
         {
-            _=GetSpiritBeastAsync(cardCaptains, currentObject);
+            _ = GetSpiritBeastAsync(cardCaptains, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_6", RightButtonContent, () =>
@@ -194,19 +193,19 @@ public class UserCardCaptainsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(cardCaptains, currentObject);
+                _ = GetLevelAsync(cardCaptains, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                _=GetSkillsAsync(cardCaptains, currentObject);
+                _ = GetSkillsAsync(cardCaptains, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(cardCaptains, currentObject);
+                _ = GetUpgradeAsync(cardCaptains, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             case 5:
-                _=GetSpiritBeastAsync(cardCaptains, currentObject);
+                _ = GetSpiritBeastAsync(cardCaptains, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
                 break;
             case 6:
@@ -562,7 +561,7 @@ public class UserCardCaptainsController : MonoBehaviour
         swapButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(popupSkillDetailObject);       
+            Destroy(popupSkillDetailObject);
             await CreateSkillPopupAsync(position, cardId, type, skillType, skill);
         });
     }

@@ -10,7 +10,7 @@ public class CardMilitariesController : MonoBehaviour
 {
     public static CardMilitariesController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardMilitaryButtonPrefab;
     private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
@@ -37,7 +37,7 @@ public class CardMilitariesController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        CardMilitaryButtonPrefab = UIManager.Instance.Get("CardMilitaryButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
@@ -47,9 +47,9 @@ public class CardMilitariesController : MonoBehaviour
     {
         foreach (var cardMilitary in cardMilitaries)
         {
-            GameObject cardMilitaryObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject cardMilitaryObject = Instantiate(CardMilitaryButtonPrefab, contentPanel);
 
-            Text Title = cardMilitaryObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = cardMilitary.Name.Replace("_", " ");
 
             RawImage Image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();

@@ -92,12 +92,11 @@ public class UserSymbolsController : MonoBehaviour
             RawImage rareBackgroundImage = symbolObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
-
-            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-            if (gridLayout != null)
-            {
-                gridLayout.cellSize = new Vector2(200, 230);
-            }
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -115,12 +114,12 @@ public class UserSymbolsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(symbol, currentObject);
+            _ = GetLevelAsync(symbol, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(symbol, currentObject);
+            _ = GetUpgradeAsync(symbol, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -131,7 +130,7 @@ public class UserSymbolsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(symbol, currentObject);
+                _ = GetLevelAsync(symbol, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -139,7 +138,7 @@ public class UserSymbolsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(symbol, currentObject);
+                _ = GetUpgradeAsync(symbol, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -217,7 +216,7 @@ public class UserSymbolsController : MonoBehaviour
 
                     newCard = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, increasePerLevel);
                     await UserSymbolsService.Create().UpdateSymbolLevelAsync(newCard, currentLevel + 1);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -249,7 +248,7 @@ public class UserSymbolsController : MonoBehaviour
 
                     Symbols newCard = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, levelsGained * increasePerLevel);
                     await UserSymbolsService.Create().UpdateSymbolLevelAsync(newCard, currentLevel);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -365,7 +364,7 @@ public class UserSymbolsController : MonoBehaviour
 
                     newSymbol = await UserSymbolsService.Create().GetNewBreakthroughPowerAsync(symbol, increasePerUpgrade);
                     await UserSymbolsService.Create().UpdateSymbolBreakthroughAsync(newSymbol, symbol.Star + 1, symbol.Quantity);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

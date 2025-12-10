@@ -86,12 +86,11 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
             RawImage rareImage = collaborationEquipmentObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.Rare}");
             rareImage.texture = rareTexture;
-
-            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-            if (gridLayout != null)
-            {
-                gridLayout.cellSize = new Vector2(200, 230);
-            }
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -109,12 +108,12 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(collaborationEquipment, currentObject);
+            _ = GetLevelAsync(collaborationEquipment, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(collaborationEquipment, currentObject);
+            _ = GetUpgradeAsync(collaborationEquipment, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -125,7 +124,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(collaborationEquipment, currentObject);
+                _ = GetLevelAsync(collaborationEquipment, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -133,7 +132,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(collaborationEquipment, currentObject);
+                _ = GetUpgradeAsync(collaborationEquipment, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -243,7 +242,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
 
                     CollaborationEquipments newCard = await UserCollaborationEquipmentsService.Create().GetNewLevelPowerAsync(collaborationEquipment, levelsGained * increasePerLevel);
                     await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentLevelAsync(newCard, currentLevel);
-                    double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

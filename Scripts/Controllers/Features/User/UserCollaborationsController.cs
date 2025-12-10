@@ -89,12 +89,11 @@ public class UserCollaborationsController : MonoBehaviour
 
             image.SetNativeSize();
             image.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
-
-            GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
-            if (gridLayout != null)
-            {
-                gridLayout.cellSize = new Vector2(280, 230);
-            }
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -112,7 +111,7 @@ public class UserCollaborationsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(collaboration, currentObject);
+            _ = GetLevelAsync(collaboration, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
@@ -122,7 +121,7 @@ public class UserCollaborationsController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(collaboration, currentObject);
+            _ = GetUpgradeAsync(collaboration, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -133,7 +132,7 @@ public class UserCollaborationsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(collaboration, currentObject);
+                _ = GetLevelAsync(collaboration, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -141,7 +140,7 @@ public class UserCollaborationsController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(collaboration, currentObject);
+                _ = GetUpgradeAsync(collaboration, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
@@ -194,7 +193,7 @@ public class UserCollaborationsController : MonoBehaviour
         {
             PropertyInfo[] properties = collaboration.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, collaboration, increasePerLevel, currentObject);
-            
+
             Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.COLLABORATION);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
 {
     public static CardAdmiralsGalleryController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject CardAdmiralBlockButtonPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -31,15 +32,15 @@ public class CardAdmiralsGalleryController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsSecondPrefab");
+        CardAdmiralBlockButtonPrefab = UIManager.Instance.Get("CardAdmiralBlockButtonPrefab");
     }
     public void CreateCardAdmiralsGallery(List<CardAdmirals> cardAdmirals, Transform contentPanel)
     {
         foreach (var admiral in cardAdmirals)
         {
-            GameObject spellObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject spellObject = Instantiate(CardAdmiralBlockButtonPrefab, contentPanel);
 
-            Text Title = spellObject.transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI Title = spellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = admiral.Name.Replace("_", " ");
 
             RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
@@ -59,7 +60,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
             rareImage.texture = rareTexture;
 
             RawImage blockImage = spellObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = spellObject.transform.Find("Unlock").GetComponent<Button>();
+            Button Unlock = spellObject.transform.Find("UnlockButton").GetComponent<Button>();
             if (admiral.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);

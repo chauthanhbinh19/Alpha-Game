@@ -91,6 +91,11 @@ public class UserMedalsController : MonoBehaviour
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
+        }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void ShowMedalsDetails(Medals medals, GameObject currentObject, int buttonType = 1)
