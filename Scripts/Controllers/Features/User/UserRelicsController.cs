@@ -76,6 +76,9 @@ public class UserRelicsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = relicObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.RELIC_BUTTON_BACKGROUND_URL);
+
             Button button = relicObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

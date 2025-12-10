@@ -36,43 +36,46 @@ public class CardAdmiralsGalleryController : MonoBehaviour
     }
     public void CreateCardAdmiralsGallery(List<CardAdmirals> cardAdmirals, Transform contentPanel)
     {
-        foreach (var admiral in cardAdmirals)
+        foreach (var cardAdmiral in cardAdmirals)
         {
-            GameObject spellObject = Instantiate(CardAdmiralBlockButtonPrefab, contentPanel);
+            GameObject cardAdmiralObject = Instantiate(CardAdmiralBlockButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = spellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = admiral.Name.Replace("_", " ");
+            TextMeshProUGUI Title = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = cardAdmiral.Name.Replace("_", " ");
 
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(admiral.Image);
+            RawImage Image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = spellObject.GetComponent<Button>();
+            RawImage backgroundImage = cardAdmiralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_ADMIRAL_BUTTON_BACKGROUND_URL);
+
+            Button button = cardAdmiralObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(admiral, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
             });
 
-            RawImage rareImage = spellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admiral.Rare}");
+            RawImage rareImage = cardAdmiralObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmiral.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = spellObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = spellObject.transform.Find("UnlockButton").GetComponent<Button>();
-            if (admiral.Status.Equals("available"))
+            RawImage blockImage = cardAdmiralObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = cardAdmiralObject.transform.Find("UnlockButton").GetComponent<Button>();
+            if (cardAdmiral.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (admiral.Status.Equals("pending"))
+            else if (cardAdmiral.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (admiral.Status.Equals("block"))
+            else if (cardAdmiral.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -82,7 +85,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var admiralGalleryService = CardAdmiralsGalleryService.Create();
-                await admiralGalleryService.UpdateStatusCardAdmiralGalleryAsync(admiral.Id);
+                await admiralGalleryService.UpdateStatusCardAdmiralGalleryAsync(cardAdmiral.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -97,8 +100,8 @@ public class CardAdmiralsGalleryController : MonoBehaviour
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = spellObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((admiral.CurrentStar < admiral.TempStar) && admiral.Status.Equals("available"))
+            Button Upgrade = cardAdmiralObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((cardAdmiral.CurrentStar < cardAdmiral.TempStar) && cardAdmiral.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -110,7 +113,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CardAdmiralsGalleryService.Create().UpdateCardAdmiralGalleryPowerAsync(admiral.Id);
+                await CardAdmiralsGalleryService.Create().UpdateCardAdmiralGalleryPowerAsync(cardAdmiral.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

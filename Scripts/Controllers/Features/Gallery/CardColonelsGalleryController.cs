@@ -48,6 +48,9 @@ public class CardColonelsGalleryController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            RawImage backgroundImage = cardColonelObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_COLONEL_BUTTON_BACKGROUND_URL);
+
             Button button = cardColonelObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

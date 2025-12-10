@@ -86,6 +86,9 @@ public class UserCardGeneralsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            RawImage backgroundImage = cardGeneralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_GENERAL_BUTTON_BACKGROUND_URL);
+
             Transform teamPanel = cardGeneralObject.transform.Find("Team");
             if(cardGeneral.Team.TeamNumber != 0)
             {

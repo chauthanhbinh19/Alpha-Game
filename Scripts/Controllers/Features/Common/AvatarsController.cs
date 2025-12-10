@@ -51,12 +51,31 @@ public class AvatarsController : MonoBehaviour
             TextMeshProUGUI Title = avatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = avatar.Name.Replace("_", " ");
 
-            RawImage Image = avatarObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = avatarObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(avatar.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.rectTransform.sizeDelta = new Vector2(128, 128);
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            RawImage backgroundImage = avatarObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.AVATAR_BUTTON_BACKGROUND_URL);
 
             Button button = avatarObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

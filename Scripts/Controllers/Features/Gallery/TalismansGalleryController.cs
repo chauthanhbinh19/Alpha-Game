@@ -69,6 +69,9 @@ public class TalismansGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+                RawImage backgroundImage = talismanObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.TALISMAN_BUTTON_BACKGROUND_URL);
+
                 // RawImage frameImage = talismanObject.transform.Find("FrameImage").GetComponent<RawImage>();
                 // frameImage.gameObject.SetActive(true);
 

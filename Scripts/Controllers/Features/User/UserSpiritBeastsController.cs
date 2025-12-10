@@ -76,6 +76,9 @@ public class UserSpiritBeastsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = spiritBeastObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.SPIRIT_BEAST_BUTTON_BACKGROUND_URL);
+
             Button button = spiritBeastObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

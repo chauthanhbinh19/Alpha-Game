@@ -36,43 +36,46 @@ public class CardCaptainsGalleryController : MonoBehaviour
     }
     public void CreateCardCaptainsGallery(List<CardCaptains> cardCaptains, Transform contentPanel)
     {
-        foreach (var captain in cardCaptains)
+        foreach (var cardCaptain in cardCaptains)
         {
-            GameObject captainsObject = Instantiate(CardCaptainBlockButtonPrefab, contentPanel);
+            GameObject cardCaptainObject = Instantiate(CardCaptainBlockButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = captainsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = captain.Name.Replace("_", " ");
+            TextMeshProUGUI Title = cardCaptainObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = cardCaptain.Name.Replace("_", " ");
 
-            RawImage Image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.Image);
+            RawImage Image = cardCaptainObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = captainsObject.GetComponent<Button>();
+            RawImage backgroundImage = cardCaptainObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_CAPTAIN_BUTTON_BACKGROUND_URL);
+
+            Button button = cardCaptainObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(captain, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardCaptain, MainPanel);
             });
 
-            RawImage rareImage = captainsObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captain.Rare}");
+            RawImage rareImage = cardCaptainObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardCaptain.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage blockImage = captainsObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = captainsObject.transform.Find("UnlockButton").GetComponent<Button>();
-            if (captain.Status.Equals("available"))
+            RawImage blockImage = cardCaptainObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = cardCaptainObject.transform.Find("UnlockButton").GetComponent<Button>();
+            if (cardCaptain.Status.Equals("available"))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (captain.Status.Equals("pending"))
+            else if (cardCaptain.Status.Equals("pending"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (captain.Status.Equals("block"))
+            else if (cardCaptain.Status.Equals("block"))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -81,7 +84,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var cardCaptainsGalleryService = CardCaptainsGalleryService.Create();
-                await cardCaptainsGalleryService.UpdateStatusCardCaptainGalleryAsync(captain.Id);
+                await cardCaptainsGalleryService.UpdateStatusCardCaptainGalleryAsync(cardCaptain.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
@@ -96,8 +99,8 @@ public class CardCaptainsGalleryController : MonoBehaviour
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = captainsObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((captain.CurrentStar < captain.TempStar) && captain.Status.Equals("available"))
+            Button Upgrade = cardCaptainObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((cardCaptain.CurrentStar < cardCaptain.TempStar) && cardCaptain.Status.Equals("available"))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -109,7 +112,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             Upgrade.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CardCaptainsGalleryService.Create().UpdateCardCaptainGalleryPowerAsync(captain.Id);
+                await CardCaptainsGalleryService.Create().UpdateCardCaptainGalleryPowerAsync(cardCaptain.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

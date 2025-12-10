@@ -76,6 +76,9 @@ public class UserCollaborationsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = collaborationObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.COLLABORATION_BUTTON_BACKGROUND_URL);
+
             RawImage rareImage = collaborationObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
             rareImage.texture = rareTexture;

@@ -69,6 +69,9 @@ public class PuppetsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+                RawImage backgroundImage = puppetObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.PUPPET_BUTTON_BACKGROUND_URL);
+
                 // RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
                 // frameImage.gameObject.SetActive(true);
 

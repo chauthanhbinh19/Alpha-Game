@@ -76,6 +76,9 @@ public class UserAlchemiesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = alchemyObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ALCHEMY_BUTTON_BACKGROUND_URL);
+
             Button button = alchemyObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
@@ -112,12 +115,12 @@ public class UserAlchemiesController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(alchemy, currentObject);
+            _ = GetLevelAsync(alchemy, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(alchemy, currentObject);
+            _ = GetUpgradeAsync(alchemy, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -128,7 +131,7 @@ public class UserAlchemiesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(alchemy, currentObject);
+                _ = GetLevelAsync(alchemy, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -136,7 +139,7 @@ public class UserAlchemiesController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(alchemy, currentObject);
+                _ = GetUpgradeAsync(alchemy, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:

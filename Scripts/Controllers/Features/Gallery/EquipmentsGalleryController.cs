@@ -66,6 +66,9 @@ public class EquipmentsGalleryController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = equipmentObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.EQUIPMENT_BUTTON_BACKGROUND_URL);
+
             Button button = EquipmentBlockButtonPrefab.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

@@ -57,6 +57,9 @@ public class CardMonstersController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            RawImage backgroundImage = cardMonstersObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_MONSTER_BUTTON_BACKGROUND_URL);
+
             Button button = cardMonstersObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

@@ -68,6 +68,9 @@ public class AchievementsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+                RawImage backgroundImage = achievementObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ACHIEVEMENT_BUTTON_BACKGROUND_URL);
+
                 Button button = achievementObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {

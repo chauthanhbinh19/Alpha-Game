@@ -75,6 +75,9 @@ public class CollaborationsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = collaborationObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.COLLABORATION_BUTTON_BACKGROUND_URL);
+
             Button button = collaborationObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

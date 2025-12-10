@@ -75,6 +75,8 @@ public class AlchemiesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = alchemyObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ALCHEMY_BUTTON_BACKGROUND_URL);
             // RawImage frameImage = alchemyObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = alchemyObject.GetComponent<Button>();

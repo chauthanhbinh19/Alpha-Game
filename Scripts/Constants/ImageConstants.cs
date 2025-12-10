@@ -544,6 +544,8 @@ public static class ImageConstants
         public const string ACHIEVEMENT_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Achievements_Background";
         public const string TALISMAN_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Talismans_Background";
         public const string PUPPET_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Puppets_Background";
+        public const string AVATAR_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Avatars_Background";
+        public const string BORDER_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Borders_Background";
         public const string ALCHEMY_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Alchemies_Background";
         public const string FORGE_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Forges_Background";
         public const string CARD_LIFE_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardLife_Background";

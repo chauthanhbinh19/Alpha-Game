@@ -75,6 +75,9 @@ public class BadgesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = BadgeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BADGE_BUTTON_BACKGROUND_URL);
+
             Button button = BadgeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

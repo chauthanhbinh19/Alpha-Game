@@ -76,6 +76,9 @@ public class UserMechaBeastsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = mechaBeastObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.MECHA_BEAST_BUTTON_BACKGROUND_URL);
+
             Button button = mechaBeastObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

@@ -76,6 +76,9 @@ public class UserMedalsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = medalObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.MEDAL_BUTTON_BACKGROUND_URL);
+
             Button button = medalObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

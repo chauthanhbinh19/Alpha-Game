@@ -86,6 +86,9 @@ public class UserCardAdmiralsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            RawImage backgroundImage = cardAdmiralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_ADMIRAL_BUTTON_BACKGROUND_URL);
+
             Transform teamPanel = cardAdmiralObject.transform.Find("Team");
             if(cardAdmiral.Team.TeamNumber != 0)
             {

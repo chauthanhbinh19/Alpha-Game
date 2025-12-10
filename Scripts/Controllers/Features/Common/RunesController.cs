@@ -75,6 +75,9 @@ public class RunesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = RuneObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.RUNE_BUTTON_BACKGROUND_URL);
+
             Button button = RuneObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

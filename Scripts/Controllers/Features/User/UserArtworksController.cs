@@ -58,23 +58,12 @@ public class UserArtworksController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
-            // Kích thước của RawImage (khung hiển thị)
+            // Set size 200x130
             RectTransform rect = image.GetComponent<RectTransform>();
-            float maxWidth = rect.rect.width;
-            float maxHeight = rect.rect.height;
+            rect.sizeDelta = new Vector2(200, 130);
 
-            // Kích thước thật của texture
-            float texWidth = texture.width;
-            float texHeight = texture.height;
-
-            // Tính scale để texture nằm gọn trong khung
-            float widthRatio = maxWidth / texWidth;
-            float heightRatio = maxHeight / texHeight;
-            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
-
-            // Áp dụng scale theo tỉ lệ đúng
-            image.SetNativeSize();
-            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+            RawImage backgroundImage = artworkObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
 
             Button button = artworkObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -111,12 +100,12 @@ public class UserArtworksController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(Artwork, currentObject);
+            _ = GetLevelAsync(Artwork, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(Artwork, currentObject);
+            _ = GetUpgradeAsync(Artwork, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -127,7 +116,7 @@ public class UserArtworksController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(Artwork, currentObject);
+                _ = GetLevelAsync(Artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -135,7 +124,7 @@ public class UserArtworksController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(Artwork, currentObject);
+                _ = GetUpgradeAsync(Artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:

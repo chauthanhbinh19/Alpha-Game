@@ -76,6 +76,9 @@ public class UserTalismansController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = talismanObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.TALISMAN_BUTTON_BACKGROUND_URL);
+
             Button button = talismanObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

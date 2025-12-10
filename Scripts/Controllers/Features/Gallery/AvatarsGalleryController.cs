@@ -69,6 +69,9 @@ public class AvatarsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+                RawImage backgroundImage = avatarObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.AVATAR_BUTTON_BACKGROUND_URL);
+
                 Button button = avatarObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {

@@ -86,6 +86,9 @@ public class UserCardMonstersController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            RawImage backgroundImage = cardMonsterObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_MONSTER_BUTTON_BACKGROUND_URL);
+
             Transform teamPanel = cardMonsterObject.transform.Find("Team");
             if(cardMonster.Team.TeamNumber != 0)
             {

@@ -55,10 +55,31 @@ public class UserBooksController : MonoBehaviour
             Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
             Title.text = book.Name.Replace("_", " ");
 
-            RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
+
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            RawImage backgroundImage = bookObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BOOK_BUTTON_BACKGROUND_URL);
 
             RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
@@ -70,32 +91,32 @@ public class UserBooksController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(book, MainPanel);
             });
             // Đặt kích thước gốc
-            Image.SetNativeSize();
+            image.SetNativeSize();
 
             // Thay đổi tỉ lệ
             if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
             {
-                Image.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+                image.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
             }
             else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
             {
-                Image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
+                image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
             }
             else if (texture.width <= 700 && texture.height <= 700)
             {
-                Image.transform.localScale = new Vector3(0.65f, 0.65f, 0.65f);
+                image.transform.localScale = new Vector3(0.65f, 0.65f, 0.65f);
             }
             else if (texture.width <= 700 && texture.height <= 1100)
             {
-                Image.transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
+                image.transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
             }
             else if (texture.width > 700 && texture.height <= 700)
             {
-                Image.transform.localScale = new Vector3(0.35f, 0.45f, 0.35f);
+                image.transform.localScale = new Vector3(0.35f, 0.45f, 0.35f);
             }
             else
             {
-                Image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
+                image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
             }
 
 
@@ -172,7 +193,7 @@ public class UserBooksController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(books, currentObject);
+            _ = GetLevelAsync(books, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
@@ -182,7 +203,7 @@ public class UserBooksController : MonoBehaviour
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(books, currentObject);
+            _ = GetUpgradeAsync(books, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
@@ -193,7 +214,7 @@ public class UserBooksController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(books, currentObject);
+                _ = GetLevelAsync(books, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
@@ -201,7 +222,7 @@ public class UserBooksController : MonoBehaviour
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(books, currentObject);
+                _ = GetUpgradeAsync(books, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:

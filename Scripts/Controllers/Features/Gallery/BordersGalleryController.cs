@@ -69,6 +69,9 @@ public class BordersGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+                RawImage backgroundImage = borderObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BORDER_BUTTON_BACKGROUND_URL);
+
                 Button button = borderObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {

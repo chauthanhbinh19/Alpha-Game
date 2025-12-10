@@ -76,6 +76,9 @@ public class TitlesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = titleObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.TITLE_BUTTON_BACKGROUND_URL);
+
             Button button = titleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

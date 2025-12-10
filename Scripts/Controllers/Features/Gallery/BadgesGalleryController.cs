@@ -37,17 +37,17 @@ public class BadgesGalleryController : MonoBehaviour
     }
     public void CreateBadgesGallery(List<Badges> BadgesList, Transform contentPanel)
     {
-        foreach (var technology in BadgesList)
+        foreach (var badge in BadgesList)
         {
             try
             {
-                GameObject technologyObject = Instantiate(BadgeBlockButtonPrefab, contentPanel);
+                GameObject badgeObject = Instantiate(BadgeBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = technologyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = technology.Name.Replace("_", " ");
+                TextMeshProUGUI Title = badgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = badge.Name.Replace("_", " ");
 
-                RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
+                RawImage image = badgeObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -69,37 +69,40 @@ public class BadgesGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                Button button = technologyObject.GetComponent<Button>();
+                RawImage backgroundImage = badgeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BADGE_BUTTON_BACKGROUND_URL);
+
+                Button button = badgeObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(badge, MainPanel);
                 });
 
-                RawImage rareImage = technologyObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
+                RawImage rareImage = badgeObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{badge.Rare}");
                 rareImage.texture = rareTexture;
 
-                RawImage blockImage = technologyObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = technologyObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (technology.Status.Equals("available"))
+                RawImage blockImage = badgeObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = badgeObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (badge.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (technology.Status.Equals("pending"))
+                else if (badge.Status.Equals("pending"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (technology.Status.Equals("block"))
+                else if (badge.Status.Equals("block"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
 
-                RawImage rareBackgroundImage = technologyObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                RawImage rareBackgroundImage = badgeObject.transform.Find("RareBackground").GetComponent<RawImage>();
                 rareImage.gameObject.SetActive(false);
                 rareBackgroundImage.gameObject.SetActive(false);
 
@@ -107,7 +110,7 @@ public class BadgesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var titleGalleryService = BadgesGalleryService.Create();
-                    await titleGalleryService.UpdateStatusBadgeGalleryAsync(technology.Id);
+                    await titleGalleryService.UpdateStatusBadgeGalleryAsync(badge.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -122,8 +125,8 @@ public class BadgesGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = technologyObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((technology.CurrentStar < technology.TempStar) && technology.Status.Equals("available"))
+                Button Upgrade = badgeObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((badge.CurrentStar < badge.TempStar) && badge.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -135,7 +138,7 @@ public class BadgesGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BadgesGalleryService.Create().UpdateBadgeGalleryPowerAsync(technology.Id);
+                    await BadgesGalleryService.Create().UpdateBadgeGalleryPowerAsync(badge.Id);
                 });
             }
             catch (Exception ex)

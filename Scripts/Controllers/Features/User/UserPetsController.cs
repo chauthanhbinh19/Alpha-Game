@@ -78,6 +78,9 @@ public class UserPetsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = petsObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.PET_BUTTON_BACKGROUND_URL);
+
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

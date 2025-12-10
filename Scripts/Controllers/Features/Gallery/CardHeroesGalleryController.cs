@@ -48,6 +48,9 @@ public class CardHeroesGalleryController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            RawImage backgroundImage = cardHeroObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_HERO_BUTTON_BACKGROUND_URL);
+
             Button button = cardHeroObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

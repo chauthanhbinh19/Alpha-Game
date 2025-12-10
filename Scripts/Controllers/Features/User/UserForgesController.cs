@@ -76,6 +76,9 @@ public class UserForgesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+            RawImage backgroundImage = forgeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.FORGE_BUTTON_BACKGROUND_URL);
+
             Button button = forgeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {

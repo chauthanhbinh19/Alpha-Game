@@ -69,6 +69,9 @@ public class TechnologiesGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
+                RawImage backgroundImage = technologyObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.TECHNOLOGY_BUTTON_BACKGROUND_URL);
+
                 Button button = technologyObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {

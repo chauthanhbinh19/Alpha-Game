@@ -48,12 +48,12 @@ public class UserVehiclesController : MonoBehaviour
     {
         foreach (var vehicle in vehicles)
         {
-            GameObject VehicleObject = Instantiate(VehicleButtonPrefab, contentPanel);
+            GameObject vehicleObject = Instantiate(VehicleButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = VehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI Title = vehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = vehicle.Name.Replace("_", " ");
 
-            RawImage image = VehicleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = vehicleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -76,17 +76,20 @@ public class UserVehiclesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            Button button = VehicleObject.GetComponent<Button>();
+            RawImage backgroundImage = vehicleObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.VEHICLE_BUTTON_BACKGROUND_URL);
+
+            Button button = vehicleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(vehicle, MainPanel);
             });
 
-            RawImage frameImage = VehicleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = vehicleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            RawImage rareImage = VehicleObject.transform.Find("Rare").GetComponent<RawImage>();
+            RawImage rareImage = vehicleObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = Resources.Load<Texture>($"UI/UI/{vehicle.Rare}");
             rareImage.texture = rareTexture;
 

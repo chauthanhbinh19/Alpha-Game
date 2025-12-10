@@ -46,10 +46,31 @@ public class SymbolsGalleryController : MonoBehaviour
                 TextMeshProUGUI Title = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 Title.text = symbol.Name.Replace("_", " ");
 
-                RawImage Image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-                Image.texture = texture;
+                image.texture = texture;
+
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                RawImage backgroundImage = symbolObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.SYMBOL_BUTTON_BACKGROUND_URL);
 
                 Button button = symbolObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
@@ -70,7 +91,7 @@ public class SymbolsGalleryController : MonoBehaviour
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
-                    Image.color = Color.white;
+                    image.color = Color.white;
                 }
                 else if (symbol.Status.Equals("pending"))
                 {
@@ -94,7 +115,7 @@ public class SymbolsGalleryController : MonoBehaviour
                     await symbolGalleryService.UpdateStatusSymbolGalleryAsync(symbol.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
-                    Image.color = Color.white;
+                    image.color = Color.white;
 
                     var powerManagerService = PowerManagerService.Create();
                     var teamsService = TeamsService.Create();

@@ -51,24 +51,13 @@ public class ArtworksGalleryController : MonoBehaviour
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
-                // Kích thước của RawImage (khung hiển thị)
+                // Set size 200x130
                 RectTransform rect = image.GetComponent<RectTransform>();
-                float maxWidth = rect.rect.width;
-                float maxHeight = rect.rect.height;
+                rect.sizeDelta = new Vector2(200, 130);
 
-                // Kích thước thật của texture
-                float texWidth = texture.width;
-                float texHeight = texture.height;
+                RawImage backgroundImage = artworkObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
 
-                // Tính scale để texture nằm gọn trong khung
-                float widthRatio = maxWidth / texWidth;
-                float heightRatio = maxHeight / texHeight;
-                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
-
-                // Áp dụng scale theo tỉ lệ đúng
-                image.SetNativeSize();
-                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
-                
                 // RawImage frameImage = ArtworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
                 // frameImage.gameObject.SetActive(true);
 
