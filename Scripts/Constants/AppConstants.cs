@@ -305,6 +305,9 @@ public static class AppConstants
         public const string RUNE = "Rune";
         public const string RUNES = "Runes";
 
+        public const string FURNITURE = "Furniture";
+        public const string FURNITURES = "Furnitures";
+
         public const string SCIENCE_FICTION = "Science Fiction";
         public const string SUMMON_CARD_HEROES = "Summon Card Heroes";
         public const string SUMMON_BOOKS = "Summon Books";
@@ -414,6 +417,7 @@ public static class AppConstants
         public const string BADGES_GALLERY = "Bages Gallery";
         public const string MECHA_BEASTS_GALLERY = "Mecha Beasts Gallery";
         public const string RUNES_GALLERY = "Runes Gallery";
+        public const string FURNITURES_GALLERY = "Furnitures Gallery";
     }
     public static class Collection
     {
@@ -456,6 +460,7 @@ public static class AppConstants
         public const string BADGES_COLLECTION = "Badges Collection";
         public const string MECHA_BEASTS_COLLECTION = "Mecha Beasts Collection";
         public const string RUNES_COLLECTION = "Runes Collection";
+        public const string FURNITURES_COLLECTION = "Furnitures Collection";
     }
     public static class Anime
     {

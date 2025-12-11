@@ -783,6 +783,7 @@ GameObject:
   - component: {fileID: 915225577215308009}
   - component: {fileID: 3814936934986410323}
   - component: {fileID: 145266134366862358}
+  - component: {fileID: 2434826255790084910}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -838,13 +839,28 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 71bab134915bdb24da0745b8c8441788, type: 3}
+  m_Texture: {fileID: 2800000, guid: 077afc4df64de8c47aaec552ad6cf70d, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 1
     height: 1
+--- !u!114 &2434826255790084910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8079445103526996250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 4, y: -4}
+  m_UseGraphicAlpha: 1
 --- !u!1 &8156462208906649972
 GameObject:
   m_ObjectHideFlags: 0

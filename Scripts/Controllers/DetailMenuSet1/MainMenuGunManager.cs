@@ -56,7 +56,7 @@ public class MainMenuGunManager : MonoBehaviour
             Destroy(currentObject);
         });
         RawImage background = currentObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
-        background.texture = Resources.Load<Texture>(ImageConstants.Background.BACKGROUND_52_URL);
+        background.texture = Resources.Load<Texture>(ImageConstants.Background.BACKGROUND_65_URL);
         RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
         RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
         closeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
