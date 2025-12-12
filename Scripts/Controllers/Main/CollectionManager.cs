@@ -87,6 +87,9 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_38", () => GetType(AppConstants.MainType.BADGE));
         AssignButtonEvent("Button_39", () => GetType(AppConstants.MainType.MECHA_BEAST));
         AssignButtonEvent("Button_40", () => GetType(AppConstants.MainType.RUNE));
+        AssignButtonEvent("Button_41", () => GetType(AppConstants.MainType.FURNITURE));
+        AssignButtonEvent("Button_42", () => GetType(AppConstants.MainType.FOOD));
+        AssignButtonEvent("Button_43", () => GetType(AppConstants.MainType.BEVERAGE));
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
     {
@@ -617,6 +620,30 @@ public class CollectionManager : MonoBehaviour
             RunesGalleryController.Instance.CreateRunesGallery(runes, DictionaryContentPanel);
 
             totalRecord = await runesGalleryService.GetRunesCountAsync(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.FURNITURE))
+        {
+            var furnituresGalleryService = FurnitureGalleryService.Create();
+            List<Furnitures> furnitures = await furnituresGalleryService.GetFurnituresCollectionAsync(type, pageSize, offset, rare);
+            FurnituresGalleryController.Instance.CreateFurnitureGallery(furnitures, DictionaryContentPanel);
+
+            totalRecord = await furnituresGalleryService.GetFurnituresCountAsync(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.FOOD))
+        {
+            var foodsGalleryService = FoodsGalleryService.Create();
+            List<Foods> foods = await foodsGalleryService.GetFoodsCollectionAsync(pageSize, offset, rare);
+            FoodsGalleryController.Instance.CreateFoodsGallery(foods, DictionaryContentPanel);
+
+            totalRecord = await foodsGalleryService.GetFoodsCountAsync(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
+        {
+            var beveragesGalleryService = BeveragesGalleryService.Create();
+            List<Beverages> beverages = await beveragesGalleryService.GetBeveragesCollectionAsync(pageSize, offset, rare);
+            BeveragesGalleryController.Instance.CreateBeveragesGallery(beverages, DictionaryContentPanel);
+
+            totalRecord = await beveragesGalleryService.GetBeveragesCountAsync(rare);
         }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

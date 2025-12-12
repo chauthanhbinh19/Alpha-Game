@@ -154,6 +154,12 @@ public static class AppDisplayConstants
         public const string FURNITURE = "MainType.Furniture";
         public const string FURNITURES = "MainType.Furnitures";
 
+        public const string FOOD = "MainType.Food";
+        public const string FOODS = "MainType.Foods";
+
+        public const string BEVERAGE = "MainType.Beverage";
+        public const string BEVERAGES = "MainType.Beverages";
+
         public const string SUMMON_CARD_HEROES = "summon_card_heroes";
         public const string SUMMON_BOOKS = "summon_books";
         public const string SUMMON_CARD_CAPTAINS = "summon_card_captains";
@@ -239,6 +245,8 @@ public static class AppDisplayConstants
         public const string MECHA_BEASTS_GALLERY = "Gallery.MechaBeasts";
         public const string RUNES_GALLERY = "Gallery.Runes";
         public const string FURNITURES_GALLERY = "Gallery.Furnitures";
+        public const string FOODS_GALLERY = "Gallery.Foods";
+        public const string BEVERAGES_GALLERY = "Gallery.Beverages";
     }
     public static class Collection
     {
@@ -283,6 +291,8 @@ public static class AppDisplayConstants
         public const string MECHA_BEASTS_COLLECTION = "Collection.MechaBeasts";
         public const string RUNES_COLLECTION = "Collection.Runes";
         public const string FURNITURES_COLLECTION = "Collection.Furnitures";
+        public const string FOODS_COLLECTION = "Collection.Foods";
+        public const string BEVERAGES_COLLECTION = "Collection.Beverages";
     }
     public static class Anime
     {

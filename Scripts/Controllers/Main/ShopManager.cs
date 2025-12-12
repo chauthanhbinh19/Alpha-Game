@@ -152,6 +152,9 @@ public class ShopManager : MonoBehaviour
         CreateButton(36, AppDisplayConstants.MainType.BADGES, Resources.Load<Texture2D>(ImageConstants.Gallery.BADGE_URL), tempContent);
         CreateButton(37, AppDisplayConstants.MainType.MECHA_BEAST, Resources.Load<Texture2D>(ImageConstants.Gallery.MECHA_BEAST_URL), tempContent);
         CreateButton(38, AppDisplayConstants.MainType.RUNES, Resources.Load<Texture2D>(ImageConstants.Gallery.RUNE_URL), tempContent);
+        CreateButton(39, AppDisplayConstants.MainType.FURNITURES, Resources.Load<Texture2D>(ImageConstants.Gallery.FURNITURE_URL), tempContent);
+        CreateButton(40, AppDisplayConstants.MainType.FOODS, Resources.Load<Texture2D>(ImageConstants.Gallery.FOOD_URL), tempContent);
+        CreateButton(41, AppDisplayConstants.MainType.BEVERAGES, Resources.Load<Texture2D>(ImageConstants.Gallery.BEVERAGE_URL), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.MainType.BOOK));
@@ -191,6 +194,9 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_36", tempContent, () => GetType(AppConstants.MainType.BADGE));
         AssignButtonEvent("Button_37", tempContent, () => GetType(AppConstants.MainType.MECHA_BEAST));
         AssignButtonEvent("Button_38", tempContent, () => GetType(AppConstants.MainType.RUNE));
+        AssignButtonEvent("Button_39", tempContent, () => GetType(AppConstants.MainType.FURNITURE));
+        AssignButtonEvent("Button_40", tempContent, () => GetType(AppConstants.MainType.FOOD));
+        AssignButtonEvent("Button_41", tempContent, () => GetType(AppConstants.MainType.BEVERAGE));
 
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -686,6 +692,39 @@ public class ShopManager : MonoBehaviour
             await RunesController.Instance.CreateRunesTradeAsync(runes, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await RunesService.Create().GetRunesWithPriceCountAsync();
+        }
+        else if (mainType.Equals(AppConstants.MainType.FURNITURE))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_75_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_76_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Furnitures> furnitures = await FurnituresService.Create().GetFurnituresWithPriceAsync(type, pageSize, offset);
+            await FurnituresController.Instance.CreateFurnitureTradeAsync(furnitures, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await FurnituresService.Create().GetFurnituresWithPriceCountAsync(type);
+        }
+        else if (mainType.Equals(AppConstants.MainType.FOOD))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_75_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_76_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Foods> foods = await FoodsService.Create().GetFoodsWithPriceAsync(pageSize, offset);
+            await FoodsController.Instance.CreateFoodsTradeAsync(foods, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await FoodsService.Create().GetFoodsWithPriceCountAsync();
+        }
+        else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_75_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_76_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Beverages> beverages = await BeveragesService.Create().GetBeveragesWithPriceAsync(pageSize, offset);
+            await BeveragesController.Instance.CreateBeveragesTradeAsync(beverages, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await BeveragesService.Create().GetBeveragesWithPriceCountAsync();
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);

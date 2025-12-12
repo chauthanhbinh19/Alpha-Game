@@ -104,6 +104,9 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(35, AppConstants.MainType.BADGES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.BADGE_URL), contentPanel);
         CreateButton(36, AppConstants.MainType.MECHA_BEASTS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.MECHA_BEAST_URL), contentPanel);
         CreateButton(37, AppConstants.MainType.RUNES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.RUNE_URL), contentPanel);
+        CreateButton(38, AppConstants.MainType.FURNITURES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.FURNITURE_URL), contentPanel);
+        CreateButton(39, AppConstants.MainType.FOODS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.FOOD_URL), contentPanel);
+        CreateButton(40, AppConstants.MainType.BEVERAGES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.BEVERAGE_URL), contentPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
     }
@@ -374,6 +377,9 @@ public class ButtonLoader : MonoBehaviour
         CreateGalleryButtonUI(38, AppDisplayConstants.Gallery.BADGES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BADGE_URL), galleryMenuPanel);
         CreateGalleryButtonUI(39, AppDisplayConstants.Gallery.MECHA_BEASTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.MECHA_BEAST_URL), galleryMenuPanel);
         CreateGalleryButtonUI(40, AppDisplayConstants.Gallery.RUNES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.RUNE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(41, AppDisplayConstants.Gallery.FURNITURES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BADGE_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(42, AppDisplayConstants.Gallery.FOODS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.MECHA_BEAST_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(43, AppDisplayConstants.Gallery.BEVERAGES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.RUNE_URL), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -449,6 +455,9 @@ public class ButtonLoader : MonoBehaviour
         CreateCollectionButtonUI(38, AppDisplayConstants.Collection.BADGES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BADGE_URL), collectionMenuPanel);
         CreateCollectionButtonUI(39, AppDisplayConstants.Collection.MECHA_BEASTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.MECHA_BEAST_URL), collectionMenuPanel);
         CreateCollectionButtonUI(40, AppDisplayConstants.Collection.RUNES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.RUNE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(41, AppDisplayConstants.Collection.FURNITURES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.FURNITURE_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(42, AppDisplayConstants.Collection.FOODS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.FOOD_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(43, AppDisplayConstants.Collection.BEVERAGES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BEVERAGE_URL), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

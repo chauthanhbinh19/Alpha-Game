@@ -438,6 +438,9 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_35", contentPanel, () => GetType(AppConstants.MainType.BADGE));
         ButtonEvent.Instance.AssignButtonEvent("Button_36", contentPanel, () => GetType(AppConstants.MainType.MECHA_BEAST));
         ButtonEvent.Instance.AssignButtonEvent("Button_37", contentPanel, () => GetType(AppConstants.MainType.RUNE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_38", contentPanel, () => GetType(AppConstants.MainType.FURNITURE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_39", contentPanel, () => GetType(AppConstants.MainType.FOOD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_40", contentPanel, () => GetType(AppConstants.MainType.BEVERAGE));
     }
     public void GetPrimaryButtonEvent()
     {
@@ -1638,6 +1641,31 @@ public class MainMenuManager : MonoBehaviour
             listCount = runes.Count;
 
             totalRecord = await UserRunesService.Create().GetUserRunesCountAsync(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.FURNITURE))
+        {
+            List<Furnitures> furnitures = await UserFurnitureService.Create().GetUserFurnituresAsync(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
+            UserFurnituresController.Instance.CreateUserFurniture(furnitures, DictionaryContentPanel);
+            listCount = furnitures.Count;
+
+            totalRecord = await UserFurnitureService.Create().GetUserFurnituresCountAsync(User.CurrentUserId, type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.FOOD))
+        {
+            List<Foods> foods = await UserFoodsService.Create().GetUserFoodsAsync(User.CurrentUserId, pageSize, offset, rare);
+            UserFoodsController.Instance.CreateUserFoods(foods, DictionaryContentPanel);
+            listCount = foods.Count;
+
+            totalRecord = await UserFoodsService.Create().GetUserFoodsCountAsync(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
+        {
+            List<Beverages> beverages = await UserBeveragesService.Create().GetUserBeveragesAsync(User.CurrentUserId, pageSize, offset, rare);
+            UserBeveragesController.Instance.CreateUserBeverages(beverages, DictionaryContentPanel);
+            listCount = beverages.Count;
+
+            totalRecord = await UserBeveragesService.Create().GetUserBeveragesCountAsync(User.CurrentUserId, rare);
         }
 
         if (listCount > 0)

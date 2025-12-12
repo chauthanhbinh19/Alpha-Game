@@ -60,6 +60,8 @@ public static class ImageConstants
         public const string MECHA_BEAST_URL = "UI/Button/Main/MechaBeasts";
         public const string RUNE_URL = "UI/Button/Main/Runes";
         public const string FURNITURE_URL = "UI/Button/Main/Furnitures";
+        public const string FOOD_URL = "UI/Button/Main/Foods";
+        public const string BEVERAGE_URL = "UI/Button/Main/Beverages";
         public const string SHOP_URL = "UI/UI/Shop";
         public const string GALLERY_URL = "UI/Button/Gallery";
         public const string COLLECTION_URL = "UI/Button/Collection";
@@ -264,6 +266,8 @@ public static class ImageConstants
         public const string MECHA_BEAST_URL = "UI/Button/Gallery/MechaBeastsGallery";
         public const string RUNE_URL = "UI/Button/Gallery/RunesGallery";
         public const string FURNITURE_URL = "UI/Button/Gallery/FurnituresGallery";
+        public const string FOOD_URL = "UI/Button/Gallery/FoodsGallery";
+        public const string BEVERAGE_URL = "UI/Button/Gallery/BeveragesGallery";
     }
     public static class Collection
     {
@@ -308,6 +312,8 @@ public static class ImageConstants
         public const string MECHA_BEAST_URL = "UI/Button/Collection/MechaBeastsCollection";
         public const string RUNE_URL = "UI/Button/Collection/RunesCollection";
         public const string FURNITURE_URL = "UI/Button/Collection/FurnituresCollection";
+        public const string FOOD_URL = "UI/Button/Collection/FoodsCollection";
+        public const string BEVERAGE_URL = "UI/Button/Collection/BeveragesCollection";
     }
     public static class Rune
     {
@@ -525,6 +531,8 @@ public static class ImageConstants
         public const string MECHA_BEAST_BACKGROUND_URL = "UI/Background3/MechaBeast";
         public const string RUNE_BACKGROUND_URL = "UI/Background3/Rune";
         public const string FURNITURE_BACKGROUND_URL = "UI/Background3/Furniture";
+        public const string FOOD_BACKGROUND_URL = "UI/Background3/Food";
+        public const string BEVERAGE_BACKGROUND_URL = "UI/Background3/Beverage";
 
         public const string CARD_HERO_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardHeroes_Background";
         public const string BOOK_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Books_Background";
@@ -567,6 +575,8 @@ public static class ImageConstants
         public const string MECHA_BEAST_BUTTON_BACKGROUND_URL = "UI/Background4/Button/MechaBeasts_Background";
         public const string RUNE_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Runes_Background";
         public const string FURNITURE_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Furnitures_Background";
+        public const string FOOD_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Foods_Background";
+        public const string BEVERAGE_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Beverages_Background";
 
         public const string BACKGROUND_1_URL = "UI/Background1/Background_V1_1";
         public const string BACKGROUND_2_URL = "UI/Background1/Background_V1_2";

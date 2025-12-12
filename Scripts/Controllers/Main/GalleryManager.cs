@@ -88,6 +88,9 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_38", () => GetType(AppConstants.MainType.BADGE));
         AssignButtonEvent("Button_39", () => GetType(AppConstants.MainType.MECHA_BEAST));
         AssignButtonEvent("Button_40", () => GetType(AppConstants.MainType.RUNE));
+        AssignButtonEvent("Button_41", () => GetType(AppConstants.MainType.FURNITURE));
+        AssignButtonEvent("Button_42", () => GetType(AppConstants.MainType.FOOD));
+        AssignButtonEvent("Button_43", () => GetType(AppConstants.MainType.BEVERAGE));
         // GetCardsType();
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
@@ -596,6 +599,27 @@ public class GalleryManager : MonoBehaviour
             RunesController.Instance.CreateRunesGallery(runes, DictionaryContentPanel);
 
             totalRecord = await RunesService.Create().GetRunesCountAsync(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.FURNITURE))
+        {
+            List<Furnitures> furnitures = await FurnituresService.Create().GetFurnituresAsync(type, pageSize, offset, rare);
+            FurnituresController.Instance.CreateFurnitureGallery(furnitures, DictionaryContentPanel);
+
+            totalRecord = await VehiclesService.Create().GetVehiclesCountAsync(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.FOOD))
+        {
+            List<Foods> foods = await FoodsService.Create().GetFoodsAsync(pageSize, offset, rare);
+            FoodsController.Instance.CreateFoodsGallery(foods, DictionaryContentPanel);
+
+            totalRecord = await FoodsService.Create().GetFoodsCountAsync(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
+        {
+            List<Beverages> beverages = await BeveragesService.Create().GetBeveragesAsync(pageSize, offset, rare);
+            BeveragesController.Instance.CreateBeveragesGallery(beverages, DictionaryContentPanel);
+
+            totalRecord = await BeveragesService.Create().GetBeveragesCountAsync(rare);
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
