@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IUserFurnitureService
+public interface IUserFurnituresService
 {
     Task<Furnitures> GetNewLevelPowerAsync(Furnitures c, double coefficient);
     Task<Furnitures> GetNewBreakthroughPowerAsync(Furnitures c, double coefficient);

@@ -5,7 +5,7 @@ using System;
 using MySqlConnector;
 using System.Threading.Tasks;
 
-public class UserFurnitureRepository : IUserFurnitureRepository
+public class UserFurnituresRepository : IUserFurnituresRepository
 {
     public async Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string type, int pageSize, int offset, string rare)
     {

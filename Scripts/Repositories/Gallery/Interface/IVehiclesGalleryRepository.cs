@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IVehicleGalleryRepository
+public interface IVehiclesGalleryRepository
 {
     Task<List<Vehicles>> GetVehiclesCollectionAsync(string type, int pageSize, int offset, string rare);
     Task<int> GetVehiclesCountAsync(string type, string rare);

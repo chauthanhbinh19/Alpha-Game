@@ -1587,12 +1587,12 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.VEHICLE))
         {
-            List<Vehicles> vehicles = await UserVehicleService.Create().GetUserVehiclesAsync(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Vehicles> vehicles = await UserVehiclesService.Create().GetUserVehiclesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserVehiclesController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
             listCount = vehicles.Count;
 
-            totalRecord = await UserVehicleService.Create().GetUserVehiclesCountAsync(User.CurrentUserId, type, rare);
+            totalRecord = await UserVehiclesService.Create().GetUserVehiclesCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CORE))
         {
@@ -1644,12 +1644,12 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.FURNITURE))
         {
-            List<Furnitures> furnitures = await UserFurnitureService.Create().GetUserFurnituresAsync(User.CurrentUserId, type, pageSize, offset, rare);
+            List<Furnitures> furnitures = await UserFurnituresService.Create().GetUserFurnituresAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
             UserFurnituresController.Instance.CreateUserFurniture(furnitures, DictionaryContentPanel);
             listCount = furnitures.Count;
 
-            totalRecord = await UserFurnitureService.Create().GetUserFurnituresCountAsync(User.CurrentUserId, type, rare);
+            totalRecord = await UserFurnituresService.Create().GetUserFurnituresCountAsync(User.CurrentUserId, type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.FOOD))
         {

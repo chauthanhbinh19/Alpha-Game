@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IUserVehicleRepository
+public interface IUserVehiclesRepository
 {
     Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string type, int pageSize, int offset, string rare);
     Task<int> GetUserVehiclesCountAsync(string user_id, string type, string rare);

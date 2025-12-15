@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IUserFurnitureRepository
+public interface IUserFurnituresRepository
 {
     Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string type, int pageSize, int offset, string rare);
     Task<int> GetUserFurnituresCountAsync(string user_id, string type, string rare);

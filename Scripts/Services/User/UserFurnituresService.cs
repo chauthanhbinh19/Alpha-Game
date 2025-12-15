@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class UserFurnitureService : IUserFurnitureService
+public class UserFurnituresService : IUserFurnituresService
 {
-    private readonly IUserFurnitureRepository _userFurnitureRepository;
+    private readonly IUserFurnituresRepository _userFurnitureRepository;
 
-    public UserFurnitureService(IUserFurnitureRepository userFurnitureRepository)
+    public UserFurnituresService(IUserFurnituresRepository userFurnitureRepository)
     {
         _userFurnitureRepository = userFurnitureRepository;
     }
 
-    public static UserFurnitureService Create()
+    public static UserFurnituresService Create()
     {
-        return new UserFurnitureService(new UserFurnitureRepository());
+        return new UserFurnituresService(new UserFurnituresRepository());
     }
 
     public async Task<Furnitures> GetNewLevelPowerAsync(Furnitures c, double coefficient)

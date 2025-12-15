@@ -204,7 +204,7 @@ public class UserFurnituresController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Furnitures currentCard = new Furnitures();
-                currentCard = await UserFurnitureService.Create().GetUserFurnitureByIdAsync(User.CurrentUserId, Furniture.Id);
+                currentCard = await UserFurnituresService.Create().GetUserFurnitureByIdAsync(User.CurrentUserId, Furniture.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -215,8 +215,8 @@ public class UserFurnituresController : MonoBehaviour
                 {
                     Furnitures newCard = new Furnitures();
 
-                    newCard = await UserFurnitureService.Create().GetNewLevelPowerAsync(Furniture, increasePerLevel);
-                    await UserFurnitureService.Create().UpdateFurnitureLevelAsync(newCard, currentLevel + 1);
+                    newCard = await UserFurnituresService.Create().GetNewLevelPowerAsync(Furniture, increasePerLevel);
+                    await UserFurnituresService.Create().UpdateFurnitureLevelAsync(newCard, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -231,7 +231,7 @@ public class UserFurnituresController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Furnitures currentCard = await UserFurnitureService.Create().GetUserFurnitureByIdAsync(User.CurrentUserId, Furniture.Id);
+                Furnitures currentCard = await UserFurnituresService.Create().GetUserFurnitureByIdAsync(User.CurrentUserId, Furniture.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -247,8 +247,8 @@ public class UserFurnituresController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Furnitures newCard = await UserFurnitureService.Create().GetNewLevelPowerAsync(Furniture, levelsGained * increasePerLevel);
-                    await UserFurnitureService.Create().UpdateFurnitureLevelAsync(newCard, currentLevel);
+                    Furnitures newCard = await UserFurnituresService.Create().GetNewLevelPowerAsync(Furniture, levelsGained * increasePerLevel);
+                    await UserFurnituresService.Create().UpdateFurnitureLevelAsync(newCard, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -363,14 +363,14 @@ public class UserFurnituresController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Furnitures newFurniture = new Furnitures();
 
-                    newFurniture = await UserFurnitureService.Create().GetNewBreakthroughPowerAsync(Furniture, increasePerUpgrade);
-                    await UserFurnitureService.Create().UpdateFurnitureBreakthroughAsync(newFurniture, Furniture.Star + 1, Furniture.Quantity);
+                    newFurniture = await UserFurnituresService.Create().GetNewBreakthroughPowerAsync(Furniture, increasePerUpgrade);
+                    await UserFurnituresService.Create().UpdateFurnitureBreakthroughAsync(newFurniture, Furniture.Star + 1, Furniture.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await FurnitureGalleryService.Create().UpdateStarFurnitureGalleryAsync(Furniture.Id, Furniture.Star + 1);
+                    await FurnituresGalleryService.Create().UpdateStarFurnitureGalleryAsync(Furniture.Id, Furniture.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);

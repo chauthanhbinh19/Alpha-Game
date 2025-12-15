@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class VehicleGalleryService : IVehiclesGalleryService
+public class VehiclesGalleryService : IVehiclesGalleryService
 {
-    private readonly IVehicleGalleryRepository _VehicleGalleryRepository;
+    private readonly IVehiclesGalleryRepository _VehicleGalleryRepository;
 
-    public VehicleGalleryService(IVehicleGalleryRepository VehicleGalleryRepository)
+    public VehiclesGalleryService(IVehiclesGalleryRepository VehicleGalleryRepository)
     {
         _VehicleGalleryRepository = VehicleGalleryRepository;
     }
 
-    public static VehicleGalleryService Create()
+    public static VehiclesGalleryService Create()
     {
-        return new VehicleGalleryService(new VehicleGalleryRepository());
+        return new VehiclesGalleryService(new VehiclesGalleryRepository());
     }
 
     public async Task<List<Vehicles>> GetVehiclesCollectionAsync(string type, int pageSize, int offset, string rare)

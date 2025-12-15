@@ -2823,8 +2823,8 @@ public class PowerManagerService : IPowerManagerService
     {
         PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
 
-        IVehicleGalleryRepository vehicleGalleryRepository = new VehicleGalleryRepository();
-        VehicleGalleryService vehicleGalleryService = new VehicleGalleryService(vehicleGalleryRepository);
+        IVehiclesGalleryRepository vehicleGalleryRepository = new VehiclesGalleryRepository();
+        VehiclesGalleryService vehicleGalleryService = new VehiclesGalleryService(vehicleGalleryRepository);
         // Gallery
         Vehicles vehicle = await vehicleGalleryService.SumPowerVehiclesGalleryAsync();
         powerManager.Power += vehicle.Power;
@@ -2872,8 +2872,8 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += vehicle.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += vehicle.PercentAllMentalDefense;
 
-        IUserVehicleRepository userVehicleRepository = new UserVehicleRepository();
-        UserVehicleService userVehicleService = new UserVehicleService(userVehicleRepository);
+        IUserVehiclesRepository userVehicleRepository = new UserVehiclesRepository();
+        UserVehiclesService userVehicleService = new UserVehiclesService(userVehicleRepository);
         // User SpiritBeast (Gallery)
         vehicle = await userVehicleService.SumPowerUserVehiclesAsync(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
         powerManager.Power += vehicle.Power;

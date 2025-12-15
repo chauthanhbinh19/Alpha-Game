@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IFurnitureGalleryRepository
+public interface IFurnituresGalleryRepository
 {
     Task<List<Furnitures>> GetFurnituresCollectionAsync(string type, int pageSize, int offset, string rare);
     Task<int> GetFurnituresCountAsync(string type, string rare);

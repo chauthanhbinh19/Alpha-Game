@@ -191,7 +191,7 @@ public class FoodsRepository : IFoodsRepository
                 string query = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Foods t
-                JOIN technology_trade tt ON t.id = tt.Food_id
+                JOIN food_trade tt ON t.id = tt.Food_id
                 JOIN currencies cu ON tt.currency_id = cu.id
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
@@ -312,7 +312,7 @@ public class FoodsRepository : IFoodsRepository
                 string query = @"
                 SELECT COUNT(*)
                 FROM Foods t
-                JOIN technology_trade tt ON t.id = tt.Food_id
+                JOIN food_trade tt ON t.id = tt.Food_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 

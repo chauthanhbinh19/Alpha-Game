@@ -105,7 +105,7 @@ public class FurnituresGalleryController : MonoBehaviour
                 Unlock.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await FurnitureGalleryService.Create().UpdateStatusFurnitureGalleryAsync(Furniture.Id);
+                    await FurnituresGalleryService.Create().UpdateStatusFurnitureGalleryAsync(Furniture.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -133,7 +133,7 @@ public class FurnituresGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await FurnitureGalleryService.Create().UpdateFurnitureGalleryPowerAsync(Furniture.Id);
+                    await FurnituresGalleryService.Create().UpdateFurnitureGalleryPowerAsync(Furniture.Id);
                 });
             }
             catch (Exception ex)

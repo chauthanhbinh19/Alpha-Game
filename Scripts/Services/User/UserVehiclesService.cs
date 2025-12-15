@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class UserVehicleService : IUserVehicleService
+public class UserVehiclesService : IUserVehiclesService
 {
-    private readonly IUserVehicleRepository _userVehicleRepository;
+    private readonly IUserVehiclesRepository _userVehicleRepository;
 
-    public UserVehicleService(IUserVehicleRepository userVehicleRepository)
+    public UserVehiclesService(IUserVehiclesRepository userVehicleRepository)
     {
         _userVehicleRepository = userVehicleRepository;
     }
 
-    public static UserVehicleService Create()
+    public static UserVehiclesService Create()
     {
-        return new UserVehicleService(new UserVehicleRepository());
+        return new UserVehiclesService(new UserVehiclesRepository());
     }
 
     public async Task<Vehicles> GetNewLevelPowerAsync(Vehicles c, double coefficient)

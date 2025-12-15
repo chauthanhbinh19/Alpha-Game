@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IUserVehicleService
+public interface IUserVehiclesService
 {
     Task<Vehicles> GetNewLevelPowerAsync(Vehicles c, double coefficient);
     Task<Vehicles> GetNewBreakthroughPowerAsync(Vehicles c, double coefficient);

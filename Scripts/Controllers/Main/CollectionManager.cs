@@ -567,7 +567,7 @@ public class CollectionManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.VEHICLE))
         {
-            var vehiclesGalleryService = VehicleGalleryService.Create();
+            var vehiclesGalleryService = VehiclesGalleryService.Create();
             List<Vehicles> vehicles = await vehiclesGalleryService.GetVehiclesCollectionAsync(type, pageSize, offset, rare);
             VehiclesGalleryController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
 
@@ -623,7 +623,7 @@ public class CollectionManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.FURNITURE))
         {
-            var furnituresGalleryService = FurnitureGalleryService.Create();
+            var furnituresGalleryService = FurnituresGalleryService.Create();
             List<Furnitures> furnitures = await furnituresGalleryService.GetFurnituresCollectionAsync(type, pageSize, offset, rare);
             FurnituresGalleryController.Instance.CreateFurnitureGallery(furnitures, DictionaryContentPanel);
 

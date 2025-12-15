@@ -105,7 +105,7 @@ public class VehiclesGalleryController : MonoBehaviour
                 Unlock.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await VehicleGalleryService.Create().UpdateStatusVehicleGalleryAsync(vehicle.Id);
+                    await VehiclesGalleryService.Create().UpdateStatusVehicleGalleryAsync(vehicle.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -133,7 +133,7 @@ public class VehiclesGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await VehicleGalleryService.Create().UpdateVehicleGalleryPowerAsync(vehicle.Id);
+                    await VehiclesGalleryService.Create().UpdateVehicleGalleryPowerAsync(vehicle.Id);
                 });
             }
             catch (Exception ex)

@@ -322,7 +322,7 @@ public class VehiclesController : MonoBehaviour
             {
                 vehicle.Quantity = vehicle.Quantity + quantity;
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(vehicle.Currency.Id, price);
-                bool success = await UserVehicleService.Create().InsertUserVehicleAsync(vehicle, User.CurrentUserId);
+                bool success = await UserVehiclesService.Create().InsertUserVehicleAsync(vehicle, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -335,7 +335,7 @@ public class VehiclesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await VehicleGalleryService.Create().InsertVehicleGalleryAsync(vehicle.Id);
+                    await VehiclesGalleryService.Create().InsertVehicleGalleryAsync(vehicle.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
 

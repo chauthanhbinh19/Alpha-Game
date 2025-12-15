@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class FurnitureGalleryService : IFurnituresGalleryService
+public class FurnituresGalleryService : IFurnituresGalleryService
 {
-    private readonly IFurnitureGalleryRepository _FurnitureGalleryRepository;
+    private readonly IFurnituresGalleryRepository _FurnitureGalleryRepository;
 
-    public FurnitureGalleryService(IFurnitureGalleryRepository FurnitureGalleryRepository)
+    public FurnituresGalleryService(IFurnituresGalleryRepository FurnitureGalleryRepository)
     {
         _FurnitureGalleryRepository = FurnitureGalleryRepository;
     }
 
-    public static FurnitureGalleryService Create()
+    public static FurnituresGalleryService Create()
     {
-        return new FurnitureGalleryService(new FurnitureGalleryRepository());
+        return new FurnituresGalleryService(new FurnituresGalleryRepository());
     }
 
     public async Task<List<Furnitures>> GetFurnituresCollectionAsync(string type, int pageSize, int offset, string rare)

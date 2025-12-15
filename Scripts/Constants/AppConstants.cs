@@ -314,6 +314,12 @@ public static class AppConstants
         public const string BEVERAGE = "Beverage";
         public const string BEVERAGES = "Beverages";
 
+        public const string BUILDING = "Building";
+        public const string BUILDINGS = "Buildings";
+
+        public const string PLANT = "Plant";
+        public const string PLANTS = "Plants";
+
         public const string SCIENCE_FICTION = "Science Fiction";
         public const string SUMMON_CARD_HEROES = "Summon Card Heroes";
         public const string SUMMON_BOOKS = "Summon Books";
@@ -426,6 +432,8 @@ public static class AppConstants
         public const string FURNITURES_GALLERY = "Furnitures Gallery";
         public const string FOODS_GALLERY = "Foods Gallery";
         public const string BEVERAGES_GALLERY = "Beverages Gallery";
+        public const string BUILDINGS_GALLERY = "Buildings Gallery";
+        public const string PLANTS_GALLERY = "Plants Gallery";
     }
     public static class Collection
     {
@@ -471,6 +479,8 @@ public static class AppConstants
         public const string FURNITURES_COLLECTION = "Furnitures Collection";
         public const string FOODS_COLLECTION = "Foods Collection";
         public const string BEVERAGES_COLLECTION = "Beverages Collection";
+        public const string BUILDINGS_COLLECTION = "Buildings Collection";
+        public const string PLANTS_COLLECTION = "Plants Collection";
     }
     public static class Anime
     {

@@ -322,7 +322,7 @@ public class FurnituresController : MonoBehaviour
             {
                 Furniture.Quantity = Furniture.Quantity + quantity;
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(Furniture.Currency.Id, price);
-                bool success = await UserFurnitureService.Create().InsertUserFurnitureAsync(Furniture, User.CurrentUserId);
+                bool success = await UserFurnituresService.Create().InsertUserFurnitureAsync(Furniture, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -335,7 +335,7 @@ public class FurnituresController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await FurnitureGalleryService.Create().InsertFurnitureGalleryAsync(Furniture.Id);
+                    await FurnituresGalleryService.Create().InsertFurnitureGalleryAsync(Furniture.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Furniture.Image);
 
