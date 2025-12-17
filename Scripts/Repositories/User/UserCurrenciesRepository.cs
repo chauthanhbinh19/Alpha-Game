@@ -2409,6 +2409,104 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
         return currency;
     }
+    public async Task<Currencies> GetUserBuildingPriceAsync(string Id)
+    {
+        Currencies currency = new Currencies();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                             FROM buildings ch
+                             LEFT JOIN building_trade et ON ch.id = et.rune_id
+                             LEFT JOIN currencies c ON c.id = et.currency_id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             WHERE ch.id=@id;";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id", Id);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            currency = new Currencies
+                            {
+                                Id = reader.GetString("currency_id"),
+                                Name = reader.GetString("currency_name"),
+                                Image = reader.GetString("currency_image"),
+                                Quantity = reader.GetDouble("trade_price")
+                            };
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return currency;
+    }
+    public async Task<Currencies> GetUserPlantPriceAsync(string Id)
+    {
+        Currencies currency = new Currencies();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                             FROM plants ch
+                             LEFT JOIN plant_trade et ON ch.id = et.rune_id
+                             LEFT JOIN currencies c ON c.id = et.currency_id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             WHERE ch.id=@id;";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id", Id);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            currency = new Currencies
+                            {
+                                Id = reader.GetString("currency_id"),
+                                Name = reader.GetString("currency_name"),
+                                Image = reader.GetString("currency_image"),
+                                Quantity = reader.GetDouble("trade_price")
+                            };
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return currency;
+    }
     public async Task<List<Currencies>> GetAchievementsCurrencyAsync()
     {
         List<Currencies> currencies = new List<Currencies>();
@@ -4428,6 +4526,102 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 SELECT DISTINCT c.id, c.image, c.name, uc.quantity
                 FROM beverages a
                 JOIN beverage_trade at ON a.id = at.beverage_id
+                JOIN currencies c ON at.currency_id = c.id
+                JOIN user_currencies uc ON c.id = uc.currency_id";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Currencies currency = new Currencies
+                            {
+                                Id = reader.GetString("id"),
+                                Name = reader.GetString("name"),
+                                Image = reader.GetString("image"),
+                                Quantity = reader.GetInt32("quantity"),
+                            };
+                            currencies.Add(currency);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return currencies;
+    }
+    public async Task<List<Currencies>> GetBuildingsCurrencyAsync(string type)
+    {
+        List<Currencies> currencies = new List<Currencies>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT DISTINCT c.id, c.image, c.name, uc.quantity
+                FROM buildings a
+                JOIN building_trade at ON a.id = at.beverage_id
+                JOIN currencies c ON at.currency_id = c.id
+                JOIN user_currencies uc ON c.id = uc.currency_id";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Currencies currency = new Currencies
+                            {
+                                Id = reader.GetString("id"),
+                                Name = reader.GetString("name"),
+                                Image = reader.GetString("image"),
+                                Quantity = reader.GetInt32("quantity"),
+                            };
+                            currencies.Add(currency);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return currencies;
+    }
+    public async Task<List<Currencies>> GetPlantsCurrencyAsync(string type)
+    {
+        List<Currencies> currencies = new List<Currencies>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT DISTINCT c.id, c.image, c.name, uc.quantity
+                FROM plants a
+                JOIN plant_trade at ON a.id = at.beverage_id
                 JOIN currencies c ON at.currency_id = c.id
                 JOIN user_currencies uc ON c.id = uc.currency_id";
 

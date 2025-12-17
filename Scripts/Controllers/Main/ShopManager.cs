@@ -155,6 +155,8 @@ public class ShopManager : MonoBehaviour
         CreateButton(39, AppDisplayConstants.MainType.FURNITURES, Resources.Load<Texture2D>(ImageConstants.Gallery.FURNITURE_URL), tempContent);
         CreateButton(40, AppDisplayConstants.MainType.FOODS, Resources.Load<Texture2D>(ImageConstants.Gallery.FOOD_URL), tempContent);
         CreateButton(41, AppDisplayConstants.MainType.BEVERAGES, Resources.Load<Texture2D>(ImageConstants.Gallery.BEVERAGE_URL), tempContent);
+        CreateButton(42, AppDisplayConstants.MainType.BUILDINGS, Resources.Load<Texture2D>(ImageConstants.Gallery.BUILDING_URL), tempContent);
+        CreateButton(43, AppDisplayConstants.MainType.PLANTS, Resources.Load<Texture2D>(ImageConstants.Gallery.PLANT_URL), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.MainType.BOOK));
@@ -197,6 +199,8 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_39", tempContent, () => GetType(AppConstants.MainType.FURNITURE));
         AssignButtonEvent("Button_40", tempContent, () => GetType(AppConstants.MainType.FOOD));
         AssignButtonEvent("Button_41", tempContent, () => GetType(AppConstants.MainType.BEVERAGE));
+        AssignButtonEvent("Button_42", tempContent, () => GetType(AppConstants.MainType.BUILDING));
+        AssignButtonEvent("Button_43", tempContent, () => GetType(AppConstants.MainType.PLANT));
 
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

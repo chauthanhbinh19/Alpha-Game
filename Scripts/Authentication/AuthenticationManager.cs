@@ -61,9 +61,9 @@ public class AuthenticationManager : MonoBehaviour
             CreateSignInPanel();
         });
 
-        
+
         CheckLoggedIn();
-        
+
     }
     public async void CheckLoggedIn()
     {
@@ -87,6 +87,12 @@ public class AuthenticationManager : MonoBehaviour
                 {
                     CreateSignInPanel();
                 }
+            }
+
+            if (string.IsNullOrWhiteSpace(authResult.User.Name))
+            {
+                CreateCreateNamePanel(User.SavedUsername, User.SavedPassword);
+                // signInPanel.SetActive(false);
             }
 
             // Nếu user hợp lệ → cho vào game
@@ -124,7 +130,7 @@ public class AuthenticationManager : MonoBehaviour
         if (authResult.Success)
         {
             Destroy(currentObject);
-            if (string.IsNullOrEmpty(authResult.User.Name))
+            if (string.IsNullOrWhiteSpace(authResult.User.Name))
             {
                 CreateCreateNamePanel(username, password);
                 // signInPanel.SetActive(false);
@@ -266,23 +272,32 @@ public class AuthenticationManager : MonoBehaviour
     {
         Destroy(currentObject);
         currentObject = Instantiate(createNamePanel, WaitingPanel);
-        InputField nameInput = currentObject.transform.Find("NameInput").GetComponent<InputField>();
+        TMP_InputField nameInput = currentObject.transform.Find("NameInput").GetComponent<TMP_InputField>();
         Button startButton = currentObject.transform.Find("Start").GetComponent<Button>();
+        TextMeshProUGUI errorText = currentObject.transform.Find("ErrorText").GetComponent<TextMeshProUGUI>();
 
         startButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var isNameExisted = await UserService.Create().CheckNameExistsAsync(nameInput.text);
-            if (!isNameExisted)
+            if (string.IsNullOrWhiteSpace(nameInput.text))
             {
-                await UserService.Create().UpdateUserNameAsync(User.CurrentUserId, nameInput.text);
-                authResult = await UserService.Create().SignInWithUsernameAndPasswordAsync(username, password);
+                errorText.text = "Please enter your name.";
+                return;
+            }
+            else
+            {
+                var isNameExisted = await UserService.Create().CheckNameExistsAsync(nameInput.text);
+                if (!isNameExisted)
+                {
+                    await UserService.Create().UpdateUserNameAsync(User.CurrentUserId, nameInput.text);
+                    authResult = await UserService.Create().SignInWithUsernameAndPasswordAsync(username, password);
 
-                AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
-                MainMenuManager.Instance.CreateMainPanel();
-                MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
-                FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, RootPanel);
+                    AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
+                    MainMenuManager.Instance.CreateMainPanel();
+                    MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
+                    FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, RootPanel);
+                }
             }
         });
     }

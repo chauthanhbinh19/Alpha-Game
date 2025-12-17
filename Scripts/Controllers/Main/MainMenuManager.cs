@@ -441,6 +441,8 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_38", contentPanel, () => GetType(AppConstants.MainType.FURNITURE));
         ButtonEvent.Instance.AssignButtonEvent("Button_39", contentPanel, () => GetType(AppConstants.MainType.FOOD));
         ButtonEvent.Instance.AssignButtonEvent("Button_40", contentPanel, () => GetType(AppConstants.MainType.BEVERAGE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_41", contentPanel, () => GetType(AppConstants.MainType.BUILDING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_42", contentPanel, () => GetType(AppConstants.MainType.PLANT));
     }
     public void GetPrimaryButtonEvent()
     {

@@ -3,16 +3,16 @@ using System.Threading.Tasks;
 
 public class BuildingsGalleryService : IBuildingsGalleryService
 {
-    private readonly IBuildingGalleryRepository _BuildingGalleryRepository;
+    private readonly IBuildingsGalleryRepository _BuildingGalleryRepository;
 
-    public BuildingsGalleryService(IBuildingGalleryRepository BuildingGalleryRepository)
+    public BuildingsGalleryService(IBuildingsGalleryRepository BuildingGalleryRepository)
     {
         _BuildingGalleryRepository = BuildingGalleryRepository;
     }
 
     public static BuildingsGalleryService Create()
     {
-        return new BuildingsGalleryService(new BuildingGalleryRepository());
+        return new BuildingsGalleryService(new BuildingsGalleryRepository());
     }
 
     public async Task<List<Buildings>> GetBuildingsCollectionAsync(string type, int pageSize, int offset, string rare)

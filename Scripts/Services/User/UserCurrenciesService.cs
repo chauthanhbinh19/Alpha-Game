@@ -260,6 +260,16 @@ public class UserCurrenciesService : IUserCurrenciesService
         return await _userCurrencyRepository.GetUserBeveragePriceAsync(Id);
     }
 
+    public async Task<Currencies> GetUserBuildingPriceAsync(string Id)
+    {
+        return await _userCurrencyRepository.GetUserBuildingPriceAsync(Id);
+    }
+
+    public async Task<Currencies> GetUserPlantPriceAsync(string Id)
+    {
+        return await _userCurrencyRepository.GetUserPlantPriceAsync(Id);
+    }
+
     public async Task<List<Currencies>> GetAchievementsCurrencyAsync()
     {
         return await _userCurrencyRepository.GetAchievementsCurrencyAsync();
@@ -468,5 +478,15 @@ public class UserCurrenciesService : IUserCurrenciesService
     public async Task<List<Currencies>> GetBeveragesCurrencyAsync(string type)
     {
         return await _userCurrencyRepository.GetBeveragesCurrencyAsync(type);
+    }
+
+    public async Task<List<Currencies>> GetBuildingsCurrencyAsync(string type)
+    {
+        return await _userCurrencyRepository.GetBuildingsCurrencyAsync(type);
+    }
+
+    public async Task<List<Currencies>> GetPlantsCurrencyAsync(string type)
+    {
+        return await _userCurrencyRepository.GetPlantsCurrencyAsync(type);
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IBuildingGalleryRepository
+public interface IBuildingsGalleryRepository
 {
     Task<List<Buildings>> GetBuildingsCollectionAsync(string type, int pageSize, int offset, string rare);
     Task<int> GetBuildingsCountAsync(string type, string rare);

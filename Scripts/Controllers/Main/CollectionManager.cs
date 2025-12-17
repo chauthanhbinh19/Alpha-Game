@@ -90,6 +90,8 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_41", () => GetType(AppConstants.MainType.FURNITURE));
         AssignButtonEvent("Button_42", () => GetType(AppConstants.MainType.FOOD));
         AssignButtonEvent("Button_43", () => GetType(AppConstants.MainType.BEVERAGE));
+        AssignButtonEvent("Button_44", () => GetType(AppConstants.MainType.BUILDING));
+        AssignButtonEvent("Button_45", () => GetType(AppConstants.MainType.PLANT));
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
     {
