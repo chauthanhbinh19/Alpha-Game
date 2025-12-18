@@ -1669,6 +1669,23 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = await UserBeveragesService.Create().GetUserBeveragesCountAsync(User.CurrentUserId, rare);
         }
+        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        {
+            List<Buildings> buildings = await UserBuildingsService.Create().GetUserBuildingsAsync(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
+            UserBuildingsController.Instance.CreateUserBuilding(buildings, DictionaryContentPanel);
+            listCount = buildings.Count;
+
+            totalRecord = await UserBuildingsService.Create().GetUserBuildingsCountAsync(User.CurrentUserId, type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.PLANT))
+        {
+            List<Plants> plants = await UserPlantsService.Create().GetUserPlantsAsync(User.CurrentUserId, pageSize, offset, rare);
+            UserPlantsController.Instance.CreateUserPlants(plants, DictionaryContentPanel);
+            listCount = plants.Count;
+
+            totalRecord = await UserPlantsService.Create().GetUserPlantsCountAsync(User.CurrentUserId, rare);
+        }
 
         if (listCount > 0)
         {

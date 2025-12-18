@@ -35,19 +35,19 @@ public class BeveragesGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         BeverageBlockButtonPrefab = UIManager.Instance.Get("BeverageBlockButtonPrefab");
     }
-    public void CreateBeveragesGallery(List<Beverages> Beverages, Transform contentPanel)
+    public void CreateBeveragesGallery(List<Beverages> beverages, Transform contentPanel)
     {
-        foreach (var Beverage in Beverages)
+        foreach (var beverage in beverages)
         {
             try
             {
-                GameObject BeverageObject = Instantiate(BeverageBlockButtonPrefab, contentPanel);
+                GameObject beverageObject = Instantiate(BeverageBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI title = BeverageObject.transform.Find("BeverageText").GetComponent<TextMeshProUGUI>();
-                title.text = Beverage.Name.Replace("_", " ");
+                TextMeshProUGUI title = beverageObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                title.text = beverage.Name.Replace("_", " ");
 
-                RawImage image = BeverageObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Beverage.Image);
+                RawImage image = beverageObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -69,40 +69,40 @@ public class BeveragesGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = BeverageObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                RawImage backgroundImage = beverageObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
                 backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BEVERAGE_BUTTON_BACKGROUND_URL);
 
-                Button button = BeverageObject.GetComponent<Button>();
+                Button button = beverageObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(Beverage, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(beverage, MainPanel);
                 });
 
-                RawImage rareImage = BeverageObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Beverage.Rare}");
+                RawImage rareImage = beverageObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{beverage.Rare}");
                 rareImage.texture = rareTexture;
 
-                RawImage blockImage = BeverageObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = BeverageObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (Beverage.Status.Equals("available"))
+                RawImage blockImage = beverageObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = beverageObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (beverage.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (Beverage.Status.Equals("pending"))
+                else if (beverage.Status.Equals("pending"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (Beverage.Status.Equals("block"))
+                else if (beverage.Status.Equals("block"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
 
-                RawImage rareBackgroundImage = BeverageObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                RawImage rareBackgroundImage = beverageObject.transform.Find("RareBackground").GetComponent<RawImage>();
                 rareImage.gameObject.SetActive(false);
                 rareBackgroundImage.gameObject.SetActive(false);
 
@@ -110,7 +110,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var BeverageGalleryService = BeveragesGalleryService.Create();
-                    await BeverageGalleryService.UpdateStatusBeverageGalleryAsync(Beverage.Id);
+                    await BeverageGalleryService.UpdateStatusBeverageGalleryAsync(beverage.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -125,8 +125,8 @@ public class BeveragesGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = BeverageObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((Beverage.CurrentStar < Beverage.TempStar) && Beverage.Status.Equals("available"))
+                Button Upgrade = beverageObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((beverage.CurrentStar < beverage.TempStar) && beverage.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -138,7 +138,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BeveragesGalleryService.Create().UpdateBeverageGalleryPowerAsync(Beverage.Id);
+                    await BeveragesGalleryService.Create().UpdateBeverageGalleryPowerAsync(beverage.Id);
                 });
             }
             catch (Exception ex)

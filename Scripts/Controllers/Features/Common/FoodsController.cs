@@ -44,17 +44,17 @@ public class FoodsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateFoodsGallery(List<Foods> Foods, Transform contentPanel)
+    public void CreateFoodsGallery(List<Foods> foods, Transform contentPanel)
     {
-        foreach (var Food in Foods)
+        foreach (var food in foods)
         {
-            GameObject FoodObject = Instantiate(FoodButtonPrefab, contentPanel);
+            GameObject foodObject = Instantiate(FoodButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = FoodObject.transform.Find("FoodText").GetComponent<TextMeshProUGUI>();
-            title.text = Food.Name.Replace("_", " ");
+            TextMeshProUGUI title = foodObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            title.text = food.Name.Replace("_", " ");
 
-            RawImage image = FoodObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Food.Image);
+            RawImage image = foodObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -76,21 +76,21 @@ public class FoodsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = FoodObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = foodObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.FOOD_BUTTON_BACKGROUND_URL);
 
-            Button button = FoodObject.GetComponent<Button>();
+            Button button = foodObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Food, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(food, MainPanel);
             });
 
-            RawImage rareImage = FoodObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Food.Rare}");
+            RawImage rareImage = foodObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{food.Rare}");
             rareImage.texture = rareTexture;
 
-            RawImage rareBackgroundImage = FoodObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rareBackgroundImage = foodObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareImage.gameObject.SetActive(false);
             rareBackgroundImage.gameObject.SetActive(false);
         }

@@ -297,12 +297,10 @@ public class AuthenticationManager : MonoBehaviour
                     MainMenuManager.Instance.CreateMainPanel();
                     MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
                     FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, RootPanel);
+
+                    Destroy(currentObject);
                 }
             }
         });
-    }
-    public void DeleteCreateNamePanel()
-    {
-        Destroy(currentObject);
     }
 }

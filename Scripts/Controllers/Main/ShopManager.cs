@@ -730,6 +730,28 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = await BeveragesService.Create().GetBeveragesWithPriceCountAsync();
         }
+        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_75_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_76_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Buildings> buildings = await BuildingsService.Create().GetBuildingsWithPriceAsync(type, pageSize, offset);
+            await BuildingsController.Instance.CreateBuildingTradeAsync(buildings, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await BuildingsService.Create().GetBuildingsWithPriceCountAsync(type);
+        }
+        else if (mainType.Equals(AppConstants.MainType.PLANT))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_75_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_76_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Plants> plants = await PlantsService.Create().GetPlantsWithPriceAsync(pageSize, offset);
+            await PlantsController.Instance.CreatePlantsTradeAsync(plants, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await PlantsService.Create().GetPlantsWithPriceCountAsync();
+        }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

@@ -47,6 +47,7 @@ public static class TypeManager
     // FIXED lỗi VEHICLE
     { AppConstants.MainType.VEHICLE, async () => await VehiclesService.Create().GetUniqueVehiclesTypesAsync() },
     { AppConstants.MainType.FURNITURE, async () => await FurnituresService.Create().GetUniqueFurnituresTypesAsync() },
+    { AppConstants.MainType.BUILDING, async () => await BuildingsService.Create().GetUniqueBuildingsTypesAsync() },
 };
     public static async Task<List<string>> GetUniqueTypesAsync(string type)
     {

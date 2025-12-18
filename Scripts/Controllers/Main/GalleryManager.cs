@@ -607,7 +607,7 @@ public class GalleryManager : MonoBehaviour
             List<Furnitures> furnitures = await FurnituresService.Create().GetFurnituresAsync(type, pageSize, offset, rare);
             FurnituresController.Instance.CreateFurnitureGallery(furnitures, DictionaryContentPanel);
 
-            totalRecord = await VehiclesService.Create().GetVehiclesCountAsync(type, rare);
+            totalRecord = await BuildingsService.Create().GetBuildingsCountAsync(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.FOOD))
         {
@@ -622,6 +622,20 @@ public class GalleryManager : MonoBehaviour
             BeveragesController.Instance.CreateBeveragesGallery(beverages, DictionaryContentPanel);
 
             totalRecord = await BeveragesService.Create().GetBeveragesCountAsync(rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        {
+            List<Buildings> buildings = await BuildingsService.Create().GetBuildingsAsync(type, pageSize, offset, rare);
+            BuildingsController.Instance.CreateBuildingGallery(buildings, DictionaryContentPanel);
+
+            totalRecord = await BuildingsService.Create().GetBuildingsCountAsync(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.PLANT))
+        {
+            List<Plants> plants = await PlantsService.Create().GetPlantsAsync(pageSize, offset, rare);
+            PlantsController.Instance.CreatePlantsGallery(plants, DictionaryContentPanel);
+
+            totalRecord = await PlantsService.Create().GetPlantsCountAsync(rare);
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);

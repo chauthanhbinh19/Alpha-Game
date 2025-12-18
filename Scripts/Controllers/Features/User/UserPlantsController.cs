@@ -50,7 +50,7 @@ public class UserPlantsController : MonoBehaviour
         {
             GameObject PlantObject = Instantiate(PlantButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = PlantObject.transform.Find("PlantText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI title = PlantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             title.text = Plant.Name.Replace("_", " ");
 
             RawImage image = PlantObject.transform.Find("Image").GetComponent<RawImage>();

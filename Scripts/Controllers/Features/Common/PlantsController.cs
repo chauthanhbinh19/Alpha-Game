@@ -44,55 +44,62 @@ public class PlantsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreatePlantsGallery(List<Plants> Plants, Transform contentPanel)
+    public void CreatePlantsGallery(List<Plants> plants, Transform contentPanel)
     {
-        foreach (var Plant in Plants)
+        foreach (var plant in plants)
         {
-            GameObject PlantObject = Instantiate(PlantButtonPrefab, contentPanel);
-
-            TextMeshProUGUI title = PlantObject.transform.Find("PlantText").GetComponent<TextMeshProUGUI>();
-            title.text = Plant.Name.Replace("_", " ");
-
-            RawImage image = PlantObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Plant.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            image.texture = texture;
-
-            // Kích thước của RawImage (khung hiển thị)
-            RectTransform rect = image.GetComponent<RectTransform>();
-            float maxWidth = rect.rect.width;
-            float maxHeight = rect.rect.height;
-
-            // Kích thước thật của texture
-            float texWidth = texture.width;
-            float texHeight = texture.height;
-
-            // Tính scale để texture nằm gọn trong khung
-            float widthRatio = maxWidth / texWidth;
-            float heightRatio = maxHeight / texHeight;
-            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
-
-            // Áp dụng scale theo tỉ lệ đúng
-            image.SetNativeSize();
-            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
-
-            RawImage backgroundImage = PlantObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.PLANT_BUTTON_BACKGROUND_URL);
-
-            Button button = PlantObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            try
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Plant, MainPanel);
-            });
+                GameObject plantObject = Instantiate(PlantButtonPrefab, contentPanel);
 
-            RawImage rareImage = PlantObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Plant.Rare}");
-            rareImage.texture = rareTexture;
+                TextMeshProUGUI title = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                title.text = plant.Name.Replace("_", " ");
 
-            RawImage rareBackgroundImage = PlantObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+                RawImage image = plantObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                image.texture = texture;
+
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                RawImage backgroundImage = plantObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.PLANT_BUTTON_BACKGROUND_URL);
+
+                Button button = plantObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(plant, MainPanel);
+                });
+
+                RawImage rareImage = plantObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{plant.Rare}");
+                rareImage.texture = rareTexture;
+
+                RawImage rareBackgroundImage = plantObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                rareImage.gameObject.SetActive(false);
+                rareBackgroundImage.gameObject.SetActive(false);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

@@ -44,17 +44,17 @@ public class UserBeveragesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserBeverages(List<Beverages> Beverages, Transform contentPanel)
+    public void CreateUserBeverages(List<Beverages> beverages, Transform contentPanel)
     {
-        foreach (var Beverage in Beverages)
+        foreach (var beverage in beverages)
         {
             GameObject BeverageObject = Instantiate(BeverageButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = BeverageObject.transform.Find("BeverageText").GetComponent<TextMeshProUGUI>();
-            title.text = Beverage.Name.Replace("_", " ");
+            TextMeshProUGUI title = BeverageObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            title.text = beverage.Name.Replace("_", " ");
 
             RawImage image = BeverageObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Beverage.Image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -83,11 +83,11 @@ public class UserBeveragesController : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(Beverage, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(beverage, MainPanel);
             });
 
             RawImage rareImage = BeverageObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Beverage.Rare}");
+            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{beverage.Rare}");
             rareImage.texture = rareTexture;
 
             RawImage rareBackgroundImage = BeverageObject.transform.Find("RareBackground").GetComponent<RawImage>();

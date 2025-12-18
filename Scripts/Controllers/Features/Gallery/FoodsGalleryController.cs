@@ -35,19 +35,19 @@ public class FoodsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         FoodBlockButtonPrefab = UIManager.Instance.Get("FoodBlockButtonPrefab");
     }
-    public void CreateFoodsGallery(List<Foods> Foods, Transform contentPanel)
+    public void CreateFoodsGallery(List<Foods> foods, Transform contentPanel)
     {
-        foreach (var Food in Foods)
+        foreach (var food in foods)
         {
             try
             {
-                GameObject FoodObject = Instantiate(FoodBlockButtonPrefab, contentPanel);
+                GameObject foodObject = Instantiate(FoodBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI title = FoodObject.transform.Find("FoodText").GetComponent<TextMeshProUGUI>();
-                title.text = Food.Name.Replace("_", " ");
+                TextMeshProUGUI title = foodObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                title.text = food.Name.Replace("_", " ");
 
-                RawImage image = FoodObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Food.Image);
+                RawImage image = foodObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -69,40 +69,40 @@ public class FoodsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = FoodObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                RawImage backgroundImage = foodObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
                 backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.FOOD_BUTTON_BACKGROUND_URL);
 
-                Button button = FoodObject.GetComponent<Button>();
+                Button button = foodObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(Food, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(food, MainPanel);
                 });
 
-                RawImage rareImage = FoodObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Food.Rare}");
+                RawImage rareImage = foodObject.transform.Find("Rare").GetComponent<RawImage>();
+                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{food.Rare}");
                 rareImage.texture = rareTexture;
 
-                RawImage blockImage = FoodObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = FoodObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (Food.Status.Equals("available"))
+                RawImage blockImage = foodObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = foodObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (food.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (Food.Status.Equals("pending"))
+                else if (food.Status.Equals("pending"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (Food.Status.Equals("block"))
+                else if (food.Status.Equals("block"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
 
-                RawImage rareBackgroundImage = FoodObject.transform.Find("RareBackground").GetComponent<RawImage>();
+                RawImage rareBackgroundImage = foodObject.transform.Find("RareBackground").GetComponent<RawImage>();
                 rareImage.gameObject.SetActive(false);
                 rareBackgroundImage.gameObject.SetActive(false);
 
@@ -110,7 +110,7 @@ public class FoodsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var FoodGalleryService = FoodsGalleryService.Create();
-                    await FoodGalleryService.UpdateStatusFoodGalleryAsync(Food.Id);
+                    await FoodGalleryService.UpdateStatusFoodGalleryAsync(food.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -125,8 +125,8 @@ public class FoodsGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = FoodObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((Food.CurrentStar < Food.TempStar) && Food.Status.Equals("available"))
+                Button Upgrade = foodObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((food.CurrentStar < food.TempStar) && food.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -138,7 +138,7 @@ public class FoodsGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await FoodsGalleryService.Create().UpdateFoodGalleryPowerAsync(Food.Id);
+                    await FoodsGalleryService.Create().UpdateFoodGalleryPowerAsync(food.Id);
                 });
             }
             catch (Exception ex)

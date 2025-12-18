@@ -647,6 +647,22 @@ public class CollectionManager : MonoBehaviour
 
             totalRecord = await beveragesGalleryService.GetBeveragesCountAsync(rare);
         }
+        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        {
+            var buildingsGalleryService = BuildingsGalleryService.Create();
+            List<Buildings> buildings = await buildingsGalleryService.GetBuildingsCollectionAsync(type, pageSize, offset, rare);
+            BuildingsGalleryController.Instance.CreateBuildingGallery(buildings, DictionaryContentPanel);
+
+            totalRecord = await buildingsGalleryService.GetBuildingsCountAsync(type, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.PLANT))
+        {
+            var plantsGalleryService = PlantsGalleryService.Create();
+            List<Plants> plants = await plantsGalleryService.GetPlantsCollectionAsync(pageSize, offset, rare);
+            PlantsGalleryController.Instance.CreatePlantsGallery(plants, DictionaryContentPanel);
+
+            totalRecord = await plantsGalleryService.GetPlantsCountAsync(rare);
+        }
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
     }

@@ -391,9 +391,6 @@ public class UserRepository : IUserRepository
                 await connection.CloseAsync();
             }
         }
-
-        // Thao tác UI / logic sau khi update
-        AuthenticationManager.Instance.DeleteCreateNamePanel();
     }
     public async Task UpdateUserPowerAsync(string user_id, double power)
     {
