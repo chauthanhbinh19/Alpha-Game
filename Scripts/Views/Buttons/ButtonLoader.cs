@@ -10,8 +10,8 @@ public class ButtonLoader : MonoBehaviour
     private GameObject ItemButtonPrefab; // Prefab của button
     private GameObject MainButtonPrefab;
     private GameObject TabButton4;
-    private GameObject TabButton6;
-    private GameObject AdvancedButtonFirst;
+    private GameObject AdvancedButtonPrefab;
+    private GameObject AdvancedSubButtonPrefab;
     private GameObject ArenaButtonPrefab;
     private GameObject AnimeButtonPrefab;
     private GameObject ReactorButtonPrefab;
@@ -46,8 +46,8 @@ public class ButtonLoader : MonoBehaviour
         ItemButtonPrefab = UIManager.Instance.Get("ItemButtonPrefab");
         MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
         TabButton4 = UIManager.Instance.Get("TabButton4");
-        TabButton6 = UIManager.Instance.Get("TabButton6");
-        AdvancedButtonFirst = UIManager.Instance.Get("AdvancedButtonFirst");
+        AdvancedButtonPrefab = UIManager.Instance.Get("AdvancedButtonPrefab");
+        AdvancedSubButtonPrefab = UIManager.Instance.Get("AdvancedSubButtonPrefab");
         ArenaButtonPrefab = UIManager.Instance.Get("ArenaButtonPrefab");
         AnimeButtonPrefab = UIManager.Instance.Get("AnimeButtonPrefab");
         ReactorButtonPrefab = UIManager.Instance.Get("ReactorButtonPrefab");
@@ -636,18 +636,18 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateSetButtonGroup(object data, GameObject buttonPrefab, Transform buttonPanel)
     {
-        if (data is CardHeroes cardHeroes || data is CardCaptains cardCaptains ||
-        data is CardColonels cardColonels || data is CardGenerals cardGenerals ||
-        data is CardAdmirals cardAdmirals || data is CardMonsters cardMonsters ||
+        if (data is CardHeroes cardHero || data is CardCaptains cardCaptain ||
+        data is CardColonels cardColonel || data is CardGenerals cardGeneral ||
+        data is CardAdmirals cardAdmiral || data is CardMonsters cardMonster ||
         data is CardMilitaries cardMilitary || data is CardSpells cardSpell ||
-        data is Books books || data is Pets pets || data is Equipments equipments
+        data is Books book || data is Pets pet || data is Equipments equipment
         )
         {
             int setButtonNumber = 5;
             for (int i = 0; i < setButtonNumber; i++)
             {
                 int index = i;
-                GameObject button = Instantiate(TabButton6, buttonPanel);
+                GameObject button = Instantiate(AdvancedButtonPrefab, buttonPanel);
 
                 TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = (index + 1).ToString();
@@ -779,7 +779,7 @@ public class ButtonLoader : MonoBehaviour
             return;
         }
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(AdvancedButtonFirst, panel);
+        GameObject newButton = Instantiate(AdvancedSubButtonPrefab, panel);
         newButton.name = "Button_" + index;
 
         // Gán màu cho itemBackground

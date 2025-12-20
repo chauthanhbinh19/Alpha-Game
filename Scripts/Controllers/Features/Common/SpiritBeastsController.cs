@@ -43,7 +43,7 @@ public class SpiritBeastsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateSpiritBeastGallery(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
+    public void CreateSpiritBeastsGallery(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
     {
         foreach (var spiritBeast in spiritBeasts)
         {
@@ -100,7 +100,7 @@ public class SpiritBeastsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateSpiritBeastTradeAsync(List<SpiritBeasts> SpiritBeastList, string subType, Transform currentContent,
+    public async Task CreateSpiritBeastsTradeAsync(List<SpiritBeasts> SpiritBeastList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var spiritBeast in SpiritBeastList)

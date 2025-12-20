@@ -147,7 +147,7 @@ public class UserCardHeroesController : MonoBehaviour
             // }
         }
     }
-    public void ShowCardHeroesDetails(CardHeroes cardHeroes, GameObject currentObject, int buttonType = 1)
+    public void ShowCardHeroDetails(CardHeroes cardHeroes, GameObject currentObject, int buttonType = 1)
     {
         tempCurrentObject = currentObject;
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
@@ -727,7 +727,7 @@ public class UserCardHeroesController : MonoBehaviour
                 spiritBeastImage.texture = texture;
 
                 var card = await UserCardHeroesService.Create().GetUserCardHeroByIdAsync(User.CurrentUserId, cardHeroes.Id);
-                ShowCardHeroesDetails(card, currentObject, 5);
+                ShowCardHeroDetails(card, currentObject, 5);
             });
         }
     }
@@ -825,7 +825,7 @@ public class UserCardHeroesController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                     var card = await UserCardHeroesService.Create().GetUserCardHeroByIdAsync(User.CurrentUserId, cardHeroes.Id);
-                    ShowCardHeroesDetails(card, currentObject, 5);
+                    ShowCardHeroDetails(card, currentObject, 5);
                 }
 
                 Destroy(popupSpiritBeastObject);

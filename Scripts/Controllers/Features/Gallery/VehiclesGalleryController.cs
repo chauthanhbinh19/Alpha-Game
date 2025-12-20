@@ -35,7 +35,7 @@ public class VehiclesGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         VehicleBlockButtonPrefab = UIManager.Instance.Get("VehicleBlockButtonPrefab");
     }
-    public void CreateVehicleGallery(List<Vehicles> vehicles, Transform contentPanel)
+    public void CreateVehiclesGallery(List<Vehicles> vehicles, Transform contentPanel)
     {
         foreach (var vehicle in vehicles)
         {

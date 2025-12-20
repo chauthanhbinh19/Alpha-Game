@@ -142,7 +142,7 @@ public class UserCardGeneralsController : MonoBehaviour
             rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
         }
     }
-    public void ShowCardGeneralsDetails(CardGenerals cardGenerals, GameObject currentObject, int buttonType = 1)
+    public void ShowCardGeneralDetails(CardGenerals cardGenerals, GameObject currentObject, int buttonType = 1)
     {
         tempCurrentObject = currentObject;
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");

@@ -43,7 +43,7 @@ public class BuildingsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateBuildingGallery(List<Buildings> Buildings, Transform contentPanel)
+    public void CreateBuildingsGallery(List<Buildings> Buildings, Transform contentPanel)
     {
         foreach (var Building in Buildings)
         {
@@ -99,7 +99,7 @@ public class BuildingsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateBuildingTradeAsync(List<Buildings> Buildings, string subType, Transform currentContent,
+    public async Task CreateBuildingsTradeAsync(List<Buildings> Buildings, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var Building in Buildings)

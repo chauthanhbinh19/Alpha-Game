@@ -101,7 +101,7 @@ public class UserBadgesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowBadgesDetails(Badges Badges, GameObject currentObject, int buttonType = 1)
+    public void ShowBadgeDetails(Badges Badges, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);

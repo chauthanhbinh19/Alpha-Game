@@ -101,7 +101,7 @@ public class UserTechnologiesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowTechnologiesDetails(Technologies Technologies, GameObject currentObject, int buttonType = 1)
+    public void ShowTechnologyDetails(Technologies Technologies, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);

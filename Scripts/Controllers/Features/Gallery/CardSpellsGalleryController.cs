@@ -34,7 +34,7 @@ public class CardSpellsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CardSpellBlockButtonPrefab = UIManager.Instance.Get("CardSpellBlockButtonPrefab");
     }
-    public void CreateCardSpellGallery(List<CardSpells> cardSpells, Transform contentPanel)
+    public void CreateCardSpellsGallery(List<CardSpells> cardSpells, Transform contentPanel)
     {
         foreach (var cardSpell in cardSpells)
         {

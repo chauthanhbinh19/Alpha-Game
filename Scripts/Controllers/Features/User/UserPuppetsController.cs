@@ -44,7 +44,7 @@ public class UserPuppetsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserPuppet(List<Puppets> puppets, Transform contentPanel)
+    public void CreateUserPuppets(List<Puppets> puppets, Transform contentPanel)
     {
         foreach (var puppet in puppets)
         {

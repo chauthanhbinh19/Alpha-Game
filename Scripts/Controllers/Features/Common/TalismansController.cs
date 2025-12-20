@@ -43,7 +43,7 @@ public class TalismansController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateTalismanGallery(List<Talismans> talismans, Transform contentPanel)
+    public void CreateTalismansGallery(List<Talismans> talismans, Transform contentPanel)
     {
         foreach (var talisman in talismans)
         {
@@ -99,7 +99,7 @@ public class TalismansController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateTalismanTradeAsync(List<Talismans> talismans, string subType, Transform currentContent,
+    public async Task CreateTalismansTradeAsync(List<Talismans> talismans, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var talisman in talismans)

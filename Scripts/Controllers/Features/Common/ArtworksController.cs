@@ -43,7 +43,7 @@ public class ArtworksController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateArtworkGallery(List<Artworks> artworks, Transform contentPanel)
+    public void CreateArtworksGallery(List<Artworks> artworks, Transform contentPanel)
     {
         foreach (var artwork in artworks)
         {
@@ -85,7 +85,7 @@ public class ArtworksController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateArtworkTradeAsync(List<Artworks> alchemies, string subType, Transform currentContent,
+    public async Task CreateArtworksTradeAsync(List<Artworks> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var Artwork in alchemies)

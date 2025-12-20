@@ -43,7 +43,7 @@ public class CollaborationsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCollaborationGallery(List<Collaborations> collaborations, Transform contentPanel)
+    public void CreateCollaborationsGallery(List<Collaborations> collaborations, Transform contentPanel)
     {
         foreach (var collaboration in collaborations)
         {

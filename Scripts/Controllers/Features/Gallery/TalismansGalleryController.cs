@@ -35,7 +35,7 @@ public class TalismansGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         TalismanBlockButtonPrefab = UIManager.Instance.Get("TalismanBlockButtonPrefab");
     }
-    public void CreateTalismanGallery(List<Talismans> talismans, Transform contentPanel)
+    public void CreateTalismansGallery(List<Talismans> talismans, Transform contentPanel)
     {
         foreach (var talisman in talismans)
         {

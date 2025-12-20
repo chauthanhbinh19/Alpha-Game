@@ -43,7 +43,7 @@ public class CardLivesController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCardLifeGallery(List<CardLives> cardLives, Transform contentPanel)
+    public void CreateCardLivesGallery(List<CardLives> cardLives, Transform contentPanel)
     {
         foreach (var cardLife in cardLives)
         {
@@ -78,7 +78,7 @@ public class CardLivesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardLifeTradeAsync(List<CardLives> cards, string subType, Transform currentContent,
+    public async Task CreateCardLivesTradeAsync(List<CardLives> cards, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var card in cards)

@@ -44,7 +44,7 @@ public class UserBuildingsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserBuilding(List<Buildings> Buildings, Transform contentPanel)
+    public void CreateUserBuildings(List<Buildings> Buildings, Transform contentPanel)
     {
         foreach (var Building in Buildings)
         {

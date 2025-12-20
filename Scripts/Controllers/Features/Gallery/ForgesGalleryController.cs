@@ -35,7 +35,7 @@ public class ForgesGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ForgeBlockButtonPrefab = UIManager.Instance.Get("ForgeBlockButtonPrefab");
     }
-    public void CreateForgeGallery(List<Forges> forges, Transform contentPanel)
+    public void CreateForgesGallery(List<Forges> forges, Transform contentPanel)
     {
         foreach (var forge in forges)
         {

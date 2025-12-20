@@ -35,7 +35,7 @@ public class FurnituresGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         FurnitureBlockButtonPrefab = UIManager.Instance.Get("FurnitureBlockButtonPrefab");
     }
-    public void CreateFurnitureGallery(List<Furnitures> Furnitures, Transform contentPanel)
+    public void CreateFurnituresGallery(List<Furnitures> Furnitures, Transform contentPanel)
     {
         foreach (var Furniture in Furnitures)
         {

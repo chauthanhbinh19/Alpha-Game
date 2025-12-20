@@ -43,7 +43,7 @@ public class VehiclesController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateVehicleGallery(List<Vehicles> vehicles, Transform contentPanel)
+    public void CreateVehiclesGallery(List<Vehicles> vehicles, Transform contentPanel)
     {
         foreach (var Vehicle in vehicles)
         {
@@ -99,7 +99,7 @@ public class VehiclesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateVehicleTradeAsync(List<Vehicles> Vehicles, string subType, Transform currentContent,
+    public async Task CreateVehiclesTradeAsync(List<Vehicles> Vehicles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var Vehicle in Vehicles)

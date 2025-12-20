@@ -943,7 +943,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<CardMilitaries> cardMilitaries = await UserCardMilitariesService.Create().GetUserCardMilitariesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCardMilitariesController.Instance.CreateUserCardMilitary(cardMilitaries, DictionaryContentPanel);
+            UserCardMilitariesController.Instance.CreateUserCardMilitaries(cardMilitaries, DictionaryContentPanel);
             listCount = cardMilitaries.Count;
 
             totalRecord = await UserCardMilitariesService.Create().GetUserCardMilitariesCountAsync(User.CurrentUserId, type, rare);
@@ -952,7 +952,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<CardSpells> cardSpells = await UserCardSpellsService.Create().GetUserCardSpellsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCardSpellsController.Instance.CreateUserCardSpell(cardSpells, DictionaryContentPanel);
+            UserCardSpellsController.Instance.CreateUserCardSpells(cardSpells, DictionaryContentPanel);
             listCount = cardSpells.Count;
 
             totalRecord = await UserCardSpellsService.Create().GetUserCardSpellsCountAsync(User.CurrentUserId, type, rare);
@@ -961,7 +961,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Collaborations> collaborations = await UserCollaborationsService.Create().GetUserCollaborationsAsync(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCollaborationsController.Instance.CreateUserCollaboration(collaborations, DictionaryContentPanel);
+            UserCollaborationsController.Instance.CreateUserCollaborations(collaborations, DictionaryContentPanel);
             listCount = collaborations.Count;
 
             totalRecord = await UserCollaborationsService.Create().GetUserCollaborationsCountAsync(User.CurrentUserId, rare);
@@ -988,7 +988,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<MagicFormationCircles> magicFormationCircles = await UserMagicFormationCirclesService.Create().GetUserMagicFormationCirclesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserMagicFormationCirclesController.Instance.CreateUserMagicFormationCircle(magicFormationCircles, DictionaryContentPanel);
+            UserMagicFormationCirclesController.Instance.CreateUserMagicFormationCircles(magicFormationCircles, DictionaryContentPanel);
             listCount = magicFormationCircles.Count;
 
             totalRecord = await UserMagicFormationCirclesService.Create().GetUserMagicFormationCirclesCountAsync(User.CurrentUserId, type, rare);
@@ -1495,7 +1495,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Talismans> talismans = await UserTalismansService.Create().GetUserTalismansAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserTalismansController.Instance.CreateUserTalisman(talismans, DictionaryContentPanel);
+            UserTalismansController.Instance.CreateUserTalismans(talismans, DictionaryContentPanel);
             listCount = talismans.Count;
 
             totalRecord = await UserTalismansService.Create().GetUserTalismansCountAsync(User.CurrentUserId, type, rare);
@@ -1504,7 +1504,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Puppets> puppets = await UserPuppetsService.Create().GetUserPuppetsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserPuppetsController.Instance.CreateUserPuppet(puppets, DictionaryContentPanel);
+            UserPuppetsController.Instance.CreateUserPuppets(puppets, DictionaryContentPanel);
             listCount = puppets.Count;
 
             totalRecord = await UserPuppetsService.Create().GetUserPuppetsCountAsync(User.CurrentUserId, type, rare);
@@ -1513,7 +1513,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Alchemies> alchemies = await UserAlchemiesService.Create().GetUserAlchemiesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserAlchemiesController.Instance.CreateUserAlchemy(alchemies, DictionaryContentPanel);
+            UserAlchemiesController.Instance.CreateUserAlchemies(alchemies, DictionaryContentPanel);
             listCount = alchemies.Count;
 
             totalRecord = await UserAlchemiesService.Create().GetUserAlchemiesCountAsync(User.CurrentUserId, type, rare);
@@ -1522,7 +1522,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Forges> forges = await UserForgesService.Create().GetUserForgesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserForgesController.Instance.CreateUserForge(forges, DictionaryContentPanel);
+            UserForgesController.Instance.CreateUserForges(forges, DictionaryContentPanel);
             listCount = forges.Count;
 
             totalRecord = await UserForgesService.Create().GetUserForgesCountAsync(User.CurrentUserId, type, rare);
@@ -1531,7 +1531,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<CardLives> cardLives = await UserCardLivesService.Create().GetUserCardLivesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserCardLivesController.Instance.CreateUserCardLife(cardLives, DictionaryContentPanel);
+            UserCardLivesController.Instance.CreateUserCardLives(cardLives, DictionaryContentPanel);
             listCount = cardLives.Count;
 
             totalRecord = await UserCardLivesService.Create().GetUserCardLivesCountAsync(User.CurrentUserId, type, rare);
@@ -1540,7 +1540,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Artworks> artworks = await UserArtworksService.Create().GetUserArtworksAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserArtworksController.Instance.CreateUserArtwork(artworks, DictionaryContentPanel);
+            UserArtworksController.Instance.CreateUserArtworks(artworks, DictionaryContentPanel);
             listCount = artworks.Count;
 
             totalRecord = await UserArtworksService.Create().GetUserArtworksCountAsync(User.CurrentUserId, type, rare);
@@ -1549,7 +1549,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetUserSpiritBeastsAsync(User.CurrentUserId, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserSpiritBeastsController.Instance.CreateUserSpiritBeast(spiritBeasts, DictionaryContentPanel);
+            UserSpiritBeastsController.Instance.CreateUserSpiritBeasts(spiritBeasts, DictionaryContentPanel);
             listCount = spiritBeasts.Count;
 
             totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, rare);
@@ -1558,7 +1558,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<SpiritCards> spiritCards = await UserSpiritCardsService.Create().GetUserSpiritCardAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserSpiritCardsController.Instance.CreateUserSpiritCard(spiritCards, DictionaryContentPanel);
+            UserSpiritCardsController.Instance.CreateUserSpiritCards(spiritCards, DictionaryContentPanel);
             listCount = spiritCards.Count;
 
             totalRecord = await UserSpiritCardsService.Create().GetUserSpiritCardCountAsync(User.CurrentUserId, type, rare);
@@ -1591,7 +1591,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Vehicles> vehicles = await UserVehiclesService.Create().GetUserVehiclesAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserVehiclesController.Instance.CreateUserVehicle(vehicles, DictionaryContentPanel);
+            UserVehiclesController.Instance.CreateUserVehicles(vehicles, DictionaryContentPanel);
             listCount = vehicles.Count;
 
             totalRecord = await UserVehiclesService.Create().GetUserVehiclesCountAsync(User.CurrentUserId, type, rare);
@@ -1648,7 +1648,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Furnitures> furnitures = await UserFurnituresService.Create().GetUserFurnituresAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserFurnituresController.Instance.CreateUserFurniture(furnitures, DictionaryContentPanel);
+            UserFurnituresController.Instance.CreateUserFurnitures(furnitures, DictionaryContentPanel);
             listCount = furnitures.Count;
 
             totalRecord = await UserFurnituresService.Create().GetUserFurnituresCountAsync(User.CurrentUserId, type, rare);
@@ -1673,7 +1673,7 @@ public class MainMenuManager : MonoBehaviour
         {
             List<Buildings> buildings = await UserBuildingsService.Create().GetUserBuildingsAsync(User.CurrentUserId, type, pageSize, offset, rare);
             Close(DictionaryContentPanel);
-            UserBuildingsController.Instance.CreateUserBuilding(buildings, DictionaryContentPanel);
+            UserBuildingsController.Instance.CreateUserBuildings(buildings, DictionaryContentPanel);
             listCount = buildings.Count;
 
             totalRecord = await UserBuildingsService.Create().GetUserBuildingsCountAsync(User.CurrentUserId, type, rare);

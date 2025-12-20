@@ -44,7 +44,7 @@ public class UserForgesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserForge(List<Forges> forges, Transform contentPanel)
+    public void CreateUserForges(List<Forges> forges, Transform contentPanel)
     {
         foreach (var forge in forges)
         {

@@ -101,7 +101,7 @@ public class UserRobotsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowRobotsDetails(Robots Robots, GameObject currentObject, int buttonType = 1)
+    public void ShowRobotDetails(Robots Robots, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);

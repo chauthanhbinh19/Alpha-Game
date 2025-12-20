@@ -44,7 +44,7 @@ public class UserSpiritBeastsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserSpiritBeast(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
+    public void CreateUserSpiritBeasts(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
     {
         foreach (var spiritBeast in spiritBeasts)
         {

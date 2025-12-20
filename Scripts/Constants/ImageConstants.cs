@@ -180,6 +180,16 @@ public static class ImageConstants
         public const string ARTIFACT_74_URL = "UI/Background3/Artifact/Artifact_74";
         public const string ARTIFACT_75_URL = "UI/Background3/Artifact/Artifact_75";
         public const string ARTIFACT_76_URL = "UI/Background3/Artifact/Artifact_76";
+        public const string ARTIFACT_77_URL = "UI/Background3/Artifact/Artifact_77";
+        public const string ARTIFACT_78_URL = "UI/Background3/Artifact/Artifact_78";
+        public const string ARTIFACT_79_URL = "UI/Background3/Artifact/Artifact_79";
+        public const string ARTIFACT_80_URL = "UI/Background3/Artifact/Artifact_80";
+        public const string ARTIFACT_81_URL = "UI/Background3/Artifact/Artifact_81";
+        public const string ARTIFACT_82_URL = "UI/Background3/Artifact/Artifact_82";
+        public const string ARTIFACT_83_URL = "UI/Background3/Artifact/Artifact_83";
+        public const string ARTIFACT_84_URL = "UI/Background3/Artifact/Artifact_84";
+        public const string ARTIFACT_85_URL = "UI/Background3/Artifact/Artifact_85";
+        public const string ARTIFACT_86_URL = "UI/Background3/Artifact/Artifact_86";
     }
     public static class Market
     {
@@ -539,6 +549,8 @@ public static class ImageConstants
         public const string FURNITURE_BACKGROUND_URL = "UI/Background3/Furniture";
         public const string FOOD_BACKGROUND_URL = "UI/Background3/Food";
         public const string BEVERAGE_BACKGROUND_URL = "UI/Background3/Beverage";
+        public const string BUILDING_BACKGROUND_URL = "UI/Background3/Building";
+        public const string PLANT_BACKGROUND_URL = "UI/Background3/Plant";
 
         public const string CARD_HERO_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardHeroes_Background";
         public const string BOOK_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Books_Background";

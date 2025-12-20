@@ -39,7 +39,7 @@ public class UserEquipmentsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void ShowEquipmentsDetails(Equipments equipments, GameObject currentObject, int buttonType = 1)
+    public void ShowEquipmentDetails(Equipments equipments, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);

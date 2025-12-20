@@ -43,7 +43,7 @@ public class FurnituresController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateFurnitureGallery(List<Furnitures> Furnitures, Transform contentPanel)
+    public void CreateFurnituresGallery(List<Furnitures> Furnitures, Transform contentPanel)
     {
         foreach (var Furniture in Furnitures)
         {
@@ -99,7 +99,7 @@ public class FurnituresController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateFurnitureTradeAsync(List<Furnitures> Furnitures, string subType, Transform currentContent,
+    public async Task CreateFurnituresTradeAsync(List<Furnitures> Furnitures, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var Furniture in Furnitures)

@@ -35,7 +35,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         SpiritCardBlockButtonPrefab = UIManager.Instance.Get("SpiritCardBlockButtonPrefab");
     }
-    public void CreateSpiritCardGallery(List<SpiritCards> spiritCards, Transform contentPanel)
+    public void CreateSpiritCardsGallery(List<SpiritCards> spiritCards, Transform contentPanel)
     {
         foreach (var spiritCard in spiritCards)
         {

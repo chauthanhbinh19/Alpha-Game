@@ -44,7 +44,7 @@ public class UserVehiclesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserVehicle(List<Vehicles> vehicles, Transform contentPanel)
+    public void CreateUserVehicles(List<Vehicles> vehicles, Transform contentPanel)
     {
         foreach (var vehicle in vehicles)
         {

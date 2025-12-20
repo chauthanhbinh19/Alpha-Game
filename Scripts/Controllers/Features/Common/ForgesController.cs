@@ -43,7 +43,7 @@ public class ForgesController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateForgeGallery(List<Forges> forges, Transform contentPanel)
+    public void CreateForgesGallery(List<Forges> forges, Transform contentPanel)
     {
         foreach (var forge in forges)
         {
@@ -99,7 +99,7 @@ public class ForgesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateForgeTradeAsync(List<Forges> forges, string subType, Transform currentContent,
+    public async Task CreateForgesTradeAsync(List<Forges> forges, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var forge in forges)

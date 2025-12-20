@@ -72,7 +72,7 @@ public class UserCardSpellsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardSpell(List<CardSpells> cardSpells, Transform contentPanel)
+    public void CreateUserCardSpells(List<CardSpells> cardSpells, Transform contentPanel)
     {
         foreach (var cardSpell in cardSpells)
         {

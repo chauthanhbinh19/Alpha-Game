@@ -44,7 +44,7 @@ public class UserArtworksController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserArtwork(List<Artworks> artworks, Transform contentPanel)
+    public void CreateUserArtworks(List<Artworks> artworks, Transform contentPanel)
     {
         foreach (var artwork in artworks)
         {

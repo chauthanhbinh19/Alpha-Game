@@ -35,7 +35,7 @@ public class ArtworksGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ArtworkBlockButtonPrefab = UIManager.Instance.Get("ArtworkBlockButtonPrefab");
     }
-    public void CreateArtworkGallery(List<Artworks> artworks, Transform contentPanel)
+    public void CreateArtworksGallery(List<Artworks> artworks, Transform contentPanel)
     {
         foreach (var artwork in artworks)
         {

@@ -35,7 +35,7 @@ public class BuildingsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         BuildingBlockButtonPrefab = UIManager.Instance.Get("BuildingBlockButtonPrefab");
     }
-    public void CreateBuildingGallery(List<Buildings> Buildings, Transform contentPanel)
+    public void CreateBuildingsGallery(List<Buildings> Buildings, Transform contentPanel)
     {
         foreach (var Building in Buildings)
         {

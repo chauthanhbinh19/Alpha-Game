@@ -44,7 +44,7 @@ public class UserFurnituresController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserFurniture(List<Furnitures> Furnitures, Transform contentPanel)
+    public void CreateUserFurnitures(List<Furnitures> Furnitures, Transform contentPanel)
     {
         foreach (var Furniture in Furnitures)
         {

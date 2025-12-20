@@ -34,7 +34,7 @@ public class CardLivesGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CardLifeBlockButtonPrefab = UIManager.Instance.Get("CardLifeBlockButtonPrefab");
     }
-    public void CreateCardLifeGallery(List<CardLives> cardLives, Transform contentPanel)
+    public void CreateCardLivesGallery(List<CardLives> cardLives, Transform contentPanel)
     {
         foreach (var cardLife in cardLives)
         {

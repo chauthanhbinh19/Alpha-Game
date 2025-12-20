@@ -43,7 +43,7 @@ public class CardMilitariesController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCardMilitaryGallery(List<CardMilitaries> cardMilitaries, Transform contentPanel)
+    public void CreateCardMilitariesGallery(List<CardMilitaries> cardMilitaries, Transform contentPanel)
     {
         foreach (var cardMilitary in cardMilitaries)
         {
@@ -78,7 +78,7 @@ public class CardMilitariesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardMilitaryTradeAsync(List<CardMilitaries> militaryList, string subType, Transform currentContent,
+    public async Task CreateCardMilitariesTradeAsync(List<CardMilitaries> militaryList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var military in militaryList)

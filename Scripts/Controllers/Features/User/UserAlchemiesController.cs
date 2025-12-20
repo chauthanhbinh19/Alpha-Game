@@ -44,7 +44,7 @@ public class UserAlchemiesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserAlchemy(List<Alchemies> alchemies, Transform contentPanel)
+    public void CreateUserAlchemies(List<Alchemies> alchemies, Transform contentPanel)
     {
         foreach (var alchemy in alchemies)
         {

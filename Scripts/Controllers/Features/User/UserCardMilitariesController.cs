@@ -72,7 +72,7 @@ public class UserCardMilitariesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardMilitary(List<CardMilitaries> cardMilitaries, Transform contentPanel)
+    public void CreateUserCardMilitaries(List<CardMilitaries> cardMilitaries, Transform contentPanel)
     {
         foreach (var cardMilitary in cardMilitaries)
         {

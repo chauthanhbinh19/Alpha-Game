@@ -43,7 +43,7 @@ public class PuppetsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreatePuppetGallery(List<Puppets> puppets, Transform contentPanel)
+    public void CreatePuppetsGallery(List<Puppets> puppets, Transform contentPanel)
     {
         foreach (var puppet in puppets)
         {
@@ -99,7 +99,7 @@ public class PuppetsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreatePuppetTradeAsync(List<Puppets> puppets, string subType, Transform currentContent,
+    public async Task CreatePuppetsTradeAsync(List<Puppets> puppets, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var puppet in puppets)

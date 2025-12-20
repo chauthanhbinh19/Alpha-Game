@@ -43,7 +43,7 @@ public class AlchemiesController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateAlchemyGallery(List<Alchemies> alchemies, Transform contentPanel)
+    public void CreateAlchemiesGallery(List<Alchemies> alchemies, Transform contentPanel)
     {
         foreach (var alchemy in alchemies)
         {
@@ -98,7 +98,7 @@ public class AlchemiesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateAlchemyTradeAsync(List<Alchemies> alchemies, string subType, Transform currentContent,
+    public async Task CreateAlchemiesTradeAsync(List<Alchemies> alchemies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var alchemy in alchemies)

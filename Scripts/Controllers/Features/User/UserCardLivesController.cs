@@ -44,7 +44,7 @@ public class UserCardLivesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardLife(List<CardLives> cardLives, Transform contentPanel)
+    public void CreateUserCardLives(List<CardLives> cardLives, Transform contentPanel)
     {
         foreach (var cardLife in cardLives)
         {

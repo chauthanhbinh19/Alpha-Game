@@ -43,7 +43,7 @@ public class SpiritCardsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateSpiritCardGallery(List<SpiritCards> spiritCards, Transform contentPanel)
+    public void CreateSpiritCardsGallery(List<SpiritCards> spiritCards, Transform contentPanel)
     {
         foreach (var spiritCard in spiritCards)
         {

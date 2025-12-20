@@ -374,7 +374,7 @@ public class GalleryManager : MonoBehaviour
         {
 
             List<CardMilitaries> cardMilitaries = await CardMilitariesService.Create().GetCardMilitariesAsync(type, pageSize, offset, rare);
-            CardMilitariesController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
+            CardMilitariesController.Instance.CreateCardMilitariesGallery(cardMilitaries, DictionaryContentPanel);
 
             totalRecord = await CardMilitariesService.Create().GetCardMilitariesCountAsync(type, rare);
         }
@@ -382,14 +382,14 @@ public class GalleryManager : MonoBehaviour
         {
 
             List<CardSpells> cardSpells = await CardSpellsService.Create().GetCardSpellsAsync(type, pageSize, offset, rare);
-            CardSpellsController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
+            CardSpellsController.Instance.CreateCardSpellsGallery(cardSpells, DictionaryContentPanel);
 
             totalRecord = await CardSpellsService.Create().GetCardSpellsCountAsync(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
         {
             List<Collaborations> collaborations = await CollaborationsService.Create().GetCollaborationsAsync(pageSize, offset, rare);
-            CollaborationsController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
+            CollaborationsController.Instance.CreateCollaborationsGallery(collaborations, DictionaryContentPanel);
 
             totalRecord = await CollaborationsService.Create().GetCollaborationsCountAsync(rare);
         }
@@ -418,7 +418,7 @@ public class GalleryManager : MonoBehaviour
         {
 
             List<MagicFormationCircles> magicFormationCircles = await MagicFormationCirclesService.Create().GetMagicFormationCirclesAsync(type, pageSize, offset, rare);
-            MagicFormationCirclesController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
+            MagicFormationCirclesController.Instance.CreateMagicFormationCirclesGallery(magicFormationCircles, DictionaryContentPanel);
 
             totalRecord = await MagicFormationCirclesService.Create().GetMagicFormationCirclesCountAsync(type, rare);
         }
@@ -465,49 +465,49 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
             List<Talismans> talismans = await TalismansService.Create().GetTalismansAsync(type, pageSize, offset, rare);
-            TalismansController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
+            TalismansController.Instance.CreateTalismansGallery(talismans, DictionaryContentPanel);
 
             totalRecord = await TalismansService.Create().GetTalismansCountAsync(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
             List<Puppets> puppets = await PuppetsService.Create().GetPuppetsAsync(type, pageSize, offset, rare);
-            PuppetsController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
+            PuppetsController.Instance.CreatePuppetsGallery(puppets, DictionaryContentPanel);
 
             totalRecord = await PuppetsService.Create().GetPuppetsCountAsync(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
             List<Alchemies> alchemies = await AlchemiesService.Create().GetAlchemiesAsync(type, pageSize, offset, rare);
-            AlchemiesController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
+            AlchemiesController.Instance.CreateAlchemiesGallery(alchemies, DictionaryContentPanel);
 
             totalRecord = await AlchemiesService.Create().GetAlchemiesCountAsync(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
             List<Forges> forges = await ForgesService.Create().GetForgesAsync(type, pageSize, offset, rare);
-            ForgesController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
+            ForgesController.Instance.CreateForgesGallery(forges, DictionaryContentPanel);
 
             totalRecord = await ForgesService.Create().GetForgesCountAsync(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
             List<CardLives> cardLives = await CardLivesService.Create().GetCardLivesAsync(type, pageSize, offset, rare);
-            CardLivesController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
+            CardLivesController.Instance.CreateCardLivesGallery(cardLives, DictionaryContentPanel);
 
             totalRecord = await CardLivesService.Create().GetCardLivesCountAsync(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
             List<Artworks> artworks = await ArtworksService.Create().GetArtworksAsync(type, pageSize, offset, rare);
-            ArtworksController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
+            ArtworksController.Instance.CreateArtworksGallery(artworks, DictionaryContentPanel);
 
             totalRecord = await ArtworksService.Create().GetArtworksCountAsync(type, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
             List<SpiritBeasts> spiritBeasts = await SpiritBeastsService.Create().GetSpiritBeastsAsync(pageSize, offset, rare);
-            SpiritBeastsController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
+            SpiritBeastsController.Instance.CreateSpiritBeastsGallery(spiritBeasts, DictionaryContentPanel);
 
             totalRecord = await SpiritBeastsService.Create().GetSpiritBeastsCountAsync(rare);
         }
@@ -521,7 +521,7 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
             List<SpiritCards> spiritCards = await SpiritCardsService.Create().GetSpiritCardsAsync(type, pageSize, offset, rare);
-            SpiritCardsController.Instance.CreateSpiritCardGallery(spiritCards, DictionaryContentPanel);
+            SpiritCardsController.Instance.CreateSpiritCardsGallery(spiritCards, DictionaryContentPanel);
 
             totalRecord = await SpiritCardsService.Create().GetSpiritCardsCountAsync(type, rare);
         }
@@ -556,7 +556,7 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.VEHICLE))
         {
             List<Vehicles> vehicles = await VehiclesService.Create().GetVehiclesAsync(type, pageSize, offset, rare);
-            VehiclesController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
+            VehiclesController.Instance.CreateVehiclesGallery(vehicles, DictionaryContentPanel);
 
             totalRecord = await VehiclesService.Create().GetVehiclesCountAsync(type, rare);
         }
@@ -605,7 +605,7 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.FURNITURE))
         {
             List<Furnitures> furnitures = await FurnituresService.Create().GetFurnituresAsync(type, pageSize, offset, rare);
-            FurnituresController.Instance.CreateFurnitureGallery(furnitures, DictionaryContentPanel);
+            FurnituresController.Instance.CreateFurnituresGallery(furnitures, DictionaryContentPanel);
 
             totalRecord = await BuildingsService.Create().GetBuildingsCountAsync(type, rare);
         }
@@ -626,7 +626,7 @@ public class GalleryManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.BUILDING))
         {
             List<Buildings> buildings = await BuildingsService.Create().GetBuildingsAsync(type, pageSize, offset, rare);
-            BuildingsController.Instance.CreateBuildingGallery(buildings, DictionaryContentPanel);
+            BuildingsController.Instance.CreateBuildingsGallery(buildings, DictionaryContentPanel);
 
             totalRecord = await BuildingsService.Create().GetBuildingsCountAsync(type, rare);
         }

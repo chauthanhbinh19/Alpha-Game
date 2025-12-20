@@ -43,7 +43,7 @@ public class CardSpellsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateCardSpellGallery(List<CardSpells> cardSpells, Transform contentPanel)
+    public void CreateCardSpellsGallery(List<CardSpells> cardSpells, Transform contentPanel)
     {
         foreach (var cardSpell in cardSpells)
         {
@@ -78,7 +78,7 @@ public class CardSpellsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardSpellTradeAsync(List<CardSpells> spellList, string subType, Transform currentContent,
+    public async Task CreateCardSpellsTradeAsync(List<CardSpells> spellList, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var spell in spellList)

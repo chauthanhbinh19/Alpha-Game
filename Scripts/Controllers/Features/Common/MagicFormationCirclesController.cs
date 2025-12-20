@@ -43,7 +43,7 @@ public class MagicFormationCirclesController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateMagicFormationCircleGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
+    public void CreateMagicFormationCirclesGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {
@@ -99,7 +99,7 @@ public class MagicFormationCirclesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateMagicFormationCircleTradeAsync(List<MagicFormationCircles> magicFormationCircles, string subType, Transform currentContent,
+    public async Task CreateMagicFormationCirclesTradeAsync(List<MagicFormationCircles> magicFormationCircles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)

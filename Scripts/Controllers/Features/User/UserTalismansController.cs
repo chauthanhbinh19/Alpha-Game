@@ -44,7 +44,7 @@ public class UserTalismansController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserTalisman(List<Talismans> talismans, Transform contentPanel)
+    public void CreateUserTalismans(List<Talismans> talismans, Transform contentPanel)
     {
         foreach (var talisman in talismans)
         {

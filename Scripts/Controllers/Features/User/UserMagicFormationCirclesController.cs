@@ -44,7 +44,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserMagicFormationCircle(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
+    public void CreateUserMagicFormationCircles(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {
         foreach (var magicFormationCircle in magicFormationCircles)
         {

@@ -35,7 +35,7 @@ public class CollaborationsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CollaborationBlockButtonPrefab = UIManager.Instance.Get("CollaborationBlockButtonPrefab");
     }
-    public void CreateCollaborationGallery(List<Collaborations> collaborationList, Transform contentPanel)
+    public void CreateCollaborationsGallery(List<Collaborations> collaborationList, Transform contentPanel)
     {
         foreach (var collaboration in collaborationList)
         {

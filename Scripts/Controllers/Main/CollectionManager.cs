@@ -371,7 +371,7 @@ public class CollectionManager : MonoBehaviour
         {
             var cardMilitaryGalleryService = CardMilitariesGalleryService.Create();
             List<CardMilitaries> cardMilitaries = await cardMilitaryGalleryService.GetCardMilitariesCollectionAsync(type, pageSize, offset, rare);
-            CardMilitariesGalleryController.Instance.CreateCardMilitaryGallery(cardMilitaries, DictionaryContentPanel);
+            CardMilitariesGalleryController.Instance.CreateCardMilitariesGallery(cardMilitaries, DictionaryContentPanel);
 
             totalRecord = await cardMilitaryGalleryService.GetCardMilitariesCountAsync(type, rare);
         }
@@ -379,7 +379,7 @@ public class CollectionManager : MonoBehaviour
         {
             var cardSpellGalleryService = CardSpellsGalleryService.Create();
             List<CardSpells> cardSpells = await cardSpellGalleryService.GetCardSpellsCollectionAsync(type, pageSize, offset, rare);
-            CardSpellsGalleryController.Instance.CreateCardSpellGallery(cardSpells, DictionaryContentPanel);
+            CardSpellsGalleryController.Instance.CreateCardSpellsGallery(cardSpells, DictionaryContentPanel);
 
             totalRecord = await cardSpellGalleryService.GetCardSpellsCountAsync(type, rare);
         }
@@ -387,7 +387,7 @@ public class CollectionManager : MonoBehaviour
         {
             var collaborationGalleryService = CollaborationsGalleryService.Create();
             List<Collaborations> collaborations = await collaborationGalleryService.GetCollaborationsCollectionAsync(pageSize, offset, rare);
-            CollaborationsGalleryController.Instance.CreateCollaborationGallery(collaborations, DictionaryContentPanel);
+            CollaborationsGalleryController.Instance.CreateCollaborationsGallery(collaborations, DictionaryContentPanel);
 
             totalRecord = await collaborationGalleryService.GetCollaborationsCountAsync(rare);
         }
@@ -419,7 +419,7 @@ public class CollectionManager : MonoBehaviour
         {
             var magicFormationCircleGalleryService = MagicFormationCirclesGalleryService.Create();
             List<MagicFormationCircles> magicFormationCircles = await magicFormationCircleGalleryService.GetMagicFormationCirclesCollectionAsync(type, pageSize, offset, rare);
-            MagicFormationCirclesGalleryController.Instance.CreateMagicFormationCircleGallery(magicFormationCircles, DictionaryContentPanel);
+            MagicFormationCirclesGalleryController.Instance.CreateMagicFormationCirclesGallery(magicFormationCircles, DictionaryContentPanel);
 
             totalRecord = await magicFormationCircleGalleryService.GetMagicFormationCirclesCountAsync(type, rare);
         }
@@ -467,7 +467,7 @@ public class CollectionManager : MonoBehaviour
         {
             var talismanGalleryService = TalismansGalleryService.Create();
             List<Talismans> talismans = await talismanGalleryService.GetTalismansCollectionAsync(type, pageSize, offset, rare);
-            TalismansGalleryController.Instance.CreateTalismanGallery(talismans, DictionaryContentPanel);
+            TalismansGalleryController.Instance.CreateTalismansGallery(talismans, DictionaryContentPanel);
 
             totalRecord = await talismanGalleryService.GetTalismansCountAsync(type, rare);
         }
@@ -475,7 +475,7 @@ public class CollectionManager : MonoBehaviour
         {
             var puppetGalleryService = PuppetsGalleryService.Create();
             List<Puppets> puppets = await puppetGalleryService.GetPuppetsCollectionAsync(type, pageSize, offset, rare);
-            PuppetsGalleryController.Instance.CreatePuppetGallery(puppets, DictionaryContentPanel);
+            PuppetsGalleryController.Instance.CreatePuppetsGallery(puppets, DictionaryContentPanel);
 
             totalRecord = await puppetGalleryService.GetPuppetsCountAsync(type, rare);
         }
@@ -483,7 +483,7 @@ public class CollectionManager : MonoBehaviour
         {
             var alchemyGalleryService = AlchemiesGalleryService.Create();
             List<Alchemies> alchemies = await alchemyGalleryService.GetAlchemyCollectionAsync(type, pageSize, offset, rare);
-            AlchemiesGalleryController.Instance.CreateAlchemyGallery(alchemies, DictionaryContentPanel);
+            AlchemiesGalleryController.Instance.CreateAlchemiesGallery(alchemies, DictionaryContentPanel);
 
             totalRecord = await alchemyGalleryService.GetAlchemyCountAsync(type, rare);
         }
@@ -491,7 +491,7 @@ public class CollectionManager : MonoBehaviour
         {
             var forgeGalleryService = ForgesGalleryService.Create();
             List<Forges> forges = await forgeGalleryService.GetForgesCollectionAsync(type, pageSize, offset, rare);
-            ForgesGalleryController.Instance.CreateForgeGallery(forges, DictionaryContentPanel);
+            ForgesGalleryController.Instance.CreateForgesGallery(forges, DictionaryContentPanel);
 
             totalRecord = await forgeGalleryService.GetForgesCountAsync(type, rare);
         }
@@ -499,7 +499,7 @@ public class CollectionManager : MonoBehaviour
         {
             var cardLifeGalleryService = CardLivesGalleryService.Create();
             List<CardLives> cardLives = await cardLifeGalleryService.GetCardLivesCollectionAsync(type, pageSize, offset, rare);
-            CardLivesGalleryController.Instance.CreateCardLifeGallery(cardLives, DictionaryContentPanel);
+            CardLivesGalleryController.Instance.CreateCardLivesGallery(cardLives, DictionaryContentPanel);
 
             totalRecord = await cardLifeGalleryService.GetCardLivesCountAsync(type, rare);
         }
@@ -507,7 +507,7 @@ public class CollectionManager : MonoBehaviour
         {
             var artworkGalleryService = ArtworksGalleryService.Create();
             List<Artworks> artworks = await artworkGalleryService.GetArtworksCollectionAsync(type, pageSize, offset, rare);
-            ArtworksGalleryController.Instance.CreateArtworkGallery(artworks, DictionaryContentPanel);
+            ArtworksGalleryController.Instance.CreateArtworksGallery(artworks, DictionaryContentPanel);
 
             totalRecord = await artworkGalleryService.GetArtworksCountAsync(type, rare);
         }
@@ -515,7 +515,7 @@ public class CollectionManager : MonoBehaviour
         {
             var spiritBeastGalleryService = SpiritBeastsGalleryService.Create();
             List<SpiritBeasts> spiritBeasts = await spiritBeastGalleryService.GetSpiritBeastsCollectionAsync(pageSize, offset, rare);
-            SpiritBeastsGalleryController.Instance.CreateSpiritBeastGallery(spiritBeasts, DictionaryContentPanel);
+            SpiritBeastsGalleryController.Instance.CreateSpiritBeastsGallery(spiritBeasts, DictionaryContentPanel);
 
             totalRecord = await spiritBeastGalleryService.GetSpiritBeastsCountAsync(rare);
         }
@@ -531,7 +531,7 @@ public class CollectionManager : MonoBehaviour
         {
             var spiritCardGalleryService = SpiritCardsGalleryService.Create();
             List<SpiritCards> spiritCards = await spiritCardGalleryService.GetSpiritCardsCollectionAsync(type, pageSize, offset, rare);
-            SpiritCardsGalleryController.Instance.CreateSpiritCardGallery(spiritCards, DictionaryContentPanel);
+            SpiritCardsGalleryController.Instance.CreateSpiritCardsGallery(spiritCards, DictionaryContentPanel);
 
             totalRecord = await spiritCardGalleryService.GetSpiritCardsCountAsync(type, rare);
         }
@@ -571,7 +571,7 @@ public class CollectionManager : MonoBehaviour
         {
             var vehiclesGalleryService = VehiclesGalleryService.Create();
             List<Vehicles> vehicles = await vehiclesGalleryService.GetVehiclesCollectionAsync(type, pageSize, offset, rare);
-            VehiclesGalleryController.Instance.CreateVehicleGallery(vehicles, DictionaryContentPanel);
+            VehiclesGalleryController.Instance.CreateVehiclesGallery(vehicles, DictionaryContentPanel);
 
             totalRecord = await vehiclesGalleryService.GetVehiclesCountAsync(type, rare);
         }
@@ -627,7 +627,7 @@ public class CollectionManager : MonoBehaviour
         {
             var furnituresGalleryService = FurnituresGalleryService.Create();
             List<Furnitures> furnitures = await furnituresGalleryService.GetFurnituresCollectionAsync(type, pageSize, offset, rare);
-            FurnituresGalleryController.Instance.CreateFurnitureGallery(furnitures, DictionaryContentPanel);
+            FurnituresGalleryController.Instance.CreateFurnituresGallery(furnitures, DictionaryContentPanel);
 
             totalRecord = await furnituresGalleryService.GetFurnituresCountAsync(type, rare);
         }
@@ -651,7 +651,7 @@ public class CollectionManager : MonoBehaviour
         {
             var buildingsGalleryService = BuildingsGalleryService.Create();
             List<Buildings> buildings = await buildingsGalleryService.GetBuildingsCollectionAsync(type, pageSize, offset, rare);
-            BuildingsGalleryController.Instance.CreateBuildingGallery(buildings, DictionaryContentPanel);
+            BuildingsGalleryController.Instance.CreateBuildingsGallery(buildings, DictionaryContentPanel);
 
             totalRecord = await buildingsGalleryService.GetBuildingsCountAsync(type, rare);
         }
