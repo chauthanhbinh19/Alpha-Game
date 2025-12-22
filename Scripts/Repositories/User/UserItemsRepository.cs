@@ -39,10 +39,10 @@ public class UserItemsRepository : IUserItemsRepository
                         {
                             Items item = new Items
                             {
-                                Id = reader.GetString("id"),
-                                Name = reader.GetString("name"),
-                                Image = reader.GetString("image"),
-                                Quantity = reader.GetDouble("quantity")
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Quantity = reader.GetDoubleSafe("quantity")
                             };
 
                             items.Add(item);
@@ -127,7 +127,7 @@ public class UserItemsRepository : IUserItemsRepository
                     {
                         if (await reader.ReadAsync()) // Nếu có dữ liệu
                         {
-                            items.Id = reader.GetString("itemId");
+                            items.Id = reader.GetStringSafe("itemId");
                             items.Name = reader["itemName"]?.ToString() ?? string.Empty;
                             items.Image = reader["itemImage"]?.ToString() ?? string.Empty;
                             items.Quantity = reader["quantity"] != DBNull.Value

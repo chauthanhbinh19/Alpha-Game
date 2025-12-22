@@ -28,11 +28,11 @@ public class UserSettingsRepository : IUserSettingsRepository
                         {
                             UserSettings userSetting = new UserSettings
                             {
-                                Id = reader.GetInt32("id"),
-                                UserId = reader.GetString("user_id"),
-                                SettingKey = reader.GetString("setting_key"),
-                                SettingValue = reader.GetString("setting_value"),
-                                ValueType = reader.GetString("value_type"),
+                                Id = reader.GetIntSafe("id"),
+                                UserId = reader.GetStringSafe("user_id"),
+                                SettingKey = reader.GetStringSafe("setting_key"),
+                                SettingValue = reader.GetStringSafe("setting_value"),
+                                ValueType = reader.GetStringSafe("value_type"),
                             };
                             userSettings.Add(userSetting);
                         }

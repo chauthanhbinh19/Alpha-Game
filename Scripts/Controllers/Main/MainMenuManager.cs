@@ -32,7 +32,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject equipmentsPrefab;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
-    private GameObject buttonPrefab2;
+    private GameObject SummonTabButtonPrefab;
 
     private GameObject SummonPanelPrefab;
     private Transform PositionPanel;
@@ -92,7 +92,7 @@ public class MainMenuManager : MonoBehaviour
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
-        buttonPrefab2 = UIManager.Instance.Get("TabButton2");
+        SummonTabButtonPrefab = UIManager.Instance.Get("SummonTabButtonPrefab");
         DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
@@ -709,7 +709,7 @@ public class MainMenuManager : MonoBehaviour
                         rare = selectedRare;
                         button.transform.Find("Active").gameObject.SetActive(true);
                         button.transform.Find("Unactive").gameObject.SetActive(false);
-                        _ = LoadCurrentPageAsync();
+                        // _ = LoadCurrentPageAsync();
                     }
                 }
                 else
@@ -738,7 +738,7 @@ public class MainMenuManager : MonoBehaviour
                 }
                 else if (buttonType.Equals("button2"))
                 {
-                    button = Instantiate(buttonPrefab2, LeftScrollViewContentPanel);
+                    button = Instantiate(SummonTabButtonPrefab, LeftScrollViewContentPanel);
                     TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                     buttonText.text = subType.Replace("_", " ");
                 }

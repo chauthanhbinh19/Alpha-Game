@@ -31,13 +31,13 @@ public class UserRepository : IUserRepository
                             return new User
                             {
                                 Id = reader["id"].ToString(),
-                                Username = reader.GetString("username"),
-                                Password = reader.GetString("password"),
+                                Username = reader.GetStringSafe("username"),
+                                Password = reader.GetStringSafe("password"),
                                 Name = reader["name"].ToString(),
-                                Level = reader.GetInt32("level"),
-                                Experiment = reader.GetDouble("experiment"),
-                                Vip = reader.GetInt32("vip"),
-                                Power = reader.GetDouble("power")
+                                Level = reader.GetIntSafe("level"),
+                                Experiment = reader.GetDoubleSafe("experiment"),
+                                Vip = reader.GetIntSafe("vip"),
+                                Power = reader.GetDoubleSafe("power")
                             };
                         }
                     }
@@ -132,14 +132,14 @@ public class UserRepository : IUserRepository
                     if (!await reader.ReadAsync())
                         return null; // đăng nhập thất bại
 
-                    string userId = reader.GetString("id");
-                    string name = reader.GetString("name");
-                    string Username = reader.GetString("username");
-                    string Password = reader.GetString("password");
-                    int level = reader.GetInt32("level");
-                    int vip = reader.GetInt32("vip");
-                    double power = reader.GetDouble("power");
-                    double experiment = reader.GetDouble("experiment");
+                    string userId = reader.GetStringSafe("id");
+                    string name = reader.GetStringSafe("name");
+                    string Username = reader.GetStringSafe("username");
+                    string Password = reader.GetStringSafe("password");
+                    int level = reader.GetIntSafe("level");
+                    int vip = reader.GetIntSafe("vip");
+                    double power = reader.GetDoubleSafe("power");
+                    double experiment = reader.GetDoubleSafe("experiment");
 
                     // Cập nhật các biến static của User
                     User.CurrentUserId = userId;
@@ -169,10 +169,10 @@ public class UserRepository : IUserRepository
                             {
                                 currencies.Add(new Currencies
                                 {
-                                    Id = currencyReader.GetString("currency_id"),
-                                    Name = currencyReader.GetString("name"),
-                                    Image = currencyReader.GetString("image"),
-                                    Quantity = currencyReader.GetDouble("quantity")
+                                    Id = currencyReader.GetStringSafe("currency_id"),
+                                    Name = currencyReader.GetStringSafe("name"),
+                                    Image = currencyReader.GetStringSafe("image"),
+                                    Quantity = currencyReader.GetDoubleSafe("quantity")
                                 });
                             }
 
@@ -218,12 +218,12 @@ public class UserRepository : IUserRepository
                     if (!await reader.ReadAsync())
                         return null; // không tìm thấy user
 
-                    string id = reader.GetString("id");
-                    string name = reader.GetString("name");
-                    string username = reader.GetString("username");
-                    string password = reader.GetString("password");
-                    int level = reader.GetInt32("level");
-                    int vip = reader.GetInt32("vip");
+                    string id = reader.GetStringSafe("id");
+                    string name = reader.GetStringSafe("name");
+                    string username = reader.GetStringSafe("username");
+                    string password = reader.GetStringSafe("password");
+                    int level = reader.GetIntSafe("level");
+                    int vip = reader.GetIntSafe("vip");
                     double power = reader["power"] != DBNull.Value ? Convert.ToDouble(reader["power"]) : 0;
                     double experiment = reader["experiment"] != DBNull.Value ? Convert.ToDouble(reader["experiment"]) : 0;
 
@@ -255,10 +255,10 @@ public class UserRepository : IUserRepository
                             {
                                 currencies.Add(new Currencies
                                 {
-                                    Id = currencyReader.GetString("currency_id"),
-                                    Name = currencyReader.GetString("name"),
-                                    Image = currencyReader.GetString("image"),
-                                    Quantity = currencyReader.GetDouble("quantity")
+                                    Id = currencyReader.GetStringSafe("currency_id"),
+                                    Name = currencyReader.GetStringSafe("name"),
+                                    Image = currencyReader.GetStringSafe("image"),
+                                    Quantity = currencyReader.GetDoubleSafe("quantity")
                                 });
                             }
 
@@ -304,13 +304,13 @@ public class UserRepository : IUserRepository
                     if (!await reader.ReadAsync())
                         return null; // không tìm thấy user
 
-                    string userId = reader.GetString("id");
-                    string Name = reader.GetString("name");
-                    string username = reader.GetString("username");
-                    string password = reader.GetString("password");
-                    int Level = reader.GetInt32("level");
-                    int Vip = reader.GetInt32("vip");
-                    double Experiment = reader.GetDouble("experiment");
+                    string userId = reader.GetStringSafe("id");
+                    string Name = reader.GetStringSafe("name");
+                    string username = reader.GetStringSafe("username");
+                    string password = reader.GetStringSafe("password");
+                    int Level = reader.GetIntSafe("level");
+                    int Vip = reader.GetIntSafe("vip");
+                    double Experiment = reader.GetDoubleSafe("experiment");
 
                     double Power = await TeamsService.Create().GetTeamsPowerAsync(Id);
 
@@ -333,10 +333,10 @@ public class UserRepository : IUserRepository
                             {
                                 currencies.Add(new Currencies
                                 {
-                                    Id = currencyReader.GetString("currency_id"),
-                                    Name = currencyReader.GetString("name"),
-                                    Image = currencyReader.GetString("image"),
-                                    Quantity = currencyReader.GetInt32("quantity")
+                                    Id = currencyReader.GetStringSafe("currency_id"),
+                                    Name = currencyReader.GetStringSafe("name"),
+                                    Image = currencyReader.GetStringSafe("image"),
+                                    Quantity = currencyReader.GetIntSafe("quantity")
                                 });
                             }
 

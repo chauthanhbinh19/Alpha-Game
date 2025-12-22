@@ -18,7 +18,7 @@ public class GachaSystem : MonoBehaviour
     public void Summon(string name, string type, GameObject summonObject, int quantity, List<Items> items, Action<bool> onFinished)
     {
         StartCoroutine(PlaySummonVideoAndSummon(name, type, summonObject, quantity, items, onFinished));
-        
+
     }
     IEnumerator PlaySummonVideoAndSummon(string name, string type, GameObject summonObject, int quantity, List<Items> items, Action<bool> onFinished)
     {
@@ -62,8 +62,15 @@ public class GachaSystem : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         // Tắt RawImage sau khi video kết thúc
         summonEffectImage.gameObject.SetActive(false);
-        // bool result = SummonEventAsync(name, type, summonObject, quantity, items);
-        // onFinished?.Invoke(result);
+        
+        // 👉 GỌI async method và đợi kết quả
+        Task<bool> summonTask =
+            SummonEventAsync(name, type, summonObject, quantity, items);
+
+        yield return CoroutineAsyncBridge.WaitTask(
+            summonTask,
+            result => onFinished?.Invoke(result)
+        );
     }
     private async Task<bool> SummonEventAsync(string name, string type, GameObject summonObject, int quantity, List<Items> items)
     {

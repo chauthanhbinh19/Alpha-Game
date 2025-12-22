@@ -181,16 +181,16 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                 {
                     DailyCheckin dailyCheckin = new DailyCheckin
                     {
-                        Id = currencyReader.GetString("id"),
-                        Type = currencyReader.GetString("type"),
-                        ObjectId = currencyReader.GetString("object_id"),
+                        Id = currencyReader.GetStringSafe("id"),
+                        Type = currencyReader.GetStringSafe("type"),
+                        ObjectId = currencyReader.GetStringSafe("object_id"),
                         Date = currencyReader.GetDateTime("day"),
-                        Quantity = currencyReader.GetInt32("quantity")
+                        Quantity = currencyReader.GetIntSafe("quantity")
                     };
 
                     userDailyCheckins.Add(new UserDailyCheckin
                     {
-                        Status = currencyReader.IsDBNull(currencyReader.GetOrdinal("status")) ? false : currencyReader.GetBoolean("status"),
+                        Status = currencyReader.IsDBNull(currencyReader.GetOrdinal("status")) ? false : currencyReader.GetBoolSafe("status"),
                         DailyCheckin = dailyCheckin
                     });
                 }
