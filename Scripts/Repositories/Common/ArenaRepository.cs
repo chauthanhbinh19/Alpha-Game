@@ -21,7 +21,7 @@ public class ArenaRepository : IArenaRepository
             {
                 while (await reader.ReadAsync())
                 {
-                    typeList.Add(reader.GetString("mode"));
+                    typeList.Add(reader.GetStringSafe("mode"));
                 }
             }
         }
@@ -46,7 +46,7 @@ public class ArenaRepository : IArenaRepository
                 {
                     if (await reader.ReadAsync())
                     {
-                        id = reader.GetString("id");
+                        id = reader.GetStringSafe("id");
                     }
                 }
             }
@@ -76,8 +76,8 @@ public class ArenaRepository : IArenaRepository
             await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                string userId = reader.GetString("user_id");
-                int rank = reader.GetInt32("user_rank");
+                string userId = reader.GetStringSafe("user_id");
+                int rank = reader.GetIntSafe("user_rank");
 
                 if (!userRankings.ContainsKey(userId))
                 {
@@ -132,7 +132,7 @@ public class ArenaRepository : IArenaRepository
                 await using var reader = await selectCommand.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
-                    point = reader.GetInt32("rank_point");
+                    point = reader.GetIntSafe("rank_point");
                 }
             }
         }

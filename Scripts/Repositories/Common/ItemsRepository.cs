@@ -88,11 +88,11 @@ public class ItemsRepository : IItemsRepository
                     {
                         Items item = new Items
                         {
-                            Id = reader.GetString("id"),
-                            Name = reader.GetString("name"),
-                            Image = reader.GetString("image"),
-                            Type = reader.GetString("type"),
-                            Price = reader.GetDouble("price")
+                            Id = reader.GetStringSafe("id"),
+                            Name = reader.GetStringSafe("name"),
+                            Image = reader.GetStringSafe("image"),
+                            Type = reader.GetStringSafe("type"),
+                            Price = reader.GetDoubleSafe("price")
                         };
                         items.Add(item);
                     }

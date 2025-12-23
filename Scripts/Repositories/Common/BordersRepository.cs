@@ -61,10 +61,10 @@ public class BordersRepository : IBordersRepository
             {
                 var border = new Borders
                 {
-                    Id = reader.GetString("id"),
-                    Name = reader.GetString("name"),
-                    Image = reader.GetString("image"),
-                    Rare = reader.GetString("rare"),
+                    Id = reader.GetStringSafe("id"),
+                    Name = reader.GetStringSafe("name"),
+                    Image = reader.GetStringSafe("image"),
+                    Rare = reader.GetStringSafe("rare"),
                     Quality = reader.GetDouble("quality"),
                     Power = reader.GetDouble("power"),
                     Health = reader.GetDouble("health"),
@@ -127,7 +127,7 @@ public class BordersRepository : IBordersRepository
                     PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
                     PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
                     PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
-                    Description = reader.GetString("description")
+                    Description = reader.GetStringSafe("description")
                 };
 
                 borders.Add(border);
@@ -193,10 +193,10 @@ public class BordersRepository : IBordersRepository
             {
                 Borders border = new Borders
                 {
-                    Id = reader.GetString("id"),
-                    Name = reader.GetString("name"),
-                    Image = reader.GetString("image"),
-                    Rare = reader.GetString("rare"),
+                    Id = reader.GetStringSafe("id"),
+                    Name = reader.GetStringSafe("name"),
+                    Image = reader.GetStringSafe("image"),
+                    Rare = reader.GetStringSafe("rare"),
                     Quality = reader.GetDouble("quality"),
                     Power = reader.GetDouble("power"),
                     Health = reader.GetDouble("health"),
@@ -259,12 +259,12 @@ public class BordersRepository : IBordersRepository
                     PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense"),
                     PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack"),
                     PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense"),
-                    Description = reader.GetString("description"),
+                    Description = reader.GetStringSafe("description"),
                     Currency = new Currencies
                     {
-                        Id = reader.GetString("currency_id"),
-                        Image = reader.GetString("currency_image"),
-                        Quantity = reader.GetInt32("price")
+                        Id = reader.GetStringSafe("currency_id"),
+                        Image = reader.GetStringSafe("currency_image"),
+                        Quantity = reader.GetIntSafe("price")
                     }
                 };
 
@@ -324,10 +324,10 @@ public class BordersRepository : IBordersRepository
             {
                 border = new Borders
                 {
-                    Id = reader.GetString("id"),
-                    Name = reader.GetString("name"),
-                    Image = reader.GetString("image"),
-                    Rare = reader.GetString("rare"),
+                    Id = reader.GetStringSafe("id"),
+                    Name = reader.GetStringSafe("name"),
+                    Image = reader.GetStringSafe("image"),
+                    Rare = reader.GetStringSafe("rare"),
                     Quality = reader.GetDouble("quality"),
                     Power = reader.GetDouble("power"),
                     Health = reader.GetDouble("health"),
@@ -379,7 +379,7 @@ public class BordersRepository : IBordersRepository
                     NormalResistanceRate = reader.GetDouble("normal_resistance_rate"),
                     SkillDamageRate = reader.GetDouble("skill_damage_rate"),
                     SkillResistanceRate = reader.GetDouble("skill_resistance_rate"),
-                    Description = reader.GetString("description")
+                    Description = reader.GetStringSafe("description")
                 };
             }
         }

@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 5647053732788993071}
   - component: {fileID: 5647053732788993070}
   m_Layer: 5
-  m_Name: TabButton4
+  m_Name: TabButtonPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: c15d9fb263af58849a91eb683bfadaae, type: 3}
+  m_Texture: {fileID: 2800000, guid: 70b67ce5d92c4a84eb6f7741d79a1776, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

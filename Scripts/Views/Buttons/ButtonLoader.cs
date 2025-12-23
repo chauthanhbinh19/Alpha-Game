@@ -9,7 +9,7 @@ public class ButtonLoader : MonoBehaviour
 {
     private GameObject ItemButtonPrefab; // Prefab của button
     private GameObject MainButtonPrefab;
-    private GameObject TabButton4;
+    private GameObject TabButtonPrefab;
     private GameObject AdvancedButtonPrefab;
     private GameObject AdvancedSubButtonPrefab;
     private GameObject ArenaButtonPrefab;
@@ -45,7 +45,7 @@ public class ButtonLoader : MonoBehaviour
     {
         ItemButtonPrefab = UIManager.Instance.Get("ItemButtonPrefab");
         MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
-        TabButton4 = UIManager.Instance.Get("TabButton4");
+        TabButtonPrefab = UIManager.Instance.Get("TabButtonPrefab");
         AdvancedButtonPrefab = UIManager.Instance.Get("AdvancedButtonPrefab");
         AdvancedSubButtonPrefab = UIManager.Instance.Get("AdvancedSubButtonPrefab");
         ArenaButtonPrefab = UIManager.Instance.Get("ArenaButtonPrefab");
@@ -578,7 +578,7 @@ public class ButtonLoader : MonoBehaviour
     public void CreateButton(int index, string itemName, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(TabButton4, panel);
+        GameObject newButton = Instantiate(TabButtonPrefab, panel);
         newButton.name = "Button_" + index;
 
         // Gán tên cho itemName
@@ -656,7 +656,6 @@ public class ButtonLoader : MonoBehaviour
 
                 if (index == 0)
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.ADVANCED_BUTTON_SET_1_URL);
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
@@ -666,7 +665,6 @@ public class ButtonLoader : MonoBehaviour
                 }
                 else if (index == 1)
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.ADVANCED_BUTTON_SET_2_URL);
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
@@ -676,7 +674,6 @@ public class ButtonLoader : MonoBehaviour
                 }
                 else if (index == 2)
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.ADVANCED_BUTTON_SET_3_URL);
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
@@ -686,7 +683,6 @@ public class ButtonLoader : MonoBehaviour
                 }
                 else if (index == 3)
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.ADVANCED_BUTTON_SET_4_URL);
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;
@@ -696,7 +692,6 @@ public class ButtonLoader : MonoBehaviour
                 }
                 else if (index == 4)
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.ADVANCED_BUTTON_SET_1_URL);
                     btn.onClick.AddListener(() =>
                     {
                         set = index + 1;

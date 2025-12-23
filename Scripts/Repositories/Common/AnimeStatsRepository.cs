@@ -29,69 +29,69 @@ public class AnimeStatsRepository : IAnimeStatsRepository
 
             while (await reader.ReadAsync())
             {
-                animeStats.Type = reader.GetString("animeStats_type");
-                animeStats.Level = reader.IsDBNull(reader.GetOrdinal("animeStats_level")) ? 0 : reader.GetInt32("animeStats_level");
-                animeStats.Power = reader.GetDouble("power");
-                animeStats.Health = reader.GetDouble("health");
-                animeStats.PhysicalAttack = reader.GetDouble("physical_attack");
-                animeStats.PhysicalDefense = reader.GetDouble("physical_defense");
-                animeStats.MagicalAttack = reader.GetDouble("magical_attack");
-                animeStats.MagicalDefense = reader.GetDouble("magical_defense");
-                animeStats.ChemicalAttack = reader.GetDouble("chemical_attack");
-                animeStats.ChemicalDefense = reader.GetDouble("chemical_defense");
-                animeStats.AtomicAttack = reader.GetDouble("atomic_attack");
-                animeStats.AtomicDefense = reader.GetDouble("atomic_defense");
-                animeStats.MentalAttack = reader.GetDouble("mental_attack");
-                animeStats.MentalDefense = reader.GetDouble("mental_defense");
-                animeStats.Speed = reader.GetDouble("speed");
-                animeStats.CriticalDamageRate = reader.GetDouble("critical_damage_rate");
-                animeStats.CriticalRate = reader.GetDouble("critical_rate");
-                animeStats.CriticalResistanceRate = reader.GetDouble("critical_resistance_rate");
-                animeStats.IgnoreCriticalRate = reader.GetDouble("ignore_critical_rate");
-                animeStats.PenetrationRate = reader.GetDouble("penetration_rate");
-                animeStats.PenetrationResistanceRate = reader.GetDouble("penetration_resistance_rate");
-                animeStats.EvasionRate = reader.GetDouble("evasion_rate");
-                animeStats.DamageAbsorptionRate = reader.GetDouble("damage_absorption_rate");
-                animeStats.IgnoreDamageAbsorptionRate = reader.GetDouble("ignore_damage_absorption_rate");
-                animeStats.AbsorbedDamageRate = reader.GetDouble("absorbed_damage_rate");
-                animeStats.VitalityRegenerationRate = reader.GetDouble("vitality_regeneration_rate");
-                animeStats.VitalityRegenerationResistanceRate = reader.GetDouble("vitality_regeneration_resistance_rate");
-                animeStats.AccuracyRate = reader.GetDouble("accuracy_rate");
-                animeStats.LifestealRate = reader.GetDouble("lifesteal_rate");
-                animeStats.ShieldStrength = reader.GetDouble("shield_strength");
-                animeStats.Tenacity = reader.GetDouble("tenacity");
-                animeStats.ResistanceRate = reader.GetDouble("resistance_rate");
-                animeStats.ComboRate = reader.GetDouble("combo_rate");
-                animeStats.IgnoreComboRate = reader.GetDouble("ignore_combo_rate");
-                animeStats.ComboDamageRate = reader.GetDouble("combo_damage_rate");
-                animeStats.ComboResistanceRate = reader.GetDouble("combo_resistance_rate");
-                animeStats.StunRate = reader.GetDouble("stun_rate");
-                animeStats.IgnoreStunRate = reader.GetDouble("ignore_stun_rate");
-                animeStats.ReflectionRate = reader.GetDouble("reflection_rate");
-                animeStats.IgnoreReflectionRate = reader.GetDouble("ignore_reflection_rate");
-                animeStats.ReflectionDamageRate = reader.GetDouble("reflection_damage_rate");
-                animeStats.ReflectionResistanceRate = reader.GetDouble("reflection_resistance_rate");
-                animeStats.Mana = reader.GetDouble("mana");
-                animeStats.ManaRegenerationRate = reader.GetDouble("mana_regeneration_rate");
-                animeStats.DamageToDifferentFactionRate = reader.GetDouble("damage_to_different_faction_rate");
-                animeStats.ResistanceToDifferentFactionRate = reader.GetDouble("resistance_to_different_faction_rate");
-                animeStats.DamageToSameFactionRate = reader.GetDouble("damage_to_same_faction_rate");
-                animeStats.ResistanceToSameFactionRate = reader.GetDouble("resistance_to_same_faction_rate");
-                animeStats.NormalDamageRate = reader.GetDouble("normal_damage_rate");
-                animeStats.NormalResistanceRate = reader.GetDouble("normal_resistance_rate");
-                animeStats.SkillDamageRate = reader.GetDouble("skill_damage_rate");
-                animeStats.SkillResistanceRate = reader.GetDouble("skill_resistance_rate");
-                animeStats.PercentAllHealth = reader.GetDouble("percent_all_health");
-                animeStats.PercentAllPhysicalAttack = reader.GetDouble("percent_all_physical_attack");
-                animeStats.PercentAllPhysicalDefense = reader.GetDouble("percent_all_physical_defense");
-                animeStats.PercentAllMagicalAttack = reader.GetDouble("percent_all_magical_attack");
-                animeStats.PercentAllMagicalDefense = reader.GetDouble("percent_all_magical_defense");
-                animeStats.PercentAllChemicalAttack = reader.GetDouble("percent_all_chemical_attack");
-                animeStats.PercentAllChemicalDefense = reader.GetDouble("percent_all_chemical_defense");
-                animeStats.PercentAllAtomicAttack = reader.GetDouble("percent_all_atomic_attack");
-                animeStats.PercentAllAtomicDefense = reader.GetDouble("percent_all_atomic_defense");
-                animeStats.PercentAllMentalAttack = reader.GetDouble("percent_all_mental_attack");
-                animeStats.PercentAllMentalDefense = reader.GetDouble("percent_all_mental_defense");
+                animeStats.Type = reader.GetStringSafe("animeStats_type");
+                animeStats.Level = reader.IsDBNull(reader.GetOrdinal("animeStats_level")) ? 0 : reader.GetIntSafe("animeStats_level");
+                animeStats.Power = reader.GetDoubleSafe("power");
+                animeStats.Health = reader.GetDoubleSafe("health");
+                animeStats.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                animeStats.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                animeStats.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                animeStats.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                animeStats.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                animeStats.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                animeStats.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                animeStats.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                animeStats.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                animeStats.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                animeStats.Speed = reader.GetDoubleSafe("speed");
+                animeStats.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                animeStats.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                animeStats.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                animeStats.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                animeStats.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                animeStats.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                animeStats.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                animeStats.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                animeStats.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                animeStats.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                animeStats.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                animeStats.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                animeStats.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                animeStats.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                animeStats.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                animeStats.Tenacity = reader.GetDoubleSafe("tenacity");
+                animeStats.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                animeStats.ComboRate = reader.GetDoubleSafe("combo_rate");
+                animeStats.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                animeStats.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                animeStats.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                animeStats.StunRate = reader.GetDoubleSafe("stun_rate");
+                animeStats.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                animeStats.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                animeStats.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                animeStats.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                animeStats.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                animeStats.Mana = reader.GetDoubleSafe("mana");
+                animeStats.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                animeStats.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                animeStats.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                animeStats.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                animeStats.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                animeStats.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                animeStats.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                animeStats.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                animeStats.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
+                animeStats.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
+                animeStats.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
+                animeStats.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
+                animeStats.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
+                animeStats.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
+                animeStats.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
+                animeStats.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
+                animeStats.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
+                animeStats.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
+                animeStats.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
+                animeStats.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
             }
         }
         catch (MySqlConnector.MySqlException ex)
@@ -296,86 +296,86 @@ public class AnimeStatsRepository : IAnimeStatsRepository
 
             if (await reader.ReadAsync())
             {
-                animeStats.Power = GetDouble(reader, "power");
-                animeStats.Health = GetDouble(reader, "health");
-                animeStats.Mana = GetDouble(reader, "mana");
+                animeStats.Power = GetDoubleSafe(reader, "power");
+                animeStats.Health = GetDoubleSafe(reader, "health");
+                animeStats.Mana = GetDoubleSafe(reader, "mana");
 
-                animeStats.PhysicalAttack = GetDouble(reader, "physical_attack");
-                animeStats.PhysicalDefense = GetDouble(reader, "physical_defense");
-                animeStats.MagicalAttack = GetDouble(reader, "magical_attack");
-                animeStats.MagicalDefense = GetDouble(reader, "magical_defense");
+                animeStats.PhysicalAttack = GetDoubleSafe(reader, "physical_attack");
+                animeStats.PhysicalDefense = GetDoubleSafe(reader, "physical_defense");
+                animeStats.MagicalAttack = GetDoubleSafe(reader, "magical_attack");
+                animeStats.MagicalDefense = GetDoubleSafe(reader, "magical_defense");
 
-                animeStats.ChemicalAttack = GetDouble(reader, "chemical_attack");
-                animeStats.ChemicalDefense = GetDouble(reader, "chemical_defense");
+                animeStats.ChemicalAttack = GetDoubleSafe(reader, "chemical_attack");
+                animeStats.ChemicalDefense = GetDoubleSafe(reader, "chemical_defense");
 
-                animeStats.AtomicAttack = GetDouble(reader, "atomic_attack");
-                animeStats.AtomicDefense = GetDouble(reader, "atomic_defense");
+                animeStats.AtomicAttack = GetDoubleSafe(reader, "atomic_attack");
+                animeStats.AtomicDefense = GetDoubleSafe(reader, "atomic_defense");
 
-                animeStats.MentalAttack = GetDouble(reader, "mental_attack");
-                animeStats.MentalDefense = GetDouble(reader, "mental_defense");
+                animeStats.MentalAttack = GetDoubleSafe(reader, "mental_attack");
+                animeStats.MentalDefense = GetDoubleSafe(reader, "mental_defense");
 
-                animeStats.Speed = GetDouble(reader, "speed");
+                animeStats.Speed = GetDoubleSafe(reader, "speed");
 
-                animeStats.CriticalDamageRate = GetDouble(reader, "critical_damage_rate");
-                animeStats.CriticalRate = GetDouble(reader, "critical_rate");
-                animeStats.CriticalResistanceRate = GetDouble(reader, "critical_resistance_rate");
-                animeStats.IgnoreCriticalRate = GetDouble(reader, "ignore_critical_rate");
+                animeStats.CriticalDamageRate = GetDoubleSafe(reader, "critical_damage_rate");
+                animeStats.CriticalRate = GetDoubleSafe(reader, "critical_rate");
+                animeStats.CriticalResistanceRate = GetDoubleSafe(reader, "critical_resistance_rate");
+                animeStats.IgnoreCriticalRate = GetDoubleSafe(reader, "ignore_critical_rate");
 
-                animeStats.PenetrationRate = GetDouble(reader, "penetration_rate");
-                animeStats.PenetrationResistanceRate = GetDouble(reader, "penetration_resistance_rate");
+                animeStats.PenetrationRate = GetDoubleSafe(reader, "penetration_rate");
+                animeStats.PenetrationResistanceRate = GetDoubleSafe(reader, "penetration_resistance_rate");
 
-                animeStats.EvasionRate = GetDouble(reader, "evasion_rate");
-                animeStats.DamageAbsorptionRate = GetDouble(reader, "damage_absorption_rate");
-                animeStats.IgnoreDamageAbsorptionRate = GetDouble(reader, "ignore_damage_absorption_rate");
-                animeStats.AbsorbedDamageRate = GetDouble(reader, "absorbed_damage_rate");
+                animeStats.EvasionRate = GetDoubleSafe(reader, "evasion_rate");
+                animeStats.DamageAbsorptionRate = GetDoubleSafe(reader, "damage_absorption_rate");
+                animeStats.IgnoreDamageAbsorptionRate = GetDoubleSafe(reader, "ignore_damage_absorption_rate");
+                animeStats.AbsorbedDamageRate = GetDoubleSafe(reader, "absorbed_damage_rate");
 
-                animeStats.VitalityRegenerationRate = GetDouble(reader, "vitality_regeneration_rate");
-                animeStats.VitalityRegenerationResistanceRate = GetDouble(reader, "vitality_regeneration_resistance_rate");
+                animeStats.VitalityRegenerationRate = GetDoubleSafe(reader, "vitality_regeneration_rate");
+                animeStats.VitalityRegenerationResistanceRate = GetDoubleSafe(reader, "vitality_regeneration_resistance_rate");
 
-                animeStats.AccuracyRate = GetDouble(reader, "accuracy_rate");
-                animeStats.LifestealRate = GetDouble(reader, "lifesteal_rate");
-                animeStats.ShieldStrength = GetDouble(reader, "shield_strength");
-                animeStats.Tenacity = GetDouble(reader, "tenacity");
-                animeStats.ResistanceRate = GetDouble(reader, "resistance_rate");
+                animeStats.AccuracyRate = GetDoubleSafe(reader, "accuracy_rate");
+                animeStats.LifestealRate = GetDoubleSafe(reader, "lifesteal_rate");
+                animeStats.ShieldStrength = GetDoubleSafe(reader, "shield_strength");
+                animeStats.Tenacity = GetDoubleSafe(reader, "tenacity");
+                animeStats.ResistanceRate = GetDoubleSafe(reader, "resistance_rate");
 
-                animeStats.ComboRate = GetDouble(reader, "combo_rate");
-                animeStats.IgnoreComboRate = GetDouble(reader, "ignore_combo_rate");
-                animeStats.ComboDamageRate = GetDouble(reader, "combo_damage_rate");
-                animeStats.ComboResistanceRate = GetDouble(reader, "combo_resistance_rate");
+                animeStats.ComboRate = GetDoubleSafe(reader, "combo_rate");
+                animeStats.IgnoreComboRate = GetDoubleSafe(reader, "ignore_combo_rate");
+                animeStats.ComboDamageRate = GetDoubleSafe(reader, "combo_damage_rate");
+                animeStats.ComboResistanceRate = GetDoubleSafe(reader, "combo_resistance_rate");
 
-                animeStats.StunRate = GetDouble(reader, "stun_rate");
-                animeStats.IgnoreStunRate = GetDouble(reader, "ignore_stun_rate");
+                animeStats.StunRate = GetDoubleSafe(reader, "stun_rate");
+                animeStats.IgnoreStunRate = GetDoubleSafe(reader, "ignore_stun_rate");
 
-                animeStats.ReflectionRate = GetDouble(reader, "reflection_rate");
-                animeStats.IgnoreReflectionRate = GetDouble(reader, "ignore_reflection_rate");
-                animeStats.ReflectionDamageRate = GetDouble(reader, "reflection_damage_rate");
-                animeStats.ReflectionResistanceRate = GetDouble(reader, "reflection_resistance_rate");
+                animeStats.ReflectionRate = GetDoubleSafe(reader, "reflection_rate");
+                animeStats.IgnoreReflectionRate = GetDoubleSafe(reader, "ignore_reflection_rate");
+                animeStats.ReflectionDamageRate = GetDoubleSafe(reader, "reflection_damage_rate");
+                animeStats.ReflectionResistanceRate = GetDoubleSafe(reader, "reflection_resistance_rate");
 
-                animeStats.ManaRegenerationRate = GetDouble(reader, "mana_regeneration_rate");
+                animeStats.ManaRegenerationRate = GetDoubleSafe(reader, "mana_regeneration_rate");
 
-                animeStats.DamageToDifferentFactionRate = GetDouble(reader, "damage_to_different_faction_rate");
-                animeStats.ResistanceToDifferentFactionRate = GetDouble(reader, "resistance_to_different_faction_rate");
+                animeStats.DamageToDifferentFactionRate = GetDoubleSafe(reader, "damage_to_different_faction_rate");
+                animeStats.ResistanceToDifferentFactionRate = GetDoubleSafe(reader, "resistance_to_different_faction_rate");
 
-                animeStats.DamageToSameFactionRate = GetDouble(reader, "damage_to_same_faction_rate");
-                animeStats.ResistanceToSameFactionRate = GetDouble(reader, "resistance_to_same_faction_rate");
+                animeStats.DamageToSameFactionRate = GetDoubleSafe(reader, "damage_to_same_faction_rate");
+                animeStats.ResistanceToSameFactionRate = GetDoubleSafe(reader, "resistance_to_same_faction_rate");
 
-                animeStats.NormalDamageRate = GetDouble(reader, "normal_damage_rate");
-                animeStats.NormalResistanceRate = GetDouble(reader, "normal_resistance_rate");
+                animeStats.NormalDamageRate = GetDoubleSafe(reader, "normal_damage_rate");
+                animeStats.NormalResistanceRate = GetDoubleSafe(reader, "normal_resistance_rate");
 
-                animeStats.SkillDamageRate = GetDouble(reader, "skill_damage_rate");
-                animeStats.SkillResistanceRate = GetDouble(reader, "skill_resistance_rate");
+                animeStats.SkillDamageRate = GetDoubleSafe(reader, "skill_damage_rate");
+                animeStats.SkillResistanceRate = GetDoubleSafe(reader, "skill_resistance_rate");
 
-                animeStats.PercentAllHealth = GetDouble(reader, "percent_all_health");
-                animeStats.PercentAllPhysicalAttack = GetDouble(reader, "percent_all_physical_attack");
-                animeStats.PercentAllPhysicalDefense = GetDouble(reader, "percent_all_physical_defense");
-                animeStats.PercentAllMagicalAttack = GetDouble(reader, "percent_all_magical_attack");
-                animeStats.PercentAllMagicalDefense = GetDouble(reader, "percent_all_magical_defense");
-                animeStats.PercentAllChemicalAttack = GetDouble(reader, "percent_all_chemical_attack");
-                animeStats.PercentAllChemicalDefense = GetDouble(reader, "percent_all_chemical_defense");
-                animeStats.PercentAllAtomicAttack = GetDouble(reader, "percent_all_atomic_attack");
-                animeStats.PercentAllAtomicDefense = GetDouble(reader, "percent_all_atomic_defense");
-                animeStats.PercentAllMentalAttack = GetDouble(reader, "percent_all_mental_attack");
-                animeStats.PercentAllMentalDefense = GetDouble(reader, "percent_all_mental_defense");
+                animeStats.PercentAllHealth = GetDoubleSafe(reader, "percent_all_health");
+                animeStats.PercentAllPhysicalAttack = GetDoubleSafe(reader, "percent_all_physical_attack");
+                animeStats.PercentAllPhysicalDefense = GetDoubleSafe(reader, "percent_all_physical_defense");
+                animeStats.PercentAllMagicalAttack = GetDoubleSafe(reader, "percent_all_magical_attack");
+                animeStats.PercentAllMagicalDefense = GetDoubleSafe(reader, "percent_all_magical_defense");
+                animeStats.PercentAllChemicalAttack = GetDoubleSafe(reader, "percent_all_chemical_attack");
+                animeStats.PercentAllChemicalDefense = GetDoubleSafe(reader, "percent_all_chemical_defense");
+                animeStats.PercentAllAtomicAttack = GetDoubleSafe(reader, "percent_all_atomic_attack");
+                animeStats.PercentAllAtomicDefense = GetDoubleSafe(reader, "percent_all_atomic_defense");
+                animeStats.PercentAllMentalAttack = GetDoubleSafe(reader, "percent_all_mental_attack");
+                animeStats.PercentAllMentalDefense = GetDoubleSafe(reader, "percent_all_mental_defense");
             }
         }
         catch (Exception ex)
@@ -389,11 +389,11 @@ public class AnimeStatsRepository : IAnimeStatsRepository
 
         return animeStats;
     }
-    private double GetDouble(MySqlDataReader reader, string column)
+    private double GetDoubleSafe(MySqlDataReader reader, string column)
     {
         return reader.IsDBNull(reader.GetOrdinal(column))
             ? 0
-            : reader.GetDouble(column);
+            : reader.GetDoubleSafe(column);
     }
     private void AddAllParameters(MySqlCommand cmd, AnimeStats a, string user_id, string type)
     {

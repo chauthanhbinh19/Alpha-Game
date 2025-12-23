@@ -26,9 +26,9 @@ public class CurrenciesRepository : ICurrenciesRepository
                     {
                         Currencies currency = new Currencies
                         {
-                            Id = reader.GetString("id"),
-                            Name = reader.GetString("name"),
-                            Image = reader.GetString("image"),
+                            Id = reader.GetStringSafe("id"),
+                            Name = reader.GetStringSafe("name"),
+                            Image = reader.GetStringSafe("image"),
                         };
 
                         currencies.Add(currency);

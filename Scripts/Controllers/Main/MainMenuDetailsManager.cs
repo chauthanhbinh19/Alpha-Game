@@ -29,7 +29,7 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform buttonGroupPanel2;
     private Transform buttonGroupPanel3;
     private Transform setButtonGroupPanel;
-    private RawImage CardBackground;
+    private RawImage cardBackground;
     // private double increasePerLevel = 0.01;
     // private double increasePerUpgrade = 1.1;
     // private TeamsService teamsService;
@@ -86,7 +86,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         buttonGroupPanel2 = currentObject.transform.Find("DictionaryCards/ButtonGroup2");
         buttonGroupPanel3 = currentObject.transform.Find("DictionaryCards/ButtonGroup3");
         setButtonGroupPanel = currentObject.transform.Find("DictionaryCards/SetButtonGroup");
-        CardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
+        cardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         RawImage backgroundCircle1Image = currentObject.transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() =>
         {
@@ -106,9 +106,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Card
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
             UserCardHeroesController.Instance.ShowCardHeroDetails(cardHero, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_HERO_BACKGROUND_URL);
-            CardBackground.texture = texture;
-            CardBackground.gameObject.SetActive(true);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardHero.Type}");
+            cardBackground.texture = texture;
+            cardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -122,7 +122,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BOOK);
             UserBooksController.Instance.ShowBookDetails(book, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.BOOK_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -135,9 +135,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Captain
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
             UserCardCaptainsController.Instance.ShowCardCaptainDetails(cardCaptain, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_CAPTAIN_BACKGROUND_URL);
-            CardBackground.texture = texture;
-            CardBackground.gameObject.SetActive(true);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardCaptain.Type}");
+            cardBackground.texture = texture;
+            cardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -151,7 +151,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PET);
             UserPetsController.Instance.ShowPetDetails(pet, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.PET_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -165,7 +165,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION_EQUIPMENT);
             UserCollaborationEquipmentsController.Instance.ShowCollaborationEquipmentDetails(collaborationEquipmentsequipment, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.COLLABORATION_EQUIPMENT_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -178,9 +178,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Military
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
             UserCardMilitariesController.Instance.ShowCardMilitaryDetails(cardMilitary, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_MILITARY_BACKGROUND_URL);
-            CardBackground.texture = texture;
-            CardBackground.gameObject.SetActive(true);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardMilitary.Type}");
+            cardBackground.texture = texture;
+            cardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -193,8 +193,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Spell
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
             UserCardSpellsController.Instance.ShowCardSpellDetails(cardSpell, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_SPELL_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardSpell.Type}");
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -208,7 +208,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION);
             UserCollaborationsController.Instance.ShowCollaborationDetails(collaboration, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.COLLABORATION_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -221,8 +221,8 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Monster
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
             UserCardMonstersController.Instance.ShowCardMonsterDetails(cardMonster, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_MONSTER_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardMonster.Type}");
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -236,7 +236,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EQUIPMENT);
             UserEquipmentsController.Instance.ShowEquipmentDetails(equipment, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.EQUIPMENT_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -250,7 +250,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MEDAL);
             UserMedalsController.Instance.ShowMedalDetails(medal, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.MEDAL_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -264,7 +264,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SKILL);
             UserSkillsController.Instance.ShowSkillDetails(skill, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.SKILL_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -278,7 +278,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SYMBOL);
             UserSymbolsController.Instance.ShowSymbolDetails(symbol, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.SYMBOL_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -292,7 +292,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TITLE);
             UserTitlesController.Instance.ShowTitleDetails(title, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.TITLE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -306,7 +306,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MAGIC_FORMATION_CIRCLE);
             UserMagicFormationCirclesController.Instance.ShowMagicFormationCircleDetails(magicFormationCircle, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.MAGIC_FORMATION_CIRCLE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -320,7 +320,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RELIC);
             UserRelicsController.Instance.ShowRelicDetails(relic, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.RELIC_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -333,9 +333,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng colonels
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
             UserCardColonelsController.Instance.ShowCardColonelDetails(cardColonel, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_COLONEL_BACKGROUND_URL);
-            CardBackground.texture = texture;
-            CardBackground.gameObject.SetActive(true);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardColonel.Type}");
+            cardBackground.texture = texture;
+            cardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -348,9 +348,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng Generals
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
             UserCardGeneralsController.Instance.ShowCardGeneralDetails(cardGeneral, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_GENERAL_BACKGROUND_URL);
-            CardBackground.texture = texture;
-            CardBackground.gameObject.SetActive(true);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardGeneral.Type}");
+            cardBackground.texture = texture;
+            cardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -363,9 +363,9 @@ public class MainMenuDetailsManager : MonoBehaviour
             // Xử lý đối tượng admirals
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
             UserCardAdmiralsController.Instance.ShowCardAdmiralDetails(cardAdmiral, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_ADMIRAL_BACKGROUND_URL);
-            CardBackground.texture = texture;
-            CardBackground.gameObject.SetActive(true);
+            Texture texture = Resources.Load<Texture>($"UI/Background3/{cardAdmiral.Type}");
+            cardBackground.texture = texture;
+            cardBackground.gameObject.SetActive(true);
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -384,7 +384,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ACHIEVEMENT);
             UserAchievementsController.Instance.ShowAchievementDetails(achievement, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.ACHIEVEMENT_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -398,7 +398,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TALISMAN);
             UserTalismansController.Instance.ShowTalismanDetails(talisman, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.TALISMAN_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -412,7 +412,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PUPPET);
             UserPuppetsController.Instance.ShowPuppetDetails(puppet, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.PUPPET_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -426,7 +426,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ALCHEMY);
             UserAlchemiesController.Instance.ShowAlchemyDetails(alchemy, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.ALCHEMY_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -440,7 +440,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FORGE);
             UserForgesController.Instance.ShowForgeDetails(forge, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.FORGE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -454,7 +454,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_LIFE);
             UserCardLivesController.Instance.ShowCardLifeDetails(cardLife, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_LIFE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -468,7 +468,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARTWORK);
             UserArtworksController.Instance.ShowArtworkDetails(artwork, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.ARTWORK_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -482,7 +482,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SPIRIT_BEAST);
             UserSpiritBeastsController.Instance.ShowSpiritBeastDetails(spiritBeast, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.SPIRIT_BEAST_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -496,7 +496,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SPIRIT_CARD);
             UserSpiritCardsController.Instance.ShowSpiritCardDetails(spiritCard, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.SPIRIT_CARD_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -510,7 +510,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD);
             UserCardsController.Instance.ShowCardDetails(card, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -524,7 +524,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARCHITECTURE);
             UserArchitecturesController.Instance.ShowArchitectureDetails(architecture, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.ARCHITECTURE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -538,7 +538,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TECHNOLOGY);
             UserTechnologiesController.Instance.ShowTechnologyDetails(technology, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.TECHNOLOGY_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -552,7 +552,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.VEHICLE);
             UserVehiclesController.Instance.ShowVehicleDetails(vehicle, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.VEHICLE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -566,7 +566,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CORE);
             UserCoresController.Instance.ShowCoreDetails(core, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.CORE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -580,7 +580,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.WEAPON);
             UserWeaponsController.Instance.ShowWeaponDetails(weapon, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.WEAPON_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -594,7 +594,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ROBOT);
             UserRobotsController.Instance.ShowRobotDetails(robot, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.ROBOT_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -608,7 +608,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BADGE);
             UserBadgesController.Instance.ShowBadgeDetails(badge, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.BADGE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -622,7 +622,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MECHA_BEAST);
             UserMechaBeastsController.Instance.ShowMechaBeastDetails(mechaBeast, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.MECHA_BEAST_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -636,7 +636,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
             UserRunesController.Instance.ShowRuneDetails(rune, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.RUNE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -650,7 +650,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
             UserFurnituresController.Instance.ShowFurnitureDetails(furniture, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.FURNITURE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -664,7 +664,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
             UserFoodsController.Instance.ShowFoodDetails(food, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.FOOD_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -678,7 +678,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
             UserBeveragesController.Instance.ShowBeverageDetails(beverage, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.BEVERAGE_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -692,7 +692,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
             UserBuildingsController.Instance.ShowBuildingDetails(building, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.BUILDING_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -706,7 +706,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
             UserPlantsController.Instance.ShowPlantDetails(plant, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.PLANT_BACKGROUND_URL);
-            CardBackground.texture = texture;
+            cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

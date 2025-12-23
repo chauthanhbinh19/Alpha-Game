@@ -311,7 +311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5999835095261182294}
   - component: {fileID: 5626919385963938382}
-  - component: {fileID: 2467822628941797059}
+  - component: {fileID: 3125078832042146554}
   m_Layer: 5
   m_Name: ItemBackground
   m_TagString: Untagged
@@ -347,7 +347,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8279578186302210379}
   m_CullTransparentMesh: 1
---- !u!114 &2467822628941797059
+--- !u!114 &3125078832042146554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 416c0f04bc875ff458d8951bc1e639ee, type: 3}
+  m_Texture: {fileID: 2800000, guid: f3a5d385666abdb4693f36c4be03a40d, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
