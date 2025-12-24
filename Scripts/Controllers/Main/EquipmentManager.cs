@@ -13,7 +13,7 @@ public class EquipmentManager : MonoBehaviour
     private Transform MainPanel;
     // private Transform EquipmentMenuPanel;
     private GameObject ItemsPrefab;
-    private GameObject EquipmentsPanelPrefab;
+    private GameObject EquipmentPanelPrefab;
     // public Transform content;
     private GameObject MainMenuPanelPrefab;
     private Transform MainMenuContent;
@@ -23,8 +23,8 @@ public class EquipmentManager : MonoBehaviour
     private Transform MainMenuEnhancementContent;
     private GameObject MainMenuCampaignPanel;
     private GameObject equipmentsPrefab;
-    private GameObject equipmentsShopPrefab;
-    private GameObject EquipmentFourthPrefab;
+    private GameObject EquipmentShopPrefab;
+    private GameObject EquipmentPrefab;
     private Transform popupPanel;
     private GameObject quantityPopupPrefab;
     private Transform tempContent;
@@ -57,10 +57,10 @@ public class EquipmentManager : MonoBehaviour
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
         equipmentsPrefab = UIManager.Instance.Get("equipmentsPrefab");
-        equipmentsShopPrefab = UIManager.Instance.Get("equipmentsShopPrefab");
-        EquipmentFourthPrefab = UIManager.Instance.Get("EquipmentFourthPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
+        EquipmentPrefab = UIManager.Instance.Get("EquipmentPrefab");
         // EquipmentMenuPanel = UIManager.Instance.GetTransform("equipmentMenuPanel");
-        EquipmentsPanelPrefab = UIManager.Instance.Get("EquipmentsPanelPrefab");
+        EquipmentPanelPrefab = UIManager.Instance.Get("EquipmentPanelPrefab");
         campaignPrefab = UIManager.Instance.Get("CampaignPrefab");
         campaignDetailPrefab = UIManager.Instance.Get("CampaignDetailPrefab");
         cardsPrefab = UIManager.Instance.Get("CardsPrefab");
@@ -68,7 +68,7 @@ public class EquipmentManager : MonoBehaviour
         ItemThird = UIManager.Instance.Get("ItemThird");
 
         MainMenuContent = MainMenuPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
-        MainMenuShopContent = MainMenuShopPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel").GetComponent<Transform>();
+        MainMenuShopContent = MainMenuShopPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/Content").GetComponent<Transform>();
         MainMenuEnhancementContent = MainMenuEnhancementPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel").GetComponent<Transform>();
         // Lấy tất cả các button con trong equipmentMenuPanel
         Button[] buttons = equipmentMenuPanel.GetComponentsInChildren<Button>();
@@ -86,7 +86,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public void OnButtonClick(string type, int count)
     {
-        GameObject equipmentObject = Instantiate(EquipmentsPanelPrefab, MainPanel);
+        GameObject equipmentObject = Instantiate(EquipmentPanelPrefab, MainPanel);
 
         Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
         Title.text = LocalizationManager.Get(type);
@@ -157,11 +157,11 @@ public class EquipmentManager : MonoBehaviour
         currentPage = 1;
         panel.SetActive(false);
     }
-    private void CreateEquipmentsBag(List<Equipments> equipmentList, string type)
+    private void CreateEquipmentsBag(List<Equipments> equipments, string type)
     {
-        foreach (var equipment in equipmentList)
+        foreach (var equipment in equipments)
         {
-            GameObject equipmentObject = Instantiate(EquipmentFourthPrefab, tempContent);
+            GameObject equipmentObject = Instantiate(EquipmentPrefab, tempContent);
 
             TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = equipment.Name.Replace("_", " ");
@@ -209,11 +209,11 @@ public class EquipmentManager : MonoBehaviour
         }
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    private void CreateEquipmentsShop(List<Equipments> equipmentList, string type)
+    private void CreateEquipmentsShop(List<Equipments> equipments, string type)
     {
-        foreach (var equipment in equipmentList)
+        foreach (var equipment in equipments)
         {
-            GameObject equipmentObject = Instantiate(equipmentsShopPrefab, tempContent);
+            GameObject equipmentObject = Instantiate(EquipmentShopPrefab, tempContent);
 
             TextMeshProUGUI Title = equipmentObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             Title.text = equipment.Name.Replace("_", " ");
@@ -235,7 +235,6 @@ public class EquipmentManager : MonoBehaviour
             Button buy = equipmentObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            Equipments equipments = new Equipments();
             buy.onClick.AddListener(async () =>
             {
                 await GetQuantityAsync(type, equipment);
@@ -248,9 +247,9 @@ public class EquipmentManager : MonoBehaviour
         // }
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    private void CreateEquipmentsEnhancement(List<Equipments> equipmentList)
+    private void CreateEquipmentsEnhancement(List<Equipments> equipments)
     {
-        foreach (var equipment in equipmentList)
+        foreach (var equipment in equipments)
         {
             GameObject equipmentObject = Instantiate(equipmentsPrefab, MainMenuEnhancementContent);
 
@@ -404,7 +403,7 @@ public class EquipmentManager : MonoBehaviour
         int totalRecord = 0;
         var equipmentsService = EquipmentsService.Create();
         List<Equipments> equipments = await equipmentsService.GetEquipmentsWithCurrencyAsync(type, pageSize, offset);
-        tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuShopContentPanel");
+        tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         CreateEquipmentsShop(equipments, type);
 
         totalRecord = await equipmentsService.GetEquipmentsCountAsync(type, rare);
@@ -415,7 +414,7 @@ public class EquipmentManager : MonoBehaviour
         {
             TextMeshProUGUI Title = DictionaryPanel.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
-            Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
+            Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
             Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
@@ -436,7 +435,7 @@ public class EquipmentManager : MonoBehaviour
         Transform button = currentObject.transform.Find("Pagination");
         if (button != null)
         {
-            Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuShopContentPanel");
+            Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
             TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button NextButton = button.transform.Find("Next").GetComponent<Button>();

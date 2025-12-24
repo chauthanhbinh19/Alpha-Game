@@ -20,7 +20,7 @@ public class ShopManager : MonoBehaviour
     private GameObject currentObject;
     private GameObject ShopPrefab;
     private GameObject TypeButtonPrefab;
-    private GameObject equipmentsShopPrefab;
+    private GameObject EquipmentShopPrefab;
     private Transform popupPanel;
     private RawImage firstDecorationImage;
     private RawImage secondDecorationImage;
@@ -67,7 +67,7 @@ public class ShopManager : MonoBehaviour
         ShopManagerPrefab = UIManager.Instance.Get("ShopManagerPrefab");
         ShopPrefab = UIManager.Instance.Get("ShopPrefab");
         TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
-        equipmentsShopPrefab = UIManager.Instance.Get("equipmentsShopPrefab");
+        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
@@ -771,7 +771,7 @@ public class ShopManager : MonoBehaviour
     {
         foreach (var equipment in equipmentList)
         {
-            GameObject equipmentObject = Instantiate(equipmentsShopPrefab, currentContent);
+            GameObject equipmentObject = Instantiate(EquipmentShopPrefab, currentContent);
 
             Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
             Title.text = equipment.Name.Replace("_", " ");
