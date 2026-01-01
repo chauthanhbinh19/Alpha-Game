@@ -58,6 +58,12 @@ public class UserItemsService : IUserItemsService
             case AppConstants.MainType.BOOK:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOOK));
                 break;
+            case AppConstants.MainType.AVATAR:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_AVATAR));
+                break;
+            case AppConstants.MainType.BORDER:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BORDER));
+                break;
             case AppConstants.MainType.CARD_CAPTAIN:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
@@ -153,15 +159,73 @@ public class UserItemsService : IUserItemsService
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
                 break;
             case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SPIRIT_BEAST));
                 break;
             case AppConstants.MainType.ACHIEVEMENT:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ACHIEVEMENT));
+                break;
+            case AppConstants.MainType.ALCHEMY:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ALCHEMY));
+                break;
+            case AppConstants.MainType.PUPPET:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PUPPET));
+                break;
+            case AppConstants.MainType.TALISMAN:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TALISMAN));
+                break;
+            case AppConstants.MainType.FORGE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FORGE));
+                break;
+            case AppConstants.MainType.ARCHITECTURE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARCHITECTURE));
+                break;
+            case AppConstants.MainType.ARTWORK:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARTWORK));
+                break;
+            case AppConstants.MainType.BADGE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BADGE));
+                break;
+            case AppConstants.MainType.FOOD:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FOOD));
+                break;
+            case AppConstants.MainType.BEVERAGE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BEVERAGE));
+                break;
+            case AppConstants.MainType.BUILDING:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BUILDING));
+                break;
+            case AppConstants.MainType.CARD:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD));
+                break;
+            case AppConstants.MainType.CORE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CORE));
+                break;
+            case AppConstants.MainType.FURNITURE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FURNITURE));
+                break;
+            case AppConstants.MainType.MECHA_BEAST:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MECHA_BEAST));
+                break;
+            case AppConstants.MainType.PLANT:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PLANT));
+                break;
+            case AppConstants.MainType.ROBOT:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ROBOT));
+                break;
+            case AppConstants.MainType.RUNE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_RUNE));
+                break;
+            case AppConstants.MainType.SPIRIT_CARD:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SPIRIT_CARD));
+                break;
+            case AppConstants.MainType.TECHNOLOGY:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TECHNOLOGY));
+                break;
+            case AppConstants.MainType.VEHICLE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_VEHICLE));
+                break;
+            case AppConstants.MainType.WEAPON:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_WEAPON));
                 break;
             default:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
@@ -242,7 +306,73 @@ public class UserItemsService : IUserItemsService
             case AppConstants.MainType.SPIRIT_BEAST:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
+            case AppConstants.MainType.SPIRIT_CARD:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
             case AppConstants.MainType.ACHIEVEMENT:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.AVATAR:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.BORDER:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.ALCHEMY:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.PUPPET:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.TALISMAN:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.FORGE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.ARCHITECTURE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.ARTWORK:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.BADGE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.BEVERAGE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.FOOD:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.BUILDING:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.CORE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.FURNITURE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.MECHA_BEAST:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.PLANT:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.ROBOT:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.RUNE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.TECHNOLOGY:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.VEHICLE:
+                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                break;
+            case AppConstants.MainType.WEAPON:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
             default:

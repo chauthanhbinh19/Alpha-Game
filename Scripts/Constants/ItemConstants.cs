@@ -31,6 +31,30 @@ public static class ItemConstants
         public const string EXP_TITLE = "Exp Titles";
         public const string EXP_MAGIC_FORMATION_CIRCLE = "Exp Magic Formation Circle";
         public const string EXP_RELIC = "Exp Relics";
+        public const string EXP_ALCHEMY = "Exp Alchemies";
+        public const string EXP_PUPPET = "Exp Puppets";
+        public const string EXP_TALISMAN = "Exp Talismans";
+        public const string EXP_FORGE = "Exp Forges";
+        public const string EXP_ARCHITECTURE = "Exp Architectures";
+        public const string EXP_ARTWORK = "Exp Artworks";
+        public const string EXP_AVATAR = "Exp Avatars";
+        public const string EXP_BADGE = "Exp Badges";
+        public const string EXP_FOOD = "Exp Foods";
+        public const string EXP_BEVERAGE = "Exp Beverages";
+        public const string EXP_BORDER = "Exp Borders";
+        public const string EXP_BUILDING = "Exp Buildings";
+        public const string EXP_CARD = "Exp Cards";
+        public const string EXP_CORE = "Exp Cores";
+        public const string EXP_FURNITURE = "Exp Furnitures";
+        public const string EXP_MECHA_BEAST = "Exp Mecha Beasts";
+        public const string EXP_PLANT = "Exp Plants";
+        public const string EXP_ROBOT = "Exp Robots";
+        public const string EXP_RUNE = "Exp Runes";
+        public const string EXP_SPIRIT_BEAST = "Exp Spirit Beasts";
+        public const string EXP_SPIRIT_CARD = "Exp Spirit Cards";
+        public const string EXP_TECHNOLOGY = "Exp Technologies";
+        public const string EXP_VEHICLE = "Exp Vehicles";
+        public const string EXP_WEAPON = "Exp Weapons";
     }
     public static class Breakthrough
     {
