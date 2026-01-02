@@ -813,6 +813,7 @@ public static class ImageConstants
         public const string SCROLLVIEW_BACKGROUND_3_URL = "UI/Background4/Card/Cyber_Background_3";
         public const string SCROLLVIEW_BACKGROUND_4_URL = "UI/Background4/Card/Cyber_Background_4";
         public const string SCROLLVIEW_BACKGROUND_5_URL = "UI/Background4/Card/Cyber_Background_5";
+        public const string SCROLLVIEW_BACKGROUND_6_URL = "UI/Background4/Card/Cyber_Background_6";
     }
     public static class Currency
     {

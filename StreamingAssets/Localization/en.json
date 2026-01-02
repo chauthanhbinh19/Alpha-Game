@@ -448,6 +448,16 @@
   { "key": "MainMenuSet5.WoodpeckerElectro", "value": "Woodpecker Electro" },
   { "key": "MainMenuSet5.YunkuiTales", "value": "Yunkui Tales" },
 
+  { "key": "MainMenuSet6.Flux", "value": "Flux" },
+  { "key": "MainMenuSet6.Nexus", "value": "Nexus" },
+  { "key": "MainMenuSet6.Eclipse", "value": "Eclipse" },
+  { "key": "MainMenuSet6.Oblivion", "value": "Oblivion" },
+  { "key": "MainMenuSet6.Catalyst", "value": "Catalyst" },
+  { "key": "MainMenuSet6.Axiom", "value": "Axiom" },
+  { "key": "MainMenuSet6.Parallax", "value": "Parallax" },
+  { "key": "MainMenuSet6.Entropy", "value": "Entropy" },
+  { "key": "MainMenuSet6.Singularity", "value": "Singularity" },
+
   { "key": "Master.MasterOfBeast", "value": "Master Of Beast" },
   { "key": "Master.MasterOfDragon", "value": "Master Of Dragon" },
   { "key": "Master.MasterOfMagic", "value": "Master Of Magic" },

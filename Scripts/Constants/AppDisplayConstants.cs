@@ -493,6 +493,18 @@ public static class AppDisplayConstants
         public const string WOODPECKER_ELECTRO = "MainMenuSet5.WoodpeckerElectro";
         public const string YUNKUI_TALES = "MainMenuSet5.YunkuiTales";
     }
+    public static class MainMenuSet6
+    {
+        public const string FLUX = "MainMenuSet6.Flux";
+        public const string NEXUS = "MainMenuSet6.Nexus";
+        public const string ECLIPSE = "MainMenuSet6.Eclipse";
+        public const string OBLIVION = "MainMenuSet6.Oblivion";
+        public const string CATALYST = "MainMenuSet6.Catalyst";
+        public const string AXIOM = "MainMenuSet6.Axiom";
+        public const string PARALLAX = "MainMenuSet6.Parallax";
+        public const string ENTROPY = "MainMenuSet6.Entropy";
+        public const string SINGULARITY = "MainMenuSet6.Singularity";
+    }
     public static class Master
     {
         public const string MASTER_OF_BEAST = "Master.MasterOfBeast";

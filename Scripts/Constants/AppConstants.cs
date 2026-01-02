@@ -646,6 +646,18 @@ public static class AppConstants
         public const string WOODPECKER_ELECTRO = "Woodpecker Electro";
         public const string YUNKUI_TALES = "Yunkui Tales";
     }
+    public static class MainMenuSet6
+    {
+        public const string FLUX = "Flux";
+        public const string NEXUS = "Nexus";
+        public const string ECLIPSE = "Eclipse";
+        public const string OBLIVION = "Oblivion";
+        public const string CATALYST = "Catalyst";
+        public const string AXIOM = "Axiom";
+        public const string PARALLAX = "Parallax";
+        public const string ENTROPY = "Entropy";
+        public const string SINGULARITY = "Singularity";
+    }
     public static class Master
     {
         public const string MASTER_OF_BEAST = "Master Of Beast";
