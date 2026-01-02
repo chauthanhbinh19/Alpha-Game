@@ -328,7 +328,7 @@
   { "key": "Anime.BlackClover", "value": "Black Clover" },
   { "key": "Anime.HunterXHunter", "value": "Hunter x Hunter" },
   { "key": "Anime.OnePunchMan", "value": "One Punch Man" },
-  
+
   { "key": "MainMenuSet1.Equipments", "value": "Equipments" },
   { "key": "MainMenuSet1.Realm", "value": "Realm" },
   { "key": "MainMenuSet1.Upgrade", "value": "Upgrade" },
@@ -338,7 +338,6 @@
   { "key": "MainMenuSet1.Core", "value": "Core" },
   { "key": "MainMenuSet1.Physique", "value": "Physique" },
   { "key": "MainMenuSet1.Bloodline", "value": "Bloodline" },
-
   { "key": "MainMenuSet1.Omnivision", "value": "Omnivision" },
   { "key": "MainMenuSet1.Omnipotence", "value": "Omnipotence" },
   { "key": "MainMenuSet1.Omnipresence", "value": "Omnipresence" },
@@ -346,7 +345,6 @@
   { "key": "MainMenuSet1.Omnivory", "value": "Omnivory" },
   { "key": "MainMenuSet1.Angel", "value": "Angel" },
   { "key": "MainMenuSet1.Demon", "value": "Demon" },
-
   { "key": "MainMenuSet1.Sword", "value": "Sword" },
   { "key": "MainMenuSet1.Spear", "value": "Spear" },
   { "key": "MainMenuSet1.Shield", "value": "Shield" },
@@ -364,7 +362,6 @@
   { "key": "MainMenuSet2.Life", "value": "Life" },
   { "key": "MainMenuSet2.Space", "value": "Space" },
   { "key": "MainMenuSet2.Time", "value": "Time" },
-
   { "key": "MainMenuSet2.Nanotech", "value": "Nanotech" },
   { "key": "MainMenuSet2.Quantum", "value": "Quantum" },
   { "key": "MainMenuSet2.Holography", "value": "Holography" },
@@ -372,7 +369,6 @@
   { "key": "MainMenuSet2.Biomech", "value": "Biomech" },
   { "key": "MainMenuSet2.Cryotech", "value": "Cryotech" },
   { "key": "MainMenuSet2.Psionics", "value": "Psionics" },
-
   { "key": "MainMenuSet2.Neurotech", "value": "Neurotech" },
   { "key": "MainMenuSet2.Antimatter", "value": "Antimatter" },
   { "key": "MainMenuSet2.Phantomware", "value": "Phantomware" },
@@ -390,7 +386,6 @@
   { "key": "MainMenuSet3.Seraphiros", "value": "Seraphiros" },
   { "key": "MainMenuSet3.Thorindar", "value": "Thorindar" },
   { "key": "MainMenuSet3.Zilthros", "value": "Zilthros" },
-
   { "key": "MainMenuSet3.Khorazal", "value": "Khorazal" },
   { "key": "MainMenuSet3.Ixithra", "value": "Ixithra" },
   { "key": "MainMenuSet3.Omnitheus", "value": "Omnitheus" },
@@ -398,7 +393,6 @@
   { "key": "MainMenuSet3.Atherion", "value": "Atherion" },
   { "key": "MainMenuSet3.Vorathos", "value": "Vorathos" },
   { "key": "MainMenuSet3.Tenebris", "value": "Tenebris" },
-
   { "key": "MainMenuSet3.Xylkor", "value": "Xylkor" },
   { "key": "MainMenuSet3.Veltharion", "value": "Veltharion" },
   { "key": "MainMenuSet3.Arcanos", "value": "Arcanos" },
@@ -416,7 +410,6 @@
   { "key": "MainMenuSet4.Ryze", "value": "Ryze" },
   { "key": "MainMenuSet4.Jaxx", "value": "Jaxx" },
   { "key": "MainMenuSet4.Thar", "value": "Thar" },
-
   { "key": "MainMenuSet4.Vorn", "value": "Vorn" },
   { "key": "MainMenuSet4.Nyx", "value": "Nyx" },
   { "key": "MainMenuSet4.Aros", "value": "Aros" },
@@ -424,7 +417,6 @@
   { "key": "MainMenuSet4.Lorn", "value": "Lorn" },
   { "key": "MainMenuSet4.Baxx", "value": "Baxx" },
   { "key": "MainMenuSet4.Zeph", "value": "Zeph" },
-
   { "key": "MainMenuSet4.Kael", "value": "Kael" },
   { "key": "MainMenuSet4.Drav", "value": "Drav" },
   { "key": "MainMenuSet4.Torn", "value": "Torn" },
@@ -432,6 +424,29 @@
   { "key": "MainMenuSet4.Vask", "value": "Vask" },
   { "key": "MainMenuSet4.Jorr", "value": "Jorr" },
   { "key": "MainMenuSet4.Quen", "value": "Quen" },
+
+  { "key": "MainMenuSet5.AstralVoice", "value": "Astral Voice" },
+  { "key": "MainMenuSet5.BranchBladeSong", "value": "Branch Blade Song" },
+  { "key": "MainMenuSet5.ChaosJazz", "value": "Chaos Jazz" },
+  { "key": "MainMenuSet5.ChaoticMetal", "value": "Chaotic Metal" },
+  { "key": "MainMenuSet5.DawnSBloom", "value": "Dawn s Bloom" },
+  { "key": "MainMenuSet5.FangedMetal", "value": "Fanged Metal" },
+  { "key": "MainMenuSet5.FreedomBlues", "value": "Freedom Blues" },
+  { "key": "MainMenuSet5.HormonePunk", "value": "Hormone Punk" },
+  { "key": "MainMenuSet5.InfernoMetal", "value": "Inferno Metal" },
+  { "key": "MainMenuSet5.KingOfTheSummit", "value": "King Of The Summit" },
+  { "key": "MainMenuSet5.MoonlightLullaby", "value": "Moonlight Lullaby" },
+  { "key": "MainMenuSet5.PhaetonSMelody", "value": "Phaeton s Melody" },
+  { "key": "MainMenuSet5.PolarMetal", "value": "Polar Metal" },
+  { "key": "MainMenuSet5.ProtoPunk", "value": "Proto Punk" },
+  { "key": "MainMenuSet5.PufferElectro", "value": "Puffer Electro" },
+  { "key": "MainMenuSet5.ShadowHarmony", "value": "Shadow Harmony" },
+  { "key": "MainMenuSet5.ShockstarDisco", "value": "Shockstar Disco" },
+  { "key": "MainMenuSet5.SoulRock", "value": "Soul Rock" },
+  { "key": "MainMenuSet5.SwingJazz", "value": "Swing Jazz" },
+  { "key": "MainMenuSet5.ThunderMetal", "value": "Thunder Metal" },
+  { "key": "MainMenuSet5.WoodpeckerElectro", "value": "Woodpecker Electro" },
+  { "key": "MainMenuSet5.YunkuiTales", "value": "Yunkui Tales" },
 
   { "key": "Master.MasterOfBeast", "value": "Master Of Beast" },
   { "key": "Master.MasterOfDragon", "value": "Master Of Dragon" },

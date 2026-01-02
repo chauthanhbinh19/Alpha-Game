@@ -808,10 +808,11 @@ public static class ImageConstants
         public const string BACKGROUND_208_URL = "UI/Background1/Background_V1_208";
         public const string BACKGROUND_209_URL = "UI/Background1/Background_V1_209";
 
-        public const string SCROLLVIEW_BACKGROUND_1_URL = "UI/Background4/Card/Cyber_Background";
+        public const string SCROLLVIEW_BACKGROUND_1_URL = "UI/Background4/Card/Cyber_Background_1";
         public const string SCROLLVIEW_BACKGROUND_2_URL = "UI/Background4/Card/Cyber_Background_2";
         public const string SCROLLVIEW_BACKGROUND_3_URL = "UI/Background4/Card/Cyber_Background_3";
-        public const string SCROLLVIEW_BACKGROUND_4_URL = "UI/Background4/Card/Cyber_Background_$";
+        public const string SCROLLVIEW_BACKGROUND_4_URL = "UI/Background4/Card/Cyber_Background_4";
+        public const string SCROLLVIEW_BACKGROUND_5_URL = "UI/Background4/Card/Cyber_Background_5";
     }
     public static class Currency
     {

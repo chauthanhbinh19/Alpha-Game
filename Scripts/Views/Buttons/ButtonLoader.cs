@@ -643,7 +643,7 @@ public class ButtonLoader : MonoBehaviour
         data is Books book || data is Pets pet || data is Equipments equipment
         )
         {
-            int setButtonNumber = 5;
+            int setButtonNumber = 6;
             for (int i = 0; i < setButtonNumber; i++)
             {
                 int index = i;
@@ -691,6 +691,15 @@ public class ButtonLoader : MonoBehaviour
                     });
                 }
                 else if (index == 4)
+                {
+                    btn.onClick.AddListener(() =>
+                    {
+                        set = index + 1;
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                        CreateButtonGroup(data);
+                    });
+                }
+                else if (index == 5)
                 {
                     btn.onClick.AddListener(() =>
                     {
@@ -827,6 +836,10 @@ public class ButtonLoader : MonoBehaviour
             else if (set == 5)
             {
                 CreateButtonSet5(data, content);
+            }
+            else if (set == 6)
+            {
+                CreateButtonSet6(data, content);
             }
         }
         else if (data is Equipments equipments)
@@ -1439,6 +1452,127 @@ public class ButtonLoader : MonoBehaviour
         });
     }
     public void CreateButtonSet5(object data, Transform content)
+    {
+        CreateButtonWithBackground(93, AppDisplayConstants.MainMenuSet5.ASTRAL_VOICE, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, Resources.Load<Texture2D>($"UI/Button/Main/AstralVoice"), content);
+        CreateButtonWithBackground(94, AppDisplayConstants.MainMenuSet5.BRANCH_BLADE_SONG, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, Resources.Load<Texture2D>($"UI/Button/Main/BranchBladeSong"), content);
+        CreateButtonWithBackground(95, AppDisplayConstants.MainMenuSet5.CHAOS_JAZZ, ImageConstants.Background.ADVANCED_BACKGROUND_3_URL, Resources.Load<Texture2D>($"UI/Button/Main/ChaosJazz"), content);
+        CreateButtonWithBackground(96, AppDisplayConstants.MainMenuSet5.CHAOTIC_METAL, ImageConstants.Background.ADVANCED_BACKGROUND_4_URL, Resources.Load<Texture2D>($"UI/Button/Main/ChaoticMetal"), content);
+        CreateButtonWithBackground(97, AppDisplayConstants.MainMenuSet5.DAWN_S_BLOOM, ImageConstants.Background.ADVANCED_BACKGROUND_5_URL, Resources.Load<Texture2D>($"UI/Button/Main/DawnSBloom"), content);
+        CreateButtonWithBackground(98, AppDisplayConstants.MainMenuSet5.FANGED_METAL, ImageConstants.Background.ADVANCED_BACKGROUND_6_URL, Resources.Load<Texture2D>($"UI/Button/Main/FangedMetal"), content);
+        CreateButtonWithBackground(99, AppDisplayConstants.MainMenuSet5.FREEDOM_BLUES, ImageConstants.Background.ADVANCED_BACKGROUND_7_URL, Resources.Load<Texture2D>($"UI/Button/Main/FreedomBlues"), content);
+        CreateButtonWithBackground(100, AppDisplayConstants.MainMenuSet5.HORMONE_PUNK, ImageConstants.Background.ADVANCED_BACKGROUND_8_URL, Resources.Load<Texture2D>($"UI/Button/Main/HormonePunk"), content);
+        CreateButtonWithBackground(101, AppDisplayConstants.MainMenuSet5.INFERNO_METAL, ImageConstants.Background.ADVANCED_BACKGROUND_9_URL, Resources.Load<Texture2D>($"UI/Button/Main/InfernoMetal"), content);
+
+        CreateButtonWithBackground(102, AppDisplayConstants.MainMenuSet5.KING_OF_THE_SUMMIT, ImageConstants.Background.ADVANCED_BACKGROUND_10_URL, Resources.Load<Texture2D>($"UI/Button/Main/KingOfTheSummit"), content);
+        CreateButtonWithBackground(103, AppDisplayConstants.MainMenuSet5.MOONLIGHT_LULLABY, ImageConstants.Background.ADVANCED_BACKGROUND_11_URL, Resources.Load<Texture2D>($"UI/Button/Main/MoonlightLullaby"), content);
+        CreateButtonWithBackground(104, AppDisplayConstants.MainMenuSet5.PHAETON_S_MELODY, ImageConstants.Background.ADVANCED_BACKGROUND_12_URL, Resources.Load<Texture2D>($"UI/Button/Main/PhaetonSMelody"), content);
+        CreateButtonWithBackground(105, AppDisplayConstants.MainMenuSet5.POLAR_METAL, ImageConstants.Background.ADVANCED_BACKGROUND_13_URL, Resources.Load<Texture2D>($"UI/Button/Main/PolarMetal"), content);
+        CreateButtonWithBackground(106, AppDisplayConstants.MainMenuSet5.PROTO_PUNK, ImageConstants.Background.ADVANCED_BACKGROUND_14_URL, Resources.Load<Texture2D>($"UI/Button/Main/ProtoPunk"), content);
+        CreateButtonWithBackground(107, AppDisplayConstants.MainMenuSet5.PUFFER_ELECTRO, ImageConstants.Background.ADVANCED_BACKGROUND_15_URL, Resources.Load<Texture2D>($"UI/Button/Main/PufferElectro"), content);
+        CreateButtonWithBackground(108, AppDisplayConstants.MainMenuSet5.SHADOW_HARMONY, ImageConstants.Background.ADVANCED_BACKGROUND_16_URL, Resources.Load<Texture2D>($"UI/Button/Main/ShadowHarmony"), content);
+
+        CreateButtonWithBackground(109, AppDisplayConstants.MainMenuSet5.SHOCKSTAR_DISCO, ImageConstants.Background.ADVANCED_BACKGROUND_17_URL, Resources.Load<Texture2D>($"UI/Button/Main/ShockstarDisco"), content);
+        CreateButtonWithBackground(110, AppDisplayConstants.MainMenuSet5.SOUL_ROCK, ImageConstants.Background.ADVANCED_BACKGROUND_18_URL, Resources.Load<Texture2D>($"UI/Button/Main/SoulRock"), content);
+        CreateButtonWithBackground(111, AppDisplayConstants.MainMenuSet5.SWING_JAZZ, ImageConstants.Background.ADVANCED_BACKGROUND_19_URL, Resources.Load<Texture2D>($"UI/Button/Main/SwingJazz"), content);
+        CreateButtonWithBackground(112, AppDisplayConstants.MainMenuSet5.THUNDER_METAL, ImageConstants.Background.ADVANCED_BACKGROUND_20_URL, Resources.Load<Texture2D>($"UI/Button/Main/ThunderMetal"), content);
+        CreateButtonWithBackground(113, AppDisplayConstants.MainMenuSet5.WOODPECKER_ELECTRO, ImageConstants.Background.ADVANCED_BACKGROUND_21_URL, Resources.Load<Texture2D>($"UI/Button/Main/WoodpeckerElectro"), content);
+        CreateButtonWithBackground(114, AppDisplayConstants.MainMenuSet5.YUNKUI_TALES, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, Resources.Load<Texture2D>($"UI/Button/Main/YunkuiTales"), content);
+        // CreateButtonWithBackground(92, AppDisplayConstants.MainMenuSet5.QUEN, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, Resources.Load<Texture2D>($"UI/Button/Main/Quen"), content);
+
+        ButtonEvent.Instance.AssignButtonEvent("Button_93", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuAstralVoiceManager>().CreateMainMenuAstralVoiceManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_94", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuBranchBladeSongManager>().CreateMainMenuBranchBladeSongManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_95", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuChaosJazzManager>().CreateMainMenuChaosJazzManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_96", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuChaoticMetalManager>().CreateMainMenuChaoticMetalManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_97", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuDawnSBloomManager>().CreateMainMenuDawnSBloomManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_98", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuFangedMetalManager>().CreateMainMenuFangedMetalManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_99", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuFreedomBluesManager>().CreateMainMenuFreedomBluesManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_100", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuHormonePunkManager>().CreateMainMenuHormonePunkManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_101", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuInfernoMetalManager>().CreateMainMenuInfernoMetalManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_102", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuKingOfTheSummitManager>().CreateMainMenuKingOfTheSummitManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_103", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuMoonlightLullabyManager>().CreateMainMenuMoonlightLullabyManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_104", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuPhaetonSMelodyManager>().CreateMainMenuPhaetonSMelodyManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_105", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuPolarMetalManager>().CreateMainMenuPolarMetalManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_106", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuProtoPunkManager>().CreateMainMenuProtoPunkManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_107", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuPufferElectroManager>().CreateMainMenuPufferElectroManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_108", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuShadowHarmonyManager>().CreateMainMenuShadowHarmonyManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_109", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuShockstarDiscoManager>().CreateMainMenuShockstarDiscoManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_110", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuSoulRockManager>().CreateMainMenuSoulRockManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_111", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuSwingJazzManager>().CreateMainMenuSwingJazzManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_112", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuThunderManager>().CreateMainMenuThunderManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_113", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuWoodpeckerElectroManager>().CreateMainMenuWoodpeckerElectroManagerAsync(data);
+        });
+        ButtonEvent.Instance.AssignButtonEvent("Button_114", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuYunkuiTalesManager>().CreateMainMenuYunkuiTalesManagerAsync(data);
+        });
+        // ButtonEvent.Instance.AssignButtonEvent("Button_92", content, async () =>
+        // {
+        //     await FindAnyObjectByType<MainMenuQuenManager>().CreateMainMenuQuenManagerAsync(data);
+        // });
+    }
+    public void CreateButtonSet6(object data, Transform content)
     {
         CreateButtonWithBackground(93, AppDisplayConstants.Master.MASTER_OF_BEAST, ImageConstants.Background.ADVANCED_BACKGROUND_1_URL, Resources.Load<Texture2D>($"UI/Button/Main/Zarx"), content);
         CreateButtonWithBackground(94, AppDisplayConstants.Master.MASTER_OF_DRAGON, ImageConstants.Background.ADVANCED_BACKGROUND_2_URL, Resources.Load<Texture2D>($"UI/Button/Main/Raik"), content);

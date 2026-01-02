@@ -468,6 +468,31 @@ public static class AppDisplayConstants
         public const string JORR = "MainMenuSet4.Jorr";
         public const string QUEN = "MainMenuSet4.Quen";
     }
+    public static class MainMenuSet5
+    {
+        public const string ASTRAL_VOICE = "MainMenuSet5.AstralVoice";
+        public const string BRANCH_BLADE_SONG = "MainMenuSet5.BranchBladeSong";
+        public const string CHAOS_JAZZ = "MainMenuSet5.ChaosJazz";
+        public const string CHAOTIC_METAL = "MainMenuSet5.ChaoticMetal";
+        public const string DAWN_S_BLOOM = "MainMenuSet5.DawnSBloom";
+        public const string FANGED_METAL = "MainMenuSet5.FangedMetal";
+        public const string FREEDOM_BLUES = "MainMenuSet5.FreedomBlues";
+        public const string HORMONE_PUNK = "MainMenuSet5.HormonePunk";
+        public const string INFERNO_METAL = "MainMenuSet5.InfernoMetal";
+        public const string KING_OF_THE_SUMMIT = "MainMenuSet5.KingOfTheSummit";
+        public const string MOONLIGHT_LULLABY = "MainMenuSet5.MoonlightLullaby";
+        public const string PHAETON_S_MELODY = "MainMenuSet5.PhaetonSMelody";
+        public const string POLAR_METAL = "MainMenuSet5.PolarMetal";
+        public const string PROTO_PUNK = "MainMenuSet5.ProtoPunk";
+        public const string PUFFER_ELECTRO = "MainMenuSet5.PufferElectro";
+        public const string SHADOW_HARMONY = "MainMenuSet5.ShadowHarmony";
+        public const string SHOCKSTAR_DISCO = "MainMenuSet5.ShockstarDisco";
+        public const string SOUL_ROCK = "MainMenuSet5.SoulRock";
+        public const string SWING_JAZZ = "MainMenuSet5.SwingJazz";
+        public const string THUNDER_METAL = "MainMenuSet5.ThunderMetal";
+        public const string WOODPECKER_ELECTRO = "MainMenuSet5.WoodpeckerElectro";
+        public const string YUNKUI_TALES = "MainMenuSet5.YunkuiTales";
+    }
     public static class Master
     {
         public const string MASTER_OF_BEAST = "Master.MasterOfBeast";

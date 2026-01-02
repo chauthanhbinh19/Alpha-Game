@@ -621,6 +621,31 @@ public static class AppConstants
         public const string JORR = "Jorr";
         public const string QUEN = "Quen";
     }
+    public static class MainMenuSet5
+    {
+        public const string ASTRAL_VOICE = "Astral Voice";
+        public const string BRANCH_BLADE_SONG = "Branch Blade Song";
+        public const string CHAOS_JAZZ = "Chaos Jazz";
+        public const string CHAOTIC_METAL = "Chaotic Metal";
+        public const string DAWN_S_BLOOM = "Dawn s Bloom";
+        public const string FANGED_METAL = "Fanged Metal";
+        public const string FREEDOM_BLUES = "Freedom Blues";
+        public const string HORMONE_PUNK = "Hormone Punk";
+        public const string INFERNO_METAL = "Inferno Metal";
+        public const string KING_OF_THE_SUMMIT = "King Of The Summit";
+        public const string MOONLIGHT_LULLABY = "Moonlight Lullaby";
+        public const string PHAETON_S_MELODY = "Phaeton s Melody";
+        public const string POLAR_METAL = "Polar Metal";
+        public const string PROTO_PUNK = "Proto Punk";
+        public const string PUFFER_ELECTRO = "Puffer Electro";
+        public const string SHADOW_HARMONY = "Shadow Harmony";
+        public const string SHOCKSTAR_DISCO = "Shockstar Disco";
+        public const string SOUL_ROCK = "Soul Rock";
+        public const string SWING_JAZZ = "Swing Jazz";
+        public const string THUNDER_METAL = "Thunder Metal";
+        public const string WOODPECKER_ELECTRO = "Woodpecker Electro";
+        public const string YUNKUI_TALES = "Yunkui Tales";
+    }
     public static class Master
     {
         public const string MASTER_OF_BEAST = "Master Of Beast";

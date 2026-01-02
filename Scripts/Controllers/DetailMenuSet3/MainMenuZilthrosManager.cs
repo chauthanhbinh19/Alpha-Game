@@ -63,7 +63,7 @@ public class MainMenuZilthrosManager : MonoBehaviour
         closeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
         homeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
         RawImage scrollViewBackground = currentObject.transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
-        scrollViewBackground.texture = Resources.Load<Texture>(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
+        scrollViewBackground.texture = Resources.Load<Texture>(ImageConstants.Background.SCROLLVIEW_BACKGROUND_3_URL);
         RawImage titleBackground = currentObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
         titleBackground.texture = Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
 
