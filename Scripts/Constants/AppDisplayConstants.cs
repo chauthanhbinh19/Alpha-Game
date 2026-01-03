@@ -504,6 +504,42 @@ public static class AppDisplayConstants
         public const string PARALLAX = "MainMenuSet6.Parallax";
         public const string ENTROPY = "MainMenuSet6.Entropy";
         public const string SINGULARITY = "MainMenuSet6.Singularity";
+        public const string GENESIS = "MainMenuSet6.Genesis";
+        public const string INFERNUM = "MainMenuSet6.Infernum";
+        public const string ELYSIUM = "MainMenuSet6.Elysium";
+        public const string APOTHEON = "MainMenuSet6.Apotheon";
+        public const string PARAGON = "MainMenuSet6.Paragon";
+        public const string NULLITY = "MainMenuSet6.Nullity";
+        public const string CATACLYSM = "MainMenuSet6.Cataclysm";
+        public const string EMPYREAN = "MainMenuSet6.Empyrean";
+        public const string HYPERION = "MainMenuSet6.Hyperion";
+        public const string DOMINION = "MainMenuSet6.Dominion";
+        public const string ZENITH = "MainMenuSet6.Zenith";
+        public const string OBLIVIUM = "MainMenuSet6.Oblivium";
+        public const string HELIX = "MainMenuSet6.Helix";
+        public const string UMBRA = "MainMenuSet6.Umbra";
+    }
+    public static class MainMenuSet7
+    {
+        public const string AXIOMATA = "MainMenuSet7.Axiomata";
+        public const string CONTINUUM = "MainMenuSet7.Continuum";
+        public const string NOVA = "MainMenuSet7.Nova";
+        public const string PARADOX = "MainMenuSet7.Paradox";
+        public const string ABYSSAL = "MainMenuSet7.Abyssal";
+        public const string ARCANE = "MainMenuSet7.Arcane";
+        public const string ETERNUM = "MainMenuSet7.Eternum";
+        public const string LUMINARY = "MainMenuSet7.Luminary";
+        public const string COSMOS = "MainMenuSet7.Cosmos";
+        public const string ASTRION = "MainMenuSet7.Astrion";
+        public const string NEOTERRA = "MainMenuSet7.Neoterra";
+        public const string HORIZON = "MainMenuSet7.Horizon";
+        public const string NEXARIUM = "MainMenuSet7.Nexarium";
+        public const string CHRONYX = "MainMenuSet7.Chronyx";
+        public const string FERRUMAX = "MainMenuSet7.Ferrumax";
+        public const string COGNITUM = "MainMenuSet7.Cognitum";
+        public const string ASHFRAME = "MainMenuSet7.Ashframe";
+        public const string THRENODY = "MainMenuSet7.Threnody";
+        public const string MORVANE = "MainMenuSet7.Morvane";
     }
     public static class Master
     {

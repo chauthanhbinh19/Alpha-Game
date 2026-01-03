@@ -657,6 +657,42 @@ public static class AppConstants
         public const string PARALLAX = "Parallax";
         public const string ENTROPY = "Entropy";
         public const string SINGULARITY = "Singularity";
+        public const string GENESIS = "Genesis";
+        public const string INFERNUM = "Infernum";
+        public const string ELYSIUM = "Elysium";
+        public const string APOTHEON = "Apotheon";
+        public const string PARAGON = "Paragon";
+        public const string NULLITY = "Nullity";
+        public const string CATACLYSM = "Cataclysm";
+        public const string EMPYREAN = "Empyrean";
+        public const string HYPERION = "Hyperion";
+        public const string DOMINION = "Dominion";
+        public const string ZENITH = "Zenith";
+        public const string OBLIVIUM = "Oblivium";
+        public const string HELIX = "Helix";
+        public const string UMBRA = "Umbra";
+    }
+    public static class MainMenuSet7
+    {
+        public const string AXIOMATA = "Axiomata";
+        public const string CONTINUUM = "Continuum";
+        public const string NOVA = "Nova";
+        public const string PARADOX = "Paradox";
+        public const string ABYSSAL = "Abyssal";
+        public const string ARCANE = "Arcane";
+        public const string ETERNUM = "Eternum";
+        public const string LUMINARY = "Luminary";
+        public const string COSMOS = "Cosmos";
+        public const string ASTRION = "Astrion";
+        public const string NEOTERRA = "Neoterra";
+        public const string HORIZON = "Horizon";
+        public const string NEXARIUM = "Nexarium";
+        public const string CHRONYX = "Chronyx";
+        public const string FERRUMAX = "Ferrumax";
+        public const string COGNITUM = "Cognitum";
+        public const string ASHFRAME = "Ashframe";
+        public const string THRENODY = "Threnody";
+        public const string MORVANE = "Morvane";
     }
     public static class Master
     {
