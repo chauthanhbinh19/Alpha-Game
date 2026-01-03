@@ -131,6 +131,10 @@ public class UIManager : MonoBehaviour
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet4/Slot"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet5/Panel"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet5/Slot"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet6/Panel"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet6/Slot"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet7/Panel"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet7/Slot"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Market"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Master"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Component"));
@@ -149,7 +153,6 @@ public class UIManager : MonoBehaviour
             // Debug.Log($"Loaded: {prefab.name}");
         }
     }
-
     public GameObject Get(string prefabName)
     {
         if (prefabDict.TryGetValue(prefabName, out var prefab))

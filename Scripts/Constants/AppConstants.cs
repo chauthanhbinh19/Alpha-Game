@@ -693,6 +693,10 @@ public static class AppConstants
         public const string ASHFRAME = "Ashframe";
         public const string THRENODY = "Threnody";
         public const string MORVANE = "Morvane";
+        public const string VELKRYN = "Velkryn";
+        public const string XARPHIS = "Xarphis";
+        public const string OMNIVEX = "Omnivex";
+        public const string KAELTHRA = "Kaelthra";
     }
     public static class Master
     {

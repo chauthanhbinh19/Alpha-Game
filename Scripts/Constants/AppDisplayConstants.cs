@@ -540,6 +540,10 @@ public static class AppDisplayConstants
         public const string ASHFRAME = "MainMenuSet7.Ashframe";
         public const string THRENODY = "MainMenuSet7.Threnody";
         public const string MORVANE = "MainMenuSet7.Morvane";
+        public const string VELKRYN = "MainMenuSet7.Velkryn";
+        public const string XARPHIS = "MainMenuSet7.Xarphis";
+        public const string OMNIVEX = "MainMenuSet7.Omnivex";
+        public const string KAELTHRA = "MainMenuSet7.Kaelthra";
     }
     public static class Master
     {

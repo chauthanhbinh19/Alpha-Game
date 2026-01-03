@@ -491,6 +491,10 @@
   { "key": "MainMenuSet7.Ashframe", "value": "Ashframe" },
   { "key": "MainMenuSet7.Threnody", "value": "Threnody" },
   { "key": "MainMenuSet7.Morvane", "value": "Morvane" },
+  { "key": "MainMenuSet7.Velkryn", "value": "Velkryn" },
+  { "key": "MainMenuSet7.Xarphis", "value": "Xarphis" },
+  { "key": "MainMenuSet7.Omnivex", "value": "Omnivex" },
+  { "key": "MainMenuSet7.Kaelthra", "value": "Kaelthra" },
 
   { "key": "Master.MasterOfBeast", "value": "Master Of Beast" },
   { "key": "Master.MasterOfDragon", "value": "Master Of Dragon" },
