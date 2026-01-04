@@ -81,44 +81,15 @@ public class UserBooksController : MonoBehaviour
             RawImage backgroundImage = bookObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BOOK_BUTTON_BACKGROUND_URL);
 
-            RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = bookObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(book.Rare));
+            rareText.text = book.Rare;
 
             Button button = bookObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 MainMenuDetailsManager.Instance.PopupDetails(book, MainPanel);
             });
-            // Đặt kích thước gốc
-            image.SetNativeSize();
-
-            // Thay đổi tỉ lệ
-            if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
-            {
-                image.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
-            }
-            else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
-            {
-                image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
-            }
-            else if (texture.width <= 700 && texture.height <= 700)
-            {
-                image.transform.localScale = new Vector3(0.65f, 0.65f, 0.65f);
-            }
-            else if (texture.width <= 700 && texture.height <= 1100)
-            {
-                image.transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
-            }
-            else if (texture.width > 700 && texture.height <= 700)
-            {
-                image.transform.localScale = new Vector3(0.35f, 0.45f, 0.35f);
-            }
-            else
-            {
-                image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
-            }
-
 
             GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
             if (gridLayout != null)

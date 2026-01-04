@@ -67,9 +67,9 @@ public class CardMilitariesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardMilitary, MainPanel);
             });
 
-            RawImage rareImage = cardMilitaryObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMilitary.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardMilitaryObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
+            rareText.text = cardMilitary.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

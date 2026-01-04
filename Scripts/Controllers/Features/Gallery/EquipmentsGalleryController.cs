@@ -78,9 +78,9 @@ public class EquipmentsGalleryController : MonoBehaviour
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = equipmentObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(equipment.Rare));
+            rareText.text = equipment.Rare;
 
             RawImage blockImage = equipmentObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = equipmentObject.transform.Find("UnlockButton").GetComponent<Button>();

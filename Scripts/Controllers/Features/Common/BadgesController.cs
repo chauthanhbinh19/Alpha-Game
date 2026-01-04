@@ -43,17 +43,17 @@ public class BadgesController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateBadgesGallery(List<Badges> BadgesList, Transform contentPanel)
+    public void CreateBadgesGallery(List<Badges> badges, Transform contentPanel)
     {
-        foreach (var Badge in BadgesList)
+        foreach (var badge in badges)
         {
-            GameObject BadgeObject = Instantiate(BadgeButtonPrefab, contentPanel);
+            GameObject badgeObject = Instantiate(BadgeButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = BadgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Badge.Name.Replace("_", " ");
+            TextMeshProUGUI Title = badgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = badge.Name.Replace("_", " ");
 
-            RawImage image = BadgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Badge.Image);
+            RawImage image = badgeObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -75,23 +75,19 @@ public class BadgesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = BadgeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = badgeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BADGE_BUTTON_BACKGROUND_URL);
 
-            Button button = BadgeObject.GetComponent<Button>();
+            Button button = badgeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Badge, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(badge, MainPanel);
             });
 
-            RawImage rareImage = BadgeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Badge.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = BadgeObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = badgeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(badge.Rare));
+            rareText.text = badge.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

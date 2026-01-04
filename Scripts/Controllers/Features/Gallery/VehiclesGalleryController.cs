@@ -79,9 +79,9 @@ public class VehiclesGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(vehicle, MainPanel);
                 });
 
-                RawImage rareImage = vehicleObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{vehicle.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = vehicleObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
+                rareText.text = vehicle.Rare;
 
                 RawImage blockImage = vehicleObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = vehicleObject.transform.Find("UnlockButton").GetComponent<Button>();

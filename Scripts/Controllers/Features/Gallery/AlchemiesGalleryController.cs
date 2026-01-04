@@ -82,9 +82,9 @@ public class AlchemiesGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(alchemy, MainPanel);
                 });
 
-                RawImage rareImage = alchemyObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = alchemyObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(alchemy.Rare));
+                rareText.text = alchemy.Rare;
 
                 RawImage blockImage = alchemyObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = alchemyObject.transform.Find("UnlockButton").GetComponent<Button>();

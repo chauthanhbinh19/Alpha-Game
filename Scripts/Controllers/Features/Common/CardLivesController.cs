@@ -67,9 +67,9 @@ public class CardLivesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardLife, MainPanel);
             });
 
-            RawImage rareImage = cardLifeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardLife.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardLifeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardLife.Rare));
+            rareText.text = cardLife.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

@@ -35,9 +35,9 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CollaborationEquipmentBlockButtonPrefab = UIManager.Instance.Get("CollaborationEquipmentBlockButtonPrefab");
     }
-    public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipments> collaborationEquipmentList, Transform contentPanel)
+    public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipments> collaborationEquipments, Transform contentPanel)
     {
-        foreach (var collaborationEquipment in collaborationEquipmentList)
+        foreach (var collaborationEquipment in collaborationEquipments)
         {
             try
             {
@@ -79,9 +79,9 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(collaborationEquipment, MainPanel);
                 });
 
-                RawImage rareImage = collaborationEquipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = collaborationEquipmentObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(collaborationEquipment.Rare));
+                rareText.text = collaborationEquipment.Rare;
 
                 RawImage blockImage = collaborationEquipmentObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = collaborationEquipmentObject.transform.Find("UnlockButton").GetComponent<Button>();

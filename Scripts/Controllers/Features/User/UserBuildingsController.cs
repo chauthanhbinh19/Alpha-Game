@@ -44,17 +44,17 @@ public class UserBuildingsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserBuildings(List<Buildings> Buildings, Transform contentPanel)
+    public void CreateUserBuildings(List<Buildings> buildings, Transform contentPanel)
     {
-        foreach (var Building in Buildings)
+        foreach (var building in buildings)
         {
-            GameObject BuildingObject = Instantiate(BuildingButtonPrefab, contentPanel);
+            GameObject buildingObject = Instantiate(BuildingButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = BuildingObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Building.Name.Replace("_", " ");
+            TextMeshProUGUI Title = buildingObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = building.Name.Replace("_", " ");
 
-            RawImage image = BuildingObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Building.Image);
+            RawImage image = buildingObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -76,22 +76,22 @@ public class UserBuildingsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = BuildingObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = buildingObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BUILDING_BUTTON_BACKGROUND_URL);
 
-            Button button = BuildingObject.GetComponent<Button>();
+            Button button = buildingObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(Building, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(building, MainPanel);
             });
 
-            RawImage frameImage = BuildingObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = buildingObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            RawImage rareImage = BuildingObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Building.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = buildingObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(building.Rare));
+            rareText.text = building.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

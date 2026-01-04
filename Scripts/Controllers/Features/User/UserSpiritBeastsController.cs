@@ -86,13 +86,9 @@ public class UserSpiritBeastsController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(spiritBeast, MainPanel);
             });
 
-            RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = spiritBeastObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = spiritBeastObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(spiritBeast.Rare));
+            rareText.text = spiritBeast.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

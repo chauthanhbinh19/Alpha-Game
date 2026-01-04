@@ -82,9 +82,9 @@ public class ForgesGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(forge, MainPanel);
                 });
 
-                RawImage rareImage = forgeObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = forgeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(forge.Rare));
+                rareText.text = forge.Rare;
 
                 RawImage blockImage = forgeObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = forgeObject.transform.Find("UnlockButton").GetComponent<Button>();

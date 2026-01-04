@@ -79,9 +79,9 @@ public class MechaBeastsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(mechaBeast, MainPanel);
                 });
 
-                RawImage rareImage = mechaBeastObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{mechaBeast.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = mechaBeastObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(mechaBeast.Rare));
+                rareText.text = mechaBeast.Rare;
 
                 RawImage blockImage = mechaBeastObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = mechaBeastObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class MechaBeastsGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = mechaBeastObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

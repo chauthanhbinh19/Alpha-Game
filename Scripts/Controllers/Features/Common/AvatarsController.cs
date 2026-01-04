@@ -84,13 +84,9 @@ public class AvatarsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(avatar, MainPanel);
             });
 
-            RawImage rareImage = avatarObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{avatar.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = avatarObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = avatarObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(avatar.Rare));
+            rareText.text = avatar.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

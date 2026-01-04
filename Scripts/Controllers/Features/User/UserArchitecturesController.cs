@@ -86,13 +86,9 @@ public class UserArchitecturesController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(architecture, MainPanel);
             });
 
-            RawImage rareImage = architectureObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{architecture.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = architectureObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = architectureObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(architecture.Rare));
+            rareText.text = architecture.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

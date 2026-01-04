@@ -79,9 +79,9 @@ public class FoodsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(food, MainPanel);
                 });
 
-                RawImage rareImage = foodObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{food.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = foodObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(food.Rare));
+                rareText.text = food.Rare;
 
                 RawImage blockImage = foodObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = foodObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class FoodsGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = foodObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

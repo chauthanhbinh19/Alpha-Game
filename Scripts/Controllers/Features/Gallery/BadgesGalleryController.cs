@@ -79,9 +79,9 @@ public class BadgesGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(badge, MainPanel);
                 });
 
-                RawImage rareImage = badgeObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{badge.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = badgeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(badge.Rare));
+                rareText.text = badge.Rare;
 
                 RawImage blockImage = badgeObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = badgeObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class BadgesGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = badgeObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

@@ -111,9 +111,9 @@ public class UserCardMonstersController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(cardMonster, MainPanel);
             });
 
-            RawImage rareImage = cardMonsterObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonster.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardMonsterObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMonster.Rare));
+            rareText.text = cardMonster.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

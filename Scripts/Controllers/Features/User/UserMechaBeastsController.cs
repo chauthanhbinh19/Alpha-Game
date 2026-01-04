@@ -86,13 +86,9 @@ public class UserMechaBeastsController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(mechaBeast, MainPanel);
             });
 
-            RawImage rareImage = mechaBeastObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{mechaBeast.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = mechaBeastObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = mechaBeastObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(mechaBeast.Rare));
+            rareText.text = mechaBeast.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

@@ -79,9 +79,9 @@ public class BeveragesGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(beverage, MainPanel);
                 });
 
-                RawImage rareImage = beverageObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{beverage.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = beverageObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(beverage.Rare));
+                rareText.text = beverage.Rare;
 
                 RawImage blockImage = beverageObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = beverageObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class BeveragesGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = beverageObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

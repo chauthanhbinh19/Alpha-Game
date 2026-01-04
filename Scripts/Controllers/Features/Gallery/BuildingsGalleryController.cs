@@ -35,19 +35,19 @@ public class BuildingsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         BuildingBlockButtonPrefab = UIManager.Instance.Get("BuildingBlockButtonPrefab");
     }
-    public void CreateBuildingsGallery(List<Buildings> Buildings, Transform contentPanel)
+    public void CreateBuildingsGallery(List<Buildings> buildings, Transform contentPanel)
     {
-        foreach (var Building in Buildings)
+        foreach (var building in buildings)
         {
             try
             {
-                GameObject BuildingObject = Instantiate(BuildingBlockButtonPrefab, contentPanel);
+                GameObject buildingObject = Instantiate(BuildingBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = BuildingObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = Building.Name.Replace("_", " ");
+                TextMeshProUGUI Title = buildingObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = building.Name.Replace("_", " ");
 
-                RawImage image = BuildingObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Building.Image);
+                RawImage image = buildingObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -69,34 +69,34 @@ public class BuildingsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = BuildingObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                RawImage backgroundImage = buildingObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
                 backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BUILDING_BUTTON_BACKGROUND_URL);
 
-                Button button = BuildingObject.GetComponent<Button>();
+                Button button = buildingObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(Building, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(building, MainPanel);
                 });
 
-                RawImage rareImage = BuildingObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Building.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = buildingObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(building.Rare));
+                rareText.text = building.Rare;
 
-                RawImage blockImage = BuildingObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = BuildingObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (Building.Status.Equals("available"))
+                RawImage blockImage = buildingObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = buildingObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (building.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (Building.Status.Equals("pending"))
+                else if (building.Status.Equals("pending"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (Building.Status.Equals("block"))
+                else if (building.Status.Equals("block"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -105,7 +105,7 @@ public class BuildingsGalleryController : MonoBehaviour
                 Unlock.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BuildingsGalleryService.Create().UpdateStatusBuildingGalleryAsync(Building.Id);
+                    await BuildingsGalleryService.Create().UpdateStatusBuildingGalleryAsync(building.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -120,8 +120,8 @@ public class BuildingsGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = BuildingObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((Building.CurrentStar < Building.TempStar) && Building.Status.Equals("available"))
+                Button Upgrade = buildingObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((building.CurrentStar < building.TempStar) && building.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -133,7 +133,7 @@ public class BuildingsGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BuildingsGalleryService.Create().UpdateBuildingGalleryPowerAsync(Building.Id);
+                    await BuildingsGalleryService.Create().UpdateBuildingGalleryPowerAsync(building.Id);
                 });
             }
             catch (Exception ex)

@@ -48,12 +48,12 @@ public class UserBeveragesController : MonoBehaviour
     {
         foreach (var beverage in beverages)
         {
-            GameObject BeverageObject = Instantiate(BeverageButtonPrefab, contentPanel);
+            GameObject beverageObject = Instantiate(BeverageButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = BeverageObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI title = beverageObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             title.text = beverage.Name.Replace("_", " ");
 
-            RawImage image = BeverageObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = beverageObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -76,23 +76,19 @@ public class UserBeveragesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = BeverageObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = beverageObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.BEVERAGE_BUTTON_BACKGROUND_URL);
 
-            Button button = BeverageObject.GetComponent<Button>();
+            Button button = beverageObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(beverage, MainPanel);
             });
 
-            RawImage rareImage = BeverageObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{beverage.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = BeverageObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = beverageObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(beverage.Rare));
+            rareText.text = beverage.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

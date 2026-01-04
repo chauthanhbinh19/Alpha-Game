@@ -111,9 +111,9 @@ public class UserCardSpellsController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(cardSpell, MainPanel);
             });
 
-            RawImage rareImage = cardSpellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardSpellObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
+            rareText.text = cardSpell.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

@@ -79,9 +79,9 @@ public class ArchitecturesGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(architecture, MainPanel);
                 });
 
-                RawImage rareImage = architectureObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{architecture.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = architectureObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(architecture.Rare));
+                rareText.text = architecture.Rare;
 
                 RawImage blockImage = architectureObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = architectureObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class ArchitecturesGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = architectureObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

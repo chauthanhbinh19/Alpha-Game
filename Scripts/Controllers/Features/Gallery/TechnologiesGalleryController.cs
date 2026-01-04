@@ -79,9 +79,9 @@ public class TechnologiesGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
                 });
 
-                RawImage rareImage = technologyObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = technologyObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(technology.Rare));
+                rareText.text = technology.Rare;
 
                 RawImage blockImage = technologyObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = technologyObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class TechnologiesGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = technologyObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

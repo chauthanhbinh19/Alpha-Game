@@ -86,13 +86,9 @@ public class UserWeaponsController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(weapon, MainPanel);
             });
 
-            RawImage rareImage = weaponObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{weapon.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = weaponObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = weaponObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(weapon.Rare));
+            rareText.text = weapon.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

@@ -87,9 +87,9 @@ public class PetsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
-            RawImage rareImage = petsObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = petsObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(pet.Rare));
+            rareText.text = pet.Rare;
 
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

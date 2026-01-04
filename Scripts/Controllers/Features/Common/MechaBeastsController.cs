@@ -45,15 +45,15 @@ public class MechaBeastsController : MonoBehaviour
     }
     public void CreateMechaBeastsGallery(List<MechaBeasts> mechaBeasts, Transform contentPanel)
     {
-        foreach (var MechaBeast in mechaBeasts)
+        foreach (var mechaBeast in mechaBeasts)
         {
-            GameObject MechaBeastObject = Instantiate(MechaBeastButtonPrefab, contentPanel);
+            GameObject mechaBeastObject = Instantiate(MechaBeastButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = MechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = MechaBeast.Name.Replace("_", " ");
+            TextMeshProUGUI Title = mechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = mechaBeast.Name.Replace("_", " ");
 
-            RawImage image = MechaBeastObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(MechaBeast.Image);
+            RawImage image = mechaBeastObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -75,23 +75,19 @@ public class MechaBeastsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = MechaBeastObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = mechaBeastObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.MECHA_BEAST_BUTTON_BACKGROUND_URL);
 
-            Button button = MechaBeastObject.GetComponent<Button>();
+            Button button = mechaBeastObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(MechaBeast, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(mechaBeast, MainPanel);
             });
 
-            RawImage rareImage = MechaBeastObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{MechaBeast.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = MechaBeastObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = mechaBeastObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(mechaBeast.Rare));
+            rareText.text = mechaBeast.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

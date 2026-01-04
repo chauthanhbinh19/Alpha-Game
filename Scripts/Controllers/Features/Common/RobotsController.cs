@@ -85,13 +85,9 @@ public class RobotsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(robot, MainPanel);
             });
 
-            RawImage rareImage = robotObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{robot.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = robotObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = robotObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(robot.Rare));
+            rareText.text = robot.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

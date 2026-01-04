@@ -58,9 +58,9 @@ public class CardHeroesGalleryController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardHero, MainPanel);
             });
 
-            RawImage rareImage = cardHeroObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardHero.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardHeroObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardHero.Rare));
+            rareText.text = cardHero.Rare;
 
             RawImage blockImage = cardHeroObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardHeroObject.transform.Find("UnlockButton").GetComponent<Button>();

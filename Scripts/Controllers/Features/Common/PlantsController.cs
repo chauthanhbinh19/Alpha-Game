@@ -88,13 +88,9 @@ public class PlantsController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(plant, MainPanel);
                 });
 
-                RawImage rareImage = plantObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{plant.Rare}");
-                rareImage.texture = rareTexture;
-
-                RawImage rareBackgroundImage = plantObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
+                TextMeshProUGUI rareText = plantObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(plant.Rare));
+                rareText.text = plant.Rare;
             }
             catch (Exception ex)
             {

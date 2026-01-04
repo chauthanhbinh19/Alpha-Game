@@ -85,13 +85,9 @@ public class MedalsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(medal, MainPanel);
             });
 
-            RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = medalObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = medalObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(medal.Rare));
+            rareText.text = medal.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

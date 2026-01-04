@@ -81,9 +81,9 @@ public class RelicsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(relic, MainPanel);
                 });
 
-                RawImage rareImage = relicObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = relicObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(relic.Rare));
+                rareText.text = relic.Rare;
 
                 RawImage blockImage = relicObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = relicObject.transform.Find("UnlockButton").GetComponent<Button>();

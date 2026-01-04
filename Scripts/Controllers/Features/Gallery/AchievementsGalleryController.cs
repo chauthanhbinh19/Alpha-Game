@@ -78,13 +78,9 @@ public class AchievementsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);
                 });
 
-                RawImage rareImage = achievementObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievement.Rare}");
-                rareImage.texture = rareTexture;
-
-                RawImage rareBackgroundImage = achievementObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
+                TextMeshProUGUI rareText = achievementObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(achievement.Rare));
+                rareText.text = achievement.Rare;
 
                 RawImage blockImage = achievementObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = achievementObject.transform.Find("UnlockButton").GetComponent<Button>();

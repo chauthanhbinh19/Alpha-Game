@@ -35,9 +35,9 @@ public class CollaborationsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CollaborationBlockButtonPrefab = UIManager.Instance.Get("CollaborationBlockButtonPrefab");
     }
-    public void CreateCollaborationsGallery(List<Collaborations> collaborationList, Transform contentPanel)
+    public void CreateCollaborationsGallery(List<Collaborations> collaborations, Transform contentPanel)
     {
-        foreach (var collaboration in collaborationList)
+        foreach (var collaboration in collaborations)
         {
             try
             {
@@ -79,12 +79,9 @@ public class CollaborationsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(collaboration, MainPanel);
                 });
 
-                RawImage rareImage = collaborationObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-                rareImage.texture = rareTexture;
-
-                image.SetNativeSize();
-                image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+                TextMeshProUGUI rareText = collaborationObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(collaboration.Rare));
+                rareText.text = collaboration.Rare;
 
                 RawImage blockImage = collaborationObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = collaborationObject.transform.Find("UnlockButton").GetComponent<Button>();

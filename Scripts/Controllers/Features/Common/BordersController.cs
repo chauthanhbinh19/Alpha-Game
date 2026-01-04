@@ -85,13 +85,9 @@ public class BordersController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(border, MainPanel);
             });
 
-            RawImage rareImage = borderObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{border.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = borderObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = borderObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(border.Rare));
+            rareText.text = border.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

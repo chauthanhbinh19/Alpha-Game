@@ -35,19 +35,19 @@ public class FurnituresGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         FurnitureBlockButtonPrefab = UIManager.Instance.Get("FurnitureBlockButtonPrefab");
     }
-    public void CreateFurnituresGallery(List<Furnitures> Furnitures, Transform contentPanel)
+    public void CreateFurnituresGallery(List<Furnitures> furnitures, Transform contentPanel)
     {
-        foreach (var Furniture in Furnitures)
+        foreach (var furniture in furnitures)
         {
             try
             {
-                GameObject FurnitureObject = Instantiate(FurnitureBlockButtonPrefab, contentPanel);
+                GameObject furnitureObject = Instantiate(FurnitureBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = FurnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = Furniture.Name.Replace("_", " ");
+                TextMeshProUGUI Title = furnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = furniture.Name.Replace("_", " ");
 
-                RawImage image = FurnitureObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Furniture.Image);
+                RawImage image = furnitureObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -69,34 +69,34 @@ public class FurnituresGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = FurnitureObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                RawImage backgroundImage = furnitureObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
                 backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.FURNITURE_BUTTON_BACKGROUND_URL);
 
-                Button button = FurnitureObject.GetComponent<Button>();
+                Button button = furnitureObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(Furniture, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(furniture, MainPanel);
                 });
 
-                RawImage rareImage = FurnitureObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Furniture.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = furnitureObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(furniture.Rare));
+                rareText.text = furniture.Rare;
 
-                RawImage blockImage = FurnitureObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = FurnitureObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (Furniture.Status.Equals("available"))
+                RawImage blockImage = furnitureObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = furnitureObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (furniture.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (Furniture.Status.Equals("pending"))
+                else if (furniture.Status.Equals("pending"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (Furniture.Status.Equals("block"))
+                else if (furniture.Status.Equals("block"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -105,7 +105,7 @@ public class FurnituresGalleryController : MonoBehaviour
                 Unlock.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await FurnituresGalleryService.Create().UpdateStatusFurnitureGalleryAsync(Furniture.Id);
+                    await FurnituresGalleryService.Create().UpdateStatusFurnitureGalleryAsync(furniture.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -120,8 +120,8 @@ public class FurnituresGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = FurnitureObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((Furniture.CurrentStar < Furniture.TempStar) && Furniture.Status.Equals("available"))
+                Button Upgrade = furnitureObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((furniture.CurrentStar < furniture.TempStar) && furniture.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -133,7 +133,7 @@ public class FurnituresGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await FurnituresGalleryService.Create().UpdateFurnitureGalleryPowerAsync(Furniture.Id);
+                    await FurnituresGalleryService.Create().UpdateFurnitureGalleryPowerAsync(furniture.Id);
                 });
             }
             catch (Exception ex)

@@ -39,6 +39,15 @@ public static class ColorConstants
     public const string DARK_GRAY_TRANSPARENT_COLOR = "#A9A9A9CC";
     public const string BLACK_TRANSPARENT_COLOR     = "#000000CC";
     public const string WHITE_TRANSPARENT_COLOR     = "#FFFFFFCC";
+    public const string SR_COLOR = "#3C52FF";
+    public const string SSR_COLOR = "#FFD33C";
+    public const string UR_COLOR = "#FF7D3C";
+    public const string LG_COLOR = "#FF423C";
+    public const string LGPlus_COLOR = "#FF3C55";
+    public const string MR_COLOR = "#BDFF3C";
+    public const string SLG_COLOR = "#82FF3C";
+    public const string SLGPlus_COLOR = "#3CFF98";
+    public const string SP_COLOR = "#3CE9FF";
     public static VertexGradient PhysicalGradient = new VertexGradient(
         new Color32(255, 99, 71, 255),   // Top Left - Tomato
         new Color32(255, 69, 0, 255),    // Top Right - OrangeRed

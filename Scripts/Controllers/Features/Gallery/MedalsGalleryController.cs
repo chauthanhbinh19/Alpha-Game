@@ -79,9 +79,9 @@ public class MedalsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(medal, MainPanel);
                 });
 
-                RawImage rareImage = medalObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = medalObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(medal.Rare));
+                rareText.text = medal.Rare;
 
                 RawImage blockImage = medalObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = medalObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -102,9 +102,6 @@ public class MedalsGalleryController : MonoBehaviour
                     Unlock.gameObject.SetActive(false);
                 }
 
-                RawImage rareBackgroundImage = medalObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
                 Unlock.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

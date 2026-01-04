@@ -85,9 +85,9 @@ public class CollaborationEquipmentsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(collaborationEquipment, MainPanel);
             });
 
-            RawImage rareImage = collaborationEquipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = collaborationEquipmentObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(collaborationEquipment.Rare));
+            rareText.text = collaborationEquipment.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

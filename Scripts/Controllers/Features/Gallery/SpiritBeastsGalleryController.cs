@@ -79,9 +79,9 @@ public class SpiritBeastsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(spiritBeast, MainPanel);
                 });
 
-                RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = spiritBeastObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(spiritBeast.Rare));
+                rareText.text = spiritBeast.Rare;
 
                 RawImage blockImage = spiritBeastObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = spiritBeastObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class SpiritBeastsGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = spiritBeastObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

@@ -89,9 +89,9 @@ public class UserCardCaptainsController : MonoBehaviour
             RawImage backgroundImage = cardCaptainObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_CAPTAIN_BUTTON_BACKGROUND_URL);
 
-            RawImage rareImage = cardCaptainObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardCaptain.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardCaptainObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardCaptain.Rare));
+            rareText.text = cardCaptain.Rare;
 
             Transform teamPanel = cardCaptainObject.transform.Find("Team");
             if (cardCaptain.Team.TeamNumber != 0)

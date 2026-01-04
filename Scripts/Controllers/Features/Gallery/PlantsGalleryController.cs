@@ -35,19 +35,19 @@ public class PlantsGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         PlantBlockButtonPrefab = UIManager.Instance.Get("PlantBlockButtonPrefab");
     }
-    public void CreatePlantsGallery(List<Plants> Plants, Transform contentPanel)
+    public void CreatePlantsGallery(List<Plants> plants, Transform contentPanel)
     {
-        foreach (var Plant in Plants)
+        foreach (var plant in plants)
         {
             try
             {
-                GameObject PlantObject = Instantiate(PlantBlockButtonPrefab, contentPanel);
+                GameObject plantObject = Instantiate(PlantBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI title = PlantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                title.text = Plant.Name.Replace("_", " ");
+                TextMeshProUGUI title = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                title.text = plant.Name.Replace("_", " ");
 
-                RawImage image = PlantObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Plant.Image);
+                RawImage image = plantObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);
                 Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -69,48 +69,44 @@ public class PlantsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = PlantObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                RawImage backgroundImage = plantObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
                 backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.PLANT_BUTTON_BACKGROUND_URL);
 
-                Button button = PlantObject.GetComponent<Button>();
+                Button button = plantObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(Plant, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(plant, MainPanel);
                 });
 
-                RawImage rareImage = PlantObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Plant.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = plantObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(plant.Rare));
+                rareText.text = plant.Rare;
 
-                RawImage blockImage = PlantObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = PlantObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (Plant.Status.Equals("available"))
+                RawImage blockImage = plantObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = plantObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (plant.Status.Equals("available"))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (Plant.Status.Equals("pending"))
+                else if (plant.Status.Equals("pending"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (Plant.Status.Equals("block"))
+                else if (plant.Status.Equals("block"))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
 
-                RawImage rareBackgroundImage = PlantObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
-
                 Unlock.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var PlantGalleryService = PlantsGalleryService.Create();
-                    await PlantGalleryService.UpdateStatusPlantGalleryAsync(Plant.Id);
+                    await PlantGalleryService.UpdateStatusPlantGalleryAsync(plant.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -125,8 +121,8 @@ public class PlantsGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = PlantObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((Plant.CurrentStar < Plant.TempStar) && Plant.Status.Equals("available"))
+                Button Upgrade = plantObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((plant.CurrentStar < plant.TempStar) && plant.Status.Equals("available"))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -138,7 +134,7 @@ public class PlantsGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await PlantsGalleryService.Create().UpdatePlantGalleryPowerAsync(Plant.Id);
+                    await PlantsGalleryService.Create().UpdatePlantGalleryPowerAsync(plant.Id);
                 });
             }
             catch (Exception ex)

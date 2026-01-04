@@ -58,9 +58,9 @@ public class CardMilitariesGalleryController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardMilitary, MainPanel);
             });
 
-            RawImage rareImage = cardMilitaryObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMilitary.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardMilitaryObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
+            rareText.text = cardMilitary.Rare;
 
             RawImage blockImage = cardMilitaryObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardMilitaryObject.transform.Find("UnlockButton").GetComponent<Button>();

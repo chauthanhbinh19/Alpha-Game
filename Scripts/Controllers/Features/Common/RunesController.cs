@@ -45,15 +45,15 @@ public class RunesController : MonoBehaviour
     }
     public void CreateRunesGallery(List<Runes> runes, Transform contentPanel)
     {
-        foreach (var Rune in runes)
+        foreach (var rune in runes)
         {
-            GameObject RuneObject = Instantiate(RuneButtonPrefab, contentPanel);
+            GameObject runeObject = Instantiate(RuneButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = RuneObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Rune.Name.Replace("_", " ");
+            TextMeshProUGUI Title = runeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = rune.Name.Replace("_", " ");
 
-            RawImage image = RuneObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Rune.Image);
+            RawImage image = runeObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -75,23 +75,19 @@ public class RunesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = RuneObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = runeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.RUNE_BUTTON_BACKGROUND_URL);
 
-            Button button = RuneObject.GetComponent<Button>();
+            Button button = runeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Rune, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(rune, MainPanel);
             });
 
-            RawImage rareImage = RuneObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Rune.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = RuneObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = runeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(rune.Rare));
+            rareText.text = rune.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

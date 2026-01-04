@@ -45,15 +45,15 @@ public class VehiclesController : MonoBehaviour
     }
     public void CreateVehiclesGallery(List<Vehicles> vehicles, Transform contentPanel)
     {
-        foreach (var Vehicle in vehicles)
+        foreach (var vehicle in vehicles)
         {
             GameObject vehicleObject = Instantiate(VehicleButtonPrefab, contentPanel);
 
             TextMeshProUGUI Title = vehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Vehicle.Name.Replace("_", " ");
+            Title.text = vehicle.Name.Replace("_", " ");
 
             RawImage image = vehicleObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -84,12 +84,12 @@ public class VehiclesController : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Vehicle, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(vehicle, MainPanel);
             });
 
-            RawImage rareImage = vehicleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Vehicle.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = vehicleObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
+            rareText.text = vehicle.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

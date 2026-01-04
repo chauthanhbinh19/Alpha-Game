@@ -89,9 +89,9 @@ public class UserPuppetsController : MonoBehaviour
             RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = puppetObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(puppet.Rare));
+            rareText.text = puppet.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

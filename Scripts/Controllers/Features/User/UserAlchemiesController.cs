@@ -89,9 +89,9 @@ public class UserAlchemiesController : MonoBehaviour
             RawImage frameImage = alchemyObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            RawImage rareImage = alchemyObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = alchemyObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(alchemy.Rare));
+            rareText.text = alchemy.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -82,9 +82,9 @@ public class PuppetsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(puppet, MainPanel);
                 });
 
-                RawImage rareImage = puppetObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = puppetObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(puppet.Rare));
+                rareText.text = puppet.Rare;
 
                 RawImage blockImage = puppetObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = puppetObject.transform.Find("UnlockButton").GetComponent<Button>();

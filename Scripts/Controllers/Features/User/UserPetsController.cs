@@ -88,15 +88,9 @@ public class UserPetsController : MonoBehaviour
                 MainMenuDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
-            if (pet.Type.Equals("Prime_Monster"))
-            {
-                image.SetNativeSize();
-                image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            }
-
-            RawImage rareImage = petsObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = petsObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(pet.Rare));
+            rareText.text = pet.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

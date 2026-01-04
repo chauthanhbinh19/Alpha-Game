@@ -67,9 +67,9 @@ public class CardAdmiralsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
             });
 
-            RawImage rareImage = cardAdmiralObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmiral.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardAdmiralObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardAdmiral.Rare));
+            rareText.text = cardAdmiral.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

@@ -85,13 +85,9 @@ public class TechnologiesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(technology, MainPanel);
             });
 
-            RawImage rareImage = technologyObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = technologyObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = technologyObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(technology.Rare));
+            rareText.text = technology.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

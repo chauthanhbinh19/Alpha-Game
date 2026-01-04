@@ -58,9 +58,9 @@ public class CardSpellsGalleryController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardSpell, MainPanel);
             });
 
-            RawImage rareImage = cardSpellObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardSpellObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
+            rareText.text = cardSpell.Rare;
 
             RawImage blockImage = cardSpellObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardSpellObject.transform.Find("UnlockButton").GetComponent<Button>();

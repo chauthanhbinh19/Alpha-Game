@@ -86,13 +86,9 @@ public class BeveragesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(beverage, MainPanel);
             });
 
-            RawImage rareImage = beverageObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{beverage.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = beverageObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = beverageObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(beverage.Rare));
+            rareText.text = beverage.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

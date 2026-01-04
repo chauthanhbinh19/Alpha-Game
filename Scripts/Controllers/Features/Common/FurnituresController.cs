@@ -43,17 +43,17 @@ public class FurnituresController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemThird = UIManager.Instance.Get("ItemThird");
     }
-    public void CreateFurnituresGallery(List<Furnitures> Furnitures, Transform contentPanel)
+    public void CreateFurnituresGallery(List<Furnitures> furnitures, Transform contentPanel)
     {
-        foreach (var Furniture in Furnitures)
+        foreach (var furniture in furnitures)
         {
-            GameObject FurnitureObject = Instantiate(FurnitureButtonPrefab, contentPanel);
+            GameObject furnitureObject = Instantiate(FurnitureButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = FurnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Furniture.Name.Replace("_", " ");
+            TextMeshProUGUI Title = furnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = furniture.Name.Replace("_", " ");
 
-            RawImage image = FurnitureObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Furniture.Image);
+            RawImage image = furnitureObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -75,21 +75,21 @@ public class FurnituresController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = FurnitureObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = furnitureObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.FURNITURE_BUTTON_BACKGROUND_URL);
 
             // RawImage frameImage = FurnitureObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FurnitureObject.GetComponent<Button>();
+            Button button = furnitureObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Furniture, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(furniture, MainPanel);
             });
 
-            RawImage rareImage = FurnitureObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Furniture.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = furnitureObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(furniture.Rare));
+            rareText.text = furniture.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -61,9 +61,9 @@ public class UserCardLivesController : MonoBehaviour
             RawImage backgroundImage = cardLifeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_LIFE_BUTTON_BACKGROUND_URL);
 
-            RawImage rareImage = cardLifeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardLife.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = cardLifeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardLife.Rare));
+            rareText.text = cardLife.Rare;
 
             Button button = cardLifeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

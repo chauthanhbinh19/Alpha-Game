@@ -87,9 +87,9 @@ public class TalismansController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(talisman, MainPanel);
             });
 
-            RawImage rareImage = talismanObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = talismanObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(talisman.Rare));
+            rareText.text = talisman.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

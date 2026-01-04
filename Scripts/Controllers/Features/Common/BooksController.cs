@@ -88,37 +88,9 @@ public class BooksController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(book, MainPanel);
                 });
 
-                RawImage rareImage = bookObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
-                rareImage.texture = rareTexture;
-                // Đặt kích thước gốc
-                image.SetNativeSize();
-
-                // Thay đổi tỉ lệ
-                if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
-                {
-                    image.transform.localScale = new Vector3(0.32f, 0.32f, 0.32f);
-                }
-                else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
-                {
-                    image.transform.localScale = new Vector3(0.20f, 0.20f, 0.20f);
-                }
-                else if (texture.width <= 700 && texture.height <= 700)
-                {
-                    image.transform.localScale = new Vector3(0.60f, 0.6f, 0.6f);
-                }
-                else if (texture.width <= 700 && texture.height <= 1100)
-                {
-                    image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-                }
-                else if (texture.width > 700 && texture.height <= 700)
-                {
-                    image.transform.localScale = new Vector3(0.3f, 0.4f, 0.3f);
-                }
-                else
-                {
-                    image.transform.localScale = new Vector3(0.17f, 0.17f, 0.17f);
-                }
+                TextMeshProUGUI rareText = bookObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(book.Rare));
+                rareText.text = book.Rare;
             }
             catch (Exception ex)
             {

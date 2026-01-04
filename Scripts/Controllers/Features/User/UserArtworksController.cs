@@ -74,9 +74,9 @@ public class UserArtworksController : MonoBehaviour
             RawImage frameImage = artworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            RawImage rareImage = artworkObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = artworkObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(artwork.Rare));
+            rareText.text = artwork.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

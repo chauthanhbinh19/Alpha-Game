@@ -86,13 +86,9 @@ public class AchievementsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(achievement, MainPanel);
             });
 
-            RawImage rareImage = achievementObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievement.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = achievementObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = achievementObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(achievement.Rare));
+            rareText.text = achievement.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

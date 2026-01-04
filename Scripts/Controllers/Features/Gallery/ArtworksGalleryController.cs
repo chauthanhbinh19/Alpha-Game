@@ -68,9 +68,9 @@ public class ArtworksGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(artwork, MainPanel);
                 });
 
-                RawImage rareImage = artworkObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = artworkObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(artwork.Rare));
+                rareText.text = artwork.Rare;
 
                 RawImage blockImage = artworkObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = artworkObject.transform.Find("UnlockButton").GetComponent<Button>();

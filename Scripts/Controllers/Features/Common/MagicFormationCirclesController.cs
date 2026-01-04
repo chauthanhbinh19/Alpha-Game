@@ -87,9 +87,9 @@ public class MagicFormationCirclesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(magicFormationCircle, MainPanel);
             });
 
-            RawImage rareImage = magicFormationCircleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = magicFormationCircleObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(magicFormationCircle.Rare));
+            rareText.text = magicFormationCircle.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

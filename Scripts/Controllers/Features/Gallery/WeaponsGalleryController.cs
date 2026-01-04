@@ -79,9 +79,9 @@ public class WeaponsGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(weapon, MainPanel);
                 });
 
-                RawImage rareImage = weaponObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{weapon.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = weaponObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(weapon.Rare));
+                rareText.text = weapon.Rare;
 
                 RawImage blockImage = weaponObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = weaponObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class WeaponsGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = weaponObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

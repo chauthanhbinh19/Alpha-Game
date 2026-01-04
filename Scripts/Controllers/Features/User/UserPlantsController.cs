@@ -44,17 +44,17 @@ public class UserPlantsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserPlants(List<Plants> Plants, Transform contentPanel)
+    public void CreateUserPlants(List<Plants> plants, Transform contentPanel)
     {
-        foreach (var Plant in Plants)
+        foreach (var plant in plants)
         {
-            GameObject PlantObject = Instantiate(PlantButtonPrefab, contentPanel);
+            GameObject plantObject = Instantiate(PlantButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = PlantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            title.text = Plant.Name.Replace("_", " ");
+            TextMeshProUGUI title = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            title.text = plant.Name.Replace("_", " ");
 
-            RawImage image = PlantObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Plant.Image);
+            RawImage image = plantObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -76,23 +76,19 @@ public class UserPlantsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = PlantObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = plantObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.PLANT_BUTTON_BACKGROUND_URL);
 
-            Button button = PlantObject.GetComponent<Button>();
+            Button button = plantObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(Plant, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(plant, MainPanel);
             });
 
-            RawImage rareImage = PlantObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Plant.Rare}");
-            rareImage.texture = rareTexture;
-
-            RawImage rareBackgroundImage = PlantObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareImage.gameObject.SetActive(false);
-            rareBackgroundImage.gameObject.SetActive(false);
+            TextMeshProUGUI rareText = plantObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(plant.Rare));
+            rareText.text = plant.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

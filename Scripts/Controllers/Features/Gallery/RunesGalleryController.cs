@@ -79,9 +79,9 @@ public class RunesGalleryController : MonoBehaviour
                     PopupDetailsManager.Instance.PopupDetails(rune, MainPanel);
                 });
 
-                RawImage rareImage = runeObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{rune.Rare}");
-                rareImage.texture = rareTexture;
+                TextMeshProUGUI rareText = runeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(rune.Rare));
+                rareText.text = rune.Rare;
 
                 RawImage blockImage = runeObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = runeObject.transform.Find("UnlockButton").GetComponent<Button>();
@@ -101,10 +101,6 @@ public class RunesGalleryController : MonoBehaviour
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
                 }
-
-                RawImage rareBackgroundImage = runeObject.transform.Find("RareBackground").GetComponent<RawImage>();
-                rareImage.gameObject.SetActive(false);
-                rareBackgroundImage.gameObject.SetActive(false);
 
                 Unlock.onClick.AddListener(async () =>
                 {

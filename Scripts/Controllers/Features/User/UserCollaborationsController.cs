@@ -79,9 +79,9 @@ public class UserCollaborationsController : MonoBehaviour
             RawImage backgroundImage = collaborationObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.COLLABORATION_BUTTON_BACKGROUND_URL);
 
-            RawImage rareImage = collaborationObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>("UI/UI/LG");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = collaborationObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(collaboration.Rare));
+            rareText.text = collaboration.Rare;
 
             Button button = collaborationObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -89,9 +89,6 @@ public class UserCollaborationsController : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(collaboration, MainPanel);
             });
-
-            image.SetNativeSize();
-            image.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

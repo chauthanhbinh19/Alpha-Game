@@ -89,9 +89,9 @@ public class UserVehiclesController : MonoBehaviour
             RawImage frameImage = vehicleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            RawImage rareImage = vehicleObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{vehicle.Rare}");
-            rareImage.texture = rareTexture;
+            TextMeshProUGUI rareText = vehicleObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
+            rareText.text = vehicle.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

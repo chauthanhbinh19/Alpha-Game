@@ -27,6 +27,32 @@ public static class QualityEvaluator
                 return 0;
         }
     }
+    public static string CheckRareColor(string rare)
+    {
+        switch (rare)
+        {
+            case AppConstants.Rare.SR:
+                return ColorConstants.SR_COLOR;
+            case AppConstants.Rare.SSR:
+                return ColorConstants.SSR_COLOR;
+            case AppConstants.Rare.UR:
+                return ColorConstants.UR_COLOR;
+            case AppConstants.Rare.LG:
+                return ColorConstants.LG_COLOR;
+            case AppConstants.Rare.LGPlus:
+                return ColorConstants.LGPlus_COLOR;
+            case AppConstants.Rare.MR:
+                return ColorConstants.MR_COLOR;
+            case AppConstants.Rare.SLG:
+                return ColorConstants.SLG_COLOR;
+            case AppConstants.Rare.SLGPlus:
+                return ColorConstants.SLGPlus_COLOR;
+            case AppConstants.Rare.SP:
+                return ColorConstants.SP_COLOR;
+            default:
+                return ColorConstants.SR_COLOR;
+        }
+    }
     private static readonly Dictionary<string, int> qualityMap = new Dictionary<string, int>
     {
         { AppConstants.Rare.SR, 2 },
