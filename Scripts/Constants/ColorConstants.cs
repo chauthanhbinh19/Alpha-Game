@@ -39,6 +39,7 @@ public static class ColorConstants
     public const string DARK_GRAY_TRANSPARENT_COLOR = "#A9A9A9CC";
     public const string BLACK_TRANSPARENT_COLOR     = "#000000CC";
     public const string WHITE_TRANSPARENT_COLOR     = "#FFFFFFCC";
+    
     public const string SR_COLOR = "#3C52FF";
     public const string SSR_COLOR = "#FFD33C";
     public const string UR_COLOR = "#FF7D3C";

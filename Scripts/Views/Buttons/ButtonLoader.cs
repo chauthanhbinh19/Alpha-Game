@@ -757,27 +757,27 @@ public class ButtonLoader : MonoBehaviour
             Destroy(popUpPanelGameObject);
         });
 
-        if (data is CardHeroes cardHeroes)
+        if (data is CardHeroes cardHero)
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is CardCaptains cardCaptains)
+        else if (data is CardCaptains cardCaptain)
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is CardColonels cardColonels)
+        else if (data is CardColonels cardColonel)
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is CardGenerals cardGenerals)
+        else if (data is CardGenerals cardGeneral)
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is CardAdmirals cardAdmirals)
+        else if (data is CardAdmirals cardAdmiral)
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is CardMonsters cardMonsters)
+        else if (data is CardMonsters cardMonster)
         {
             CreateButtonGroupDetails(data, content);
         }
@@ -789,15 +789,15 @@ public class ButtonLoader : MonoBehaviour
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is Books books)
+        else if (data is Books book)
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is Pets pets)
+        else if (data is Pets pet)
         {
             CreateButtonGroupDetails(data, content);
         }
-        else if (data is Equipments equipments)
+        else if (data is Equipments equipment)
         {
             CreateButtonGroupDetails(data, content);
         }
@@ -837,11 +837,11 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateButtonGroupDetails(object data, Transform content)
     {
-        if (data is CardHeroes cardHeroes || data is CardCaptains cardCaptains ||
-        data is CardColonels cardColonels || data is CardGenerals cardGenerals ||
-        data is CardAdmirals cardAdmirals || data is CardMonsters cardMonsters ||
+        if (data is CardHeroes cardHero || data is CardCaptains cardCaptain ||
+        data is CardColonels cardColonel || data is CardGenerals cardGeneral ||
+        data is CardAdmirals cardAdmiral || data is CardMonsters cardMonster ||
         data is CardMilitaries cardMilitary || data is CardSpells cardSpell ||
-        data is Books books || data is Pets pets
+        data is Books book || data is Pets pet
         )
         {
             if (set == 1)
@@ -867,6 +867,14 @@ public class ButtonLoader : MonoBehaviour
             else if (set == 6)
             {
                 CreateButtonSet6(data, content);
+            }
+            else if (set == 7)
+            {
+                CreateButtonSet7(data, content);
+            }
+            else if (set == 8)
+            {
+                CreateButtonSet8(data, content);
             }
         }
         else if (data is Equipments equipments)
