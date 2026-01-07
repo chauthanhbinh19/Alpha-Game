@@ -65,12 +65,10 @@ public static class QualityEvaluator
         { AppConstants.Rare.SLGPlus, 35 },
         { AppConstants.Rare.SP, 40 },
     };
-
     public static int GetQualityValue(string rare)
     {
         return qualityMap.TryGetValue(rare, out int value) ? value : 0;
     }
-
     public static string GetHigherQuality(string currentRare, string newRare)
     {
         int current = GetQualityValue(currentRare);
@@ -102,7 +100,6 @@ public static class QualityEvaluator
         AppConstants.Rare.SLGPlus,
         AppConstants.Rare.SP
     };
-
     public static string GetNextQuality(string currentRare)
     {
         int index = qualityOrder.IndexOf(currentRare);

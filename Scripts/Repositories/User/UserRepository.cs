@@ -431,7 +431,7 @@ public class UserRepository : IUserRepository
             {
                 await connection.OpenAsync(); // mở connection async
 
-                for (int currencyId = 1; currencyId <= 73; currencyId++)
+                for (int currencyId = 1; currencyId <= 70; currencyId++)
                 {
                     string insertQuery = "INSERT INTO user_currencies (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
                     await using (var command = new MySqlCommand(insertQuery, connection))

@@ -85,7 +85,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         buttonGroupPanel1 = currentObject.transform.Find("DictionaryCards/ButtonGroup1");
         buttonGroupPanel2 = currentObject.transform.Find("DictionaryCards/ButtonGroup2");
         buttonGroupPanel3 = currentObject.transform.Find("DictionaryCards/ButtonGroup3");
-        setButtonGroupPanel = currentObject.transform.Find("DictionaryCards/SetButtonGroup");
+        setButtonGroupPanel = currentObject.transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
         cardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         RawImage backgroundCircle1Image = currentObject.transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         HomeButton.onClick.AddListener(() =>
@@ -97,7 +97,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         // ButtonLoader.Instance.buttonGroupPanel1 = buttonGroupPanel1;
         // ButtonLoader.Instance.buttonGroupPanel2 = buttonGroupPanel2;
         // ButtonLoader.Instance.buttonGroupPanel3 = buttonGroupPanel3;
-        ButtonLoader.Instance.CreateSetButtonGroup(data, TabButton5, setButtonGroupPanel);
+        ButtonLoader.Instance.CreateSetButtonGroup(data, setButtonGroupPanel);
 
         backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
         // Kiểm tra kiểu của data và ép kiểu phù hợp
@@ -728,25 +728,25 @@ public class MainMenuDetailsManager : MonoBehaviour
             double requiredExp = experimentCondition - totalExperiment; // EXP cần để lên cấp
             bool canLevelUp = false;
 
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
-                double expPerBottle = EvaluateExperiment.GetItemExp(items1.Name);
+                double expPerBottle = EvaluateExperiment.GetItemExp(item.Name);
 
-                if (expPerBottle > 0 && items1.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
+                if (expPerBottle > 0 && item.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                 {
-                    double totalExpFromThisItem = expPerBottle * items1.Quantity;
+                    double totalExpFromThisItem = expPerBottle * item.Quantity;
 
                     if (requiredExp <= totalExpFromThisItem)
                     {
                         totalExperiment += requiredExp;
-                        items1.Quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
+                        item.Quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
                         canLevelUp = true;
                         break;
                     }
                     else
                     {
                         totalExperiment += totalExpFromThisItem;
-                        items1.Quantity = 0;
+                        item.Quantity = 0;
                     }
                 }
             }
@@ -776,25 +776,25 @@ public class MainMenuDetailsManager : MonoBehaviour
             double requiredExp = experimentCondition - totalExperiment; // EXP cần để lên cấp
             bool canLevelUp = false;
 
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
-                double expPerBottle = EvaluateExperiment.GetItemExp(items1.Name);
+                double expPerBottle = EvaluateExperiment.GetItemExp(item.Name);
 
-                if (expPerBottle > 0 && items1.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
+                if (expPerBottle > 0 && item.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                 {
-                    double totalExpFromThisItem = expPerBottle * items1.Quantity;
+                    double totalExpFromThisItem = expPerBottle * item.Quantity;
 
                     if (requiredExp <= totalExpFromThisItem)
                     {
                         totalExperiment += requiredExp;
-                        items1.Quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
+                        item.Quantity -= (int)Math.Ceiling((double)requiredExp / expPerBottle);
                         canLevelUp = true;
                         break;
                     }
                     else
                     {
                         totalExperiment += totalExpFromThisItem;
-                        items1.Quantity = 0;
+                        item.Quantity = 0;
                     }
                 }
             }

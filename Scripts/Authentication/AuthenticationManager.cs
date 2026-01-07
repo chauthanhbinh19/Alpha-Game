@@ -88,11 +88,13 @@ public class AuthenticationManager : MonoBehaviour
                     CreateSignInPanel();
                 }
             }
-
-            if (string.IsNullOrWhiteSpace(authResult.User.Name))
+            else
             {
-                CreateCreateNamePanel(User.SavedUsername, User.SavedPassword);
-                // signInPanel.SetActive(false);
+                if (string.IsNullOrWhiteSpace(authResult.User.Name))
+                {
+                    CreateCreateNamePanel(User.SavedUsername, User.SavedPassword);
+                    // signInPanel.SetActive(false);
+                }
             }
 
             // Nếu user hợp lệ → cho vào game

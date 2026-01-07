@@ -634,7 +634,7 @@ public class ButtonLoader : MonoBehaviour
             Debug.LogError("Button does not have a RawImage component.");
         }
     }
-    public void CreateSetButtonGroup(object data, GameObject buttonPrefab, Transform buttonPanel)
+    public void CreateSetButtonGroup(object data, Transform buttonPanel)
     {
         if (data is CardHeroes cardHero || data is CardCaptains cardCaptain ||
         data is CardColonels cardColonel || data is CardGenerals cardGeneral ||
