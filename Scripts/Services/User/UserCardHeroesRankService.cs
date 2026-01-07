@@ -14,14 +14,14 @@ public class UserCardHeroesRankService : IUserCardHeroesRankService
         return new UserCardHeroesRankService(new UserCardHeroesRankRepository());
     }
 
-    public async Task<Rank> GetCardHeroRankAsync(string type, string card_id)
+    public async Task<Rank> GetCardHeroRankAsync(string id, string card_id)
     {
-        return await _cardHeroesRankRepository.GetCardHeroRankAsync(type, card_id);
+        return await _cardHeroesRankRepository.GetCardHeroRankAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateCardHeroRankAsync(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdateCardHeroRankAsync(Rank rank, string card_id)
     {
-        await _cardHeroesRankRepository.InsertOrUpdateCardHeroRankAsync(rank, type, card_id);
+        await _cardHeroesRankRepository.InsertOrUpdateCardHeroRankAsync(rank, card_id);
     }
 
     public async Task<Rank> GetSumCardHeroesRankAsync(string user_id, string card_id)

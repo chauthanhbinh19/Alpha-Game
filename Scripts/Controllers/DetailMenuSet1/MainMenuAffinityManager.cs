@@ -128,10 +128,10 @@ public class MainMenuAffinityManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    public async Task CreateCardHeroesEquipmentsAsync(CardHeroes cardHeroes)
+    public async Task CreateCardHeroesEquipmentsAsync(CardHeroes cardHero)
     {
-        Rank rank = await UserCardHeroesRankService.Create().GetCardHeroRankAsync(mainType, cardHeroes.Id);
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardHeroes.Image)}");
+        Rank rank = await UserCardHeroesRankService.Create().GetCardHeroRankAsync(mainType, cardHero.Id);
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardHero.Image)}");
         mainImage.texture = texture;
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
@@ -140,6 +140,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -208,17 +213,22 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardHeroes, newRank, mainType);
+            await UpLevelAsync(cardHero, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardHeroesEquipmentsAsync(cardHeroes);
+            await CreateCardHeroesEquipmentsAsync(cardHero);
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -278,20 +288,20 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardHeroes, newRank, mainType);
+            await UpLevelAsync(cardHero, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardHeroesEquipmentsAsync(cardHeroes);
+            await CreateCardHeroesEquipmentsAsync(cardHero);
         });
     }
-    public async Task CreateBooksEquipmentsAsync(Books books)
+    public async Task CreateBooksEquipmentsAsync(Books book)
     {
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(books.Image)}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(book.Image)}");
         mainImage.texture = texture;
-        Rank rank = await UserBooksRankService.Create().GetBookRankAsync(mainType, books.Id);
+        Rank rank = await UserBooksRankService.Create().GetBookRankAsync(mainType, book.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -299,6 +309,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -367,17 +382,22 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(books, newRank, mainType);
+            await UpLevelAsync(book, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateBooksEquipmentsAsync(books);
+            await CreateBooksEquipmentsAsync(book);
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -437,20 +457,20 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(books, newRank, mainType);
+            await UpLevelAsync(book, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateBooksEquipmentsAsync(books);
+            await CreateBooksEquipmentsAsync(book);
         });
     }
-    public async Task CreateCardCaptainsEquipmentsAsync(CardCaptains cardCaptains)
+    public async Task CreateCardCaptainsEquipmentsAsync(CardCaptains cardCaptain)
     {
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardCaptains.Image)}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image)}");
         mainImage.texture = texture;
-        Rank rank = await UserCardCaptainsRankService.Create().GetCardCaptainRankAsync(mainType, cardCaptains.Id);
+        Rank rank = await UserCardCaptainsRankService.Create().GetCardCaptainRankAsync(mainType, cardCaptain.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -458,6 +478,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -526,17 +551,22 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardCaptains, newRank, mainType);
+            await UpLevelAsync(cardCaptain, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardCaptainsEquipmentsAsync(cardCaptains);
+            await CreateCardCaptainsEquipmentsAsync(cardCaptain);
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -596,20 +626,20 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardCaptains, newRank, mainType);
+            await UpLevelAsync(cardCaptain, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardCaptainsEquipmentsAsync(cardCaptains);
+            await CreateCardCaptainsEquipmentsAsync(cardCaptain);
         });
     }
-    public async Task CreatePetsEquipmentsAsync(Pets pets)
+    public async Task CreatePetsEquipmentsAsync(Pets pet)
     {
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(pets.Image)}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(pet.Image)}");
         mainImage.texture = texture;
-        Rank rank = await UserPetsRankService.Create().GetPetRankAsync(mainType, pets.Id);
+        Rank rank = await UserPetsRankService.Create().GetPetRankAsync(mainType, pet.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -617,6 +647,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -685,17 +720,22 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(pets, newRank, mainType);
+            await UpLevelAsync(pet, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreatePetsEquipmentsAsync(pets);
+            await CreatePetsEquipmentsAsync(pet);
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -755,13 +795,13 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(pets, newRank, mainType);
+            await UpLevelAsync(pet, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreatePetsEquipmentsAsync(pets);
+            await CreatePetsEquipmentsAsync(pet);
         });
     }
     public async Task CreateCardMilitaryEquipmentsAsync(CardMilitaries cardMilitary)
@@ -776,6 +816,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -855,6 +900,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -935,6 +985,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1014,6 +1069,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1082,11 +1142,11 @@ public class MainMenuAffinityManager : MonoBehaviour
             await CreateCardSpellEquipmentsAsync(cardSpell);
         });
     }
-    public async Task CreateCardMonstersEquipmentsAsync(CardMonsters cardMonsters)
+    public async Task CreateCardMonstersEquipmentsAsync(CardMonsters cardMonster)
     {
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardMonsters.Image)}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardMonster.Image)}");
         mainImage.texture = texture;
-        Rank rank = await UserCardMonstersRankService.Create().GetCardMonsterRankAsync(mainType, cardMonsters.Id);
+        Rank rank = await UserCardMonstersRankService.Create().GetCardMonsterRankAsync(mainType, cardMonster.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1094,6 +1154,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1162,17 +1227,22 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardMonsters, newRank, mainType);
+            await UpLevelAsync(cardMonster, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardMonstersEquipmentsAsync(cardMonsters);
+            await CreateCardMonstersEquipmentsAsync(cardMonster);
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1233,20 +1303,20 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
 
-            await UpLevelAsync(cardMonsters, newRank, mainType);
+            await UpLevelAsync(cardMonster, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardMonstersEquipmentsAsync(cardMonsters);
+            await CreateCardMonstersEquipmentsAsync(cardMonster);
         });
     }
-    public async Task CreateCardColonelsEquipmentsAsync(CardColonels cardColonels)
+    public async Task CreateCardColonelsEquipmentsAsync(CardColonels cardColonel)
     {
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardColonels.Image)}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardColonel.Image)}");
         mainImage.texture = texture;
-        Rank rank = await UserCardColonelsRankService.Create().GetCardColonelRankAsync(mainType, cardColonels.Id);
+        Rank rank = await UserCardColonelsRankService.Create().GetCardColonelRankAsync(mainType, cardColonel.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1254,6 +1324,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1322,17 +1397,22 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardColonels, newRank, mainType);
+            await UpLevelAsync(cardColonel, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardColonelsEquipmentsAsync(cardColonels);
+            await CreateCardColonelsEquipmentsAsync(cardColonel);
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1392,20 +1472,20 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardColonels, newRank, mainType);
+            await UpLevelAsync(cardColonel, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardColonelsEquipmentsAsync(cardColonels);
+            await CreateCardColonelsEquipmentsAsync(cardColonel);
         });
     }
-    public async Task CreateCardGeneralsEquipmentsAsync(CardGenerals cardGenerals)
+    public async Task CreateCardGeneralsEquipmentsAsync(CardGenerals cardGeneral)
     {
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardGenerals.Image)}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image)}");
         mainImage.texture = texture;
-        Rank rank = await UserCardGeneralsRankService.Create().GetCardGeneralRankAsync(mainType, cardGenerals.Id);
+        Rank rank = await UserCardGeneralsRankService.Create().GetCardGeneralRankAsync(mainType, cardGeneral.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1413,6 +1493,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1481,17 +1566,22 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardGenerals, newRank, mainType);
+            await UpLevelAsync(cardGeneral, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardGeneralsEquipmentsAsync(cardGenerals);
+            await CreateCardGeneralsEquipmentsAsync(cardGeneral);
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1551,20 +1641,20 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardGenerals, newRank, mainType);
+            await UpLevelAsync(cardGeneral, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardGeneralsEquipmentsAsync(cardGenerals);
+            await CreateCardGeneralsEquipmentsAsync(cardGeneral);
         });
     }
-    public async Task CreateCardAdmiralsEquipmentsAsync(CardAdmirals cardAdmirals)
+    public async Task CreateCardAdmiralsEquipmentsAsync(CardAdmirals cardAdmiral)
     {
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardAdmirals.Image)}");
+        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image)}");
         mainImage.texture = texture;
-        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(mainType, cardAdmirals.Id);
+        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(mainType, cardAdmiral.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1572,6 +1662,11 @@ public class MainMenuAffinityManager : MonoBehaviour
         UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1640,17 +1735,22 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardAdmirals, newRank, mainType);
+            await UpLevelAsync(cardAdmiral, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
+            await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
 
@@ -1710,13 +1810,13 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardAdmirals, newRank, mainType);
+            await UpLevelAsync(cardAdmiral, newRank, mainType);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-            await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
+            await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
         });
     }
     public async Task CreateMaterialUIAsync()
@@ -1885,45 +1985,45 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task UpLevelAsync(object data, Rank rank, string type)
     {
-        if (data is CardHeroes cardHeroes)
+        if (data is CardHeroes cardHero)
         {
-            await UserCardHeroesRankService.Create().InsertOrUpdateCardHeroRankAsync(rank, type, cardHeroes.Id);
+            await UserCardHeroesRankService.Create().InsertOrUpdateCardHeroRankAsync(rank, cardHero.Id);
         }
-        else if (data is Books books)
+        else if (data is Books book)
         {
-            await UserBooksRankService.Create().InsertOrUpdateBookRankAsync(rank, type, books.Id);
+            await UserBooksRankService.Create().InsertOrUpdateBookRankAsync(rank, book.Id);
         }
-        else if (data is CardCaptains cardCaptains)
+        else if (data is CardCaptains cardCaptain)
         {
-            await UserCardCaptainsRankService.Create().InsertOrUpdateCardCaptainRankAsync(rank, type, cardCaptains.Id);
+            await UserCardCaptainsRankService.Create().InsertOrUpdateCardCaptainRankAsync(rank, cardCaptain.Id);
         }
-        else if (data is Pets pets)
+        else if (data is Pets pet)
         {
-            await UserPetsRankService.Create().InsertOrUpdatePetRankAsync(rank, type, pets.Id);
+            await UserPetsRankService.Create().InsertOrUpdatePetRankAsync(rank, pet.Id);
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            await UserCardMilitariesRankService.Create().InsertOrUpdateCardMilitaryRankAsync(rank, type, cardMilitary.Id);
+            await UserCardMilitariesRankService.Create().InsertOrUpdateCardMilitaryRankAsync(rank, cardMilitary.Id);
         }
         else if (data is CardSpells cardSpell)
         {
-            await UserCardSpellsRankService.Create().InsertOrUpdateCardSpellRankAsync(rank, type, cardSpell.Id);
+            await UserCardSpellsRankService.Create().InsertOrUpdateCardSpellRankAsync(rank, cardSpell.Id);
         }
-        else if (data is CardMonsters cardMonsters)
+        else if (data is CardMonsters cardMonster)
         {
-            await UserCardMonstersRankService.Create().InsertOrUpdateCardMonsterRankAsync(rank, type, cardMonsters.Id);
+            await UserCardMonstersRankService.Create().InsertOrUpdateCardMonsterRankAsync(rank, cardMonster.Id);
         }
-        else if (data is CardColonels cardColonels)
+        else if (data is CardColonels cardColonel)
         {
-            await UserCardColonelsRankService.Create().InsertOrUpdateCardColonelRankAsync(rank, type, cardColonels.Id);
+            await UserCardColonelsRankService.Create().InsertOrUpdateCardColonelRankAsync(rank, cardColonel.Id);
         }
-        else if (data is CardGenerals cardGenerals)
+        else if (data is CardGenerals cardGeneral)
         {
-            await UserCardGeneralsRankService.Create().InsertOrUpdateCardGeneralRankAsync(rank, type, cardGenerals.Id);
+            await UserCardGeneralsRankService.Create().InsertOrUpdateCardGeneralRankAsync(rank, cardGeneral.Id);
         }
-        else if (data is CardAdmirals cardAdmirals)
+        else if (data is CardAdmirals cardAdmiral)
         {
-            await UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralRankAsync(rank, type, cardAdmirals.Id);
+            await UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralRankAsync(rank, cardAdmiral.Id);
         }
     }
 }

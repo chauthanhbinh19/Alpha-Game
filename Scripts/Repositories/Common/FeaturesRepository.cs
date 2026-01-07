@@ -6,16 +6,16 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class FeaturesRepository : IFeaturesRepository
 {
-    public async Task<Dictionary<string, int>> GetFeaturesByTypeAsync(string type)
+    public async Task<Dictionary<string, Features>> GetFeaturesByTypeAsync(string type)
     {
-        Dictionary<string, int> features = new Dictionary<string, int>();
+        Dictionary<string, Features> features = new Dictionary<string, Features>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             await connection.OpenAsync();
 
-            string query = "SELECT feature_name, required_level FROM features WHERE type = @type";
+            string query = "SELECT id, feature_name, required_level FROM features WHERE type = @type";
 
             using (MySqlCommand command = new MySqlCommand(query, connection))
             {
@@ -26,9 +26,14 @@ public class FeaturesRepository : IFeaturesRepository
                     while (await reader.ReadAsync())
                     {
                         string featureName = reader.GetString(0);
-                        int requiredLevel = reader.GetInt32(1);
+                        Features feature = new Features
+                        {
+                            Id = reader.GetString(0),
+                            FeatureName = reader.GetString(1),
+                            RequiredLevel = reader.GetInt32(2)
+                        };
 
-                        features[featureName] = requiredLevel;
+                        features[featureName] = feature;
                     }
                 }
             }
@@ -36,9 +41,9 @@ public class FeaturesRepository : IFeaturesRepository
 
         return features;
     }
-    public async Task<Dictionary<string, int>> GetAnimeFeaturesByTypeAsync(string type)
+    public async Task<Dictionary<string, Features>> GetAnimeFeaturesByTypeAsync(string type)
     {
-        Dictionary<string, int> features = new Dictionary<string, int>();
+        Dictionary<string, Features> features = new Dictionary<string, Features>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -57,8 +62,14 @@ public class FeaturesRepository : IFeaturesRepository
                     {
                         string featureType = reader.GetString(0);
 
+                        Features feature = new Features
+                        {
+                            Id = reader.GetString(0),
+                            FeatureName = reader.GetString(1),
+                            RequiredLevel = reader.GetInt32(2)
+                        };
                         // Vì query KHÔNG có cột thứ 2, đặt value mặc định
-                        features[featureType] = 1;
+                        features[featureType] = feature;
                     }
                 }
             }

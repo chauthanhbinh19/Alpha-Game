@@ -15,12 +15,12 @@ public class FeaturesService : IFeaturesService
         return new FeaturesService(new FeaturesRepository());
     }
 
-    public async Task<Dictionary<string, int>> GetFeaturesByTypeAsync(string type)
+    public async Task<Dictionary<string, Features>> GetFeaturesByTypeAsync(string type)
     {
         return await _featuresRepository.GetFeaturesByTypeAsync(type);
     }
 
-    public async Task<Dictionary<string, int>> GetAnimeFeaturesByTypeAsync(string type)
+    public async Task<Dictionary<string, Features>> GetAnimeFeaturesByTypeAsync(string type)
     {
         return await _featuresRepository.GetAnimeFeaturesByTypeAsync(type);
     }

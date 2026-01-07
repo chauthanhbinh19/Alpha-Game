@@ -18,7 +18,7 @@ public class MasterOfBeastManager : MonoBehaviour
     private Button UpLevelButton;
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
-    private string mainType;
+    private Features feature;
     private string parentType;
     private TMP_FontAsset EuroStyleNormalFont;
     private void Awake()
@@ -72,8 +72,7 @@ public class MasterOfBeastManager : MonoBehaviour
 
         LevelCondition = currentObject.transform.Find("DictionaryCards/LevelCondition");
 
-        Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
-        Features features = new Features();
+        Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
         uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.Master.MASTER_OF_BEAST);
         if (uniqueTypes.Count > 0)
         {
@@ -82,7 +81,7 @@ public class MasterOfBeastManager : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
-                int value = kvp.Value;
+                int requiredLevel = kvp.Value.RequiredLevel;
                 GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
                 TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
@@ -92,147 +91,147 @@ public class MasterOfBeastManager : MonoBehaviour
                 btn.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await OnButtonClickAsync(button, data, subtype, value);
+                    await OnButtonClickAsync(button, data, kvp.Value, requiredLevel);
                 });
 
                 if (index == 0)
                 {
-                    mainType = subtype;
+                    feature = kvp.Value;
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     if (data is CardHeroes cardHeroes)
                     {
                         // mainId = cardHeroes.id;
-                        await DetailMasterManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardHeroes);
-                        if (cardHeroes.Level >= value)
+                        await DetailMasterManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardHeroes);
+                        if (cardHeroes.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is Books books)
                     {
                         // mainId = books.id;
-                        await DetailMasterManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, books);
-                        if (books.Level >= value)
+                        await DetailMasterManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, books);
+                        if (books.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardCaptains cardCaptains)
                     {
                         // mainId = cardCaptains.id;
-                        await DetailMasterManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardCaptains);
-                        if (cardCaptains.Level >= value)
+                        await DetailMasterManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardCaptains);
+                        if (cardCaptains.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is Pets pets)
                     {
                         // mainId = pets.id;
-                        await DetailMasterManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, pets);
-                        if (pets.Level >= value)
+                        await DetailMasterManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, pets);
+                        if (pets.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardMilitaries cardMilitary)
                     {
                         // mainId = cardMilitary.id;
-                        await DetailMasterManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMilitary);
-                        if (cardMilitary.Level >= value)
+                        await DetailMasterManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardMilitary);
+                        if (cardMilitary.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardSpells cardSpell)
                     {
                         // mainId = cardSpell.id;
-                        await DetailMasterManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardSpell);
-                        if (cardSpell.Level >= value)
+                        await DetailMasterManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardSpell);
+                        if (cardSpell.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardMonsters cardMonsters)
                     {
                         // mainId = cardMonsters.id;
-                        await DetailMasterManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMonsters);
-                        if (cardMonsters.Level >= value)
+                        await DetailMasterManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardMonsters);
+                        if (cardMonsters.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardColonels cardColonels)
                     {
                         // mainId = cardColonels.id;
-                        await DetailMasterManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardColonels);
-                        if (cardColonels.Level >= value)
+                        await DetailMasterManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardColonels);
+                        if (cardColonels.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardGenerals cardGenerals)
                     {
                         // mainId = cardGenerals.id;
-                        await DetailMasterManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardGenerals);
-                        if (cardGenerals.Level >= value)
+                        await DetailMasterManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardGenerals);
+                        if (cardGenerals.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardAdmirals cardAdmirals)
                     {
                         // mainId = cardAdmirals.id;
-                        await DetailMasterManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardAdmirals);
-                        if (cardAdmirals.Level >= value)
+                        await DetailMasterManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardAdmirals);
+                        if (cardAdmirals.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     // else if (data is Equipments equipments)
                     // {
                     //     // mainId = cardAdmirals.id;
-                    //     await DetailMasterManager.Instance.CreateEquipmentsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, equipments);
+                    //     await DetailMasterManager.Instance.CreateEquipmentsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, equipments);
                     //     if (equipments.level >= value)
                     //     {
                     //         LevelCondition.gameObject.SetActive(false);
@@ -247,13 +246,13 @@ public class MasterOfBeastManager : MonoBehaviour
                 {
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
-                ButtonEvent.Instance.CheckLockedButton(data, value, button);
+                ButtonEvent.Instance.CheckLockedButton(data, requiredLevel, button);
                 index = index + 1;
             }
             LoadAnimation();
         }
     }
-    async Task OnButtonClickAsync(GameObject clickedButton, object data, string type, int value)
+    async Task OnButtonClickAsync(GameObject clickedButton, object data, Features subFeature, int requiredLevel)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -266,143 +265,143 @@ public class MasterOfBeastManager : MonoBehaviour
             }
         }
 
-        mainType = type;
+        feature = subFeature;
         UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
 
         if (data is CardHeroes cardHeroes)
         {
             // mainId = cardHeroes.id;
-            await DetailMasterManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardHeroes);
-            if (cardHeroes.Level >= value)
+            await DetailMasterManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardHeroes);
+            if (cardHeroes.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is Books books)
         {
             // mainId = books.id;
-            await DetailMasterManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, books);
-            if (books.Level >= value)
+            await DetailMasterManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, books);
+            if (books.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardCaptains cardCaptains)
         {
             // mainId = cardCaptains.id;
-            await DetailMasterManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardCaptains);
-            if (cardCaptains.Level >= value)
+            await DetailMasterManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardCaptains);
+            if (cardCaptains.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is Pets pets)
         {
             // mainId = pets.id;
-            await DetailMasterManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, pets);
-            if (pets.Level >= value)
+            await DetailMasterManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, pets);
+            if (pets.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardMilitaries cardMilitary)
         {
             // mainId = cardMilitary.id;
-            await DetailMasterManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMilitary);
-            if (cardMilitary.Level >= value)
+            await DetailMasterManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardMilitary);
+            if (cardMilitary.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardSpells cardSpell)
         {
             // mainId = cardSpell.id;
-            await DetailMasterManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardSpell);
-            if (cardSpell.Level >= value)
+            await DetailMasterManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardSpell);
+            if (cardSpell.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardMonsters cardMonsters)
         {
             // mainId = cardMonsters.id;
-            await DetailMasterManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardMonsters);
-            if (cardMonsters.Level >= value)
+            await DetailMasterManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardMonsters);
+            if (cardMonsters.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardColonels cardColonels)
         {
             // mainId = cardColonels.id;
-            await DetailMasterManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardColonels);
-            if (cardColonels.Level >= value)
+            await DetailMasterManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardColonels);
+            if (cardColonels.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardGenerals cardGenerals)
         {
             // mainId = cardGenerals.id;
-            await DetailMasterManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardGenerals);
-            if (cardGenerals.Level >= value)
+            await DetailMasterManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardGenerals);
+            if (cardGenerals.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardAdmirals cardAdmirals)
         {
             // mainId = cardAdmirals.id;
-            await DetailMasterManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, cardAdmirals);
-            if (cardAdmirals.Level >= value)
+            await DetailMasterManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardAdmirals);
+            if (cardAdmirals.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         // else if (data is Equipments equipments)
         // {
         //     // mainId = cardAdmirals.id;
-        //     DetailMasterManager.Instance.CreateEquipmentsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, parentType, equipments);
+        //     DetailMasterManager.Instance.CreateEquipmentsEquipments(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, equipments);
         //     if (equipments.level >= value)
         //     {
         //         LevelCondition.gameObject.SetActive(false);

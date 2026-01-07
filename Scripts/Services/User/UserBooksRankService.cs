@@ -14,14 +14,14 @@ public class UserBooksRankService : IUserBooksRankService
         return new UserBooksRankService(new UserBooksRankRepository());
     }
 
-    public async Task<Rank> GetBookRankAsync(string type, string card_id)
+    public async Task<Rank> GetBookRankAsync(string id, string card_id)
     {
-        return await _booksRankRepository.GetBookRankAsync(type, card_id);
+        return await _booksRankRepository.GetBookRankAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateBookRankAsync(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdateBookRankAsync(Rank rank, string card_id)
     {
-        await _booksRankRepository.InsertOrUpdateBookRankAsync(rank, type, card_id);
+        await _booksRankRepository.InsertOrUpdateBookRankAsync(rank, card_id);
     }
 
     public async Task<Rank> GetSumBooksRankAsync(string user_id, string card_id)

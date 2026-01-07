@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserBooksMasterRepository : IUserBooksMasterRepository
 {
-    public async Task<Master> GetBookMasterAsync(string type, string card_id)
+    public async Task<Master> GetBookMasterAsync(string id, string card_id)
     {
         Master master = new Master();
         string user_id = User.CurrentUserId;
@@ -21,20 +21,20 @@ public class UserBooksMasterRepository : IUserBooksMasterRepository
                 string query = @"
                     SELECT *
                     FROM user_books_master
-                    WHERE user_id = @user_id AND master_type = @type AND user_book_id = @card_id;
+                    WHERE user_id = @user_id AND master_id = @id AND user_book_id = @card_id;
                 ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@type", type);
+                    command.Parameters.AddWithValue("@id", id);
                     command.Parameters.AddWithValue("@card_id", card_id);
 
                     await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            master.Type = reader.GetStringSafe("master_type");
+                            master.Id = reader.GetStringSafe("master_id");
                             master.Level = reader.GetIntSafe("master_level");
                             master.Power = reader.GetDoubleSafe("power");
                             master.Health = reader.GetDoubleSafe("health");
@@ -113,7 +113,7 @@ public class UserBooksMasterRepository : IUserBooksMasterRepository
 
         return master;
     }
-    public async Task InsertOrUpdateBookMasterAsync(Master master, string type, string card_id)
+    public async Task InsertOrUpdateBookMasterAsync(Master master, string card_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -126,14 +126,14 @@ public class UserBooksMasterRepository : IUserBooksMasterRepository
                 string checkQuery = @"
                     SELECT COUNT(*) 
                     FROM user_books_master 
-                    WHERE user_id = @user_id AND user_book_id = @card_id AND master_type = @master_type;
+                    WHERE user_id = @user_id AND user_book_id = @card_id AND master_id = @master_id;
                 ";
 
                 await using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, connection))
                 {
                     checkCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCmd.Parameters.AddWithValue("@card_id", card_id);
-                    checkCmd.Parameters.AddWithValue("@master_type", type);
+                    checkCmd.Parameters.AddWithValue("@master_id", master.Id);
 
                     int count = Convert.ToInt32(await checkCmd.ExecuteScalarAsync());
 
@@ -173,14 +173,14 @@ public class UserBooksMasterRepository : IUserBooksMasterRepository
                             percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
                             percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_book_id = @card_id AND master_type = @master_type;
+                        WHERE user_id = @user_id AND user_book_id = @card_id AND master_id = @master_id;
                         ";
                         await using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
                             // Thêm tất cả các parameter như cũ
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
-                            updateCmd.Parameters.AddWithValue("@master_type", type);
+                            updateCmd.Parameters.AddWithValue("@master_id", master.Id);
                             updateCmd.Parameters.AddWithValue("@master_level", master.Level);
                             updateCmd.Parameters.AddWithValue("@power", master.Power);
                             updateCmd.Parameters.AddWithValue("@health", master.Health);
@@ -253,7 +253,7 @@ public class UserBooksMasterRepository : IUserBooksMasterRepository
                         string insertQuery = @"
                         INSERT INTO user_books_master 
                         (
-                            user_id, user_book_id, master_type, master_level, 
+                            user_id, user_book_id, master_id, master_level, 
                             power, health, mana, speed, 
                             physical_attack, physical_defense, magical_attack, magical_defense, 
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
@@ -280,7 +280,7 @@ public class UserBooksMasterRepository : IUserBooksMasterRepository
                         )
                         VALUES 
                         (
-                            @user_id, @card_id, @master_type, @master_level, 
+                            @user_id, @card_id, @master_id, @master_level, 
                             @power, @health, @mana, @speed, 
                             @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
@@ -311,7 +311,7 @@ public class UserBooksMasterRepository : IUserBooksMasterRepository
                             // Thêm các parameter giống như trên (giữ nguyên)
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
-                            insertCmd.Parameters.AddWithValue("@master_type", type);
+                            insertCmd.Parameters.AddWithValue("@master_id", master.Id);
                             insertCmd.Parameters.AddWithValue("@master_level", master.Level == 0 ? 1 : master.Level);
                             insertCmd.Parameters.AddWithValue("@power", master.Power);
                             insertCmd.Parameters.AddWithValue("@health", master.Health);

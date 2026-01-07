@@ -14,14 +14,14 @@ public class UserCardSpellsRankService : IUserCardSpellsRankService
         return new UserCardSpellsRankService(new UserCardSpellsRankRepository());
     }
 
-    public async Task<Rank> GetCardSpellRankAsync(string type, string card_id)
+    public async Task<Rank> GetCardSpellRankAsync(string id, string card_id)
     {
-        return await _cardSpellRankRepository.GetCardSpellRankAsync(type, card_id);
+        return await _cardSpellRankRepository.GetCardSpellRankAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateCardSpellRankAsync(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdateCardSpellRankAsync(Rank rank, string card_id)
     {
-        await _cardSpellRankRepository.InsertOrUpdateCardSpellRankAsync(rank, type, card_id);
+        await _cardSpellRankRepository.InsertOrUpdateCardSpellRankAsync(rank, card_id);
     }
 
     public async Task<Rank> GetSumCardSpellsRankAsync(string user_id, string card_id)

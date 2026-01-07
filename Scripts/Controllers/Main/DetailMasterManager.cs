@@ -39,34 +39,35 @@ public class DetailMasterManager : MonoBehaviour
         maxLevel = 10000;
     }
     public async Task CreateCardHeroesEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardHeroes cardHeroes)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardHeroes cardHeroes)
     {
-        Master master = await UserCardHeroesMasterService.Create().GetCardHeroMasterAsync(mainType, cardHeroes.Id);
+        Master master = await UserCardHeroesMasterService.Create().GetCardHeroMasterAsync(feature.FeatureName, cardHeroes.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, maxLevel);
@@ -79,17 +80,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardHeroes, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardHeroes, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardHeroesEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardHeroes);
+                await CreateCardHeroesEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardHeroes);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -102,46 +103,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardHeroes, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardHeroes, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardHeroesEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardHeroes);
+                await CreateCardHeroesEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardHeroes);
             }
         });
     }
     public async Task CreateBooksEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, Books books)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, Books books)
     {
-        Master master = await UserBooksMasterService.Create().GetBookMasterAsync(mainType, books.Id);
+        Master master = await UserBooksMasterService.Create().GetBookMasterAsync(feature.FeatureName, books.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -154,17 +156,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(books, newMaster, mainType);
+                await MasterService.UpLevelAsync(books, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateBooksEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, books);
+                await CreateBooksEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, books);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -177,46 +179,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(books, newMaster, mainType);
+                await MasterService.UpLevelAsync(books, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateBooksEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, books);
+                await CreateBooksEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, books);
             }
         });
     }
     public async Task CreateCardCaptainsEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardCaptains cardCaptains)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardCaptains cardCaptains)
     {
-        Master master = await UserCardCaptainsMasterService.Create().GetCardCaptainMasterAsync(mainType, cardCaptains.Id);
+        Master master = await UserCardCaptainsMasterService.Create().GetCardCaptainMasterAsync(feature.FeatureName, cardCaptains.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -229,17 +232,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, 1);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardCaptains, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardCaptains, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardCaptainsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardCaptains);
+                await CreateCardCaptainsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardCaptains);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -252,46 +255,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardCaptains, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardCaptains, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardCaptainsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardCaptains);
+                await CreateCardCaptainsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardCaptains);
             }
         });
     }
     public async Task CreatePetsEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, Pets pets)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, Pets pets)
     {
-        Master master = await UserPetsMasterService.Create().GetPetMasterAsync(mainType, pets.Id);
+        Master master = await UserPetsMasterService.Create().GetPetMasterAsync(feature.FeatureName, pets.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -304,17 +308,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, 1);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(pets, newMaster, mainType);
+                await MasterService.UpLevelAsync(pets, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreatePetsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, pets);
+                await CreatePetsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, pets);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -327,46 +331,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(pets, newMaster, mainType);
+                await MasterService.UpLevelAsync(pets, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreatePetsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, pets);
+                await CreatePetsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, pets);
             }
         });
     }
     public async Task CreateCardMilitaryEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardMilitaries cardMilitary)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardMilitaries cardMilitary)
     {
-        Master master = await UserCardMilitariesMasterService.Create().GetCardMilitaryMasterAsync(mainType, cardMilitary.Id);
+        Master master = await UserCardMilitariesMasterService.Create().GetCardMilitaryMasterAsync(feature.FeatureName, cardMilitary.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -379,17 +384,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardMilitary, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardMilitary, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardMilitaryEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMilitary);
+                await CreateCardMilitaryEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardMilitary);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -402,46 +407,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardMilitary, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardMilitary, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardMilitaryEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMilitary);
+                await CreateCardMilitaryEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardMilitary);
             }
         });
     }
     public async Task CreateCardSpellEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardSpells cardSpell)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardSpells cardSpell)
     {
-        Master master = await UserCardSpellsMasterService.Create().GetCardSpellMasterAsync(mainType, cardSpell.Id);
+        Master master = await UserCardSpellsMasterService.Create().GetCardSpellMasterAsync(feature.FeatureName, cardSpell.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -454,17 +460,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardSpell, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardSpell, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardSpellEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardSpell);
+                await CreateCardSpellEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardSpell);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -477,46 +483,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardSpell, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardSpell, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardSpellEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardSpell);
+                await CreateCardSpellEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardSpell);
             }
         });
     }
     public async Task CreateCardMonstersEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardMonsters cardMonsters)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardMonsters cardMonsters)
     {
-        Master master = await UserCardMonstersMasterService.Create().GetCardMonsterMasterAsync(mainType, cardMonsters.Id);
+        Master master = await UserCardMonstersMasterService.Create().GetCardMonsterMasterAsync(feature.FeatureName, cardMonsters.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -529,17 +536,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardMonsters, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardMonsters, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardMonstersEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMonsters);
+                await CreateCardMonstersEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardMonsters);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -552,46 +559,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardMonsters, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardMonsters, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardMonstersEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardMonsters);
+                await CreateCardMonstersEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardMonsters);
             }
         });
     }
     public async Task CreateCardColonelsEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardColonels cardColonels)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardColonels cardColonels)
     {
-        Master master = await UserCardColonelsMasterService.Create().GetCardColonelMasterAsync(mainType, cardColonels.Id);
+        Master master = await UserCardColonelsMasterService.Create().GetCardColonelMasterAsync(feature.FeatureName, cardColonels.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -604,17 +612,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardColonels, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardColonels, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardColonelsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardColonels);
+                await CreateCardColonelsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardColonels);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -627,46 +635,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardColonels, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardColonels, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardColonelsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardColonels);
+                await CreateCardColonelsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardColonels);
             }
         });
     }
     public async Task CreateCardGeneralsEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardGenerals cardGenerals)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardGenerals cardGenerals)
     {
-        Master master = await UserCardGeneralsMasterService.Create().GetCardGeneralMasterAsync(mainType, cardGenerals.Id);
+        Master master = await UserCardGeneralsMasterService.Create().GetCardGeneralMasterAsync(feature.FeatureName, cardGenerals.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -679,17 +688,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardGenerals, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardGenerals, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardGeneralsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardGenerals);
+                await CreateCardGeneralsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardGenerals);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -702,46 +711,47 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardGenerals, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardGenerals, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardGeneralsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardGenerals);
+                await CreateCardGeneralsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardGenerals);
             }
         });
     }
     public async Task CreateCardAdmiralsEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
-     Button UpLevelButton, Button UpMaxLevelButton, string mainType, string type, CardAdmirals cardAdmirals)
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardAdmirals cardAdmirals)
     {
-        Master master = await UserCardAdmiralsMasterService.Create().GetCardAdmiralMasterAsync(mainType, cardAdmirals.Id);
+        Master master = await UserCardAdmiralsMasterService.Create().GetCardAdmiralMasterAsync(feature.FeatureName, cardAdmirals.Id);
         GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         MasterService MasterService = new MasterService();
 
-        item = await userItemsService.GetUserItemByNameAsync(mainType);
-        UIManager.Instance.SetUI(slotObject, mainType, master.Level, type);
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
         await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
         
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
         UpLevelButtonText.fontSize = fontSize;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
         UpMaxLevelButtonText.fontSize = fontSize;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -754,17 +764,17 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardAdmirals, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardAdmirals, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardAdmiralsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardAdmirals);
+                await CreateCardAdmiralsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardAdmirals);
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             
@@ -777,14 +787,14 @@ public class DetailMasterManager : MonoBehaviour
                 newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
                 
-                await MasterService.UpLevelAsync(cardAdmirals, newMaster, mainType);
+                await MasterService.UpLevelAsync(cardAdmirals, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
                 Destroy(slotObject);
-                await CreateCardAdmiralsEquipmentsAsync(prefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, mainType, type, cardAdmirals);
+                await CreateCardAdmiralsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardAdmirals);
             }
         });
     }

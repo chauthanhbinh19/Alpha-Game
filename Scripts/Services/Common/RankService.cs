@@ -327,45 +327,45 @@ public class RankService : IRankService
     }
     public async Task UpLevelAsync(object data, Rank rank, string type)
     {
-        if (data is CardHeroes cardHeroes)
+        if (data is CardHeroes cardHero)
         {
-            await UserCardHeroesRankService.Create().InsertOrUpdateCardHeroRankAsync(rank, type, cardHeroes.Id);
+            await UserCardHeroesRankService.Create().InsertOrUpdateCardHeroRankAsync(rank, cardHero.Id);
         }
-        else if (data is Books books)
+        else if (data is Books book)
         {
-            await UserBooksRankService.Create().InsertOrUpdateBookRankAsync(rank, type, books.Id);
+            await UserBooksRankService.Create().InsertOrUpdateBookRankAsync(rank, book.Id);
         }
-        else if (data is CardCaptains cardCaptains)
+        else if (data is CardCaptains cardCaptain)
         {
-            await UserCardCaptainsRankService.Create().InsertOrUpdateCardCaptainRankAsync(rank, type, cardCaptains.Id);
+            await UserCardCaptainsRankService.Create().InsertOrUpdateCardCaptainRankAsync(rank, cardCaptain.Id);
         }
-        else if (data is Pets pets)
+        else if (data is Pets pet)
         {
-            await UserPetsRankService.Create().InsertOrUpdatePetRankAsync(rank, type, pets.Id);
+            await UserPetsRankService.Create().InsertOrUpdatePetRankAsync(rank, pet.Id);
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            await UserCardMilitariesRankService.Create().InsertOrUpdateCardMilitaryRankAsync(rank, type, cardMilitary.Id);
+            await UserCardMilitariesRankService.Create().InsertOrUpdateCardMilitaryRankAsync(rank, cardMilitary.Id);
         }
         else if (data is CardSpells cardSpell)
         {
-            await UserCardSpellsRankService.Create().InsertOrUpdateCardSpellRankAsync(rank, type, cardSpell.Id);
+            await UserCardSpellsRankService.Create().InsertOrUpdateCardSpellRankAsync(rank, cardSpell.Id);
         }
-        else if (data is CardMonsters cardMonsters)
+        else if (data is CardMonsters cardMonster)
         {
-            await UserCardMonstersRankService.Create().InsertOrUpdateCardMonsterRankAsync(rank, type, cardMonsters.Id);
+            await UserCardMonstersRankService.Create().InsertOrUpdateCardMonsterRankAsync(rank, cardMonster.Id);
         }
-        else if (data is CardColonels cardColonels)
+        else if (data is CardColonels cardColonel)
         {
-            await UserCardColonelsRankService.Create().InsertOrUpdateCardColonelRankAsync(rank, type, cardColonels.Id);
+            await UserCardColonelsRankService.Create().InsertOrUpdateCardColonelRankAsync(rank, cardColonel.Id);
         }
-        else if (data is CardGenerals cardGenerals)
+        else if (data is CardGenerals cardGeneral)
         {
-            await UserCardGeneralsRankService.Create().InsertOrUpdateCardGeneralRankAsync(rank, type, cardGenerals.Id);
+            await UserCardGeneralsRankService.Create().InsertOrUpdateCardGeneralRankAsync(rank, cardGeneral.Id);
         }
-        else if (data is CardAdmirals cardAdmirals)
+        else if (data is CardAdmirals cardAdmiral)
         {
-            await UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralRankAsync(rank, type, cardAdmirals.Id);
+            await UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralRankAsync(rank, cardAdmiral.Id);
         }
     }
 }

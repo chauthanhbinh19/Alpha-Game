@@ -14,14 +14,14 @@ public class UserCardCaptainsMasterService : IUserCardCaptainsMasterService
         return new UserCardCaptainsMasterService(new UserCardCaptainsMasterRepository());
     }
 
-    public async Task<Master> GetCardCaptainMasterAsync(string type, string card_id)
+    public async Task<Master> GetCardCaptainMasterAsync(string id, string card_id)
     {
-        return await _cardCaptainsMasterRepository.GetCardCaptainMasterAsync(type, card_id);
+        return await _cardCaptainsMasterRepository.GetCardCaptainMasterAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateCardCaptainMasterAsync(Master master, string type, string card_id)
+    public async Task InsertOrUpdateCardCaptainMasterAsync(Master master, string card_id)
     {
-        await _cardCaptainsMasterRepository.InsertOrUpdateCardCaptainMasterAsync(master, type, card_id);
+        await _cardCaptainsMasterRepository.InsertOrUpdateCardCaptainMasterAsync(master, card_id);
     }
 
     public async Task<Master> GetSumCardCaptainsMasterAsync(string user_id, string card_id)

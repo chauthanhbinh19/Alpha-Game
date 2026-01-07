@@ -16,14 +16,14 @@ public class UserPetsMasterService : IUserPetsMasterService
         return new UserPetsMasterService(new UserPetsMasterRepository());
     }
 
-    public async Task<Master> GetPetMasterAsync(string type, string card_id)
+    public async Task<Master> GetPetMasterAsync(string id, string card_id)
     {
-        return await _userPetsMasterRepository.GetPetMasterAsync(type, card_id);
+        return await _userPetsMasterRepository.GetPetMasterAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdatePetMasterAsync(Master master, string type, string card_id)
+    public async Task InsertOrUpdatePetMasterAsync(Master master, string card_id)
     {
-        await _userPetsMasterRepository.InsertOrUpdatePetMasterAsync(master, type, card_id);
+        await _userPetsMasterRepository.InsertOrUpdatePetMasterAsync(master, card_id);
     }
 
     public async Task<Master> GetSumPetsMasterAsync(string user_id, string card_id)

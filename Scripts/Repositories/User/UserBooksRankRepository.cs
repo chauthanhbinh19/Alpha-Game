@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserBooksRankRepository : IUserBooksRankRepository
 {
-    public async Task<Rank> GetBookRankAsync(string type, string card_id)
+    public async Task<Rank> GetBookRankAsync(string id, string card_id)
     {
         Rank rank = new Rank();
         string user_id = User.CurrentUserId;
@@ -21,20 +21,20 @@ public class UserBooksRankRepository : IUserBooksRankRepository
                 string query = @"
                     SELECT *
                     FROM user_books_Rank
-                    WHERE user_id = @user_id AND Rank_type = @type AND user_book_id = @card_id;
+                    WHERE user_id = @user_id AND rank_id = @id AND user_book_id = @card_id;
                 ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@type", type);
+                    command.Parameters.AddWithValue("@id", id);
                     command.Parameters.AddWithValue("@card_id", card_id);
 
                     await using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            rank.Type = reader.GetStringSafe("Rank_type");
+                            rank.Id = reader.GetStringSafe("rank_id");
                             rank.Level = reader.GetIntSafe("Rank_level");
                             rank.Power = reader.GetDoubleSafe("power");
                             rank.Health = reader.GetDoubleSafe("health");
@@ -113,7 +113,7 @@ public class UserBooksRankRepository : IUserBooksRankRepository
 
         return rank;
     }
-    public async Task InsertOrUpdateBookRankAsync(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdateBookRankAsync(Rank rank, string card_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -126,14 +126,14 @@ public class UserBooksRankRepository : IUserBooksRankRepository
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM user_books_Rank 
-                WHERE user_id = @user_id AND user_book_id = @card_id AND Rank_type = @Rank_type;
+                WHERE user_id = @user_id AND user_book_id = @card_id AND rank_id = @rank_id;
             ";
 
                 await using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, connection))
                 {
                     checkCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCmd.Parameters.AddWithValue("@card_id", card_id);
-                    checkCmd.Parameters.AddWithValue("@Rank_type", type);
+                    checkCmd.Parameters.AddWithValue("@rank_id", rank.Id);
 
                     int count = Convert.ToInt32(await checkCmd.ExecuteScalarAsync());
 
@@ -173,14 +173,14 @@ public class UserBooksRankRepository : IUserBooksRankRepository
                             percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
                             percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                             percent_all_mental_defense = @percent_all_mental_defense
-                        WHERE user_id = @user_id AND user_book_id = @card_id AND Rank_type = @Rank_type;
+                        WHERE user_id = @user_id AND user_book_id = @card_id AND rank_id = @rank_id;
                         ";
                         await using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
                             // Thêm tất cả các parameter như cũ
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@card_id", card_id);
-                            updateCmd.Parameters.AddWithValue("@Rank_type", type);
+                            updateCmd.Parameters.AddWithValue("@rank_id", rank.Id);
                             updateCmd.Parameters.AddWithValue("@Rank_level", rank.Level);
                             updateCmd.Parameters.AddWithValue("@power", rank.Power);
                             updateCmd.Parameters.AddWithValue("@health", rank.Health);
@@ -253,7 +253,7 @@ public class UserBooksRankRepository : IUserBooksRankRepository
                         string insertQuery = @"
                         INSERT INTO user_books_Rank 
                         (
-                            user_id, user_book_id, Rank_type, Rank_level, 
+                            user_id, user_book_id, rank_id, Rank_level, 
                             power, health, mana, speed, 
                             physical_attack, physical_defense, magical_attack, magical_defense, 
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
@@ -280,7 +280,7 @@ public class UserBooksRankRepository : IUserBooksRankRepository
                         )
                         VALUES 
                         (
-                            @user_id, @card_id, @Rank_type, @Rank_level, 
+                            @user_id, @card_id, @rank_id, @Rank_level, 
                             @power, @health, @mana, @speed, 
                             @physical_attack, @physical_defense, @magical_attack, @magical_defense, 
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
@@ -311,7 +311,7 @@ public class UserBooksRankRepository : IUserBooksRankRepository
                             // Thêm các parameter giống như trên (giữ nguyên)
                             insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCmd.Parameters.AddWithValue("@card_id", card_id);
-                            insertCmd.Parameters.AddWithValue("@Rank_type", type);
+                            insertCmd.Parameters.AddWithValue("@rank_id", rank.Id);
                             insertCmd.Parameters.AddWithValue("@Rank_level", rank.Level == 0 ? 1 : rank.Level);
                             insertCmd.Parameters.AddWithValue("@power", rank.Power);
                             insertCmd.Parameters.AddWithValue("@health", rank.Health);

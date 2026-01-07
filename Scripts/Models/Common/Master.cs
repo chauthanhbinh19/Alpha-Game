@@ -1,6 +1,6 @@
 public class Master : BaseEntity
 {
-    public string Type { get; set; }
+    public string Id { get; set; }
     public int Level { get; set; }
     public double PercentAllHealth { get; set; }
     public double PercentAllPhysicalAttack { get; set; }

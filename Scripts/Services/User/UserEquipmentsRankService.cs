@@ -14,14 +14,14 @@ public class UserEquipmentsRankService : IUserEquipmentsRankService
         return new UserEquipmentsRankService(new UserEquipmentsRankRepository());
     }
 
-    public async Task<Rank> GetEquipmentRankAsync(string type, string card_id)
+    public async Task<Rank> GetEquipmentRankAsync(string id, string card_id)
     {
-        return await _userEquipmentsRankRepository.GetEquipmentRankAsync(type, card_id);
+        return await _userEquipmentsRankRepository.GetEquipmentRankAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateEquipmentRankAsync(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdateEquipmentRankAsync(Rank rank, string card_id)
     {
-        await _userEquipmentsRankRepository.InsertOrUpdateEquipmentRankAsync(rank, type, card_id);
+        await _userEquipmentsRankRepository.InsertOrUpdateEquipmentRankAsync(rank, card_id);
     }
 
     public async Task<Rank> GetSumEquipmentsRankAsync(string user_id, string card_id)

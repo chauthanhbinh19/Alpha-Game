@@ -14,14 +14,14 @@ public class UserBooksMasterService : IUserBooksMasterService
         return new UserBooksMasterService(new UserBooksMasterRepository());
     }
 
-    public async Task<Master> GetBookMasterAsync(string type, string card_id)
+    public async Task<Master> GetBookMasterAsync(string id, string card_id)
     {
-        return await _BooksMasterRepository.GetBookMasterAsync(type, card_id);
+        return await _BooksMasterRepository.GetBookMasterAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateBookMasterAsync(Master master, string type, string card_id)
+    public async Task InsertOrUpdateBookMasterAsync(Master master, string card_id)
     {
-        await _BooksMasterRepository.InsertOrUpdateBookMasterAsync(master, type, card_id);
+        await _BooksMasterRepository.InsertOrUpdateBookMasterAsync(master, card_id);
     }
 
     public async Task<Master> GetSumBooksMasterAsync(string user_id, string card_id)

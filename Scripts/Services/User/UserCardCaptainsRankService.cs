@@ -14,14 +14,14 @@ public class UserCardCaptainsRankService : IUserCardCaptainsRankService
         return new UserCardCaptainsRankService(new UserCardCaptainsRankRepository());
     }
 
-    public async Task<Rank> GetCardCaptainRankAsync(string type, string card_id)
+    public async Task<Rank> GetCardCaptainRankAsync(string id, string card_id)
     {
-        return await _cardCaptainsRankRepository.GetCardCaptainRankAsync(type, card_id);
+        return await _cardCaptainsRankRepository.GetCardCaptainRankAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateCardCaptainRankAsync(Rank rank, string type, string card_id)
+    public async Task InsertOrUpdateCardCaptainRankAsync(Rank rank, string card_id)
     {
-        await _cardCaptainsRankRepository.InsertOrUpdateCardCaptainRankAsync(rank, type, card_id);
+        await _cardCaptainsRankRepository.InsertOrUpdateCardCaptainRankAsync(rank, card_id);
     }
 
     public async Task<Rank> GetSumCardCaptainsRankAsync(string user_id, string card_id)

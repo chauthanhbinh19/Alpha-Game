@@ -79,8 +79,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
 
         LevelCondition = currentObject.transform.Find("DictionaryCards/LevelCondition");
 
-        Dictionary<string, int> uniqueTypes = new Dictionary<string, int>();
-        Features features = new Features();
+        Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
         uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(LocalizationManager.Get(nameType));
         if (uniqueTypes.Count > 0)
         {
@@ -89,7 +88,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
-                int value = kvp.Value;
+                int requiredLevel = kvp.Value.RequiredLevel;
                 GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
                 TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
@@ -99,7 +98,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 btn.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    OnButtonClick(button, subtype, value);
+                    OnButtonClick(button, subtype, requiredLevel);
                 });
 
                 if (index == 0)
@@ -108,7 +107,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     // mainId = cardHeroes.id;
                     await CreateAnimeStatsAsync();
-                    if (User.CurrentUserLevel >= value)
+                    if (User.CurrentUserLevel >= requiredLevel)
                     {
                         LevelCondition.gameObject.SetActive(false);
                     }
@@ -116,19 +115,19 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                     {
                         LevelCondition.gameObject.SetActive(true);
                         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
-                        warningText.text = MessageHelper.WaringLevel(value);
+                        warningText.text = MessageHelper.WaringLevel(requiredLevel);
                     }
                 }
                 else
                 {
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
-                ButtonEvent.Instance.CheckLockedButton("AnimeStats",value, button);
+                ButtonEvent.Instance.CheckLockedButton("AnimeStats",requiredLevel, button);
                 index = index + 1;
             }
         }
     }
-    void OnButtonClick(GameObject clickedButton, string type, int value)
+    void OnButtonClick(GameObject clickedButton, string type, int requiredLevel)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -146,7 +145,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
 
         // mainId = cardHeroes.id;
         _=CreateAnimeStatsAsync();
-        if (User.CurrentUserLevel >= value)
+        if (User.CurrentUserLevel >= requiredLevel)
         {
             LevelCondition.gameObject.SetActive(false);
         }
@@ -154,7 +153,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         {
             LevelCondition.gameObject.SetActive(true);
             TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
-            warningText.text = MessageHelper.WaringLevel(value);
+            warningText.text = MessageHelper.WaringLevel(requiredLevel);
         }
     }
     public async Task CreateAnimeStatsAsync()
