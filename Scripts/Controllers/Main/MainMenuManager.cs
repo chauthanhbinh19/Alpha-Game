@@ -443,6 +443,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_40", contentPanel, () => GetType(AppConstants.MainType.BEVERAGE));
         ButtonEvent.Instance.AssignButtonEvent("Button_41", contentPanel, () => GetType(AppConstants.MainType.BUILDING));
         ButtonEvent.Instance.AssignButtonEvent("Button_42", contentPanel, () => GetType(AppConstants.MainType.PLANT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_43", contentPanel, () => GetType(AppConstants.MainType.FASHION));
     }
     public void GetPrimaryButtonEvent()
     {
@@ -1685,6 +1686,15 @@ public class MainMenuManager : MonoBehaviour
             listCount = plants.Count;
 
             totalRecord = await UserPlantsService.Create().GetUserPlantsCountAsync(User.CurrentUserId, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.FASHION))
+        {
+            List<Fashions> fashions = await UserFashionsService.Create().GetUserFashionsAsync(User.CurrentUserId, type, pageSize, offset, rare);
+            Close(DictionaryContentPanel);
+            UserFashionsController.Instance.CreateUserFashions(fashions, DictionaryContentPanel);
+            listCount = fashions.Count;
+
+            totalRecord = await UserFashionsService.Create().GetUserFashionsCountAsync(User.CurrentUserId, type, rare);
         }
 
         if (listCount > 0)

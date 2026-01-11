@@ -93,6 +93,7 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_43", () => GetType(AppConstants.MainType.BEVERAGE));
         AssignButtonEvent("Button_44", () => GetType(AppConstants.MainType.BUILDING));
         AssignButtonEvent("Button_45", () => GetType(AppConstants.MainType.PLANT));
+        AssignButtonEvent("Button_46", () => GetType(AppConstants.MainType.FASHION));
         // GetCardsType();
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
@@ -637,6 +638,14 @@ public class GalleryManager : MonoBehaviour
 
             totalRecord = await PlantsService.Create().GetPlantsCountAsync(rare);
         }
+        else if (mainType.Equals(AppConstants.MainType.FASHION))
+        {
+            List<Fashions> fashions = await FashionsService.Create().GetFashionsAsync(type, pageSize, offset, rare);
+            FashionsController.Instance.CreateFashionsGallery(fashions, DictionaryContentPanel);
+
+            totalRecord = await FashionsService.Create().GetFashionsCountAsync(type, rare);
+        }
+
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

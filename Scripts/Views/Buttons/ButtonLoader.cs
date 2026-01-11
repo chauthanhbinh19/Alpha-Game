@@ -109,7 +109,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(40, AppConstants.MainType.BEVERAGES, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.BEVERAGE_URL), contentPanel);
         CreateButton(41, AppConstants.MainType.BUILDINGS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.BUILDING_URL), contentPanel);
         CreateButton(42, AppConstants.MainType.PLANTS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.PLANT_URL), contentPanel);
-        // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
+        CreateButton(43, AppConstants.MainType.FASHIONS, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.FASHION_URL), contentPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
     }
     public void CreateEventButton(GameObject popupButtonObject)
@@ -384,6 +384,7 @@ public class ButtonLoader : MonoBehaviour
         CreateGalleryButtonUI(43, AppDisplayConstants.Gallery.BEVERAGES_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.RUNE_URL), galleryMenuPanel);
         CreateGalleryButtonUI(44, AppDisplayConstants.Gallery.BUILDINGS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.BUILDING_URL), galleryMenuPanel);
         CreateGalleryButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.PLANT_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Gallery.FASHION_URL), galleryMenuPanel);
 
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -464,6 +465,7 @@ public class ButtonLoader : MonoBehaviour
         CreateCollectionButtonUI(43, AppDisplayConstants.Collection.BEVERAGES_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BEVERAGE_URL), collectionMenuPanel);
         CreateCollectionButtonUI(44, AppDisplayConstants.Collection.BUILDINGS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.BUILDING_URL), collectionMenuPanel);
         CreateCollectionButtonUI(45, AppDisplayConstants.Collection.PLANTS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.PLANT_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(46, AppDisplayConstants.Collection.FASHIONS_COLLECTION, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Collection.FASHION_URL), collectionMenuPanel);
 
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

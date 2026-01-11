@@ -212,6 +212,10 @@ public class PowerManagerService : IPowerManagerService
         PowerManager plantsPower = await GetPlantsPowerAsync();
         AddPower(totalPower, plantsPower);
 
+        // Lấy sức mạnh từ robots
+        PowerManager fashionsPower = await GetFashionsPowerAsync();
+        AddPower(totalPower, fashionsPower);
+
         return totalPower;
     }
     private void AddPower(PowerManager target, PowerManager source)
@@ -4468,6 +4472,114 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllAtomicDefense += plant.PercentAllAtomicDefense;
         powerManager.PercentAllMentalAttack += plant.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += plant.PercentAllMentalDefense;
+
+        return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
+    }
+    public async Task<PowerManager> GetFashionsPowerAsync()
+    {
+        PowerManager powerManager = new PowerManager(); // Khởi tạo PowerManager mới
+
+        IFashionsGalleryRepository fashionsGalleryRepository = new FashionsGalleryRepository();
+        FashionsGalleryService fashionsGalleryService = new FashionsGalleryService(fashionsGalleryRepository);
+        // Gallery
+        Fashions fashion = await fashionsGalleryService.SumPowerFashionsGalleryAsync();
+        powerManager.Power += fashion.Power;
+        powerManager.Health += fashion.Health;
+        powerManager.PhysicalAttack += fashion.PhysicalAttack;
+        powerManager.PhysicalDefense += fashion.PhysicalDefense;
+        powerManager.MagicalAttack += fashion.MagicalAttack;
+        powerManager.MagicalDefense += fashion.MagicalDefense;
+        powerManager.ChemicalAttack += fashion.ChemicalAttack;
+        powerManager.ChemicalDefense += fashion.ChemicalDefense;
+        powerManager.AtomicAttack += fashion.AtomicAttack;
+        powerManager.AtomicDefense += fashion.AtomicDefense;
+        powerManager.MentalAttack += fashion.MentalAttack;
+        powerManager.MentalDefense += fashion.MentalDefense;
+        powerManager.Speed += fashion.Speed;
+        powerManager.CriticalDamageRate += fashion.CriticalDamageRate;
+        powerManager.CriticalRate += fashion.CriticalRate;
+        powerManager.PenetrationRate += fashion.PenetrationRate;
+        powerManager.EvasionRate += fashion.EvasionRate;
+        powerManager.DamageAbsorptionRate += fashion.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += fashion.VitalityRegenerationRate;
+        powerManager.AccuracyRate += fashion.AccuracyRate;
+        powerManager.LifestealRate += fashion.LifestealRate;
+        powerManager.ShieldStrength += fashion.ShieldStrength;
+        powerManager.Tenacity += fashion.Tenacity;
+        powerManager.ResistanceRate += fashion.ResistanceRate;
+        powerManager.ComboRate += fashion.ComboRate;
+        powerManager.ReflectionRate += fashion.ReflectionRate;
+        powerManager.Mana += fashion.Mana;
+        powerManager.ManaRegenerationRate += fashion.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += fashion.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += fashion.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += fashion.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += fashion.ResistanceToSameFactionRate;
+
+        powerManager.PercentAllHealth += fashion.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += fashion.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += fashion.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += fashion.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += fashion.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += fashion.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += fashion.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += fashion.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += fashion.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += fashion.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += fashion.PercentAllMentalDefense;
+
+        IUserFashionsRepository userFashionsRepository = new UserFashionsRepository();
+        UserFashionsService userFashionsService = new UserFashionsService(userFashionsRepository);
+        // User SpiritBeast (Gallery)
+        fashion = await userFashionsService.SumPowerUserFashionsAsync(); // Giả định SumPowerUserTitles cũng trả về một đối tượng Titles mới hoặc đã được reset
+        powerManager.Power += fashion.Power;
+        powerManager.Health += fashion.Health;
+        powerManager.PhysicalAttack += fashion.PhysicalAttack;
+        powerManager.PhysicalDefense += fashion.PhysicalDefense;
+        powerManager.MagicalAttack += fashion.MagicalAttack;
+        powerManager.MagicalDefense += fashion.MagicalDefense;
+        powerManager.ChemicalAttack += fashion.ChemicalAttack;
+        powerManager.ChemicalDefense += fashion.ChemicalDefense;
+        powerManager.AtomicAttack += fashion.AtomicAttack;
+        powerManager.AtomicDefense += fashion.AtomicDefense;
+        powerManager.MentalAttack += fashion.MentalAttack;
+        powerManager.MentalDefense += fashion.MentalDefense;
+        powerManager.Speed += fashion.Speed;
+        powerManager.CriticalDamageRate += fashion.CriticalDamageRate;
+        powerManager.CriticalRate += fashion.CriticalRate;
+        powerManager.PenetrationRate += fashion.PenetrationRate;
+        powerManager.EvasionRate += fashion.EvasionRate;
+        powerManager.DamageAbsorptionRate += fashion.DamageAbsorptionRate;
+        powerManager.VitalityRegenerationRate += fashion.VitalityRegenerationRate;
+        powerManager.AccuracyRate += fashion.AccuracyRate;
+        powerManager.LifestealRate += fashion.LifestealRate;
+        powerManager.ShieldStrength += fashion.ShieldStrength;
+        powerManager.Tenacity += fashion.Tenacity;
+        powerManager.ResistanceRate += fashion.ResistanceRate;
+        powerManager.ComboRate += fashion.ComboRate;
+        powerManager.ReflectionRate += fashion.ReflectionRate;
+        powerManager.Mana += fashion.Mana;
+        powerManager.ManaRegenerationRate += fashion.ManaRegenerationRate;
+        powerManager.DamageToDifferentFactionRate += fashion.DamageToDifferentFactionRate;
+        powerManager.ResistanceToDifferentFactionRate += fashion.ResistanceToDifferentFactionRate;
+        powerManager.DamageToSameFactionRate += fashion.DamageToSameFactionRate;
+        powerManager.ResistanceToSameFactionRate += fashion.ResistanceToSameFactionRate;
+
+        IFashionsRepository fashionsRepository = new FashionsRepository();
+        FashionsService fashionsService = new FashionsService(fashionsRepository);
+        // Percent
+        fashion = await fashionsService.SumPowerFashionsPercentAsync(); // Giả định SumPowerspiritBeastPercent cũng trả về một đối tượng spiritBeast mới hoặc đã được reset
+        powerManager.PercentAllHealth += fashion.PercentAllHealth;
+        powerManager.PercentAllPhysicalAttack += fashion.PercentAllPhysicalAttack;
+        powerManager.PercentAllPhysicalDefense += fashion.PercentAllPhysicalDefense;
+        powerManager.PercentAllMagicalAttack += fashion.PercentAllMagicalAttack;
+        powerManager.PercentAllMagicalDefense += fashion.PercentAllMagicalDefense;
+        powerManager.PercentAllChemicalAttack += fashion.PercentAllChemicalAttack;
+        powerManager.PercentAllChemicalDefense += fashion.PercentAllChemicalDefense;
+        powerManager.PercentAllAtomicAttack += fashion.PercentAllAtomicAttack;
+        powerManager.PercentAllAtomicDefense += fashion.PercentAllAtomicDefense;
+        powerManager.PercentAllMentalAttack += fashion.PercentAllMentalAttack;
+        powerManager.PercentAllMentalDefense += fashion.PercentAllMentalDefense;
 
         return powerManager; // Trả về đối tượng PowerManager chứa tổng các thuộc tính
     }

@@ -157,6 +157,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(41, AppDisplayConstants.MainType.BEVERAGES, Resources.Load<Texture2D>(ImageConstants.Gallery.BEVERAGE_URL), tempContent);
         CreateButton(42, AppDisplayConstants.MainType.BUILDINGS, Resources.Load<Texture2D>(ImageConstants.Gallery.BUILDING_URL), tempContent);
         CreateButton(43, AppDisplayConstants.MainType.PLANTS, Resources.Load<Texture2D>(ImageConstants.Gallery.PLANT_URL), tempContent);
+        CreateButton(44, AppDisplayConstants.MainType.FASHIONS, Resources.Load<Texture2D>(ImageConstants.Gallery.FASHION_URL), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.MainType.BOOK));
@@ -201,6 +202,7 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_41", tempContent, () => GetType(AppConstants.MainType.BEVERAGE));
         AssignButtonEvent("Button_42", tempContent, () => GetType(AppConstants.MainType.BUILDING));
         AssignButtonEvent("Button_43", tempContent, () => GetType(AppConstants.MainType.PLANT));
+        AssignButtonEvent("Button_44", tempContent, () => GetType(AppConstants.MainType.FASHION));
 
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -762,6 +764,17 @@ public class ShopManager : MonoBehaviour
             await PlantsController.Instance.CreatePlantsTradeAsync(plants, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await PlantsService.Create().GetPlantsWithPriceCountAsync();
+        }
+        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_85_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_86_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Fashions> fashions = await FashionsService.Create().GetFashionsWithPriceAsync(type, pageSize, offset);
+            await FashionsController.Instance.CreateFashionsTradeAsync(fashions, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await FashionsService.Create().GetFashionsWithPriceCountAsync(type);
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);

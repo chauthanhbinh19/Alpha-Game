@@ -64,6 +64,7 @@ public static class ImageConstants
         public const string BEVERAGE_URL = "UI/Button/Main/Beverages";
         public const string BUILDING_URL = "UI/Button/Main/Buildings";
         public const string PLANT_URL = "UI/Button/Main/Plants";
+        public const string FASHION_URL = "UI/Button/Main/Fashions";
         public const string SHOP_URL = "UI/UI/Shop";
         public const string GALLERY_URL = "UI/Button/Gallery";
         public const string COLLECTION_URL = "UI/Button/Collection";
@@ -72,7 +73,7 @@ public static class ImageConstants
         public const string ARENA_URL = "UI/Button/Arena";
         public const string GUILD_URL = "UI/Button/Guild";
         public const string TOWER_URL = "UI/Button/Tower";
-        public const string EVENT_URL = "UI/UI/Lobby_Icon-Event_002";
+        public const string EVENT_URL = "UI/Button/Lobby_Icon-Event_002";
         public const string DAILY_CHECKIN_URL = "UI/Button/Daily_Checkin";
 
         public const string EMAIL_URL = "UI/Button/Mail";
@@ -282,6 +283,7 @@ public static class ImageConstants
         public const string BEVERAGE_URL = "UI/Button/Gallery/BeveragesGallery";
         public const string BUILDING_URL = "UI/Button/Gallery/BuildingsGallery";
         public const string PLANT_URL = "UI/Button/Gallery/PlantsGallery";
+        public const string FASHION_URL = "UI/Button/Gallery/FashionsGallery";
     }
     public static class Collection
     {
@@ -330,6 +332,7 @@ public static class ImageConstants
         public const string BEVERAGE_URL = "UI/Button/Collection/BeveragesCollection";
         public const string BUILDING_URL = "UI/Button/Collection/BuildingsCollection";
         public const string PLANT_URL = "UI/Button/Collection/PlantsCollection";
+        public const string FASHION_URL = "UI/Button/Collection/FashionsCollection";
     }
     public static class Rune
     {
@@ -551,6 +554,7 @@ public static class ImageConstants
         public const string BEVERAGE_BACKGROUND_URL = "UI/Background3/Beverage";
         public const string BUILDING_BACKGROUND_URL = "UI/Background3/Building";
         public const string PLANT_BACKGROUND_URL = "UI/Background3/Plant";
+        public const string FASHION_BACKGROUND_URL = "UI/Background3/Fashion";
 
         public const string CARD_HERO_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardHeroes_Background";
         public const string BOOK_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Books_Background";
@@ -597,6 +601,7 @@ public static class ImageConstants
         public const string BEVERAGE_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Beverages_Background";
         public const string BUILDING_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Buildings_Background";
         public const string PLANT_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Plants_Background";
+        public const string FASHION_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Fashions_Background";
 
         public const string BACKGROUND_1_URL = "UI/Background1/Background_V1_1";
         public const string BACKGROUND_2_URL = "UI/Background1/Background_V1_2";
