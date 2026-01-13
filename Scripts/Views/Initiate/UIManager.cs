@@ -262,7 +262,7 @@ public class UIManager : MonoBehaviour
         TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         LevelText.text = level.ToString();
     }
-    public async Task SetMaterialUIAsync(GameObject gameobject, string itemImage, double itemQuantity, double currencyQuantity, int rankLevel, int maxLevel)
+    public void SetMaterialUI(GameObject gameobject, string itemImage, double itemQuantity, double currencyQuantity, int rankLevel, int maxLevel)
     {
         Transform currencyPanel = gameobject.transform.Find("DictionaryCards/Currency");
         // List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);

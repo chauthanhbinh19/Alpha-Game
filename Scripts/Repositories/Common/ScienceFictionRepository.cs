@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class ScienceFictionRepository : IScienceFictionRepository
 {
-    public async Task<ScienceFiction> GetScienceFictionAsync(string type)
+    public async Task<ScienceFiction> GetScienceFictionAsync(string id)
     {
         ScienceFiction scienceFiction = new ScienceFiction();
         string user_id = User.CurrentUserId;
@@ -21,20 +21,20 @@ public class ScienceFictionRepository : IScienceFictionRepository
                 string query = @"
                 SELECT *
                 FROM science_fiction
-                WHERE user_id = @user_id AND rank_type = @type;
+                WHERE user_id = @user_id AND science_fiction_id = @type;
             ";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@type", type);
+                    command.Parameters.AddWithValue("@type", id);
 
                     using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            scienceFiction.Type = reader.GetStringSafe("rank_type");
-                            scienceFiction.Level = reader.GetIntSafe("rank_level");
+                            scienceFiction.Id = reader.GetStringSafe("science_fiction_id");
+                            scienceFiction.Level = reader.GetIntSafe("science_fiction_level");
                             scienceFiction.Power = reader.GetDoubleSafe("power");
                             scienceFiction.Health = reader.GetDoubleSafe("health");
                             scienceFiction.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -108,7 +108,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
 
         return scienceFiction;
     }
-    public async Task InsertOrUpdateScienceFictionAsync(string user_id, ScienceFiction scienceFiction, string type)
+    public async Task InsertOrUpdateScienceFictionAsync(string user_id, ScienceFiction scienceFiction, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -119,12 +119,12 @@ public class ScienceFictionRepository : IScienceFictionRepository
 
             string checkQuery = @"
             SELECT COUNT(*) FROM science_fiction 
-            WHERE user_id = @user_id AND rank_type = @rank_type";
+            WHERE user_id = @user_id AND science_fiction_id = @science_fiction_id";
 
             await using (var checkCmd = new MySqlCommand(checkQuery, connection))
             {
                 checkCmd.Parameters.AddWithValue("@user_id", user_id);
-                checkCmd.Parameters.AddWithValue("@rank_type", type);
+                checkCmd.Parameters.AddWithValue("@science_fiction_id", id);
 
                 int count = Convert.ToInt32(await checkCmd.ExecuteScalarAsync());
 
@@ -133,34 +133,56 @@ public class ScienceFictionRepository : IScienceFictionRepository
                     // -------- UPDATE ----------
                     string updateQuery = @"
                     UPDATE science_fiction
-                    SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
-                        physical_attack = @physical_attack, physical_defense = @physical_defense,  
-                        magical_attack = @magical_attack, magical_defense = @magical_defense,  
-                        chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
-                        atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,  
-                        mental_attack = @mental_attack, mental_defense = @mental_defense,  
-                        critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,  
-                        penetration_rate = @penetration_rate, evasion_rate = @evasion_rate,  
-                        damage_absorption_rate = @damage_absorption_rate, vitality_regeneration_rate = @vitality_regeneration_rate,  
-                        accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,  
-                        shield_strength = @shield_strength, tenacity = @tenacity, resistance_rate = @resistance_rate,  
-                        combo_rate = @combo_rate, reflection_rate = @reflection_rate,  
-                        mana_regeneration_rate = @mana_regeneration_rate,  
-                        damage_to_different_faction_rate = @damage_to_different_faction_rate,  
-                        resistance_to_different_faction_rate = @resistance_to_different_faction_rate,  
-                        damage_to_same_faction_rate = @damage_to_same_faction_rate,  
-                        resistance_to_same_faction_rate = @resistance_to_same_faction_rate,  
-                        percent_all_health = @percent_all_health, percent_all_physical_attack = @percent_all_physical_attack,  
-                        percent_all_physical_defense = @percent_all_physical_defense, percent_all_magical_attack = @percent_all_magical_attack,  
-                        percent_all_magical_defense = @percent_all_magical_defense, percent_all_chemical_attack = @percent_all_chemical_attack,  
-                        percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
-                        percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
+                    SET
+                        science_fiction_level = @science_fiction_level, power = @power, health = @health, mana = @mana, speed = @speed,
+                        physical_attack = @physical_attack, physical_defense = @physical_defense,
+                        magical_attack = @magical_attack, magical_defense = @magical_defense,
+                        chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,
+                        atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,
+                        mental_attack = @mental_attack, mental_defense = @mental_defense,
+                        critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,
+                        critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
+                        penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
+                        evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate,
+                        ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
+                        vitality_regeneration_rate = @vitality_regeneration_rate,
+                        vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate,
+                        accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,
+                        shield_strength = @shield_strength, tenacity = @tenacity,
+                        resistance_rate = @resistance_rate, combo_rate = @combo_rate,
+                        ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate,
+                        combo_resistance_rate = @combo_resistance_rate, stun_rate = @stun_rate,
+                        ignore_stun_rate = @ignore_stun_rate,
+                        reflection_rate = @reflection_rate,
+                        ignore_reflection_rate = @ignore_reflection_rate,
+                        reflection_damage_rate = @reflection_damage_rate,
+                        reflection_resistance_rate = @reflection_resistance_rate,
+                        mana_regeneration_rate = @mana_regeneration_rate,
+                        damage_to_different_faction_rate = @damage_to_different_faction_rate,
+                        resistance_to_different_faction_rate = @resistance_to_different_faction_rate,
+                        damage_to_same_faction_rate = @damage_to_same_faction_rate,
+                        resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
+                        normal_damage_rate = @normal_damage_rate,
+                        normal_resistance_rate = @normal_resistance_rate,
+                        skill_damage_rate = @skill_damage_rate,
+                        skill_resistance_rate = @skill_resistance_rate,
+                        percent_all_health = @percent_all_health,
+                        percent_all_physical_attack = @percent_all_physical_attack,
+                        percent_all_physical_defense = @percent_all_physical_defense,
+                        percent_all_magical_attack = @percent_all_magical_attack,
+                        percent_all_magical_defense = @percent_all_magical_defense,
+                        percent_all_chemical_attack = @percent_all_chemical_attack,
+                        percent_all_chemical_defense = @percent_all_chemical_defense,
+                        percent_all_atomic_attack = @percent_all_atomic_attack,
+                        percent_all_atomic_defense = @percent_all_atomic_defense,
+                        percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
-                    WHERE user_id = @user_id AND rank_type = @rank_type;
+                    WHERE user_id = @user_id
+                    AND science_fiction_id = @science_fiction_id;
                 ";
 
                     await using var updateCmd = new MySqlCommand(updateQuery, connection);
-                    AddAllParameters(updateCmd, scienceFiction, user_id, type);
+                    AddAllParameters(updateCmd, scienceFiction, user_id, id);
 
                     await updateCmd.ExecuteNonQueryAsync();
                 }
@@ -168,39 +190,58 @@ public class ScienceFictionRepository : IScienceFictionRepository
                 {
                     // -------- INSERT ----------
                     string insertQuery = @"
-                    INSERT INTO science_fiction
-                    (user_id, rank_type, rank_level, power, health, mana, speed, 
-                     physical_attack, physical_defense, magical_attack, magical_defense, 
-                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
-                     mental_attack, mental_defense, 
-                     critical_damage_rate, critical_rate, penetration_rate, evasion_rate, 
-                     damage_absorption_rate, vitality_regeneration_rate, accuracy_rate, lifesteal_rate, 
-                     shield_strength, tenacity, resistance_rate, combo_rate, reflection_rate, 
-                     mana_regeneration_rate, damage_to_different_faction_rate, resistance_to_different_faction_rate, 
-                     damage_to_same_faction_rate, resistance_to_same_faction_rate, 
-                     percent_all_health, percent_all_physical_attack, percent_all_physical_defense, 
-                     percent_all_magical_attack, percent_all_magical_defense, percent_all_chemical_attack, 
-                     percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
-                     percent_all_mental_attack, percent_all_mental_defense)
-                    VALUES (
-                        @user_id, @rank_type, @rank_level, @power, @health, @mana, @speed,
-                        @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
-                        @mental_attack, @mental_defense,
-                        @critical_damage_rate, @critical_rate, @penetration_rate, @evasion_rate,
-                        @damage_absorption_rate, @vitality_regeneration_rate, @accuracy_rate, @lifesteal_rate,
-                        @shield_strength, @tenacity, @resistance_rate, @combo_rate, @reflection_rate,
-                        @mana_regeneration_rate, @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                        @percent_all_health, @percent_all_physical_attack, @percent_all_physical_defense,
-                        @percent_all_magical_attack, @percent_all_magical_defense, @percent_all_chemical_attack,
-                        @percent_all_chemical_defense, @percent_all_atomic_attack, @percent_all_atomic_defense,
-                        @percent_all_mental_attack, @percent_all_mental_defense
-                    );
+                    INSERT INTO science_fiction (
+                    user_id, science_fiction_id, science_fiction_level, power, health, mana, speed,
+                    physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
+                    atomic_attack, atomic_defense, mental_attack, mental_defense,
+                    critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                    penetration_rate, penetration_resistance_rate, evasion_rate,
+                    damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                    vitality_regeneration_rate, vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate,
+                    shield_strength, tenacity, resistance_rate,
+                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                    stun_rate, ignore_stun_rate,
+                    reflection_rate, ignore_reflection_rate,
+                    reflection_damage_rate, reflection_resistance_rate,
+                    mana_regeneration_rate,
+                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                    normal_damage_rate, normal_resistance_rate,
+                    skill_damage_rate, skill_resistance_rate,
+                    percent_all_health,
+                    percent_all_physical_attack, percent_all_physical_defense,
+                    percent_all_magical_attack, percent_all_magical_defense,
+                    percent_all_chemical_attack, percent_all_chemical_defense,
+                    percent_all_atomic_attack, percent_all_atomic_defense,
+                    percent_all_mental_attack, percent_all_mental_defense
+                )
+                VALUES (
+                    @user_id, @science_fiction_id, @science_fiction_level, @power, @health, @mana, @speed,
+                    @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                    @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                    @penetration_rate, @penetration_resistance_rate, @evasion_rate,
+                    @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate, @stun_rate, @ignore_stun_rate,
+                    @reflection_rate, @ignore_reflection_rate,
+                    @reflection_damage_rate, @reflection_resistance_rate, @mana_regeneration_rate,
+                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                    @normal_damage_rate, @normal_resistance_rate,
+                    @skill_damage_rate, @skill_resistance_rate,
+                    @percent_all_health,
+                    @percent_all_physical_attack, @percent_all_physical_defense,
+                    @percent_all_magical_attack, @percent_all_magical_defense,
+                    @percent_all_chemical_attack, @percent_all_chemical_defense,
+                    @percent_all_atomic_attack, @percent_all_atomic_defense,
+                    @percent_all_mental_attack, @percent_all_mental_defense
+                );
                 ";
 
                     await using var insertCmd = new MySqlCommand(insertQuery, connection);
-                    AddAllParameters(insertCmd, scienceFiction, user_id, type);
+                    AddAllParameters(insertCmd, scienceFiction, user_id, id);
 
                     await insertCmd.ExecuteNonQueryAsync();
                 }
@@ -373,9 +414,9 @@ public class ScienceFictionRepository : IScienceFictionRepository
     private void AddAllParameters(MySqlCommand cmd, ScienceFiction a, string user_id, string type)
     {
         cmd.Parameters.AddWithValue("@user_id", user_id);
-        cmd.Parameters.AddWithValue("@rank_type", type);
+        cmd.Parameters.AddWithValue("@science_fiction_id", type);
 
-        cmd.Parameters.AddWithValue("@rank_level", a.Level == 0 ? 1 : a.Level);
+        cmd.Parameters.AddWithValue("@science_fiction_level", a.Level == 0 ? 1 : a.Level);
         cmd.Parameters.AddWithValue("@power", a.Power);
         cmd.Parameters.AddWithValue("@health", a.Health);
         cmd.Parameters.AddWithValue("@mana", a.Mana);
@@ -395,10 +436,16 @@ public class ScienceFictionRepository : IScienceFictionRepository
 
         cmd.Parameters.AddWithValue("@critical_damage_rate", a.CriticalDamageRate);
         cmd.Parameters.AddWithValue("@critical_rate", a.CriticalRate);
+        cmd.Parameters.AddWithValue("@critical_resistance_rate", a.CriticalResistanceRate);
+        cmd.Parameters.AddWithValue("@ignore_critical_rate", a.IgnoreCriticalRate);
+        cmd.Parameters.AddWithValue("@penetration_resistance_rate", a.PenetrationResistanceRate);
         cmd.Parameters.AddWithValue("@penetration_rate", a.PenetrationRate);
         cmd.Parameters.AddWithValue("@evasion_rate", a.EvasionRate);
         cmd.Parameters.AddWithValue("@damage_absorption_rate", a.DamageAbsorptionRate);
         cmd.Parameters.AddWithValue("@vitality_regeneration_rate", a.VitalityRegenerationRate);
+        cmd.Parameters.AddWithValue("@ignore_damage_absorption_rate", a.IgnoreDamageAbsorptionRate);
+        cmd.Parameters.AddWithValue("@absorbed_damage_rate", a.AbsorbedDamageRate);
+        cmd.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", a.VitalityRegenerationResistanceRate);
 
         cmd.Parameters.AddWithValue("@accuracy_rate", a.AccuracyRate);
         cmd.Parameters.AddWithValue("@lifesteal_rate", a.LifestealRate);
@@ -407,12 +454,24 @@ public class ScienceFictionRepository : IScienceFictionRepository
         cmd.Parameters.AddWithValue("@resistance_rate", a.ResistanceRate);
         cmd.Parameters.AddWithValue("@combo_rate", a.ComboRate);
         cmd.Parameters.AddWithValue("@reflection_rate", a.ReflectionRate);
+        cmd.Parameters.AddWithValue("@ignore_combo_rate", a.IgnoreComboRate);
+        cmd.Parameters.AddWithValue("@combo_damage_rate", a.ComboDamageRate);
+        cmd.Parameters.AddWithValue("@combo_resistance_rate", a.ComboResistanceRate);
+        cmd.Parameters.AddWithValue("@stun_rate", a.StunRate);
+        cmd.Parameters.AddWithValue("@ignore_stun_rate", a.IgnoreStunRate);
+        cmd.Parameters.AddWithValue("@ignore_reflection_rate", a.IgnoreReflectionRate);
+        cmd.Parameters.AddWithValue("@reflection_damage_rate", a.ReflectionDamageRate);
+        cmd.Parameters.AddWithValue("@reflection_resistance_rate", a.ReflectionResistanceRate);
 
         cmd.Parameters.AddWithValue("@mana_regeneration_rate", a.ManaRegenerationRate);
         cmd.Parameters.AddWithValue("@damage_to_different_faction_rate", a.DamageToDifferentFactionRate);
         cmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", a.ResistanceToDifferentFactionRate);
         cmd.Parameters.AddWithValue("@damage_to_same_faction_rate", a.DamageToSameFactionRate);
         cmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", a.ResistanceToSameFactionRate);
+        cmd.Parameters.AddWithValue("@normal_damage_rate", a.NormalDamageRate);
+        cmd.Parameters.AddWithValue("@normal_resistance_rate", a.NormalResistanceRate);
+        cmd.Parameters.AddWithValue("@skill_damage_rate", a.SkillDamageRate);
+        cmd.Parameters.AddWithValue("@skill_resistance_rate", a.SkillResistanceRate);
 
         cmd.Parameters.AddWithValue("@percent_all_health", a.PercentAllHealth);
         cmd.Parameters.AddWithValue("@percent_all_physical_attack", a.PercentAllPhysicalAttack);

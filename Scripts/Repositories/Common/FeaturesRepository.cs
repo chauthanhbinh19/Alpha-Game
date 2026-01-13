@@ -25,7 +25,7 @@ public class FeaturesRepository : IFeaturesRepository
                 {
                     while (await reader.ReadAsync())
                     {
-                        string featureName = reader.GetString(0);
+                        string featureName = reader.GetString(1);
                         Features feature = new Features
                         {
                             Id = reader.GetString(0),
@@ -60,7 +60,7 @@ public class FeaturesRepository : IFeaturesRepository
                 {
                     while (await reader.ReadAsync())
                     {
-                        string featureType = reader.GetString(0);
+                        string featureType = reader.GetString(1);
 
                         Features feature = new Features
                         {

@@ -59,6 +59,51 @@ public static class ItemConstants
     public static class Breakthrough
     {
         public const string BREAK_THROUGH_TOKEN = "Breakthrough Token";
+        public const string LIMIT_BREAK_CARD_HEROES = "Limit Break Card Heroes";
+        public const string LIMIT_BREAK_CARD_CAPTAINS = "Limit Break Card Captains";
+        public const string LIMIT_BREAK_CARD_COLONELS = "Limit Break Card Colonels";
+        public const string LIMIT_BREAK_CARD_GENERALS = "Limit Break Card Generals";
+        public const string LIMIT_BREAK_CARD_ADMIRALS = "Limit Break Card Admirals";
+        public const string LIMIT_BREAK_CARD_LIVES = "Limit Break Card Lives";
+        public const string LIMIT_BREAK_CARD_MILITARIES = "Limit Break Card Militaries";
+        public const string LIMIT_BREAK_CARD_MONSTERS = "Limit Break Card Monsters";
+        public const string LIMIT_BREAK_CARD_SPELLS = "Limit Break Card Spells";
+        public const string LIMIT_BREAK_ACHIEVEMENTS = "Limit Break Achievements";
+        public const string LIMIT_BREAK_BOOKS = "Limit Break Books";
+        public const string LIMIT_BREAK_PETS = "Limit Break Pets";
+        public const string LIMIT_BREAK_COLLABORATION_EQUIPMENTS = "Limit Break Collaboration Equipments";
+        public const string LIMIT_BREAK_COLLABORATIONS = "Limit Break Collaborations";
+        public const string LIMIT_BREAK_EQUIPMENTS = "Limit Break Equipments";
+        public const string LIMIT_BREAK_MEDALS = "Limit Break Medals";
+        public const string LIMIT_BREAK_SKILLS = "Limit Break Skills";
+        public const string LIMIT_BREAK_SYMBOLS = "Limit Break Symbols";
+        public const string LIMIT_BREAK_TITLES = "Limit Break Titles";
+        public const string LIMIT_BREAK_MAGIC_FORMATION_CIRCLES = "Limit Break Magic Formation Circle";
+        public const string LIMIT_BREAK_RELICS = "Limit Break Relics";
+        public const string LIMIT_BREAK_ALCHEMIES = "Limit Break Alchemies";
+        public const string LIMIT_BREAK_PUPPETS = "Limit Break Puppets";
+        public const string LIMIT_BREAK_TALISMANS = "Limit Break Talismans";
+        public const string LIMIT_BREAK_FORGES = "Limit Break Forges";
+        public const string LIMIT_BREAK_ARCHITECTURES = "Limit Break Architectures";
+        public const string LIMIT_BREAK_ARTWORKS = "Limit Break Artworks";
+        public const string LIMIT_BREAK_AVATARS = "Limit Break Avatars";
+        public const string LIMIT_BREAK_BADGES = "Limit Break Badges";
+        public const string LIMIT_BREAK_FOODS = "Limit Break Foods";
+        public const string LIMIT_BREAK_BEVERAGES = "Limit Break Beverages";
+        public const string LIMIT_BREAK_BORDERS = "Limit Break Borders";
+        public const string LIMIT_BREAK_BUILDINGS = "Limit Break Buildings";
+        public const string LIMIT_BREAK_CARDS = "Limit Break Cards";
+        public const string LIMIT_BREAK_CORES = "Limit Break Cores";
+        public const string LIMIT_BREAK_FURNITURES = "Limit Break Furnitures";
+        public const string LIMIT_BREAK_MECHA_BEASTS = "Limit Break Mecha Beasts";
+        public const string LIMIT_BREAK_PLANTS = "Limit Break Plants";
+        public const string LIMIT_BREAK_ROBOTS = "Limit Break Robots";
+        public const string LIMIT_BREAK_RUNES = "Limit Break Runes";
+        public const string LIMIT_BREAK_SPIRIT_BEASTS = "Limit Break Spirit Beasts";
+        public const string LIMIT_BREAK_SPIRIT_CARDS = "Limit Break Spirit Cards";
+        public const string LIMIT_BREAK_TECHNOLOGIES = "Limit Break Technologies";
+        public const string LIMIT_BREAK_VEHICLES = "Limit Break Vehicles";
+        public const string LIMIT_BREAK_WEAPONS = "Limit Break Weapons";
     }
     public static class Affinity
     {

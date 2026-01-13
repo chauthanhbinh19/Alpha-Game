@@ -14,14 +14,14 @@ public class AnimeStatsService : IAnimeStatsService
         return new AnimeStatsService(new AnimeStatsRepository());
     }
 
-    public async Task<AnimeStats> GetAnimeStatsAsync(string type, string user_id)
+    public async Task<AnimeStats> GetAnimeStatsAsync(string id, string user_id)
     {
-        return await _animeStatsRepository.GetAnimeStatsAsync(type, user_id);
+        return await _animeStatsRepository.GetAnimeStatsAsync(id, user_id);
     }
 
-    public async Task InsertOrUpdateAnimeStatsAsync(AnimeStats animeStats, string type, string user_id)
+    public async Task InsertOrUpdateAnimeStatsAsync(AnimeStats animeStats, string user_id)
     {
-        await _animeStatsRepository.InsertOrUpdateAnimeStatsAsync(animeStats, type, user_id);
+        await _animeStatsRepository.InsertOrUpdateAnimeStatsAsync(animeStats, user_id);
     }
 
     public async Task<AnimeStats> GetSumAnimeStatsAsync(string user_id)

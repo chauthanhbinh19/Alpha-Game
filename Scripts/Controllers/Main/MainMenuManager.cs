@@ -471,6 +471,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, () => GetType(AppConstants.Market.ULTRA_RARE_MARKET));
         ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, () => GetType(AppConstants.Market.LEGENDARY_MARKET));
         ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, () => GetType(AppConstants.Market.MYSTIC_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, () => GetType(AppConstants.MainType.CHIP));
     }
     public void GetType(string type)
     {
@@ -633,6 +634,11 @@ public class MainMenuManager : MonoBehaviour
         {
             canUseRareButton = false;
             await MysticMarketManager.Instance.CreateMysticMarketAsync();
+        }
+        else if (mainType.Equals(AppConstants.MainType.CHIP))
+        {
+            canUseRareButton = false;
+            // await MysticMarketManager.Instance.CreateMysticMarketAsync();
         }
         else
         {

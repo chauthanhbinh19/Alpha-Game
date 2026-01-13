@@ -14,9 +14,9 @@ public class ScienceFictionService : IScienceFictionService
         return new ScienceFictionService(new ScienceFictionRepository());
     }
 
-    public async Task<ScienceFiction> GetScienceFictionAsync(string type)
+    public async Task<ScienceFiction> GetScienceFictionAsync(string id)
     {
-        return await _scienceFictionRepository.GetScienceFictionAsync(type);
+        return await _scienceFictionRepository.GetScienceFictionAsync(id);
     }
 
     public async Task<ScienceFiction> GetSumScienceFictionAsync(string user_id)
@@ -24,8 +24,8 @@ public class ScienceFictionService : IScienceFictionService
         return await _scienceFictionRepository.GetSumScienceFictionAsync(user_id);
     }
 
-    public async Task InsertOrUpdateScienceFictionAsync(string userId, ScienceFiction scienceFiction, string type)
+    public async Task InsertOrUpdateScienceFictionAsync(string userId, ScienceFiction scienceFiction, string id)
     {
-        await _scienceFictionRepository.InsertOrUpdateScienceFictionAsync(userId, scienceFiction, type);
+        await _scienceFictionRepository.InsertOrUpdateScienceFictionAsync(userId, scienceFiction, id);
     }
 }

@@ -75,6 +75,7 @@ public static class ImageConstants
         public const string TOWER_URL = "UI/Button/Tower";
         public const string EVENT_URL = "UI/Button/Lobby_Icon-Event_002";
         public const string DAILY_CHECKIN_URL = "UI/Button/Daily_Checkin";
+        public const string CHIP_URL = "UI/Button/Chip_Slot";
 
         public const string EMAIL_URL = "UI/Button/Mail";
         public const string CHAT_URL = "UI/Button/Chat";

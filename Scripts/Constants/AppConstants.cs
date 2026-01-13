@@ -351,6 +351,7 @@ public static class AppConstants
         public const string DAILY_CHECKIN = "Daily Checkin";
         public const string EMAIL = "Email";
         public const string CHAT = "Chat";
+        public const string CHIP = "Chip";
 
         public const string BUY = "Buy";
         public const string PACKAGE = "Package";
@@ -650,6 +651,7 @@ public static class AppConstants
         public const string THUNDER_METAL = "Thunder Metal";
         public const string WOODPECKER_ELECTRO = "Woodpecker Electro";
         public const string YUNKUI_TALES = "Yunkui Tales";
+        public const string CHIP = "Chip";
     }
     public static class MainMenuSet6
     {

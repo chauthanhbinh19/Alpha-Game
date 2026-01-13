@@ -130,8 +130,14 @@ public class ReactorNumber13Manager : MonoBehaviour
         rightSideCounduit1Image.AddComponent<SlideRightToLeftAnimation>();
         rightSideCounduit2Image.AddComponent<SlideRightToLeftAnimation>();
 
-        ScienceFiction scienceFiction = await ScienceFictionService.Create().GetScienceFictionAsync(AppConstants.ScienceFiction.REACTOR_NUMBER_13);
+        var feature = (await FeaturesService.Create()
+            .GetFeaturesByTypeAsync(AppConstants.MainType.SCIENCE_FICTION))
+            .GetValueOrDefault(AppConstants.ScienceFiction.REACTOR_NUMBER_13);
+
+        ScienceFiction scienceFiction = await ScienceFictionService.Create().GetScienceFictionAsync(feature.Id);
         RankService rankService = new RankService();
+        scienceFiction.Id = feature.Id;
+
         List<Items> items = new List<Items>();
         items.Add(await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.REACTOR_MATERIAL_NUMBER_1));
         items.Add(await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.REACTOR_MATERIAL_NUMBER_4));
@@ -180,7 +186,7 @@ public class ReactorNumber13Manager : MonoBehaviour
                 ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, 1, 10);
 
                 // rankService.UpLevel(cardHeroes, newRank, mainType);
-                await ScienceFictionService.Create().InsertOrUpdateScienceFictionAsync(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_10);
+                await ScienceFictionService.Create().InsertOrUpdateScienceFictionAsync(User.CurrentUserId, newScienceFiction, feature.Id);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -234,7 +240,7 @@ public class ReactorNumber13Manager : MonoBehaviour
             // Nâng cấp scienceFiction
             ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, upgradeAmount, 10);
 
-            await ScienceFictionService.Create().InsertOrUpdateScienceFictionAsync(User.CurrentUserId, newScienceFiction, AppConstants.ScienceFiction.REACTOR_NUMBER_10);
+            await ScienceFictionService.Create().InsertOrUpdateScienceFictionAsync(User.CurrentUserId, newScienceFiction, feature.Id);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;

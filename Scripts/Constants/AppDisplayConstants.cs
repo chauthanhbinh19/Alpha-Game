@@ -497,6 +497,7 @@ public static class AppDisplayConstants
         public const string THUNDER_METAL = "MainMenuSet5.ThunderMetal";
         public const string WOODPECKER_ELECTRO = "MainMenuSet5.WoodpeckerElectro";
         public const string YUNKUI_TALES = "MainMenuSet5.YunkuiTales";
+        public const string CHIP = "MainMenuSet5.Chip";
     }
     public static class MainMenuSet6
     {

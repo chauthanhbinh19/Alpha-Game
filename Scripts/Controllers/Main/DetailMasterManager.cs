@@ -52,7 +52,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -128,7 +128,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -204,7 +204,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -280,7 +280,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -356,7 +356,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -432,7 +432,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -508,7 +508,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -584,7 +584,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -660,7 +660,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
@@ -736,7 +736,7 @@ public class DetailMasterManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, master.Level, type);
-        await UIManager.Instance.SetMaterialUIAsync(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, master.Level, maxLevel);
         
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;

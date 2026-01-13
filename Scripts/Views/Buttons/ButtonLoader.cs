@@ -134,6 +134,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(15, AppConstants.Market.ULTRA_RARE_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.ULTRA_RARE_MARKET_URL), contentPanel);
         CreateButton(16, AppConstants.Market.LEGENDARY_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.LEGENDARY_MARKET_URL), contentPanel);
         CreateButton(17, AppConstants.Market.MYSTIC_MARKET, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Market.MYSTIC_MARKET_URL), contentPanel);
+        CreateButton(18, AppConstants.MainType.CHIP, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.CHIP_URL), contentPanel);
     }
     public void CreateMoreButton(Transform moreMenuPanel)
     {
@@ -280,11 +281,11 @@ public class ButtonLoader : MonoBehaviour
             image.texture = itemImage;
         }
 
-        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        if (nameText != null)
-        {
-            nameText.text = LocalizationManager.Get(itemName);
-        }
+        // TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        // if (nameText != null)
+        // {
+        //     nameText.text = LocalizationManager.Get(itemName);
+        // }
 
         TextMeshProUGUI numberText = newButton.transform.Find("NumberText").GetComponent<TextMeshProUGUI>();
         if (numberText != null)
@@ -1514,7 +1515,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButtonWithBackground(20, AppDisplayConstants.MainMenuSet5.THUNDER_METAL, ImageConstants.Background.ADVANCED_BACKGROUND_20_URL, Resources.Load<Texture2D>($"UI/Button/Main/ThunderMetal"), content);
         CreateButtonWithBackground(21, AppDisplayConstants.MainMenuSet5.WOODPECKER_ELECTRO, ImageConstants.Background.ADVANCED_BACKGROUND_21_URL, Resources.Load<Texture2D>($"UI/Button/Main/WoodpeckerElectro"), content);
         CreateButtonWithBackground(22, AppDisplayConstants.MainMenuSet5.YUNKUI_TALES, ImageConstants.Background.ADVANCED_BACKGROUND_22_URL, Resources.Load<Texture2D>($"UI/Button/Main/YunkuiTales"), content);
-        // CreateButtonWithBackground(92, AppDisplayConstants.MainMenuSet5.QUEN, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, Resources.Load<Texture2D>($"UI/Button/Main/Quen"), content);
+        CreateButtonWithBackground(23, AppDisplayConstants.MainMenuSet5.CHIP, ImageConstants.Background.ADVANCED_BACKGROUND_23_URL, Resources.Load<Texture2D>($"UI/Button/Main/Chip_Slot"), content);
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", content, async () =>
         {
@@ -1604,10 +1605,10 @@ public class ButtonLoader : MonoBehaviour
         {
             await FindAnyObjectByType<MainMenuYunkuiTalesManager>().CreateMainMenuYunkuiTalesManagerAsync(data);
         });
-        // ButtonEvent.Instance.AssignButtonEvent("Button_92", content, async () =>
-        // {
-        //     await FindAnyObjectByType<MainMenuQuenManager>().CreateMainMenuQuenManagerAsync(data);
-        // });
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", content, async () =>
+        {
+            await FindAnyObjectByType<MainMenuChipManager>().CreateMainMenuChipManagerAsync(data);
+        });
     }
     public void CreateButtonSet6(object data, Transform content)
     {

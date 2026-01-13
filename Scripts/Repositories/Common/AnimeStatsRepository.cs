@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class AnimeStatsRepository : IAnimeStatsRepository
 {
-    public async Task<AnimeStats> GetAnimeStatsAsync(string type, string user_id)
+    public async Task<AnimeStats> GetAnimeStatsAsync(string id, string user_id)
     {
         AnimeStats animeStats = new AnimeStats();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -19,18 +19,18 @@ public class AnimeStatsRepository : IAnimeStatsRepository
             string query = @"
             SELECT *
             FROM anime_stats
-            WHERE user_id = @user_id AND rank_type = @type";
+            WHERE user_id = @user_id AND anime_id = @type";
 
             await using var command = new MySqlConnector.MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@type", type);
+            command.Parameters.AddWithValue("@type", id);
 
             await using var reader = await command.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
-                animeStats.Type = reader.GetStringSafe("animeStats_type");
-                animeStats.Level = reader.IsDBNull(reader.GetOrdinal("animeStats_level")) ? 0 : reader.GetIntSafe("animeStats_level");
+                animeStats.Id = reader.GetStringSafe("anime_id");
+                animeStats.Level = reader.IsDBNull(reader.GetOrdinal("anime_level")) ? 0 : reader.GetIntSafe("anime_level");
                 animeStats.Power = reader.GetDoubleSafe("power");
                 animeStats.Health = reader.GetDoubleSafe("health");
                 animeStats.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -105,7 +105,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
 
         return animeStats;
     }
-    public async Task InsertOrUpdateAnimeStatsAsync(AnimeStats animeStats, string type, string user_id)
+    public async Task InsertOrUpdateAnimeStatsAsync(AnimeStats animeStats, string user_id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -116,12 +116,12 @@ public class AnimeStatsRepository : IAnimeStatsRepository
 
             string checkQuery = @"
             SELECT COUNT(*) FROM anime_stats 
-            WHERE user_id = @user_id AND rank_type = @rank_type";
+            WHERE user_id = @user_id AND anime_id = @anime_id";
 
             await using (var checkCmd = new MySqlCommand(checkQuery, connection))
             {
                 checkCmd.Parameters.AddWithValue("@user_id", user_id);
-                checkCmd.Parameters.AddWithValue("@rank_type", type);
+                checkCmd.Parameters.AddWithValue("@anime_id", animeStats.Id);
 
                 int count = Convert.ToInt32(await checkCmd.ExecuteScalarAsync());
 
@@ -130,7 +130,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                     // -------- UPDATE ----------
                     string updateQuery = @"
                     UPDATE anime_stats
-                    SET rank_level = @rank_level, power = @power, health = @health, mana = @mana, speed = @speed,  
+                    SET anime_level = @anime_level, power = @power, health = @health, mana = @mana, speed = @speed,  
                         physical_attack = @physical_attack, physical_defense = @physical_defense,  
                         magical_attack = @magical_attack, magical_defense = @magical_defense,  
                         chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,  
@@ -153,11 +153,11 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                         percent_all_chemical_defense = @percent_all_chemical_defense, percent_all_atomic_attack = @percent_all_atomic_attack,  
                         percent_all_atomic_defense = @percent_all_atomic_defense, percent_all_mental_attack = @percent_all_mental_attack,  
                         percent_all_mental_defense = @percent_all_mental_defense
-                    WHERE user_id = @user_id AND rank_type = @rank_type;
+                    WHERE user_id = @user_id AND anime_id = @anime_id;
                 ";
 
                     await using var updateCmd = new MySqlCommand(updateQuery, connection);
-                    AddAllParameters(updateCmd, animeStats, user_id, type);
+                    AddAllParameters(updateCmd, animeStats, user_id, animeStats.Id);
 
                     await updateCmd.ExecuteNonQueryAsync();
                 }
@@ -166,7 +166,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                     // -------- INSERT ----------
                     string insertQuery = @"
                     INSERT INTO anime_stats
-                    (user_id, rank_type, rank_level, power, health, mana, speed, 
+                    (user_id, anime_id, anime_level, power, health, mana, speed, 
                      physical_attack, physical_defense, magical_attack, magical_defense, 
                      chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                      mental_attack, mental_defense, 
@@ -180,7 +180,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                      percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                      percent_all_mental_attack, percent_all_mental_defense)
                     VALUES (
-                        @user_id, @rank_type, @rank_level, @power, @health, @mana, @speed,
+                        @user_id, @anime_id, @anime_level, @power, @health, @mana, @speed,
                         @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                         @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                         @mental_attack, @mental_defense,
@@ -197,7 +197,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                 ";
 
                     await using var insertCmd = new MySqlCommand(insertQuery, connection);
-                    AddAllParameters(insertCmd, animeStats, user_id, type);
+                    AddAllParameters(insertCmd, animeStats, user_id, animeStats.Id);
 
                     await insertCmd.ExecuteNonQueryAsync();
                 }
@@ -398,9 +398,9 @@ public class AnimeStatsRepository : IAnimeStatsRepository
     private void AddAllParameters(MySqlCommand cmd, AnimeStats a, string user_id, string type)
     {
         cmd.Parameters.AddWithValue("@user_id", user_id);
-        cmd.Parameters.AddWithValue("@rank_type", type);
+        cmd.Parameters.AddWithValue("@anime_id", type);
 
-        cmd.Parameters.AddWithValue("@rank_level", a.Level == 0 ? 1 : a.Level);
+        cmd.Parameters.AddWithValue("@anime_level", a.Level == 0 ? 1 : a.Level);
         cmd.Parameters.AddWithValue("@power", a.Power);
         cmd.Parameters.AddWithValue("@health", a.Health);
         cmd.Parameters.AddWithValue("@mana", a.Mana);

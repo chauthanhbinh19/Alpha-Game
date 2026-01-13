@@ -20,7 +20,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     private Button UpMaxLevelButton;
     private Transform LevelCondition;
     private string animeType;
-    private string mainType;
+    private Features feature;
     UserItemsService userItemsService;
     TeamsService teamsService;
     private int maxLevel;
@@ -98,12 +98,12 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 btn.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    OnButtonClick(button, subtype, requiredLevel);
+                    OnButtonClick(button, kvp.Value, requiredLevel);
                 });
 
                 if (index == 0)
                 {
-                    mainType = subtype;
+                    feature = kvp.Value;
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
                     // mainId = cardHeroes.id;
                     await CreateAnimeStatsAsync();
@@ -127,7 +127,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             }
         }
     }
-    void OnButtonClick(GameObject clickedButton, string type, int requiredLevel)
+    void OnButtonClick(GameObject clickedButton, Features subFeature, int requiredLevel)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -140,7 +140,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             }
         }
 
-        mainType = type;
+        feature = subFeature;
         UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
 
         // mainId = cardHeroes.id;
@@ -158,16 +158,16 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     }
     public async Task CreateAnimeStatsAsync()
     {
-        var animeStatsService = AnimeStatsService.Create();
-        AnimeStats animeStats = await animeStatsService.GetAnimeStatsAsync(mainType, User.CurrentUserId);
+        AnimeStats animeStats = await AnimeStatsService.Create().GetAnimeStatsAsync(feature.Id, User.CurrentUserId);
         slotObject = Instantiate(AnimeSlotPrefab, SlotPanel);
+        animeStats.Id = feature.Id;
 
         Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
-        string itemName = animeType + " " + mainType;
+        string itemName = animeType + " " + feature.FeatureName;
         Items item = await userItemsService.GetUserItemByNameAsync(itemName);
-        SetUI(slotObject, mainType, animeStats.Level);
-        await SetMaterialUIAsync(currentObject, mainType, item, silver.Quantity, animeStats.Level);
+        SetUI(slotObject, animeStats.Level);
+        SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, animeStats.Level);
         UpLevelButton.onClick.RemoveAllListeners();
         UpMaxLevelButton.onClick.RemoveAllListeners();
         UpLevelButton.onClick.AddListener(async () =>
@@ -183,7 +183,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 newanimeStats = EnhanceAnimeStats(animeStats, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
 
-                UpLevel(newanimeStats, mainType);
+                UpLevel(newanimeStats);
                 double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -205,7 +205,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 newanimeStats = EnhanceAnimeStats(animeStats, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
 
-                UpLevel(newanimeStats, mainType);
+                UpLevel(newanimeStats);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -215,7 +215,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
             }
         });
     }
-    public void SetUI(GameObject gameObject, string type, int level = 0)
+    public void SetUI(GameObject gameObject, int level = 0)
     {
         RawImage BackgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
         Texture backgroundTexture = Resources.Load<Texture>("UI/Background3/Anime");
@@ -273,15 +273,21 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         LevelText.text = level.ToString();
     }
-    public async Task SetMaterialUIAsync(GameObject gameObject, string type, Items item, double currencyQuantity, int rankLevel)
+    public void SetMaterialUI(GameObject gameObject, string itemImage, double itemQuantity, double currencyQuantity, int rankLevel)
     {
         Transform currencyPanel = gameObject.transform.Find("DictionaryCards/Currency");
-        List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
+        // List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
         ButtonEvent.Instance.Close(currencyPanel);
-        CurrenciesManager.Instance.GetMainCurrency(currencies, currencyPanel);
+        GameObject itemObject = UIManager.Instance.Get("ItemPrefab");
+        GameObject tempObject = Instantiate(itemObject, currencyPanel);
+        RawImage image = tempObject.transform.Find("Image").GetComponent<RawImage>();
+        image.texture =Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(itemImage));
+        TextMeshProUGUI quantityText = tempObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+        quantityText.text = NumberFormatter.FormatNumber(itemQuantity, true);
+        // CurrenciesManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
-        var oneResult = EvaluateItem.CalculateLevelUp(item.Quantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
-        var maxResult = EvaluateItem.CalculateLevelUp(item.Quantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
+        var oneResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
+        var maxResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
         RawImage OneLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         RawImage MaxLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         Texture OneLevelCurrencyTexture = Resources.Load<Texture>($"{ImageConstants.Currency.SILVER}");
@@ -294,32 +300,25 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         OneLevelCurrencyText.text = oneResult.totalCurrencyUsed.ToString();
         MaxLevelCurrencyText.text = maxResult.totalCurrencyUsed.ToString();
 
-        Transform OneLevelMaterial = currentObject.transform.Find("DictionaryCards/OneLevelMaterial");
-        Transform MaxLevelMaterial = currentObject.transform.Find("DictionaryCards/MaxLevelMaterial");
-        ButtonEvent.Instance.Close(OneLevelMaterial);
-        ButtonEvent.Instance.Close(MaxLevelMaterial);
-        GameObject oneLevelMaterialObject = Instantiate(ElementDetails2Prefab, OneLevelMaterial);
-        GameObject maxLevelMaterialObject = Instantiate(ElementDetails2Prefab, MaxLevelMaterial);
-
-        RawImage oneLevelImage = oneLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-        Texture oneLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
+        RawImage oneLevelImage = gameObject.transform.Find("DictionaryCards/OneLevelMaterial/MaterialImage").GetComponent<RawImage>();
+        Texture oneLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         oneLevelImage.texture = oneLevelTexture;
 
-        RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
-        oneLevelRectTransform.sizeDelta = new Vector2(40, 40);
+        TextMeshProUGUI oneLevelQuantity = gameObject.transform.Find("DictionaryCards/OneLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
+        oneLevelQuantity.text = oneResult.totalMaterialUsed.ToString();
 
-        TextMeshProUGUI oneLevelQuantity = oneLevelMaterialObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        oneLevelQuantity.text = item.Quantity + "/" + oneResult.totalMaterialUsed;
+        // RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
+        // oneLevelRectTransform.sizeDelta = new Vector2(40, 40);
 
-        RawImage maxLevelImage = maxLevelMaterialObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-        Texture maxLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
+        RawImage maxLevelImage = gameObject.transform.Find("DictionaryCards/MaxLevelMaterial/MaterialImage").GetComponent<RawImage>();
+        Texture maxLevelTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         maxLevelImage.texture = maxLevelTexture;
 
-        TextMeshProUGUI maxLevelQuantity = maxLevelMaterialObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        maxLevelQuantity.text = item.Quantity + "/" + maxResult.totalMaterialUsed;
+        TextMeshProUGUI maxLevelQuantity = gameObject.transform.Find("DictionaryCards/MaxLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
+        maxLevelQuantity.text = maxResult.totalMaterialUsed.ToString();
 
-        RectTransform maxLevelRectTransform = maxLevelImage.GetComponent<RectTransform>();
-        maxLevelRectTransform.sizeDelta = new Vector2(40, 40);
+        // RectTransform maxLevelRectTransform = maxLevelImage.GetComponent<RectTransform>();
+        // maxLevelRectTransform.sizeDelta = new Vector2(40, 40);
     }
     public AnimeStats EnhanceAnimeStats(AnimeStats animeStats, int level)
     {
@@ -482,8 +481,8 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         animeStats.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return animeStats;
     }
-    public void UpLevel(AnimeStats animeStats, string type)
+    public void UpLevel(AnimeStats animeStats)
     {
-        _=AnimeStatsService.Create().InsertOrUpdateAnimeStatsAsync(animeStats, type, User.CurrentUserId);
+        _=AnimeStatsService.Create().InsertOrUpdateAnimeStatsAsync(animeStats, User.CurrentUserId);
     }
 }

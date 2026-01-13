@@ -447,6 +447,7 @@
   { "key": "MainMenuSet5.ThunderMetal", "value": "Thunder Metal" },
   { "key": "MainMenuSet5.WoodpeckerElectro", "value": "Woodpecker Electro" },
   { "key": "MainMenuSet5.YunkuiTales", "value": "Yunkui Tales" },
+  { "key": "MainMenuSet5.Chip", "value": "Chip" },
 
   { "key": "MainMenuSet6.Flux", "value": "Flux" },
   { "key": "MainMenuSet6.Nexus", "value": "Nexus" },
