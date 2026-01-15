@@ -358,6 +358,10 @@ public static class ItemConstants
         public const string WIND_ELEMENT_POWDER_02 = "wind element powder 02";
         public const string WIND_ELEMENT_POWDER_03 = "wind element powder 03";
 
+        public const string LIGHT_ELEMENT_POWDER_01 = "light element powder 01";
+        public const string LIGHT_ELEMENT_POWDER_02 = "light element powder 02";
+        public const string LIGHT_ELEMENT_POWDER_03 = "light element powder 03";
+
         public const string B1_REROLL_DEVICE_BIO = "B1 Reroll Device BIO";
         public const string B1_REROLL_DEVICE_IMG = "B1 Reroll Device IMG";
         public const string B1_REROLL_DEVICE_MECH = "B1 Reroll Device MECH";
@@ -412,6 +416,126 @@ public static class ItemConstants
         public const string C4_EXPANSION_CHIP_22 = "C4 Expansion Chip 22";
         public const string C4_EXPANSION_CHIP_23 = "C4 Expansion Chip 23";
         public const string C4_EXPANSION_CHIP_24 = "C4 Expansion Chip 24";
+
+        public const string CADENCE_BLOSSOM_1 = "Cadence Blossom 1";
+        public const string CADENCE_BLOSSOM_2 = "Cadence Blossom 2";
+        public const string CADENCE_BLOSSOM_3 = "Cadence Blossom 3";
+        public const string CADENCE_BLOSSOM_4 = "Cadence Blossom 4";
+
+        public const string CARVED_CRYSTAL_1 = "Carved Crystal 1";
+        public const string CARVED_CRYSTAL_2 = "Carved Crystal 2";
+        public const string CARVED_CRYSTAL_3 = "Carved Crystal 3";
+        public const string CARVED_CRYSTAL_4 = "Carved Crystal 4";
+
+        public const string ENERGY_CORE_1 = "Energy Core 1";
+        public const string ENERGY_CORE_2 = "Energy Core 2";
+        public const string ENERGY_CORE_3 = "Energy Core 3";
+        public const string ENERGY_CORE_4 = "Energy Core 4";
+
+        public const string EXOSWARM_CORE_1 = "Exoswarm Core 1";
+        public const string EXOSWARM_CORE_2 = "Exoswarm Core 2";
+        public const string EXOSWARM_CORE_3 = "Exoswarm Core 3";
+        public const string EXOSWARM_CORE_4 = "Exoswarm Core 4";
+
+        public const string EXOSWARM_PENDANT_1 = "Exoswarm Pendant 1";
+        public const string EXOSWARM_PENDANT_2 = "Exoswarm Pendant 2";
+        public const string EXOSWARM_PENDANT_3 = "Exoswarm Pendant 3";
+        public const string EXOSWARM_PENDANT_4 = "Exoswarm Pendant 4";
+
+        public const string FLAWLESS_PHLOGISTON_1 = "Flawless Phlogiston 1";
+        public const string FLAWLESS_PHLOGISTON_2 = "Flawless Phlogiston 2";
+        public const string FLAWLESS_PHLOGISTON_3 = "Flawless Phlogiston 3";
+        public const string FLAWLESS_PHLOGISTON_4 = "Flawless Phlogiston 4";
+
+        public const string HETERIZED_METALLIC_DRIP_1 = "Heterized Metallic Drip 1";
+        public const string HETERIZED_METALLIC_DRIP_2 = "Heterized Metallic Drip 2";
+        public const string HETERIZED_METALLIC_DRIP_3 = "Heterized Metallic Drip 3";
+        public const string HETERIZED_METALLIC_DRIP_4 = "Heterized Metallic Drip 4";
+
+        public const string HOWLER_CORE_1 = "Howler Core 1";
+        public const string HOWLER_CORE_2 = "Howler Core 2";
+        public const string HOWLER_CORE_3 = "Howler Core 3";
+        public const string HOWLER_CORE_4 = "Howler Core 4";
+
+        public const string LAYERED_WING_POLARIZER_1 = "Layered Wing Polarizer 1";
+        public const string LAYERED_WING_POLARIZER_2 = "Layered Wing Polarizer 2";
+        public const string LAYERED_WING_POLARIZER_3 = "Layered Wing Polarizer 3";
+        public const string LAYERED_WING_POLARIZER_4 = "Layered Wing Polarizer 4";
+
+        public const string MASK_OF_INSANITY_1 = "Mask of Insanity 1";
+        public const string MASK_OF_INSANITY_2 = "Mask of Insanity 2";
+        public const string MASK_OF_INSANITY_3 = "Mask of Insanity 3";
+        public const string MASK_OF_INSANITY_4 = "Mask of Insanity 4";
+
+        public const string MECH_CORE_1 = "Mech Core 1";
+        public const string MECH_CORE_2 = "Mech Core 2";
+        public const string MECH_CORE_3 = "Mech Core 3";
+        public const string MECH_CORE_4 = "Mech Core 4";
+
+        public const string MELODIC_STRING_1 = "Melodic String 1";
+        public const string MELODIC_STRING_2 = "Melodic String 2";
+        public const string MELODIC_STRING_3 = "Melodic String 3";
+        public const string MELODIC_STRING_4 = "Melodic String 4";
+
+        public const string PODCAST_SUPPLY_PACK_1 = "Podcast Supply Pack 1";
+        public const string PODCAST_SUPPLY_PACK_2 = "Podcast Supply Pack 2";
+        public const string PODCAST_SUPPLY_PACK_3 = "Podcast Supply Pack 3";
+        public const string PODCAST_SUPPLY_PACK_4 = "Podcast Supply Pack 4";
+
+        public const string POLYGON_CORE_1 = "Polygon Core 1";
+        public const string POLYGON_CORE_2 = "Polygon Core 2";
+        public const string POLYGON_CORE_3 = "Polygon Core 3";
+        public const string POLYGON_CORE_4 = "Polygon Core 4";
+
+        public const string PRESTO_HELIX_1 = "Presto Helix 1";
+        public const string PRESTO_HELIX_2 = "Presto Helix 2";
+        public const string PRESTO_HELIX_3 = "Presto Helix 3";
+        public const string PRESTO_HELIX_4 = "Presto Helix 4";
+
+        public const string RESONANCE_POTION_1 = "Resonance Potion 1";
+        public const string RESONANCE_POTION_2 = "Resonance Potion 2";
+        public const string RESONANCE_POTION_3 = "Resonance Potion 3";
+        public const string RESONANCE_POTION_4 = "Resonance Potion 4";
+
+        public const string REVERB_COMBUSTOR_1 = "Reverb Combustor 1";
+        public const string REVERB_COMBUSTOR_2 = "Reverb Combustor 2";
+        public const string REVERB_COMBUSTOR_3 = "Reverb Combustor 3";
+        public const string REVERB_COMBUSTOR_4 = "Reverb Combustor 4";
+
+        public const string SEALED_TUBE_1 = "Sealed Tube 1";
+        public const string SEALED_TUBE_2 = "Sealed Tube 2";
+        public const string SEALED_TUBE_3 = "Sealed Tube 3";
+        public const string SEALED_TUBE_4 = "Sealed Tube 4";
+
+        public const string TACET_CORE_1 = "Tacet Core 1";
+        public const string TACET_CORE_2 = "Tacet Core 2";
+        public const string TACET_CORE_3 = "Tacet Core 3";
+        public const string TACET_CORE_4 = "Tacet Core 4";
+
+        public const string TAILORED_RING_1 = "Tailored Ring 1";
+        public const string TAILORED_RING_2 = "Tailored Ring 2";
+        public const string TAILORED_RING_3 = "Tailored Ring 3";
+        public const string TAILORED_RING_4 = "Tailored Ring 4";
+
+        public const string TIDAL_RESIDUUM_1 = "Tidal Residuum 1";
+        public const string TIDAL_RESIDUUM_2 = "Tidal Residuum 2";
+        public const string TIDAL_RESIDUUM_3 = "Tidal Residuum 3";
+        public const string TIDAL_RESIDUUM_4 = "Tidal Residuum 4";
+
+        public const string WAVEWORN_RESIDUE_1 = "Waveworn Residue 1";
+        public const string WAVEWORN_RESIDUE_2 = "Waveworn Residue 2";
+        public const string WAVEWORN_RESIDUE_3 = "Waveworn Residue 3";
+        public const string WAVEWORN_RESIDUE_4 = "Waveworn Residue 4";
+
+        public const string WAVEWORN_SHARD_1 = "Waveworn Shard 1";
+        public const string WAVEWORN_SHARD_2 = "Waveworn Shard 2";
+        public const string WAVEWORN_SHARD_3 = "Waveworn Shard 3";
+        public const string WAVEWORN_SHARD_4 = "Waveworn Shard 4";
+
+        public const string WHISPERIN_CORE_1 = "Whisperin Core 1";
+        public const string WHISPERIN_CORE_2 = "Whisperin Core 2";
+        public const string WHISPERIN_CORE_3 = "Whisperin Core 3";
+        public const string WHISPERIN_CORE_4 = "Whisperin Core 4";
     }
     public const string REACTOR_MATERIAL_NUMBER_1 = "Reactor Material Number 1";
     public const string REACTOR_MATERIAL_NUMBER_2 = "Reactor Material Number 2";
