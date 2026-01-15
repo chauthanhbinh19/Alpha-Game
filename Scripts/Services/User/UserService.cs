@@ -35,21 +35,21 @@ public class UserService : IUserService
 
             await PowerManagerService.Create().InsertUserStatsAsync(userId);
 
-            Items cardHeroesTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HEROES_TICKET);
+            Items cardHeroesTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardHeroesTicket, 1000000);
-            Items cardCaptainsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAINS_TICKET);
+            Items cardCaptainsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardCaptainsTicket, 1000000);
             Items cardMilitaryTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardMilitaryTicket, 1000000);
             Items cardSpellTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardSpellTicket, 1000000);
-            Items cardMonstersTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTERS_TICKET);
+            Items cardMonstersTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardMonstersTicket, 1000000);
-            Items cardColonelsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONELS_TICKET);
+            Items cardColonelsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardColonelsTicket, 1000000);
-            Items cardGeneralsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERALS_TICKET);
+            Items cardGeneralsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardGeneralsTicket, 1000000);
-            Items cardAdmiralsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRALS_TICKET);
+            Items cardAdmiralsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardAdmiralsTicket, 1000000);
 
             for (int i = 0; i < 50; i++)
