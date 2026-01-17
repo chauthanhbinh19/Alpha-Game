@@ -193,6 +193,9 @@
   { "key": "Gallery.Furnitures", "value": "Furnitures Gallery" },
   { "key": "Gallery.Foods", "value": "Foods Gallery" },
   { "key": "Gallery.Beverages", "value": "Beverages Gallery" },
+  { "key": "Gallery.Buildings", "value": "Buildings Gallery" },
+  { "key": "Gallery.Plants", "value": "Plants Gallery" },
+  { "key": "Gallery.Fashions", "value": "Fashions Gallery" },
 
   { "key": "Collection.CardHeroes", "value": "Card Heroes Collection" },
   { "key": "Collection.Books", "value": "Books Collection" },
@@ -237,6 +240,9 @@
   { "key": "Collection.Furnitures", "value": "Furnitures Collection" },
   { "key": "Collection.Foods", "value": "Foods Collection" },
   { "key": "Collection.Beverages", "value": "Beverages Collection" },
+  { "key": "Collection.Buildings", "value": "Buildings Collection" },
+  { "key": "Collection.Plants", "value": "Plants Collection" },
+  { "key": "Collection.Fashions", "value": "Fashions Collection" },
 
   { "key": "CardHeroes", "value": "Card Heroes" },
   { "key": "Books", "value": "Books" },

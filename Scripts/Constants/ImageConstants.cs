@@ -7,6 +7,13 @@ public static class ImageConstants
         public const string BADGE_COLLECTION_URL = "UI/Background4/Badge/Badge_Collection";
         public const string BADGE_EQUIPMENT_URL = "UI/Background4/Badge/Badge_Equipment";
     }
+    public static class Flag
+    {
+        public const string FLAG_INVENTORY_URL = "UI/Background4/Red_Flag_Background";
+        public const string FLAG_GALLERY_URL = "UI/Background4/Blue_Flag_Background";
+        public const string FLAG_COLLECTION_URL = "UI/Background4/Green_Flag_Background";
+        public const string FLAG_EQUIPMENT_URL = "UI/Background4/Green_Flag_Background";
+    }
     public static class Main
     {
         public const string CARD_HERO_URL = "UI/Button/Main/CardHeroes";
