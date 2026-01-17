@@ -536,6 +536,140 @@ public static class ItemConstants
         public const string WHISPERIN_CORE_2 = "Whisperin Core 2";
         public const string WHISPERIN_CORE_3 = "Whisperin Core 3";
         public const string WHISPERIN_CORE_4 = "Whisperin Core 4";
+
+        public const string EQUIPMENT_GEM_1 = "Equipment Gem 1";
+        public const string EQUIPMENT_GEM_2 = "Equipment Gem 2";
+        public const string EQUIPMENT_GEM_3 = "Equipment Gem 3";
+        public const string EQUIPMENT_GEM_4 = "Equipment Gem 4";
+
+        public const string EQUIPMENT_PART_1 = "Equipment Part 1";
+        public const string EQUIPMENT_PART_2 = "Equipment Part 2";
+        public const string EQUIPMENT_PART_3 = "Equipment Part 3";
+        public const string EQUIPMENT_PART_4 = "Equipment Part 4";
+
+        public const string STELLAR_CORE_FROST_MAGE = "Stellar Core Frost Mage";
+        public const string STELLAR_CORE_HEAVY_GUARDIAN = "Stellar Core Heavy Guardian";
+        public const string STELLAR_CORE_MARKSMAN = "Stellar Core Marksman";
+        public const string STELLAR_CORE_SHIELD_KNIGHT = "Stellar Core Shield Knight";
+        public const string STELLAR_CORE_STORMBLADE = "Stellar Core Stormblade";
+        public const string STELLAR_CORE_VERDANT_ORACLE = "Stellar Core Verdant Oracle";
+        public const string STELLAR_CORE_WIND_KNIGHT = "Stellar Core Wind Knight";
+
+        public const string B3_AERO_ERODED_COIN = "B3 Aero Eroded Coin";
+        public const string B3_ELECTRO_ERODED_COIN = "B3 Electro Eroded Coin";
+        public const string B3_FUSION_ERODED_COIN = "B3 Fusion Eroded Coin";
+        public const string B3_GLACIO_ERODED_COIN = "B3 Glacio Eroded Coin";
+        public const string B3_HAVOC_ERODED_COIN = "B3 Havoc Eroded Coin";
+        public const string B3_SPECTRO_ERODED_COIN = "B3 Spectro Eroded Coin";
+
+        public const string EQUIP_DRAWING_1 = "Equip Drawing 1";
+        public const string EQUIP_DRAWING_2 = "Equip Drawing 2";
+        public const string EQUIP_DRAWING_3 = "Equip Drawing 3";
+
+        public const string EQUIP_RECAST_1 = "Equip Recast 1";
+        public const string EQUIP_RECAST_2 = "Equip Recast 2";
+        public const string EQUIP_RECAST_3 = "Equip Recast 3";
+
+        public const string AWARD_FRAME_1 = "Award Frame 1";
+        public const string AWARD_FRAME_2 = "Award Frame 2";
+        public const string AWARD_FRAME_3 = "Award Frame 3";
+
+        public const string MOD_DEVICE_1 = "Mod Device 1";
+        public const string MOD_DEVICE_2 = "Mod Device 2";
+        public const string MOD_DEVICE_3 = "Mod Device 3";
+
+        public const string MOD_DEVICE_PROTECT_1 = "Mod Device Protect 1";
+        public const string MOD_DEVICE_PROTECT_2 = "Mod Device Protect 2";
+        public const string MOD_DEVICE_PROTECT_3 = "Mod Device Protect 3";
+
+        public const string MOD_DEVICE_ATTACK_1 = "Mode Device Attack 1";
+        public const string MOD_DEVICE_ATTACK_2 = "Mode Device Attack 2";
+        public const string MOD_DEVICE_ATTACK_3 = "Mode Device Attack 3";
+
+        public const string D1_ENUKI_COBALT_TRACE = "D1 Enuki Cobalt Trace";
+        public const string D1_ENULI_PALLADIUM_TRACE = "D1 Enuli Palladium Trace";
+        public const string D1_NIANNA_ZIRCONIUM_TRACE = "D1 Nianna Zirconium Trace";
+        public const string D1_NISABA_GOLD_TRACE = "D1 Nisaba Gold Trace";
+        public const string D1_NUSKA_IRON_TRACE = "D1 Nuska Iron Trace";
+        public const string D1_TIAMA_TUNGSTEN_TRACE = "D1 Tiama Tungsten Trace";
+
+        public const string D2_ENULI_PALLADIUM_SAMPLE = "D2 Enuli Palladium Sample";
+        public const string D2_NERGA_URANIUM_SAMPLE = "D2 Nerga Uranium Sample";
+        public const string D2_NIANNA_ZIRCONIUM_SAMPLE = "D2 Nianna Zirconium Sample";
+        public const string D2_NISABA_GOLD_SAMPLE = "D2 Nisaba Gold Sample";
+        public const string D2_NUSKA_IRON_SAMPLE = "D2 Nuska Iron Sample";
+        public const string D2_TIAMA_TUNGSTEN_SAMPLE = "D2 Tiama Tungsten Sample";
+
+        public const string DATA_SET_1 = "Data Set 1";
+        public const string DATA_SET_2 = "Data Set 2";
+        public const string DATA_SET_3 = "Data Set 3";
+
+        public const string FORGERY_SUPPLY_1 = "Forgery Supply 1";
+        public const string FORGERY_SUPPLY_2 = "Forgery Supply 2";
+        public const string FORGERY_SUPPLY_3 = "Forgery Supply 3";
+
+        public const string USB_NOENTRY = "USB Noentry";
+        public const string USB_RANK = "USB Rank";
+        public const string USB_TRAINING = "USB Training";
+        public const string USB_VALKYRIA_N = "USB Valkyria N";
+        public const string USB_VALKYRIA_S = "USB Valkyria S";
+
+        public const string BANGBOO_ALGORITHM_MODULE = "Bangboo Algorithm Module";
+        public const string BANGBOO_SOFTWARE_PATCH = "Bangboo Software Patch";
+        public const string BANGBOO_SYSTEM_WIDGET = "Bangboo System Widget";
+
+        public const string SOULIUM_FRAGMENT = "Soulium Fragment";
+        public const string SOULIUM_INTERMEDIARY = "Soulium Intermediary";
+        public const string SOULIUM_VARIANT = "Soulium Variant";
+
+        public const string W_ENGINE_BATTERY = "W-Engine Battery";
+        public const string W_ENGINE_ENERGY_MODULE = "W-Engine Energy Module";
+        public const string W_ENGINE_POWER_SUPPLY = "W-Engine Power Supply";
+
+        public const string WITHERED_CRYSTAL_HEAVEN_AZURE = "Withered Crystal Heaven Azure";
+        public const string WITHERED_CRYSTAL_INK_YELLOW = "Withered Crystal Ink Yellow";
+        public const string WITHERED_CRYSTAL_IRON_RED = "Withered Crystal Iron Red";
+
+        public const string REGULATOR_FLATFORM_1 = "Regulator Flatform 1";
+        public const string REGULATOR_FLATFORM_2 = "Regulator Flatform 2";
+        public const string REGULATOR_FLATFORM_3 = "Regulator Flatform 3";
+
+        public const string RENOVATION_BOOK_1 = "Renovation Book 1";
+        public const string RENOVATION_BOOK_2 = "Renovation Book 2";
+        public const string RENOVATION_BOOK_3 = "Renovation Book 3";
+        public const string RENOVATION_BOOK_4 = "Renovation Book 4";
+        public const string RENOVATION_BOOK_5 = "Renovation Book 5";
+        public const string RENOVATION_BOOK_6 = "Renovation Book 6";
+        public const string RENOVATION_BOOK_7 = "Renovation Book 7";
+        public const string RENOVATION_BOOK_8 = "Renovation Book 8";
+
+        public const string RECIPE_PAPER_1 = "Recipe Paper 1";
+        public const string RECIPE_PAPER_2 = "Recipe Paper 2";
+        public const string RECIPE_PAPER_3 = "Recipe Paper 3";
+        public const string RECIPE_PAPER_4 = "Recipe Paper 4";
+        public const string RECIPE_PAPER_5 = "Recipe Paper 5";
+        public const string RECIPE_PAPER_6 = "Recipe Paper 6";
+        public const string RECIPE_PAPER_7 = "Recipe Paper 7";
+
+        public const string LEGACY_PART_1 = "Legacy Part 1";
+        public const string LEGACY_PART_2 = "Legacy Part 2";
+        public const string LEGACY_PART_3 = "Legacy Part 3";
+
+        public const string D3_AUDIO_BOOSTER_MASTER_COPY = "D3 Audio Booster Master Copy";
+        public const string D3_HI_FI_MASTER_COPY = "D3 Hi-Fi Master Copy";
+        public const string D3_NOISE_REDUCTION_MASTER_COPY = "D3 Noise Reduction Master Copy";
+
+        public const string SUPER_ATERINA_EXP_CHIP = "Super Aterina EXP Chip";
+        public const string SUPER_ATERINA_MECH_CHIP = "Super Aterina MECH Chip";
+        public const string SUPER_ATERINA_PSY_CHIP = "Super Aterina PSY Chip";
+
+        public const string SUSCITARIN_MARK_I = "Suscitarin Mark I";
+        public const string SUSCITARIN_MARK_II = "Suscitarin Mark II";
+        public const string SUSCITARIN_MARK_III = "Suscitarin Mark III";
+
+        public const string DEEP_FRAG_1 = "Deep Frag 1";
+        public const string DEEP_FRAG_2 = "Deep Frag 2";
+        public const string DEEP_FRAG_3 = "Deep Frag 3";
     }
     public const string REACTOR_MATERIAL_NUMBER_1 = "Reactor Material Number 1";
     public const string REACTOR_MATERIAL_NUMBER_2 = "Reactor Material Number 2";

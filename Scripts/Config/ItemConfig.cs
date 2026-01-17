@@ -9403,4 +9403,3423 @@ public static class ItemConfig
             },
         }
     };
+    public static readonly Recipe energyRecipe70 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_3, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_GEM_4, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe71 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_3, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIPMENT_PART_4, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe72 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_FROST_MAGE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_HEAVY_GUARDIAN, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_MARKSMAN, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_SHIELD_KNIGHT, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_STORMBLADE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_VERDANT_ORACLE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.STELLAR_CORE_WIND_KNIGHT, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe73 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIP_DRAWING_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe74 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.EQUIP_RECAST_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe75 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.AWARD_FRAME_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe76 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe77 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_PROTECT_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe78 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.MOD_DEVICE_ATTACK_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe79 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.B3_AERO_ERODED_COIN, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.B3_ELECTRO_ERODED_COIN, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.B3_FUSION_ERODED_COIN, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.B3_GLACIO_ERODED_COIN, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.B3_HAVOC_ERODED_COIN, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.B3_SPECTRO_ERODED_COIN, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe80 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D1_ENUKI_COBALT_TRACE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D1_ENULI_PALLADIUM_TRACE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D1_NIANNA_ZIRCONIUM_TRACE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D1_NISABA_GOLD_TRACE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D1_NUSKA_IRON_TRACE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D1_TIAMA_TUNGSTEN_TRACE, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe81 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D2_ENULI_PALLADIUM_SAMPLE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D2_NERGA_URANIUM_SAMPLE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D2_NIANNA_ZIRCONIUM_SAMPLE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D2_NISABA_GOLD_SAMPLE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D2_NUSKA_IRON_SAMPLE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D2_TIAMA_TUNGSTEN_SAMPLE, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe82 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DATA_SET_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.DATA_SET_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe83 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.FORGERY_SUPPLY_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe84 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.USB_NOENTRY, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.USB_RANK, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.USB_TRAINING, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_N, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.USB_VALKYRIA_S, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe85 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.BANGBOO_ALGORITHM_MODULE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SOFTWARE_PATCH, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.BANGBOO_SYSTEM_WIDGET, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe86 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SOULIUM_FRAGMENT, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_INTERMEDIARY, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.SOULIUM_VARIANT, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe87 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.W_ENGINE_BATTERY, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_ENERGY_MODULE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.W_ENGINE_POWER_SUPPLY, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe88 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_HEAVEN_AZURE, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_INK_YELLOW, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.WITHERED_CRYSTAL_IRON_RED, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe89 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.REGULATOR_FLATFORM_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe90 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_3, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_4, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_5, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_6, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_7, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RENOVATION_BOOK_8, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe91 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_3, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_4, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_5, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_6, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.RECIPE_PAPER_7, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe92 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.LEGACY_PART_3, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe93 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.D3_AUDIO_BOOSTER_MASTER_COPY, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D3_HI_FI_MASTER_COPY, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.D3_NOISE_REDUCTION_MASTER_COPY, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe94 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_EXP_CHIP, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_MECH_CHIP, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.SUPER_ATERINA_PSY_CHIP, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe95 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_I, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_II, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.SUSCITARIN_MARK_III, Quantity = 10 },
+                }
+            },
+        }
+    };
+    public static readonly Recipe energyRecipe96 = new Recipe
+    {
+        MaxLevel = 10000,
+        ItemRecipes = new()
+        {
+            new ItemRecipe
+            {
+                MinLevel = 0,
+                MaxLevel = 1000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 1 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 1 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 1001,
+                MaxLevel = 2000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 2 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 2 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 2001,
+                MaxLevel = 3000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 3 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 3 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 3001,
+                MaxLevel = 4000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 4 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 4 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 4001,
+                MaxLevel = 5000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 5 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 5 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 5001,
+                MaxLevel = 6000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 6 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 6 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 6001,
+                MaxLevel = 7000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 7 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 7 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 7001,
+                MaxLevel = 8000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 8 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 8 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 8001,
+                MaxLevel = 9000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 9 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 9 },
+                }
+            },
+            new ItemRecipe
+            {
+                MinLevel = 9001,
+                MaxLevel = 10000,
+                Items = new()
+                {
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_1, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_2, Quantity = 10 },
+                    new Items { Name = ItemConstants.Material.DEEP_FRAG_3, Quantity = 10 },
+                }
+            },
+        }
+    };
 }

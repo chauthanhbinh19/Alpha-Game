@@ -3,70 +3,70 @@ using System.Linq;
 
 public static class UpgradeService
 {
-    private static List<Items> GetCostForLevel(int currentLevel, Recipe config)
+    private static List<Items> GetCostForLevel(int currentLevel, Recipe recipe)
     {
-        return config.ItemRecipes
+        return recipe.ItemRecipes
             .First(r => currentLevel >= r.MinLevel && currentLevel <= r.MaxLevel)
             .Items;
     }
 
-    private static bool CanPayById(Inventory inv, List<Items> costs)
+    private static bool CanPayById(Inventory inventory, List<Items> items)
     {
-        foreach (var c in costs)
-            if (inv.GetQuantityById(c.Id) < c.Quantity)
+        foreach (var item in items)
+            if (inventory.GetQuantityById(item.Id) < item.Quantity)
                 return false;
         return true;
     }
 
-    private static bool CanPayByName(Inventory inv, List<Items> costs)
+    private static bool CanPayByName(Inventory inventory, List<Items> items)
     {
-        foreach (var c in costs)
-            if (inv.GetQuantityByName(c.Name) < c.Quantity)
+        foreach (var item in items)
+            if (inventory.GetQuantityByName(item.Name) < item.Quantity)
                 return false;
         return true;
     }
 
-    private static void PayById(Inventory inv, List<Items> costs)
+    private static void PayById(Inventory inventory, List<Items> items)
     {
-        foreach (var c in costs)
-            inv.RemoveById(c.Id, c.Quantity);
+        foreach (var item in items)
+            inventory.RemoveById(item.Id, item.Quantity);
     }
 
-    private static void PayByName(Inventory inv, List<Items> costs)
+    private static void PayByName(Inventory inventory, List<Items> items)
     {
-        foreach (var c in costs)
-            inv.RemoveByName(c.Name, c.Quantity);
+        foreach (var item in items)
+            inventory.RemoveByName(item.Name, item.Quantity);
     }
 
     // 🔹 Up 1 level
-    public static bool UpgradeOne(Inventory inv, ref int level, Recipe config)
+    public static bool UpgradeOne(Inventory inventory, ref int level, Recipe recipe)
     {
-        if (level >= config.MaxLevel)
+        if (level >= recipe.MaxLevel)
             return false;
 
-        var costs = GetCostForLevel(level, config);
+        var costs = GetCostForLevel(level, recipe);
 
-        if (!CanPayByName(inv, costs))
+        if (!CanPayByName(inventory, costs))
             return false;
 
-        PayByName(inv, costs);
+        PayByName(inventory, costs);
         level++;
         return true;
     }
 
     // 🔹 Up bulk (max)
-    public static int UpgradeMax(Inventory inv, ref int level, Recipe config)
+    public static int UpgradeMax(Inventory inventory, ref int level, Recipe recipe)
     {
         int upgraded = 0;
 
-        while (level < config.MaxLevel)
+        while (level < recipe.MaxLevel)
         {
-            var costs = GetCostForLevel(level, config);
+            var costs = GetCostForLevel(level, recipe);
 
-            if (!CanPayByName(inv, costs))
+            if (!CanPayByName(inventory, costs))
                 break;
 
-            PayByName(inv, costs);
+            PayByName(inventory, costs);
             level++;
             upgraded++;
         }
@@ -75,15 +75,15 @@ public static class UpgradeService
     }
 
     // 🔹 Preview bulk (không trừ item thật)
-    public static int PreviewUpgradeMax(Inventory inv, int currentLevel, Recipe config)
+    public static int PreviewUpgradeMax(Inventory inventory, int currentLevel, Recipe recipe)
     {
-        var tempInv = inv.Clone();
+        var tempInv = inventory.Clone();
         int tempLevel = currentLevel;
         int upgraded = 0;
 
-        while (tempLevel < config.MaxLevel)
+        while (tempLevel < recipe.MaxLevel)
         {
-            var costs = GetCostForLevel(tempLevel, config);
+            var costs = GetCostForLevel(tempLevel, recipe);
 
             if (!CanPayById(tempInv, costs))
                 break;
