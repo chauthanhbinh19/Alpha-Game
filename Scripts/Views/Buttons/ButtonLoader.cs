@@ -393,7 +393,7 @@ public class ButtonLoader : MonoBehaviour
         FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    private void CreateGalleryButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D itemImage, Transform panel)
+    private void CreateGalleryButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Transform panel)
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(ItemButtonPrefab, panel);
@@ -408,9 +408,9 @@ public class ButtonLoader : MonoBehaviour
 
         // Gán hình ảnh cho itemImage
         RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
-        if (image != null && itemImage != null)
+        if (image != null && _itemImage != null)
         {
-            image.texture = itemImage;
+            image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
@@ -474,7 +474,7 @@ public class ButtonLoader : MonoBehaviour
         FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    private void CreateCollectionButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D itemImage, Transform panel)
+    private void CreateCollectionButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Transform panel)
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(ItemButtonPrefab, panel);
@@ -489,9 +489,9 @@ public class ButtonLoader : MonoBehaviour
 
         // Gán hình ảnh cho itemImage
         RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
-        if (image != null && itemImage != null)
+        if (image != null && _itemImage != null)
         {
-            image.texture = itemImage;
+            image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
