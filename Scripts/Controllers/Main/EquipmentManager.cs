@@ -33,6 +33,7 @@ public class EquipmentManager : MonoBehaviour
     private GameObject cardsPrefab;
     private GameObject ReceivedNotification;
     private GameObject ItemThird;
+    private Transform ContentPanel;
     private int offset;
     private int currentPage;
     private int totalPage;
@@ -41,7 +42,7 @@ public class EquipmentManager : MonoBehaviour
     private string rare;
     private GameObject currentObject;
     // Start is called before the first frame update
-    public void CreateEquipments(Transform EquipmentMenuPanel)
+    public void CreateEquipments(Transform EquipmentMenuPanel, Transform contentPanel)
     {
         offset = 0;
         currentPage = 1;
@@ -66,6 +67,7 @@ public class EquipmentManager : MonoBehaviour
         cardsPrefab = UIManager.Instance.Get("CardsPrefab");
         ReceivedNotification = UIManager.Instance.Get("ReceivedNotification");
         ItemThird = UIManager.Instance.Get("ItemThird");
+        ContentPanel = contentPanel;
 
         MainMenuContent = MainMenuPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
         MainMenuShopContent = MainMenuShopPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/Content").GetComponent<Transform>();
@@ -86,7 +88,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public void OnButtonClick(string type, int count)
     {
-        GameObject equipmentObject = Instantiate(EquipmentPanelPrefab, MainPanel);
+        GameObject equipmentObject = Instantiate(EquipmentPanelPrefab, ContentPanel);
 
         Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
         Title.text = LocalizationManager.Get(type);
@@ -340,7 +342,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetBagAsync(string type)
     {
-        currentObject = Instantiate(MainMenuPanelPrefab, MainPanel);
+        currentObject = Instantiate(MainMenuPanelPrefab, ContentPanel);
         int totalRecord = 0;
         var userEquipmentsService = UserEquipmentsService.Create();
         List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, type, pageSize, offset, rare);
@@ -399,7 +401,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetShopAsync(string type)
     {
-        currentObject = Instantiate(MainMenuShopPanelPrefab, MainPanel);
+        currentObject = Instantiate(MainMenuShopPanelPrefab, ContentPanel);
         int totalRecord = 0;
         var equipmentsService = EquipmentsService.Create();
         List<Equipments> equipments = await equipmentsService.GetEquipmentsWithCurrencyAsync(type, pageSize, offset);
@@ -456,7 +458,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetEnhancementAsync(string type)
     {
-        currentObject = Instantiate(MainMenuEnhancementPanelPrefab, MainPanel);
+        currentObject = Instantiate(MainMenuEnhancementPanelPrefab, ContentPanel);
         int totalRecord = 0;
         var userEquipmentsService = UserEquipmentsService.Create();
         List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, type, pageSize, offset, rare);

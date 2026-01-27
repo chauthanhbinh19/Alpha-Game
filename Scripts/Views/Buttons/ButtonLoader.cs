@@ -390,7 +390,6 @@ public class ButtonLoader : MonoBehaviour
         CreateGalleryButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, itemBackground, Resources.Load<Texture2D>(ImageConstants.Gallery.PLANT_URL), galleryMenuPanel);
         CreateGalleryButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, itemBackground, Resources.Load<Texture2D>(ImageConstants.Gallery.FASHION_URL), galleryMenuPanel);
 
-        FindAnyObjectByType<GalleryManager>().CreateGallery(galleryMenuPanel);
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void CreateGalleryButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Transform panel)
@@ -471,7 +470,6 @@ public class ButtonLoader : MonoBehaviour
         CreateCollectionButtonUI(45, AppDisplayConstants.Collection.PLANTS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.PLANT_URL), collectionMenuPanel);
         CreateCollectionButtonUI(46, AppDisplayConstants.Collection.FASHIONS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.FASHION_URL), collectionMenuPanel);
 
-        FindAnyObjectByType<CollectionManager>().CreateCollection(collectionMenuPanel);
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void CreateCollectionButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Transform panel)
@@ -501,7 +499,7 @@ public class ButtonLoader : MonoBehaviour
             nameText.text = LocalizationManager.Get(itemName);
         }
     }
-    public async Task CreateEquipmentsButtonAsync(Transform equipmentMenuPanel)
+    public async Task CreateEquipmentsButtonAsync(Transform equipmentMenuPanel, Transform contentPanel)
     {
         itemBackground = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_EQUIPMENT_URL);
         //Equipment menu
@@ -514,7 +512,7 @@ public class ButtonLoader : MonoBehaviour
                 CreateButtonWithName(subtype, itemBackground, Resources.Load<Texture2D>($"UI/Button/Equipments/{subtype}"), equipmentMenuPanel);
             }
         }
-        FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel);
+        FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel, contentPanel);
         equipmentMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateAnimeButton(Transform animeMenuPanel)

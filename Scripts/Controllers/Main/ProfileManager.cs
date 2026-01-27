@@ -62,12 +62,12 @@ public class ProfileManager : MonoBehaviour
         profileObject = Instantiate(ProfilePanelPrefab, panel);
         Transform profileTransform = profileObject.transform.Find("Scroll View/Viewport/Content");
         // titleText = profileObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-        CloseButton = profileObject.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(profileObject);
-        });
+        // CloseButton = profileObject.transform.Find("CloseButton").GetComponent<Button>();
+        // CloseButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Destroy(profileObject);
+        // });
         // HomeButton = profileObject.transform.Find("HomeButton").GetComponent<Button>();
         // HomeButton.onClick.AddListener(() =>
         // {

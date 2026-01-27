@@ -62,7 +62,7 @@ public class ShopManager : MonoBehaviour
         currentPage = 1;
         pageSize = 100;
         rare = "All";
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        // MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ShopButtonPrefab = UIManager.Instance.Get("ShopButtonPrefab");
         ShopManagerPrefab = UIManager.Instance.Get("ShopManagerPrefab");
         ShopPrefab = UIManager.Instance.Get("ShopPrefab");
@@ -90,8 +90,9 @@ public class ShopManager : MonoBehaviour
             Debug.LogWarning($"Button {buttonName} not found!");
         }
     }
-    public async Task CreateShopButtonAsync()
+    public async Task CreateShopButtonAsync(Transform panel)
     {
+        MainPanel = panel;
         currentObject = Instantiate(ShopManagerPrefab, MainPanel);
         titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         titleText.text = LocalizationManager.Get("shop");

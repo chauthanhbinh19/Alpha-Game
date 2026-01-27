@@ -18,6 +18,7 @@ public class CollectionManager : MonoBehaviour
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
     private Material UI_Green_Gradient_Radius_Mat_MaskPercent_70;
+    private Transform ContentPanel;
     private Button CloseButton;
     private Button HomeButton;
     //Variable for pagination
@@ -34,7 +35,7 @@ public class CollectionManager : MonoBehaviour
     private string type;
     private string rare;
     public List<Button> rareTabButtons;
-    public void CreateCollection(Transform CollectionMenuPanel)
+    public void CreateCollection(Transform CollectionMenuPanel, Transform contentPanel)
     {
         offset = 0;
         currentPage = 1;
@@ -46,6 +47,7 @@ public class CollectionManager : MonoBehaviour
         DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UI_Green_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_70");
+        ContentPanel = contentPanel;
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK));
@@ -123,7 +125,7 @@ public class CollectionManager : MonoBehaviour
     public async Task GetButtonTypeAsync()
     {
         // DictionaryPanel.SetActive(true);
-        GameObject mainMenuObject = Instantiate(DictionaryPanelPrefab, MainPanel);
+        GameObject mainMenuObject = Instantiate(DictionaryPanelPrefab, ContentPanel);
         DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
         RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
         LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
@@ -131,19 +133,19 @@ public class CollectionManager : MonoBehaviour
         NextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ClosePanel();
-            Destroy(mainMenuObject);
-        });
-        HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        // CloseButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     ClosePanel();
+        //     Destroy(mainMenuObject);
+        // });
+        // HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(MainPanel);
+        // });
         NextButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
@@ -160,12 +162,12 @@ public class CollectionManager : MonoBehaviour
         TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
         subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLECTION);
 
-        Transform CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");
-        IUserCurrenciesRepository userCurrencyRepository = new UserCurrenciesRepository();
-        UserCurrenciesService userCurrencyService = new UserCurrenciesService(userCurrencyRepository);
-        List<Currencies> currencies = new List<Currencies>();
-        currencies = await userCurrencyService.GetUserCurrencyAsync(User.CurrentUserId);
-        FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
+        // Transform CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");
+        // IUserCurrenciesRepository userCurrencyRepository = new UserCurrenciesRepository();
+        // UserCurrenciesService userCurrencyService = new UserCurrenciesService(userCurrencyRepository);
+        // List<Currencies> currencies = new List<Currencies>();
+        // currencies = await userCurrencyService.GetUserCurrencyAsync(User.CurrentUserId);
+        // FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
         List<string> uniqueRaries = QualityEvaluator.rarities;
         if (uniqueRaries.Count > 0)
