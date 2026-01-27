@@ -57,6 +57,18 @@ public class CardColonelsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardColonelObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardColonel.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardColonelObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Colonel";
+
+            TextMeshProUGUI typePanel = cardColonelObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardColonel.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardColonelObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardColonel.Rare));
+
             RawImage backgroundImage = cardColonelObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_COLONEL_BUTTON_BACKGROUND_URL);
 
@@ -74,7 +86,7 @@ public class CardColonelsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -121,7 +133,7 @@ public class CardColonelsController : MonoBehaviour
             });
 
             RawImage topImage = cardColonelObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = cardColonelObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = cardColonelObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -140,7 +152,7 @@ public class CardColonelsController : MonoBehaviour
             Button buy = cardColonelObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             buy.onClick.AddListener(() =>
             {

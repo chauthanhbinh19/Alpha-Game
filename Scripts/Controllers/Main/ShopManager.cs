@@ -35,7 +35,7 @@ public class ShopManager : MonoBehaviour
     private Button PreviousButton;
     private string mainType;
     private string type;
-    private Text titleText;
+    private TextMeshProUGUI titleText;
     private string rare;
     public static ShopManager Instance { get; private set; }
     private void Awake()
@@ -94,16 +94,10 @@ public class ShopManager : MonoBehaviour
     {
         MainPanel = panel;
         currentObject = Instantiate(ShopManagerPrefab, MainPanel);
-        titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        titleText.text = LocalizationManager.Get("shop");
+        titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
         CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(currentObject);
-        });
-        HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
@@ -245,19 +239,19 @@ public class ShopManager : MonoBehaviour
         PageText = equipmentObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
         NextButton = equipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         CloseButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(equipmentObject);
         });
-        HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(MainPanel);
+        // });
         NextButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);

@@ -143,7 +143,7 @@ public class FashionsController : MonoBehaviour
             });
 
             RawImage topImage = FashionObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = FashionObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = FashionObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -162,7 +162,7 @@ public class FashionsController : MonoBehaviour
             Button buy = FashionObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             buy.onClick.AddListener(() =>
             {

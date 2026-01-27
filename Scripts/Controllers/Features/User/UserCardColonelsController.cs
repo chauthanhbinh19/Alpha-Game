@@ -86,6 +86,18 @@ public class UserCardColonelsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardColonelObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardColonel.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardColonelObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Colonel";
+
+            TextMeshProUGUI typePanel = cardColonelObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardColonel.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardColonelObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardColonel.Rare));
+
             RawImage backgroundImage = cardColonelObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_COLONEL_BUTTON_BACKGROUND_URL);
 
@@ -118,7 +130,7 @@ public class UserCardColonelsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

@@ -15,7 +15,7 @@ public class UltraRareMarketManager : MonoBehaviour
     private GameObject UltraRareMarketManagerPrefab;
     private GameObject UltraRareMarketButtonPrefab;
     private GameObject UltraRareMarketPrefab;
-    private Transform MainPanel;
+    private Transform ContentPanel;
     private Transform currentContent;
     private Transform currencyPanel;
     private Transform popupPanel;
@@ -56,15 +56,15 @@ public class UltraRareMarketManager : MonoBehaviour
         currentPage = 1;
         pageSize = 100;
         items = new List<Items>();
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UltraRareMarketButtonPrefab = UIManager.Instance.Get("UltraRareMarketButtonPrefab");
         UltraRareMarketManagerPrefab = UIManager.Instance.Get("UltraRareMarketManagerPrefab");
         UltraRareMarketPrefab = UIManager.Instance.Get("UltraRareMarketPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
-    public async Task CreateUltraRareMarketAsync()
+    public async Task CreateUltraRareMarketAsync(Transform panel)
     {
-        GameObject ultraRareMarketManagerObject = Instantiate(UltraRareMarketManagerPrefab, MainPanel);
+        ContentPanel = panel;
+        GameObject ultraRareMarketManagerObject = Instantiate(UltraRareMarketManagerPrefab, ContentPanel);
         Transform ultraRareMarketTransform = ultraRareMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         titleText = ultraRareMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = ultraRareMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -73,12 +73,12 @@ public class UltraRareMarketManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(ultraRareMarketManagerObject);
         });
-        HomeButton = ultraRareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // HomeButton = ultraRareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(ContentPanel);
+        // });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.ULTRA_RARE_MARKET);
 
@@ -107,7 +107,7 @@ public class UltraRareMarketManager : MonoBehaviour
     public async Task CreateUltraRareMarketItemUIAsync(Currencies currency)
     {
         currentCurrency = currency;
-        GameObject ultraRareMarketObject = Instantiate(UltraRareMarketPrefab, MainPanel);
+        GameObject ultraRareMarketObject = Instantiate(UltraRareMarketPrefab, ContentPanel);
         currentContent = ultraRareMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = ultraRareMarketObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = ultraRareMarketObject.transform.Find("DictionaryCards/Currency");
@@ -115,18 +115,18 @@ public class UltraRareMarketManager : MonoBehaviour
         NextButton = ultraRareMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = ultraRareMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = ultraRareMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        CloseButton = ultraRareMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(ultraRareMarketObject);
-        });
-        HomeButton = ultraRareMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // CloseButton = ultraRareMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        // CloseButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Destroy(ultraRareMarketObject);
+        // });
+        // HomeButton = ultraRareMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(ContentPanel);
+        // });
         NextButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);

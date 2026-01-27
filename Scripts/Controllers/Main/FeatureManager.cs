@@ -11,7 +11,7 @@ public class FeatureManager : MonoBehaviour
 {
     public static FeatureManager Instance { get; private set; }
     private GameObject FeaturePanelPrefab;
-    private Transform MainPanel;
+    private Transform ContentPanel;
     private Transform currentContent;
     private Transform currencyPanel;
     private Transform popupPanel;
@@ -39,26 +39,26 @@ public class FeatureManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
         FeaturePanelPrefab = UIManager.Instance.Get("FeaturePanelPrefab");
     }
-    public void CreateFeature()
+    public void CreateFeature(Transform contentPanel)
     {
-        GameObject featureObject = Instantiate(FeaturePanelPrefab, MainPanel);
+        ContentPanel = contentPanel;
+        GameObject featureObject = Instantiate(FeaturePanelPrefab, ContentPanel);
         Transform featureTransform = featureObject.transform.Find("Scroll View/Viewport/Content");
         titleText = featureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-        CloseButton = featureObject.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(featureObject);
-        });
-        HomeButton = featureObject.transform.Find("HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ButtonEvent.Instance.Close(MainPanel);
-        });
+        // CloseButton = featureObject.transform.Find("CloseButton").GetComponent<Button>();
+        // CloseButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Destroy(featureObject);
+        // });
+        // HomeButton = featureObject.transform.Find("HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     ButtonEvent.Instance.Close(MainPanel);
+        // });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FEATURE);
         ButtonLoader.Instance.CreateFeatureButton(featureTransform);

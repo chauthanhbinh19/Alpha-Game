@@ -86,6 +86,18 @@ public class UserCardSpellsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardSpellObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardSpell.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardSpellObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Spell";
+
+            TextMeshProUGUI typePanel = cardSpellObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardSpell.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardSpellObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
+
             RawImage backgroundImage = cardSpellObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_SPELL_BUTTON_BACKGROUND_URL);
 
@@ -118,7 +130,7 @@ public class UserCardSpellsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

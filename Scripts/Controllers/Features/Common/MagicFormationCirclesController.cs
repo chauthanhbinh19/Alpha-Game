@@ -124,7 +124,7 @@ public class MagicFormationCirclesController : MonoBehaviour
             });
 
             RawImage topImage = magicFormationCircleObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Red_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = magicFormationCircleObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = magicFormationCircleObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -143,7 +143,7 @@ public class MagicFormationCirclesController : MonoBehaviour
             Button buy = magicFormationCircleObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             buy.onClick.AddListener(() =>
             {

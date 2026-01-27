@@ -36,7 +36,7 @@ public class AlchemiesController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        // MainPanel = UIManager.Instance.GetTransform("MainPanel");
         AlchemyButtonPrefab = UIManager.Instance.Get("AlchemyButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
@@ -123,7 +123,7 @@ public class AlchemiesController : MonoBehaviour
             });
 
             RawImage topImage = alchemyObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Green_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = alchemyObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             Outline bottomOutline = alchemyObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -142,7 +142,7 @@ public class AlchemiesController : MonoBehaviour
             Button buy = alchemyObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
             buy.onClick.AddListener(() =>
             {

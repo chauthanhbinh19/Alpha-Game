@@ -124,7 +124,7 @@ public class RelicsController : MonoBehaviour
             });
 
             RawImage topImage = relicObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Orange_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Orange_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = relicObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             Outline bottomOutline = relicObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -143,7 +143,7 @@ public class RelicsController : MonoBehaviour
             Button buy = relicObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             buy.onClick.AddListener(() =>
             {

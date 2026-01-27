@@ -131,6 +131,7 @@
   { "key": "MainType.Team", "value": "Team" },
   { "key": "MainType.Inventory", "value": "Inventory" },
   { "key": "MainType.Feature", "value": "Feature" },
+  { "key": "MainType.ScienceFiction", "value": "Science Fiction" },
 
   { "key": "Feature.Base", "value": "Base" },
   { "key": "Feature.Train", "value": "Train" },

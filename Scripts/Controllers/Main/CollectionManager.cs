@@ -13,7 +13,6 @@ public class CollectionManager : MonoBehaviour
     private GameObject TypeButtonPrefab;
     private GameObject DictionaryPanelPrefab;
     private GameObject RareButtonPrefab;
-    private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
@@ -45,7 +44,6 @@ public class CollectionManager : MonoBehaviour
         TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UI_Green_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_70");
         ContentPanel = contentPanel;
 

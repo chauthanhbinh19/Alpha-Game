@@ -15,7 +15,6 @@ public class GalleryManager : MonoBehaviour
     private GameObject TypeButtonPrefab;
     private GameObject DictionaryPanelPrefab;
     private GameObject RareButtonPrefab;
-    private Transform MainPanel;
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
@@ -46,7 +45,6 @@ public class GalleryManager : MonoBehaviour
         TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
         UI_Blue_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_70");
         ContentPanel = contentPanel;
 

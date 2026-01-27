@@ -57,6 +57,18 @@ public class CardMilitariesController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardMilitaryObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardMilitary.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardMilitaryObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Military";
+
+            TextMeshProUGUI typePanel = cardMilitaryObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardMilitary.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardMilitaryObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
+
             RawImage backgroundImage = cardMilitaryObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_MILITARY_BUTTON_BACKGROUND_URL);
 
@@ -74,7 +86,7 @@ public class CardMilitariesController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -121,7 +133,7 @@ public class CardMilitariesController : MonoBehaviour
             });
 
             RawImage topImage = militaryObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Orange_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Orange_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = militaryObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             Outline bottomOutline = militaryObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -140,7 +152,7 @@ public class CardMilitariesController : MonoBehaviour
             Button buy = militaryObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             buy.onClick.AddListener(() =>
             {

@@ -57,6 +57,18 @@ public class CardAdmiralsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardAdmiralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardAdmiral.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardAdmiralObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Admiral";
+
+            TextMeshProUGUI typePanel = cardAdmiralObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardAdmiral.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardAdmiralObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardAdmiral.Rare));
+
             RawImage backgroundImage = cardAdmiralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_ADMIRAL_BUTTON_BACKGROUND_URL);
 
@@ -74,7 +86,7 @@ public class CardAdmiralsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -121,7 +133,7 @@ public class CardAdmiralsController : MonoBehaviour
             });
 
             RawImage topImage = admiralObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Gray_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Gray_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = admiralObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
             Outline bottomOutline = admiralObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -140,7 +152,7 @@ public class CardAdmiralsController : MonoBehaviour
             Button buy = admiralObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
             buy.onClick.AddListener(() =>
             {

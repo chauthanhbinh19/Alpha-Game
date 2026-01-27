@@ -48,6 +48,18 @@ public class CardHeroesGalleryController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardHeroObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardHero.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardHeroObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Hero";
+
+            TextMeshProUGUI typePanel = cardHeroObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardHero.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardHeroObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardHero.Rare));
+
             RawImage backgroundImage = cardHeroObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_HERO_BUTTON_BACKGROUND_URL);
 
@@ -119,7 +131,7 @@ public class CardHeroesGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

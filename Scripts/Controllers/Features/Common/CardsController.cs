@@ -125,7 +125,7 @@ public class CardsController : MonoBehaviour
             });
 
             RawImage topImage = cardObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Pink_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Pink_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = cardObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             Outline bottomOutline = cardObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -144,7 +144,7 @@ public class CardsController : MonoBehaviour
             Button buy = cardObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             buy.onClick.AddListener(() =>
             {

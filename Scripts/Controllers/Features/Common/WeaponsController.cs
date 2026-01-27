@@ -139,7 +139,7 @@ public class WeaponsController : MonoBehaviour
             });
 
             RawImage topImage = weaponObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Orange_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Orange_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = weaponObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             Outline bottomOutline = weaponObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -158,7 +158,7 @@ public class WeaponsController : MonoBehaviour
             Button buy = weaponObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
             buy.onClick.AddListener(() =>
             {

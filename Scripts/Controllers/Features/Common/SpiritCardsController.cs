@@ -139,7 +139,7 @@ public class SpiritCardsController : MonoBehaviour
             });
 
             RawImage topImage = spiritBeastObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Yellow_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Yellow_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = spiritBeastObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
             Outline bottomOutline = spiritBeastObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -158,7 +158,7 @@ public class SpiritCardsController : MonoBehaviour
             Button buy = spiritBeastObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
             buy.onClick.AddListener(() =>
             {

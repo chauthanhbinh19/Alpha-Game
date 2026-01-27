@@ -57,6 +57,18 @@ public class CardGeneralsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardGeneralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardGeneral.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardGeneralObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card General";
+
+            TextMeshProUGUI typePanel = cardGeneralObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardGeneral.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardGeneralObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardGeneral.Rare));
+
             RawImage backgroundImage = cardGeneralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_GENERAL_BUTTON_BACKGROUND_URL);
 
@@ -74,7 +86,7 @@ public class CardGeneralsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -121,7 +133,7 @@ public class CardGeneralsController : MonoBehaviour
             });
 
             RawImage topImage = cardGeneralObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Blue_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = cardGeneralObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             Outline bottomOutline = cardGeneralObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -140,7 +152,7 @@ public class CardGeneralsController : MonoBehaviour
             Button buy = cardGeneralObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             buy.onClick.AddListener(() =>
             {

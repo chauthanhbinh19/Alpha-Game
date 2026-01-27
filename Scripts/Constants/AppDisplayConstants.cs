@@ -210,6 +210,7 @@ public static class AppDisplayConstants
         public const string TEAM = "MainType.Team";
 
         public const string INVENTORY = "MainType.Inventory";
+        public const string SCIENCE_FICTION = "MainType.ScienceFiction";
     }
     public static class Gallery
     {

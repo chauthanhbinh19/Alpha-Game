@@ -508,10 +508,10 @@ public static class AppConstants
         public const string ULTRA_RARE_MARKET = "Ultra Rare Market";
         public const string LEGENDARY_MARKET = "Legendary Market";
         public const string MYSTIC_MARKET = "Mystic Market";
-        public const string RARE_MATERIAL_ITEM = "Material – Rare Tier";
-        public const string ULTRA_RARE_MATERIAL_ITEM = "Material – Ultra Rare Tier";
-        public const string LEGENDARY_MATERIAL_ITEM = "Material – Legendary Tier";
-        public const string MYSTIC_MATERIAL_ITEM = "Material – Mystic Tier";
+        public const string RARE_MATERIAL_ITEM = "Material–R";
+        public const string ULTRA_RARE_MATERIAL_ITEM = "Material–UR";
+        public const string LEGENDARY_MATERIAL_ITEM = "Material–LG";
+        public const string MYSTIC_MATERIAL_ITEM = "Material–MR";
     }
     public static class MainMenuSet1
     {

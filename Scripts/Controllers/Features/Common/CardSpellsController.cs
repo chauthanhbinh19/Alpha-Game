@@ -57,6 +57,18 @@ public class CardSpellsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardSpellObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardSpell.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardSpellObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Spell";
+
+            TextMeshProUGUI typePanel = cardSpellObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardSpell.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardSpellObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
+
             RawImage backgroundImage = cardSpellObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_SPELL_BUTTON_BACKGROUND_URL);
 
@@ -74,7 +86,7 @@ public class CardSpellsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -121,7 +133,7 @@ public class CardSpellsController : MonoBehaviour
             });
 
             RawImage topImage = spellObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Yellow_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Yellow_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = spellObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
             Outline bottomOutline = spellObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -140,7 +152,7 @@ public class CardSpellsController : MonoBehaviour
             Button buy = spellObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
             buy.onClick.AddListener(() =>
             {

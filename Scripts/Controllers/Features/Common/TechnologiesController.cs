@@ -139,7 +139,7 @@ public class TechnologiesController : MonoBehaviour
             });
 
             RawImage topImage = technologyObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Blue_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = technologyObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             Outline bottomOutline = technologyObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -158,7 +158,7 @@ public class TechnologiesController : MonoBehaviour
             Button buy = technologyObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
             buy.onClick.AddListener(() =>
             {

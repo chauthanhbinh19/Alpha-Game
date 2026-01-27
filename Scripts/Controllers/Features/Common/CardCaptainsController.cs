@@ -57,6 +57,18 @@ public class CardCaptainsController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardCaptainObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardCaptain.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardCaptainObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Captain";
+
+            TextMeshProUGUI typePanel = cardCaptainObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardCaptain.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardCaptainObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardCaptain.Rare));
+
             RawImage backgroundImage = cardCaptainObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_CAPTAIN_BUTTON_BACKGROUND_URL);
 
@@ -74,7 +86,7 @@ public class CardCaptainsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -121,7 +133,7 @@ public class CardCaptainsController : MonoBehaviour
             });
 
             RawImage topImage = captainsObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Red_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = captainsObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = captainsObject.transform.Find("BottomImage").GetComponent<Outline>();

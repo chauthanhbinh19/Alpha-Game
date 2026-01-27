@@ -14,7 +14,7 @@ public class LegendaryMarketManager : MonoBehaviour
     private GameObject LegendaryMarketManagerPrefab;
     private GameObject LegendaryMarketButtonPrefab;
     private GameObject LegendaryMarketPrefab;
-    private Transform MainPanel;
+    private Transform ContentPanel;
     private Transform currentContent;
     private Transform currencyPanel;
     private Transform popupPanel;
@@ -55,15 +55,15 @@ public class LegendaryMarketManager : MonoBehaviour
         currentPage = 1;
         pageSize = 100;
         items = new List<Items>();
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
         LegendaryMarketButtonPrefab = UIManager.Instance.Get("LegendaryMarketButtonPrefab");
         LegendaryMarketManagerPrefab = UIManager.Instance.Get("LegendaryMarketManagerPrefab");
         LegendaryMarketPrefab = UIManager.Instance.Get("LegendaryMarketPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
-    public async Task CreateLegendaryMarketAsync()
+    public async Task CreateLegendaryMarketAsync(Transform panel)
     {
-        GameObject LegendaryMarketManagerObject = Instantiate(LegendaryMarketManagerPrefab, MainPanel);
+        ContentPanel = panel;
+        GameObject LegendaryMarketManagerObject = Instantiate(LegendaryMarketManagerPrefab, ContentPanel);
         Transform LegendaryMarketTransform = LegendaryMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         titleText = LegendaryMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -72,12 +72,12 @@ public class LegendaryMarketManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(LegendaryMarketManagerObject);
         });
-        HomeButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // HomeButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(ContentPanel);
+        // });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.LEGENDARY_MARKET);
 
@@ -106,7 +106,7 @@ public class LegendaryMarketManager : MonoBehaviour
     public async Task CreateLegendaryMarketItemUIAsync(Currencies currency)
     {
         currentCurrency = currency;
-        GameObject LegendaryMarketObject = Instantiate(LegendaryMarketPrefab, MainPanel);
+        GameObject LegendaryMarketObject = Instantiate(LegendaryMarketPrefab, ContentPanel);
         currentContent = LegendaryMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = LegendaryMarketObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = LegendaryMarketObject.transform.Find("DictionaryCards/Currency");
@@ -114,18 +114,18 @@ public class LegendaryMarketManager : MonoBehaviour
         NextButton = LegendaryMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = LegendaryMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = LegendaryMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        CloseButton = LegendaryMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(LegendaryMarketObject);
-        });
-        HomeButton = LegendaryMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // CloseButton = LegendaryMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        // CloseButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Destroy(LegendaryMarketObject);
+        // });
+        // HomeButton = LegendaryMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(ContentPanel);
+        // });
         NextButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);

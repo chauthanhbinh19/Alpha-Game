@@ -48,6 +48,18 @@ public class CardMilitariesGalleryController : MonoBehaviour
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
+            TextMeshProUGUI levelText = cardMilitaryObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = cardMilitary.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = cardMilitaryObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = "Card Military";
+
+            TextMeshProUGUI typePanel = cardMilitaryObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = cardMilitary.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = cardMilitaryObject.transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
+
             RawImage backgroundImage = cardMilitaryObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_MILITARY_BUTTON_BACKGROUND_URL);
 
@@ -119,7 +131,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(280, 360);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

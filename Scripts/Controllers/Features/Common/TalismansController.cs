@@ -124,7 +124,7 @@ public class TalismansController : MonoBehaviour
             });
 
             RawImage topImage = talismanObject.transform.Find("TopImage").GetComponent<RawImage>();
-            topImage.material = MaterialManager.Instance.Get("UI_Pink_Radius_Mat");
+            topImage.material = MaterialManager.Instance.Get("UI_Pink_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = talismanObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             Outline bottomOutline = talismanObject.transform.Find("BottomImage").GetComponent<Outline>();
@@ -143,7 +143,7 @@ public class TalismansController : MonoBehaviour
             Button buy = talismanObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            RawImage buttonBackgroundImage = buy.transform.Find("Background").GetComponent<RawImage>();
+            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
             buy.onClick.AddListener(() =>
             {

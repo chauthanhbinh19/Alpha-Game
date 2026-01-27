@@ -14,7 +14,7 @@ public class RareMarketManager : MonoBehaviour
     private GameObject RareMarketManagerPrefab;
     private GameObject RareMarketButtonPrefab;
     private GameObject RareMarketPrefab;
-    private Transform MainPanel;
+    private Transform ContentPanel;
     private Transform currentContent;
     private Transform currencyPanel;
     private Transform popupPanel;
@@ -55,15 +55,15 @@ public class RareMarketManager : MonoBehaviour
         currentPage = 1;
         pageSize = 100;
         items = new List<Items>();
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
         RareMarketButtonPrefab = UIManager.Instance.Get("RareMarketButtonPrefab");
         RareMarketManagerPrefab = UIManager.Instance.Get("RareMarketManagerPrefab");
         RareMarketPrefab = UIManager.Instance.Get("RareMarketPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
-    public async Task CreateRareMarketAsync()
+    public async Task CreateRareMarketAsync(Transform panel)
     {
-        GameObject RareMarketManagerObject = Instantiate(RareMarketManagerPrefab, MainPanel);
+        ContentPanel = panel;
+        GameObject RareMarketManagerObject = Instantiate(RareMarketManagerPrefab, ContentPanel);
         Transform RareMarketTransform = RareMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         titleText = RareMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         CloseButton = RareMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -72,12 +72,12 @@ public class RareMarketManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(RareMarketManagerObject);
         });
-        HomeButton = RareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // HomeButton = RareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(ContentPanel);
+        // });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RARE_MARKET);
 
@@ -106,7 +106,7 @@ public class RareMarketManager : MonoBehaviour
     public async Task CreateRareMarketItemUIAsync(Currencies currency)
     {
         currentCurrency = currency;
-        GameObject RareMarketObject = Instantiate(RareMarketPrefab, MainPanel);
+        GameObject RareMarketObject = Instantiate(RareMarketPrefab, ContentPanel);
         currentContent = RareMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = RareMarketObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = RareMarketObject.transform.Find("DictionaryCards/Currency");
@@ -114,18 +114,18 @@ public class RareMarketManager : MonoBehaviour
         NextButton = RareMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = RareMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = RareMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        CloseButton = RareMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(RareMarketObject);
-        });
-        HomeButton = RareMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // CloseButton = RareMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        // CloseButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Destroy(RareMarketObject);
+        // });
+        // HomeButton = RareMarketObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(ContentPanel);
+        // });
         NextButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
