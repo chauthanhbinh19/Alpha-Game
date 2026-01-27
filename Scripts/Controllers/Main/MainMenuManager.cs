@@ -24,6 +24,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject FeaturePanelPrefab;
     private GameObject RareButtonPrefab;
     private Transform MainPanel;
+    private Transform ContentPanel;
     private Transform DictionaryContentPanel;
     private Button CloseButton;
     private Button HomeButton;
@@ -112,29 +113,29 @@ public class MainMenuManager : MonoBehaviour
         currentObject = Instantiate(MainPanelPrefab, RootPanel);
         // ButtonLoader.Instance.CreateMainButton(currentObject);
         // GetMainButtonEvent();
-        GetPrimaryButtonEvent();
 
         Transform content = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondCircleImage");
-        Button inventoryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/InventoryButton").GetComponent<Button>();
-        Button eventButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/EventButton").GetComponent<Button>();
-        Button campaignButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/CampaignButton").GetComponent<Button>();
-        Button shopButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/ShopButton").GetComponent<Button>();
-        Button teamButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/TeamButton").GetComponent<Button>();
-        Button masterBoardButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/MasterBoardButton").GetComponent<Button>();
-        Button scienceFictionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/ScienceFictionButton").GetComponent<Button>();
-        Button galleryButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/GalleryButton").GetComponent<Button>();
-        Button collectionButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/CollectionButton").GetComponent<Button>();
-        Button equipmentButton = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondaryContent/EquipmentButton").GetComponent<Button>();
-        Button featureButton = currentObject.transform.Find("RightButtonGroup/FeatureButton").GetComponent<Button>();
-        Button arenaButton = currentObject.transform.Find("RightButtonGroup/ArenaButton").GetComponent<Button>();
-        Button profileButton = currentObject.transform.Find("RightButtonGroup/ProfileButton").GetComponent<Button>();
-        Button missionButton = currentObject.transform.Find("RightButtonGroup/MissionButton").GetComponent<Button>();
-        Button guildButton = currentObject.transform.Find("RightButtonGroup/GuildButton").GetComponent<Button>();
+        Button inventoryButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/InventoryButton").GetComponent<Button>();
+        Button eventButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/EventButton").GetComponent<Button>();
+        Button campaignButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/CampaignButton").GetComponent<Button>();
+        Button shopButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
+        Button teamButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/TeamButton").GetComponent<Button>();
+        Button masterBoardButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/MasterBoardButton").GetComponent<Button>();
+        Button scienceFictionButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ScienceFictionButton").GetComponent<Button>();
+        Button galleryButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/GalleryButton").GetComponent<Button>();
+        Button collectionButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/CollectionButton").GetComponent<Button>();
+        Button equipmentButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/EquipmentButton").GetComponent<Button>();
+        Button featureButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/FeatureButton").GetComponent<Button>();
+        Button arenaButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/ArenaButton").GetComponent<Button>();
+        Button profileButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
+        Button missionButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
+        Button guildButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
 
+        ContentPanel = currentObject.transform.Find("Content");
         inventoryButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
+            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, ContentPanel);
             CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
@@ -160,7 +161,7 @@ public class MainMenuManager : MonoBehaviour
         eventButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
+            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, ContentPanel);
             CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
             {
@@ -198,7 +199,7 @@ public class MainMenuManager : MonoBehaviour
         masterBoardButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupObject = Instantiate(MasterBoardPanelPrefab, MainPanel);
+            GameObject popupObject = Instantiate(MasterBoardPanelPrefab, ContentPanel);
             TextMeshProUGUI titleTMPText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
@@ -226,7 +227,7 @@ public class MainMenuManager : MonoBehaviour
         scienceFictionButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupObject = Instantiate(ReactorPanelPrefab, MainPanel);
+            GameObject popupObject = Instantiate(ReactorPanelPrefab, ContentPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
@@ -253,7 +254,7 @@ public class MainMenuManager : MonoBehaviour
         galleryButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, ContentPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.MainType.GALLERY);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
@@ -270,7 +271,7 @@ public class MainMenuManager : MonoBehaviour
         collectionButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, ContentPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.MainType.COLLECTION);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
@@ -287,7 +288,7 @@ public class MainMenuManager : MonoBehaviour
         equipmentButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
+            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, ContentPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.MainType.EQUIPMENTS);
             CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
@@ -310,13 +311,13 @@ public class MainMenuManager : MonoBehaviour
         profileButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            await ProfileManager.Instance.CreateProfileAsync();
+            await ProfileManager.Instance.CreateProfileAsync(ContentPanel);
         });
 
         arenaButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
+            GameObject popupObject = Instantiate(ArenaPanelPrefab, ContentPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
             CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             CloseButton.onClick.AddListener(() =>
@@ -342,56 +343,66 @@ public class MainMenuManager : MonoBehaviour
         guildButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            await ProfileManager.Instance.CreateProfileAsync();
+            // await ProfileManager.Instance.CreateProfileAsync();
         });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
     {
-        Transform userPanel = currentObject.transform.Find("User");
-        Button userButton = userPanel.GetComponent<Button>();
-        Transform currencyPanel = currentObject.transform.Find("Currency");
-        RawImage avatarImage = userPanel.transform.Find("UserGroup/AvatarImage").GetComponent<RawImage>();
+        // Transform userPanel = currentObject.transform.Find("User");
+        // Button userButton = userPanel.GetComponent<Button>();
+        RawImage avatarImage = currentObject.transform.Find("Header/AvatarImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-        avatarImage.texture = texture;
+        Texture avatarTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        avatarImage.texture = avatarTexture;
 
-        RawImage borderImage = userPanel.transform.Find("UserGroup/BorderImage").GetComponent<RawImage>();
-
+        RawImage borderImage = currentObject.transform.Find("Header/BorderImage").GetComponent<RawImage>();
         fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
         Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 
+        RawImage userAvatarImage = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/AvatarImage").GetComponent<RawImage>();
+        fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
+        Texture TuserAvatarexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        userAvatarImage.texture = TuserAvatarexture;
+
+        RawImage userBorderImage = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/BorderImage").GetComponent<RawImage>();
+        fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
+        Texture userBorderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        userBorderImage.texture = userBorderTexture;
+
         // FindObjectOfType<CurrenciesManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
 
-        userButton.onClick.AddListener(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            await ProfileManager.Instance.CreateProfileAsync();
-        });
+        // userButton.onClick.AddListener(async () =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     await ProfileManager.Instance.CreateProfileAsync();
+        // });
 
-        Transform userInformationPanel = currentObject.transform.Find("MainPanel/MainMenu/UserInformation");
-        TextMeshProUGUI nameText = userInformationPanel.transform.Find("Name/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI userNameText = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/NameText").GetComponent<TextMeshProUGUI>();
+        userNameText.text = authResult.User.Name;
+
+        TextMeshProUGUI nameText = currentObject.transform.Find("Header/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = authResult.User.Name;
-        TextMeshProUGUI levelText = userInformationPanel.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-        levelText.text = authResult.User.Level.ToString();
-        TextMeshProUGUI powerText = userInformationPanel.transform.Find("Power/TitleText").GetComponent<TextMeshProUGUI>();
+        // TextMeshProUGUI levelText = currentObject.transform.Find("Header/LevelText").GetComponent<TextMeshProUGUI>();
+        // levelText.text = authResult.User.Level.ToString();
+        TextMeshProUGUI powerText = currentObject.transform.Find("Header/PowerText").GetComponent<TextMeshProUGUI>();
         powerText.text = authResult.User.Power.ToString();
 
         var gold = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.GOLD);
         var silver = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.SILVER);
         var diamond = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.DIAMOND);
 
-        RawImage goldImage = userInformationPanel.transform.Find("GoldCurrency/Image").GetComponent<RawImage>();
-        RawImage silverImage = userInformationPanel.transform.Find("SilverCurrency/Image").GetComponent<RawImage>();
-        RawImage diamondImage = userInformationPanel.transform.Find("DiamondCurrency/Image").GetComponent<RawImage>();
+        RawImage goldImage = currentObject.transform.Find("Header/GoldCurrency/Image").GetComponent<RawImage>();
+        RawImage silverImage = currentObject.transform.Find("Header/SilverCurrency/Image").GetComponent<RawImage>();
+        RawImage diamondImage = currentObject.transform.Find("Header/DiamondCurrency/Image").GetComponent<RawImage>();
 
         goldImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(gold.Image));
         silverImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(silver.Image));
         diamondImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
 
-        TextMeshProUGUI goldText = userInformationPanel.transform.Find("GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI silverText = userInformationPanel.transform.Find("SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI diamondText = userInformationPanel.transform.Find("DiamondCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI goldText = currentObject.transform.Find("Header/GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI silverText = currentObject.transform.Find("Header/SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI diamondText = currentObject.transform.Find("Header/DiamondCurrency/TitleText").GetComponent<TextMeshProUGUI>();
 
         goldText.text = gold.Quantity.ToString();
         silverText.text = silver.Quantity.ToString();
@@ -444,11 +455,6 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_41", contentPanel, () => GetType(AppConstants.MainType.BUILDING));
         ButtonEvent.Instance.AssignButtonEvent("Button_42", contentPanel, () => GetType(AppConstants.MainType.PLANT));
         ButtonEvent.Instance.AssignButtonEvent("Button_43", contentPanel, () => GetType(AppConstants.MainType.FASHION));
-    }
-    public void GetPrimaryButtonEvent()
-    {
-        Transform mainButtonGroupPanel = currentObject.transform.Find("MainPanel/MainButtonGroup");
-        mainButtonGroupPanel.gameObject.SetActive(true);
     }
     public void GetButtonEvent(GameObject popupButtonObject)
     {
