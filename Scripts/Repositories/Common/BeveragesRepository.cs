@@ -38,7 +38,7 @@ public class BeveragesRepository : IBeveragesRepository
     }
     public async Task<List<Beverages>> GetBeveragesAsync(int pageSize, int offset, string rare)
     {
-        List<Beverages> Beverages = new List<Beverages>();
+        List<Beverages> beverages = new List<Beverages>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -137,7 +137,7 @@ public class BeveragesRepository : IBeveragesRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Beverages.Add(medal);
+                            beverages.Add(medal);
                         }
                     }
                 }
@@ -148,7 +148,7 @@ public class BeveragesRepository : IBeveragesRepository
             }
         }
 
-        return Beverages;
+        return beverages;
     }
     public async Task<int> GetBeveragesCountAsync(string rare)
     {
@@ -179,7 +179,7 @@ public class BeveragesRepository : IBeveragesRepository
     }
     public async Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset)
     {
-        List<Beverages> Beverages = new List<Beverages>();
+        List<Beverages> beverages = new List<Beverages>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -281,22 +281,22 @@ public class BeveragesRepository : IBeveragesRepository
                                 {
                                     Id = reader.GetStringSafe("currency_id"),
                                     Image = reader.GetStringSafe("currency_image"),
-                                    Quantity = reader.GetInt32("price")
+                                    Quantity = reader.GetIntSafe("price")
                                 }
                             };
 
-                            Beverages.Add(employee);
+                            beverages.Add(employee);
                         }
                     }
                 }
             }
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
         }
 
-        return Beverages;
+        return beverages;
     }
     public async Task<int> GetBeveragesWithPriceCountAsync()
     {
@@ -332,7 +332,7 @@ public class BeveragesRepository : IBeveragesRepository
     }
     public async Task<Beverages> GetBeverageByIdAsync(string id)
     {
-        Beverages employee = null;
+        Beverages beverage = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -351,7 +351,7 @@ public class BeveragesRepository : IBeveragesRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            employee = new Beverages
+                            beverage = new Beverages
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -420,7 +420,7 @@ public class BeveragesRepository : IBeveragesRepository
             }
         }
 
-        return employee;
+        return beverage;
     }
     public async Task<Beverages> SumPowerBeveragesPercentAsync()
     {

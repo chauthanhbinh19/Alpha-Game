@@ -96,10 +96,10 @@ public class CollaborationsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCollaborationTradeAsync(List<Collaborations> collaborationList, string subType, Transform currentContent,
+    public async Task CreateCollaborationTradeAsync(List<Collaborations> collaborations, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var collaboration in collaborationList)
+        foreach (var collaboration in collaborations)
         {
             GameObject collaborationObject = Instantiate(EquipmentShopPrefab, currentContent);
 

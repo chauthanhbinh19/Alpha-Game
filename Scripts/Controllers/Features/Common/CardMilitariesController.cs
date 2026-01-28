@@ -90,10 +90,10 @@ public class CardMilitariesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardMilitariesTradeAsync(List<CardMilitaries> militaryList, string subType, Transform currentContent,
+    public async Task CreateCardMilitariesTradeAsync(List<CardMilitaries> cardMilitaries, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var military in militaryList)
+        foreach (var military in cardMilitaries)
         {
             GameObject militaryObject = Instantiate(EquipmentShopPrefab, currentContent);
 

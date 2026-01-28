@@ -302,7 +302,7 @@ public class ArchitecturesRepository : IArchitecturesRepository
 
                 string query = @"
                 select count(*)
-                from architectures t, architecture_trade tt, currency cu
+                from architectures t, architecture_trade tt, currencies cu
                 where t.id = tt.architecture_id and tt.currency_id = cu.id;";
 
                 await using (var command = new MySqlCommand(query, connection))

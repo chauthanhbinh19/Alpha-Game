@@ -211,7 +211,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                 FROM spirit_cards t
                 JOIN spirit_card_trade tt ON t.id = tt.spirit_card_id
                 JOIN currencies cu ON tt.currency_id = cu.id
-                WHERE s.type = @type
+                WHERE t.type = @type
                 ORDER BY t.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name
                 LIMIT @limit OFFSET @offset;
             ";
@@ -332,7 +332,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                 FROM spirit_cards t
                 JOIN spirit_card_trade tt ON t.id = tt.spirit_card_id
                 JOIN currencies cu ON tt.currency_id = cu.id
-                WHERE s.type = @type;;
+                WHERE t.type = @type;;
             ";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))

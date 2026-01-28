@@ -2958,7 +2958,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM card_military a
+                             FROM card_militaries a
                              JOIN card_military_trade at ON a.id = at.card_military_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3008,7 +3008,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM card_spell a
+                             FROM card_spells a
                              JOIN card_spell_trade at ON a.id = at.card_spell_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3252,7 +3252,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM magic_formation_circle a
+                             FROM magic_formation_circles a
                              JOIN magic_formation_circle_trade at ON a.id = at.mfc_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3552,12 +3552,11 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                              FROM titles a
                              JOIN title_trade at ON a.id = at.title_id
                              JOIN currencies c ON at.currency_id = c.id
-                             JOIN user_currencies uc ON c.id = uc.currency_id
-                             WHERE a.type = @type;";
+                             JOIN user_currencies uc ON c.id = uc.currency_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
+                    // command.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
@@ -3599,7 +3598,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM talisman a
+                             FROM talismans a
                              JOIN talisman_trade at ON a.id = at.talisman_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3649,7 +3648,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM puppet a
+                             FROM puppets a
                              JOIN puppet_trade at ON a.id = at.puppet_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3699,7 +3698,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM alchemy a
+                             FROM alchemies a
                              JOIN alchemy_trade at ON a.id = at.alchemy_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3749,7 +3748,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM forge a
+                             FROM forges a
                              JOIN forge_trade at ON a.id = at.forge_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3799,7 +3798,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM card_life a
+                             FROM card_lives a
                              JOIN card_life_trade at ON a.id = at.card_life_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3849,7 +3848,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM artwork a
+                             FROM artworks a
                              JOIN artwork_trade at ON a.id = at.artwork_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id
@@ -3899,7 +3898,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM spirit_beast a
+                             FROM spirit_beasts a
                              JOIN spirit_beast_trade at ON a.id = at.spirit_beast_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id;";
@@ -3949,7 +3948,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
-                             FROM spirit_card a
+                             FROM spirit_cards a
                              JOIN spirit_card_trade at ON a.id = at.spirit_card_id
                              JOIN currencies c ON at.currency_id = c.id
                              JOIN user_currencies uc ON c.id = uc.currency_id;";

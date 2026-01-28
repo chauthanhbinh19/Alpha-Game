@@ -90,10 +90,10 @@ public class CardMonstersController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardMonstersTradeAsync(List<CardMonsters> monstersList, string subType, Transform currentContent,
+    public async Task CreateCardMonstersTradeAsync(List<CardMonsters> cardMonsters, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var monster in monstersList)
+        foreach (var monster in cardMonsters)
         {
             GameObject monstersObject = Instantiate(EquipmentShopPrefab, currentContent);
 

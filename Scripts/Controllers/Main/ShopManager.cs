@@ -760,7 +760,7 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = await PlantsService.Create().GetPlantsWithPriceCountAsync();
         }
-        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        else if (mainType.Equals(AppConstants.MainType.FASHION))
         {
             Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_85_URL);
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_86_URL);
@@ -770,6 +770,50 @@ public class ShopManager : MonoBehaviour
             await FashionsController.Instance.CreateFashionsTradeAsync(fashions, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await FashionsService.Create().GetFashionsWithPriceCountAsync(type);
+        }
+        else if (mainType.Equals(AppConstants.MainType.MEDAL))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_83_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Medals> medals = await MedalsService.Create().GetMedalsWithPriceAsync(pageSize, offset);
+            await MedalsController.Instance.CreateMedalsTradeAsync(medals, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await MedalsService.Create().GetMedalsWithPriceCountAsync();
+        }
+        else if (mainType.Equals(AppConstants.MainType.TITLE))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_83_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Titles> titles = await TitlesService.Create().GetTitlesWithPriceAsync(pageSize, offset);
+            await TitlesController.Instance.CreateTitlesTradeAsync(titles, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await TitlesService.Create().GetTitlesWithPriceCountAsync();
+        }
+        else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_83_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Collaborations> collaborations = await CollaborationsService.Create().GetCollaborationsWithPriceAsync(pageSize, offset);
+            await CollaborationsController.Instance.CreateCollaborationTradeAsync(collaborations, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await CollaborationsService.Create().GetCollaborationsWithPriceCountAsync();
+        }
+        else if (mainType.Equals(AppConstants.MainType.BORDER))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_83_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Borders> borders = await BordersService.Create().GetBordersWithPriceAsync(pageSize, offset);
+            await BordersController.Instance.CreateBordersTradeAsync(borders, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await BordersService.Create().GetBordersWithPriceCountAsync();
         }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);

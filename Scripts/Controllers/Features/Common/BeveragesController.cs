@@ -97,49 +97,66 @@ public class BeveragesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateBeveragesTradeAsync(List<Beverages> BeveragesList, string subType, Transform currentContent,
+    public async Task CreateBeveragesTradeAsync(List<Beverages> beverages, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Beverage in BeveragesList)
+        foreach (var beverage in beverages)
         {
-            GameObject BeverageObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject beverageObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI title = BeverageObject.transform.Find("Beverage").GetComponent<TextMeshProUGUI>();
-            title.text = Beverage.Name.Replace("_", " ");
+            TextMeshProUGUI title = beverageObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            title.text = beverage.Name.Replace("_", " ");
 
-            RawImage Image = BeverageObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Beverage.Image);
+            RawImage image = beverageObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            RawImage FrameImage = BeverageObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            RawImage FrameImage = beverageObject.transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Beverage, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(beverage, MainPanel);
             });
 
-            RawImage topImage = BeverageObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = beverageObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = BeverageObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = beverageObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline bottomOutline = BeverageObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = beverageObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline middleOutline = BeverageObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = beverageObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
 
-            RawImage currencyImage = BeverageObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Beverage.Currency.Image);
+            RawImage currencyImage = beverageObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = BeverageObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Beverage.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = beverageObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(beverage.Currency.Quantity, false);
 
-            Button buy = BeverageObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = beverageObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -147,7 +164,7 @@ public class BeveragesController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Beverage.Currency.Quantity, Beverage, subType, popupPanel, currencyPanel);
+                GetQuantity(beverage.Currency.Quantity, beverage, subType, popupPanel, currencyPanel);
             });
         }
 

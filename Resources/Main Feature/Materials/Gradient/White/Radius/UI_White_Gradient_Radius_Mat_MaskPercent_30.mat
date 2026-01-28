@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UI_Purple_Gradient_Radius_Mat_MaskPercent_90
+  m_Name: UI_White_Gradient_Radius_Mat_MaskPercent_30
   m_Shader: {fileID: 4800000, guid: 925b8550e32851f4fad4c4b821f0f058, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -95,7 +95,7 @@ Material:
     - _GlossyReflections: 0
     - _Height: 1
     - _MaskFromTop: 1
-    - _MaskPercent: 0.9
+    - _MaskPercent: 0.3
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005

@@ -32,7 +32,7 @@ public class GalleryManager : MonoBehaviour
     private Button PreviousButton;
     private string mainType;
     private string subType;
-    private Text titleText;
+    private TextMeshProUGUI titleText;
     private string type;
     private string rare;
     public void CreateGallery(Transform GalleryMenuPanel, Transform contentPanel)
@@ -132,7 +132,7 @@ public class GalleryManager : MonoBehaviour
         PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
         NextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
         PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         // CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {

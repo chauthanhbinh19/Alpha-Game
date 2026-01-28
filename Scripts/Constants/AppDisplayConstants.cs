@@ -169,15 +169,15 @@ public static class AppDisplayConstants
         public const string FASHION = "MainType.Fashion";
         public const string FASHIONS = "MainType.Fashions";
 
-        public const string SUMMON_CARD_HEROES = "summon_card_heroes";
-        public const string SUMMON_BOOKS = "summon_books";
-        public const string SUMMON_CARD_CAPTAINS = "summon_card_captains";
-        public const string SUMMON_CARD_MONSTERS = "summon_card_monsters";
-        public const string SUMMON_CARD_MILITARIES = "summon_card_militaries";
-        public const string SUMMON_CARD_SPELLS = "summon_card_spells";
-        public const string SUMMON_CARD_COLONELS = "summon_card_colonels";
-        public const string SUMMON_CARD_GENERALS = "summon_card_generals";
-        public const string SUMMON_CARD_ADMIRALS = "summon_card_admirals";
+        public const string SUMMON_CARD_HEROES = "MainType.SummonCardHeroes";
+        public const string SUMMON_BOOKS = "MainType.SummonBooks";
+        public const string SUMMON_CARD_CAPTAINS = "MainType.SummonCardCaptains";
+        public const string SUMMON_CARD_MONSTERS = "MainType.SummonCardMonsters";
+        public const string SUMMON_CARD_MILITARIES = "MainType.SummonCardMilitaries";
+        public const string SUMMON_CARD_SPELLS = "MainType.SummonCardSpells";
+        public const string SUMMON_CARD_COLONELS = "MainType.SummonCardColonels";
+        public const string SUMMON_CARD_GENERALS = "MainType.SummonCardGenerals";
+        public const string SUMMON_CARD_ADMIRALS = "MainType.SummonCardAdmirals";
 
         public const string CAMPAIGN = "campaign";
         public const string CAMPAIGNS = "campaigns";

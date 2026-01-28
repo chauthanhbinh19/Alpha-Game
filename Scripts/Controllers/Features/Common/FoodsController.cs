@@ -97,49 +97,66 @@ public class FoodsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateFoodsTradeAsync(List<Foods> FoodsList, string subType, Transform currentContent,
+    public async Task CreateFoodsTradeAsync(List<Foods> foods, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Food in FoodsList)
+        foreach (var food in foods)
         {
-            GameObject FoodObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject foodObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI title = FoodObject.transform.Find("Food").GetComponent<TextMeshProUGUI>();
-            title.text = Food.Name.Replace("_", " ");
+            TextMeshProUGUI title = foodObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            title.text = food.Name.Replace("_", " ");
 
-            RawImage Image = FoodObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Food.Image);
+            RawImage image = foodObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            RawImage FrameImage = FoodObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+            
+            // Kích thước của RawImage (khung hiển thị)
+            RectTransform rect = image.GetComponent<RectTransform>();
+            float maxWidth = rect.rect.width;
+            float maxHeight = rect.rect.height;
+
+            // Kích thước thật của texture
+            float texWidth = texture.width;
+            float texHeight = texture.height;
+
+            // Tính scale để texture nằm gọn trong khung
+            float widthRatio = maxWidth / texWidth;
+            float heightRatio = maxHeight / texHeight;
+            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+            // Áp dụng scale theo tỉ lệ đúng
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+            RawImage FrameImage = foodObject.transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Food, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(food, MainPanel);
             });
 
-            RawImage topImage = FoodObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = foodObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = FoodObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = foodObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline bottomOutline = FoodObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = foodObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline middleOutline = FoodObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = foodObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
 
-            RawImage currencyImage = FoodObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Food.Currency.Image);
+            RawImage currencyImage = foodObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = FoodObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Food.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = foodObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(food.Currency.Quantity, false);
 
-            Button buy = FoodObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = foodObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -147,7 +164,7 @@ public class FoodsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Food.Currency.Quantity, Food, subType, popupPanel, currencyPanel);
+                GetQuantity(food.Currency.Quantity, food, subType, popupPanel, currencyPanel);
             });
         }
 

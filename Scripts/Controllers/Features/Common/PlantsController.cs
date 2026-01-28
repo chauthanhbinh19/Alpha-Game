@@ -104,49 +104,49 @@ public class PlantsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreatePlantsTradeAsync(List<Plants> PlantsList, string subType, Transform currentContent,
+    public async Task CreatePlantsTradeAsync(List<Plants> plants, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Plant in PlantsList)
+        foreach (var plant in plants)
         {
-            GameObject PlantObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject plantObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI title = PlantObject.transform.Find("Plant").GetComponent<TextMeshProUGUI>();
-            title.text = Plant.Name.Replace("_", " ");
+            TextMeshProUGUI title = plantObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            title.text = plant.Name.Replace("_", " ");
 
-            RawImage Image = PlantObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Plant.Image);
+            RawImage Image = plantObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             Image.texture = texture;
             Image.SetNativeSize();
             Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            RawImage FrameImage = PlantObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage FrameImage = plantObject.transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = FrameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Plant, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(plant, MainPanel);
             });
 
-            RawImage topImage = PlantObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = plantObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = PlantObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = plantObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline bottomOutline = PlantObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = plantObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline middleOutline = PlantObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = plantObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
 
-            RawImage currencyImage = PlantObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Plant.Currency.Image);
+            RawImage currencyImage = plantObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Currency.Image);
             Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = PlantObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Plant.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = plantObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(plant.Currency.Quantity, false);
 
-            Button buy = PlantObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = plantObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -154,7 +154,7 @@ public class PlantsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Plant.Currency.Quantity, Plant, subType, popupPanel, currencyPanel);
+                GetQuantity(plant.Currency.Quantity, plant, subType, popupPanel, currencyPanel);
             });
         }
 
