@@ -13,7 +13,7 @@ public class TeamsManager : MonoBehaviour
     public static TeamsManager Instance { get; private set; }
     private Transform MainPanel;
     private Transform positionPanel;
-    private GameObject cardsPrefab3;
+    private GameObject CardThirdPrefab;
     private GameObject PopupTeamFirstPrefab;
     private GameObject PopupTeamSecondPrefab;
     private GameObject TeamsPanelPrefab;
@@ -71,7 +71,7 @@ public class TeamsManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab3 = UIManager.Instance.Get("CardsThirdPrefab");
+        CardThirdPrefab = UIManager.Instance.Get("CardThirdPrefab");
         PopupTeamFirstPrefab = UIManager.Instance.Get("PopupTeamFirstPanelPrefab");
         PopupTeamSecondPrefab = UIManager.Instance.Get("PopupTeamSecondPanelPrefab");
         TeamsPanelPrefab = UIManager.Instance.Get("TeamsPanelPrefab");
@@ -108,12 +108,12 @@ public class TeamsManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
         });
-        HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
-        });
+        // HomeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        // HomeButton.onClick.AddListener(() =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     Close(MainPanel);
+        // });
 
         mainType = AppConstants.MainType.CARD_HERO;
         teamsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM);
@@ -1525,7 +1525,7 @@ public class TeamsManager : MonoBehaviour
         {
             if (item is CardHeroes cardHeroes)
             {
-                GameObject cardObject = Instantiate(cardsPrefab3, panel);
+                GameObject cardObject = Instantiate(CardThirdPrefab, panel);
 
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardHeroes.Name.Replace("_", " ");
@@ -1578,7 +1578,7 @@ public class TeamsManager : MonoBehaviour
             }
             else if (item is CardCaptains cardCaptains)
             {
-                GameObject cardObject = Instantiate(cardsPrefab3, panel);
+                GameObject cardObject = Instantiate(CardThirdPrefab, panel);
 
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardCaptains.Name.Replace("_", " ");
@@ -1630,7 +1630,7 @@ public class TeamsManager : MonoBehaviour
             }
             else if (item is CardColonels cardColonels)
             {
-                GameObject cardObject = Instantiate(cardsPrefab3, panel);
+                GameObject cardObject = Instantiate(CardThirdPrefab, panel);
 
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardColonels.Name.Replace("_", " ");
@@ -1682,7 +1682,7 @@ public class TeamsManager : MonoBehaviour
             }
             else if (item is CardGenerals cardGenerals)
             {
-                GameObject cardObject = Instantiate(cardsPrefab3, panel);
+                GameObject cardObject = Instantiate(CardThirdPrefab, panel);
 
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardGenerals.Name.Replace("_", " ");
@@ -1734,7 +1734,7 @@ public class TeamsManager : MonoBehaviour
             }
             else if (item is CardAdmirals cardAdmirals)
             {
-                GameObject cardObject = Instantiate(cardsPrefab3, panel);
+                GameObject cardObject = Instantiate(CardThirdPrefab, panel);
 
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardAdmirals.Name.Replace("_", " ");
@@ -1786,7 +1786,7 @@ public class TeamsManager : MonoBehaviour
             }
             else if (item is CardMonsters cardMonsters)
             {
-                GameObject cardObject = Instantiate(cardsPrefab3, panel);
+                GameObject cardObject = Instantiate(CardThirdPrefab, panel);
 
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardMonsters.Name.Replace("_", " ");
@@ -1838,7 +1838,7 @@ public class TeamsManager : MonoBehaviour
             }
             else if (item is CardMilitaries cardMilitary)
             {
-                GameObject cardObject = Instantiate(cardsPrefab3, panel);
+                GameObject cardObject = Instantiate(CardThirdPrefab, panel);
 
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardMilitary.Name.Replace("_", " ");
@@ -1890,7 +1890,7 @@ public class TeamsManager : MonoBehaviour
             }
             else if (item is CardSpells cardSpell)
             {
-                GameObject cardObject = Instantiate(cardsPrefab3, panel);
+                GameObject cardObject = Instantiate(CardThirdPrefab, panel);
 
                 Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
                 Title.text = cardSpell.Name.Replace("_", " ");

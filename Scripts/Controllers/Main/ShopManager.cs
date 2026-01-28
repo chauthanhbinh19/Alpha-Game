@@ -815,6 +815,17 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = await BordersService.Create().GetBordersWithPriceCountAsync();
         }
+        else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_83_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Achievements> achievements = await AchievementsService.Create().GetAchievementsWithPriceAsync(pageSize, offset);
+            await AchievementsController.Instance.CreateAchievementsTradeAsync(achievements, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await AchievementsService.Create().GetAchievementsWithPriceCountAsync();
+        }
 
         totalPage = CalculateTotalPages(totalRecord, pageSize);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

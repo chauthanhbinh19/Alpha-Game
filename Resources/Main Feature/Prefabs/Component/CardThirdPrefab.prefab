@@ -139,7 +139,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: b110aeefb4f4e12409ad7beb08567338, type: 3}
+  m_Texture: {fileID: 2800000, guid: 05f096bb41d016d4c8005ad7fa0224ac, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: aff39956ace35c24f81d7c52d12500fb, type: 3}
+  m_Texture: {fileID: 2800000, guid: ac89054e070db7847bb56ec7a6038007, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -690,7 +690,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 65}
+  m_AnchoredPosition: {x: -50, y: 70}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &588715055419831103
@@ -721,7 +721,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 6c0e778237f22f645adf8d3ed529467f, type: 3}
+  m_Texture: {fileID: 2800000, guid: db72ed0d7c85c3843bc73b66d56e94c1, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -836,7 +836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 65}
+  m_AnchoredPosition: {x: -50, y: 70}
   m_SizeDelta: {x: 40, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3794440685127894163
@@ -884,7 +884,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6669376437511959916}
   m_Layer: 5
-  m_Name: CardThird
+  m_Name: CardThirdPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
