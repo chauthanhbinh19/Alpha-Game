@@ -85,18 +85,18 @@ public class WeaponsGalleryController : MonoBehaviour
 
                 RawImage blockImage = weaponObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = weaponObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (weapon.Status.Equals("available"))
+                if (weapon.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (weapon.Status.Equals("pending"))
+                else if (weapon.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (weapon.Status.Equals("block"))
+                else if (weapon.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class WeaponsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = weaponObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((weapon.CurrentStar < weapon.TempStar) && weapon.Status.Equals("available"))
+                if ((weapon.CurrentStar < weapon.TempStar) && weapon.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

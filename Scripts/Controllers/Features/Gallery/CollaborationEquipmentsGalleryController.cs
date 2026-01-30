@@ -85,18 +85,18 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
 
                 RawImage blockImage = collaborationEquipmentObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = collaborationEquipmentObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (collaborationEquipment.Status.Equals("available"))
+                if (collaborationEquipment.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (collaborationEquipment.Status.Equals("pending"))
+                else if (collaborationEquipment.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (collaborationEquipment.Status.Equals("block"))
+                else if (collaborationEquipment.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -121,7 +121,7 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = collaborationEquipmentObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((collaborationEquipment.CurrentStar < collaborationEquipment.TempStar) && collaborationEquipment.Status.Equals("available"))
+                if ((collaborationEquipment.CurrentStar < collaborationEquipment.TempStar) && collaborationEquipment.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

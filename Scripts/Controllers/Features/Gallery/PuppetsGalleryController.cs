@@ -88,18 +88,18 @@ public class PuppetsGalleryController : MonoBehaviour
 
                 RawImage blockImage = puppetObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = puppetObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (puppet.Status.Equals("available"))
+                if (puppet.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (puppet.Status.Equals("pending"))
+                else if (puppet.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (puppet.Status.Equals("block"))
+                else if (puppet.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -125,7 +125,7 @@ public class PuppetsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = puppetObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((puppet.CurrentStar < puppet.TempStar) && puppet.Status.Equals("available"))
+                if ((puppet.CurrentStar < puppet.TempStar) && puppet.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

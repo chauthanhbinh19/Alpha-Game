@@ -9,7 +9,7 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
 {
     public async Task<List<Fashions>> GetFashionsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Fashions> Fashions = new List<Fashions>();
+        List<Fashions> fashions = new List<Fashions>();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -127,7 +127,7 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
                                 Status = reader.GetStringSafe("status"),
                             };
 
-                            Fashions.Add(Fashion);
+                            fashions.Add(Fashion);
                         }
                     }
                 }
@@ -141,7 +141,7 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
                 await connection.CloseAsync();
             }
         }
-        return Fashions;
+        return fashions;
     }
     public async Task<int> GetFashionsCountAsync(string search, string type, string rare)
     {

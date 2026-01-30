@@ -39,6 +39,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private string statusToggle;
     private string set;
     TeamsService teamsService;
+    private string search;
+    // private string type;
     private string rare;
     // Start is called before the first frame update
     void Start()
@@ -51,6 +53,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         set = "set1";
+        search = "";
+        // type = AppConstants.Type.ALL;
         rare = AppConstants.Rare.ALL;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuEquipmentPanelPrefab = UIManager.Instance.Get("MainMenuEquipmentPanelPrefab");
@@ -1553,7 +1557,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             equipmentsList = await UserEquipmentsService.Create().GetAllPetsEquipmentsAsync(User.CurrentUserId, mainType, pageSize, offset, statusToggle);
         }
         equipmentsList = equipmentsList.Where(e => e.Set == set).ToList();
-        int totalRecord = await  UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, mainType, rare);
+        int totalRecord = await  UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, mainType, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -1698,7 +1702,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
             if (data is CardHeroes cardHeroes)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1707,7 +1711,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardCaptains cardCaptains)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1716,7 +1720,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardColonels cardColonels)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1725,7 +1729,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardGenerals cardGenerals)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1734,7 +1738,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardAdmirals cardAdmirals)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1743,7 +1747,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardMonsters cardMonsters)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1752,7 +1756,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardMilitaries cardMilitary)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1761,7 +1765,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardSpells cardSpell)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1770,7 +1774,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is Books books)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1779,7 +1783,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is Pets pets)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -1800,7 +1804,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
             if (data is CardHeroes cardHeroes)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1809,7 +1813,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardCaptains cardCaptains)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1818,7 +1822,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardColonels cardColonels)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1827,7 +1831,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardGenerals cardGenerals)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1836,7 +1840,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardAdmirals cardAdmirals)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1845,7 +1849,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardMonsters cardMonsters)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1854,7 +1858,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardMilitaries cardMilitary)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1863,7 +1867,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardSpells cardSpell)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1872,7 +1876,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is Books books)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -1881,7 +1885,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is Pets pets)
             {
-                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;

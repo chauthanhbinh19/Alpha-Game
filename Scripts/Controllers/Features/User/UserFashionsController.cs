@@ -44,17 +44,17 @@ public class UserFashionsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserFashions(List<Fashions> Fashions, Transform contentPanel)
+    public void CreateUserFashions(List<Fashions> fashions, Transform contentPanel)
     {
-        foreach (var Fashion in Fashions)
+        foreach (var fashion in fashions)
         {
-            GameObject FashionObject = Instantiate(FashionButtonPrefab, contentPanel);
+            GameObject fashionObject = Instantiate(FashionButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = FashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Fashion.Name.Replace("_", " ");
+            TextMeshProUGUI Title = fashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = fashion.Name.Replace("_", " ");
 
-            RawImage image = FashionObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Fashion.Image);
+            RawImage image = fashionObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);
             Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -76,22 +76,22 @@ public class UserFashionsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = FashionObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = fashionObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.FASHION_BUTTON_BACKGROUND_URL);
 
-            Button button = FashionObject.GetComponent<Button>();
+            Button button = fashionObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MainMenuDetailsManager.Instance.PopupDetails(Fashion, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(fashion, MainPanel);
             });
 
-            RawImage frameImage = FashionObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = fashionObject.transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            TextMeshProUGUI rareText = FashionObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(Fashion.Rare));
-            rareText.text = Fashion.Rare;
+            TextMeshProUGUI rareText = fashionObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(fashion.Rare));
+            rareText.text = fashion.Rare;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

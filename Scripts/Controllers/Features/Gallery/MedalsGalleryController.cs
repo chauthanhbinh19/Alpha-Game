@@ -85,18 +85,18 @@ public class MedalsGalleryController : MonoBehaviour
 
                 RawImage blockImage = medalObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = medalObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (medal.Status.Equals("available"))
+                if (medal.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (medal.Status.Equals("pending"))
+                else if (medal.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (medal.Status.Equals("block"))
+                else if (medal.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class MedalsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = medalObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((medal.CurrentStar < medal.TempStar) && medal.Status.Equals("available"))
+                if ((medal.CurrentStar < medal.TempStar) && medal.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

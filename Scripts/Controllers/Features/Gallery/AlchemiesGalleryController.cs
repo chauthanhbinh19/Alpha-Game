@@ -88,18 +88,18 @@ public class AlchemiesGalleryController : MonoBehaviour
 
                 RawImage blockImage = alchemyObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = alchemyObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (alchemy.Status.Equals("available"))
+                if (alchemy.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (alchemy.Status.Equals("pending"))
+                else if (alchemy.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (alchemy.Status.Equals("block"))
+                else if (alchemy.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -125,7 +125,7 @@ public class AlchemiesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = alchemyObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((alchemy.CurrentStar < alchemy.TempStar) && alchemy.Status.Equals("available"))
+                if ((alchemy.CurrentStar < alchemy.TempStar) && alchemy.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

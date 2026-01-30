@@ -68,18 +68,18 @@ public class CardsGalleryController : MonoBehaviour
 
             RawImage blockImage = cardObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardObject.transform.Find("UnlockButton").GetComponent<Button>();
-            if (card.Status.Equals("available"))
+            if (card.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
             }
-            else if (card.Status.Equals("pending"))
+            else if (card.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (card.Status.Equals("block"))
+            else if (card.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -104,7 +104,7 @@ public class CardsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = cardObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((card.CurrentStar < card.TempStar) && card.Status.Equals("available"))
+            if ((card.CurrentStar < card.TempStar) && card.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -122,7 +122,7 @@ public class CardsGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 350);
+            gridLayout.cellSize = new Vector2(200, 240);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

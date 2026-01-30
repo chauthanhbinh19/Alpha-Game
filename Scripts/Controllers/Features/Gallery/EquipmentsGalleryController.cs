@@ -84,18 +84,18 @@ public class EquipmentsGalleryController : MonoBehaviour
 
             RawImage blockImage = equipmentObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = equipmentObject.transform.Find("UnlockButton").GetComponent<Button>();
-            if (equipment.Status.Equals("available"))
+            if (equipment.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 image.color = Color.white;
             }
-            else if (equipment.Status.Equals("pending"))
+            else if (equipment.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (equipment.Status.Equals("block"))
+            else if (equipment.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -121,7 +121,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = equipmentObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((equipment.CurrentStar < equipment.TempStar) && equipment.Status.Equals("available"))
+            if ((equipment.CurrentStar < equipment.TempStar) && equipment.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 Upgrade.gameObject.SetActive(true);
             }

@@ -87,18 +87,18 @@ public class RelicsGalleryController : MonoBehaviour
 
                 RawImage blockImage = relicObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = relicObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (relic.Status.Equals("available"))
+                if (relic.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (relic.Status.Equals("pending"))
+                else if (relic.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (relic.Status.Equals("block"))
+                else if (relic.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -124,7 +124,7 @@ public class RelicsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = relicObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((relic.CurrentStar < relic.TempStar) && relic.Status.Equals("available"))
+                if ((relic.CurrentStar < relic.TempStar) && relic.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

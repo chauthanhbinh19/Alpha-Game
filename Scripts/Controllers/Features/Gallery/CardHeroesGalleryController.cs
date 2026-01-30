@@ -76,18 +76,18 @@ public class CardHeroesGalleryController : MonoBehaviour
 
             RawImage blockImage = cardHeroObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardHeroObject.transform.Find("UnlockButton").GetComponent<Button>();
-            if (cardHero.Status.Equals("available"))
+            if (cardHero.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (cardHero.Status.Equals("pending"))
+            else if (cardHero.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (cardHero.Status.Equals("block"))
+            else if (cardHero.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -113,7 +113,7 @@ public class CardHeroesGalleryController : MonoBehaviour
             });
 
             Button Upgrade = cardHeroObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((cardHero.CurrentStar < cardHero.TempStar) && cardHero.Status.Equals("available"))
+            if ((cardHero.CurrentStar < cardHero.TempStar) && cardHero.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -131,7 +131,8 @@ public class CardHeroesGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 360);
+            gridLayout.cellSize = new Vector2(250, 360);
+            gridLayout.spacing = new Vector2(23, 10);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

@@ -39,7 +39,7 @@ public class EquipmentManager : MonoBehaviour
     private int pageSize;
     private int count = 1;
     private string search;
-    private string type;
+    // private string type;
     private string rare;
     private GameObject currentObject;
     // Start is called before the first frame update
@@ -49,7 +49,7 @@ public class EquipmentManager : MonoBehaviour
         currentPage = 1;
         pageSize = 100;
         search = "";
-        type = AppConstants.Type.ALL;
+        // type = AppConstants.Type.ALL;
         rare = AppConstants.Rare.ALL;
         equipmentMenuPanel = EquipmentMenuPanel.gameObject;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");

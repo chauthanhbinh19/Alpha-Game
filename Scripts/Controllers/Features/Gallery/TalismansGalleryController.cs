@@ -88,18 +88,18 @@ public class TalismansGalleryController : MonoBehaviour
 
                 RawImage blockImage = talismanObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = talismanObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (talisman.Status.Equals("available"))
+                if (talisman.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (talisman.Status.Equals("pending"))
+                else if (talisman.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (talisman.Status.Equals("block"))
+                else if (talisman.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -125,7 +125,7 @@ public class TalismansGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = talismanObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((talisman.CurrentStar < talisman.TempStar) && talisman.Status.Equals("available"))
+                if ((talisman.CurrentStar < talisman.TempStar) && talisman.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

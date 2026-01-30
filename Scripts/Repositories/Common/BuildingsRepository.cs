@@ -62,7 +62,7 @@ public class BuildingsRepository : IBuildingsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM Buildings 
-                             WHERE type = @type 
+                             WHERE (@type = 'All' OR type = @type)
                                 AND (@rare = 'All' OR rare = @rare)
                                 AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY Buildings.name REGEXP '[0-9]+$', 
@@ -179,7 +179,7 @@ public class BuildingsRepository : IBuildingsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT COUNT(*) FROM Buildings 
-                WHERE type = @type 
+                WHERE (@type = 'All' OR type = @type)
                     AND (@rare = 'All' OR rare = @rare)
                     AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 using (MySqlCommand command = new MySqlCommand(query, connection))

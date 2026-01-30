@@ -85,18 +85,18 @@ public class BeveragesGalleryController : MonoBehaviour
 
                 RawImage blockImage = beverageObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = beverageObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (beverage.Status.Equals("available"))
+                if (beverage.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (beverage.Status.Equals("pending"))
+                else if (beverage.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (beverage.Status.Equals("block"))
+                else if (beverage.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = beverageObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((beverage.CurrentStar < beverage.TempStar) && beverage.Status.Equals("available"))
+                if ((beverage.CurrentStar < beverage.TempStar) && beverage.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

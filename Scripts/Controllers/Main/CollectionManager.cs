@@ -138,13 +138,13 @@ public class CollectionManager : MonoBehaviour
         TMP_Dropdown typeDropdown = mainMenuObject.transform.Find("DictionaryCards/InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
         TMP_InputField searchInputField = mainMenuObject.transform.Find("DictionaryCards/InputGroup/Search").GetComponent<TMP_InputField>();
         Button searchButton = mainMenuObject.transform.Find("DictionaryCards/InputGroup/SearchButton").GetComponent<Button>();
-        // CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        // CloseButton.onClick.AddListener(() =>
-        // {
-        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        //     ClosePanel();
-        //     Destroy(mainMenuObject);
-        // });
+        CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ClosePanel();
+            Destroy(mainMenuObject);
+        });
         // HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         // HomeButton.onClick.AddListener(() =>
         // {
@@ -176,6 +176,8 @@ public class CollectionManager : MonoBehaviour
 
         searchButton.onClick.AddListener(() =>
         {
+            offset = 0;
+            currentPage = 1;
             string searchText = searchInputField.text;
             search = searchText;
             _ = LoadCurrentPageAsync();
@@ -193,6 +195,8 @@ public class CollectionManager : MonoBehaviour
             // Gán sự kiện
             rareDropdown.onValueChanged.AddListener((index) =>
             {
+                offset = 0;
+                currentPage = 1;
                 // Lấy text đang chọn
                 string selectedRare = rareDropdown.options[index].text;
                 rare = selectedRare;
@@ -218,6 +222,8 @@ public class CollectionManager : MonoBehaviour
             // Gán sự kiện
             typeDropdown.onValueChanged.AddListener((index) =>
             {
+                offset = 0;
+                currentPage = 1;
                 // Lấy text đang chọn
                 string selectedType = typeDropdown.options[index].text;
                 type = selectedType;

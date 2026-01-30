@@ -52,7 +52,7 @@ public class FashionsRepository : IFashionsRepository
     }
     public async Task<List<Fashions>> GetFashionsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Fashions> Fashions = new List<Fashions>();
+        List<Fashions> fashions = new List<Fashions>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -82,7 +82,7 @@ public class FashionsRepository : IFashionsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Fashions symbol = new Fashions
+                            Fashions fashion = new Fashions
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -154,7 +154,7 @@ public class FashionsRepository : IFashionsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Fashions.Add(symbol);
+                            fashions.Add(fashion);
                         }
                     }
                 }
@@ -165,7 +165,7 @@ public class FashionsRepository : IFashionsRepository
             }
         }
 
-        return Fashions;
+        return fashions;
     }
     public async Task<int> GetFashionsCountAsync(string search, string type, string rare)
     {
@@ -232,7 +232,7 @@ public class FashionsRepository : IFashionsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            Fashions symbol = new Fashions
+                            Fashions fashion = new Fashions
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -304,14 +304,14 @@ public class FashionsRepository : IFashionsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            symbol.Currency = new Currencies
+                            fashion.Currency = new Currencies
                             {
                                 Id = reader.GetStringSafe("currency_id"),
                                 Image = reader.GetStringSafe("currency_image"),
                                 Quantity = reader.GetIntSafe("price")
                             };
 
-                            Fashions.Add(symbol);
+                            Fashions.Add(fashion);
                         }
                     }
                 }
@@ -359,7 +359,7 @@ public class FashionsRepository : IFashionsRepository
     }
     public async Task<Fashions> GetFashionByIdAsync(string Id)
     {
-        Fashions symbol = new Fashions();
+        Fashions fashion = new Fashions();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -377,7 +377,7 @@ public class FashionsRepository : IFashionsRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            symbol = new Fashions
+                            fashion = new Fashions
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -445,7 +445,7 @@ public class FashionsRepository : IFashionsRepository
             }
         }
 
-        return symbol;
+        return fashion;
     }
     public async Task<Fashions> SumPowerFashionsPercentAsync()
     {

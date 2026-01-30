@@ -91,6 +91,7 @@ public class CardLivesRepository : ICardLivesRepository
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
                     Rare = reader.GetStringSafe("rare"),
+                    Type = reader.GetStringSafe("type"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),

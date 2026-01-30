@@ -36,6 +36,7 @@ public class UserCardHeroesController : MonoBehaviour
     private int currentPage;
     private int totalPage;
     private string statusToggle;
+    private string search;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -71,6 +72,7 @@ public class UserCardHeroesController : MonoBehaviour
         PopupSkillDetailPrefab = UIManager.Instance.Get("PopupSkillDetailPrefab");
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
+        search = "";
     }
     public void CreateUserCardHeroes(List<CardHeroes> cardHeroes, Transform contentPanel)
     {
@@ -130,7 +132,8 @@ public class UserCardHeroesController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 360);
+            gridLayout.cellSize = new Vector2(250, 360);
+            gridLayout.spacing = new Vector2(23, 10);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -769,7 +772,7 @@ public class UserCardHeroesController : MonoBehaviour
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardHeroesSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
 
-        int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, AppConstants.Rare.ALL);
+        int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -856,7 +859,7 @@ public class UserCardHeroesController : MonoBehaviour
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, AppConstants.Rare.ALL);
+            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage + 1;
             offset = offset + pageSize;
@@ -874,7 +877,7 @@ public class UserCardHeroesController : MonoBehaviour
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, AppConstants.Rare.ALL);
+            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
             totalPage = CalculateTotalPages(totalRecord, pageSize);
             currentPage = currentPage - 1;
             offset = offset - pageSize;

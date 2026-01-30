@@ -85,18 +85,18 @@ public class RobotsGalleryController : MonoBehaviour
 
                 RawImage blockImage = robotObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = robotObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (robot.Status.Equals("available"))
+                if (robot.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (robot.Status.Equals("pending"))
+                else if (robot.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (robot.Status.Equals("block"))
+                else if (robot.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class RobotsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = robotObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((robot.CurrentStar < robot.TempStar) && robot.Status.Equals("available"))
+                if ((robot.CurrentStar < robot.TempStar) && robot.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

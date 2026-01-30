@@ -85,18 +85,18 @@ public class ArchitecturesGalleryController : MonoBehaviour
 
                 RawImage blockImage = architectureObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = architectureObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (architecture.Status.Equals("available"))
+                if (architecture.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (architecture.Status.Equals("pending"))
+                else if (architecture.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (architecture.Status.Equals("block"))
+                else if (architecture.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class ArchitecturesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = architectureObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((architecture.CurrentStar < architecture.TempStar) && architecture.Status.Equals("available"))
+                if ((architecture.CurrentStar < architecture.TempStar) && architecture.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

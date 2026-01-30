@@ -85,18 +85,18 @@ public class TechnologiesGalleryController : MonoBehaviour
 
                 RawImage blockImage = technologyObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = technologyObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (technology.Status.Equals("available"))
+                if (technology.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (technology.Status.Equals("pending"))
+                else if (technology.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (technology.Status.Equals("block"))
+                else if (technology.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class TechnologiesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = technologyObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((technology.CurrentStar < technology.TempStar) && technology.Status.Equals("available"))
+                if ((technology.CurrentStar < technology.TempStar) && technology.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

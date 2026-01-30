@@ -87,18 +87,18 @@ public class SymbolsGalleryController : MonoBehaviour
 
                 RawImage blockImage = symbolObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = symbolObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (symbol.Status.Equals("available"))
+                if (symbol.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (symbol.Status.Equals("pending"))
+                else if (symbol.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (symbol.Status.Equals("block"))
+                else if (symbol.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -124,7 +124,7 @@ public class SymbolsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = symbolObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((symbol.CurrentStar < symbol.TempStar) && symbol.Status.Equals("available"))
+                if ((symbol.CurrentStar < symbol.TempStar) && symbol.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

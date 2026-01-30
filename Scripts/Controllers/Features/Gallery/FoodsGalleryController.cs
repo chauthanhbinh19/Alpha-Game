@@ -85,18 +85,18 @@ public class FoodsGalleryController : MonoBehaviour
 
                 RawImage blockImage = foodObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = foodObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (food.Status.Equals("available"))
+                if (food.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (food.Status.Equals("pending"))
+                else if (food.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (food.Status.Equals("block"))
+                else if (food.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class FoodsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = foodObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((food.CurrentStar < food.TempStar) && food.Status.Equals("available"))
+                if ((food.CurrentStar < food.TempStar) && food.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

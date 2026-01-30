@@ -85,18 +85,18 @@ public class SpiritCardsGalleryController : MonoBehaviour
 
                 RawImage blockImage = spiritCardObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = spiritCardObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (spiritCard.Status.Equals("available"))
+                if (spiritCard.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (spiritCard.Status.Equals("pending"))
+                else if (spiritCard.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (spiritCard.Status.Equals("block"))
+                else if (spiritCard.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = spiritCardObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((spiritCard.CurrentStar < spiritCard.TempStar) && spiritCard.Status.Equals("available"))
+                if ((spiritCard.CurrentStar < spiritCard.TempStar) && spiritCard.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

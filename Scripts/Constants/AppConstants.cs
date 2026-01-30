@@ -389,6 +389,9 @@ public static class AppConstants
         public const string NOT_ENOUGH_RESOURCE = "NOT_ENOUGH_RESOURCE";
         public const string ACTIVE = "Active";
         public const string PASSIVE = "Passive";
+        public const string AVAILABLE = "available";
+        public const string PENDING = "pending";
+        public const string BLOCK = "block";
     }
     public static class Currency
     {

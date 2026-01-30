@@ -56,6 +56,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Rare = reader.GetStringSafe("rare"),
+                                Type = reader.GetStringSafe("type"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 CurrentStar = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetIntSafe("current_star"),
                                 TempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetIntSafe("temp_star"),

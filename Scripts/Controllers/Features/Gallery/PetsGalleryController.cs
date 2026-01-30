@@ -37,9 +37,9 @@ public class PetsGalleryController : MonoBehaviour
         PetBlockButtonPrefab = UIManager.Instance.Get("PetBlockButtonPrefab");
         equipmentsPrefab = UIManager.Instance.Get("EquipmentSecondPrefab");
     }
-    public void CreatePetsGallery(List<Pets> petsList, Transform contentPanel)
+    public void CreatePetsGallery(List<Pets> pets, Transform contentPanel)
     {
-        foreach (var pet in petsList)
+        foreach (var pet in pets)
         {
             try
             {
@@ -83,27 +83,21 @@ public class PetsGalleryController : MonoBehaviour
 
                 RawImage blockImage = petsObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = petsObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (pet.Status.Equals("available"))
+                if (pet.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (pet.Status.Equals("pending"))
+                else if (pet.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (pet.Status.Equals("block"))
+                else if (pet.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
-                }
-
-                if (pet.Type.Equals("Prime_Monster"))
-                {
-                    image.SetNativeSize();
-                    image.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
                 }
 
                 TextMeshProUGUI rareText = petsObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
@@ -130,7 +124,7 @@ public class PetsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = petsObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((pet.CurrentStar < pet.TempStar) && pet.Status.Equals("available"))
+                if ((pet.CurrentStar < pet.TempStar) && pet.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

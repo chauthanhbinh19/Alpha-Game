@@ -88,18 +88,18 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
 
                 RawImage blockImage = magicFormationCircleObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = magicFormationCircleObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (magicFormationCircle.Status.Equals("available"))
+                if (magicFormationCircle.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (magicFormationCircle.Status.Equals("pending"))
+                else if (magicFormationCircle.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (magicFormationCircle.Status.Equals("block"))
+                else if (magicFormationCircle.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -125,7 +125,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = magicFormationCircleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((magicFormationCircle.CurrentStar < magicFormationCircle.TempStar) && magicFormationCircle.Status.Equals("available"))
+                if ((magicFormationCircle.CurrentStar < magicFormationCircle.TempStar) && magicFormationCircle.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

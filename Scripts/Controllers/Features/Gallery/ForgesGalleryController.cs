@@ -88,18 +88,18 @@ public class ForgesGalleryController : MonoBehaviour
 
                 RawImage blockImage = forgeObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = forgeObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (forge.Status.Equals("available"))
+                if (forge.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (forge.Status.Equals("pending"))
+                else if (forge.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (forge.Status.Equals("block"))
+                else if (forge.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -125,7 +125,7 @@ public class ForgesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = forgeObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((forge.CurrentStar < forge.TempStar) && forge.Status.Equals("available"))
+                if ((forge.CurrentStar < forge.TempStar) && forge.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

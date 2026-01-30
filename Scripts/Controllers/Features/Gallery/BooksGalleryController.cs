@@ -85,18 +85,18 @@ public class BooksGalleryController : MonoBehaviour
 
                 RawImage blockImage = bookObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = bookObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (book.Status.Equals("available"))
+                if (book.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (book.Status.Equals("pending"))
+                else if (book.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (book.Status.Equals("block"))
+                else if (book.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class BooksGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = bookObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((book.CurrentStar < book.TempStar) && book.Status.Equals("available"))
+                if ((book.CurrentStar < book.TempStar) && book.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -145,7 +145,7 @@ public class BooksGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 340);
+            gridLayout.cellSize = new Vector2(260, 320);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

@@ -85,18 +85,18 @@ public class VehiclesGalleryController : MonoBehaviour
 
                 RawImage blockImage = vehicleObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = vehicleObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (vehicle.Status.Equals("available"))
+                if (vehicle.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (vehicle.Status.Equals("pending"))
+                else if (vehicle.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (vehicle.Status.Equals("block"))
+                else if (vehicle.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -121,7 +121,7 @@ public class VehiclesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = vehicleObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((vehicle.CurrentStar < vehicle.TempStar) && vehicle.Status.Equals("available"))
+                if ((vehicle.CurrentStar < vehicle.TempStar) && vehicle.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

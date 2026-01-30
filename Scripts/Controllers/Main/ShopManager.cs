@@ -36,7 +36,7 @@ public class ShopManager : MonoBehaviour
     private string mainType;
     private string type;
     private TextMeshProUGUI titleText;
-    private string rare;
+    // private string rare;
     public static ShopManager Instance { get; private set; }
     private void Awake()
     {
@@ -61,7 +61,7 @@ public class ShopManager : MonoBehaviour
         offset = 0;
         currentPage = 1;
         pageSize = 100;
-        rare = "All";
+        // rare = "All";
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ShopButtonPrefab = UIManager.Instance.Get("ShopButtonPrefab");
         ShopManagerPrefab = UIManager.Instance.Get("ShopManagerPrefab");
@@ -375,17 +375,17 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = await CollaborationEquipmentsService.Create().GetCollaborationEquipmentsWithPriceCountAsync(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
-        {
-            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_9_URL);
-            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_10_URL);
-            firstDecorationImage.texture = firstDecorationTexture;
-            secondDecorationImage.texture = secondDecorationTexture;
-            List<Equipments> equipments = await EquipmentsService.Create().GetEquipmentsAsync(type, pageSize, offset, rare);
-            createEquipments(equipments);
+        // else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
+        // {
+        //     Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_9_URL);
+        //     Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_10_URL);
+        //     firstDecorationImage.texture = firstDecorationTexture;
+        //     secondDecorationImage.texture = secondDecorationTexture;
+        //     List<Equipments> equipments = await EquipmentsService.Create().GetEquipmentsWithCurrencyAsync(type, pageSize, offset, rare);
+        //     createEquipments(equipments);
 
-            totalRecord = await EquipmentsService.Create().GetEquipmentsCountAsync(type, rare);
-        }
+        //     totalRecord = await EquipmentsService.Create().GetEquipmentsWithCurrencyAsync(type, rare);
+        // }
         else if (mainType.Equals(AppConstants.MainType.PET))
         {
             Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_11_URL);

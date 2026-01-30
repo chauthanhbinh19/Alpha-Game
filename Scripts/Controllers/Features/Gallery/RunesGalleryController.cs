@@ -85,18 +85,18 @@ public class RunesGalleryController : MonoBehaviour
 
                 RawImage blockImage = runeObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = runeObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (rune.Status.Equals("available"))
+                if (rune.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (rune.Status.Equals("pending"))
+                else if (rune.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (rune.Status.Equals("block"))
+                else if (rune.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class RunesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = runeObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((rune.CurrentStar < rune.TempStar) && rune.Status.Equals("available"))
+                if ((rune.CurrentStar < rune.TempStar) && rune.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

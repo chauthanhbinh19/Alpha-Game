@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -38,49 +39,54 @@ public class EquipmentsController : MonoBehaviour
     {
         foreach (var equipment in equipments)
         {
-            GameObject equipmentObject = Instantiate(EquipmentButtonPrefab, contentPanel);
-
-            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = equipment.Name.Replace("_", " ");
-
-            RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            image.texture = texture;
-
-            // Kích thước của RawImage (khung hiển thị)
-            RectTransform rect = image.GetComponent<RectTransform>();
-            float maxWidth = rect.rect.width;
-            float maxHeight = rect.rect.height;
-
-            // Kích thước thật của texture
-            float texWidth = texture.width;
-            float texHeight = texture.height;
-
-            // Tính scale để texture nằm gọn trong khung
-            float widthRatio = maxWidth / texWidth;
-            float heightRatio = maxHeight / texHeight;
-            float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
-
-            // Áp dụng scale theo tỉ lệ đúng
-            image.SetNativeSize();
-            image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
-
-            RawImage backgroundImage = equipmentObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.EQUIPMENT_BUTTON_BACKGROUND_URL);
-
-            Button button = equipmentObject.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            try
             {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(equipment, MainPanel);
-            });
-            // cardImage.SetNativeSize();
-            // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+                GameObject equipmentObject = Instantiate(EquipmentButtonPrefab, contentPanel);
 
-            TextMeshProUGUI rareText = equipmentObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(equipment.Rare));
-            rareText.text = equipment.Rare;
+                TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                Title.text = equipment.Name.Replace("_", " ");
+
+                RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
+                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                image.texture = texture;
+
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
+
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
+
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+
+                RawImage backgroundImage = equipmentObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.EQUIPMENT_BUTTON_BACKGROUND_URL);
+
+                Button button = equipmentObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(equipment, MainPanel);
+                });
+
+                TextMeshProUGUI rareText = equipmentObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(equipment.Rare));
+                rareText.text = equipment.Rare;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

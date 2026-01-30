@@ -85,18 +85,18 @@ public class PlantsGalleryController : MonoBehaviour
 
                 RawImage blockImage = plantObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = plantObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (plant.Status.Equals("available"))
+                if (plant.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (plant.Status.Equals("pending"))
+                else if (plant.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (plant.Status.Equals("block"))
+                else if (plant.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class PlantsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = plantObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((plant.CurrentStar < plant.TempStar) && plant.Status.Equals("available"))
+                if ((plant.CurrentStar < plant.TempStar) && plant.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

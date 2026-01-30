@@ -85,18 +85,18 @@ public class SpiritBeastsGalleryController : MonoBehaviour
 
                 RawImage blockImage = spiritBeastObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = spiritBeastObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (spiritBeast.Status.Equals("available"))
+                if (spiritBeast.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (spiritBeast.Status.Equals("pending"))
+                else if (spiritBeast.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (spiritBeast.Status.Equals("block"))
+                else if (spiritBeast.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class SpiritBeastsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = spiritBeastObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((spiritBeast.CurrentStar < spiritBeast.TempStar) && spiritBeast.Status.Equals("available"))
+                if ((spiritBeast.CurrentStar < spiritBeast.TempStar) && spiritBeast.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

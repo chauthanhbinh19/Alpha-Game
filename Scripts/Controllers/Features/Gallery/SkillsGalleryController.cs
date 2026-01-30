@@ -87,18 +87,18 @@ public class SkillsGalleryController : MonoBehaviour
 
                 RawImage blockImage = skillObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = skillObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (skill.Status.Equals("available"))
+                if (skill.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (skill.Status.Equals("pending"))
+                else if (skill.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (skill.Status.Equals("block"))
+                else if (skill.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -124,7 +124,7 @@ public class SkillsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = skillObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((skill.CurrentStar < skill.TempStar) && skill.Status.Equals("available"))
+                if ((skill.CurrentStar < skill.TempStar) && skill.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

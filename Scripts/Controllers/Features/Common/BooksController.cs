@@ -100,7 +100,7 @@ public class BooksController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 340);
+            gridLayout.cellSize = new Vector2(260, 320);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

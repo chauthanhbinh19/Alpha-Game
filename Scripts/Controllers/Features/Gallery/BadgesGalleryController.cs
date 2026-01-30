@@ -85,18 +85,18 @@ public class BadgesGalleryController : MonoBehaviour
 
                 RawImage blockImage = badgeObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = badgeObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (badge.Status.Equals("available"))
+                if (badge.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (badge.Status.Equals("pending"))
+                else if (badge.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (badge.Status.Equals("block"))
+                else if (badge.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class BadgesGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = badgeObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((badge.CurrentStar < badge.TempStar) && badge.Status.Equals("available"))
+                if ((badge.CurrentStar < badge.TempStar) && badge.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

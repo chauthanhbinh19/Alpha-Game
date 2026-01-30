@@ -85,18 +85,18 @@ public class CoresGalleryController : MonoBehaviour
 
                 RawImage blockImage = coreObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = coreObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (core.Status.Equals("available"))
+                if (core.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (core.Status.Equals("pending"))
+                else if (core.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (core.Status.Equals("block"))
+                else if (core.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class CoresGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = coreObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((core.CurrentStar < core.TempStar) && core.Status.Equals("available"))
+                if ((core.CurrentStar < core.TempStar) && core.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

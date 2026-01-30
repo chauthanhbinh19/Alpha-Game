@@ -76,18 +76,18 @@ public class CardLivesGalleryController : MonoBehaviour
 
             RawImage blockImage = cardLifeObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardLifeObject.transform.Find("UnlockButton").GetComponent<Button>();
-            if (cardLife.Status.Equals("available"))
+            if (cardLife.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (cardLife.Status.Equals("pending"))
+            else if (cardLife.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (cardLife.Status.Equals("block"))
+            else if (cardLife.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -113,7 +113,7 @@ public class CardLivesGalleryController : MonoBehaviour
             });
 
             Button Upgrade = cardLifeObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((cardLife.CurrentStar < cardLife.TempStar) && cardLife.Status.Equals("available"))
+            if ((cardLife.CurrentStar < cardLife.TempStar) && cardLife.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -131,7 +131,8 @@ public class CardLivesGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 360);
+            gridLayout.cellSize = new Vector2(250, 360);
+            gridLayout.spacing = new Vector2(23, 10);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

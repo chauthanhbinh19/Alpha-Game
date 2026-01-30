@@ -85,18 +85,18 @@ public class MechaBeastsGalleryController : MonoBehaviour
 
                 RawImage blockImage = mechaBeastObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = mechaBeastObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (mechaBeast.Status.Equals("available"))
+                if (mechaBeast.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (mechaBeast.Status.Equals("pending"))
+                else if (mechaBeast.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (mechaBeast.Status.Equals("block"))
+                else if (mechaBeast.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class MechaBeastsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = mechaBeastObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((mechaBeast.CurrentStar < mechaBeast.TempStar) && mechaBeast.Status.Equals("available"))
+                if ((mechaBeast.CurrentStar < mechaBeast.TempStar) && mechaBeast.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

@@ -84,18 +84,18 @@ public class AchievementsGalleryController : MonoBehaviour
 
                 RawImage blockImage = achievementObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = achievementObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (achievement.Status.Equals("available"))
+                if (achievement.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (achievement.Status.Equals("pending"))
+                else if (achievement.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (achievement.Status.Equals("block"))
+                else if (achievement.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -121,7 +121,7 @@ public class AchievementsGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = achievementObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((achievement.CurrentStar < achievement.TempStar) && achievement.Status.Equals("available"))
+                if ((achievement.CurrentStar < achievement.TempStar) && achievement.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

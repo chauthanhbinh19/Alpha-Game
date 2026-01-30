@@ -85,18 +85,18 @@ public class FurnituresGalleryController : MonoBehaviour
 
                 RawImage blockImage = furnitureObject.transform.Find("Block").GetComponent<RawImage>();
                 Button Unlock = furnitureObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (furniture.Status.Equals("available"))
+                if (furniture.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (furniture.Status.Equals("pending"))
+                else if (furniture.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (furniture.Status.Equals("block"))
+                else if (furniture.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -121,7 +121,7 @@ public class FurnituresGalleryController : MonoBehaviour
                 });
 
                 Button Upgrade = furnitureObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((furniture.CurrentStar < furniture.TempStar) && furniture.Status.Equals("available"))
+                if ((furniture.CurrentStar < furniture.TempStar) && furniture.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }

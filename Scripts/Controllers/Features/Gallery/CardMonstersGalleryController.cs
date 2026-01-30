@@ -76,18 +76,18 @@ public class CardMonstersGalleryController : MonoBehaviour
 
             RawImage blockImage = cardMonstersObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardMonstersObject.transform.Find("UnlockButton").GetComponent<Button>();
-            if (cardMonster.Status.Equals("available"))
+            if (cardMonster.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (cardMonster.Status.Equals("pending"))
+            else if (cardMonster.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (cardMonster.Status.Equals("block"))
+            else if (cardMonster.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -112,7 +112,7 @@ public class CardMonstersGalleryController : MonoBehaviour
             });
 
             Button Upgrade = cardMonstersObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((cardMonster.CurrentStar < cardMonster.TempStar) && cardMonster.Status.Equals("available"))
+            if ((cardMonster.CurrentStar < cardMonster.TempStar) && cardMonster.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -130,7 +130,8 @@ public class CardMonstersGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 360);
+            gridLayout.cellSize = new Vector2(250, 360);
+            gridLayout.spacing = new Vector2(23, 10);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

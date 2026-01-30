@@ -76,18 +76,18 @@ public class CardSpellsGalleryController : MonoBehaviour
 
             RawImage blockImage = cardSpellObject.transform.Find("Block").GetComponent<RawImage>();
             Button Unlock = cardSpellObject.transform.Find("UnlockButton").GetComponent<Button>();
-            if (cardSpell.Status.Equals("available"))
+            if (cardSpell.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
                 Image.color = Color.white;
             }
-            else if (cardSpell.Status.Equals("pending"))
+            else if (cardSpell.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(true);
             }
-            else if (cardSpell.Status.Equals("block"))
+            else if (cardSpell.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
                 Unlock.gameObject.SetActive(false);
@@ -113,7 +113,7 @@ public class CardSpellsGalleryController : MonoBehaviour
             });
 
             Button Upgrade = cardSpellObject.transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((cardSpell.CurrentStar < cardSpell.TempStar) && cardSpell.Status.Equals("available"))
+            if ((cardSpell.CurrentStar < cardSpell.TempStar) && cardSpell.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 Upgrade.gameObject.SetActive(true);
             }
@@ -131,7 +131,8 @@ public class CardSpellsGalleryController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(280, 360);
+            gridLayout.cellSize = new Vector2(250, 360);
+            gridLayout.spacing = new Vector2(23, 10);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
