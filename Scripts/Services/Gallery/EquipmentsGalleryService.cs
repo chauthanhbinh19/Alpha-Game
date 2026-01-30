@@ -15,16 +15,16 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
         return new EquipmentsGalleryService(new EquipmentsGalleryRepository());
     }
 
-    public async Task<List<Equipments>> GetEquipmentsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetEquipmentsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> list = await _equipmentsGalleryRepository.GetEquipmentsCollectionAsync(type, pageSize, offset, rare);
+        List<Equipments> list = await _equipmentsGalleryRepository.GetEquipmentsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetEquipmentsCountAsync(string type, string rare)
+    public async Task<int> GetEquipmentsCountAsync(string search, string type, string rare)
     {
-        return await _equipmentsGalleryRepository.GetEquipmentsCountAsync(type, rare);
+        return await _equipmentsGalleryRepository.GetEquipmentsCountAsync(search, type, rare);
     }
 
     public async Task InsertEquipmentGalleryAsync(string Id)

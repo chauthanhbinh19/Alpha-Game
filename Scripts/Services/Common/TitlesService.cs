@@ -15,16 +15,16 @@ public class TitlesService : ITitlesService
         return new TitlesService(new TitlesRepository());
     }
 
-    public async Task<List<Titles>> GetTitlesAsync(int pageSize, int offset, string rare)
+    public async Task<List<Titles>> GetTitlesAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Titles> list = await _titlesRepository.GetTitlesAsync(pageSize, offset, rare);
+        List<Titles> list = await _titlesRepository.GetTitlesAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetTitlesCountAsync(string rare)
+    public async Task<int> GetTitlesCountAsync(string search, string rare)
     {
-        return await _titlesRepository.GetTitlesCountAsync(rare);
+        return await _titlesRepository.GetTitlesCountAsync(search, rare);
     }
 
     public async Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset)

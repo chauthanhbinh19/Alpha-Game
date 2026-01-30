@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IUserSkillsRepository
 {
-    Task<List<Skills>> GetUserSkillsAsync(string user_id, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserSkillsCountAsync(string user_id, string type, string rare);
+    Task<List<Skills>> GetUserSkillsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserSkillsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserSkillAsync(Skills skills);
     Task<bool> UpdateSkillLevelAsync(Skills skills, int cardLevel);
     Task<bool> UpdateSkillBreakthroughAsync(Skills skills, int star, double quantity);

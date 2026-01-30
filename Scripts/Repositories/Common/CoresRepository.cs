@@ -35,7 +35,7 @@ public class CoresRepository : ICoresRepository
 
         return typeList;
     }
-    public async Task<List<Cores>> GetCoresAsync(int pageSize, int offset, string rare)
+    public async Task<List<Cores>> GetCoresAsync(string search, string rare, int pageSize, int offset)
     {
         List<Cores> cores = new List<Cores>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -50,6 +50,7 @@ public class CoresRepository : ICoresRepository
                 SELECT * 
                 FROM Cores 
                 WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                 ORDER BY Cores.name REGEXP '[0-9]+$', 
                          CAST(REGEXP_SUBSTR(Cores.name, '[0-9]+$') AS UNSIGNED), 
                          Cores.name
@@ -58,6 +59,7 @@ public class CoresRepository : ICoresRepository
 
                 await using (var command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -150,7 +152,7 @@ public class CoresRepository : ICoresRepository
 
         return cores;
     }
-    public async Task<int> GetCoresCountAsync(string rare)
+    public async Task<int> GetCoresCountAsync(string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -161,9 +163,12 @@ public class CoresRepository : ICoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Cores WHERE (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Cores 
+                WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 await using (var command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
 
                     var result = await command.ExecuteScalarAsync();

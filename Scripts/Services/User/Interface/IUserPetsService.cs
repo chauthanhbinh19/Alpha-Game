@@ -11,10 +11,10 @@ public interface IUserPetsService
     Task<List<Pets>> GetAllAnimeStatsPowerAsync(string user_id, List<Pets> PetsList);
     Task<Pets> GetNewLevelPowerAsync(Pets c, double coefficient);
     Task<Pets> GetNewBreakthroughPowerAsync(Pets c, double coefficient);
-    Task<List<Pets>> GetUserPetsAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<Pets>> GetUserPetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<Pets>> GetUserPetsTeamAsync(string user_id, string teamId);
     Task<Dictionary<string, int>> GetUniquePetsTypesTeamAsync(string teamId);
-    Task<int> GetUserPetsCountAsync(string user_id, string type, string rare);
+    Task<int> GetUserPetsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserPetAsync(Pets pets, string userId);
     Task<bool> UpdatePetLevelAsync(Pets pets, int cardLevel);
     Task<bool> UpdatePetBreakthroughAsync(Pets pets, int star, double quantity);

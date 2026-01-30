@@ -182,16 +182,16 @@ public class UserBuildingsService : IUserBuildingsService
         return Building;
     }
 
-    public async Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Buildings> list = await _userBuildingRepository.GetUserBuildingsAsync(user_id, type, pageSize, offset, rare);
+        List<Buildings> list = await _userBuildingRepository.GetUserBuildingsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserBuildingsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserBuildingsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userBuildingRepository.GetUserBuildingsCountAsync(user_id, type, rare);
+        return await _userBuildingRepository.GetUserBuildingsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserBuildingAsync(Buildings Building, string userId)

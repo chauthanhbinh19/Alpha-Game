@@ -5,8 +5,8 @@ public interface ICardCaptainsService
 {
     Task<List<string>> GetUniqueCardCaptainsTypesAsync();
     Task<List<string>> GetUniqueCardCaptainsIdAsync();
-    Task<List<CardCaptains>> GetCardCaptainsAsync(string type, int pageSize, int offset, string rare);
-    Task<int> GetCardCaptainsCountAsync(string type, string rare);
+    Task<List<CardCaptains>> GetCardCaptainsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<int> GetCardCaptainsCountAsync(string search, string type, string rare);
     Task<List<CardCaptains>> GetCardCaptainsRandomAsync(string type, int pageSize);
     Task<List<CardCaptains>> GetAllCardCaptainsAsync(string type);
     Task<CardCaptains> GetCardCaptainByIdAsync(string Id);

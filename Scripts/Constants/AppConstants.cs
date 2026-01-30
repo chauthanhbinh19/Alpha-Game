@@ -176,6 +176,10 @@ public static class AppConstants
         public const string SLGPlus = "SLG+";
         public const string SP = "SP";
     }
+    public static class Type
+    {
+        public const string ALL = "All";
+    }
     public static class MainType
     {
         public const string USERNAME = "username";

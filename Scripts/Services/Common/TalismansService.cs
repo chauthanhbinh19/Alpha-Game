@@ -15,16 +15,16 @@ public class TalismansService : ITalismansService
         return new TalismansService(new TalismansRepository());
     }
 
-    public async Task<List<Talismans>> GetTalismansAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Talismans>> GetTalismansAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Talismans> list = await _talismanRepository.GetTalismansAsync(type, pageSize, offset, rare);
+        List<Talismans> list = await _talismanRepository.GetTalismansAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetTalismansCountAsync(string type, string rare)
+    public async Task<int> GetTalismansCountAsync(string search, string type, string rare)
     {
-        return await _talismanRepository.GetTalismansCountAsync(type, rare);
+        return await _talismanRepository.GetTalismansCountAsync(search, type, rare);
     }
 
     public async Task<List<Talismans>> GetTalismansWithPriceAsync(string type, int pageSize, int offset)

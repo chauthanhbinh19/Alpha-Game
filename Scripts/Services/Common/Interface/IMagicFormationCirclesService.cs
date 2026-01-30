@@ -5,8 +5,8 @@ public interface IMagicFormationCirclesService
 {
     Task<List<string>> GetUniqueMagicFormationCirclesTypesAsync();
     Task<List<string>> GetUniqueMagicFormationCirclesIdAsync();
-    Task<List<MagicFormationCircles>> GetMagicFormationCirclesAsync(string type, int pageSize, int offset, string rare);
-    Task<int> GetMagicFormationCirclesCountAsync(string type, string rare);
+    Task<List<MagicFormationCircles>> GetMagicFormationCirclesAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<int> GetMagicFormationCirclesCountAsync(string search, string type, string rare);
     Task<List<MagicFormationCircles>> GetMagicFormationCirclesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetMagicFormationCirclesWithPriceCountAsync(string type);
     Task<MagicFormationCircles> GetMagicFormationCircleByIdAsync(string Id);

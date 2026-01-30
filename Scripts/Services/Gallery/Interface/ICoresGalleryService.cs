@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface ICoresGalleryService
 {
-    Task<List<Cores>> GetCoresCollectionAsync(int pageSize, int offset, string rare);
-    Task<int> GetCoresCountAsync(string rare);
+    Task<List<Cores>> GetCoresCollectionAsync(string search, int pageSize, int offset, string rare);
+    Task<int> GetCoresCountAsync(string search, string rare);
     Task InsertCoreGalleryAsync(string Id);
     Task UpdateStatusCoreGalleryAsync(string Id);
     Task UpdateStarCoreGalleryAsync(string id, double star);

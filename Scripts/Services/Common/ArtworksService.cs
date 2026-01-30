@@ -20,16 +20,16 @@ public class ArtworksService : IArtworksService
         return await _ArtworkRepository.GetUniqueArtworksTypesAsync();
     }
 
-    public async Task<List<Artworks>> GetArtworksAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Artworks>> GetArtworksAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Artworks> list = await _ArtworkRepository.GetArtworksAsync(type, pageSize, offset, rare);
+        List<Artworks> list = await _ArtworkRepository.GetArtworksAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetArtworksCountAsync(string type, string rare)
+    public async Task<int> GetArtworksCountAsync(string search, string type, string rare)
     {
-        return await _ArtworkRepository.GetArtworksCountAsync(type, rare);
+        return await _ArtworkRepository.GetArtworksCountAsync(search, type, rare);
     }
 
     public async Task<List<Artworks>> GetArtworksWithPriceAsync(string type, int pageSize, int offset)

@@ -182,16 +182,16 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return MechaBeasts;
     }
 
-    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<MechaBeasts> list = await _userMechaBeastsRepository.GetUserMechaBeastsAsync(user_id, pageSize, offset, rare);
+        List<MechaBeasts> list = await _userMechaBeastsRepository.GetUserMechaBeastsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserMechaBeastsCountAsync(string user_id, string rare)
+    public async Task<int> GetUserMechaBeastsCountAsync(string user_id, string search, string rare)
     {
-        return await _userMechaBeastsRepository.GetUserMechaBeastsCountAsync(user_id, rare);
+        return await _userMechaBeastsRepository.GetUserMechaBeastsCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserMechaBeastAsync(MechaBeasts MechaBeasts, string userId)

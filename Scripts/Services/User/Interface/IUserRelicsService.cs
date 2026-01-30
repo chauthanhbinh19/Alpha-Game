@@ -5,8 +5,8 @@ public interface IUserRelicsService
 {
     Task<Relics> GetNewLevelPowerAsync(Relics c, double coefficient);
     Task<Relics> GetNewBreakthroughPowerAsync(Relics c, double coefficient);
-    Task<List<Relics>> GetUserRelicsAsync(string user_id, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserRelicsCountAsync(string user_id, string type, string rare);
+    Task<List<Relics>> GetUserRelicsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserRelicsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserRelicAsync(Relics Relic, string userId);
     Task<bool> UpdateRelicLevelAsync(Relics Relic, int cardLevel);
     Task<bool> UpdateRelicBreakthroughAsync(Relics Relic, int star, double quantity);

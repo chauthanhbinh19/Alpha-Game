@@ -15,16 +15,16 @@ public class BeveragesService : IBeveragesService
         return new BeveragesService(new BeveragesRepository());
     }
 
-    public async Task<List<Beverages>> GetBeveragesAsync(int pageSize, int offset, string rare)
+    public async Task<List<Beverages>> GetBeveragesAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Beverages> list = await _BeveragesRepository.GetBeveragesAsync(pageSize, offset, rare);
+        List<Beverages> list = await _BeveragesRepository.GetBeveragesAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetBeveragesCountAsync(string rare)
+    public async Task<int> GetBeveragesCountAsync(string search, string rare)
     {
-        return await _BeveragesRepository.GetBeveragesCountAsync(rare);
+        return await _BeveragesRepository.GetBeveragesCountAsync(search, rare);
     }
 
     public async Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset)

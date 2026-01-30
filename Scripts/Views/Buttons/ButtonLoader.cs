@@ -499,7 +499,7 @@ public class ButtonLoader : MonoBehaviour
             nameText.text = LocalizationManager.Get(itemName);
         }
     }
-    public async Task CreateEquipmentsButtonAsync(Transform equipmentMenuPanel, Transform contentPanel)
+    public async Task CreateEquipmentsButtonAsync(Transform equipmentMenuPanel)
     {
         itemBackground = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_EQUIPMENT_URL);
         //Equipment menu
@@ -512,7 +512,7 @@ public class ButtonLoader : MonoBehaviour
                 CreateButtonWithName(subtype, itemBackground, Resources.Load<Texture2D>($"UI/Button/Equipments/{subtype}"), equipmentMenuPanel);
             }
         }
-        FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel, contentPanel);
+        FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel);
         equipmentMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateAnimeButton(Transform animeMenuPanel)

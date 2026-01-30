@@ -58,7 +58,7 @@ public class BooksRepository : IBooksRepository
 
         return idList;
     }
-    public async Task<List<Books>> GetBooksAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetBooksAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Books> books = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -71,13 +71,16 @@ public class BooksRepository : IBooksRepository
             string query = @"
             SELECT * 
             FROM books 
-            WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+            WHERE (@type = 'All' OR type = @type)
+                AND (@rare = 'All' OR rare = @rare)
+                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
             ORDER BY books.name REGEXP '[0-9]+$', 
                      CAST(REGEXP_SUBSTR(books.name, '[0-9]+$') AS UNSIGNED), 
                      books.name 
             LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
             command.Parameters.AddWithValue("@limit", pageSize);
@@ -158,7 +161,7 @@ public class BooksRepository : IBooksRepository
 
         return books;
     }
-    public async Task<int> GetBooksCountAsync(string type, string rare)
+    public async Task<int> GetBooksCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -168,8 +171,12 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT COUNT(*) FROM books WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+            string query = @"SELECT COUNT(*) FROM books 
+            WHERE (@type = 'All' OR type = @type)
+                AND (@rare = 'All' OR rare = @rare)
+                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
             await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
 

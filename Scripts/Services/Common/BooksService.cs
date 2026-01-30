@@ -20,16 +20,16 @@ public class BooksService : IBooksService
         return await _booksRepository.GetUniqueBooksTypesAsync();
     }
 
-    public async Task<List<Books>> GetBooksAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetBooksAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Books> list = await _booksRepository.GetBooksAsync(type, pageSize, offset, rare);
+        List<Books> list = await _booksRepository.GetBooksAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetBooksCountAsync(string type, string rare)
+    public async Task<int> GetBooksCountAsync(string search, string type, string rare)
     {
-        return await _booksRepository.GetBooksCountAsync(type, rare);
+        return await _booksRepository.GetBooksCountAsync(search, type, rare);
     }
 
     public async Task<List<Books>> GetBooksRandomAsync(string type, int pageSize)

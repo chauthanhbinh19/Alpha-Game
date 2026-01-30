@@ -182,16 +182,16 @@ public class UserFashionsService : IUserFashionsService
         return Fashion;
     }
 
-    public async Task<List<Fashions>> GetUserFashionsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Fashions>> GetUserFashionsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Fashions> list = await _userFashionRepository.GetUserFashionsAsync(user_id, type, pageSize, offset, rare);
+        List<Fashions> list = await _userFashionRepository.GetUserFashionsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserFashionsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserFashionsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userFashionRepository.GetUserFashionsCountAsync(user_id, type, rare);
+        return await _userFashionRepository.GetUserFashionsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserFashionAsync(Fashions Fashion, string userId)

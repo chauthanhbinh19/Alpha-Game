@@ -762,9 +762,9 @@ public class UserCardSpellsService : IUserCardSpellsService
         }
         return CardSpellList;
     }
-    public async Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardSpells> list = await _userCardSpellRepository.GetUserCardSpellsAsync(user_id, type, pageSize, offset, rare);
+        List<CardSpells> list = await _userCardSpellRepository.GetUserCardSpellsAsync(user_id, search, type, pageSize, offset, rare);
         list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluator.GetQualityPower(list);
         list = await GetFinalPowerAsync(user_id, list);
@@ -817,9 +817,9 @@ public class UserCardSpellsService : IUserCardSpellsService
         return await _userCardSpellRepository.UpdateTeamCardSpellAsync(team_id, position, card_id);
     }
 
-    public async Task<int> GetUserCardSpellsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserCardSpellsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userCardSpellRepository.GetUserCardSpellsCountAsync(user_id, type, rare);
+        return await _userCardSpellRepository.GetUserCardSpellsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<int> GetUserCardSpellsTeamsPositionCountAsync(string user_id, string team_id, string position)

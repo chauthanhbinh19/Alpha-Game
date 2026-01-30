@@ -15,16 +15,16 @@ public class WeaponsGalleryService : IWeaponsGalleryService
         return new WeaponsGalleryService(new WeaponsGalleryRepository());
     }
 
-    public async Task<List<Weapons>> GetWeaponsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Weapons>> GetWeaponsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Weapons> list = await _WeaponsGalleryRepository.GetWeaponsCollectionAsync(pageSize, offset, rare);
+        List<Weapons> list = await _WeaponsGalleryRepository.GetWeaponsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetWeaponsCountAsync(string rare)
+    public async Task<int> GetWeaponsCountAsync(string search, string rare)
     {
-        return await _WeaponsGalleryRepository.GetWeaponsCountAsync(rare);
+        return await _WeaponsGalleryRepository.GetWeaponsCountAsync(search, rare);
     }
 
     public async Task InsertWeaponGalleryAsync(string Id)

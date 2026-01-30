@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IUserEquipmentsRepository
 {
-    Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserEquipmentsCountAsync(string user_id, string type, string rare);
+    Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare);
     Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id);
     Task<bool> BuyEquipmentAsync(string Id, Equipments EquipmentFromDB);
     Task<bool> UpdateEquipmentsLevelAsync(Equipments equipments, int cardLevel);

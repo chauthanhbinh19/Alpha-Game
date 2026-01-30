@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
 {
-    public async Task<List<SpiritCards>> GetSpiritCardsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<SpiritCards>> GetSpiritCardsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<SpiritCards> spiritCards = new List<SpiritCards>();
         string user_id = User.CurrentUserId;
@@ -29,8 +29,9 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
                 FROM spirit_cards m 
                 LEFT JOIN spirit_cards_gallery mg 
                     ON m.id = mg.spirit_card_id AND mg.user_id = @userId 
-                WHERE m.type = @type 
+                WHERE (@type = 'All' OR m.type = @type)
                     AND (@rare = 'All' OR m.rare = @rare)
+                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     m.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED),
@@ -39,6 +40,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@userId", user_id);
@@ -141,7 +143,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
         }
         return spiritCards;
     }
-    public async Task<int> GetSpiritCardsCountAsync(string type, string rare)
+    public async Task<int> GetSpiritCardsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -152,9 +154,12 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM spirit_cards WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM spirit_cards 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 MySqlCommand command = new MySqlCommand(query, connection);
-
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
 

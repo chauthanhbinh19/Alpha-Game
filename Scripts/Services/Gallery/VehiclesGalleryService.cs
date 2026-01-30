@@ -15,16 +15,16 @@ public class VehiclesGalleryService : IVehiclesGalleryService
         return new VehiclesGalleryService(new VehiclesGalleryRepository());
     }
 
-    public async Task<List<Vehicles>> GetVehiclesCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Vehicles>> GetVehiclesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Vehicles> list = await _VehicleGalleryRepository.GetVehiclesCollectionAsync(type, pageSize, offset, rare);
+        List<Vehicles> list = await _VehicleGalleryRepository.GetVehiclesCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetVehiclesCountAsync(string type, string rare)
+    public async Task<int> GetVehiclesCountAsync(string search, string type, string rare)
     {
-        return await _VehicleGalleryRepository.GetVehiclesCountAsync(type, rare);
+        return await _VehicleGalleryRepository.GetVehiclesCountAsync(search, type, rare);
     }
 
     public async Task InsertVehicleGalleryAsync(string Id)

@@ -182,16 +182,16 @@ public class UserCollaborationsService : IUserCollaborationsService
         return collaboration;
     }
 
-    public async Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Collaborations> list = await _userCollaborationRepository.GetUserCollaborationsAsync(user_id, pageSize, offset, rare);
+        List<Collaborations> list = await _userCollaborationRepository.GetUserCollaborationsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserCollaborationsCountAsync(string user_id, string rare)
+    public async Task<int> GetUserCollaborationsCountAsync(string user_id, string search, string rare)
     {
-        return await _userCollaborationRepository.GetUserCollaborationsCountAsync(user_id, rare);
+        return await _userCollaborationRepository.GetUserCollaborationsCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserCollaborationAsync(Collaborations collaboration, string userId)

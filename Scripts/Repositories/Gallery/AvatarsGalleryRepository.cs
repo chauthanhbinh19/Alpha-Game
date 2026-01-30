@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class AvatarsGalleryRepository : IAvatarsGalleryRepository
 {
-    public async Task<List<Avatars>> GetAvatarsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetAvatarsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Avatars> avatars = new List<Avatars>();
         string user_id = User.CurrentUserId;
@@ -30,12 +30,14 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                 LEFT JOIN avatars_gallery cg 
                        ON c.id = cg.avatar_id AND cg.user_id = @userId 
                 WHERE (@rare = 'All' OR c.rare = @rare) 
+                    AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
                 LIMIT @limit OFFSET @offset;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -133,7 +135,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
 
         return avatars;
     }
-    public async Task<int> GetAvatarsCountAsync(string rare)
+    public async Task<int> GetAvatarsCountAsync(string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -144,9 +146,12 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Avatars WHERE (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Avatars 
+                WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
 
                     object result = await command.ExecuteScalarAsync();

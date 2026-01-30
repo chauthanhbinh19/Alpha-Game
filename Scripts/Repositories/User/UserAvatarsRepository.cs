@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserAvatarsRepository : IUserAvatarsRepository
 {
-    public async Task<List<Avatars>> GetUserAvatarsAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetUserAvatarsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Avatars> avatars = new List<Avatars>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -22,7 +22,9 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 SELECT um.*, m.name, m.image, m.rare, m.description
                 FROM avatars m
                 JOIN user_avatars um ON m.id = um.avatar_id
-                WHERE um.user_id = @userId AND (@rare = 'All' OR m.rare = @rare)
+                WHERE um.user_id = @userId 
+                    AND (@rare = 'All' OR m.rare = @rare)
+                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     m.name REGEXP '[0-9]+$', 
                     CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), 
@@ -33,6 +35,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -118,7 +121,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return avatars;
     }
-    public async Task<int> GetUserAvatarsCountAsync(string user_id, string rare)
+    public async Task<int> GetUserAvatarsCountAsync(string user_id, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -133,12 +136,15 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 SELECT COUNT(*)
                 FROM Medals m
                 JOIN user_medals um ON m.id = um.medal_id
-                WHERE um.user_id = @userId AND (@rare = 'All' OR m.rare = @rare);
+                WHERE um.user_id = @userId 
+                    AND (@rare = 'All' OR m.rare = @rare)
+                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'));
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
 
                     object result = await command.ExecuteScalarAsync();

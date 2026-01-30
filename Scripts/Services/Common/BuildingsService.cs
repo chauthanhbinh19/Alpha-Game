@@ -20,16 +20,16 @@ public class BuildingsService : IBuildingsService
         return await _BuildingsRepository.GetUniqueBuildingsTypesAsync();
     }
 
-    public async Task<List<Buildings>> GetBuildingsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Buildings>> GetBuildingsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Buildings> list = await _BuildingsRepository.GetBuildingsAsync(type, pageSize, offset, rare);
+        List<Buildings> list = await _BuildingsRepository.GetBuildingsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetBuildingsCountAsync(string type, string rare)
+    public async Task<int> GetBuildingsCountAsync(string search, string type, string rare)
     {
-        return await _BuildingsRepository.GetBuildingsCountAsync(type, rare);
+        return await _BuildingsRepository.GetBuildingsCountAsync(search, type, rare);
     }
 
     public async Task<List<Buildings>> GetBuildingsWithPriceAsync(string type, int pageSize, int offset)

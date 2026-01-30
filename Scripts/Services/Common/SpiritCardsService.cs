@@ -20,16 +20,16 @@ public class SpiritCardsService : ISpiritCardsService
         return await _SpiritCardRepository.GetUniqueSpiritCardsTypesAsync();
     }
 
-    public async Task<List<SpiritCards>> GetSpiritCardsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<SpiritCards>> GetSpiritCardsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<SpiritCards> list = await _SpiritCardRepository.GetSpiritCardsAsync(type, pageSize, offset, rare);
+        List<SpiritCards> list = await _SpiritCardRepository.GetSpiritCardsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetSpiritCardsCountAsync(string type, string rare)
+    public async Task<int> GetSpiritCardsCountAsync(string search, string type, string rare)
     {
-        return await _SpiritCardRepository.GetSpiritCardsCountAsync(type, rare);
+        return await _SpiritCardRepository.GetSpiritCardsCountAsync(search, type, rare);
     }
 
     public async Task<List<SpiritCards>> GetSpiritCardsWithPriceAsync(string type, int pageSize, int offset)

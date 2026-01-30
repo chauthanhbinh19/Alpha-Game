@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserBuildingsRepository : IUserBuildingsRepository
 {
-    public async Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Buildings> Buildings = new List<Buildings>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -23,8 +23,9 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 FROM Buildings m
                 JOIN user_Buildings um ON m.id = um.Building_id
                 WHERE um.user_id = @userId 
-                  AND m.type = @type 
+                  AND (@type = 'All' OR m.type = @type)
                   AND (@rare = 'All' OR m.rare = @rare)
+                  AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
                 LIMIT @limit OFFSET @offset;
             ";
@@ -32,6 +33,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -122,7 +124,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
         return Buildings;
     }
-    public async Task<int> GetUserBuildingsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserBuildingsCountAsync(string user_id, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -138,13 +140,15 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 FROM Buildings m
                 JOIN user_Buildings um ON m.id = um.Building_id
                 WHERE um.user_id = @userId 
-                  AND m.type = @type 
-                  AND (@rare = 'All' OR m.rare = @rare);
+                  AND (@type = 'All' OR m.type = @type)
+                  AND (@rare = 'All' OR m.rare = @rare)
+                  AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'));
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

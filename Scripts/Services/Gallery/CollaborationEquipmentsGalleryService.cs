@@ -15,16 +15,16 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
         return new CollaborationEquipmentsGalleryService(new CollaborationEquipmentsGalleryRepository());
     }
 
-    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipments> list = await _collabEquipmentGalleryRepo.GetCollaborationEquipmentsCollectionAsync(type, pageSize, offset, rare);
+        List<CollaborationEquipments> list = await _collabEquipmentGalleryRepo.GetCollaborationEquipmentsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCollaborationEquipmentsCountAsync(string type, string rare)
+    public async Task<int> GetCollaborationEquipmentsCountAsync(string search, string type, string rare)
     {
-        return await _collabEquipmentGalleryRepo.GetCollaborationEquipmentsCountAsync(type, rare);
+        return await _collabEquipmentGalleryRepo.GetCollaborationEquipmentsCountAsync(search, type, rare);
     }
 
     public async Task InsertCollaborationEquipmentGalleryAsync(string Id)

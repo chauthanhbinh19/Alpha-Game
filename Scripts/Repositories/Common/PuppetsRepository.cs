@@ -50,7 +50,7 @@ public class PuppetsRepository : IPuppetsRepository
 
         return idList;
     }
-    public async Task<List<Puppets>> GetPuppetsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Puppets>> GetPuppetsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Puppets> puppets = new List<Puppets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -63,7 +63,9 @@ public class PuppetsRepository : IPuppetsRepository
 
                 string query = @"
                 SELECT * FROM puppets 
-                WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     puppets.name REGEXP '[0-9]+$', 
                     CAST(REGEXP_SUBSTR(puppets.name, '[0-9]+$') AS UNSIGNED), 
@@ -72,6 +74,7 @@ public class PuppetsRepository : IPuppetsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -165,7 +168,7 @@ public class PuppetsRepository : IPuppetsRepository
 
         return puppets;
     }
-    public async Task<int> GetPuppetsCountAsync(string type, string rare)
+    public async Task<int> GetPuppetsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -176,9 +179,13 @@ public class PuppetsRepository : IPuppetsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM puppets WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM puppets 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

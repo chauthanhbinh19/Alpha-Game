@@ -15,16 +15,16 @@ public class SpiritBeastsGalleryService : ISpiritBeastsGalleryService
         return new SpiritBeastsGalleryService(new SpiritBeastsGalleryRepository());
     }
 
-    public async Task<List<SpiritBeasts>> GetSpiritBeastsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<SpiritBeasts>> GetSpiritBeastsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<SpiritBeasts> list = await _SpiritBeastGalleryRepository.GetSpiritBeastsCollectionAsync(pageSize, offset, rare);
+        List<SpiritBeasts> list = await _SpiritBeastGalleryRepository.GetSpiritBeastsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetSpiritBeastsCountAsync(string rare)
+    public async Task<int> GetSpiritBeastsCountAsync(string search, string rare)
     {
-        return await _SpiritBeastGalleryRepository.GetSpiritBeastsCountAsync(rare);
+        return await _SpiritBeastGalleryRepository.GetSpiritBeastsCountAsync(search, rare);
     }
 
     public async Task InsertSpiritBeastGalleryAsync(string Id)

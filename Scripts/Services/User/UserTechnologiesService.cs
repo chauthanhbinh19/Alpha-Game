@@ -182,16 +182,16 @@ public class UserTechnologiesService : IUserTechnologiesService
         return Technologies;
     }
 
-    public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Technologies> list = await _userTechnologiesRepository.GetUserTechnologiesAsync(user_id, pageSize, offset, rare);
+        List<Technologies> list = await _userTechnologiesRepository.GetUserTechnologiesAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserTechnologiesCountAsync(string user_id, string rare)
+    public async Task<int> GetUserTechnologiesCountAsync(string user_id, string search, string rare)
     {
-        return await _userTechnologiesRepository.GetUserTechnologiesCountAsync(user_id, rare);
+        return await _userTechnologiesRepository.GetUserTechnologiesCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserTechnologyAsync(Technologies Technologies, string userId)

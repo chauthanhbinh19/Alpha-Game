@@ -269,16 +269,16 @@ public class UserEquipmentsService : IUserEquipmentsService
         return equipments;
     }
 
-    public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetUserEquipmentsAsync(user_id, type, pageSize, offset, rare);
+        List<Equipments> list = await _userEquipmentsRepository.GetUserEquipmentsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserEquipmentsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userEquipmentsRepository.GetUserEquipmentsCountAsync(user_id, type, rare);
+        return await _userEquipmentsRepository.GetUserEquipmentsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id)

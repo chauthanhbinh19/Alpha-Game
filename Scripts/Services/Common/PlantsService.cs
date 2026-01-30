@@ -15,16 +15,16 @@ public class PlantsService : IPlantsService
         return new PlantsService(new PlantsRepository());
     }
 
-    public async Task<List<Plants>> GetPlantsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Plants>> GetPlantsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Plants> list = await _PlantsRepository.GetPlantsAsync(pageSize, offset, rare);
+        List<Plants> list = await _PlantsRepository.GetPlantsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetPlantsCountAsync(string rare)
+    public async Task<int> GetPlantsCountAsync(string search, string rare)
     {
-        return await _PlantsRepository.GetPlantsCountAsync(rare);
+        return await _PlantsRepository.GetPlantsCountAsync(search, rare);
     }
 
     public async Task<List<Plants>> GetPlantsWithPriceAsync(int pageSize, int offset)

@@ -5,9 +5,9 @@ public interface IUserSpiritBeastsService
 {
     Task<SpiritBeasts> GetNewLevelPowerAsync(SpiritBeasts c, double coefficient);
     Task<SpiritBeasts> GetNewBreakthroughPowerAsync(SpiritBeasts c, double coefficient);
-    Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, int pageSize, int offset, string rare);
+    Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string user_id, int pageSize, int offset);
-    Task<int> GetUserSpiritBeastsCountAsync(string user_id, string rare);
+    Task<int> GetUserSpiritBeastsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts SpiritBeast);
     Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts SpiritBeast, int cardLevel);
     Task<bool> UpdateSpiritBeastBreakthroughAsync(SpiritBeasts SpiritBeast, int star, double quantity);

@@ -15,16 +15,16 @@ public class PuppetsGalleryService : IPuppetsGalleryService
         return new PuppetsGalleryService(new PuppetsGalleryRepository());
     }
 
-    public async Task<List<Puppets>> GetPuppetsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Puppets>> GetPuppetsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Puppets> list = await _puppetGalleryRepository.GetPuppetsCollectionAsync(type, pageSize, offset, rare);
+        List<Puppets> list = await _puppetGalleryRepository.GetPuppetsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetPuppetsCountAsync(string type, string rare)
+    public async Task<int> GetPuppetsCountAsync(string search, string type, string rare)
     {
-        return await _puppetGalleryRepository.GetPuppetsCountAsync(type, rare);
+        return await _puppetGalleryRepository.GetPuppetsCountAsync(search, type, rare);
     }
 
     public async Task InsertPuppetGalleryAsync(string Id)

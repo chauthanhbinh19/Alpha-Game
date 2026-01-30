@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipmentsGalleryRepository
 {
-    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<CollaborationEquipments> collaborationEquipments = new List<CollaborationEquipments>();
         string user_id = User.CurrentUserId;
@@ -29,8 +29,9 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
                 FROM collaboration_equipments m 
                 LEFT JOIN collaboration_equipments_gallery mg 
                     ON m.id = mg.collaboration_equipment_id AND mg.user_id = @userId 
-                WHERE m.type = @type 
+                WHERE (@type = 'All' OR m.type = @type)
                     AND (@rare = 'All' OR m.rare = @rare)
+                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     m.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED),
@@ -39,6 +40,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@userId", user_id);
@@ -141,7 +143,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
         }
         return collaborationEquipments;
     }
-    public async Task<int> GetCollaborationEquipmentsCountAsync(string type, string rare)
+    public async Task<int> GetCollaborationEquipmentsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -152,9 +154,12 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM collaboration_equipments WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM collaboration_equipments 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 MySqlCommand command = new MySqlCommand(query, connection);
-
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
 

@@ -15,16 +15,16 @@ public class FashionsGalleryService : IFashionsGalleryService
         return new FashionsGalleryService(new FashionsGalleryRepository());
     }
 
-    public async Task<List<Fashions>> GetFashionsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Fashions>> GetFashionsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Fashions> list = await _FashionGalleryRepository.GetFashionsCollectionAsync(type, pageSize, offset, rare);
+        List<Fashions> list = await _FashionGalleryRepository.GetFashionsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetFashionsCountAsync(string type, string rare)
+    public async Task<int> GetFashionsCountAsync(string search, string type, string rare)
     {
-        return await _FashionGalleryRepository.GetFashionsCountAsync(type, rare);
+        return await _FashionGalleryRepository.GetFashionsCountAsync(search, type, rare);
     }
 
     public async Task InsertFashionGalleryAsync(string Id)

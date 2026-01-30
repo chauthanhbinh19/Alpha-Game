@@ -15,16 +15,16 @@ public class TalismansGalleryService : ITalismansGalleryService
         return new TalismansGalleryService(new TalismansGalleryRepository());
     }
 
-    public async Task<List<Talismans>> GetTalismansCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Talismans>> GetTalismansCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Talismans> list = await _talismanGalleryRepository.GetTalismansCollectionAsync(type, pageSize, offset, rare);
+        List<Talismans> list = await _talismanGalleryRepository.GetTalismansCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetTalismansCountAsync(string type, string rare)
+    public async Task<int> GetTalismansCountAsync(string search, string type, string rare)
     {
-        return await _talismanGalleryRepository.GetTalismansCountAsync(type, rare);
+        return await _talismanGalleryRepository.GetTalismansCountAsync(search, type, rare);
     }
 
     public async Task InsertTalismanGalleryAsync(string Id)

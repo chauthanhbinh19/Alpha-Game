@@ -15,16 +15,16 @@ public class RobotsService : IRobotsService
         return new RobotsService(new RobotsRepository());
     }
 
-    public async Task<List<Robots>> GetRobotsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetRobotsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Robots> list = await _RobotsRepository.GetRobotsAsync(pageSize, offset, rare);
+        List<Robots> list = await _RobotsRepository.GetRobotsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetRobotsCountAsync(string rare)
+    public async Task<int> GetRobotsCountAsync(string search, string rare)
     {
-        return await _RobotsRepository.GetRobotsCountAsync(rare);
+        return await _RobotsRepository.GetRobotsCountAsync(search, rare);
     }
 
     public async Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset)

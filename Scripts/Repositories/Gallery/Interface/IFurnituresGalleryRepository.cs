@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IFurnituresGalleryRepository
 {
-    Task<List<Furnitures>> GetFurnituresCollectionAsync(string type, int pageSize, int offset, string rare);
-    Task<int> GetFurnituresCountAsync(string type, string rare);
+    Task<List<Furnitures>> GetFurnituresCollectionAsync(string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetFurnituresCountAsync(string search, string type, string rare);
     Task InsertFurnitureGalleryAsync(string Id, Furnitures FurnitureFromDB);
     Task UpdateStatusFurnitureGalleryAsync(string Id);
     Task UpdateStarFurnitureGalleryAsync(string Id, double star);

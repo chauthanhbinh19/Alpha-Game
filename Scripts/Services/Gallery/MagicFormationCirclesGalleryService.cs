@@ -15,16 +15,16 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
         return new MagicFormationCirclesGalleryService(new MagicFormationCirclesGalleryRepository());
     }
 
-    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircles> list = await _magicFormationCircleRepository.GetMagicFormationCirclesCollectionAsync(type, pageSize, offset, rare);
+        List<MagicFormationCircles> list = await _magicFormationCircleRepository.GetMagicFormationCirclesCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetMagicFormationCirclesCountAsync(string type, string rare)
+    public async Task<int> GetMagicFormationCirclesCountAsync(string search, string type, string rare)
     {
-        return await _magicFormationCircleRepository.GetMagicFormationCirclesCountAsync(type, rare);
+        return await _magicFormationCircleRepository.GetMagicFormationCirclesCountAsync(search, type, rare);
     }
 
     public async Task InsertMagicFormationCircleGalleryAsync(string Id)

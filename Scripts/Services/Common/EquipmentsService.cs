@@ -20,16 +20,16 @@ public class EquipmentsService : IEquipmentsService
         return await _equipmentsRepository.GetUniqueEquipmentsTypesAsync();
     }
 
-    public async Task<List<Equipments>> GetEquipmentsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetEquipmentsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Equipments> list = await _equipmentsRepository.GetEquipmentsAsync(type, pageSize, offset, rare);
+        List<Equipments> list = await _equipmentsRepository.GetEquipmentsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetEquipmentsCountAsync(string type, string rare)
+    public async Task<int> GetEquipmentsCountAsync(string search, string type, string rare)
     {
-        return await _equipmentsRepository.GetEquipmentsCountAsync(type, rare);
+        return await _equipmentsRepository.GetEquipmentsCountAsync(search, type, rare);
     }
 
     public async Task<List<Equipments>> GetEquipmentsWithCurrencyAsync(string type, int pageSize, int offset)

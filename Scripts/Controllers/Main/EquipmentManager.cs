@@ -33,20 +33,23 @@ public class EquipmentManager : MonoBehaviour
     private GameObject cardsPrefab;
     private GameObject ReceivedNotification;
     private GameObject ItemThird;
-    private Transform ContentPanel;
     private int offset;
     private int currentPage;
     private int totalPage;
     private int pageSize;
     private int count = 1;
+    private string search;
+    private string type;
     private string rare;
     private GameObject currentObject;
     // Start is called before the first frame update
-    public void CreateEquipments(Transform EquipmentMenuPanel, Transform contentPanel)
+    public void CreateEquipments(Transform EquipmentMenuPanel)
     {
         offset = 0;
         currentPage = 1;
         pageSize = 100;
+        search = "";
+        type = AppConstants.Type.ALL;
         rare = AppConstants.Rare.ALL;
         equipmentMenuPanel = EquipmentMenuPanel.gameObject;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
@@ -67,7 +70,6 @@ public class EquipmentManager : MonoBehaviour
         cardsPrefab = UIManager.Instance.Get("CardsPrefab");
         ReceivedNotification = UIManager.Instance.Get("ReceivedNotification");
         ItemThird = UIManager.Instance.Get("ItemThird");
-        ContentPanel = contentPanel;
 
         MainMenuContent = MainMenuPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
         MainMenuShopContent = MainMenuShopPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/Content").GetComponent<Transform>();
@@ -88,7 +90,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public void OnButtonClick(string type, int count)
     {
-        GameObject equipmentObject = Instantiate(EquipmentPanelPrefab, ContentPanel);
+        GameObject equipmentObject = Instantiate(EquipmentPanelPrefab, MainPanel);
 
         Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
         Title.text = LocalizationManager.Get(type);
@@ -342,14 +344,14 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetBagAsync(string type)
     {
-        currentObject = Instantiate(MainMenuPanelPrefab, ContentPanel);
+        currentObject = Instantiate(MainMenuPanelPrefab, MainPanel);
         int totalRecord = 0;
         var userEquipmentsService = UserEquipmentsService.Create();
-        List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, type, pageSize, offset, rare);
+        List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, search, type, pageSize, offset, rare);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel");
         CreateEquipmentsBag(equipments, type);
 
-        totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, type, rare);
+        totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, search, type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
@@ -401,14 +403,14 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetShopAsync(string type)
     {
-        currentObject = Instantiate(MainMenuShopPanelPrefab, ContentPanel);
+        currentObject = Instantiate(MainMenuShopPanelPrefab, MainPanel);
         int totalRecord = 0;
         var equipmentsService = EquipmentsService.Create();
         List<Equipments> equipments = await equipmentsService.GetEquipmentsWithCurrencyAsync(type, pageSize, offset);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         CreateEquipmentsShop(equipments, type);
 
-        totalRecord = await equipmentsService.GetEquipmentsCountAsync(type, rare);
+        totalRecord = await equipmentsService.GetEquipmentsCountAsync(search, type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
@@ -458,14 +460,14 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task GetEnhancementAsync(string type)
     {
-        currentObject = Instantiate(MainMenuEnhancementPanelPrefab, ContentPanel);
+        currentObject = Instantiate(MainMenuEnhancementPanelPrefab, MainPanel);
         int totalRecord = 0;
         var userEquipmentsService = UserEquipmentsService.Create();
-        List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, type, pageSize, offset, rare);
+        List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, search, type, pageSize, offset, rare);
         tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuEnhancementContentPanel");
         CreateEquipmentsEnhancement(equipments);
 
-        totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, type, rare);
+        totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, search, type, rare);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
@@ -545,17 +547,17 @@ public class EquipmentManager : MonoBehaviour
             if (status == 1)
             {
                 var userEquipmentsService = UserEquipmentsService.Create();
-                totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, rare);
+                List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, search, subType, pageSize, offset, rare);
                 CreateEquipmentsBag(equipments, subType);
             }
             else if (status == 2)
             {
                 var equipmentsService = EquipmentsService.Create();
-                totalRecord = await equipmentsService.GetEquipmentsCountAsync(subType, rare);
+                totalRecord = await equipmentsService.GetEquipmentsCountAsync(search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
@@ -565,11 +567,11 @@ public class EquipmentManager : MonoBehaviour
             else if (status == 3)
             {
                 var userEquipmentsService = UserEquipmentsService.Create();
-                totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage + 1;
                 offset = offset + pageSize;
-                List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, rare);
+                List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, search, subType, pageSize, offset, rare);
                 CreateEquipmentsEnhancement(equipments);
             }
 
@@ -587,17 +589,17 @@ public class EquipmentManager : MonoBehaviour
             if (status == 1)
             {
                 var userEquipmentsService = UserEquipmentsService.Create();
-                totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, rare);
+                List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, search, subType, pageSize, offset, rare);
                 CreateEquipmentsBag(equipments, subType);
             }
             else if (status == 2)
             {
                 var equipmentsService = EquipmentsService.Create();
-                totalRecord = await equipmentsService.GetEquipmentsCountAsync(subType, rare);
+                totalRecord = await equipmentsService.GetEquipmentsCountAsync(search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
@@ -607,11 +609,11 @@ public class EquipmentManager : MonoBehaviour
             else if (status == 3)
             {
                 var userEquipmentsService = UserEquipmentsService.Create();
-                totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, subType, rare);
+                totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, search, subType, rare);
                 totalPage = CalculateTotalPages(totalRecord, pageSize);
                 currentPage = currentPage - 1;
                 offset = offset - pageSize;
-                List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, subType, pageSize, offset, rare);
+                List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, search, subType, pageSize, offset, rare);
                 CreateEquipmentsShop(equipments, subType);
             }
 

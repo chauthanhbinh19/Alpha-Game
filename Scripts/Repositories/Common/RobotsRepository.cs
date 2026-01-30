@@ -28,7 +28,7 @@ public class RobotsRepository : IRobotsRepository
 
         return typeList;
     }
-    public async Task<List<Robots>> GetRobotsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetRobotsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Robots> robots = new List<Robots>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -42,6 +42,7 @@ public class RobotsRepository : IRobotsRepository
                 string query = @"
                 SELECT * FROM Robots 
                 WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                 ORDER BY Robots.name REGEXP '[0-9]+$', 
                          CAST(REGEXP_SUBSTR(Robots.name, '[0-9]+$') AS UNSIGNED), 
                          Robots.name 
@@ -49,6 +50,7 @@ public class RobotsRepository : IRobotsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -141,7 +143,7 @@ public class RobotsRepository : IRobotsRepository
 
         return robots;
     }
-    public async Task<int> GetRobotsCountAsync(string rare)
+    public async Task<int> GetRobotsCountAsync(string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -152,10 +154,13 @@ public class RobotsRepository : IRobotsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Robots WHERE (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Robots 
+                WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     var result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

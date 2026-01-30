@@ -13,12 +13,12 @@ public interface IUserCardSpellsService
     Task<CardSpells> GetNewLevelPowerAsync(CardSpells c, double coefficient);
     Task<CardSpells> GetNewBreakthroughPowerAsync(CardSpells c, double coefficient);
     Task<List<CardSpells>> GetSkillsAsync(string user_id, List<CardSpells> CardSpellList);
-    Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<CardSpells>> GetUserCardSpellsTeamAsync(string user_id, string teamId, string position);
     Task<List<CardSpells>> GetUserCardSpellsTeamWithoutPositionAsync(string user_id, string teamId);
     Task<Dictionary<string, int>> GetUniqueCardSpellsTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardSpellAsync(string team_id, string position, string card_id);
-    Task<int> GetUserCardSpellsCountAsync(string user_id, string type, string rare);
+    Task<int> GetUserCardSpellsCountAsync(string user_id, string search, string type, string rare);
     Task<int> GetUserCardSpellsTeamsPositionCountAsync(string user_id, string team_id, string position);
     Task<int> GetUserCardSpellsTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardSpellAsync(CardSpells CardSpells);

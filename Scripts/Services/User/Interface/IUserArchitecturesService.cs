@@ -5,8 +5,8 @@ public interface IUserArchitecturesService
 {
     Task<Architectures> GetNewLevelPowerAsync(Architectures c, double coefficient);
     Task<Architectures> GetNewBreakthroughPowerAsync(Architectures c, double coefficient);
-    Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, int pageSize, int offset, string rare);
-    Task<int> GetUserArchitecturesCountAsync(string user_id, string rare);
+    Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserArchitecturesCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserArchitectureAsync(Architectures architectures, string userId);
     Task<bool> UpdateArchitectureLevelAsync(Architectures architectures, int cardLevel);
     Task<bool> UpdateArchitectureBreakthroughAsync(Architectures architectures, int star, double quantity);

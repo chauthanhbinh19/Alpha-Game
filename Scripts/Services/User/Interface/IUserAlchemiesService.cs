@@ -8,8 +8,8 @@ public interface IUserAlchemiesService
 {
     Task<Alchemies> GetNewLevelPowerAsync(Alchemies c, double coefficient);
     Task<Alchemies> GetNewBreakthroughPowerAsync(Alchemies c, double coefficient);
-    Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserAlchemiesCountAsync(string user_id, string type, string rare);
+    Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserAlchemiesCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserAlchemyAsync(Alchemies Alchemy, string userId);
     Task<bool> UpdateAlchemyLevelAsync(Alchemies Alchemy, int cardLevel);
     Task<bool> UpdateAlchemyBreakthroughAsync(Alchemies Alchemy, int star, double quantity);

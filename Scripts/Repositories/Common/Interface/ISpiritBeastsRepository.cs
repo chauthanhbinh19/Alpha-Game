@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 public interface ISpiritBeastsRepository
 {
     Task<List<string>> GetUniqueSpiritBeastsIdAsync();
-    Task<List<SpiritBeasts>> GetSpiritBeastsAsync(int pageSize, int offset, string rare);
-    Task<int> GetSpiritBeastCountAsync(string rare);
+    Task<List<SpiritBeasts>> GetSpiritBeastsAsync(string search, string rare, int pageSize, int offset);
+    Task<int> GetSpiritBeastCountAsync(string search, string rare);
     Task<List<SpiritBeasts>> GetSpiritBeastsWithPriceAsync(int pageSize, int offset);
     Task<int> GetSpiritBeastsWithPriceCountAsync();
     Task<SpiritBeasts> GetSpiritBeastByIdAsync(string Id);

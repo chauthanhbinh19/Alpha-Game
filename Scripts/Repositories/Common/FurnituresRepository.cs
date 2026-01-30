@@ -50,7 +50,7 @@ public class FurnituresRepository : IFurnituresRepository
 
         return idList;
     }
-    public async Task<List<Furnitures>> GetFurnituresAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Furnitures>> GetFurnituresAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Furnitures> Furnitures = new List<Furnitures>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -62,7 +62,9 @@ public class FurnituresRepository : IFurnituresRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM Furnitures 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE (@type = 'All' OR type = @type)
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY Furnitures.name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(Furnitures.name, '[0-9]+$') AS UNSIGNED), 
                                       Furnitures.name 
@@ -70,6 +72,7 @@ public class FurnituresRepository : IFurnituresRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -164,7 +167,7 @@ public class FurnituresRepository : IFurnituresRepository
 
         return Furnitures;
     }
-    public async Task<int> GetFurnituresCountAsync(string type, string rare)
+    public async Task<int> GetFurnituresCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -175,9 +178,13 @@ public class FurnituresRepository : IFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Furnitures WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Furnitures 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

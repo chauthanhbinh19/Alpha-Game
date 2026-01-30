@@ -20,16 +20,16 @@ public class AlchemiesService : IAlchemiesService
         return await _alchemyRepository.GetUniqueAlchemiesTypesAsync();
     }
 
-    public async Task<List<Alchemies>> GetAlchemiesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Alchemies>> GetAlchemiesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Alchemies> list = await _alchemyRepository.GetAlchemiesAsync(type, pageSize, offset, rare);
+        List<Alchemies> list = await _alchemyRepository.GetAlchemiesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetAlchemiesCountAsync(string type, string rare)
+    public async Task<int> GetAlchemiesCountAsync(string search, string type, string rare)
     {
-        return await _alchemyRepository.GetAlchemiesCountAsync(type, rare);
+        return await _alchemyRepository.GetAlchemiesCountAsync(search, type, rare);
     }
 
     public async Task<List<Alchemies>> GetAlchemiesWithPriceAsync(string type, int pageSize, int offset)

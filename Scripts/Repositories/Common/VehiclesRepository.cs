@@ -50,7 +50,7 @@ public class VehiclesRepository : IVehiclesRepository
 
         return idList;
     }
-    public async Task<List<Vehicles>> GetVehiclesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Vehicles>> GetVehiclesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Vehicles> Vehicles = new List<Vehicles>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -62,7 +62,9 @@ public class VehiclesRepository : IVehiclesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM Vehicles 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE (@type = 'All' OR type = @type)
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY Vehicles.name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(Vehicles.name, '[0-9]+$') AS UNSIGNED), 
                                       Vehicles.name 
@@ -70,6 +72,7 @@ public class VehiclesRepository : IVehiclesRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -164,7 +167,7 @@ public class VehiclesRepository : IVehiclesRepository
 
         return Vehicles;
     }
-    public async Task<int> GetVehiclesCountAsync(string type, string rare)
+    public async Task<int> GetVehiclesCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -175,9 +178,13 @@ public class VehiclesRepository : IVehiclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Vehicles WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Vehicles 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

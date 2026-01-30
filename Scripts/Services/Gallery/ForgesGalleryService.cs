@@ -16,16 +16,16 @@ public class ForgesGalleryService : IForgesGalleryService
         return new ForgesGalleryService(new ForgesGalleryRepository());
     }
 
-    public async Task<List<Forges>> GetForgesCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Forges>> GetForgesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Forges> list = await _forgeGalleryRepository.GetForgesCollectionAsync(type, pageSize, offset, rare);
+        List<Forges> list = await _forgeGalleryRepository.GetForgesCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetForgesCountAsync(string type, string rare)
+    public async Task<int> GetForgesCountAsync(string search, string type, string rare)
     {
-        return await _forgeGalleryRepository.GetForgesCountAsync(type, rare);
+        return await _forgeGalleryRepository.GetForgesCountAsync(search, type, rare);
     }
 
     public async Task InsertForgeGalleryAsync(string Id)

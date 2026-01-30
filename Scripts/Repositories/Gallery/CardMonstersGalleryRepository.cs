@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
 {
-    public async Task<List<CardMonsters>> GetCardMonstersCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardMonsters>> GetCardMonstersCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<CardMonsters> cardMonsters = new List<CardMonsters>();
         string user_id = User.CurrentUserId;
@@ -29,8 +29,9 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
                 FROM card_monsters m 
                 LEFT JOIN card_monsters_gallery mg 
                     ON m.id = mg.card_monster_id AND mg.user_id = @userId 
-                WHERE m.type = @type 
+                WHERE (@type = 'All' OR m.type = @type)
                     AND (@rare = 'All' OR m.rare = @rare)
+                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     m.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED),
@@ -39,6 +40,7 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@userId", user_id);
@@ -141,7 +143,7 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
         }
         return cardMonsters;
     }
-    public async Task<int> GetCardMonstersCountAsync(string type, string rare)
+    public async Task<int> GetCardMonstersCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -152,9 +154,12 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM card_monsters WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM card_monsters 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 MySqlCommand command = new MySqlCommand(query, connection);
-
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
 

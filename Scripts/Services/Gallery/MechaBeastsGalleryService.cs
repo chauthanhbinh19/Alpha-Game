@@ -15,16 +15,16 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
         return new MechaBeastsGalleryService(new MechaBeastsGalleryRepository());
     }
 
-    public async Task<List<MechaBeasts>> GetMechaBeastsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetMechaBeastsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<MechaBeasts> list = await _MechaBeastsGalleryRepository.GetMechaBeastsCollectionAsync(pageSize, offset, rare);
+        List<MechaBeasts> list = await _MechaBeastsGalleryRepository.GetMechaBeastsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetMechaBeastsCountAsync(string rare)
+    public async Task<int> GetMechaBeastsCountAsync(string search, string rare)
     {
-        return await _MechaBeastsGalleryRepository.GetMechaBeastsCountAsync(rare);
+        return await _MechaBeastsGalleryRepository.GetMechaBeastsCountAsync(search, rare);
     }
 
     public async Task InsertMechaBeastGalleryAsync(string Id)

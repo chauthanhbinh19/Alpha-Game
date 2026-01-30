@@ -20,16 +20,16 @@ public class CardColonelsService : ICardColonelsService
         return await _cardColonelsRepository.GetUniqueCardColonelsTypesAsync();
     }
 
-    public async Task<List<CardColonels>> GetCardColonelsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardColonels>> GetCardColonelsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CardColonels> list = await _cardColonelsRepository.GetCardColonelsAsync(type, pageSize, offset, rare);
+        List<CardColonels> list = await _cardColonelsRepository.GetCardColonelsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCardColonelsCountAsync(string type, string rare)
+    public async Task<int> GetCardColonelsCountAsync(string search, string type, string rare)
     {
-        return await _cardColonelsRepository.GetCardColonelsCountAsync(type, rare);
+        return await _cardColonelsRepository.GetCardColonelsCountAsync(search, type, rare);
     }
 
     public async Task<List<CardColonels>> GetCardColonelsRandomAsync(string type, int pageSize)

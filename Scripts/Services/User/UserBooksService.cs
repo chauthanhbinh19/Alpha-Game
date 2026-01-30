@@ -668,9 +668,9 @@ public class UserBooksService : IUserBooksService
         return books;
     }
 
-    public async Task<List<Books>> GetUserBooksAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = await _userBooksRepository.GetUserBooksAsync(user_id, type, pageSize, offset, rare);
+        List<Books> list = await _userBooksRepository.GetUserBooksAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         list = await GetFinalPowerAsync(user_id, list);
         list = await GetAllEquipmentPowerAsync(user_id, list);
@@ -699,9 +699,9 @@ public class UserBooksService : IUserBooksService
         return await _userBooksRepository.GetUniqueBooksTypesTeamAsync(teamId);
     }
 
-    public async Task<int> GetUserBooksCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserBooksCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userBooksRepository.GetUserBooksCountAsync(user_id, type, rare);
+        return await _userBooksRepository.GetUserBooksCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserBookAsync(Books books)

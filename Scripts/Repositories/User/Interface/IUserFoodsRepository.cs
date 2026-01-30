@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IUserFoodsRepository
 {
-    Task<List<Foods>> GetUserFoodsAsync(string user_id, int pageSize, int offset, string rare);
-    Task<int> GetUserFoodsCountAsync(string user_id, string rare);
+    Task<List<Foods>> GetUserFoodsAsync(string user_id, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserFoodsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserFoodAsync(Foods Foods, string userId);
     Task<bool> UpdateFoodLevelAsync(Foods Foods, int FoodLevel);
     Task<bool> UpdateFoodBreakthroughAsync(Foods Foods, int star, double quantity);

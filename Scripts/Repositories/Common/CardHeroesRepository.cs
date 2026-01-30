@@ -60,7 +60,7 @@ public class CardHeroesRepository : ICardHeroesRepository
 
         return idList;
     }
-    public async Task<List<CardHeroes>> GetCardHeroesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardHeroes>> GetCardHeroesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardHeroes> cardHeroes = new List<CardHeroes>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -73,11 +73,14 @@ public class CardHeroesRepository : ICardHeroesRepository
             string query = @"
             SELECT * 
             FROM card_heroes 
-            WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+            WHERE (@type = 'All' OR type = @type) 
+                AND (@rare = 'All' OR rare = @rare)
+                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
             ORDER BY name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), name
             LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
             command.Parameters.AddWithValue("@limit", pageSize);
@@ -86,7 +89,7 @@ public class CardHeroesRepository : ICardHeroesRepository
             await using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                CardHeroes card = new CardHeroes
+                CardHeroes cardHero = new CardHeroes
                 {
                     Id = reader.GetStringSafe("id"),
                     Name = reader.GetStringSafe("name"),
@@ -148,7 +151,7 @@ public class CardHeroesRepository : ICardHeroesRepository
                     Description = reader.GetStringSafe("description")
                 };
 
-                cardHeroes.Add(card);
+                cardHeroes.Add(cardHero);
             }
         }
         catch (MySqlException ex)
@@ -158,7 +161,7 @@ public class CardHeroesRepository : ICardHeroesRepository
 
         return cardHeroes;
     }
-    public async Task<int> GetCardHeroesCountAsync(string type, string rare)
+    public async Task<int> GetCardHeroesCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -168,10 +171,14 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT COUNT(*) FROM card_heroes WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+            string query = @"SELECT COUNT(*) FROM card_heroes 
+            WHERE (@type = 'All' OR type = @type) 
+                AND (@rare = 'All' OR rare = @rare)
+                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
             await using var command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
+            command.Parameters.AddWithValue("@search", search);
 
             object result = await command.ExecuteScalarAsync();
             if (result != null && int.TryParse(result.ToString(), out int parsedCount))

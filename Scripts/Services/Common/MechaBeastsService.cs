@@ -15,16 +15,16 @@ public class MechaBeastsService : IMechaBeastsService
         return new MechaBeastsService(new MechaBeastsRepository());
     }
 
-    public async Task<List<MechaBeasts>> GetMechaBeastsAsync(int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetMechaBeastsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<MechaBeasts> list = await _MechaBeastsRepository.GetMechaBeastsAsync(pageSize, offset, rare);
+        List<MechaBeasts> list = await _MechaBeastsRepository.GetMechaBeastsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetMechaBeastsCountAsync(string rare)
+    public async Task<int> GetMechaBeastsCountAsync(string search, string rare)
     {
-        return await _MechaBeastsRepository.GetMechaBeastsCountAsync(rare);
+        return await _MechaBeastsRepository.GetMechaBeastsCountAsync(search, rare);
     }
 
     public async Task<List<MechaBeasts>> GetMechaBeastsWithPriceAsync(int pageSize, int offset)

@@ -19,16 +19,16 @@ public class RelicsService : IRelicsService
         return await _relicsRepository.GetUniqueRelicsTypesAsync();
     }
 
-    public async Task<List<Relics>> GetRelicsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetRelicsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Relics> list = await _relicsRepository.GetRelicsAsync(type, pageSize, offset, rare);
+        List<Relics> list = await _relicsRepository.GetRelicsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetRelicsCountAsync(string type, string rare)
+    public async Task<int> GetRelicsCountAsync(string search, string type, string rare)
     {
-        return await _relicsRepository.GetRelicsCountAsync(type, rare);
+        return await _relicsRepository.GetRelicsCountAsync(search, type, rare);
     }
 
     public async Task<List<Relics>> GetRelicsWithPriceAsync(string type, int pageSize, int offset)

@@ -58,7 +58,7 @@ public class CardLivesRepository : ICardLivesRepository
 
         return idList;
     }
-    public async Task<List<CardLives>> GetCardLivesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardLives>> GetCardLivesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardLives> cardLives = new List<CardLives>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -69,11 +69,14 @@ public class CardLivesRepository : ICardLivesRepository
             await connection.OpenAsync();
 
             string query = @"SELECT * FROM card_lives 
-                         WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                         WHERE (@type = 'All' OR type = @type)
+                            AND (@rare = 'All' OR rare = @rare)
+                            AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                          ORDER BY name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), name 
                          LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
             command.Parameters.AddWithValue("@limit", pageSize);
@@ -163,7 +166,7 @@ public class CardLivesRepository : ICardLivesRepository
 
         return cardLives;
     }
-    public async Task<int> GetCardLivesCountAsync(string type, string rare)
+    public async Task<int> GetCardLivesCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -173,8 +176,12 @@ public class CardLivesRepository : ICardLivesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT COUNT(*) FROM card_lives WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+            string query = @"SELECT COUNT(*) FROM card_lives 
+            WHERE (@type = 'All' OR type = @type)
+                AND (@rare = 'All' OR rare = @rare)
+                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
             await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
 

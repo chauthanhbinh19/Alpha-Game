@@ -52,7 +52,7 @@ public class RelicsRepository : IRelicsRepository
 
         return idList;
     }
-    public async Task<List<Relics>> GetRelicsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetRelicsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Relics> relics = new List<Relics>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -64,7 +64,9 @@ public class RelicsRepository : IRelicsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM relics 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE (@type = 'All' OR type = @type)
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY relics.name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(relics.name, '[0-9]+$') AS UNSIGNED), 
                                       relics.name 
@@ -72,6 +74,7 @@ public class RelicsRepository : IRelicsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -165,7 +168,7 @@ public class RelicsRepository : IRelicsRepository
 
         return relics;
     }
-    public async Task<int> GetRelicsCountAsync(string type, string rare)
+    public async Task<int> GetRelicsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -176,9 +179,13 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM relics WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM relics 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

@@ -20,16 +20,16 @@ public class ForgesService : IForgesService
         return await _forgeRepository.GetUniqueForgesTypesAsync();
     }
 
-    public async Task<List<Forges>> GetForgesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Forges>> GetForgesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Forges> list = await _forgeRepository.GetForgesAsync(type, pageSize, offset, rare);
+        List<Forges> list = await _forgeRepository.GetForgesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetForgesCountAsync(string type, string rare)
+    public async Task<int> GetForgesCountAsync(string search, string type, string rare)
     {
-        return await _forgeRepository.GetForgesCountAsync(type, rare);
+        return await _forgeRepository.GetForgesCountAsync(search, type, rare);
     }
 
     public async Task<List<Forges>> GetForgesWithPriceAsync(string type, int pageSize, int offset)

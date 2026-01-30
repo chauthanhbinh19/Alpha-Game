@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserItemsRepository : IUserItemsRepository
 {
-    public async Task<List<Items>> GetUserItemsAsync(string user_id, string type, int pageSize, int offset)
+    public async Task<List<Items>> GetUserItemsAsync(string user_id, string search, string type, int pageSize, int offset)
     {
         List<Items> items = new List<Items>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -22,13 +22,16 @@ public class UserItemsRepository : IUserItemsRepository
                 SELECT ui.*, i.id, i.name, i.image
                 FROM items i
                 JOIN user_items ui ON i.id = ui.item_id
-                WHERE ui.user_id = @userId AND i.type = @type
+                WHERE ui.user_id = @userId 
+                    AND (@type = 'All' OR i.type = @type)
+                    AND (@search = '' OR i.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY i.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(i.name, '[0-9]+$') AS UNSIGNED), i.name
                 LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -62,7 +65,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return items;
     }
-    public async Task<int> GetUserItemsCountAsync(string user_id, string type)
+    public async Task<int> GetUserItemsCountAsync(string user_id, string search, string type)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -77,11 +80,14 @@ public class UserItemsRepository : IUserItemsRepository
                 SELECT COUNT(*) 
                 FROM items i
                 JOIN user_items ui ON i.id = ui.item_id
-                WHERE ui.user_id = @userId AND i.type = @type";
+                WHERE ui.user_id = @userId 
+                    AND (@type = 'All' OR i.type = @type)
+                    AND (@search = '' OR i.name LIKE CONCAT('%', @search, '%'))";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
 
                     object result = await command.ExecuteScalarAsync();

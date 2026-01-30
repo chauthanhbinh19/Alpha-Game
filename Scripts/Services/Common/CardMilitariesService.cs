@@ -20,16 +20,16 @@ public class CardMilitariesService : ICardMilitariesService
         return await _cardMilitaryRepository.GetUniqueCardMilitariesTypesAsync();
     }
 
-    public async Task<List<CardMilitaries>> GetCardMilitariesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardMilitaries>> GetCardMilitariesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CardMilitaries> list = await _cardMilitaryRepository.GetCardMilitariesAsync(type, pageSize, offset, rare);
+        List<CardMilitaries> list = await _cardMilitaryRepository.GetCardMilitariesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCardMilitariesCountAsync(string type, string rare)
+    public async Task<int> GetCardMilitariesCountAsync(string search, string type, string rare)
     {
-        return await _cardMilitaryRepository.GetCardMilitariesCountAsync(type, rare);
+        return await _cardMilitaryRepository.GetCardMilitariesCountAsync(search, type, rare);
     }
 
     public async Task<List<CardMilitaries>> GetCardMilitariesRandomAsync(string type, int pageSize)

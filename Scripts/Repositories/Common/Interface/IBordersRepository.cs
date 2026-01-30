@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 public interface IBordersRepository
 {
     Task<List<string>> GetUniqueBordersIdAsync();
-    Task<List<Borders>> GetBordersAsync(int pageSize, int offset, string rare);
-    Task<int> GetBordersCountAsync(string rare);
+    Task<List<Borders>> GetBordersAsync(string search, string rare, int pageSize, int offset);
+    Task<int> GetBordersCountAsync(string search, string rare);
     Task<List<Borders>> GetBordersWithPriceAsync(int pageSize, int offset);
     Task<int> GetBordersWithPriceCountAsync();
     Task<Borders> GetBorderByIdAsync(string id);

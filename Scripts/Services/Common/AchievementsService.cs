@@ -17,16 +17,16 @@ public class AchievementsService : IAchievementsService
     }
 
 
-    public async Task<List<Achievements>> GetAchievementsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetAchievementsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Achievements> list = await _achievementsRepository.GetAchievementsAsync(pageSize, offset, rare);
+        List<Achievements> list = await _achievementsRepository.GetAchievementsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetAchievementsCountAsync(string rare)
+    public async Task<int> GetAchievementsCountAsync(string search, string rare)
     {
-        return await _achievementsRepository.GetAchievementsCountAsync(rare);
+        return await _achievementsRepository.GetAchievementsCountAsync(search, rare);
     }
 
     public async Task<Achievements> GetAchievementByIdAsync(string Id)

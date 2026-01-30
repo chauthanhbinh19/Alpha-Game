@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserPetsRepository : IUserPetsRepository
 {
-    public async Task<List<Pets>> GetUserPetsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Pets>> GetUserPetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Pets> pets = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -21,13 +21,17 @@ public class UserPetsRepository : IUserPetsRepository
             SELECT up.*, p.image, p.rare, p.type, p.description
             FROM user_pets up
             LEFT JOIN Pets p ON p.id = up.pet_id
-            WHERE up.user_id = @userId AND p.type = @type AND (@rare = 'All' OR p.rare = @rare)
+            WHERE up.user_id = @userId 
+                AND (@type = 'All' OR p.type = @type)
+                AND (@rare = 'All' OR p.rare = @rare)
+                AND (@search = '' OR p.name LIKE CONCAT('%', @search, '%'))
             ORDER BY p.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name
             LIMIT @limit OFFSET @offset;
         ";
 
             await using MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", user_id);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
             command.Parameters.AddWithValue("@limit", pageSize);
@@ -354,7 +358,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return result;
     }
-    public async Task<int> GetUserPetsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserPetsCountAsync(string user_id, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -369,12 +373,14 @@ public class UserPetsRepository : IUserPetsRepository
             FROM Pets p
             JOIN user_pets up ON p.id = up.pet_id
             WHERE up.user_id = @userId 
-              AND p.type = @type 
-              AND (@rare = 'All' OR p.rare = @rare);
+              AND (@type = 'All' OR p.type = @type)
+              AND (@rare = 'All' OR p.rare = @rare)
+              AND (@search = '' OR p.name LIKE CONCAT('%', @search, '%'));
         ";
 
             await using MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", user_id);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
 

@@ -5,8 +5,8 @@ public interface IUserRunesService
 {
     Task<Runes> GetNewLevelPowerAsync(Runes c, double coefficient);
     Task<Runes> GetNewBreakthroughPowerAsync(Runes c, double coefficient);
-    Task<List<Runes>> GetUserRunesAsync(string user_id, int pageSize, int offset, string rare);
-    Task<int> GetUserRunesCountAsync(string user_id, string rare);
+    Task<List<Runes>> GetUserRunesAsync(string user_id, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserRunesCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserRuneAsync(Runes Runes, string userId);
     Task<bool> UpdateRuneLevelAsync(Runes Runes, int RuneLevel);
     Task<bool> UpdateRuneBreakthroughAsync(Runes Runes, int star, double quantity);

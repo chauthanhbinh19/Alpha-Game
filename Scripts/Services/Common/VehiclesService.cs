@@ -20,16 +20,16 @@ public class VehiclesService : IVehiclesService
         return await _VehiclesRepository.GetUniqueVehiclesTypesAsync();
     }
 
-    public async Task<List<Vehicles>> GetVehiclesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Vehicles>> GetVehiclesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Vehicles> list = await _VehiclesRepository.GetVehiclesAsync(type, pageSize, offset, rare);
+        List<Vehicles> list = await _VehiclesRepository.GetVehiclesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetVehiclesCountAsync(string type, string rare)
+    public async Task<int> GetVehiclesCountAsync(string search, string type, string rare)
     {
-        return await _VehiclesRepository.GetVehiclesCountAsync(type, rare);
+        return await _VehiclesRepository.GetVehiclesCountAsync(search, type, rare);
     }
 
     public async Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset)

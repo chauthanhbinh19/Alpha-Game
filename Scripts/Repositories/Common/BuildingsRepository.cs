@@ -50,7 +50,7 @@ public class BuildingsRepository : IBuildingsRepository
 
         return idList;
     }
-    public async Task<List<Buildings>> GetBuildingsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Buildings>> GetBuildingsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Buildings> Buildings = new List<Buildings>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -62,7 +62,9 @@ public class BuildingsRepository : IBuildingsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM Buildings 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE type = @type 
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY Buildings.name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(Buildings.name, '[0-9]+$') AS UNSIGNED), 
                                       Buildings.name 
@@ -70,6 +72,7 @@ public class BuildingsRepository : IBuildingsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -164,7 +167,7 @@ public class BuildingsRepository : IBuildingsRepository
 
         return Buildings;
     }
-    public async Task<int> GetBuildingsCountAsync(string type, string rare)
+    public async Task<int> GetBuildingsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -175,9 +178,13 @@ public class BuildingsRepository : IBuildingsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Buildings WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Buildings 
+                WHERE type = @type 
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

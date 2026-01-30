@@ -15,16 +15,16 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
         return new AlchemiesGalleryService(new AlchemiesGalleryRepository());
     }
 
-    public async Task<List<Alchemies>> GetAlchemyCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Alchemies>> GetAlchemyCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Alchemies> list = await _alchemyGalleryRepository.GetAlchemyCollectionAsync(type, pageSize, offset, rare);
+        List<Alchemies> list = await _alchemyGalleryRepository.GetAlchemyCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetAlchemyCountAsync(string type, string rare)
+    public async Task<int> GetAlchemyCountAsync(string search, string type, string rare)
     {
-        return await _alchemyGalleryRepository.GetAlchemyCountAsync(type, rare);
+        return await _alchemyGalleryRepository.GetAlchemyCountAsync(search, type, rare);
     }
 
     public async Task InsertAlchemyGalleryAsync(string Id)

@@ -50,7 +50,7 @@ public class SymbolsRepository : ISymbolsRepository
 
         return idList;
     }
-    public async Task<List<Symbols>> GetSymbolsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetSymbolsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Symbols> symbols = new List<Symbols>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -62,7 +62,9 @@ public class SymbolsRepository : ISymbolsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM Symbols 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE (@type = 'All' OR type = @type)
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY Symbols.name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(Symbols.name, '[0-9]+$') AS UNSIGNED), 
                                       Symbols.name 
@@ -70,6 +72,7 @@ public class SymbolsRepository : ISymbolsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -164,7 +167,7 @@ public class SymbolsRepository : ISymbolsRepository
 
         return symbols;
     }
-    public async Task<int> GetSymbolsCountAsync(string type, string rare)
+    public async Task<int> GetSymbolsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -175,9 +178,13 @@ public class SymbolsRepository : ISymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Symbols WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Symbols 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

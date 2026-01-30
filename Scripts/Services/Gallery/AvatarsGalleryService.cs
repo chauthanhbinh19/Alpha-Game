@@ -15,14 +15,14 @@ public class AvatarsGalleryService : IAvatarsGalleryService
         return new AvatarsGalleryService(new AvatarsGalleryRepository());
     }
 
-    public async Task<List<Avatars>> GetAvatarsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetAvatarsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        return await _avatarsGalleryRepository.GetAvatarsCollectionAsync(pageSize, offset, rare);
+        return await _avatarsGalleryRepository.GetAvatarsCollectionAsync(search, pageSize, offset, rare);
     }
 
-    public async Task<int> GetAvatarsCountAsync(string rare)
+    public async Task<int> GetAvatarsCountAsync(string search, string rare)
     {
-        return await _avatarsGalleryRepository.GetAvatarsCountAsync(rare);
+        return await _avatarsGalleryRepository.GetAvatarsCountAsync(search, rare);
     }
 
     public async Task InsertAvatarGalleryAsync(string Id)

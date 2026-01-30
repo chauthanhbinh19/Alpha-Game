@@ -57,9 +57,9 @@ public class ProfileManager : MonoBehaviour
         NewsPanelPrefab = UIManager.Instance.Get("NewsPanelPrefab");
         NewsButtonPrefab = UIManager.Instance.Get("NewsButtonPrefab");
     }
-    public async Task CreateProfileAsync(Transform panel)
+    public async Task CreateProfileAsync()
     {
-        profileObject = Instantiate(ProfilePanelPrefab, panel);
+        profileObject = Instantiate(ProfilePanelPrefab, MainPanel);
         Transform profileTransform = profileObject.transform.Find("Scroll View/Viewport/Content");
         // titleText = profileObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         // CloseButton = profileObject.transform.Find("CloseButton").GetComponent<Button>();
@@ -115,7 +115,7 @@ public class ProfileManager : MonoBehaviour
         editNameButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            CreateEditNamePanel(panel);
+            CreateEditNamePanel();
         });
         moreCurrencyButton.onClick.AddListener(async () =>
         {
@@ -148,7 +148,7 @@ public class ProfileManager : MonoBehaviour
             CreateNewsPanel();
         });
     }
-    public void CreateEditNamePanel(Transform panel)
+    public void CreateEditNamePanel()
     {
         editNamePanelObject = Instantiate(EditNamePanelPrefab, MainPanel);
         Button closeButton = editNamePanelObject.transform.Find("CloseButton").GetComponent<Button>();
@@ -172,7 +172,7 @@ public class ProfileManager : MonoBehaviour
                 await UserService.Create().UpdateUserNameAsync(User.CurrentUserId, name);
                 Destroy(editNamePanelObject);
                 Destroy(profileObject);
-                await CreateProfileAsync(panel);
+                await CreateProfileAsync();
             }
             else
             {

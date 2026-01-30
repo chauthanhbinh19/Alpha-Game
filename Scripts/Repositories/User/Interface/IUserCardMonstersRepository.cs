@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 public interface IUserCardMonstersRepository
 {
-    Task<List<CardMonsters>> GetUserCardMonstersAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<CardMonsters>> GetUserCardMonstersAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<CardMonsters>> GetUserCardMonstersTeamAsync(string user_id, string teamId, string position);
     Task<List<CardMonsters>> GetUserCardMonstersTeamWithoutPositionAsync(string user_id, string teamId);
     Task<Dictionary<string, int>> GetUniqueCardMonstersTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardMonsterAsync(string team_id, string position, string card_id);
-    Task<int> GetUserCardMonstersCountAsync(string user_id, string type, string rare);
+    Task<int> GetUserCardMonstersCountAsync(string user_id, string search, string type, string rare);
     Task<int> GetUserCardMonstersTeamsPositionCountAsync(string user_id, string team_id, string position);
     Task<int> GetUserCardMonstersTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardMonsterAsync(CardMonsters CardMonsters);

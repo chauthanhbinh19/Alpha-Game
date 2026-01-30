@@ -182,16 +182,16 @@ public class UserRobotsService : IUserRobotsService
         return Robots;
     }
 
-    public async Task<List<Robots>> GetUserRobotsAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetUserRobotsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Robots> list = await _userRobotsRepository.GetUserRobotsAsync(user_id, pageSize, offset, rare);
+        List<Robots> list = await _userRobotsRepository.GetUserRobotsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserRobotsCountAsync(string user_id, string rare)
+    public async Task<int> GetUserRobotsCountAsync(string user_id, string search, string rare)
     {
-        return await _userRobotsRepository.GetUserRobotsCountAsync(user_id, rare);
+        return await _userRobotsRepository.GetUserRobotsCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserRobotAsync(Robots Robots, string userId)

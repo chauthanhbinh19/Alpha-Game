@@ -15,16 +15,16 @@ public class ArchitecturesService : IArchitecturesService
         return new ArchitecturesService(new ArchitecturesRepository());
     }
 
-    public async Task<List<Architectures>> GetArchitecturesAsync(int pageSize, int offset, string rare)
+    public async Task<List<Architectures>> GetArchitecturesAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Architectures> list = await _ArchitecturesRepository.GetArchitecturesAsync(pageSize, offset, rare);
+        List<Architectures> list = await _ArchitecturesRepository.GetArchitecturesAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetArchitecturesCountAsync(string rare)
+    public async Task<int> GetArchitecturesCountAsync(string search, string rare)
     {
-        return await _ArchitecturesRepository.GetArchitecturesCountAsync(rare);
+        return await _ArchitecturesRepository.GetArchitecturesCountAsync(search, rare);
     }
 
     public async Task<List<Architectures>> GetArchitecturesWithPriceAsync(int pageSize, int offset)

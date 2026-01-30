@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserSkillsRepository : IUserSkillsRepository
 {
-    public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -24,13 +24,15 @@ public class UserSkillsRepository : IUserSkillsRepository
                 FROM skills s
                 INNER JOIN user_skills us ON s.id = us.skill_id
                 WHERE us.user_id = @userId 
-                  AND s.type = @type 
+                  AND (@type = 'All' OR s.type = @type)
                   AND (@rare = 'All' OR s.rare = @rare)
+                  AND (@search = '' OR s.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY s.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name
                 LIMIT @limit OFFSET @offset;";
 
                 await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -120,7 +122,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<int> GetUserSkillsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserSkillsCountAsync(string user_id, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -136,11 +138,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                 FROM skills s
                 INNER JOIN user_skills us ON s.id = us.skill_id
                 WHERE us.user_id = @userId 
-                AND s.type = @type 
-                AND (@rare = 'All' OR s.rare = @rare);";
+                    AND (@type = 'All' OR s.type = @type)
+                    AND (@rare = 'All' OR s.rare = @rare)
+                    AND (@search = '' OR s.name LIKE CONCAT('%', @search, '%'));";
 
                 await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
 

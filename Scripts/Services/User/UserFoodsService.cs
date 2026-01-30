@@ -182,16 +182,16 @@ public class UserFoodsService : IUserFoodsService
         return Foods;
     }
 
-    public async Task<List<Foods>> GetUserFoodsAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Foods>> GetUserFoodsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Foods> list = await _userFoodsRepository.GetUserFoodsAsync(user_id, pageSize, offset, rare);
+        List<Foods> list = await _userFoodsRepository.GetUserFoodsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserFoodsCountAsync(string user_id, string rare)
+    public async Task<int> GetUserFoodsCountAsync(string user_id, string search, string rare)
     {
-        return await _userFoodsRepository.GetUserFoodsCountAsync(user_id, rare);
+        return await _userFoodsRepository.GetUserFoodsCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserFoodAsync(Foods Foods, string userId)

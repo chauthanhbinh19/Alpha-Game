@@ -20,16 +20,16 @@ public class SymbolsService : ISymbolsService
         return await _symbolsRepository.GetUniqueSymbolsTypesAsync();
     }
 
-    public async Task<List<Symbols>> GetSymbolsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetSymbolsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Symbols> list = await _symbolsRepository.GetSymbolsAsync(type, pageSize, offset, rare);
+        List<Symbols> list = await _symbolsRepository.GetSymbolsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetSymbolsCountAsync(string type, string rare)
+    public async Task<int> GetSymbolsCountAsync(string search, string type, string rare)
     {
-        return await _symbolsRepository.GetSymbolsCountAsync(type, rare);
+        return await _symbolsRepository.GetSymbolsCountAsync(search, type, rare);
     }
 
     public async Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset)

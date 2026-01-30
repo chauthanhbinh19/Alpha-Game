@@ -50,7 +50,7 @@ public class SkillsRepository : ISkillsRepository
 
         return idList;
     }
-    public async Task<List<Skills>> GetSkillsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetSkillsAsync(string search, string rare, string type, int pageSize, int offset)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -64,7 +64,9 @@ public class SkillsRepository : ISkillsRepository
                 string query = @"
                 SELECT * 
                 FROM Skills 
-                WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                 ORDER BY Skills.name REGEXP '[0-9]+$', 
                          CAST(REGEXP_SUBSTR(Skills.name, '[0-9]+$') AS UNSIGNED), 
                          Skills.name 
@@ -72,6 +74,7 @@ public class SkillsRepository : ISkillsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -155,7 +158,7 @@ public class SkillsRepository : ISkillsRepository
 
         return skills;
     }
-    public async Task<int> GetSkillsCountAsync(string type, string rare)
+    public async Task<int> GetSkillsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -166,10 +169,14 @@ public class SkillsRepository : ISkillsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM skills WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM skills 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

@@ -11,7 +11,7 @@ public class FeatureManager : MonoBehaviour
 {
     public static FeatureManager Instance { get; private set; }
     private GameObject FeaturePanelPrefab;
-    private Transform ContentPanel;
+    private Transform MainPanel;
     private Transform currentContent;
     private Transform currencyPanel;
     private Transform popupPanel;
@@ -40,11 +40,11 @@ public class FeatureManager : MonoBehaviour
     public void Initialize()
     {
         FeaturePanelPrefab = UIManager.Instance.Get("FeaturePanelPrefab");
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
     }
-    public void CreateFeature(Transform contentPanel)
+    public void CreateFeature()
     {
-        ContentPanel = contentPanel;
-        GameObject featureObject = Instantiate(FeaturePanelPrefab, ContentPanel);
+        GameObject featureObject = Instantiate(FeaturePanelPrefab, MainPanel);
         Transform featureTransform = featureObject.transform.Find("Scroll View/Viewport/Content");
         titleText = featureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         // CloseButton = featureObject.transform.Find("CloseButton").GetComponent<Button>();

@@ -5,8 +5,8 @@ public interface ICardHeroesRepository
 {
     Task<List<string>> GetUniqueCardHeroesTypesAsync();
     Task<List<string>> GetUniqueCardHeroesIdAsync();
-    Task<List<CardHeroes>> GetCardHeroesAsync(string type, int pageSize, int offset, string rare);
-    Task<int> GetCardHeroesCountAsync(string type, string rare);
+    Task<List<CardHeroes>> GetCardHeroesAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<int> GetCardHeroesCountAsync(string search, string type, string rare);
     Task<List<CardHeroes>> GetCardHeroesRandomAsync(string type, int pageSize);
     Task<List<CardHeroes>> GetAllCardHeroesAsync(string type);
     Task<int> GetMaxQuantityAsync(string Id);

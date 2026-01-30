@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserEquipmentsRepository : IUserEquipmentsRepository
 {
-    public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -23,14 +23,16 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 WHERE ue.user_id = @userId
-                  AND e.type = @type
+                  AND (@type = 'All' OR e.type = @type)
                   AND (@rare = 'All' OR e.rare = @rare)
+                  AND (@search = '' OR e.name LIKE CONCAT('%', @search, '%'))
                 LIMIT @limit OFFSET @offset;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -184,7 +186,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<int> GetUserEquipmentsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -200,13 +202,15 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 WHERE ue.user_id = @userId
-                  AND e.type = @type
-                  AND (@rare = 'All' OR e.rare = @rare);
+                  AND (@type = 'All' OR e.type = @type)
+                  AND (@rare = 'All' OR e.rare = @rare)
+                  AND (@search = '' OR e.name LIKE CONCAT('%', @search, '%'));
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

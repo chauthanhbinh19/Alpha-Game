@@ -20,16 +20,16 @@ public class CardGeneralsService : ICardGeneralsService
         return await _cardGeneralsRepository.GetUniqueCardGeneralsTypesAsync();
     }
 
-    public async Task<List<CardGenerals>> GetCardGeneralsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardGenerals>> GetCardGeneralsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CardGenerals> list = await _cardGeneralsRepository.GetCardGeneralsAsync(type, pageSize, offset, rare);
+        List<CardGenerals> list = await _cardGeneralsRepository.GetCardGeneralsAsync(search, rare, type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCardGeneralsCountAsync(string type, string rare)
+    public async Task<int> GetCardGeneralsCountAsync(string search, string type, string rare)
     {
-        return await _cardGeneralsRepository.GetCardGeneralsCountAsync(type, rare);
+        return await _cardGeneralsRepository.GetCardGeneralsCountAsync(search, type, rare);
     }
 
     public async Task<List<CardGenerals>> GetCardGeneralsRandomAsync(string type, int pageSize)

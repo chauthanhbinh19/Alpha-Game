@@ -20,16 +20,16 @@ public class CardLivesService : ICardLivesService
         return await _cardLifeRepository.GetUniqueCardLivesTypesAsync();
     }
 
-    public async Task<List<CardLives>> GetCardLivesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardLives>> GetCardLivesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CardLives> list = await _cardLifeRepository.GetCardLivesAsync(type, pageSize, offset, rare);
+        List<CardLives> list = await _cardLifeRepository.GetCardLivesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCardLivesCountAsync(string type, string rare)
+    public async Task<int> GetCardLivesCountAsync(string search, string type, string rare)
     {
-        return await _cardLifeRepository.GetCardLivesCountAsync(type, rare);
+        return await _cardLifeRepository.GetCardLivesCountAsync(search, type, rare);
     }
 
     public async Task<List<CardLives>> GetCardLivesWithPriceAsync(string type, int pageSize, int offset)

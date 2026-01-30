@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 public class BeveragesGalleryRepository : IBeveragesGalleryRepository
 {
-    public async Task<List<Beverages>> GetBeveragesCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Beverages>> GetBeveragesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Beverages> Beverages = new List<Beverages>();
+        List<Beverages> beverages = new List<Beverages>();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -30,12 +30,14 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 LEFT JOIN Beverages_gallery cg 
                        ON c.id = cg.Beverage_id AND cg.user_id = @userId 
                 WHERE (@rare = 'All' OR c.rare = @rare) 
+                    AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
                 LIMIT @limit OFFSET @offset;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -116,7 +118,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                                 Status = reader.GetStringSafe("status"),
                             };
 
-                            Beverages.Add(Beverage);
+                            beverages.Add(Beverage);
                         }
                     }
                 }
@@ -131,9 +133,9 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             }
         }
 
-        return Beverages;
+        return beverages;
     }
-    public async Task<int> GetBeveragesCountAsync(string rare)
+    public async Task<int> GetBeveragesCountAsync(string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -144,9 +146,12 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Beverages WHERE (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Beverages 
+                WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
 
                     object result = await command.ExecuteScalarAsync();

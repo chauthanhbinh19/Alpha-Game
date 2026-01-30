@@ -50,7 +50,7 @@ public class FashionsRepository : IFashionsRepository
 
         return idList;
     }
-    public async Task<List<Fashions>> GetFashionsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Fashions>> GetFashionsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Fashions> Fashions = new List<Fashions>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -62,7 +62,9 @@ public class FashionsRepository : IFashionsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM Fashions 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE (@type = 'All' OR type = @type)
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY Fashions.name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(Fashions.name, '[0-9]+$') AS UNSIGNED), 
                                       Fashions.name 
@@ -70,6 +72,7 @@ public class FashionsRepository : IFashionsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -164,7 +167,7 @@ public class FashionsRepository : IFashionsRepository
 
         return Fashions;
     }
-    public async Task<int> GetFashionsCountAsync(string type, string rare)
+    public async Task<int> GetFashionsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -175,9 +178,13 @@ public class FashionsRepository : IFashionsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Fashions WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Fashions 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

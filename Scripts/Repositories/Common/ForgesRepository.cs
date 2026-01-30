@@ -52,7 +52,7 @@ public class ForgesRepository : IForgesRepository
 
         return idList;
     }
-    public async Task<List<Forges>> GetForgesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Forges>> GetForgesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Forges> forges = new List<Forges>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -65,8 +65,9 @@ public class ForgesRepository : IForgesRepository
 
                 string query = @"
                 SELECT * FROM forges 
-                WHERE type = @type 
-                AND (@rare = 'All' OR rare = @rare)
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     forges.name REGEXP '[0-9]+$', 
                     CAST(REGEXP_SUBSTR(forges.name, '[0-9]+$') AS UNSIGNED), 
@@ -75,6 +76,7 @@ public class ForgesRepository : IForgesRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -168,7 +170,7 @@ public class ForgesRepository : IForgesRepository
 
         return forges;
     }
-    public async Task<int> GetForgesCountAsync(string type, string rare)
+    public async Task<int> GetForgesCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -179,9 +181,13 @@ public class ForgesRepository : IForgesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM forges WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM forges 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 MySqlCommand command = new MySqlCommand(query, connection);
 
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
 

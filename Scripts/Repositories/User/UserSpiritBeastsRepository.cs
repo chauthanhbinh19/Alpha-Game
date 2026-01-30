@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 {
-    public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -22,8 +22,9 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 Select ut.*, t.id, t.name, t.image, t.rare, t.description 
                 from spirit_beasts t, user_spirit_beasts ut 
                 where t.id = ut.spirit_beast_id 
-                and ut.user_id = @userId 
-                AND (@rare = 'All' OR t.rare = @rare)
+                    and ut.user_id = @userId 
+                    AND (@rare = 'All' OR t.rare = @rare)
+                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY t.name REGEXP '[0-9]+$', 
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), 
                          t.name 
@@ -32,6 +33,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -136,7 +138,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 Select ut.*, t.id, t.name, t.image, t.rare, t.description 
                 from spirit_beasts t, user_spirit_beasts ut
                 where t.id = ut.spirit_beast_id 
-                and ut.user_id = @userId
+                    and ut.user_id = @userId
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
@@ -233,7 +235,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<int> GetUserSpiritBeastsCountAsync(string user_id, string rare)
+    public async Task<int> GetUserSpiritBeastsCountAsync(string user_id, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -248,13 +250,15 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 Select count(*) 
                 from spirit_beasts t, user_spirit_beasts ut
                 where t.id = ut.spirit_beast_id
-                and ut.user_id = @userId
-                AND (@rare = 'All' or t.rare = @rare)
+                    and ut.user_id = @userId
+                    AND (@rare = 'All' or t.rare = @rare)
+                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
                 ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
 
                     object result = await command.ExecuteScalarAsync();

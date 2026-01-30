@@ -62,7 +62,7 @@ public class ShopManager : MonoBehaviour
         currentPage = 1;
         pageSize = 100;
         rare = "All";
-        // MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ShopButtonPrefab = UIManager.Instance.Get("ShopButtonPrefab");
         ShopManagerPrefab = UIManager.Instance.Get("ShopManagerPrefab");
         ShopPrefab = UIManager.Instance.Get("ShopPrefab");

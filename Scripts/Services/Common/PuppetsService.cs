@@ -20,16 +20,16 @@ public class PuppetsService : IPuppetsService
         return await _puppetRepository.GetUniquePuppetsTypesAsync();
     }
 
-    public async Task<List<Puppets>> GetPuppetsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Puppets>> GetPuppetsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Puppets> list = await _puppetRepository.GetPuppetsAsync(type, pageSize, offset, rare);
+        List<Puppets> list = await _puppetRepository.GetPuppetsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetPuppetsCountAsync(string type, string rare)
+    public async Task<int> GetPuppetsCountAsync(string search, string type, string rare)
     {
-        return await _puppetRepository.GetPuppetsCountAsync(type, rare);
+        return await _puppetRepository.GetPuppetsCountAsync(search, type, rare);
     }
 
     public async Task<List<Puppets>> GetPuppetsWithPriceAsync(string type, int pageSize, int offset)

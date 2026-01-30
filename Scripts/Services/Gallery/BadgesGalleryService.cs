@@ -15,16 +15,16 @@ public class BadgesGalleryService : IBadgesGalleryService
         return new BadgesGalleryService(new BadgesGalleryRepository());
     }
 
-    public async Task<List<Badges>> GetBadgesCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Badges>> GetBadgesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Badges> list = await _BadgesGalleryRepository.GetBadgesCollectionAsync(pageSize, offset, rare);
+        List<Badges> list = await _BadgesGalleryRepository.GetBadgesCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetBadgesCountAsync(string rare)
+    public async Task<int> GetBadgesCountAsync(string search, string rare)
     {
-        return await _BadgesGalleryRepository.GetBadgesCountAsync(rare);
+        return await _BadgesGalleryRepository.GetBadgesCountAsync(search, rare);
     }
 
     public async Task InsertBadgeGalleryAsync(string Id)

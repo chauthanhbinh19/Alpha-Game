@@ -15,16 +15,16 @@ public class SkillsGalleryService : ISkillsGalleryService
         return new SkillsGalleryService(new SkillsGalleryRepository());
     }
 
-    public async Task<List<Skills>> GetSkillsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetSkillsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = await _skillsGalleryRepository.GetSkillsCollectionAsync(type, pageSize, offset, rare);
+        List<Skills> list = await _skillsGalleryRepository.GetSkillsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetSkillsCountAsync(string type, string rare)
+    public async Task<int> GetSkillsCountAsync(string search, string type, string rare)
     {
-        return await _skillsGalleryRepository.GetSkillsCountAsync(type, rare);
+        return await _skillsGalleryRepository.GetSkillsCountAsync(search, type, rare);
     }
 
     public async Task InsertSkillGalleryAsync(string Id)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 {
-    public async Task<List<SpiritCards>> GetUserSpiritCardsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<SpiritCards>> GetUserSpiritCardsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<SpiritCards> spiritCards = new List<SpiritCards>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -22,9 +22,10 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 Select ut.*, t.id, t.name, t.image, t.rare, t.description 
                 from spirit_cards t, user_spirit_cards ut 
                 where t.id = ut.spirit_card_id 
-                and ut.user_id = @userId 
-                and t.type = @type
-                AND (@rare = 'All' OR t.rare = @rare)
+                    and ut.user_id = @userId 
+                    and (@type = 'All' or t.type = @type)
+                    AND (@rare = 'All' OR t.rare = @rare)
+                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY t.name REGEXP '[0-9]+$', 
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), 
                          t.name 
@@ -33,6 +34,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -235,7 +237,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
         return spiritCards;
     }
-    public async Task<int> GetUserSpiritCardsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserSpiritCardsCountAsync(string user_id, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -250,14 +252,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 Select count(*) 
                 from spirit_cards t, user_spirit_cards ut
                 where t.id = ut.spirit_card_id
-                and t.type = @type
-                and ut.user_id = @userId
-                AND (@rare = 'All' or t.rare = @rare)
+                    nd (@type = 'All' or t.type = @type)
+                    and ut.user_id = @userId
+                    AND (@rare = 'All' or t.rare = @rare)
+                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
                 ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

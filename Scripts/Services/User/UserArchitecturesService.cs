@@ -182,16 +182,16 @@ public class UserArchitecturesService : IUserArchitecturesService
         return Architectures;
     }
 
-    public async Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Architectures> list = await _userArchitecturesRepository.GetUserArchitecturesAsync(user_id, pageSize, offset, rare);
+        List<Architectures> list = await _userArchitecturesRepository.GetUserArchitecturesAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserArchitecturesCountAsync(string user_id, string rare)
+    public async Task<int> GetUserArchitecturesCountAsync(string user_id, string search, string rare)
     {
-        return await _userArchitecturesRepository.GetUserArchitecturesCountAsync(user_id, rare);
+        return await _userArchitecturesRepository.GetUserArchitecturesCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserArchitectureAsync(Architectures Architectures, string userId)

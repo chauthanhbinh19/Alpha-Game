@@ -15,16 +15,16 @@ public class PetsGalleryService : IPetsGalleryService
         return new PetsGalleryService(new PetsGalleryRepository());
     }
 
-    public async Task<List<Pets>> GetPetsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Pets>> GetPetsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Pets> list = await _petsGalleryRepository.GetPetsCollectionAsync(type, pageSize, offset, rare);
+        List<Pets> list = await _petsGalleryRepository.GetPetsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetPetsCountAsync(string type, string rare)
+    public async Task<int> GetPetsCountAsync(string search, string type, string rare)
     {
-        return await _petsGalleryRepository.GetPetsCountAsync(type, rare);
+        return await _petsGalleryRepository.GetPetsCountAsync(search, type, rare);
     }
 
     public async Task InsertPetGalleryAsync(string Id)

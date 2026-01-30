@@ -15,16 +15,16 @@ public class TechnologiesService : ITechnologiesService
         return new TechnologiesService(new TechnologiesRepository());
     }
 
-    public async Task<List<Technologies>> GetTechnologiesAsync(int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetTechnologiesAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Technologies> list = await _TechnologiesRepository.GetTechnologiesAsync(pageSize, offset, rare);
+        List<Technologies> list = await _TechnologiesRepository.GetTechnologiesAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetTechnologiesCountAsync(string rare)
+    public async Task<int> GetTechnologiesCountAsync(string search, string rare)
     {
-        return await _TechnologiesRepository.GetTechnologiesCountAsync(rare);
+        return await _TechnologiesRepository.GetTechnologiesCountAsync(search, rare);
     }
 
     public async Task<List<Technologies>> GetTechnologiesWithPriceAsync(int pageSize, int offset)

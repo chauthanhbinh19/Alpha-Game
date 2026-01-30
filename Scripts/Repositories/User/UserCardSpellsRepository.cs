@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserCardSpellsRepository : IUserCardSpellsRepository
 {
-    public async Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardSpells> CardSpellsList = new List<CardSpells>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -23,13 +23,17 @@ public class UserCardSpellsRepository : IUserCardSpellsRepository
             FROM user_card_spells uc
             LEFT JOIN card_spells c ON c.id = uc.card_spell_id 
             LEFT JOIN teams t on t.team_id = uc.team_id
-            WHERE uc.user_id = @userId AND c.type = @type AND (@rare = 'All' or c.rare = @rare)
+            WHERE uc.user_id = @userId 
+                AND (@type = 'All' OR c.type = @type)
+                AND (@rare = 'All' or c.rare = @rare)
+                AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
             LIMIT @limit OFFSET @offset;
         ";
 
             await using MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", user_id);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
             command.Parameters.AddWithValue("@limit", pageSize);
@@ -570,7 +574,7 @@ public class UserCardSpellsRepository : IUserCardSpellsRepository
 
         return true;
     }
-    public async Task<int> GetUserCardSpellsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserCardSpellsCountAsync(string user_id, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -585,11 +589,15 @@ public class UserCardSpellsRepository : IUserCardSpellsRepository
             SELECT COUNT(*) 
             FROM card_spells c
             JOIN user_card_spells uc ON c.id = uc.card_spell_id
-            WHERE uc.user_id = @userId AND c.type = @type AND (@rare = 'All' OR c.rare = @rare);
+            WHERE uc.user_id = @userId 
+                AND (@type = 'All' OR c.type = @type)
+                AND (@rare = 'All' OR c.rare = @rare)
+                AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'));
         ";
 
             await using MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", user_id);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
 

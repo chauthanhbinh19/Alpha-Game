@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserBordersRepository : IUserBordersRepository
 {
-    public async Task<List<Borders>> GetUserBordersAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Borders>> GetUserBordersAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Borders> borders = new List<Borders>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -21,7 +21,9 @@ public class UserBordersRepository : IUserBordersRepository
             SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
             FROM borders m
             JOIN user_borders um ON m.id = um.border_id
-            WHERE um.user_id = @userId AND (@rare = 'All' OR m.rare = @rare)
+            WHERE um.user_id = @userId 
+                AND (@rare = 'All' OR m.rare = @rare)
+                AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
             ORDER BY m.name REGEXP '[0-9]+$', 
                      CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), 
                      m.name
@@ -29,6 +31,7 @@ public class UserBordersRepository : IUserBordersRepository
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -110,7 +113,7 @@ public class UserBordersRepository : IUserBordersRepository
         }
         return borders;
     }
-    public async Task<int> GetUserBordersCountAsync(string user_id, string rare)
+    public async Task<int> GetUserBordersCountAsync(string user_id, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -125,10 +128,13 @@ public class UserBordersRepository : IUserBordersRepository
                 SELECT COUNT(*) 
                 FROM Medals m
                 JOIN user_medals um ON m.id = um.medal_id
-                WHERE um.user_id = @userId AND (@rare = 'All' OR m.rare = @rare)";
+                WHERE um.user_id = @userId 
+                    AND (@rare = 'All' OR m.rare = @rare)
+                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@rare", rare);
 
                 object result = await command.ExecuteScalarAsync();

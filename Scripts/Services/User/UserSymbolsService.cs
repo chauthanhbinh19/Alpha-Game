@@ -182,16 +182,16 @@ public class UserSymbolsService : IUserSymbolsService
         return symbols;
     }
 
-    public async Task<List<Symbols>> GetUserSymbolsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetUserSymbolsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = await _userSymbolsRepository.GetUserSymbolsAsync(user_id, type, pageSize, offset, rare);
+        List<Symbols> list = await _userSymbolsRepository.GetUserSymbolsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserSymbolsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserSymbolsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userSymbolsRepository.GetUserSymbolsCountAsync(user_id, type, rare);
+        return await _userSymbolsRepository.GetUserSymbolsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserSymbolAsync(Symbols symbols, string userId)

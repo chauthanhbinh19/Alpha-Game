@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGalleryRepository
 {
-    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<MagicFormationCircles> magicFormationCircles = new List<MagicFormationCircles>();
         string user_id = User.CurrentUserId;
@@ -29,8 +29,9 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
                 FROM magic_formation_circles m 
                 LEFT JOIN magic_formation_circles_gallery mg 
                     ON m.id = mg.mfc_id AND mg.user_id = @userId 
-                WHERE m.type = @type 
+                WHERE (@type = 'All' OR m.type = @type)
                     AND (@rare = 'All' OR m.rare = @rare)
+                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     m.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED),
@@ -39,6 +40,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@userId", user_id);
@@ -141,7 +143,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
         }
         return magicFormationCircles;
     }
-    public async Task<int> GetMagicFormationCirclesCountAsync(string type, string rare)
+    public async Task<int> GetMagicFormationCirclesCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -152,9 +154,12 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM magic_formation_circles WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM magic_formation_circles 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 MySqlCommand command = new MySqlCommand(query, connection);
-
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
 

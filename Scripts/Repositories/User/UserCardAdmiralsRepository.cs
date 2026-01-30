@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 {
-    public async Task<List<CardAdmirals>> GetUserCardAdmiralsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardAdmirals>> GetUserCardAdmiralsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -22,13 +22,17 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
             FROM user_card_admirals uc
             LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
             LEFT JOIN teams t on t.team_id = uc.team_id
-            WHERE uc.user_id = @userId AND c.type = @type AND (@rare = 'All' or c.rare = @rare)
+            WHERE uc.user_id = @userId 
+                AND (@type = 'All' OR c.type = @type)
+                AND (@rare = 'All' or c.rare = @rare)
+                AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
             LIMIT @limit OFFSET @offset;
         ";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
@@ -589,7 +593,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return true;
     }
-    public async Task<int> GetUserCardAdmiralsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserCardAdmiralsCountAsync(string user_id, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -604,11 +608,15 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
             SELECT COUNT(*) 
             FROM card_admirals c
             JOIN user_card_admirals uc ON c.id = uc.card_admiral_id
-            WHERE uc.user_id = @userId AND c.type = @type AND (@rare = 'All' OR c.rare = @rare);
+            WHERE uc.user_id = @userId 
+                AND (@type = 'All' OR c.type = @type)
+                AND (@rare = 'All' OR c.rare = @rare)
+                AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'));
         ";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
 

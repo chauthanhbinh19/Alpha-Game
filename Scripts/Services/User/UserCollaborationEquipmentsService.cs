@@ -182,16 +182,16 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         return collaborationEquipment;
     }
 
-    public async Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipments> list = await _userCollabEquipmentsRepo.GetUserCollaborationEquipmentsAsync(user_id, type, pageSize, offset, rare);
+        List<CollaborationEquipments> list = await _userCollabEquipmentsRepo.GetUserCollaborationEquipmentsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserCollaborationEquipmentsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserCollaborationEquipmentsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userCollabEquipmentsRepo.GetUserCollaborationEquipmentsCountAsync(user_id, type, rare);
+        return await _userCollabEquipmentsRepo.GetUserCollaborationEquipmentsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserCollaborationEquipmentAsync(CollaborationEquipments collaborationEquipment, string userId)

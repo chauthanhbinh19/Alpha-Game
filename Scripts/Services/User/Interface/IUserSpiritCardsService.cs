@@ -5,9 +5,9 @@ public interface IUserSpiritCardsService
 {
     Task<SpiritCards> GetNewLevelPowerAsync(SpiritCards c, double coefficient);
     Task<SpiritCards> GetNewBreakthroughPowerAsync(SpiritCards c, double coefficient);
-    Task<List<SpiritCards>> GetUserSpiritCardAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<SpiritCards>> GetUserSpiritCardAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<SpiritCards>> GetAllUserSpiritCardAsync(string user_id, int pageSize, int offset);
-    Task<int> GetUserSpiritCardCountAsync(string user_id, string type, string rare);
+    Task<int> GetUserSpiritCardCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserSpiritCardAsync(SpiritCards SpiritCard);
     Task<bool> UpdateSpiritCardLevelAsync(SpiritCards SpiritCard, int cardLevel);
     Task<bool> UpdateSpiritCardBreakthroughAsync(SpiritCards SpiritCard, int star, double quantity);

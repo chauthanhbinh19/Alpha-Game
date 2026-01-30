@@ -36,7 +36,7 @@ public class FoodsRepository : IFoodsRepository
 
         return typeList;
     }
-    public async Task<List<Foods>> GetFoodsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Foods>> GetFoodsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Foods> Foods = new List<Foods>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -50,6 +50,7 @@ public class FoodsRepository : IFoodsRepository
                 string query = @"
                 SELECT * FROM Foods
                 WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     Foods.name REGEXP '[0-9]+$', 
                     CAST(REGEXP_SUBSTR(Foods.name, '[0-9]+$') AS UNSIGNED), 
@@ -58,6 +59,7 @@ public class FoodsRepository : IFoodsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -150,7 +152,7 @@ public class FoodsRepository : IFoodsRepository
 
         return Foods;
     }
-    public async Task<int> GetFoodsCountAsync(string rare)
+    public async Task<int> GetFoodsCountAsync(string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -161,9 +163,12 @@ public class FoodsRepository : IFoodsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Foods WHERE (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Foods 
+                WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 await using (var command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     var result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

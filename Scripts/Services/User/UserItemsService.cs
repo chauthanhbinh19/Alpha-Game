@@ -15,14 +15,14 @@ public class UserItemsService : IUserItemsService
         return new UserItemsService(new UserItemsRepository());
     }
 
-    public async Task<List<Items>> GetUserItemsAsync(string user_id, string type, int pageSize, int offset)
+    public async Task<List<Items>> GetUserItemsAsync(string user_id, string search, string type, int pageSize, int offset)
     {
-        return await _userItemsRepository.GetUserItemsAsync(user_id, type, pageSize, offset);
+        return await _userItemsRepository.GetUserItemsAsync(user_id, search, type, pageSize, offset);
     }
 
-    public async Task<int> GetUserItemsCountAsync(string user_id, string type)
+    public async Task<int> GetUserItemsCountAsync(string user_id, string search, string type)
     {
-        return await _userItemsRepository.GetUserItemsCountAsync(user_id, type);
+        return await _userItemsRepository.GetUserItemsCountAsync(user_id, search, type);
     }
     public async Task<Items> GetUserItemByNameAsync(string itemName)
     {

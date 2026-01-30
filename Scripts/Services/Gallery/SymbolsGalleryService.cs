@@ -15,16 +15,16 @@ public class SymbolsGalleryService : ISymbolsGalleryService
         return new SymbolsGalleryService(new SymbolsGalleryRepository());
     }
 
-    public async Task<List<Symbols>> GetSymbolsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetSymbolsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = await _symbolsGalleryRepository.GetSymbolsCollectionAsync(type, pageSize, offset, rare);
+        List<Symbols> list = await _symbolsGalleryRepository.GetSymbolsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetSymbolsCountAsync(string type, string rare)
+    public async Task<int> GetSymbolsCountAsync(string search, string type, string rare)
     {
-        return await _symbolsGalleryRepository.GetSymbolsCountAsync(type, rare);
+        return await _symbolsGalleryRepository.GetSymbolsCountAsync(search, type, rare);
     }
 
     public async Task InsertSymbolGalleryAsync(string Id)

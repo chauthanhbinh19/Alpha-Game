@@ -15,16 +15,16 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
         return new ArchitecturesGalleryService(new ArchitecturesGalleryRepository());
     }
 
-    public async Task<List<Architectures>> GetArchitecturesCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Architectures>> GetArchitecturesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Architectures> list = await _ArchitecturesGalleryRepository.GetArchitecturesCollectionAsync(pageSize, offset, rare);
+        List<Architectures> list = await _ArchitecturesGalleryRepository.GetArchitecturesCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetArchitecturesCountAsync(string rare)
+    public async Task<int> GetArchitecturesCountAsync(string search, string rare)
     {
-        return await _ArchitecturesGalleryRepository.GetArchitecturesCountAsync(rare);
+        return await _ArchitecturesGalleryRepository.GetArchitecturesCountAsync(search, rare);
     }
 
     public async Task InsertArchitectureGalleryAsync(string Id)

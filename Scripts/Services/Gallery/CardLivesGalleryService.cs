@@ -15,16 +15,16 @@ public class CardLivesGalleryService : ICardLivesGalleryService
         return new CardLivesGalleryService(new CardLivesGalleryRepository());
     }
 
-    public async Task<List<CardLives>> GetCardLivesCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardLives>> GetCardLivesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardLives> list = await _cardLifeGalleryRepository.GetCardLivesCollectionAsync(type, pageSize, offset, rare);
+        List<CardLives> list = await _cardLifeGalleryRepository.GetCardLivesCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCardLivesCountAsync(string type, string rare)
+    public async Task<int> GetCardLivesCountAsync(string search, string type, string rare)
     {
-        return await _cardLifeGalleryRepository.GetCardLivesCountAsync(type, rare);
+        return await _cardLifeGalleryRepository.GetCardLivesCountAsync(search, type, rare);
     }
 
     public async Task InsertCardLifeGalleryAsync(string Id)

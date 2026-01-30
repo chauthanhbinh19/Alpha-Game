@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public interface IAchievementsGalleryService
 {
-    Task<List<Achievements>> GetAchievementCollectionAsync(int pageSize, int offset, string rare);
-    Task<int> GetAchievementsCountAsync(string rare);
+    Task<List<Achievements>> GetAchievementCollectionAsync(string search, int pageSize, int offset, string rare);
+    Task<int> GetAchievementsCountAsync(string search, string rare);
     Task InsertAchievementsGalleryAsync(string Id, Achievements AchievementFromDB);
     Task UpdateStatusAchievementsGalleryAsync(string Id);
     Task UpdateStarAchievementsGalleryAsync(string id, double star);

@@ -36,7 +36,7 @@ public class TechnologiesRepository : ITechnologiesRepository
 
         return typeList;
     }
-    public async Task<List<Technologies>> GetTechnologiesAsync(int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetTechnologiesAsync(string search, string rare, int pageSize, int offset)
     {
         List<Technologies> Technologies = new List<Technologies>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -50,6 +50,7 @@ public class TechnologiesRepository : ITechnologiesRepository
                 string query = @"
                 SELECT * FROM Technologies
                 WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     Technologies.name REGEXP '[0-9]+$', 
                     CAST(REGEXP_SUBSTR(Technologies.name, '[0-9]+$') AS UNSIGNED), 
@@ -58,6 +59,7 @@ public class TechnologiesRepository : ITechnologiesRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -150,7 +152,7 @@ public class TechnologiesRepository : ITechnologiesRepository
 
         return Technologies;
     }
-    public async Task<int> GetTechnologiesCountAsync(string rare)
+    public async Task<int> GetTechnologiesCountAsync(string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -161,9 +163,12 @@ public class TechnologiesRepository : ITechnologiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Technologies WHERE (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Technologies 
+                WHERE (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 await using (var command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     var result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

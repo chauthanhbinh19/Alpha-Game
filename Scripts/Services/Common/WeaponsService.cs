@@ -15,16 +15,16 @@ public class WeaponsService : IWeaponsService
         return new WeaponsService(new WeaponsRepository());
     }
 
-    public async Task<List<Weapons>> GetWeaponsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Weapons>> GetWeaponsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Weapons> list = await _WeaponsRepository.GetWeaponsAsync(pageSize, offset, rare);
+        List<Weapons> list = await _WeaponsRepository.GetWeaponsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetWeaponsCountAsync(string rare)
+    public async Task<int> GetWeaponsCountAsync(string search, string rare)
     {
-        return await _WeaponsRepository.GetWeaponsCountAsync(rare);
+        return await _WeaponsRepository.GetWeaponsCountAsync(search, rare);
     }
 
     public async Task<List<Weapons>> GetWeaponsWithPriceAsync(int pageSize, int offset)

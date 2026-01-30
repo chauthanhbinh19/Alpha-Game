@@ -21,16 +21,16 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
         return await _collaborationEquipmentRepository.GetUniqueCollaborationEquipmentsTypesAsync();
     }
 
-    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CollaborationEquipments> list = await _collaborationEquipmentRepository.GetCollaborationEquipmentsAsync(type, pageSize, offset, rare);
+        List<CollaborationEquipments> list = await _collaborationEquipmentRepository.GetCollaborationEquipmentsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCollaborationEquipmentsCountAsync(string type, string rare)
+    public async Task<int> GetCollaborationEquipmentsCountAsync(string search, string type, string rare)
     {
-        return await _collaborationEquipmentRepository.GetCollaborationEquipmentsCountAsync(type, rare);
+        return await _collaborationEquipmentRepository.GetCollaborationEquipmentsCountAsync(search, type, rare);
     }
 
     public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithPriceAsync(string type, int pageSize, int offset)

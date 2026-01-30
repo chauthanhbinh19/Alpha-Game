@@ -182,16 +182,16 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
         return magicFormationCircle;
     }
 
-    public async Task<List<MagicFormationCircles>> GetUserMagicFormationCirclesAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<MagicFormationCircles>> GetUserMagicFormationCirclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircles> list = await _userMagicFormationCircleRepository.GetUserMagicFormationCirclesAsync(user_id, type, pageSize, offset, rare);
+        List<MagicFormationCircles> list = await _userMagicFormationCircleRepository.GetUserMagicFormationCirclesAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserMagicFormationCirclesCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserMagicFormationCirclesCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userMagicFormationCircleRepository.GetUserMagicFormationCirclesCountAsync(user_id, type, rare);
+        return await _userMagicFormationCircleRepository.GetUserMagicFormationCirclesCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserMagicFormationCircleAsync(MagicFormationCircles magicFormationCircle, string userId)

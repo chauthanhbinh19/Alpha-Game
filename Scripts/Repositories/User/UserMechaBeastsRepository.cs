@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 {
-    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<MechaBeasts> mechaBeasts = new List<MechaBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -22,7 +22,9 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM mecha_beasts t
                 INNER JOIN user_mecha_beasts ut ON t.id = ut.mecha_beast_id
-                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare)
+                WHERE ut.user_id = @userId 
+                    AND (@rare = 'All' OR t.rare = @rare)
+                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
@@ -32,6 +34,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -121,7 +124,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
         return mechaBeasts;
     }
-    public async Task<int> GetUserMechaBeastsCountAsync(string user_id, string rare)
+    public async Task<int> GetUserMechaBeastsCountAsync(string user_id, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -136,12 +139,15 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 SELECT COUNT(*) 
                 FROM mecha_beasts t
                 INNER JOIN user_mecha_beasts ut ON t.id = ut.mecha_beast_id
-                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare);
+                WHERE ut.user_id = @userId 
+                    AND (@rare = 'All' OR t.rare = @rare)
+                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'));
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
 
                     object result = await command.ExecuteScalarAsync();

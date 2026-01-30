@@ -182,16 +182,16 @@ public class UserRelicsService : IUserRelicsService
         return relics;
     }
 
-    public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(user_id, type, pageSize, offset, rare);
+        List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserRelicsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserRelicsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userRelicsRepository.GetUserRelicsCountAsync(user_id, type, rare);
+        return await _userRelicsRepository.GetUserRelicsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserRelicAsync(Relics relics, string userId)

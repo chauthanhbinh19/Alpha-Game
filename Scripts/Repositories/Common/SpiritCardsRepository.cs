@@ -52,7 +52,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
 
         return typeList;
     }
-    public async Task<List<SpiritCards>> GetSpiritCardsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<SpiritCards>> GetSpiritCardsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<SpiritCards> SpiritCards = new List<SpiritCards>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -64,7 +64,9 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM spirit_cards 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE (@type = 'All' OR type = @type)
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY spirit_cards.name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(spirit_cards.name, '[0-9]+$') AS UNSIGNED), 
                                       spirit_cards.name 
@@ -72,6 +74,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -165,7 +168,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
 
         return SpiritCards;
     }
-    public async Task<int> GetSpiritCardsCountAsync(string type, string rare)
+    public async Task<int> GetSpiritCardsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -176,10 +179,14 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM spirit_cards WHERE (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM spirit_cards 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

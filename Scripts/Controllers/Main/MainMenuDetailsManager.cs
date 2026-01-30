@@ -9,7 +9,7 @@ using System;
 public class MainMenuDetailsManager : MonoBehaviour
 {
     private GameObject MainMenuDetailPanel2Prefab;
-    private Transform ContentPanel;
+    private Transform MainPanel;
     // private Transform RightButtonContent;
     private Transform DetailsPanel;
     private Transform LevelPanel;
@@ -56,7 +56,7 @@ public class MainMenuDetailsManager : MonoBehaviour
     public void Initialize()
     {
         MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
-
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
         TabButton5 = UIManager.Instance.Get("TabButton5");
 
         // teamsService = TeamsService.Create();
@@ -64,8 +64,8 @@ public class MainMenuDetailsManager : MonoBehaviour
     }
     public void PopupDetails(object data, Transform panel)
     {
-        ContentPanel = panel;
-        currentObject = Instantiate(MainMenuDetailPanel2Prefab, ContentPanel);
+        MainPanel = panel;
+        currentObject = Instantiate(MainMenuDetailPanel2Prefab, MainPanel);
         // RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         DetailsPanel = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel");
         LevelPanel = currentObject.transform.Find("DictionaryCards/Content/LevelPanel");

@@ -182,16 +182,16 @@ public class UserTitlesService : IUserTitlesService
         return titles;
     }
 
-    public async Task<List<Titles>> GetUserTitlesAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Titles>> GetUserTitlesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Titles> list = await _userTitlesRepository.GetUserTitlesAsync(user_id, pageSize, offset, rare);
+        List<Titles> list = await _userTitlesRepository.GetUserTitlesAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserTitlesCountAsync(string user_id, string rare)
+    public async Task<int> GetUserTitlesCountAsync(string user_id, string search, string rare)
     {
-        return await _userTitlesRepository.GetUserTitlesCountAsync(user_id, rare);
+        return await _userTitlesRepository.GetUserTitlesCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserTitleAsync(Titles titles, string userId)

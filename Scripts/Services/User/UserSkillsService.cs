@@ -182,16 +182,16 @@ public class UserSkillsService : IUserSkillsService
         return skills;
     }
 
-    public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(user_id, type, pageSize, offset, rare);
+        List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserSkillsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserSkillsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userSkillsRepository.GetUserSkillsCountAsync(user_id, type, rare);
+        return await _userSkillsRepository.GetUserSkillsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserSkillsAsync(Skills skills)

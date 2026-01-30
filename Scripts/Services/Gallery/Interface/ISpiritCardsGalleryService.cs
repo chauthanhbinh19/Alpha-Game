@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface ISpiritCardsGalleryService
 {
-    Task<List<SpiritCards>> GetSpiritCardsCollectionAsync(string type, int pageSize, int offset, string rare);
-    Task<int> GetSpiritCardsCountAsync(string type, string rare);
+    Task<List<SpiritCards>> GetSpiritCardsCollectionAsync(string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetSpiritCardsCountAsync(string search, string type, string rare);
     Task InsertSpiritCardGalleryAsync(string Id);
     Task UpdateStatusSpiritCardGalleryAsync(string Id);
     Task UpdateStarSpiritCardGalleryAsync(string Id, double star);

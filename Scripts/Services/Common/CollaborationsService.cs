@@ -15,16 +15,16 @@ public class CollaborationsService : ICollaborationsService
         return new CollaborationsService(new CollaborationsRepository());
     }
 
-    public async Task<List<Collaborations>> GetCollaborationsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Collaborations>> GetCollaborationsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Collaborations> list = await _collaborationRepository.GetCollaborationsAsync(pageSize, offset, rare);
+        List<Collaborations> list = await _collaborationRepository.GetCollaborationsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCollaborationsCountAsync(string rare)
+    public async Task<int> GetCollaborationsCountAsync(string search, string rare)
     {
-        return await _collaborationRepository.GetCollaborationsCountAsync(rare);
+        return await _collaborationRepository.GetCollaborationsCountAsync(search, rare);
     }
 
     public async Task<List<Collaborations>> GetCollaborationsWithPriceAsync(int pageSize, int offset)

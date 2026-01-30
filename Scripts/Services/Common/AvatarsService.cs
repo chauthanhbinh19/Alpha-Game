@@ -15,16 +15,16 @@ public class AvatarsService : IAvatarsService
         return new AvatarsService(new AvatarsRepository());
     }
 
-    public async Task<List<Avatars>> GetAvatarsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetAvatarsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Avatars> list = await _avatarsRepository.GetAvatarsAsync(pageSize, offset, rare);
+        List<Avatars> list = await _avatarsRepository.GetAvatarsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetAvatarsCountAsync(string rare)
+    public async Task<int> GetAvatarsCountAsync(string search, string rare)
     {
-        return await _avatarsRepository.GetAvatarsCountAsync(rare);
+        return await _avatarsRepository.GetAvatarsCountAsync(search, rare);
     }
 
     public async Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset)

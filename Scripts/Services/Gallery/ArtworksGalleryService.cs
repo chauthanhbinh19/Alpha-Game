@@ -15,16 +15,16 @@ public class ArtworksGalleryService : IArtworksGalleryService
         return new ArtworksGalleryService(new ArtworksGalleryRepository());
     }
 
-    public async Task<List<Artworks>> GetArtworksCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Artworks>> GetArtworksCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Artworks> list = await _ArtworkGalleryRepository.GetArtworksCollectionAsync(type, pageSize, offset, rare);
+        List<Artworks> list = await _ArtworkGalleryRepository.GetArtworksCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetArtworksCountAsync(string type, string rare)
+    public async Task<int> GetArtworksCountAsync(string search, string type, string rare)
     {
-        return await _ArtworkGalleryRepository.GetArtworksCountAsync(type, rare);
+        return await _ArtworkGalleryRepository.GetArtworksCountAsync(search, type, rare);
     }
 
     public async Task InsertArtworkGalleryAsync(string Id)

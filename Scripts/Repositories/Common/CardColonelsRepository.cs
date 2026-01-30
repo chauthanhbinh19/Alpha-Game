@@ -67,7 +67,7 @@ public class CardColonelsRepository : ICardColonelsRepository
 
         return idList;
     }
-    public async Task<int> GetCardColonelsCountAsync(string type, string rare)
+    public async Task<int> GetCardColonelsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -78,9 +78,13 @@ public class CardColonelsRepository : ICardColonelsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM card_colonels WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM card_colonels 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 
@@ -96,7 +100,7 @@ public class CardColonelsRepository : ICardColonelsRepository
 
         return count;
     }
-    public async Task<List<CardColonels>> GetCardColonelsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardColonels>> GetCardColonelsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardColonels> cardColonels = new List<CardColonels>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -108,7 +112,9 @@ public class CardColonelsRepository : ICardColonelsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM card_colonels 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE (@type = 'All' OR type = @type)
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), 
                                       name
@@ -116,6 +122,7 @@ public class CardColonelsRepository : ICardColonelsRepository
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);

@@ -182,16 +182,16 @@ public class UserRunesService : IUserRunesService
         return Runes;
     }
 
-    public async Task<List<Runes>> GetUserRunesAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Runes>> GetUserRunesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Runes> list = await _userRunesRepository.GetUserRunesAsync(user_id, pageSize, offset, rare);
+        List<Runes> list = await _userRunesRepository.GetUserRunesAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserRunesCountAsync(string user_id, string rare)
+    public async Task<int> GetUserRunesCountAsync(string user_id, string search, string rare)
     {
-        return await _userRunesRepository.GetUserRunesCountAsync(user_id, rare);
+        return await _userRunesRepository.GetUserRunesCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserRuneAsync(Runes Runes, string userId)

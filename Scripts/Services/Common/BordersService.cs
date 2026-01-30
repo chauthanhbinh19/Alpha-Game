@@ -15,16 +15,16 @@ public class BordersService : IBordersService
         return new BordersService(new BordersRepository());
     }
 
-    public async Task<List<Borders>> GetBordersAsync(int pageSize, int offset, string rare)
+    public async Task<List<Borders>> GetBordersAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Borders> list = await _bordersRepository.GetBordersAsync(pageSize, offset, rare);
+        List<Borders> list = await _bordersRepository.GetBordersAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetBordersCountAsync(string rare)
+    public async Task<int> GetBordersCountAsync(string search, string rare)
     {
-        return await _bordersRepository.GetBordersCountAsync(rare);
+        return await _bordersRepository.GetBordersCountAsync(search, rare);
     }
 
     public async Task<List<Borders>> GetBordersWithPriceAsync(int pageSize, int offset)

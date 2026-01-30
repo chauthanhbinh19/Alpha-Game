@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IUserBordersRepository
 {
-    Task<List<Borders>> GetUserBordersAsync(string user_id, int pageSize, int offset, string rare);
-    Task<int> GetUserBordersCountAsync(string user_id, string rare);
+    Task<List<Borders>> GetUserBordersAsync(string user_id, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserBordersCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserBorderAsync(Borders borders, string userId);
     Task<bool> InsertUserBorderByIdAsync(Borders borders, string userId);
     Task<Borders> GetBorderByUsedAsync(string user_id);

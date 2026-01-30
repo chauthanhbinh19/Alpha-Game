@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserTechnologiesRepository : IUserTechnologiesRepository
 {
-    public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Technologies> technologies = new List<Technologies>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -22,7 +22,9 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Technologies t
                 INNER JOIN user_Technologies ut ON t.id = ut.Technology_id
-                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare)
+                WHERE ut.user_id = @userId 
+                    AND (@rare = 'All' OR t.rare = @rare)
+                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
@@ -32,6 +34,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -121,7 +124,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
         return technologies;
     }
-    public async Task<int> GetUserTechnologiesCountAsync(string user_id, string rare)
+    public async Task<int> GetUserTechnologiesCountAsync(string user_id, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -136,12 +139,15 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 SELECT COUNT(*) 
                 FROM Technologies t
                 INNER JOIN user_Technologies ut ON t.id = ut.Technology_id
-                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare);
+                WHERE ut.user_id = @userId 
+                    AND (@rare = 'All' OR t.rare = @rare)
+                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'));
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
 
                     object result = await command.ExecuteScalarAsync();

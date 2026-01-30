@@ -15,16 +15,16 @@ public class TitlesGalleryService : ITitlesGalleryService
         return new TitlesGalleryService(new TitlesGalleryRepository());
     }
 
-    public async Task<List<Titles>> GetTitlesCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Titles>> GetTitlesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Titles> list = await _titlesGalleryRepository.GetTitlesCollectionAsync(pageSize, offset, rare);
+        List<Titles> list = await _titlesGalleryRepository.GetTitlesCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetTitlesCountAsync(string rare)
+    public async Task<int> GetTitlesCountAsync(string search, string rare)
     {
-        return await _titlesGalleryRepository.GetTitlesCountAsync(rare);
+        return await _titlesGalleryRepository.GetTitlesCountAsync(search, rare);
     }
 
     public async Task InsertTitleGalleryAsync(string Id)

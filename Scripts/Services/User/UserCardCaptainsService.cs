@@ -762,9 +762,9 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         }
         return CardCaptainsList;
     }
-    public async Task<List<CardCaptains>> GetUserCardCaptainsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardCaptains>> GetUserCardCaptainsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardCaptains> list = await _userCardCaptainsRepository.GetUserCardCaptainsAsync(user_id, type, pageSize, offset, rare);
+        List<CardCaptains> list = await _userCardCaptainsRepository.GetUserCardCaptainsAsync(user_id, search, type, pageSize, offset, rare);
         list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluator.GetQualityPower(list);
         list = await GetFinalPowerAsync(user_id, list);
@@ -817,9 +817,9 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         return await _userCardCaptainsRepository.UpdateTeamCardCaptainAsync(team_id, position, card_id);
     }
 
-    public async Task<int> GetUserCardCaptainsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserCardCaptainsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userCardCaptainsRepository.GetUserCardCaptainsCountAsync(user_id, type, rare);
+        return await _userCardCaptainsRepository.GetUserCardCaptainsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<int> GetUserCardCaptainsTeamsPositionCountAsync(string user_id, string team_id, string position)

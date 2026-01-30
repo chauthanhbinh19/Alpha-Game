@@ -20,16 +20,16 @@ public class MagicFormationCirclesService : IMagicFormationCirclesService
         return await _magicFormationCircleRepository.GetUniqueMagicFormationCirclesTypesAsync();
     }
 
-    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<MagicFormationCircles> list = await _magicFormationCircleRepository.GetMagicFormationCirclesAsync(type, pageSize, offset, rare);
+        List<MagicFormationCircles> list = await _magicFormationCircleRepository.GetMagicFormationCirclesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetMagicFormationCirclesCountAsync(string type, string rare)
+    public async Task<int> GetMagicFormationCirclesCountAsync(string search, string type, string rare)
     {
-        return await _magicFormationCircleRepository.GetMagicFormationCirclesCountAsync(type, rare);
+        return await _magicFormationCircleRepository.GetMagicFormationCirclesCountAsync(search, type, rare);
     }
 
     public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesWithPriceAsync(string type, int pageSize, int offset)

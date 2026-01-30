@@ -15,16 +15,16 @@ public class FoodsGalleryService : IFoodsGalleryService
         return new FoodsGalleryService(new FoodsGalleryRepository());
     }
 
-    public async Task<List<Foods>> GetFoodsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Foods>> GetFoodsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Foods> list = await _FoodsGalleryRepository.GetFoodsCollectionAsync(pageSize, offset, rare);
+        List<Foods> list = await _FoodsGalleryRepository.GetFoodsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetFoodsCountAsync(string rare)
+    public async Task<int> GetFoodsCountAsync(string search, string rare)
     {
-        return await _FoodsGalleryRepository.GetFoodsCountAsync(rare);
+        return await _FoodsGalleryRepository.GetFoodsCountAsync(search, rare);
     }
 
     public async Task InsertFoodGalleryAsync(string Id)

@@ -15,16 +15,16 @@ public class MedalsService : IMedalsService
         return new MedalsService(new MedalsRepository());
     }
 
-    public async Task<List<Medals>> GetMedalsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Medals>> GetMedalsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Medals> list = await _medalsRepository.GetMedalsAsync(pageSize, offset, rare);
+        List<Medals> list = await _medalsRepository.GetMedalsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetMedalsCountAsync(string rare)
+    public async Task<int> GetMedalsCountAsync(string search, string rare)
     {
-        return await _medalsRepository.GetMedalsCountAsync(rare);
+        return await _medalsRepository.GetMedalsCountAsync(search, rare);
     }
 
     public async Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset)

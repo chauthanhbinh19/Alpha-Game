@@ -69,7 +69,7 @@ public class AlchemiesRepository : IAlchemiesRepository
 
         return idList;
     }
-    public async Task<List<Alchemies>> GetAlchemiesAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Alchemies>> GetAlchemiesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Alchemies> alchemies = new List<Alchemies>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -82,7 +82,9 @@ public class AlchemiesRepository : IAlchemiesRepository
             string query = @"
             SELECT * 
             FROM alchemies
-            WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+            WHERE (@type = 'All' OR type = @type)
+                AND (@rare = 'All' OR rare = @rare)
+                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
             ORDER BY 
                 alchemies.name REGEXP '[0-9]+$', 
                 CAST(REGEXP_SUBSTR(alchemies.name, '[0-9]+$') AS UNSIGNED), 
@@ -91,6 +93,7 @@ public class AlchemiesRepository : IAlchemiesRepository
         ";
 
             await using var command = new MySqlConnector.MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
             command.Parameters.AddWithValue("@limit", pageSize);
@@ -184,7 +187,7 @@ public class AlchemiesRepository : IAlchemiesRepository
 
         return alchemies;
     }
-    public async Task<int> GetAlchemiesCountAsync(string type, string rare)
+    public async Task<int> GetAlchemiesCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -194,8 +197,12 @@ public class AlchemiesRepository : IAlchemiesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT COUNT(*) FROM alchemies WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+            string query = @"SELECT COUNT(*) FROM alchemies 
+            WHERE (@type = 'All' OR type = @type)
+                AND (@rare = 'All' OR rare = @rare)
+                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
             await using var command = new MySqlConnector.MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
 

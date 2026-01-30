@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 public interface IUserBooksRepository
 {
-    Task<List<Books>> GetUserBooksAsync(string user_id, string type, int pageSize, int offset, string rare);
+    Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<Books>> GetUserBooksTeamAsync(string teamId);
     Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId);
-    Task<int> GetUserBooksCountAsync(string user_id, string type, string rare);
+    Task<int> GetUserBooksCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserBookAsync(Books books);
     Task<bool> UpdateBookLevelAsync(Books books, int cardLevel);
     Task<bool> UpdateBookBreakthroughAsync(Books books, int star, double quantity);

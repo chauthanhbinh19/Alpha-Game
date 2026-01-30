@@ -182,16 +182,16 @@ public class UserBeveragesService : IUserBeveragesService
         return Beverages;
     }
 
-    public async Task<List<Beverages>> GetUserBeveragesAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Beverages>> GetUserBeveragesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Beverages> list = await _userBeveragesRepository.GetUserBeveragesAsync(user_id, pageSize, offset, rare);
+        List<Beverages> list = await _userBeveragesRepository.GetUserBeveragesAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserBeveragesCountAsync(string user_id, string rare)
+    public async Task<int> GetUserBeveragesCountAsync(string user_id, string search, string rare)
     {
-        return await _userBeveragesRepository.GetUserBeveragesCountAsync(user_id, rare);
+        return await _userBeveragesRepository.GetUserBeveragesCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserBeverageAsync(Beverages Beverages, string userId)

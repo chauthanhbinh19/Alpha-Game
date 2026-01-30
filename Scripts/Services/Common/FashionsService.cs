@@ -20,16 +20,16 @@ public class FashionsService : IFashionsService
         return await _FashionsRepository.GetUniqueFashionsTypesAsync();
     }
 
-    public async Task<List<Fashions>> GetFashionsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Fashions>> GetFashionsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Fashions> list = await _FashionsRepository.GetFashionsAsync(type, pageSize, offset, rare);
+        List<Fashions> list = await _FashionsRepository.GetFashionsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetFashionsCountAsync(string type, string rare)
+    public async Task<int> GetFashionsCountAsync(string search, string type, string rare)
     {
-        return await _FashionsRepository.GetFashionsCountAsync(type, rare);
+        return await _FashionsRepository.GetFashionsCountAsync(search, type, rare);
     }
 
     public async Task<List<Fashions>> GetFashionsWithPriceAsync(string type, int pageSize, int offset)

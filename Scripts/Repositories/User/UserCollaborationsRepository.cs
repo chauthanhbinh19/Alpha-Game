@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class UserCollaborationsRepository : IUserCollaborationsRepository
 {
-    public async Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, int pageSize, int offset, string rare)
+    public async Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Collaborations> collaborations = new List<Collaborations>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -22,13 +22,16 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 SELECT uc.*, c.id, c.name, c.image, c.rare, c.description 
                 FROM collaborations c
                 JOIN user_collaborations uc ON uc.collaboration_id = c.id
-                WHERE uc.user_id = @userId AND (@rare = 'All' OR c.rare = @rare)
+                WHERE uc.user_id = @userId 
+                    AND (@rare = 'All' OR c.rare = @rare)
+                    AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
                 LIMIT @limit OFFSET @offset;
             ";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
@@ -115,7 +118,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
         return collaborations;
     }
-    public async Task<int> GetUserCollaborationsCountAsync(string user_id, string rare)
+    public async Task<int> GetUserCollaborationsCountAsync(string user_id, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -130,11 +133,14 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 SELECT COUNT(*) 
                 FROM collaborations c
                 JOIN user_collaborations uc ON c.id = uc.collaboration_id
-                WHERE uc.user_id = @userId AND (@rare = 'All' OR c.rare = @rare);
+                WHERE uc.user_id = @userId 
+                    AND (@rare = 'All' OR c.rare = @rare)
+                    AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'));
             ";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@rare", rare);
 
                 object result = await command.ExecuteScalarAsync();

@@ -15,16 +15,16 @@ public class RunesService : IRunesService
         return new RunesService(new RunesRepository());
     }
 
-    public async Task<List<Runes>> GetRunesAsync(int pageSize, int offset, string rare)
+    public async Task<List<Runes>> GetRunesAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Runes> list = await _RunesRepository.GetRunesAsync(pageSize, offset, rare);
+        List<Runes> list = await _RunesRepository.GetRunesAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetRunesCountAsync(string rare)
+    public async Task<int> GetRunesCountAsync(string search, string rare)
     {
-        return await _RunesRepository.GetRunesCountAsync(rare);
+        return await _RunesRepository.GetRunesCountAsync(search, rare);
     }
 
     public async Task<List<Runes>> GetRunesWithPriceAsync(int pageSize, int offset)

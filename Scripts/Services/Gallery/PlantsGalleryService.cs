@@ -15,16 +15,16 @@ public class PlantsGalleryService : IPlantsGalleryService
         return new PlantsGalleryService(new PlantsGalleryRepository());
     }
 
-    public async Task<List<Plants>> GetPlantsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Plants>> GetPlantsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Plants> list = await _PlantsGalleryRepository.GetPlantsCollectionAsync(pageSize, offset, rare);
+        List<Plants> list = await _PlantsGalleryRepository.GetPlantsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetPlantsCountAsync(string rare)
+    public async Task<int> GetPlantsCountAsync(string search, string rare)
     {
-        return await _PlantsGalleryRepository.GetPlantsCountAsync(rare);
+        return await _PlantsGalleryRepository.GetPlantsCountAsync(search, rare);
     }
 
     public async Task InsertPlantGalleryAsync(string Id)

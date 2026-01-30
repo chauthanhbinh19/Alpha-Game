@@ -81,7 +81,7 @@ public class UserItemsController : MonoBehaviour
                 itemBackgroundImage.gameObject.SetActive(true);
 
                 TextMeshProUGUI itemQuantityText = itemObject.transform.Find("ItemQuantity").GetComponent<TextMeshProUGUI>();
-                itemQuantityText.text = item.Quantity.ToString();
+                itemQuantityText.text = NumberFormatter.FormatNumber(item.Quantity, true).ToString();
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ public class UserItemsController : MonoBehaviour
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
         {
-            gridLayout.cellSize = new Vector2(120, 120);
+            gridLayout.cellSize = new Vector2(123, 150);
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }

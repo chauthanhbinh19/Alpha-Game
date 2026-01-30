@@ -15,16 +15,16 @@ public class CoresService : ICoresService
         return new CoresService(new CoresRepository());
     }
 
-    public async Task<List<Cores>> GetCoresAsync(int pageSize, int offset, string rare)
+    public async Task<List<Cores>> GetCoresAsync(string search, string rare,int pageSize, int offset)
     {
-        List<Cores> list = await _CoresRepository.GetCoresAsync(pageSize, offset, rare);
+        List<Cores> list = await _CoresRepository.GetCoresAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCoresCountAsync(string rare)
+    public async Task<int> GetCoresCountAsync(string search, string rare)
     {
-        return await _CoresRepository.GetCoresCountAsync(rare);
+        return await _CoresRepository.GetCoresCountAsync(search, rare);
     }
 
     public async Task<List<Cores>> GetCoresWithPriceAsync(int pageSize, int offset)

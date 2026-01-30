@@ -183,16 +183,16 @@ public class UserArtworksService : IUserArtworksService
         return Artwork;
     }
 
-    public async Task<List<Artworks>> GetUserArtworksAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Artworks>> GetUserArtworksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Artworks> list = await _userArtworkRepository.GetUserArtworksAsync(user_id, type, pageSize, offset, rare);
+        List<Artworks> list = await _userArtworkRepository.GetUserArtworksAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserArtworksCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserArtworksCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userArtworkRepository.GetUserArtworksCountAsync(user_id, type, rare);
+        return await _userArtworkRepository.GetUserArtworksCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserArtworkAsync(Artworks Artwork, string userId)

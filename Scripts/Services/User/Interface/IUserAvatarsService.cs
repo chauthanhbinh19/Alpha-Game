@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IUserAvatarsService
 {
-    Task<List<Avatars>> GetUserAvatarsAsync(string user_id, int pageSize, int offset, string rare);
-    Task<int> GetUserAvatarsCountAsync(string user_id, string rare);
+    Task<List<Avatars>> GetUserAvatarsAsync(string user_id, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserAvatarsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserAvatarAsync(Avatars avatars, string userId);
     Task<bool> InsertUserAvatarByIdAsync(string avatarId, string userId);
     Task<Avatars> GetAvatarByUsedAsync(string user_id);

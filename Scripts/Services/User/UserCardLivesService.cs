@@ -182,16 +182,16 @@ public class UserCardLivesService : IUserCardLivesService
         return CardLife;
     }
 
-    public async Task<List<CardLives>> GetUserCardLivesAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardLives>> GetUserCardLivesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardLives> list = await _userCardLifeRepository.GetUserCardLivesAsync(user_id, type, pageSize, offset, rare);
+        List<CardLives> list = await _userCardLifeRepository.GetUserCardLivesAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserCardLivesCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserCardLivesCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userCardLifeRepository.GetUserCardLivesCountAsync(user_id, type, rare);
+        return await _userCardLifeRepository.GetUserCardLivesCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserCardLifeAsync(CardLives cardLife, string userId)

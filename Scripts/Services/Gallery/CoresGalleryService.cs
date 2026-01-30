@@ -15,16 +15,16 @@ public class CoresGalleryService : ICoresGalleryService
         return new CoresGalleryService(new CoresGalleryRepository());
     }
 
-    public async Task<List<Cores>> GetCoresCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Cores>> GetCoresCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Cores> list = await _CoresGalleryRepository.GetCoresCollectionAsync(pageSize, offset, rare);
+        List<Cores> list = await _CoresGalleryRepository.GetCoresCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCoresCountAsync(string rare)
+    public async Task<int> GetCoresCountAsync(string search, string rare)
     {
-        return await _CoresGalleryRepository.GetCoresCountAsync(rare);
+        return await _CoresGalleryRepository.GetCoresCountAsync(search, rare);
     }
 
     public async Task InsertCoreGalleryAsync(string Id)

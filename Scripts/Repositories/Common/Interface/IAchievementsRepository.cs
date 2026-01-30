@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IAchievementsRepository
 {
-    Task<List<Achievements>> GetAchievementsAsync(int pageSize, int offset, string rare);
-    Task<int> GetAchievementsCountAsync(string rare);
+    Task<List<Achievements>> GetAchievementsAsync(string search, string rare, int pageSize, int offset);
+    Task<int> GetAchievementsCountAsync(string search, string rare);
     Task<Achievements> GetAchievementByIdAsync(string id);
     Task<List<Achievements>> GetAchievementsWithPriceAsync(int pageSize, int offset);
     Task<int> GetAchievementsWithPriceCountAsync();

@@ -53,7 +53,7 @@ public class CardCaptainsRepository : ICardCaptainsRepository
 
         return idList;
     }
-    public async Task<List<CardCaptains>> GetCardCaptainsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardCaptains>> GetCardCaptainsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardCaptains> CardCaptainsList = new List<CardCaptains>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -67,7 +67,9 @@ public class CardCaptainsRepository : ICardCaptainsRepository
                 string query = @"
                 SELECT * 
                 FROM card_captains 
-                WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                 ORDER BY name REGEXP '[0-9]+$', 
                          CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), 
                          name
@@ -75,6 +77,7 @@ public class CardCaptainsRepository : ICardCaptainsRepository
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -159,7 +162,7 @@ public class CardCaptainsRepository : ICardCaptainsRepository
 
         return CardCaptainsList;
     }
-    public async Task<int> GetCardCaptainsCountAsync(string type, string rare)
+    public async Task<int> GetCardCaptainsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -170,9 +173,13 @@ public class CardCaptainsRepository : ICardCaptainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM card_captains WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM card_captains 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

@@ -15,16 +15,16 @@ public class RelicsGalleryService : IRelicsGalleryService
         return new RelicsGalleryService(new RelicsGalleryRepository());
     }
 
-    public async Task<List<Relics>> GetRelicsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetRelicsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = await _relicsGalleryRepository.GetRelicsCollectionAsync(type, pageSize, offset, rare);
+        List<Relics> list = await _relicsGalleryRepository.GetRelicsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetRelicsCountAsync(string type, string rare)
+    public async Task<int> GetRelicsCountAsync(string search, string type, string rare)
     {
-        return await _relicsGalleryRepository.GetRelicsCountAsync(type, rare);
+        return await _relicsGalleryRepository.GetRelicsCountAsync(search, type, rare);
     }
 
     public async Task InsertRelicGalleryAsync(string Id)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
 {
-    public async Task<List<CardMilitaries>> GetCardMilitariesCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<CardMilitaries>> GetCardMilitariesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<CardMilitaries> cardMilitaries = new List<CardMilitaries>();
         string user_id = User.CurrentUserId;
@@ -29,8 +29,9 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
                 FROM card_militaries m 
                 LEFT JOIN card_militaries_gallery mg 
                     ON m.id = mg.card_military_id AND mg.user_id = @userId 
-                WHERE m.type = @type 
+                WHERE (@type = 'All' OR m.type = @type)
                     AND (@rare = 'All' OR m.rare = @rare)
+                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
                 ORDER BY 
                     m.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED),
@@ -39,6 +40,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@userId", user_id);
@@ -141,7 +143,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
         }
         return cardMilitaries;
     }
-    public async Task<int> GetCardMilitariesCountAsync(string type, string rare)
+    public async Task<int> GetCardMilitariesCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -152,9 +154,12 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM card_militaries WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM card_militaries 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
                 MySqlCommand command = new MySqlCommand(query, connection);
-
+                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class AchievementsRepository : IAchievementsRepository
 {
-    public async Task<List<Achievements>> GetAchievementsAsync(int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetAchievementsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Achievements> achievements = new List<Achievements>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -18,9 +18,13 @@ public class AchievementsRepository : IAchievementsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM achievements WHERE (@rare = 'All' OR rare = @rare) LIMIT @limit OFFSET @offset";
+                string query = @"SELECT * FROM achievements 
+                WHERE (@rare = 'All' OR rare = @rare) 
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
+                LIMIT @limit OFFSET @offset";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -117,7 +121,7 @@ public class AchievementsRepository : IAchievementsRepository
 
         return achievements;
     }
-    public async Task<int> GetAchievementsCountAsync(string rare)
+    public async Task<int> GetAchievementsCountAsync(string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -127,8 +131,11 @@ public class AchievementsRepository : IAchievementsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT COUNT(*) FROM achievements WHERE (@rare = 'All' OR rare = @rare)";
+            string query = @"SELECT COUNT(*) FROM achievements 
+            WHERE (@rare = 'All' OR rare = @rare)
+                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
             await using var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@rare", rare);
 
             var result = await command.ExecuteScalarAsync();

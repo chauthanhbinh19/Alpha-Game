@@ -15,16 +15,16 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
         return new TechnologiesGalleryService(new TechnologiesGalleryRepository());
     }
 
-    public async Task<List<Technologies>> GetTechnologiesCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetTechnologiesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Technologies> list = await _TechnologiesGalleryRepository.GetTechnologiesCollectionAsync(pageSize, offset, rare);
+        List<Technologies> list = await _TechnologiesGalleryRepository.GetTechnologiesCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetTechnologiesCountAsync(string rare)
+    public async Task<int> GetTechnologiesCountAsync(string search, string rare)
     {
-        return await _TechnologiesGalleryRepository.GetTechnologiesCountAsync(rare);
+        return await _TechnologiesGalleryRepository.GetTechnologiesCountAsync(search, rare);
     }
 
     public async Task InsertTechnologyGalleryAsync(string Id)

@@ -15,16 +15,16 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
         return new CollaborationsGalleryService(new CollaborationsGalleryRepository());
     }
 
-    public async Task<List<Collaborations>> GetCollaborationsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Collaborations>> GetCollaborationsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Collaborations> list = await _collaborationGalleryRepository.GetCollaborationsCollectionAsync(pageSize, offset, rare);
+        List<Collaborations> list = await _collaborationGalleryRepository.GetCollaborationsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetCollaborationsCountAsync(string rare)
+    public async Task<int> GetCollaborationsCountAsync(string search, string rare)
     {
-        return await _collaborationGalleryRepository.GetCollaborationsCountAsync(rare);
+        return await _collaborationGalleryRepository.GetCollaborationsCountAsync(search, rare);
     }
 
     public async Task InsertCollaborationGalleryAsync(string Id)

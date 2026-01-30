@@ -12,6 +12,7 @@ public class HomeManager : MonoBehaviour
 {
     public static HomeManager Instance { get; private set; }
     private GameObject HomePanelPrefab;
+    private Transform MainPanel;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -33,9 +34,16 @@ public class HomeManager : MonoBehaviour
     public void Initialize()
     {
         HomePanelPrefab = UIManager.Instance.Get("HomePanelPrefab");
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
     }
-    public void CreateHomePanel(Transform panel)
+    public void CreateHomePanel()
     {
-        GameObject gameObject = Instantiate(HomePanelPrefab, panel);
+        GameObject currentObject = Instantiate(HomePanelPrefab, MainPanel);
+
+        Transform achivementTransform = currentObject.transform.Find("Scroll View/Viewport/Content/StatisticsPart/AchievementPanel");
+        TextMeshProUGUI achievementTitleText = achivementTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI achievementQuantityText = achivementTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+        // UserAchievementsService.Create().GetUserAchievementsCountAsync()
+        
     }
 }

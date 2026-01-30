@@ -66,7 +66,7 @@ public class PetsRepository : IPetsRepository
 
         return idList;
     }
-    public async Task<List<Pets>> GetPetsAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Pets>> GetPetsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Pets> pets = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -78,7 +78,9 @@ public class PetsRepository : IPetsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM Pets 
-                             WHERE type = @type AND (@rare = 'All' OR rare = @rare)
+                             WHERE (@type = 'All' OR type = @type)
+                                AND (@rare = 'All' OR rare = @rare)
+                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
                              ORDER BY Pets.name REGEXP '[0-9]+$', 
                                       CAST(REGEXP_SUBSTR(Pets.name, '[0-9]+$') AS UNSIGNED), 
                                       Pets.name
@@ -86,6 +88,7 @@ public class PetsRepository : IPetsRepository
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
@@ -170,7 +173,7 @@ public class PetsRepository : IPetsRepository
 
         return pets;
     }
-    public async Task<int> GetPetsCountAsync(string type, string rare)
+    public async Task<int> GetPetsCountAsync(string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -181,10 +184,14 @@ public class PetsRepository : IPetsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Pets WHERE type = @type AND (@rare = 'All' OR rare = @rare)";
+                string query = @"SELECT COUNT(*) FROM Pets 
+                WHERE (@type = 'All' OR type = @type)
+                    AND (@rare = 'All' OR rare = @rare)
+                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
 

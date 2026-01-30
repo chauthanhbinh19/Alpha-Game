@@ -5,8 +5,8 @@ public interface IUserMedalsService
 {
     Task<Medals> GetNewLevelPowerAsync(Medals c, double coefficient);
     Task<Medals> GetNewBreakthroughPowerAsync(Medals c, double coefficient);
-    Task<List<Medals>> GetUserMedalsAsync(string user_id, int pageSize, int offset, string rare);
-    Task<int> GetUserMedalsCountAsync(string user_id, string rare);
+    Task<List<Medals>> GetUserMedalsAsync(string user_id, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserMedalsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserMedalAsync(Medals Medals, string userId);
     Task<bool> UpdateMedalLevelAsync(Medals Medals, int TitleLevel);
     Task<bool> UpdateMedalBreakthroughAsync(Medals Medals, int star, double quantity);

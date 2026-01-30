@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IUserTitlesRepository
 {
-    Task<List<Titles>> GetUserTitlesAsync(string user_id, int pageSize, int offset, string rare);
-    Task<int> GetUserTitlesCountAsync(string user_id, string rare);
+    Task<List<Titles>> GetUserTitlesAsync(string user_id, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserTitlesCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserTitleAsync(Titles Titles, string userId);
     Task<bool> UpdateTitleLevelAsync(Titles Titles, int TitleLevel);
     Task<bool> UpdateTitleBreakthroughAsync(Titles Titles, int star, double quantity);

@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface ICardAdmiralsGalleryService
 {
-    Task<List<CardAdmirals>> GetCardAdmiralsCollectionAsync(string type, int pageSize, int offset, string rare);
-    Task<int> GetCardAdmiralsCountAsync(string type, string rare);
+    Task<List<CardAdmirals>> GetCardAdmiralsCollectionAsync(string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetCardAdmiralsCountAsync(string search, string type, string rare);
     Task InsertCardAdmiralGalleryAsync(string Id);
     Task UpdateStatusCardAdmiralGalleryAsync(string Id);
     Task UpdateStarCardAdmiralGalleryAsync(string Id, double star);

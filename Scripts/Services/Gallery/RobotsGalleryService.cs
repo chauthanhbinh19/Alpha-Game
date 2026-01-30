@@ -15,16 +15,16 @@ public class RobotsGalleryService : IRobotsGalleryService
         return new RobotsGalleryService(new RobotsGalleryRepository());
     }
 
-    public async Task<List<Robots>> GetRobotsCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetRobotsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Robots> list = await _RobotsGalleryRepository.GetRobotsCollectionAsync(pageSize, offset, rare);
+        List<Robots> list = await _RobotsGalleryRepository.GetRobotsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetRobotsCountAsync(string rare)
+    public async Task<int> GetRobotsCountAsync(string search, string rare)
     {
-        return await _RobotsGalleryRepository.GetRobotsCountAsync(rare);
+        return await _RobotsGalleryRepository.GetRobotsCountAsync(search, rare);
     }
 
     public async Task InsertRobotGalleryAsync(string Id)

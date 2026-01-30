@@ -16,16 +16,16 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         return new AchievementsGalleryService(new AchievementsGalleryRepository());
     }
 
-    public async Task<List<Achievements>> GetAchievementCollectionAsync(int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetAchievementCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Achievements> list = await _achievementsGalleryRepository.GetAchievementCollectionAsync(pageSize, offset, rare);
+        List<Achievements> list = await _achievementsGalleryRepository.GetAchievementCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetAchievementsCountAsync(string rare)
+    public async Task<int> GetAchievementsCountAsync(string search, string rare)
     {
-        return await _achievementsGalleryRepository.GetAchievementsCountAsync(rare);
+        return await _achievementsGalleryRepository.GetAchievementsCountAsync(search, rare);
     }
 
     public async Task InsertAchievementsGalleryAsync(string Id, Achievements AchievementFromDB)

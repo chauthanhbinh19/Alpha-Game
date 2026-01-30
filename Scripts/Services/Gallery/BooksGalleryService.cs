@@ -15,16 +15,16 @@ public class BooksGalleryService : IBooksGalleryService
         return new BooksGalleryService(new BooksGalleryRepository());
     }
 
-    public async Task<List<Books>> GetBooksCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetBooksCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = await _booksGalleryRepository.GetBooksCollectionAsync(type, pageSize, offset, rare);
+        List<Books> list = await _booksGalleryRepository.GetBooksCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetBooksCountAsync(string type, string rare)
+    public async Task<int> GetBooksCountAsync(string search, string type, string rare)
     {
-        return await _booksGalleryRepository.GetBooksCountAsync(type, rare);
+        return await _booksGalleryRepository.GetBooksCountAsync(search, type, rare);
     }
 
     public async Task InsertBookGalleryAsync(string Id)

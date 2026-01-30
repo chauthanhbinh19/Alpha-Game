@@ -15,16 +15,16 @@ public class BuildingsGalleryService : IBuildingsGalleryService
         return new BuildingsGalleryService(new BuildingsGalleryRepository());
     }
 
-    public async Task<List<Buildings>> GetBuildingsCollectionAsync(string type, int pageSize, int offset, string rare)
+    public async Task<List<Buildings>> GetBuildingsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Buildings> list = await _BuildingGalleryRepository.GetBuildingsCollectionAsync(type, pageSize, offset, rare);
+        List<Buildings> list = await _BuildingGalleryRepository.GetBuildingsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetBuildingsCountAsync(string type, string rare)
+    public async Task<int> GetBuildingsCountAsync(string search, string type, string rare)
     {
-        return await _BuildingGalleryRepository.GetBuildingsCountAsync(type, rare);
+        return await _BuildingGalleryRepository.GetBuildingsCountAsync(search, type, rare);
     }
 
     public async Task InsertBuildingGalleryAsync(string Id)

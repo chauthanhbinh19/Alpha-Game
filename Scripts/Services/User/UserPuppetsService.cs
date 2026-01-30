@@ -182,16 +182,16 @@ public class UserPuppetsService : IUserPuppetsService
         return Puppet;
     }
 
-    public async Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string type, int pageSize, int offset, string rare)
+    public async Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Puppets> list = await _userPuppetRepository.GetUserPuppetsAsync(user_id, type, pageSize, offset, rare);
+        List<Puppets> list = await _userPuppetRepository.GetUserPuppetsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
-    public async Task<int> GetUserPuppetsCountAsync(string user_id, string type, string rare)
+    public async Task<int> GetUserPuppetsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userPuppetRepository.GetUserPuppetsCountAsync(user_id, type, rare);
+        return await _userPuppetRepository.GetUserPuppetsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserPuppetAsync(Puppets puppet, string userId)
