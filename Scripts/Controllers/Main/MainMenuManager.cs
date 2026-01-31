@@ -133,13 +133,13 @@ public class MainMenuManager : MonoBehaviour
         Button missionButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
         Button guildButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
 
-        HomeManager.Instance.CreateHomePanel();
+        _=HomeManager.Instance.CreateHomePanelAsync();
 
-        homeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            HomeManager.Instance.CreateHomePanel();
+            await HomeManager.Instance.CreateHomePanelAsync();
         });
 
         inventoryButton.onClick.AddListener(() =>

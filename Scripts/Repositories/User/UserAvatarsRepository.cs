@@ -134,8 +134,8 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 string query = @"
                 SELECT COUNT(*)
-                FROM Medals m
-                JOIN user_medals um ON m.id = um.medal_id
+                FROM avatars m
+                JOIN user_avatars um ON m.id = um.avatar_id
                 WHERE um.user_id = @userId 
                     AND (@rare = 'All' OR m.rare = @rare)
                     AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'));

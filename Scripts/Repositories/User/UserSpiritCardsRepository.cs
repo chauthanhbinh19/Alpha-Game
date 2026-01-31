@@ -252,7 +252,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 Select count(*) 
                 from spirit_cards t, user_spirit_cards ut
                 where t.id = ut.spirit_card_id
-                    nd (@type = 'All' or t.type = @type)
+                    and (@type = 'All' or t.type = @type)
                     and ut.user_id = @userId
                     AND (@rare = 'All' or t.rare = @rare)
                     AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
