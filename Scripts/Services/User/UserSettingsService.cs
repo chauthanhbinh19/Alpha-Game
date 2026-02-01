@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UserSettingsService : IUserSettingsService
 {
+     private static UserSettingsService _instance;
     private readonly IUserSettingsRepository _userSettingsRepository;
 
     public UserSettingsService(IUserSettingsRepository userSettingsRepository)
@@ -14,7 +15,11 @@ public class UserSettingsService : IUserSettingsService
 
     public static UserSettingsService Create()
     {
-        return new UserSettingsService(new UserSettingsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserSettingsService(new UserSettingsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<UserSettings>> GetUserSettingsAsync(string userId)

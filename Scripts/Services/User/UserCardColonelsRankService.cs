@@ -2,30 +2,35 @@ using System.Threading.Tasks;
 
 public class UserCardColonelsRankService : IUserCardColonelsRankService
 {
-    private readonly IUserCardColonelsRankRepository _cardColonelsRankRepository;
+     private static UserCardColonelsRankService _instance;
+    private readonly IUserCardColonelsRankRepository _userCardColonelsRankRepository;
 
-    public UserCardColonelsRankService(IUserCardColonelsRankRepository cardColonelsRankRepository)
+    public UserCardColonelsRankService(IUserCardColonelsRankRepository userCardColonelsRankRepository)
     {
-        _cardColonelsRankRepository = cardColonelsRankRepository;
+        _userCardColonelsRankRepository = userCardColonelsRankRepository;
     }
 
     public static UserCardColonelsRankService Create()
     {
-        return new UserCardColonelsRankService(new UserCardColonelsRankRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCardColonelsRankService(new UserCardColonelsRankRepository());
+        }
+        return _instance;
     }
 
     public async Task<Rank> GetCardColonelRankAsync(string id, string card_id)
     {
-        return await _cardColonelsRankRepository.GetCardColonelRankAsync(id, card_id);
+        return await _userCardColonelsRankRepository.GetCardColonelRankAsync(id, card_id);
     }
 
     public async Task InsertOrUpdateCardColonelRankAsync(Rank rank, string card_id)
     {
-        await _cardColonelsRankRepository.InsertOrUpdateCardColonelRankAsync(rank, card_id);
+        await _userCardColonelsRankRepository.InsertOrUpdateCardColonelRankAsync(rank, card_id);
     }
 
     public async Task<Rank> GetSumCardColonelsRankAsync(string user_id, string card_id)
     {
-        return await _cardColonelsRankRepository.GetSumCardColonelsRankAsync(user_id, card_id);
+        return await _userCardColonelsRankRepository.GetSumCardColonelsRankAsync(user_id, card_id);
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserCoresService : IUserCoresService
 {
+     private static UserCoresService _instance;
     private readonly IUserCoresRepository _userCoresRepository;
 
     public UserCoresService(IUserCoresRepository userCoresRepository)
@@ -12,7 +13,11 @@ public class UserCoresService : IUserCoresService
 
     public static UserCoresService Create()
     {
-        return new UserCoresService(new UserCoresRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCoresService(new UserCoresRepository());
+        }
+        return _instance;
     }
 
     public async Task<Cores> GetNewLevelPowerAsync(Cores c, double coefficient)

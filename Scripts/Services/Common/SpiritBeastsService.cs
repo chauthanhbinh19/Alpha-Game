@@ -3,54 +3,59 @@ using System.Threading.Tasks;
 
 public class SpiritBeastsService : ISpiritBeastsService
 {
-    private readonly ISpiritBeastsRepository _SpiritBeastRepository;
+    private static SpiritBeastsService _instance;
+    private readonly ISpiritBeastsRepository _spiritBeastsRepository;
 
-    public SpiritBeastsService(ISpiritBeastsRepository titleRepository)
+    public SpiritBeastsService(ISpiritBeastsRepository spiritBeastsRepository)
     {
-        _SpiritBeastRepository = titleRepository;
+        _spiritBeastsRepository = spiritBeastsRepository;
     }
 
     public static SpiritBeastsService Create()
     {
-        return new SpiritBeastsService(new SpiritBeastsRepository());
+        if (_instance == null)
+        {
+            _instance = new SpiritBeastsService(new SpiritBeastsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<SpiritBeasts>> GetSpiritBeastsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<SpiritBeasts> list = await _SpiritBeastRepository.GetSpiritBeastsAsync(search, rare, pageSize, offset);
+        List<SpiritBeasts> list = await _spiritBeastsRepository.GetSpiritBeastsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetSpiritBeastsCountAsync(string search, string rare)
     {
-        return await _SpiritBeastRepository.GetSpiritBeastCountAsync(search, rare);
+        return await _spiritBeastsRepository.GetSpiritBeastCountAsync(search, rare);
     }
 
     public async Task<List<SpiritBeasts>> GetSpiritBeastsWithPriceAsync(int pageSize, int offset)
     {
-        List<SpiritBeasts> list = await _SpiritBeastRepository.GetSpiritBeastsWithPriceAsync(pageSize, offset);
+        List<SpiritBeasts> list = await _spiritBeastsRepository.GetSpiritBeastsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetSpiritBeastsWithPriceCountAsync()
     {
-        return await _SpiritBeastRepository.GetSpiritBeastsWithPriceCountAsync();
+        return await _spiritBeastsRepository.GetSpiritBeastsWithPriceCountAsync();
     }
 
     public async Task<SpiritBeasts> GetSpiritBeastByIdAsync(string Id)
     {
-        return await _SpiritBeastRepository.GetSpiritBeastByIdAsync(Id);
+        return await _spiritBeastsRepository.GetSpiritBeastByIdAsync(Id);
     }
 
     public async Task<SpiritBeasts> SumPowerSpiritBeastsPercentAsync()
     {
-        return await _SpiritBeastRepository.SumPowerSpiritBeastsPercentAsync();
+        return await _spiritBeastsRepository.SumPowerSpiritBeastsPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueSpiritBeastsIdAsync()
     {
-        return await _SpiritBeastRepository.GetUniqueSpiritBeastsIdAsync();
+        return await _spiritBeastsRepository.GetUniqueSpiritBeastsIdAsync();
     }
 }

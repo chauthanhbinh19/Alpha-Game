@@ -3,56 +3,61 @@ using System.Threading.Tasks;
 
 public class PlantsGalleryService : IPlantsGalleryService
 {
-    private readonly IPlantsGalleryRepository _PlantsGalleryRepository;
+    private static PlantsGalleryService _instance;
+    private readonly IPlantsGalleryRepository _plantsGalleryRepository;
 
-    public PlantsGalleryService(IPlantsGalleryRepository PlantsGalleryRepository)
+    public PlantsGalleryService(IPlantsGalleryRepository plantsGalleryRepository)
     {
-        _PlantsGalleryRepository = PlantsGalleryRepository;
+        _plantsGalleryRepository = plantsGalleryRepository;
     }
 
     public static PlantsGalleryService Create()
     {
-        return new PlantsGalleryService(new PlantsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new PlantsGalleryService(new PlantsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Plants>> GetPlantsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Plants> list = await _PlantsGalleryRepository.GetPlantsCollectionAsync(search, pageSize, offset, rare);
+        List<Plants> list = await _plantsGalleryRepository.GetPlantsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetPlantsCountAsync(string search, string rare)
     {
-        return await _PlantsGalleryRepository.GetPlantsCountAsync(search, rare);
+        return await _plantsGalleryRepository.GetPlantsCountAsync(search, rare);
     }
 
     public async Task InsertPlantGalleryAsync(string Id)
     {
         IPlantsRepository _repository = new PlantsRepository();
         PlantsService _service = new PlantsService(_repository);
-        await _PlantsGalleryRepository.InsertPlantGalleryAsync(Id, await _service.GetPlantByIdAsync(Id));
+        await _plantsGalleryRepository.InsertPlantGalleryAsync(Id, await _service.GetPlantByIdAsync(Id));
     }
 
     public async Task UpdateStatusPlantGalleryAsync(string Id)
     {
-        await _PlantsGalleryRepository.UpdateStatusPlantGalleryAsync(Id);
+        await _plantsGalleryRepository.UpdateStatusPlantGalleryAsync(Id);
     }
 
     public async Task<Plants> SumPowerPlantsGalleryAsync()
     {
-        return await _PlantsGalleryRepository.SumPowerPlantsGalleryAsync();
+        return await _plantsGalleryRepository.SumPowerPlantsGalleryAsync();
     }
 
     public async Task UpdateStarPlantGalleryAsync(string Id, double star)
     {
-        await _PlantsGalleryRepository.UpdateStarPlantGalleryAsync(Id, star);
+        await _plantsGalleryRepository.UpdateStarPlantGalleryAsync(Id, star);
     }
 
     public async Task UpdatePlantGalleryPowerAsync(string Id)
     {
         IPlantsRepository _repository = new PlantsRepository();
         PlantsService _service = new PlantsService(_repository);
-        await _PlantsGalleryRepository.UpdatePlantGalleryPowerAsync(Id, await _service.GetPlantByIdAsync(Id));
+        await _plantsGalleryRepository.UpdatePlantGalleryPowerAsync(Id, await _service.GetPlantByIdAsync(Id));
     }
 }

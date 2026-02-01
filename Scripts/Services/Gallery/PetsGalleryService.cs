@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class PetsGalleryService : IPetsGalleryService
 {
+    private static PetsGalleryService _instance;
     private readonly IPetsGalleryRepository _petsGalleryRepository;
 
     public PetsGalleryService(IPetsGalleryRepository petsGalleryRepository)
@@ -12,7 +13,11 @@ public class PetsGalleryService : IPetsGalleryService
 
     public static PetsGalleryService Create()
     {
-        return new PetsGalleryService(new PetsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new PetsGalleryService(new PetsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Pets>> GetPetsCollectionAsync(string search, string type, int pageSize, int offset, string rare)

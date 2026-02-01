@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class RelicsGalleryService : IRelicsGalleryService
 {
+    private static RelicsGalleryService _instance;
     private readonly IRelicsGalleryRepository _relicsGalleryRepository;
 
     public RelicsGalleryService(IRelicsGalleryRepository relicsGalleryRepository)
@@ -12,7 +13,11 @@ public class RelicsGalleryService : IRelicsGalleryService
 
     public static RelicsGalleryService Create()
     {
-        return new RelicsGalleryService(new RelicsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new RelicsGalleryService(new RelicsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Relics>> GetRelicsCollectionAsync(string search, string type, int pageSize, int offset, string rare)

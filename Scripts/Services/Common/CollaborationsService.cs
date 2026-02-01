@@ -3,54 +3,59 @@ using System.Threading.Tasks;
 
 public class CollaborationsService : ICollaborationsService
 {
-    private readonly ICollaborationsRepository _collaborationRepository;
+    private static CollaborationsService _instance;
+    private readonly ICollaborationsRepository _collaborationsRepository;
 
-    public CollaborationsService(ICollaborationsRepository collaborationRepository)
+    public CollaborationsService(ICollaborationsRepository collaborationsRepository)
     {
-        _collaborationRepository = collaborationRepository;
+        _collaborationsRepository = collaborationsRepository;
     }
 
     public static CollaborationsService Create()
     {
-        return new CollaborationsService(new CollaborationsRepository());
+        if (_instance == null)
+        {
+            _instance = new CollaborationsService(new CollaborationsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Collaborations>> GetCollaborationsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Collaborations> list = await _collaborationRepository.GetCollaborationsAsync(search, rare, pageSize, offset);
+        List<Collaborations> list = await _collaborationsRepository.GetCollaborationsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCollaborationsCountAsync(string search, string rare)
     {
-        return await _collaborationRepository.GetCollaborationsCountAsync(search, rare);
+        return await _collaborationsRepository.GetCollaborationsCountAsync(search, rare);
     }
 
     public async Task<List<Collaborations>> GetCollaborationsWithPriceAsync(int pageSize, int offset)
     {
-        List<Collaborations> list = await _collaborationRepository.GetCollaborationsWithPriceAsync(pageSize, offset);
+        List<Collaborations> list = await _collaborationsRepository.GetCollaborationsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCollaborationsWithPriceCountAsync()
     {
-        return await _collaborationRepository.GetCollaborationsWithPriceCountAsync();
+        return await _collaborationsRepository.GetCollaborationsWithPriceCountAsync();
     }
 
     public async Task<Collaborations> GetCollaborationByIdAsync(string Id)
     {
-        return await _collaborationRepository.GetCollaborationByIdAsync(Id);
+        return await _collaborationsRepository.GetCollaborationByIdAsync(Id);
     }
 
     public async Task<Collaborations> SumPowerCollaborationsPercentAsync()
     {
-        return await _collaborationRepository.SumPowerCollaborationsPercentAsync();
+        return await _collaborationsRepository.SumPowerCollaborationsPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueCollaborationsIdAsync()
     {
-        return await _collaborationRepository.GetUniqueCollaborationsIdAsync();
+        return await _collaborationsRepository.GetUniqueCollaborationsIdAsync();
     }
 }

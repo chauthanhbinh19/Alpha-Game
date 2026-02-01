@@ -3,16 +3,21 @@ using System.Threading.Tasks;
 
 public class TitlesService : ITitlesService
 {
+    private static TitlesService _instance;
     private readonly ITitlesRepository _titlesRepository;
 
-    public TitlesService(ITitlesRepository titleRepository)
+    public TitlesService(ITitlesRepository titlesRepository)
     {
-        _titlesRepository = titleRepository;
+        _titlesRepository = titlesRepository;
     }
 
     public static TitlesService Create()
     {
-        return new TitlesService(new TitlesRepository());
+        if (_instance == null)
+        {
+            _instance = new TitlesService(new TitlesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Titles>> GetTitlesAsync(string search, string rare, int pageSize, int offset)

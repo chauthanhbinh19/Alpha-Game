@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class MedalsGalleryService : IMedalsGalleryService
 {
+    private static MedalsGalleryService _instance;
     private IMedalsGalleryRepository _medalsGalleryRepository;
 
     public MedalsGalleryService(IMedalsGalleryRepository medalsGalleryRepository)
@@ -12,7 +13,11 @@ public class MedalsGalleryService : IMedalsGalleryService
 
     public static MedalsGalleryService Create()
     {
-        return new MedalsGalleryService(new MedalsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new MedalsGalleryService(new MedalsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Medals>> GetMedalsCollectionAsync(string search, int pageSize, int offset, string rare)

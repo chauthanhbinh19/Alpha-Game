@@ -3,59 +3,64 @@ using System.Threading.Tasks;
 
 public class ForgesService : IForgesService
 {
-    private readonly IForgesRepository _forgeRepository;
+    private static ForgesService _instance;
+    private readonly IForgesRepository _forgesRepository;
 
-    public ForgesService(IForgesRepository forgeRepository)
+    public ForgesService(IForgesRepository forgesRepository)
     {
-        _forgeRepository = forgeRepository;
+        _forgesRepository = forgesRepository;
     }
 
     public static ForgesService Create()
     {
-        return new ForgesService(new ForgesRepository());
+        if (_instance == null)
+        {
+            _instance = new ForgesService(new ForgesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueForgesTypesAsync()
     {
-        return await _forgeRepository.GetUniqueForgesTypesAsync();
+        return await _forgesRepository.GetUniqueForgesTypesAsync();
     }
 
     public async Task<List<Forges>> GetForgesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Forges> list = await _forgeRepository.GetForgesAsync(search, type, rare, pageSize, offset);
+        List<Forges> list = await _forgesRepository.GetForgesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetForgesCountAsync(string search, string type, string rare)
     {
-        return await _forgeRepository.GetForgesCountAsync(search, type, rare);
+        return await _forgesRepository.GetForgesCountAsync(search, type, rare);
     }
 
     public async Task<List<Forges>> GetForgesWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Forges> list = await _forgeRepository.GetForgesWithPriceAsync(type, pageSize, offset);
+        List<Forges> list = await _forgesRepository.GetForgesWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetForgesWithPriceCountAsync(string type)
     {
-        return await _forgeRepository.GetForgesWithPriceCountAsync(type);
+        return await _forgesRepository.GetForgesWithPriceCountAsync(type);
     }
 
     public async Task<Forges> GetForgeByIdAsync(string Id)
     {
-        return await _forgeRepository.GetForgeByIdAsync(Id);
+        return await _forgesRepository.GetForgeByIdAsync(Id);
     }
 
     public async Task<Forges> SumPowerForgesPercentAsync()
     {
-        return await _forgeRepository.SumPowerForgesPercentAsync();
+        return await _forgesRepository.SumPowerForgesPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueForgesIdAsync()
     {
-        return await _forgeRepository.GetUniqueForgesIdAsync();
+        return await _forgesRepository.GetUniqueForgesIdAsync();
     }
 }

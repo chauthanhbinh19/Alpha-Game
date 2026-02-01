@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 
 public class UserEquipmentsRankService : IUserEquipmentsRankService
 {
+     private static UserEquipmentsRankService _instance;
     private readonly IUserEquipmentsRankRepository _userEquipmentsRankRepository;
 
     public UserEquipmentsRankService(IUserEquipmentsRankRepository userEquipmentsRankRepository)
@@ -11,7 +12,11 @@ public class UserEquipmentsRankService : IUserEquipmentsRankService
 
     public static UserEquipmentsRankService Create()
     {
-        return new UserEquipmentsRankService(new UserEquipmentsRankRepository());
+        if (_instance == null)
+        {
+            _instance = new UserEquipmentsRankService(new UserEquipmentsRankRepository());
+        }
+        return _instance;
     }
 
     public async Task<Rank> GetEquipmentRankAsync(string id, string card_id)

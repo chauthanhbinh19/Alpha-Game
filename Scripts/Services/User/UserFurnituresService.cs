@@ -3,16 +3,21 @@ using System.Threading.Tasks;
 
 public class UserFurnituresService : IUserFurnituresService
 {
-    private readonly IUserFurnituresRepository _userFurnitureRepository;
+     private static UserFurnituresService _instance;
+    private readonly IUserFurnituresRepository _userFurnituresRepository;
 
-    public UserFurnituresService(IUserFurnituresRepository userFurnitureRepository)
+    public UserFurnituresService(IUserFurnituresRepository userFurnituresRepository)
     {
-        _userFurnitureRepository = userFurnitureRepository;
+        _userFurnituresRepository = userFurnituresRepository;
     }
 
     public static UserFurnituresService Create()
     {
-        return new UserFurnituresService(new UserFurnituresRepository());
+        if (_instance == null)
+        {
+            _instance = new UserFurnituresService(new UserFurnituresRepository());
+        }
+        return _instance;
     }
 
     public async Task<Furnitures> GetNewLevelPowerAsync(Furnitures c, double coefficient)
@@ -184,38 +189,38 @@ public class UserFurnituresService : IUserFurnituresService
 
     public async Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Furnitures> list = await _userFurnitureRepository.GetUserFurnituresAsync(user_id, search, type, pageSize, offset, rare);
+        List<Furnitures> list = await _userFurnituresRepository.GetUserFurnituresAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetUserFurnituresCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userFurnitureRepository.GetUserFurnituresCountAsync(user_id, search, type, rare);
+        return await _userFurnituresRepository.GetUserFurnituresCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserFurnitureAsync(Furnitures Furniture, string userId)
     {
-        return await _userFurnitureRepository.InsertUserFurnitureAsync(Furniture, userId);
+        return await _userFurnituresRepository.InsertUserFurnitureAsync(Furniture, userId);
     }
 
     public async Task<bool> UpdateFurnitureLevelAsync(Furnitures Furniture, int cardLevel)
     {
-        return await _userFurnitureRepository.UpdateFurnitureLevelAsync(Furniture, cardLevel);
+        return await _userFurnituresRepository.UpdateFurnitureLevelAsync(Furniture, cardLevel);
     }
 
     public async Task<bool> UpdateFurnitureBreakthroughAsync(Furnitures Furniture, int star, double quantity)
     {
-        return await _userFurnitureRepository.UpdateFurnitureBreakthroughAsync(Furniture, star, quantity);
+        return await _userFurnituresRepository.UpdateFurnitureBreakthroughAsync(Furniture, star, quantity);
     }
 
     public async Task<Furnitures> GetUserFurnitureByIdAsync(string user_id, string Id)
     {
-        return await _userFurnitureRepository.GetUserFurnitureByIdAsync(user_id, Id);
+        return await _userFurnituresRepository.GetUserFurnitureByIdAsync(user_id, Id);
     }
 
     public async Task<Furnitures> SumPowerUserFurnituresAsync()
     {
-        return await _userFurnitureRepository.SumPowerUserFurnituresAsync();
+        return await _userFurnituresRepository.SumPowerUserFurnituresAsync();
     }
 }

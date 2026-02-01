@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserRelicsService : IUserRelicsService
 {
+     private static UserRelicsService _instance;
     private readonly IUserRelicsRepository _userRelicsRepository;
 
     public UserRelicsService(IUserRelicsRepository userRelicsRepository)
@@ -12,7 +13,11 @@ public class UserRelicsService : IUserRelicsService
 
     public static UserRelicsService Create()
     {
-        return new UserRelicsService(new UserRelicsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserRelicsService(new UserRelicsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Relics> GetNewLevelPowerAsync(Relics c, double coefficient)

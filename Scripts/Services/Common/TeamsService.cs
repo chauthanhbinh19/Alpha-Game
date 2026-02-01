@@ -5,6 +5,7 @@ using MySqlConnector;
 
 public class TeamsService : ITeamsService
 {
+    private static TeamsService _instance;
     private readonly ITeamsRepository _teamsRepository;
 
     public TeamsService(ITeamsRepository teamsRepository)
@@ -14,7 +15,11 @@ public class TeamsService : ITeamsService
 
     public static TeamsService Create()
     {
-        return new TeamsService(new TeamsRepository());
+        if (_instance == null)
+        {
+            _instance = new TeamsService(new TeamsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Teams>> GetUserTeamsAsync(string user_id)

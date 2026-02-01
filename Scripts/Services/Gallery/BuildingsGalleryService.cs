@@ -3,56 +3,61 @@ using System.Threading.Tasks;
 
 public class BuildingsGalleryService : IBuildingsGalleryService
 {
-    private readonly IBuildingsGalleryRepository _BuildingGalleryRepository;
+    private static BuildingsGalleryService _instance;
+    private readonly IBuildingsGalleryRepository _buildingsGalleryRepository;
 
-    public BuildingsGalleryService(IBuildingsGalleryRepository BuildingGalleryRepository)
+    public BuildingsGalleryService(IBuildingsGalleryRepository buildingsGalleryRepository)
     {
-        _BuildingGalleryRepository = BuildingGalleryRepository;
+        _buildingsGalleryRepository = buildingsGalleryRepository;
     }
 
     public static BuildingsGalleryService Create()
     {
-        return new BuildingsGalleryService(new BuildingsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new BuildingsGalleryService(new BuildingsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Buildings>> GetBuildingsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Buildings> list = await _BuildingGalleryRepository.GetBuildingsCollectionAsync(search, type, pageSize, offset, rare);
+        List<Buildings> list = await _buildingsGalleryRepository.GetBuildingsCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetBuildingsCountAsync(string search, string type, string rare)
     {
-        return await _BuildingGalleryRepository.GetBuildingsCountAsync(search, type, rare);
+        return await _buildingsGalleryRepository.GetBuildingsCountAsync(search, type, rare);
     }
 
     public async Task InsertBuildingGalleryAsync(string Id)
     {
         IBuildingsRepository _repository = new BuildingsRepository();
         BuildingsService _service = new BuildingsService(_repository);
-        await _BuildingGalleryRepository.InsertBuildingGalleryAsync(Id, await _service.GetBuildingByIdAsync(Id));
+        await _buildingsGalleryRepository.InsertBuildingGalleryAsync(Id, await _service.GetBuildingByIdAsync(Id));
     }
 
     public async Task UpdateStatusBuildingGalleryAsync(string Id)
     {
-        await _BuildingGalleryRepository.UpdateStatusBuildingGalleryAsync(Id);
+        await _buildingsGalleryRepository.UpdateStatusBuildingGalleryAsync(Id);
     }
 
     public async Task<Buildings> SumPowerBuildingsGalleryAsync()
     {
-        return await _BuildingGalleryRepository.SumPowerBuildingsGalleryAsync();
+        return await _buildingsGalleryRepository.SumPowerBuildingsGalleryAsync();
     }
 
     public async Task UpdateStarBuildingGalleryAsync(string Id, double star)
     {
-        await _BuildingGalleryRepository.UpdateStarBuildingGalleryAsync(Id, star);
+        await _buildingsGalleryRepository.UpdateStarBuildingGalleryAsync(Id, star);
     }
 
     public async Task UpdateBuildingGalleryPowerAsync(string Id)
     {
         IBuildingsRepository _repository = new BuildingsRepository();
         BuildingsService _service = new BuildingsService(_repository);
-        await _BuildingGalleryRepository.UpdateBuildingGalleryPowerAsync(Id, await _service.GetBuildingByIdAsync(Id));
+        await _buildingsGalleryRepository.UpdateBuildingGalleryPowerAsync(Id, await _service.GetBuildingByIdAsync(Id));
     }
 }

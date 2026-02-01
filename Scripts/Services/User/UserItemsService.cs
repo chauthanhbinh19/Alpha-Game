@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserItemsService : IUserItemsService
 {
+     private static UserItemsService _instance;
     private readonly IUserItemsRepository _userItemsRepository;
 
     public UserItemsService(IUserItemsRepository userItemsRepository)
@@ -12,7 +13,11 @@ public class UserItemsService : IUserItemsService
 
     public static UserItemsService Create()
     {
-        return new UserItemsService(new UserItemsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserItemsService(new UserItemsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Items>> GetUserItemsAsync(string user_id, string search, string type, int pageSize, int offset)

@@ -3,17 +3,22 @@ using System.Threading.Tasks;
 
 public class UserPetsRankService : IUserPetsRankService
 {
+     private static UserPetsRankService _instance;
     private readonly IUserPetsRankRepository _userPetsRankRepository;
 
     // Constructor để inject dependency của repository
     public UserPetsRankService(IUserPetsRankRepository userPetsRankRepository)
     {
-        _userPetsRankRepository = userPetsRankRepository ?? throw new ArgumentNullException(nameof(userPetsRankRepository));
+        _userPetsRankRepository = userPetsRankRepository;
     }
 
     public static UserPetsRankService Create()
     {
-        return new UserPetsRankService(new UserPetsRankRepository());
+        if (_instance == null)
+        {
+            _instance = new UserPetsRankService(new UserPetsRankRepository());
+        }
+        return _instance;
     }
 
     public async Task<Rank> GetPetRankAsync(string id, string card_id)

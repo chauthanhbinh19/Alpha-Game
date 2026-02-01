@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 public class AchievementsService : IAchievementsService
 {
+    private static AchievementsService _instance;
     private IAchievementsRepository _achievementsRepository;
 
     public AchievementsService(IAchievementsRepository achievementsRepository)
@@ -13,9 +14,12 @@ public class AchievementsService : IAchievementsService
 
     public static AchievementsService Create()
     {
-        return new AchievementsService(new AchievementsRepository());
+        if (_instance == null)
+        {
+            _instance = new AchievementsService(new AchievementsRepository());
+        }
+        return _instance;
     }
-
 
     public async Task<List<Achievements>> GetAchievementsAsync(string search, string rare, int pageSize, int offset)
     {

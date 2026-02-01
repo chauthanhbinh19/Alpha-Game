@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserPetsService : IUserPetsService
 {
+     private static UserPetsService _instance;
     private readonly IUserPetsRepository _userPetsRepository;
 
     public UserPetsService(IUserPetsRepository userPetsRepository)
@@ -12,7 +13,11 @@ public class UserPetsService : IUserPetsService
 
     public static UserPetsService Create()
     {
-        return new UserPetsService(new UserPetsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserPetsService(new UserPetsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Pets>> GetFinalPowerAsync(string user_id, List<Pets> PetsList)

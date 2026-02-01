@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class PowerManagerService : IPowerManagerService
 {
+    private static PowerManagerService _instance;
     private readonly IPowerManagerRepository _powerManagerRepository;
 
     public PowerManagerService(IPowerManagerRepository powerManagerRepository)
@@ -12,7 +13,11 @@ public class PowerManagerService : IPowerManagerService
 
     public static PowerManagerService Create()
     {
-        return new PowerManagerService(new PowerManagerRepository());
+        if (_instance == null)
+        {
+            _instance = new PowerManagerService(new PowerManagerRepository());
+        }
+        return _instance;
     }
 
     public async Task InsertUserStatsAsync(string user_id)
@@ -1369,7 +1374,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalAttack += magicFormationCircle.PercentAllMentalAttack;
         powerManager.PercentAllMentalDefense += magicFormationCircle.PercentAllMentalDefense;
 
-        IUserMagicFormationCirclesRepository userMagicFormationCircleRepository = new UserMagicFormationCirlcesRepository();
+        IUserMagicFormationCirclesRepository userMagicFormationCircleRepository = new UserMagicFormationCirclesRepository();
         UserMagicFormationCirclesService userMagicFormationCircleService = new UserMagicFormationCirclesService(userMagicFormationCircleRepository);
         // User
         magicFormationCircle = await userMagicFormationCircleService.SumPowerUserMagicFormationCirclesAsync();

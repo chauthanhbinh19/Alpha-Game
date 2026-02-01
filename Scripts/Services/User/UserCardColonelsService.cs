@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 public class UserCardColonelsService : IUseCardColonelsService
 {
+     private static UserCardColonelsService _instance;
     private IUserCardColonelsRepository _userCardColonelsRepository;
 
     public UserCardColonelsService(IUserCardColonelsRepository userCardColonelsRepository)
@@ -13,7 +14,11 @@ public class UserCardColonelsService : IUseCardColonelsService
 
     public static UserCardColonelsService Create()
     {
-        return new UserCardColonelsService(new UserCardColonelsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCardColonelsService(new UserCardColonelsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<CardColonels>> GetFinalPowerAsync(string user_id, List<CardColonels> CardColonelsList)

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserTechnologiesService : IUserTechnologiesService
 {
+     private static UserTechnologiesService _instance;
     private readonly IUserTechnologiesRepository _userTechnologiesRepository;
 
     public UserTechnologiesService(IUserTechnologiesRepository userTechnologiesRepository)
@@ -12,7 +13,11 @@ public class UserTechnologiesService : IUserTechnologiesService
 
     public static UserTechnologiesService Create()
     {
-        return new UserTechnologiesService(new UserTechnologiesRepository());
+        if (_instance == null)
+        {
+            _instance = new UserTechnologiesService(new UserTechnologiesRepository());
+        }
+        return _instance;
     }
 
     public async Task<Technologies> GetNewLevelPowerAsync(Technologies c, double coefficient)

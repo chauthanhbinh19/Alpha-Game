@@ -3,59 +3,64 @@ using System.Threading.Tasks;
 
 public class CardLivesService : ICardLivesService
 {
-    private readonly ICardLivesRepository _cardLifeRepository;
+    private static CardLivesService _instance;
+    private readonly ICardLivesRepository _cardLivesRepository;
 
-    public CardLivesService(ICardLivesRepository cardLifeRepository)
+    public CardLivesService(ICardLivesRepository cardLivesRepository)
     {
-        _cardLifeRepository = cardLifeRepository;
+        _cardLivesRepository = cardLivesRepository;
     }
 
     public static CardLivesService Create()
     {
-        return new CardLivesService(new CardLivesRepository());
+        if (_instance == null)
+        {
+            _instance = new CardLivesService(new CardLivesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueCardLivesTypesAsync()
     {
-        return await _cardLifeRepository.GetUniqueCardLivesTypesAsync();
+        return await _cardLivesRepository.GetUniqueCardLivesTypesAsync();
     }
 
     public async Task<List<CardLives>> GetCardLivesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CardLives> list = await _cardLifeRepository.GetCardLivesAsync(search, type, rare, pageSize, offset);
+        List<CardLives> list = await _cardLivesRepository.GetCardLivesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCardLivesCountAsync(string search, string type, string rare)
     {
-        return await _cardLifeRepository.GetCardLivesCountAsync(search, type, rare);
+        return await _cardLivesRepository.GetCardLivesCountAsync(search, type, rare);
     }
 
     public async Task<List<CardLives>> GetCardLivesWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CardLives> list = await _cardLifeRepository.GetCardLivesWithPriceAsync(type, pageSize, offset);
+        List<CardLives> list = await _cardLivesRepository.GetCardLivesWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCardLivesWithPriceCountAsync(string type)
     {
-        return await _cardLifeRepository.GetCardLivesWithPriceCountAsync(type);
+        return await _cardLivesRepository.GetCardLivesWithPriceCountAsync(type);
     }
 
     public async Task<CardLives> GetCardLifeByIdAsync(string Id)
     {
-        return await _cardLifeRepository.GetCardLifeByIdAsync(Id);
+        return await _cardLivesRepository.GetCardLifeByIdAsync(Id);
     }
 
     public async Task<CardLives> SumPowerCardLivesPercentAsync()
     {
-        return await _cardLifeRepository.SumPowerCardLivesPercentAsync();
+        return await _cardLivesRepository.SumPowerCardLivesPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueCardLivesIdAsync()
     {
-        return await _cardLifeRepository.GetUniqueCardLivesIdAsync();
+        return await _cardLivesRepository.GetUniqueCardLivesIdAsync();
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserRunesService : IUserRunesService
 {
+     private static UserRunesService _instance;
     private readonly IUserRunesRepository _userRunesRepository;
 
     public UserRunesService(IUserRunesRepository userRunesRepository)
@@ -12,7 +13,11 @@ public class UserRunesService : IUserRunesService
 
     public static UserRunesService Create()
     {
-        return new UserRunesService(new UserRunesRepository());
+        if (_instance == null)
+        {
+            _instance = new UserRunesService(new UserRunesRepository());
+        }
+        return _instance;
     }
 
     public async Task<Runes> GetNewLevelPowerAsync(Runes c, double coefficient)

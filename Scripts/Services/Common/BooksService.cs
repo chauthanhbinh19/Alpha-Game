@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class BooksService : IBooksService
 {
+    private static BooksService _instance;
     private readonly IBooksRepository _booksRepository;
 
     public BooksService(IBooksRepository booksRepository)
@@ -12,7 +13,11 @@ public class BooksService : IBooksService
 
     public static BooksService Create()
     {
-        return new BooksService(new BooksRepository());
+        if (_instance == null)
+        {
+            _instance = new BooksService(new BooksRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueBooksTypesAsync()

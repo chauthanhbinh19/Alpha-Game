@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class SkillsGalleryService : ISkillsGalleryService
 {
+    private static SkillsGalleryService _instance;
     private readonly ISkillsGalleryRepository _skillsGalleryRepository;
 
     public SkillsGalleryService(ISkillsGalleryRepository skillsGalleryRepository)
@@ -12,7 +13,11 @@ public class SkillsGalleryService : ISkillsGalleryService
 
     public static SkillsGalleryService Create()
     {
-        return new SkillsGalleryService(new SkillsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new SkillsGalleryService(new SkillsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Skills>> GetSkillsCollectionAsync(string search, string type, int pageSize, int offset, string rare)

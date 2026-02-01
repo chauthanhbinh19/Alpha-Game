@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserBadgesService : IUserBadgesService
 {
+     private static UserBadgesService _instance;
     private readonly IUserBadgesRepository _userBadgesRepository;
 
     public UserBadgesService(IUserBadgesRepository userBadgesRepository)
@@ -12,7 +13,11 @@ public class UserBadgesService : IUserBadgesService
 
     public static UserBadgesService Create()
     {
-        return new UserBadgesService(new UserBadgesRepository());
+        if (_instance == null)
+        {
+            _instance = new UserBadgesService(new UserBadgesRepository());
+        }
+        return _instance;
     }
 
     public async Task<Badges> GetNewLevelPowerAsync(Badges c, double coefficient)

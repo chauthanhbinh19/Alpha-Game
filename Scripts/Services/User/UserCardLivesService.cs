@@ -3,16 +3,21 @@ using System.Threading.Tasks;
 
 public class UserCardLivesService : IUserCardLivesService
 {
-    private readonly IUserCardLivesRepository _userCardLifeRepository;
+     private static UserCardLivesService _instance;
+    private readonly IUserCardLivesRepository _userCardLivesRepository;
 
-    public UserCardLivesService(IUserCardLivesRepository userCardLifeRepository)
+    public UserCardLivesService(IUserCardLivesRepository userCardLivesRepository)
     {
-        _userCardLifeRepository = userCardLifeRepository;
+        _userCardLivesRepository = userCardLivesRepository;
     }
 
     public static UserCardLivesService Create()
     {
-        return new UserCardLivesService(new UserCardLivesRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCardLivesService(new UserCardLivesRepository());
+        }
+        return _instance;
     }
 
     public async Task<CardLives> GetNewLevelPowerAsync(CardLives c, double coefficient)
@@ -184,38 +189,38 @@ public class UserCardLivesService : IUserCardLivesService
 
     public async Task<List<CardLives>> GetUserCardLivesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardLives> list = await _userCardLifeRepository.GetUserCardLivesAsync(user_id, search, type, pageSize, offset, rare);
+        List<CardLives> list = await _userCardLivesRepository.GetUserCardLivesAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetUserCardLivesCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userCardLifeRepository.GetUserCardLivesCountAsync(user_id, search, type, rare);
+        return await _userCardLivesRepository.GetUserCardLivesCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserCardLifeAsync(CardLives cardLife, string userId)
     {
-        return await _userCardLifeRepository.InsertUserCardLifeAsync(cardLife, userId);
+        return await _userCardLivesRepository.InsertUserCardLifeAsync(cardLife, userId);
     }
 
     public async Task<bool> UpdateCardLifeLevelAsync(CardLives cardLife, int cardLevel)
     {
-        return await _userCardLifeRepository.UpdateCardLifeLevelAsync(cardLife, cardLevel);
+        return await _userCardLivesRepository.UpdateCardLifeLevelAsync(cardLife, cardLevel);
     }
 
     public async Task<bool> UpdateCardLifeBreakthroughAsync(CardLives cardLife, int star, double quantity)
     {
-        return await _userCardLifeRepository.UpdateCardLifeBreakthroughAsync(cardLife, star, quantity);
+        return await _userCardLivesRepository.UpdateCardLifeBreakthroughAsync(cardLife, star, quantity);
     }
 
     public async Task<CardLives> GetUserCardLifeByIdAsync(string user_id, string Id)
     {
-        return await _userCardLifeRepository.GetUserCardLifeByIdAsync(user_id, Id);
+        return await _userCardLivesRepository.GetUserCardLifeByIdAsync(user_id, Id);
     }
 
     public async Task<CardLives> SumPowerUserCardLivesAsync()
     {
-        return await _userCardLifeRepository.SumPowerUserCardLivesAsync();
+        return await _userCardLivesRepository.SumPowerUserCardLivesAsync();
     }
 }

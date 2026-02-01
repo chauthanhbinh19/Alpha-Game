@@ -4,16 +4,21 @@ using System.Threading.Tasks;
 
 public class UserAlchemiesService : IUserAlchemiesService
 {
-    private IUserAlchemiesRepository _userAlchemyRepository;
+     private static UserAlchemiesService _instance;
+    private IUserAlchemiesRepository _userAlchemiesRepository;
 
-    public UserAlchemiesService(IUserAlchemiesRepository userAlchemyRepository)
+    public UserAlchemiesService(IUserAlchemiesRepository userAlchemiesRepository)
     {
-        _userAlchemyRepository = userAlchemyRepository;
+        _userAlchemiesRepository = userAlchemiesRepository;
     }
 
     public static UserAlchemiesService Create()
     {
-        return new UserAlchemiesService(new UserAlchemiesRepository());
+        if (_instance == null)
+        {
+            _instance = new UserAlchemiesService(new UserAlchemiesRepository());
+        }
+        return _instance;
     }
 
     public async Task<Alchemies> GetNewLevelPowerAsync(Alchemies c, double coefficient)
@@ -185,38 +190,38 @@ public class UserAlchemiesService : IUserAlchemiesService
 
     public async Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Alchemies> list = await _userAlchemyRepository.GetUserAlchemiesAsync(user_id, search, type, pageSize, offset, rare);
+        List<Alchemies> list = await _userAlchemiesRepository.GetUserAlchemiesAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetUserAlchemiesCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userAlchemyRepository.GetUserAlchemiesCountAsync(user_id, search, type, rare);
+        return await _userAlchemiesRepository.GetUserAlchemiesCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserAlchemyAsync(Alchemies alchemy, string userId)
     {
-        return await _userAlchemyRepository.InsertUserAlchemyAsync(alchemy, userId);
+        return await _userAlchemiesRepository.InsertUserAlchemyAsync(alchemy, userId);
     }
 
     public async Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy, int cardLevel)
     {
-        return await _userAlchemyRepository.UpdateAlchemyLevelAsync(alchemy, cardLevel);
+        return await _userAlchemiesRepository.UpdateAlchemyLevelAsync(alchemy, cardLevel);
     }
 
     public async Task<bool> UpdateAlchemyBreakthroughAsync(Alchemies alchemy, int star, double quantity)
     {
-        return await _userAlchemyRepository.UpdateAlchemyBreakthroughAsync(alchemy, star, quantity);
+        return await _userAlchemiesRepository.UpdateAlchemyBreakthroughAsync(alchemy, star, quantity);
     }
 
     public async Task<Alchemies> GetUserAlchemyByIdAsync(string user_id, string Id)
     {
-        return await _userAlchemyRepository.GetUserAlchemyByIdAsync(user_id, Id);
+        return await _userAlchemiesRepository.GetUserAlchemyByIdAsync(user_id, Id);
     }
 
     public async Task<Alchemies> SumPowerUserAlchemiesAsync()
     {
-        return await _userAlchemyRepository.SumPowerUserAlchemiesAsync();
+        return await _userAlchemiesRepository.SumPowerUserAlchemiesAsync();
     }
 }

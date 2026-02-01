@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserMasterBoardService : IUserMasterBoardService
 {
+     private static UserMasterBoardService _instance;
     private IUserMasterBoardRepository _userMesterBoardRepository;
 
     public UserMasterBoardService(IUserMasterBoardRepository userMesterBoardRepository)
@@ -12,7 +13,11 @@ public class UserMasterBoardService : IUserMasterBoardService
 
     public static UserMasterBoardService Create()
     {
-        return new UserMasterBoardService(new UserMasterBoardRepository());
+        if (_instance == null)
+        {
+            _instance = new UserMasterBoardService(new UserMasterBoardRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<MasterBoard>> GetUserMasterBoardAsync(string user_id, string name)

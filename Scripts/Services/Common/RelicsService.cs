@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public class RelicsService : IRelicsService
 {
+    private static RelicsService _instance;
     private readonly IRelicsRepository _relicsRepository;
 
     public RelicsService(IRelicsRepository relicsRepository)
@@ -11,7 +12,11 @@ public class RelicsService : IRelicsService
 
     public static RelicsService Create()
     {
-        return new RelicsService(new RelicsRepository());
+        if (_instance == null)
+        {
+            _instance = new RelicsService(new RelicsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueRelicsTypesAsync()

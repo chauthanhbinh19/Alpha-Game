@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserWeaponsService : IUserWeaponsService
 {
+     private static UserWeaponsService _instance;
     private readonly IUserWeaponsRepository _userWeaponsRepository;
 
     public UserWeaponsService(IUserWeaponsRepository userWeaponsRepository)
@@ -12,7 +13,11 @@ public class UserWeaponsService : IUserWeaponsService
 
     public static UserWeaponsService Create()
     {
-        return new UserWeaponsService(new UserWeaponsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserWeaponsService(new UserWeaponsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Weapons> GetNewLevelPowerAsync(Weapons c, double coefficient)

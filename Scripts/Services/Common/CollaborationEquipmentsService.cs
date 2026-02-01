@@ -3,55 +3,60 @@ using System.Threading.Tasks;
 
 public class CollaborationEquipmentsService : ICollaborationEquipmentsService
 {
-    private readonly ICollaborationEquipmentsRepository _collaborationEquipmentRepository;
+    private static CollaborationEquipmentsService _instance;
+    private readonly ICollaborationEquipmentsRepository _collaborationEquipmentsRepository;
 
-    public CollaborationEquipmentsService(ICollaborationEquipmentsRepository collaborationEquipmentRepository)
+    public CollaborationEquipmentsService(ICollaborationEquipmentsRepository collaborationEquipmentsRepository)
     {
-        _collaborationEquipmentRepository = collaborationEquipmentRepository;
+        _collaborationEquipmentsRepository = collaborationEquipmentsRepository;
     }
 
     public static CollaborationEquipmentsService Create()
     {
-        return new CollaborationEquipmentsService(new CollaborationEquipmentsRepository());
+        if (_instance == null)
+        {
+            _instance = new CollaborationEquipmentsService(new CollaborationEquipmentsRepository());
+        }
+        return _instance;
     }
 
 
     public async Task<List<string>> GetUniqueCollaborationEquipmentsTypesAsync()
     {
-        return await _collaborationEquipmentRepository.GetUniqueCollaborationEquipmentsTypesAsync();
+        return await _collaborationEquipmentsRepository.GetUniqueCollaborationEquipmentsTypesAsync();
     }
 
     public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CollaborationEquipments> list = await _collaborationEquipmentRepository.GetCollaborationEquipmentsAsync(search, type, rare, pageSize, offset);
+        List<CollaborationEquipments> list = await _collaborationEquipmentsRepository.GetCollaborationEquipmentsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCollaborationEquipmentsCountAsync(string search, string type, string rare)
     {
-        return await _collaborationEquipmentRepository.GetCollaborationEquipmentsCountAsync(search, type, rare);
+        return await _collaborationEquipmentsRepository.GetCollaborationEquipmentsCountAsync(search, type, rare);
     }
 
     public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CollaborationEquipments> list = await _collaborationEquipmentRepository.GetCollaborationEquipmentsWithPriceAsync(type, pageSize, offset);
+        List<CollaborationEquipments> list = await _collaborationEquipmentsRepository.GetCollaborationEquipmentsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCollaborationEquipmentsWithPriceCountAsync(string type)
     {
-        return await _collaborationEquipmentRepository.GetCollaborationEquipmentsWithPriceCountAsync(type);
+        return await _collaborationEquipmentsRepository.GetCollaborationEquipmentsWithPriceCountAsync(type);
     }
 
     public async Task<CollaborationEquipments> GetCollaborationEquipmentByIdAsync(string Id)
     {
-        return await _collaborationEquipmentRepository.GetCollaborationEquipmentByIdAsync(Id);
+        return await _collaborationEquipmentsRepository.GetCollaborationEquipmentByIdAsync(Id);
     }
 
     public async Task<List<string>> GetUniqueCollaborationEquipmentsIdAsync()
     {
-        return await _collaborationEquipmentRepository.GetUniqueCollaborationEquipmentsIdAsync();
+        return await _collaborationEquipmentsRepository.GetUniqueCollaborationEquipmentsIdAsync();
     }
 }

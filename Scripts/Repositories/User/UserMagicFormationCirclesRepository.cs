@@ -5,7 +5,7 @@ using System;
 using MySqlConnector;
 using System.Threading.Tasks;
 
-public class UserMagicFormationCirlcesRepository : IUserMagicFormationCirclesRepository
+public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRepository
 {
     public async Task<List<MagicFormationCircles>> GetUserMagicFormationCirclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {

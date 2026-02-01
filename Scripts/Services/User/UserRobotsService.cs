@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserRobotsService : IUserRobotsService
 {
+     private static UserRobotsService _instance;
     private readonly IUserRobotsRepository _userRobotsRepository;
 
     public UserRobotsService(IUserRobotsRepository userRobotsRepository)
@@ -12,7 +13,11 @@ public class UserRobotsService : IUserRobotsService
 
     public static UserRobotsService Create()
     {
-        return new UserRobotsService(new UserRobotsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserRobotsService(new UserRobotsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Robots> GetNewLevelPowerAsync(Robots c, double coefficient)

@@ -3,16 +3,21 @@ using System.Threading.Tasks;
 
 public class UserCollaborationsService : IUserCollaborationsService
 {
-    private readonly IUserCollaborationsRepository _userCollaborationRepository;
+     private static UserCollaborationsService _instance;
+    private readonly IUserCollaborationsRepository _userCollaborationsRepository;
 
-    public UserCollaborationsService(IUserCollaborationsRepository userCollaborationRepository)
+    public UserCollaborationsService(IUserCollaborationsRepository userCollaborationsRepository)
     {
-        _userCollaborationRepository = userCollaborationRepository;
+        _userCollaborationsRepository = userCollaborationsRepository;
     }
 
     public static UserCollaborationsService Create()
     {
-        return new UserCollaborationsService(new UserCollaborationsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCollaborationsService(new UserCollaborationsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Collaborations> GetNewLevelPowerAsync(Collaborations c, double coefficient)
@@ -184,38 +189,38 @@ public class UserCollaborationsService : IUserCollaborationsService
 
     public async Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Collaborations> list = await _userCollaborationRepository.GetUserCollaborationsAsync(user_id, search, pageSize, offset, rare);
+        List<Collaborations> list = await _userCollaborationsRepository.GetUserCollaborationsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetUserCollaborationsCountAsync(string user_id, string search, string rare)
     {
-        return await _userCollaborationRepository.GetUserCollaborationsCountAsync(user_id, search, rare);
+        return await _userCollaborationsRepository.GetUserCollaborationsCountAsync(user_id, search, rare);
     }
 
     public async Task<bool> InsertUserCollaborationAsync(Collaborations collaboration, string userId)
     {
-        return await _userCollaborationRepository.InsertUserCollaborationAsync(collaboration, userId);
+        return await _userCollaborationsRepository.InsertUserCollaborationAsync(collaboration, userId);
     }
 
     public async Task<bool> UpdateCollaborationLevelAsync(Collaborations collaboration, int cardLevel)
     {
-        return await _userCollaborationRepository.UpdateCollaborationLevelAsync(collaboration, cardLevel);
+        return await _userCollaborationsRepository.UpdateCollaborationLevelAsync(collaboration, cardLevel);
     }
 
     public async Task<bool> UpdateCollaborationBreakthroughAsync(Collaborations collaboration, int star, double quantity)
     {
-        return await _userCollaborationRepository.UpdateCollaborationBreakthroughAsync(collaboration, star, quantity);
+        return await _userCollaborationsRepository.UpdateCollaborationBreakthroughAsync(collaboration, star, quantity);
     }
 
     public async Task<Collaborations> GetUserCollaborationByIdAsync(string user_id, string Id)
     {
-        return await _userCollaborationRepository.GetUserCollaborationByIdAsync(user_id, Id);
+        return await _userCollaborationsRepository.GetUserCollaborationByIdAsync(user_id, Id);
     }
 
     public async Task<Collaborations> SumPowerUserCollaborationsAsync()
     {
-        return await _userCollaborationRepository.SumPowerUserCollaborationsAsync();
+        return await _userCollaborationsRepository.SumPowerUserCollaborationsAsync();
     }
 }

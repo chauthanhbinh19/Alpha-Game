@@ -3,500 +3,505 @@ using System.Threading.Tasks;
 
 public class UserCurrenciesService : IUserCurrenciesService
 {
-    private readonly IUserCurrenciesRepository _userCurrencyRepository;
+     private static UserCurrenciesService _instance;
+    private readonly IUserCurrenciesRepository _userCurrenciesRepository;
 
-    public UserCurrenciesService(IUserCurrenciesRepository userCurrencyRepository)
+    public UserCurrenciesService(IUserCurrenciesRepository userCurrenciesRepository)
     {
-        _userCurrencyRepository = userCurrencyRepository;
+        _userCurrenciesRepository = userCurrenciesRepository;
     }
 
     public static UserCurrenciesService Create()
     {
-        return new UserCurrenciesService(new UserCurrenciesRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCurrenciesService(new UserCurrenciesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Currencies>> GetUserCurrencyAsync(string userId)
     {
-        return await _userCurrencyRepository.GetUserCurrencyAsync(userId);
+        return await _userCurrenciesRepository.GetUserCurrencyAsync(userId);
     }
 
     public async Task<Currencies> GetUserCurrencyByIdAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCurrencyByIdAsync(Id);
+        return await _userCurrenciesRepository.GetUserCurrencyByIdAsync(Id);
     }
 
     public async Task<Currencies> GetUserCurrencyByNameAsync(string currencyName)
     {
-        return await _userCurrencyRepository.GetUserCurrencyByNameAsync(currencyName);
+        return await _userCurrenciesRepository.GetUserCurrencyByNameAsync(currencyName);
     }
 
     public async Task UpdateUserCurrencyAsync(string currency_id, double price)
     {
-        await _userCurrencyRepository.UpdateUserCurrencyAsync(currency_id, price);
+        await _userCurrenciesRepository.UpdateUserCurrencyAsync(currency_id, price);
     }
 
     public async Task<List<Currencies>> GetEquipmentsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetEquipmentsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetEquipmentsCurrencyAsync(type);
     }
 
     public async Task<Currencies> GetEquipmentsPriceAsync(string type, string equipment_id)
     {
-        return await _userCurrencyRepository.GetEquipmentsPriceAsync(type, equipment_id);
+        return await _userCurrenciesRepository.GetEquipmentsPriceAsync(type, equipment_id);
     }
 
     public async Task<Currencies> GetUserEquipmentsPriceAsync(string type, string equipment_id)
     {
-        return await _userCurrencyRepository.GetUserEquipmentPriceAsync(type, equipment_id);
+        return await _userCurrenciesRepository.GetUserEquipmentPriceAsync(type, equipment_id);
     }
 
     public async Task<Currencies> GetUserCardHeroPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardHeroPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardHeroPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardCaptainPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardCaptainPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardCaptainPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardColonelPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardColonelPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardColonelPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardGeneralPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardGeneralPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardGeneralPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardAdmiralPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardAdmiralPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardAdmiralPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardMonsterPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardMonsterPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardMonsterPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardMilitaryPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardMilitaryPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardMilitaryPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardSpellPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardSpellPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardSpellPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserBookPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserBookPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserBookPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserAchievementPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserAchievementPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserAchievementPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserBorderPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserBorderPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserBorderPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCollaborationPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCollaborationPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCollaborationPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCollaborationEquipmentPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCollaborationEquipmentPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCollaborationEquipmentPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserItemPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserItemPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserItemPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserMagicFormationCirclePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserMagicFormationCirclePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserMagicFormationCirclePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserMedalPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserMedalPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserMedalPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserPetPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserPetPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserPetPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserRelicPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserRelicPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserRelicPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserSkillPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserSkillPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserSkillPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserSymbolPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserSymbolPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserSymbolPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserTitlePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserTitlePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserTitlePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserTalismanPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserTalismanPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserTalismanPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserPuppetPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserPuppetPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserPuppetPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserAlchemyPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserAlchemyPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserAlchemyPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserForgePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserForgePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserForgePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardLifePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardLifePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardLifePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserArtworkPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserArtworkPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserArtworkPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserSpiritBeastPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserSpiritBeastPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserSpiritBeastPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserSpiritCardPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserSpiritCardPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserSpiritCardPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCardPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCardPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCardPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserArchitecturePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserArchitecturePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserArchitecturePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserTechnologyPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserTechnologyPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserTechnologyPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserVehiclePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserVehiclePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserVehiclePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserCorePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserCorePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserCorePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserWeaponPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserWeaponPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserWeaponPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserRobotPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserRobotPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserRobotPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserBadgePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserBadgePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserBadgePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserMechaBeastPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserMechaBeastPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserMechaBeastPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserRunePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserRunePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserRunePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserFurniturePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserFurniturePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserFurniturePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserFoodPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserFoodPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserFoodPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserBeveragePriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserBeveragePriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserBeveragePriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserBuildingPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserBuildingPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserBuildingPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserPlantPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserPlantPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserPlantPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserFashionPriceAsync(string Id)
     {
-        return await _userCurrencyRepository.GetUserFashionPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserFashionPriceAsync(Id);
     }
 
     public async Task<List<Currencies>> GetAchievementsCurrencyAsync()
     {
-        return await _userCurrencyRepository.GetAchievementsCurrencyAsync();
+        return await _userCurrenciesRepository.GetAchievementsCurrencyAsync();
     }
 
     public async Task<List<Currencies>> GetBooksCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetBooksCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetBooksCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardHeroesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardHeroesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardHeroesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardCaptainsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardCaptainsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardCaptainsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardColonelsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardColonelsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardColonelsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardGeneralsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardGeneralsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardGeneralsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardAdmiralsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardAdmiralsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardAdmiralsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardMonstersCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardMonstersCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardMonstersCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardMilitariesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardMilitariesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardMilitariesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardSpellsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardSpellsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardSpellsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCollaborationsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCollaborationsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCollaborationsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCollaborationEquipmentsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCollaborationEquipmentsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCollaborationEquipmentsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetBordersCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetBordersCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetBordersCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetItemsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetItemsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetItemsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetMagicFormationCirclesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetMagicFormationCirclesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetMagicFormationCirclesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetMedalsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetMedalsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetMedalsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetPetsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetPetsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetPetsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetRelicsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetRelicsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetRelicsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetSkillsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetSkillsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetSkillsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetSymbolsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetSymbolsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetSymbolsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetTitlesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetTitlesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetTitlesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetTalismansCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetTalismansCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetTalismansCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetPuppetsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetPuppetsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetPuppetsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetAlchemiesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetAlchemiesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetAlchemiesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetForgesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetForgesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetForgesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardLivesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardLivesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardLivesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetArtworksCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetArtworksCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetArtworksCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetSpiritBeastsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetSpiritBeastsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetSpiritBeastsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetSpiritCardsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetSpiritCardsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetSpiritCardsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCardsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCardsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCardsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetArchitecturesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetArchitecturesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetArchitecturesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetTechnologiesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetTechnologiesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetTechnologiesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetVehiclesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetVehiclesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetVehiclesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetCoresCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetCoresCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetCoresCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetWeaponsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetWeaponsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetWeaponsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetRobotsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetRobotsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetRobotsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetBadgesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetBadgesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetBadgesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetMechaBeastsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetMechaBeastsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetMechaBeastsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetRunesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetRunesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetRunesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetFurnituresCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetFurnituresCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetFurnituresCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetFoodsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetFoodsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetFoodsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetBeveragesCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetBeveragesCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetBeveragesCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetBuildingsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetBuildingsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetBuildingsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetPlantsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetPlantsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetPlantsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetFashionsCurrencyAsync(string type)
     {
-        return await _userCurrencyRepository.GetFashionsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetFashionsCurrencyAsync(type);
     }
 }

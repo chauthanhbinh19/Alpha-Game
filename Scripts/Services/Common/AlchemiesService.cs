@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class AlchemiesService : IAlchemiesService
 {
+    private static AlchemiesService _instance;
     private readonly IAlchemiesRepository _alchemyRepository;
 
     public AlchemiesService(IAlchemiesRepository alchemyRepository)
@@ -12,7 +13,11 @@ public class AlchemiesService : IAlchemiesService
 
     public static AlchemiesService Create()
     {
-        return new AlchemiesService(new AlchemiesRepository());
+        if (_instance == null)
+        {
+            _instance = new AlchemiesService(new AlchemiesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueAlchemiesTypesAsync()

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class TitlesGalleryService : ITitlesGalleryService
 {
+    private static TitlesGalleryService _instance;
     private readonly ITitlesGalleryRepository _titlesGalleryRepository;
 
     public TitlesGalleryService(ITitlesGalleryRepository titlesGalleryRepository)
@@ -12,7 +13,11 @@ public class TitlesGalleryService : ITitlesGalleryService
 
     public static TitlesGalleryService Create()
     {
-        return new TitlesGalleryService(new TitlesGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new TitlesGalleryService(new TitlesGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Titles>> GetTitlesCollectionAsync(string search, int pageSize, int offset, string rare)

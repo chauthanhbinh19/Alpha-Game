@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserEquipmentsService : IUserEquipmentsService
 {
+     private static UserEquipmentsService _instance;
     private IUserEquipmentsRepository _userEquipmentsRepository;
 
     public UserEquipmentsService(IUserEquipmentsRepository userEquipmentsRepository)
@@ -12,7 +13,11 @@ public class UserEquipmentsService : IUserEquipmentsService
 
     public static UserEquipmentsService Create()
     {
-        return new UserEquipmentsService(new UserEquipmentsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserEquipmentsService(new UserEquipmentsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Equipments>> GetAllRankPowerAsync(string user_id, List<Equipments> EquipmentsList)

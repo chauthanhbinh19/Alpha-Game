@@ -3,54 +3,59 @@ using System.Threading.Tasks;
 
 public class BeveragesService : IBeveragesService
 {
-    private readonly IBeveragesRepository _BeveragesRepository;
+    private static BeveragesService _instance;
+    private readonly IBeveragesRepository _beveragesRepository;
 
-    public BeveragesService(IBeveragesRepository BeverageRepository)
+    public BeveragesService(IBeveragesRepository beveragesRepository)
     {
-        _BeveragesRepository = BeverageRepository;
+        _beveragesRepository = beveragesRepository;
     }
 
     public static BeveragesService Create()
     {
-        return new BeveragesService(new BeveragesRepository());
+        if (_instance == null)
+        {
+            _instance = new BeveragesService(new BeveragesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Beverages>> GetBeveragesAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Beverages> list = await _BeveragesRepository.GetBeveragesAsync(search, rare, pageSize, offset);
+        List<Beverages> list = await _beveragesRepository.GetBeveragesAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetBeveragesCountAsync(string search, string rare)
     {
-        return await _BeveragesRepository.GetBeveragesCountAsync(search, rare);
+        return await _beveragesRepository.GetBeveragesCountAsync(search, rare);
     }
 
     public async Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset)
     {
-        List<Beverages> list = await _BeveragesRepository.GetBeveragesWithPriceAsync(pageSize, offset);
+        List<Beverages> list = await _beveragesRepository.GetBeveragesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetBeveragesWithPriceCountAsync()
     {
-        return await _BeveragesRepository.GetBeveragesWithPriceCountAsync();
+        return await _beveragesRepository.GetBeveragesWithPriceCountAsync();
     }
 
     public async Task<Beverages> GetBeverageByIdAsync(string Id)
     {
-        return await _BeveragesRepository.GetBeverageByIdAsync(Id);
+        return await _beveragesRepository.GetBeverageByIdAsync(Id);
     }
 
     public async Task<Beverages> SumPowerBeveragesPercentAsync()
     {
-        return await _BeveragesRepository.SumPowerBeveragesPercentAsync();
+        return await _beveragesRepository.SumPowerBeveragesPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueBeveragesIdAsync()
     {
-        return await _BeveragesRepository.GetUniqueBeveragesIdAsync();
+        return await _beveragesRepository.GetUniqueBeveragesIdAsync();
     }
 }

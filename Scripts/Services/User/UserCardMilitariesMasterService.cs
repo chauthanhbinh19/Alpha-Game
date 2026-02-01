@@ -2,30 +2,35 @@ using System.Threading.Tasks;
 
 public class UserCardMilitariesMasterService : IUserCardMilitariesMasterService
 {
-    private readonly IUserCardMilitariesMasterRepository _cardMilitaryMasterRepository;
+     private static UserCardMilitariesMasterService _instance;
+    private readonly IUserCardMilitariesMasterRepository _userCardMilitariesMasterRepository;
 
-    public UserCardMilitariesMasterService(IUserCardMilitariesMasterRepository cardMilitaryMasterRepository)
+    public UserCardMilitariesMasterService(IUserCardMilitariesMasterRepository userCardMilitariesMasterRepository)
     {
-        _cardMilitaryMasterRepository = cardMilitaryMasterRepository;
+        _userCardMilitariesMasterRepository = userCardMilitariesMasterRepository;
     }
 
     public static UserCardMilitariesMasterService Create()
     {
-        return new UserCardMilitariesMasterService(new UserCardMilitariesMasterRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCardMilitariesMasterService(new UserCardMilitariesMasterRepository());
+        }
+        return _instance;
     }
 
     public async Task<Master> GetCardMilitaryMasterAsync(string id, string card_id)
     {
-        return await _cardMilitaryMasterRepository.GetCardMilitaryMasterAsync(id, card_id);
+        return await _userCardMilitariesMasterRepository.GetCardMilitaryMasterAsync(id, card_id);
     }
 
     public async Task InsertOrUpdateCardMilitaryMasterAsync(Master master, string card_id)
     {
-        await _cardMilitaryMasterRepository.InsertOrUpdateCardMilitaryMasterAsync(master, card_id);
+        await _userCardMilitariesMasterRepository.InsertOrUpdateCardMilitaryMasterAsync(master, card_id);
     }
 
     public async Task<Master> GetSumCardMilitariesMasterAsync(string user_id, string card_id)
     {
-        return await _cardMilitaryMasterRepository.GetSumCardMilitariesMasterAsync(user_id, card_id);
+        return await _userCardMilitariesMasterRepository.GetSumCardMilitariesMasterAsync(user_id, card_id);
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class SymbolsGalleryService : ISymbolsGalleryService
 {
+    private static SymbolsGalleryService _instance;
     private readonly ISymbolsGalleryRepository _symbolsGalleryRepository;
 
     public SymbolsGalleryService(ISymbolsGalleryRepository symbolsGalleryRepository)
@@ -12,7 +13,11 @@ public class SymbolsGalleryService : ISymbolsGalleryService
 
     public static SymbolsGalleryService Create()
     {
-        return new SymbolsGalleryService(new SymbolsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new SymbolsGalleryService(new SymbolsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Symbols>> GetSymbolsCollectionAsync(string search, string type, int pageSize, int offset, string rare)

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class AvatarsGalleryService : IAvatarsGalleryService
 {
+    private static AvatarsGalleryService _instance;
     private readonly IAvatarsGalleryRepository _avatarsGalleryRepository;
 
     public AvatarsGalleryService(IAvatarsGalleryRepository avatarsGalleryRepository)
@@ -12,7 +13,11 @@ public class AvatarsGalleryService : IAvatarsGalleryService
 
     public static AvatarsGalleryService Create()
     {
-        return new AvatarsGalleryService(new AvatarsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new AvatarsGalleryService(new AvatarsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Avatars>> GetAvatarsCollectionAsync(string search, int pageSize, int offset, string rare)

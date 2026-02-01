@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserFoodsService : IUserFoodsService
 {
+     private static UserFoodsService _instance;
     private readonly IUserFoodsRepository _userFoodsRepository;
 
     public UserFoodsService(IUserFoodsRepository userFoodsRepository)
@@ -12,7 +13,11 @@ public class UserFoodsService : IUserFoodsService
 
     public static UserFoodsService Create()
     {
-        return new UserFoodsService(new UserFoodsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserFoodsService(new UserFoodsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Foods> GetNewLevelPowerAsync(Foods c, double coefficient)

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class SymbolsService : ISymbolsService
 {
+    private static SymbolsService _instance;
     private readonly ISymbolsRepository _symbolsRepository;
 
     public SymbolsService(ISymbolsRepository symbolsRepository)
@@ -12,7 +13,11 @@ public class SymbolsService : ISymbolsService
 
     public static SymbolsService Create()
     {
-        return new SymbolsService(new SymbolsRepository());
+        if (_instance == null)
+        {
+            _instance = new SymbolsService(new SymbolsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueSymbolsTypesAsync()

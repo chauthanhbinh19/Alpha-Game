@@ -6,16 +6,21 @@ using System.Threading.Tasks;
 
 public class UserAchievementsService : IUserAchievementsService
 {
+     private static UserAchievementsService _instance;
     private IUserAchievementsRepository _userAchievementsRepository;
 
-    public UserAchievementsService(IUserAchievementsRepository achievementsService)
+    public UserAchievementsService(IUserAchievementsRepository userAchievementsService)
     {
-        _userAchievementsRepository = achievementsService;
+        _userAchievementsRepository = userAchievementsService;
     }
 
     public static UserAchievementsService Create()
     {
-        return new UserAchievementsService(new UserAchievementsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserAchievementsService(new UserAchievementsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Achievements> GetNewLevelPowerAsync(Achievements c, double coefficient)

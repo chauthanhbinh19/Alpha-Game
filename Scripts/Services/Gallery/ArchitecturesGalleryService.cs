@@ -3,56 +3,61 @@ using System.Threading.Tasks;
 
 public class ArchitecturesGalleryService : IArchitecturesGalleryService
 {
-    private readonly IArchitecturesGalleryRepository _ArchitecturesGalleryRepository;
+    private static ArchitecturesGalleryService _instance;
+    private readonly IArchitecturesGalleryRepository _architecturesGalleryRepository;
 
-    public ArchitecturesGalleryService(IArchitecturesGalleryRepository ArchitecturesGalleryRepository)
+    public ArchitecturesGalleryService(IArchitecturesGalleryRepository architecturesGalleryRepository)
     {
-        _ArchitecturesGalleryRepository = ArchitecturesGalleryRepository;
+        _architecturesGalleryRepository = architecturesGalleryRepository;
     }
 
     public static ArchitecturesGalleryService Create()
     {
-        return new ArchitecturesGalleryService(new ArchitecturesGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new ArchitecturesGalleryService(new ArchitecturesGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Architectures>> GetArchitecturesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Architectures> list = await _ArchitecturesGalleryRepository.GetArchitecturesCollectionAsync(search, pageSize, offset, rare);
+        List<Architectures> list = await _architecturesGalleryRepository.GetArchitecturesCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetArchitecturesCountAsync(string search, string rare)
     {
-        return await _ArchitecturesGalleryRepository.GetArchitecturesCountAsync(search, rare);
+        return await _architecturesGalleryRepository.GetArchitecturesCountAsync(search, rare);
     }
 
     public async Task InsertArchitectureGalleryAsync(string Id)
     {
         IArchitecturesRepository _repository = new ArchitecturesRepository();
         ArchitecturesService _service = new ArchitecturesService(_repository);
-        await _ArchitecturesGalleryRepository.InsertArchitectureGalleryAsync(Id, await _service.GetArchitectureByIdAsync(Id));
+        await _architecturesGalleryRepository.InsertArchitectureGalleryAsync(Id, await _service.GetArchitectureByIdAsync(Id));
     }
 
     public async Task UpdateStatusArchitectureGalleryAsync(string Id)
     {
-        await _ArchitecturesGalleryRepository.UpdateStatusArchitectureGalleryAsync(Id);
+        await _architecturesGalleryRepository.UpdateStatusArchitectureGalleryAsync(Id);
     }
 
     public async Task<Architectures> SumPowerArchitecturesGalleryAsync()
     {
-        return await _ArchitecturesGalleryRepository.SumPowerArchitecturesGalleryAsync();
+        return await _architecturesGalleryRepository.SumPowerArchitecturesGalleryAsync();
     }
 
     public async Task UpdateStarArchitectureGalleryAsync(string Id, double star)
     {
-        await _ArchitecturesGalleryRepository.UpdateStarArchitectureGalleryAsync(Id, star);
+        await _architecturesGalleryRepository.UpdateStarArchitectureGalleryAsync(Id, star);
     }
 
     public async Task UpdateArchitectureGalleryPowerAsync(string Id)
     {
         IArchitecturesRepository _repository = new ArchitecturesRepository();
         ArchitecturesService _service = new ArchitecturesService(_repository);
-        await _ArchitecturesGalleryRepository.UpdateArchitectureGalleryPowerAsync(Id, await _service.GetArchitectureByIdAsync(Id));
+        await _architecturesGalleryRepository.UpdateArchitectureGalleryPowerAsync(Id, await _service.GetArchitectureByIdAsync(Id));
     }
 }

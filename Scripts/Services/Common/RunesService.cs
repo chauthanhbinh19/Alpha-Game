@@ -3,54 +3,59 @@ using System.Threading.Tasks;
 
 public class RunesService : IRunesService
 {
-    private readonly IRunesRepository _RunesRepository;
+    private static RunesService _instance;
+    private readonly IRunesRepository _runesRepository;
 
-    public RunesService(IRunesRepository titleRepository)
+    public RunesService(IRunesRepository runesRepository)
     {
-        _RunesRepository = titleRepository;
+        _runesRepository = runesRepository;
     }
 
     public static RunesService Create()
     {
-        return new RunesService(new RunesRepository());
+        if (_instance == null)
+        {
+            _instance = new RunesService(new RunesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Runes>> GetRunesAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Runes> list = await _RunesRepository.GetRunesAsync(search, rare, pageSize, offset);
+        List<Runes> list = await _runesRepository.GetRunesAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetRunesCountAsync(string search, string rare)
     {
-        return await _RunesRepository.GetRunesCountAsync(search, rare);
+        return await _runesRepository.GetRunesCountAsync(search, rare);
     }
 
     public async Task<List<Runes>> GetRunesWithPriceAsync(int pageSize, int offset)
     {
-        List<Runes> list = await _RunesRepository.GetRunesWithPriceAsync(pageSize, offset);
+        List<Runes> list = await _runesRepository.GetRunesWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetRunesWithPriceCountAsync()
     {
-        return await _RunesRepository.GetRunesWithPriceCountAsync();
+        return await _runesRepository.GetRunesWithPriceCountAsync();
     }
 
     public async Task<Runes> GetRuneByIdAsync(string Id)
     {
-        return await _RunesRepository.GetRuneByIdAsync(Id);
+        return await _runesRepository.GetRuneByIdAsync(Id);
     }
 
     public async Task<Runes> SumPowerRunesPercentAsync()
     {
-        return await _RunesRepository.SumPowerRunesPercentAsync();
+        return await _runesRepository.SumPowerRunesPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueRunesIdAsync()
     {
-        return await _RunesRepository.GetUniqueRunesIdAsync();
+        return await _runesRepository.GetUniqueRunesIdAsync();
     }
 }

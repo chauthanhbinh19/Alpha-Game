@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserMedalsService : IUserMedalsService
 {
+     private static UserMedalsService _instance;
     private IUserMedalsRepository _userMedalsRepository;
 
     public UserMedalsService(IUserMedalsRepository userMedalsRepository)
@@ -12,7 +13,11 @@ public class UserMedalsService : IUserMedalsService
 
     public static UserMedalsService Create()
     {
-        return new UserMedalsService(new UserMedalsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserMedalsService(new UserMedalsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Medals> GetNewLevelPowerAsync(Medals c, double coefficient)

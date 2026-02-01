@@ -4,56 +4,61 @@ using Unity.VisualScripting;
 
 public class ForgesGalleryService : IForgesGalleryService
 {
-    private IForgesGalleryRepository _forgeGalleryRepository;
+    private static ForgesGalleryService _instance;
+    private IForgesGalleryRepository _forgesGalleryRepository;
 
-    public ForgesGalleryService(IForgesGalleryRepository forgeGalleryRepository)
+    public ForgesGalleryService(IForgesGalleryRepository forgesGalleryRepository)
     {
-        _forgeGalleryRepository = forgeGalleryRepository;
+        _forgesGalleryRepository = forgesGalleryRepository;
     }
 
     public static ForgesGalleryService Create()
     {
-        return new ForgesGalleryService(new ForgesGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new ForgesGalleryService(new ForgesGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Forges>> GetForgesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Forges> list = await _forgeGalleryRepository.GetForgesCollectionAsync(search, type, pageSize, offset, rare);
+        List<Forges> list = await _forgesGalleryRepository.GetForgesCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetForgesCountAsync(string search, string type, string rare)
     {
-        return await _forgeGalleryRepository.GetForgesCountAsync(search, type, rare);
+        return await _forgesGalleryRepository.GetForgesCountAsync(search, type, rare);
     }
 
     public async Task InsertForgeGalleryAsync(string Id)
     {
         IForgesRepository _repository = new ForgesRepository();
         ForgesService _service = new ForgesService(_repository);
-        await _forgeGalleryRepository.InsertForgeGalleryAsync(Id, await _service.GetForgeByIdAsync(Id));
+        await _forgesGalleryRepository.InsertForgeGalleryAsync(Id, await _service.GetForgeByIdAsync(Id));
     }
 
     public async Task UpdateStatusForgeGalleryAsync(string Id)
     {
-        await _forgeGalleryRepository.UpdateStatusForgeGalleryAsync(Id);
+        await _forgesGalleryRepository.UpdateStatusForgeGalleryAsync(Id);
     }
 
     public async Task<Forges> SumPowerForgesGalleryAsync()
     {
-        return await _forgeGalleryRepository.SumPowerForgesGalleryAsync();
+        return await _forgesGalleryRepository.SumPowerForgesGalleryAsync();
     }
 
     public async Task UpdateStarForgeGalleryAsync(string Id, double star)
     {
-        await _forgeGalleryRepository.UpdateStarForgeGalleryAsync(Id, star);
+        await _forgesGalleryRepository.UpdateStarForgeGalleryAsync(Id, star);
     }
 
     public async Task UpdateForgeGalleryPowerAsync(string Id)
     {
         IForgesRepository _repository = new ForgesRepository();
         ForgesService _service = new ForgesService(_repository);
-        await _forgeGalleryRepository.UpdateForgeGalleryPowerAsync(Id, await _service.GetForgeByIdAsync(Id));
+        await _forgesGalleryRepository.UpdateForgeGalleryPowerAsync(Id, await _service.GetForgeByIdAsync(Id));
     }
 }

@@ -3,54 +3,59 @@ using System.Threading.Tasks;
 
 public class CoresService : ICoresService
 {
-    private readonly ICoresRepository _CoresRepository;
+    private static CoresService _instance;
+    private readonly ICoresRepository _coresRepository;
 
-    public CoresService(ICoresRepository titleRepository)
+    public CoresService(ICoresRepository coresRepository)
     {
-        _CoresRepository = titleRepository;
+        _coresRepository = coresRepository;
     }
 
     public static CoresService Create()
     {
-        return new CoresService(new CoresRepository());
+        if (_instance == null)
+        {
+            _instance = new CoresService(new CoresRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Cores>> GetCoresAsync(string search, string rare,int pageSize, int offset)
     {
-        List<Cores> list = await _CoresRepository.GetCoresAsync(search, rare, pageSize, offset);
+        List<Cores> list = await _coresRepository.GetCoresAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCoresCountAsync(string search, string rare)
     {
-        return await _CoresRepository.GetCoresCountAsync(search, rare);
+        return await _coresRepository.GetCoresCountAsync(search, rare);
     }
 
     public async Task<List<Cores>> GetCoresWithPriceAsync(int pageSize, int offset)
     {
-        List<Cores> list = await _CoresRepository.GetCoresWithPriceAsync(pageSize, offset);
+        List<Cores> list = await _coresRepository.GetCoresWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCoresWithPriceCountAsync()
     {
-        return await _CoresRepository.GetCoresWithPriceCountAsync();
+        return await _coresRepository.GetCoresWithPriceCountAsync();
     }
 
     public async Task<Cores> GetCoreByIdAsync(string Id)
     {
-        return await _CoresRepository.GetCoreByIdAsync(Id);
+        return await _coresRepository.GetCoreByIdAsync(Id);
     }
 
     public async Task<Cores> SumPowerCoresPercentAsync()
     {
-        return await _CoresRepository.SumPowerCoresPercentAsync();
+        return await _coresRepository.SumPowerCoresPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueCoresIdAsync()
     {
-        return await _CoresRepository.GetUniqueCoresIdAsync();
+        return await _coresRepository.GetUniqueCoresIdAsync();
     }
 }

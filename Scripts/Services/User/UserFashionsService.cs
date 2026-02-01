@@ -3,16 +3,21 @@ using System.Threading.Tasks;
 
 public class UserFashionsService : IUserFashionsService
 {
-    private readonly IUserFashionsRepository _userFashionRepository;
+     private static UserFashionsService _instance;
+    private readonly IUserFashionsRepository _userFashionsRepository;
 
-    public UserFashionsService(IUserFashionsRepository userFashionRepository)
+    public UserFashionsService(IUserFashionsRepository userFashionsRepository)
     {
-        _userFashionRepository = userFashionRepository;
+        _userFashionsRepository = userFashionsRepository;
     }
 
     public static UserFashionsService Create()
     {
-        return new UserFashionsService(new UserFashionsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserFashionsService(new UserFashionsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Fashions> GetNewLevelPowerAsync(Fashions c, double coefficient)
@@ -184,38 +189,38 @@ public class UserFashionsService : IUserFashionsService
 
     public async Task<List<Fashions>> GetUserFashionsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Fashions> list = await _userFashionRepository.GetUserFashionsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Fashions> list = await _userFashionsRepository.GetUserFashionsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetUserFashionsCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userFashionRepository.GetUserFashionsCountAsync(user_id, search, type, rare);
+        return await _userFashionsRepository.GetUserFashionsCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserFashionAsync(Fashions Fashion, string userId)
     {
-        return await _userFashionRepository.InsertUserFashionAsync(Fashion, userId);
+        return await _userFashionsRepository.InsertUserFashionAsync(Fashion, userId);
     }
 
     public async Task<bool> UpdateFashionLevelAsync(Fashions Fashion, int cardLevel)
     {
-        return await _userFashionRepository.UpdateFashionLevelAsync(Fashion, cardLevel);
+        return await _userFashionsRepository.UpdateFashionLevelAsync(Fashion, cardLevel);
     }
 
     public async Task<bool> UpdateFashionBreakthroughAsync(Fashions Fashion, int star, double quantity)
     {
-        return await _userFashionRepository.UpdateFashionBreakthroughAsync(Fashion, star, quantity);
+        return await _userFashionsRepository.UpdateFashionBreakthroughAsync(Fashion, star, quantity);
     }
 
     public async Task<Fashions> GetUserFashionByIdAsync(string user_id, string Id)
     {
-        return await _userFashionRepository.GetUserFashionByIdAsync(user_id, Id);
+        return await _userFashionsRepository.GetUserFashionByIdAsync(user_id, Id);
     }
 
     public async Task<Fashions> SumPowerUserFashionsAsync()
     {
-        return await _userFashionRepository.SumPowerUserFashionsAsync();
+        return await _userFashionsRepository.SumPowerUserFashionsAsync();
     }
 }

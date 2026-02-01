@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserCardsService : IUserCardsService
 {
+     private static UserCardsService _instance;
     private readonly IUserCardsRepository _userCardsRepository;
 
     public UserCardsService(IUserCardsRepository userCardsRepository)
@@ -12,7 +13,11 @@ public class UserCardsService : IUserCardsService
 
     public static UserCardsService Create()
     {
-        return new UserCardsService(new UserCardsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCardsService(new UserCardsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Cards> GetNewLevelPowerAsync(Cards c, double coefficient)

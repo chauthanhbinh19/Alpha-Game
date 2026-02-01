@@ -3,64 +3,69 @@ using System.Threading.Tasks;
 
 public class CardSpellsService : ICardSpellsService
 {
-    private readonly ICardSpellsRepository _cardSpellRepository;
+    private static CardSpellsService _instance;
+    private readonly ICardSpellsRepository _cardSpellsRepository;
 
-    public CardSpellsService(ICardSpellsRepository cardSpellRepository)
+    public CardSpellsService(ICardSpellsRepository cardSpellsRepository)
     {
-        _cardSpellRepository = cardSpellRepository;
+        _cardSpellsRepository = cardSpellsRepository;
     }
 
     public static CardSpellsService Create()
     {
-        return new CardSpellsService(new CardSpellsRepository());
+        if (_instance == null)
+        {
+            _instance = new CardSpellsService(new CardSpellsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueCardSpellsTypesAsync()
     {
-        return await _cardSpellRepository.GetUniqueCardSpellsTypesAsync();
+        return await _cardSpellsRepository.GetUniqueCardSpellsTypesAsync();
     }
 
     public async Task<List<CardSpells>> GetCardSpellsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CardSpells> list = await _cardSpellRepository.GetCardSpellsAsync(search, type, rare, pageSize, offset);
+        List<CardSpells> list = await _cardSpellsRepository.GetCardSpellsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCardSpellsCountAsync(string search, string type, string rare)
     {
-        return await _cardSpellRepository.GetCardSpellsCountAsync(search, type, rare);
+        return await _cardSpellsRepository.GetCardSpellsCountAsync(search, type, rare);
     }
 
     public async Task<List<CardSpells>> GetCardSpellsRandomAsync(string type, int pageSize)
     {
-        return await _cardSpellRepository.GetCardSpellsRandomAsync(type, pageSize);
+        return await _cardSpellsRepository.GetCardSpellsRandomAsync(type, pageSize);
     }
 
     public async Task<List<CardSpells>> GetAllCardSpellsAsync(string type)
     {
-        return await _cardSpellRepository.GetAllCardSpellsAsync(type);
+        return await _cardSpellsRepository.GetAllCardSpellsAsync(type);
     }
 
     public async Task<CardSpells> GetCardSpellByIdAsync(string Id)
     {
-        return await _cardSpellRepository.GetCardSpellByIdAsync(Id);
+        return await _cardSpellsRepository.GetCardSpellByIdAsync(Id);
     }
 
     public async Task<List<CardSpells>> GetCardSpellsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<CardSpells> list = await _cardSpellRepository.GetCardSpellsWithPriceAsync(type, pageSize, offset);
+        List<CardSpells> list = await _cardSpellsRepository.GetCardSpellsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetCardSpellsWithPriceCountAsync(string type)
     {
-        return await _cardSpellRepository.GetCardSpellsWithPriceCountAsync(type);
+        return await _cardSpellsRepository.GetCardSpellsWithPriceCountAsync(type);
     }
 
     public async Task<List<string>> GetUniqueCardSpellsIdAsync()
     {
-        return await _cardSpellRepository.GetUniqueCardSpellsIdAsync();
+        return await _cardSpellsRepository.GetUniqueCardSpellsIdAsync();
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserSymbolsService : IUserSymbolsService
 {
+     private static UserSymbolsService _instance;
     private readonly IUserSymbolsRepository _userSymbolsRepository;
 
     public UserSymbolsService(IUserSymbolsRepository userSymbolsRepository)
@@ -12,7 +13,11 @@ public class UserSymbolsService : IUserSymbolsService
 
     public static UserSymbolsService Create()
     {
-        return new UserSymbolsService(new UserSymbolsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserSymbolsService(new UserSymbolsRepository());
+        }
+        return _instance;
     }
 
     public async Task<Symbols> GetNewLevelPowerAsync(Symbols c, double coefficient)

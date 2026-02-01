@@ -3,56 +3,61 @@ using System.Threading.Tasks;
 
 public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGalleryService
 {
-    private IMagicFormationCirclesGalleryRepository _magicFormationCircleRepository;
+    private static MagicFormationCirclesGalleryService _instance;
+    private IMagicFormationCirclesGalleryRepository _magicFormationCirclesRepository;
 
-    public MagicFormationCirclesGalleryService(IMagicFormationCirclesGalleryRepository magicFormationCircleRepository)
+    public MagicFormationCirclesGalleryService(IMagicFormationCirclesGalleryRepository magicFormationCirclesRepository)
     {
-        _magicFormationCircleRepository = magicFormationCircleRepository;
+        _magicFormationCirclesRepository = magicFormationCirclesRepository;
     }
 
     public static MagicFormationCirclesGalleryService Create()
     {
-        return new MagicFormationCirclesGalleryService(new MagicFormationCirclesGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new MagicFormationCirclesGalleryService(new MagicFormationCirclesGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircles> list = await _magicFormationCircleRepository.GetMagicFormationCirclesCollectionAsync(search, type, pageSize, offset, rare);
+        List<MagicFormationCircles> list = await _magicFormationCirclesRepository.GetMagicFormationCirclesCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetMagicFormationCirclesCountAsync(string search, string type, string rare)
     {
-        return await _magicFormationCircleRepository.GetMagicFormationCirclesCountAsync(search, type, rare);
+        return await _magicFormationCirclesRepository.GetMagicFormationCirclesCountAsync(search, type, rare);
     }
 
     public async Task InsertMagicFormationCircleGalleryAsync(string Id)
     {
         IMagicFormationCirclesRepository _repository = new MagicFormationCirclesRepository();
         MagicFormationCirclesService _service = new MagicFormationCirclesService(_repository);
-        await _magicFormationCircleRepository.InsertMagicFormationCircleGalleryAsync(Id, await _service.GetMagicFormationCircleByIdAsync(Id));
+        await _magicFormationCirclesRepository.InsertMagicFormationCircleGalleryAsync(Id, await _service.GetMagicFormationCircleByIdAsync(Id));
     }
 
     public async Task UpdateStatusMagicFormationCircleGalleryAsync(string Id)
     {
-        await _magicFormationCircleRepository.UpdateStatusMagicFormationCircleGalleryAsync(Id);
+        await _magicFormationCirclesRepository.UpdateStatusMagicFormationCircleGalleryAsync(Id);
     }
 
     public async Task<MagicFormationCircles> SumPowerMagicFormationCirclesGalleryAsync()
     {
-        return await _magicFormationCircleRepository.SumPowerMagicFormationCirclesGalleryAsync();
+        return await _magicFormationCirclesRepository.SumPowerMagicFormationCirclesGalleryAsync();
     }
 
     public async Task UpdateStarMagicFormationCircleGalleryAsync(string Id, double star)
     {
-        await _magicFormationCircleRepository.UpdateStarMagicFormationCircleGalleryAsync(Id, star);
+        await _magicFormationCirclesRepository.UpdateStarMagicFormationCircleGalleryAsync(Id, star);
     }
 
     public async Task UpdateMagicFormationCircleGalleryPowerAsync(string Id)
     {
         IMagicFormationCirclesRepository _repository = new MagicFormationCirclesRepository();
         MagicFormationCirclesService _service = new MagicFormationCirclesService(_repository);
-        await _magicFormationCircleRepository.UpdateMagicFormationCircleGalleryPowerAsync(Id, await _service.GetMagicFormationCircleByIdAsync(Id));
+        await _magicFormationCirclesRepository.UpdateMagicFormationCircleGalleryPowerAsync(Id, await _service.GetMagicFormationCircleByIdAsync(Id));
     }
 }

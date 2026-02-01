@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public class ScienceFictionService : IScienceFictionService
 {
+    private static ScienceFictionService _instance;
     private readonly IScienceFictionRepository _scienceFictionRepository;
 
     public ScienceFictionService(IScienceFictionRepository scienceFictionRepository)
@@ -11,7 +12,11 @@ public class ScienceFictionService : IScienceFictionService
 
     public static ScienceFictionService Create()
     {
-        return new ScienceFictionService(new ScienceFictionRepository());
+        if (_instance == null)
+        {
+            _instance = new ScienceFictionService(new ScienceFictionRepository());
+        }
+        return _instance;
     }
 
     public async Task<ScienceFiction> GetScienceFictionAsync(string id)

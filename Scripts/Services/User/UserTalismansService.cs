@@ -3,16 +3,21 @@ using System.Threading.Tasks;
 
 public class UserTalismansService : IUserTalismansService
 {
-    private readonly IUserTalismansRepository _userTalismanRepository;
+     private static UserTalismansService _instance;
+    private readonly IUserTalismansRepository _userTalismansRepository;
 
-    public UserTalismansService(IUserTalismansRepository userTalismanRepository)
+    public UserTalismansService(IUserTalismansRepository userTalismansRepository)
     {
-        _userTalismanRepository = userTalismanRepository;
+        _userTalismansRepository = userTalismansRepository;
     }
 
     public static UserTalismansService Create()
     {
-        return new UserTalismansService(new UserTalismansRepository());
+        if (_instance == null)
+        {
+            _instance = new UserTalismansService(new UserTalismansRepository());
+        }
+        return _instance;
     }
 
     public async Task<Talismans> GetNewLevelPowerAsync(Talismans c, double coefficient)
@@ -184,38 +189,38 @@ public class UserTalismansService : IUserTalismansService
 
     public async Task<List<Talismans>> GetUserTalismansAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Talismans> list = await _userTalismanRepository.GetUserTalismansAsync(user_id, search, type, pageSize, offset, rare);
+        List<Talismans> list = await _userTalismansRepository.GetUserTalismansAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetUserTalismansCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userTalismanRepository.GetUserTalismansCountAsync(user_id, search, type, rare);
+        return await _userTalismansRepository.GetUserTalismansCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserTalismanAsync(Talismans talisman, string userId)
     {
-        return await _userTalismanRepository.InsertUserTalismanAsync(talisman, userId);
+        return await _userTalismansRepository.InsertUserTalismanAsync(talisman, userId);
     }
 
     public async Task<bool> UpdateTalismanLevelAsync(Talismans talisman, int level)
     {
-        return await _userTalismanRepository.UpdateTalismanLevelAsync(talisman, level);
+        return await _userTalismansRepository.UpdateTalismanLevelAsync(talisman, level);
     }
 
     public async Task<bool> UpdateTalismanBreakthroughAsync(Talismans talisman, int star, double quantity)
     {
-        return await _userTalismanRepository.UpdateTalismanBreakthroughAsync(talisman, star, quantity);
+        return await _userTalismansRepository.UpdateTalismanBreakthroughAsync(talisman, star, quantity);
     }
 
     public async Task<Talismans> GetUserTalismanByIdAsync(string user_id, string Id)
     {
-        return await _userTalismanRepository.GetUserTalismanByIdAsync(user_id, Id);
+        return await _userTalismansRepository.GetUserTalismanByIdAsync(user_id, Id);
     }
 
     public async Task<Talismans> SumPowerUserTalismansAsync()
     {
-        return await _userTalismanRepository.SumPowerUserTalismansAsync();
+        return await _userTalismansRepository.SumPowerUserTalismansAsync();
     }
 }

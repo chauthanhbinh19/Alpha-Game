@@ -3,59 +3,64 @@ using System.Threading.Tasks;
 
 public class TalismansService : ITalismansService
 {
-    private readonly ITalismansRepository _talismanRepository;
+    private static TalismansService _instance;
+    private readonly ITalismansRepository _talismansRepository;
 
-    public TalismansService(ITalismansRepository talismanRepository)
+    public TalismansService(ITalismansRepository talismansRepository)
     {
-        _talismanRepository = talismanRepository;
+        _talismansRepository = talismansRepository;
     }
 
     public static TalismansService Create()
     {
-        return new TalismansService(new TalismansRepository());
+        if (_instance == null)
+        {
+            _instance = new TalismansService(new TalismansRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Talismans>> GetTalismansAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Talismans> list = await _talismanRepository.GetTalismansAsync(search, type, rare, pageSize, offset);
+        List<Talismans> list = await _talismansRepository.GetTalismansAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetTalismansCountAsync(string search, string type, string rare)
     {
-        return await _talismanRepository.GetTalismansCountAsync(search, type, rare);
+        return await _talismansRepository.GetTalismansCountAsync(search, type, rare);
     }
 
     public async Task<List<Talismans>> GetTalismansWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Talismans> list = await _talismanRepository.GetTalismansWithPriceAsync(type, pageSize, offset);
+        List<Talismans> list = await _talismansRepository.GetTalismansWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetTalismansWithPriceCountAsync(string type)
     {
-        return await _talismanRepository.GetTalismansWithPriceCountAsync(type);
+        return await _talismansRepository.GetTalismansWithPriceCountAsync(type);
     }
 
     public async Task<Talismans> GetTalismanByIdAsync(string Id)
     {
-        return await _talismanRepository.GetTalismanByIdAsync(Id);
+        return await _talismansRepository.GetTalismanByIdAsync(Id);
     }
 
     public async Task<Talismans> SumPowerTalismansPercentAsync()
     {
-        return await _talismanRepository.SumPowerTalismansPercentAsync();
+        return await _talismansRepository.SumPowerTalismansPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueTalismansTypesAsync()
     {
-        return await _talismanRepository.GetUniqueTalismansTypesAsync();
+        return await _talismansRepository.GetUniqueTalismansTypesAsync();
     }
 
     public async Task<List<string>> GetUniqueTalismansIdAsync()
     {
-        return await _talismanRepository.GetUniqueTalismansIdAsync();
+        return await _talismansRepository.GetUniqueTalismansIdAsync();
     }
 }

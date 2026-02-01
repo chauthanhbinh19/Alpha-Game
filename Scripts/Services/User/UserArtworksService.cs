@@ -4,16 +4,21 @@ using System.Threading.Tasks;
 
 public class UserArtworksService : IUserArtworksService
 {
-    private IUserArtworksRepository _userArtworkRepository;
+     private static UserArtworksService _instance;
+    private IUserArtworksRepository _userArtworksRepository;
 
-    public UserArtworksService(IUserArtworksRepository userArtworkRepository)
+    public UserArtworksService(IUserArtworksRepository userArtworksRepository)
     {
-        _userArtworkRepository = userArtworkRepository;
+        _userArtworksRepository = userArtworksRepository;
     }
 
     public static UserArtworksService Create()
     {
-        return new UserArtworksService(new UserArtworksRepository());
+        if (_instance == null)
+        {
+            _instance = new UserArtworksService(new UserArtworksRepository());
+        }
+        return _instance;
     }
 
     public async Task<Artworks> GetNewLevelPowerAsync(Artworks c, double coefficient)
@@ -185,38 +190,38 @@ public class UserArtworksService : IUserArtworksService
 
     public async Task<List<Artworks>> GetUserArtworksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Artworks> list = await _userArtworkRepository.GetUserArtworksAsync(user_id, search, type, pageSize, offset, rare);
+        List<Artworks> list = await _userArtworksRepository.GetUserArtworksAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetUserArtworksCountAsync(string user_id, string search, string type, string rare)
     {
-        return await _userArtworkRepository.GetUserArtworksCountAsync(user_id, search, type, rare);
+        return await _userArtworksRepository.GetUserArtworksCountAsync(user_id, search, type, rare);
     }
 
     public async Task<bool> InsertUserArtworkAsync(Artworks Artwork, string userId)
     {
-        return await _userArtworkRepository.InsertUserArtworkAsync(Artwork, userId);
+        return await _userArtworksRepository.InsertUserArtworkAsync(Artwork, userId);
     }
 
     public async Task<bool> UpdateArtworkLevelAsync(Artworks Artwork, int cardLevel)
     {
-        return await _userArtworkRepository.UpdateArtworkLevelAsync(Artwork, cardLevel);
+        return await _userArtworksRepository.UpdateArtworkLevelAsync(Artwork, cardLevel);
     }
 
     public async Task<bool> UpdateArtworkBreakthroughAsync(Artworks Artwork, int star, double quantity)
     {
-        return await _userArtworkRepository.UpdateArtworkBreakthroughAsync(Artwork, star, quantity);
+        return await _userArtworksRepository.UpdateArtworkBreakthroughAsync(Artwork, star, quantity);
     }
 
     public async Task<Artworks> GetUserArtworkByIdAsync(string user_id, string Id)
     {
-        return await _userArtworkRepository.GetUserArtworkByIdAsync(user_id, Id);
+        return await _userArtworksRepository.GetUserArtworkByIdAsync(user_id, Id);
     }
 
     public async Task<Artworks> SumPowerUserArtworksAsync()
     {
-        return await _userArtworkRepository.SumPowerUserArtworksAsync();
+        return await _userArtworksRepository.SumPowerUserArtworksAsync();
     }
 }

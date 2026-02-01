@@ -3,59 +3,64 @@ using System.Threading.Tasks;
 
 public class VehiclesService : IVehiclesService
 {
-    private readonly IVehiclesRepository _VehiclesRepository;
+    private static VehiclesService _instance;
+    private readonly IVehiclesRepository _vehiclesRepository;
 
-    public VehiclesService(IVehiclesRepository VehiclesRepository)
+    public VehiclesService(IVehiclesRepository vehiclesRepository)
     {
-        _VehiclesRepository = VehiclesRepository;
+        _vehiclesRepository = vehiclesRepository;
     }
 
     public static VehiclesService Create()
     {
-        return new VehiclesService(new VehiclesRepository());
+        if (_instance == null)
+        {
+            _instance = new VehiclesService(new VehiclesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueVehiclesTypesAsync()
     {
-        return await _VehiclesRepository.GetUniqueVehiclesTypesAsync();
+        return await _vehiclesRepository.GetUniqueVehiclesTypesAsync();
     }
 
     public async Task<List<Vehicles>> GetVehiclesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Vehicles> list = await _VehiclesRepository.GetVehiclesAsync(search, type, rare, pageSize, offset);
+        List<Vehicles> list = await _vehiclesRepository.GetVehiclesAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetVehiclesCountAsync(string search, string type, string rare)
     {
-        return await _VehiclesRepository.GetVehiclesCountAsync(search, type, rare);
+        return await _vehiclesRepository.GetVehiclesCountAsync(search, type, rare);
     }
 
     public async Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Vehicles> list = await _VehiclesRepository.GetVehiclesWithPriceAsync(type, pageSize, offset);
+        List<Vehicles> list = await _vehiclesRepository.GetVehiclesWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetVehiclesWithPriceCountAsync(string type)
     {
-        return await _VehiclesRepository.GetVehiclesWithPriceCountAsync(type);
+        return await _vehiclesRepository.GetVehiclesWithPriceCountAsync(type);
     }
 
     public async Task<Vehicles> GetVehicleByIdAsync(string Id)
     {
-        return await _VehiclesRepository.GetVehicleByIdAsync(Id);
+        return await _vehiclesRepository.GetVehicleByIdAsync(Id);
     }
 
     public async Task<Vehicles> SumPowerVehiclesPercentAsync()
     {
-        return await _VehiclesRepository.SumPowerVehiclesPercentAsync();
+        return await _vehiclesRepository.SumPowerVehiclesPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueVehiclesIdAsync()
     {
-        return await _VehiclesRepository.GetUniqueVehiclesIdAsync();
+        return await _vehiclesRepository.GetUniqueVehiclesIdAsync();
     }
 }

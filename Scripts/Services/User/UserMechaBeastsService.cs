@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserMechaBeastsService : IUserMechaBeastsService
 {
+     private static UserMechaBeastsService _instance;
     private readonly IUserMechaBeastsRepository _userMechaBeastsRepository;
 
     public UserMechaBeastsService(IUserMechaBeastsRepository userMechaBeastsRepository)
@@ -12,7 +13,11 @@ public class UserMechaBeastsService : IUserMechaBeastsService
 
     public static UserMechaBeastsService Create()
     {
-        return new UserMechaBeastsService(new UserMechaBeastsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserMechaBeastsService(new UserMechaBeastsRepository());
+        }
+        return _instance;
     }
 
     public async Task<MechaBeasts> GetNewLevelPowerAsync(MechaBeasts c, double coefficient)

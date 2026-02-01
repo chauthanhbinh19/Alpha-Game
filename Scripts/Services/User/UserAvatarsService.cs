@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserAvatarsService : IUserAvatarsService
 {
+     private static UserAvatarsService _instance;
     private readonly IUserAvatarsRepository _userAvatarsRepository;
 
     public UserAvatarsService(IUserAvatarsRepository userAvatarsRepository)
@@ -12,7 +13,11 @@ public class UserAvatarsService : IUserAvatarsService
 
     public static UserAvatarsService Create()
     {
-        return new UserAvatarsService(new UserAvatarsRepository());
+        if (_instance == null)
+        {
+            _instance = new UserAvatarsService(new UserAvatarsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Avatars>> GetUserAvatarsAsync(string user_id, string search, int pageSize, int offset, string rare)

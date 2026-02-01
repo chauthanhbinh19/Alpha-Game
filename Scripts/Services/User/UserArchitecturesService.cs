@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserArchitecturesService : IUserArchitecturesService
 {
+     private static UserArchitecturesService _instance;
     private readonly IUserArchitecturesRepository _userArchitecturesRepository;
 
     public UserArchitecturesService(IUserArchitecturesRepository userArchitecturesRepository)
@@ -12,7 +13,11 @@ public class UserArchitecturesService : IUserArchitecturesService
 
     public static UserArchitecturesService Create()
     {
-        return new UserArchitecturesService(new UserArchitecturesRepository());
+        if (_instance == null)
+        {
+            _instance = new UserArchitecturesService(new UserArchitecturesRepository());
+        }
+        return _instance;
     }
 
     public async Task<Architectures> GetNewLevelPowerAsync(Architectures c, double coefficient)

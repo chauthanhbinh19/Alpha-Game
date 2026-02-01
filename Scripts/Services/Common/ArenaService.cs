@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class ArenaService : IArenaService
 {
+    private static ArenaService _instance;
     private readonly IArenaRepository _arenaRepository;
 
     public ArenaService(IArenaRepository arenaRepository)
@@ -12,7 +13,11 @@ public class ArenaService : IArenaService
 
     public static ArenaService Create()
     {
-        return new ArenaService(new ArenaRepository());
+        if (_instance == null)
+        {
+            _instance = new ArenaService(new ArenaRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueTypesAsync()

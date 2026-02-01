@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserBooksService : IUserBooksService
 {
+     private static UserBooksService _instance;
     private readonly IUserBooksRepository _userBooksRepository;
 
     public UserBooksService(IUserBooksRepository userBooksRepository)
@@ -12,7 +13,11 @@ public class UserBooksService : IUserBooksService
 
     public static UserBooksService Create()
     {
-        return new UserBooksService(new UserBooksRepository());
+        if (_instance == null)
+        {
+            _instance = new UserBooksService(new UserBooksRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Books>> GetFinalPowerAsync(string user_id, List<Books> BooksList)

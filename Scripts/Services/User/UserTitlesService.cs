@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserTitlesService : IUserTitlesService
 {
+     private static UserTitlesService _instance;
     private readonly IUserTitlesRepository _userTitlesRepository;
 
     public UserTitlesService(IUserTitlesRepository userTitlesRepository)
@@ -12,7 +13,11 @@ public class UserTitlesService : IUserTitlesService
 
     public static UserTitlesService Create()
     {
-        return new UserTitlesService(new UserTitlesRepository());
+        if (_instance == null)
+        {
+            _instance = new UserTitlesService(new UserTitlesRepository());
+        }
+        return _instance;
     }
 
     public async Task<Titles> GetNewLevelPowerAsync(Titles c, double coefficient)

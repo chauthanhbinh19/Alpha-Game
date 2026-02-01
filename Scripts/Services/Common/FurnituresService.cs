@@ -3,59 +3,64 @@ using System.Threading.Tasks;
 
 public class FurnituresService : IFurnituresService
 {
-    private readonly IFurnituresRepository _FurnituresRepository;
+    private static FurnituresService _instance;
+    private readonly IFurnituresRepository _furnituresRepository;
 
-    public FurnituresService(IFurnituresRepository FurnituresRepository)
+    public FurnituresService(IFurnituresRepository furnituresRepository)
     {
-        _FurnituresRepository = FurnituresRepository;
+        _furnituresRepository = furnituresRepository;
     }
 
     public static FurnituresService Create()
     {
-        return new FurnituresService(new FurnituresRepository());
+        if (_instance == null)
+        {
+            _instance = new FurnituresService(new FurnituresRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniqueFurnituresTypesAsync()
     {
-        return await _FurnituresRepository.GetUniqueFurnituresTypesAsync();
+        return await _furnituresRepository.GetUniqueFurnituresTypesAsync();
     }
 
     public async Task<List<Furnitures>> GetFurnituresAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Furnitures> list = await _FurnituresRepository.GetFurnituresAsync(search, type, rare, pageSize, offset);
+        List<Furnitures> list = await _furnituresRepository.GetFurnituresAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetFurnituresCountAsync(string search, string type, string rare)
     {
-        return await _FurnituresRepository.GetFurnituresCountAsync(search, type, rare);
+        return await _furnituresRepository.GetFurnituresCountAsync(search, type, rare);
     }
 
     public async Task<List<Furnitures>> GetFurnituresWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Furnitures> list = await _FurnituresRepository.GetFurnituresWithPriceAsync(type, pageSize, offset);
+        List<Furnitures> list = await _furnituresRepository.GetFurnituresWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetFurnituresWithPriceCountAsync(string type)
     {
-        return await _FurnituresRepository.GetFurnituresWithPriceCountAsync(type);
+        return await _furnituresRepository.GetFurnituresWithPriceCountAsync(type);
     }
 
     public async Task<Furnitures> GetFurnitureByIdAsync(string Id)
     {
-        return await _FurnituresRepository.GetFurnitureByIdAsync(Id);
+        return await _furnituresRepository.GetFurnitureByIdAsync(Id);
     }
 
     public async Task<Furnitures> SumPowerFurnituresPercentAsync()
     {
-        return await _FurnituresRepository.SumPowerFurnituresPercentAsync();
+        return await _furnituresRepository.SumPowerFurnituresPercentAsync();
     }
 
     public async Task<List<string>> GetUniqueFurnituresIdAsync()
     {
-        return await _FurnituresRepository.GetUniqueFurnituresIdAsync();
+        return await _furnituresRepository.GetUniqueFurnituresIdAsync();
     }
 }

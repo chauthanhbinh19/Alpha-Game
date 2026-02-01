@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class ItemsService : IItemsService
 {
+    private static ItemsService _instance;
     private readonly IItemsRepository _itemsRepository;
 
     public ItemsService(IItemsRepository itemsRepository)
@@ -12,7 +13,11 @@ public class ItemsService : IItemsService
 
     public static ItemsService Create()
     {
-        return new ItemsService(new ItemsRepository());
+        if (_instance == null)
+        {
+            _instance = new ItemsService(new ItemsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Items>> GetItemsAsync()

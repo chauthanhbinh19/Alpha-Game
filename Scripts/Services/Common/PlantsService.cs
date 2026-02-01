@@ -3,54 +3,59 @@ using System.Threading.Tasks;
 
 public class PlantsService : IPlantsService
 {
-    private readonly IPlantsRepository _PlantsRepository;
+    private static PlantsService _instance;
+    private readonly IPlantsRepository _plantsRepository;
 
-    public PlantsService(IPlantsRepository PlantRepository)
+    public PlantsService(IPlantsRepository PlantsRepository)
     {
-        _PlantsRepository = PlantRepository;
+        _plantsRepository = PlantsRepository;
     }
 
     public static PlantsService Create()
     {
-        return new PlantsService(new PlantsRepository());
+        if (_instance == null)
+        {
+            _instance = new PlantsService(new PlantsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Plants>> GetPlantsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Plants> list = await _PlantsRepository.GetPlantsAsync(search, rare, pageSize, offset);
+        List<Plants> list = await _plantsRepository.GetPlantsAsync(search, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetPlantsCountAsync(string search, string rare)
     {
-        return await _PlantsRepository.GetPlantsCountAsync(search, rare);
+        return await _plantsRepository.GetPlantsCountAsync(search, rare);
     }
 
     public async Task<List<Plants>> GetPlantsWithPriceAsync(int pageSize, int offset)
     {
-        List<Plants> list = await _PlantsRepository.GetPlantsWithPriceAsync(pageSize, offset);
+        List<Plants> list = await _plantsRepository.GetPlantsWithPriceAsync(pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetPlantsWithPriceCountAsync()
     {
-        return await _PlantsRepository.GetPlantsWithPriceCountAsync();
+        return await _plantsRepository.GetPlantsWithPriceCountAsync();
     }
 
     public async Task<Plants> GetPlantByIdAsync(string Id)
     {
-        return await _PlantsRepository.GetPlantByIdAsync(Id);
+        return await _plantsRepository.GetPlantByIdAsync(Id);
     }
 
     public async Task<Plants> SumPowerPlantsPercentAsync()
     {
-        return await _PlantsRepository.SumPowerPlantsPercentAsync();
+        return await _plantsRepository.SumPowerPlantsPercentAsync();
     }
 
     public async Task<List<string>> GetUniquePlantsIdAsync()
     {
-        return await _PlantsRepository.GetUniquePlantsIdAsync();
+        return await _plantsRepository.GetUniquePlantsIdAsync();
     }
 }

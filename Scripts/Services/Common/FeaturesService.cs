@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class FeaturesService : IFeaturesService
 {
+    private static FeaturesService _instance;
     private readonly IFeaturesRepository _featuresRepository;
 
     public FeaturesService(IFeaturesRepository featuresRepository)
@@ -12,7 +13,11 @@ public class FeaturesService : IFeaturesService
 
     public static FeaturesService Create()
     {
-        return new FeaturesService(new FeaturesRepository());
+        if (_instance == null)
+        {
+            _instance = new FeaturesService(new FeaturesRepository());
+        }
+        return _instance;
     }
 
     public async Task<Dictionary<string, Features>> GetFeaturesByTypeAsync(string type)

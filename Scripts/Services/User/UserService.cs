@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UserService : IUserService
 {
+     private static UserService _instance;
     private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository)
@@ -14,7 +15,11 @@ public class UserService : IUserService
 
     public static UserService Create()
     {
-        return new UserService(new UserRepository());
+        if (_instance == null)
+        {
+            _instance = new UserService(new UserRepository());
+        }
+        return _instance;
     }
 
     public async Task<string> RegisterUserAsync(string username, string password)

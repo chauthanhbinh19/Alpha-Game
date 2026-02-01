@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class UserBordersService : IUserBordersService
 {
+     private static UserBordersService _instance;
     private IUserBordersRepository _userBordersRepository;
 
     public UserBordersService(IUserBordersRepository userBordersRepository)
@@ -12,7 +13,11 @@ public class UserBordersService : IUserBordersService
 
     public static UserBordersService Create()
     {
-        return new UserBordersService(new UserBordersRepository());
+        if (_instance == null)
+        {
+            _instance = new UserBordersService(new UserBordersRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Borders>> GetUserBordersAsync(string user_id, string search, int pageSize, int offset, string rare)

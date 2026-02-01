@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
 {
+    private static CardAdmiralsGalleryService _instance;
     private ICardAdmiralsGalleryRepository _cardAdmiralsGalleryRepository;
 
     public CardAdmiralsGalleryService(ICardAdmiralsGalleryRepository cardAdmiralsGalleryRepository)
@@ -12,7 +13,11 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
 
     public static CardAdmiralsGalleryService Create()
     {
-        return new CardAdmiralsGalleryService(new CardAdmiralsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new CardAdmiralsGalleryService(new CardAdmiralsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<CardAdmirals>> GetCardAdmiralsCollectionAsync(string search, string type, int pageSize, int offset, string rare)

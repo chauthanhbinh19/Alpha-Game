@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 public class AchievementsGalleryService : IAchievementsGalleryService
 {
+    private static AchievementsGalleryService _instance;
     private IAchievementsGalleryRepository _achievementsGalleryRepository;
 
     public AchievementsGalleryService(IAchievementsGalleryRepository achievementsGalleryRepository)
@@ -13,7 +14,11 @@ public class AchievementsGalleryService : IAchievementsGalleryService
 
     public static AchievementsGalleryService Create()
     {
-        return new AchievementsGalleryService(new AchievementsGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new AchievementsGalleryService(new AchievementsGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Achievements>> GetAchievementCollectionAsync(string search, int pageSize, int offset, string rare)

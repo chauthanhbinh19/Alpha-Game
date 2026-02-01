@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class BordersGalleryService : IBordersGalleryService
 {
+    private static BordersGalleryService _instance;
     private IBordersGalleryRepository _bordersGalleryRepository;
 
     public BordersGalleryService(IBordersGalleryRepository bordersGalleryRepository)
@@ -12,7 +13,11 @@ public class BordersGalleryService : IBordersGalleryService
 
     public static BordersGalleryService Create()
     {
-        return new BordersGalleryService(new BordersGalleryRepository());
+        if (_instance == null)
+        {
+            _instance = new BordersGalleryService(new BordersGalleryRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Borders>> GetBordersCollectionAsync(string search, int pageSize, int offset, string rare)

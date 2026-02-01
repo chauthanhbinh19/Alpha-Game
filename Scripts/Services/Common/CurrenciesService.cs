@@ -3,20 +3,25 @@ using System.Threading.Tasks;
 
 public class CurrenciesService : ICurrenciesService
 {
-    private readonly ICurrenciesRepository _currencyRepository;
+    private static CurrenciesService _instance;
+    private readonly ICurrenciesRepository _currenciesRepository;
 
-    public CurrenciesService(ICurrenciesRepository currencyRepository)
+    public CurrenciesService(ICurrenciesRepository currenciesRepository)
     {
-        _currencyRepository = currencyRepository;
+        _currenciesRepository = currenciesRepository;
     }
 
     public static CurrenciesService Create()
     {
-        return new CurrenciesService(new CurrenciesRepository());
+        if (_instance == null)
+        {
+            _instance = new CurrenciesService(new CurrenciesRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<Currencies>> GetCurrencyListAsync()
     {
-        return await _currencyRepository.GetCurrencyListAsync();
+        return await _currenciesRepository.GetCurrencyListAsync();
     }
 }

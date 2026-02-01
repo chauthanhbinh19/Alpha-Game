@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 public class DailyCheckinService : IDailyCheckinService
 {
+    private static DailyCheckinService _instance;
     private readonly IDailyCheckinRepository _dailyCheckinRepository;
 
     public DailyCheckinService(IDailyCheckinRepository dailyCheckinRepository)
@@ -11,7 +12,11 @@ public class DailyCheckinService : IDailyCheckinService
     }
     public static DailyCheckinService Create()
     {
-        return new DailyCheckinService(new DailyCheckinRepository());
+        if (_instance == null)
+        {
+            _instance = new DailyCheckinService(new DailyCheckinRepository());
+        }
+        return _instance;
     }
 
     public async Task DeleteDailyCheckinAsync(string dailyCheckinId)

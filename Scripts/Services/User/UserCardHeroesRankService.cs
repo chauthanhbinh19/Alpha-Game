@@ -2,30 +2,35 @@ using System.Threading.Tasks;
 
 public class UserCardHeroesRankService : IUserCardHeroesRankService
 {
-    private readonly IUserCardHeroesRankRepository _cardHeroesRankRepository;
+     private static UserCardHeroesRankService _instance;
+    private readonly IUserCardHeroesRankRepository _userCardHeroesRankRepository;
 
-    public UserCardHeroesRankService(IUserCardHeroesRankRepository cardHeroesRankRepository)
+    public UserCardHeroesRankService(IUserCardHeroesRankRepository userCardHeroesRankRepository)
     {
-        _cardHeroesRankRepository = cardHeroesRankRepository;
+        _userCardHeroesRankRepository = userCardHeroesRankRepository;
     }
 
     public static UserCardHeroesRankService Create()
     {
-        return new UserCardHeroesRankService(new UserCardHeroesRankRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCardHeroesRankService(new UserCardHeroesRankRepository());
+        }
+        return _instance;
     }
 
     public async Task<Rank> GetCardHeroRankAsync(string id, string card_id)
     {
-        return await _cardHeroesRankRepository.GetCardHeroRankAsync(id, card_id);
+        return await _userCardHeroesRankRepository.GetCardHeroRankAsync(id, card_id);
     }
 
     public async Task InsertOrUpdateCardHeroRankAsync(Rank rank, string card_id)
     {
-        await _cardHeroesRankRepository.InsertOrUpdateCardHeroRankAsync(rank, card_id);
+        await _userCardHeroesRankRepository.InsertOrUpdateCardHeroRankAsync(rank, card_id);
     }
 
     public async Task<Rank> GetSumCardHeroesRankAsync(string user_id, string card_id)
     {
-        return await _cardHeroesRankRepository.GetSumCardHeroesRankAsync(user_id, card_id);
+        return await _userCardHeroesRankRepository.GetSumCardHeroesRankAsync(user_id, card_id);
     }
 }

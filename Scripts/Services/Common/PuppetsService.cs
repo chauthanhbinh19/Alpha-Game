@@ -3,59 +3,64 @@ using System.Threading.Tasks;
 
 public class PuppetsService : IPuppetsService
 {
-    private readonly IPuppetsRepository _puppetRepository;
+    private static PuppetsService _instance;
+    private readonly IPuppetsRepository _puppetsRepository;
 
-    public PuppetsService(IPuppetsRepository puppetRepository)
+    public PuppetsService(IPuppetsRepository puppetsRepository)
     {
-        _puppetRepository = puppetRepository;
+        _puppetsRepository = puppetsRepository;
     }
 
     public static PuppetsService Create()
     {
-        return new PuppetsService(new PuppetsRepository());
+        if (_instance == null)
+        {
+            _instance = new PuppetsService(new PuppetsRepository());
+        }
+        return _instance;
     }
 
     public async Task<List<string>> GetUniquePuppetsTypesAsync()
     {
-        return await _puppetRepository.GetUniquePuppetsTypesAsync();
+        return await _puppetsRepository.GetUniquePuppetsTypesAsync();
     }
 
     public async Task<List<Puppets>> GetPuppetsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Puppets> list = await _puppetRepository.GetPuppetsAsync(search, type, rare, pageSize, offset);
+        List<Puppets> list = await _puppetsRepository.GetPuppetsAsync(search, type, rare, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetPuppetsCountAsync(string search, string type, string rare)
     {
-        return await _puppetRepository.GetPuppetsCountAsync(search, type, rare);
+        return await _puppetsRepository.GetPuppetsCountAsync(search, type, rare);
     }
 
     public async Task<List<Puppets>> GetPuppetsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Puppets> list = await _puppetRepository.GetPuppetsWithPriceAsync(type, pageSize, offset);
+        List<Puppets> list = await _puppetsRepository.GetPuppetsWithPriceAsync(type, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
         return list;
     }
 
     public async Task<int> GetPuppetsWithPriceCountAsync(string type)
     {
-        return await _puppetRepository.GetPuppetsWithPriceCountAsync(type);
+        return await _puppetsRepository.GetPuppetsWithPriceCountAsync(type);
     }
 
     public async Task<Puppets> GetPuppetByIdAsync(string Id)
     {
-        return await _puppetRepository.GetPuppetByIdAsync(Id);
+        return await _puppetsRepository.GetPuppetByIdAsync(Id);
     }
 
     public async Task<Puppets> SumPowerPuppetsPercentAsync()
     {
-        return await _puppetRepository.SumPowerPuppetsPercentAsync();
+        return await _puppetsRepository.SumPowerPuppetsPercentAsync();
     }
 
     public async Task<List<string>> GetUniquePuppetsIdAsync()
     {
-        return await _puppetRepository.GetUniquePuppetsIdAsync();
+        return await _puppetsRepository.GetUniquePuppetsIdAsync();
     }
 }

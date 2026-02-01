@@ -2,30 +2,35 @@ using System.Threading.Tasks;
 
 public class UserCardMonstersMasterService : IUserCardMonstersMasterService
 {
-    private readonly IUserCardMonstersMasterRepository _cardMonstersMasterRepository;
+     private static UserCardMonstersMasterService _instance;
+    private readonly IUserCardMonstersMasterRepository _userCardMonstersMasterRepository;
 
-    public UserCardMonstersMasterService(IUserCardMonstersMasterRepository cardMonstersMasterRepository)
+    public UserCardMonstersMasterService(IUserCardMonstersMasterRepository userCardMonstersMasterRepository)
     {
-        _cardMonstersMasterRepository = cardMonstersMasterRepository;
+        _userCardMonstersMasterRepository = userCardMonstersMasterRepository;
     }
 
     public static UserCardMonstersMasterService Create()
     {
-        return new UserCardMonstersMasterService(new UserCardMonstersMasterRepository());
+        if (_instance == null)
+        {
+            _instance = new UserCardMonstersMasterService(new UserCardMonstersMasterRepository());
+        }
+        return _instance;
     }
 
     public async Task<Master> GetCardMonsterMasterAsync(string id, string card_id)
     {
-        return await _cardMonstersMasterRepository.GetCardMonsterMasterAsync(id, card_id);
+        return await _userCardMonstersMasterRepository.GetCardMonsterMasterAsync(id, card_id);
     }
 
     public async Task InsertOrUpdateCardMonsterMasterAsync(Master master, string card_id)
     {
-        await _cardMonstersMasterRepository.InsertOrUpdateCardMonsterMasterAsync(master, card_id);
+        await _userCardMonstersMasterRepository.InsertOrUpdateCardMonsterMasterAsync(master, card_id);
     }
 
     public async Task<Master> GetSumCardMonstersMasterAsync(string user_id, string card_id)
     {
-        return await _cardMonstersMasterRepository.GetSumCardMonstersMasterAsync(user_id, card_id);
+        return await _userCardMonstersMasterRepository.GetSumCardMonstersMasterAsync(user_id, card_id);
     }
 }
