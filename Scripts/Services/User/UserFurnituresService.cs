@@ -191,6 +191,7 @@ public class UserFurnituresService : IUserFurnituresService
     {
         List<Furnitures> list = await _userFurnituresRepository.GetUserFurnituresAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

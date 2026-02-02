@@ -191,6 +191,7 @@ public class UserFashionsService : IUserFashionsService
     {
         List<Fashions> list = await _userFashionsRepository.GetUserFashionsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

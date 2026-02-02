@@ -24,6 +24,7 @@ public class UserAvatarsService : IUserAvatarsService
     {
         List<Avatars> list = await _userAvatarsRepository.GetUserAvatarsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

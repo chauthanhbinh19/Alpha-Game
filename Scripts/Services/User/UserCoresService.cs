@@ -191,6 +191,7 @@ public class UserCoresService : IUserCoresService
     {
         List<Cores> list = await _userCoresRepository.GetUserCoresAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

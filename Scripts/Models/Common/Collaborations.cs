@@ -1,4 +1,4 @@
-public class Collaborations : BaseEntity
+public class Collaborations : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -25,6 +25,7 @@ public class Collaborations : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    double IPowerSortable.Power => Power;
     public Collaborations()
     {
         PercentAllHealth = -1;

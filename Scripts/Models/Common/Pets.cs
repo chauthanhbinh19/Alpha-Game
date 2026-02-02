@@ -1,4 +1,4 @@
-public class Pets : BaseEntity
+public class Pets : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -30,6 +30,7 @@ public class Pets : BaseEntity
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
     public BaseStats BaseStats { get; set; } = new BaseStats();
+    double IPowerSortable.Power => Power;
     public Pets()
     {
         Power = -1;

@@ -779,6 +779,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = await GetAllAnimeStatsPowerAsync(user_id, list);
         list = await GetScienceFictionPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 
@@ -794,6 +795,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = await GetAllAnimeStatsPowerAsync(user_id, list);
         list = await GetScienceFictionPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 
@@ -809,6 +811,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = await GetAllAnimeStatsPowerAsync(user_id, list);
         list = await GetScienceFictionPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 
@@ -884,6 +887,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         list = await GetAllAnimeStatsPowerAsync(user_id, list);
         list = await GetScienceFictionPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 }

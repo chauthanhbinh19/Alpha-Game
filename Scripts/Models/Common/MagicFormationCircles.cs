@@ -1,4 +1,4 @@
-public class MagicFormationCircles : BaseEntity
+public class MagicFormationCircles : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -26,6 +26,7 @@ public class MagicFormationCircles : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    double IPowerSortable.Power => Power;
     public MagicFormationCircles()
     {
         PercentAllHealth = -1;

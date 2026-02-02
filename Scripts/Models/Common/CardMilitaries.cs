@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-public class CardSpells : BaseEntity
+public class CardMilitaries : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -34,7 +34,8 @@ public class CardSpells : BaseEntity
     public BaseStats BaseStats { get; set; } = new BaseStats();
     public List<Skills> Skills { get; set; } = new List<Skills>();
     public Teams Team { get; set; } = new Teams();
-    public CardSpells()
+    double IPowerSortable.Power => Power;
+    public CardMilitaries()
     {
         Power = -1;
         Health = -1;
@@ -69,7 +70,7 @@ public class CardSpells : BaseEntity
         DamageToSameFactionRate = -1;
         ResistanceToSameFactionRate = -1;
 
-        TeamId = "-1";
+        TeamId= "-1";
         PercentAllHealth = -1;
         PercentAllPhysicalAttack = -1;
         PercentAllPhysicalDefense = -1;

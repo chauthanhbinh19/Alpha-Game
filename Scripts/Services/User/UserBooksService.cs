@@ -683,6 +683,7 @@ public class UserBooksService : IUserBooksService
         list = await GetAllMasterPowerAsync(user_id, list);
         list = await GetAllAnimeStatsPowerAsync(user_id, list);
         list = await GetScienceFictionPowerAsync(user_id, list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 
@@ -696,6 +697,7 @@ public class UserBooksService : IUserBooksService
         list = await GetAllMasterPowerAsync(user_id, list);
         list = await GetAllAnimeStatsPowerAsync(user_id, list);
         list = await GetScienceFictionPowerAsync(user_id, list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 
@@ -744,6 +746,7 @@ public class UserBooksService : IUserBooksService
         list = await GetAllMasterPowerAsync(user_id, list);
         list = await GetAllAnimeStatsPowerAsync(user_id, list);
         list = await GetScienceFictionPowerAsync(user_id, list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 }

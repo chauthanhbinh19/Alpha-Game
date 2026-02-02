@@ -1,4 +1,4 @@
-public class Relics : BaseEntity
+public class Relics : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -26,6 +26,7 @@ public class Relics : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    double IPowerSortable.Power => Power;
     public Relics()
     {
         PercentAllHealth = -1;

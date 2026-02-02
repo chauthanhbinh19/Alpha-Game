@@ -191,6 +191,7 @@ public class UserVehiclesService : IUserVehiclesService
     {
         List<Vehicles> list = await _userVehiclesRepository.GetUserVehiclesAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

@@ -1,4 +1,4 @@
-public class Technologies : BaseEntity
+public class Technologies : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -26,6 +26,7 @@ public class Technologies : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    double IPowerSortable.Power => Power;
     public Technologies()
     {
         PercentAllHealth = -1;

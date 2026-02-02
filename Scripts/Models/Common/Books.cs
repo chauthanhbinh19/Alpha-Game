@@ -1,4 +1,4 @@
-public class Books : BaseEntity
+public class Books : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -30,6 +30,7 @@ public class Books : BaseEntity
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
     public BaseStats BaseStats { get; set; } = new BaseStats();
+    double IPowerSortable.Power => Power;
     public Books()
     {
         Power = -1;

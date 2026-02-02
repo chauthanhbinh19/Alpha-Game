@@ -1,4 +1,4 @@
-public class CardLives : BaseEntity
+public class CardLives : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -26,6 +26,7 @@ public class CardLives : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    double IPowerSortable.Power => Power;
     public CardLives()
     {
         PercentAllHealth = -1;

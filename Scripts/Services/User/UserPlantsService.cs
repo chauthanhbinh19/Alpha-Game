@@ -191,6 +191,7 @@ public class UserPlantsService : IUserPlantsService
     {
         List<Plants> list = await _userPlantsRepository.GetUserPlantsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

@@ -191,6 +191,7 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
     {
         List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 
@@ -198,6 +199,7 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
     {
         List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetAllUserSpiritBeastsAsync(user_id, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

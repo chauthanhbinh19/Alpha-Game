@@ -191,6 +191,7 @@ public class UserRelicsService : IUserRelicsService
     {
         List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

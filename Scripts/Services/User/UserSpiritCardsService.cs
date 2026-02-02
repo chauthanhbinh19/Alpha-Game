@@ -191,6 +191,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
     {
         List<SpiritCards> list = await _userSpiritCardsRepository.GetUserSpiritCardsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 
@@ -198,6 +199,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
     {
         List<SpiritCards> list = await _userSpiritCardsRepository.GetAllUserSpiritCardsAsync(user_id, pageSize, offset);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

@@ -191,6 +191,7 @@ public class UserCardLivesService : IUserCardLivesService
     {
         List<CardLives> list = await _userCardLivesRepository.GetUserCardLivesAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

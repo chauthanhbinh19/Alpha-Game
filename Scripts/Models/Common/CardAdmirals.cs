@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class CardAdmirals : BaseEntity
+public class CardAdmirals : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -34,6 +34,7 @@ public class CardAdmirals : BaseEntity
     public BaseStats BaseStats { get; set; } = new BaseStats();
     public List<Skills> Skills { get; set; } = new List<Skills>();
     public Teams Team { get; set; } = new Teams();
+    double IPowerSortable.Power => Power;
     public CardAdmirals()
     {
         Power = -1;

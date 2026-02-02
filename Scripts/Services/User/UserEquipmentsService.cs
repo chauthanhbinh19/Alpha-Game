@@ -278,6 +278,7 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserEquipmentsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

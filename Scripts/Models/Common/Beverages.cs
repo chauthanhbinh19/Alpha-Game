@@ -1,4 +1,4 @@
-public class Beverages : BaseEntity
+public class Beverages : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -26,6 +26,7 @@ public class Beverages : BaseEntity
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    double IPowerSortable.Power => Power;
     public Beverages()
     {
         PercentAllHealth = -1;

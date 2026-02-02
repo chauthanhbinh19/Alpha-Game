@@ -191,6 +191,7 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
     {
         List<MagicFormationCircles> list = await _userMagicFormationCirclesRepository.GetUserMagicFormationCirclesAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

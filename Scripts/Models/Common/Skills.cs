@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-public class Skills : BaseEntity
+public class Skills : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -33,6 +33,7 @@ public class Skills : BaseEntity
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
     public List<Effects> Effects{ get; set; } = new List<Effects>();
+    double IPowerSortable.Power => Power;
     public Skills()
     {
         PercentAllHealth = -1;

@@ -191,6 +191,7 @@ public class UserWeaponsService : IUserWeaponsService
     {
         List<Weapons> list = await _userWeaponsRepository.GetUserWeaponsAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

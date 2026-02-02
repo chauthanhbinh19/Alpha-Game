@@ -1,4 +1,4 @@
-public class Equipments : BaseEntity
+public class Equipments : BaseEntity, IPowerSortable
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -44,6 +44,7 @@ public class Equipments : BaseEntity
     public double PercentAllMentalDefense { get; set; }
     public int Position { get; set; }
     public BaseStats BaseStats { get; set; } = new BaseStats();
+    double IPowerSortable.Power => Power;
     public Equipments()
     {
         PercentAllHealth = -1;

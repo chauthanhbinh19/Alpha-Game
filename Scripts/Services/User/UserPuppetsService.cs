@@ -191,6 +191,7 @@ public class UserPuppetsService : IUserPuppetsService
     {
         List<Puppets> list = await _userPuppetsRepository.GetUserPuppetsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

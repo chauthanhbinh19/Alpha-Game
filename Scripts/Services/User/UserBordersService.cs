@@ -24,6 +24,7 @@ public class UserBordersService : IUserBordersService
     {
         List<Borders> list = await _userBordersRepository.GetUserBordersAsync(user_id, search, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 

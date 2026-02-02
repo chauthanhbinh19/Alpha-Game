@@ -191,6 +191,7 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
     {
         List<CollaborationEquipments> list = await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentsAsync(user_id, search, type, pageSize, offset, rare);
         list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
         return list;
     }
 
