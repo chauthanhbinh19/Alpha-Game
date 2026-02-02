@@ -361,7 +361,7 @@ public class HomeManager : MonoBehaviour
         titleTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TITLE);
         titleQuantityText.text = userTitleCount.ToString();
 
-        Transform vehicleTransform = currentObject.transform.Find("Scroll View/Viewport/Content/StatisticsPart/VechiclePanel");
+        Transform vehicleTransform = currentObject.transform.Find("Scroll View/Viewport/Content/StatisticsPart/VehiclePanel");
         TextMeshProUGUI vehicleTitleText = vehicleTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI vehicleQuantityText = vehicleTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
         int userVehicleCount = await UserVehiclesService.Create().GetUserVehiclesCountAsync(User.CurrentUserId, search, type, rare);

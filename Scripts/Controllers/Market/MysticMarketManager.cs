@@ -71,12 +71,13 @@ public class MysticMarketManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(mysticMarketManagerObject);
         });
-        // HomeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        // HomeButton.onClick.AddListener(() =>
-        // {
-        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        //     Close(ContentPanel);
-        // });
+        HomeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Close(ContentPanel);
+            await HomeManager.Instance.CreateHomePanelAsync();
+        });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MYSTIC_MARKET);
 

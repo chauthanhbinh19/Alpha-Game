@@ -153,12 +153,13 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            // HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            // HomeButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Close(MainPanel);
-            // });
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Close(MainPanel);
+                await HomeManager.Instance.CreateHomePanelAsync();
+            });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.INVENTORY);
             ButtonLoader.Instance.CreateInventoryButton(popupButtonPanel);
@@ -176,12 +177,13 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            // HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            // HomeButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Close(MainPanel);
-            // });
+            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Close(MainPanel);
+                await HomeManager.Instance.CreateHomePanelAsync();
+            });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EVENT);
             ButtonLoader.Instance.CreateEventButton(popupButtonPanel);
@@ -214,12 +216,13 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            // HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            // HomeButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Close(MainPanel);
-            // });
+            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Close(MainPanel);
+                await HomeManager.Instance.CreateHomePanelAsync();
+            });
             // FindObjectOfType<ButtonLoader>().CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             await MasterBoardController.Instance.CreateMasterBoardAsync(popupObject);
         });
@@ -236,12 +239,13 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            // HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            // HomeButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Close(MainPanel);
-            // });
+            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Close(MainPanel);
+                await HomeManager.Instance.CreateHomePanelAsync();
+            });
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SCIENCE_FICTION);
             ButtonLoader.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             ScienceFictionManager.Instance.GetScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
@@ -501,17 +505,18 @@ public class MainMenuManager : MonoBehaviour
             CloseButton = summonObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             SummonButton = summonObject.transform.Find("DictionaryCards/SummonButton").GetComponent<Button>();
             Summon10Button = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
-            // CloseButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Destroy(summonObject);
-            // });
-            // HomeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            // HomeButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Close(MainPanel);
-            // });
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Destroy(summonObject);
+            });
+            HomeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Close(MainPanel);
+                await HomeManager.Instance.CreateHomePanelAsync();
+            });
             // SummonAreaPanel = summonObject.transform.Find("SummonArea");
             CurrencyPanel = summonObject.transform.Find("DictionaryCards/Currency");
 
@@ -716,12 +721,13 @@ public class MainMenuManager : MonoBehaviour
                 ClosePanel();
                 Destroy(mainMenuObject);
             });
-            // HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            // HomeButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Close(MainPanel);
-            // });
+            HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Close(MainPanel);
+                await HomeManager.Instance.CreateHomePanelAsync();
+            });
             NextButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
