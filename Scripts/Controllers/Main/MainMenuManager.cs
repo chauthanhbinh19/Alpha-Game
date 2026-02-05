@@ -324,18 +324,19 @@ public class MainMenuManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            // CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            // CloseButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Destroy(popupObject);
-            // });
-            // HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            // HomeButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Close(MainPanel);
-            // });
+            CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Destroy(popupObject);
+            });
+            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            HomeButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Close(MainPanel);
+                await HomeManager.Instance.CreateHomePanelAsync();
+            });
             await ButtonLoader.Instance.CreateArenaButtonAsync(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         });
 

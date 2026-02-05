@@ -49,10 +49,10 @@ public static class EvaluateSlotForEquipment
                 slot = 8;
                 break;
             case AppConstants.Equipment.HAGORO:
-                slot = 6;
+                slot = 8;
                 break;
             case AppConstants.Equipment.HAKALITE:
-                slot = 4;
+                slot = 8;
                 break;
             case AppConstants.Equipment.IGNIS:
                 slot = 16;
