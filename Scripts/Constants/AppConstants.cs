@@ -520,6 +520,95 @@ public static class AppConstants
         public const string LEGENDARY_MATERIAL_ITEM = "Material–LG";
         public const string MYSTIC_MATERIAL_ITEM = "Material–MR";
     }
+    public static class Research
+    {
+        public const string HOUSING = "Housing";
+        public const string INFRASTRUCTURE = "Infrastructure";
+        public const string LOGISTICS = "Logistics";
+        public const string SANITATION = "Sanitation";
+        public const string TRANSPORTATION = "Transportation";
+        public const string URBANIZATION = "Urbanization";
+        public const string UTILITIES = "Utilities";
+        public const string WASTE = "Waste";
+        public const string WATER = "Water";
+
+        public const string CONSTRUCTION = "Construction";
+        public const string ENERGY = "Energy";
+        public const string ENGINEERING = "Engineering";
+        public const string INDUSTRY = "Industry";
+        public const string MANUFACTURING = "Manufacturing";
+        public const string MATERIALS = "Materials";
+        public const string POWER = "Power";
+
+        public const string ARMOR = "Armor";
+        public const string DEFENSE = "Defense";
+        public const string DISASTER = "Disaster";
+        public const string EMERGENCY = "Emergency";
+        public const string MILITARY = "Military";
+        public const string SAFETY = "Safety";
+        public const string SHIELDING = "Shielding";
+        public const string WEAPONS = "Weapons";
+
+        public const string COMMERCE = "Commerce";
+        public const string ECONOMY = "Economy";
+        public const string FINANCE = "Finance";
+        public const string INVESTMENT = "Investment";
+        public const string PRODUCTIVITY = "Productivity";
+        public const string TRADE = "Trade";
+
+        public const string CLIMATE = "Climate";
+        public const string CONSERVATION = "Conservation";
+        public const string ECOLOGY = "Ecology";
+        public const string ENVIRONMENT = "Environment";
+        public const string POLLUTION = "Pollution";
+        public const string RECYCLING = "Recycling";
+        public const string SUSTAINABILITY = "Sustainability";
+
+        public const string ASCENSION = "Ascension";
+        public const string COLONIZATION = "Colonization";
+        public const string DIMENSIONAL = "Dimensional";
+        public const string EXPANSION = "Expansion";
+        public const string EXPLORATION = "Exploration";
+        public const string MEGASTRUCTURE = "Megastructure";
+        public const string SINGULARITY = "Singularity";
+        public const string TERRAFORMING = "Terraforming";
+        public const string TIME = "Time";
+
+        public const string EPIDEMIOLOGY = "Epidemiology";
+        public const string GENETICS = "Genetics";
+        public const string HEALTH = "Health";
+        public const string LONGEVITY = "Longevity";
+        public const string MEDICINE = "Medicine";
+
+        public const string AI = "AI";
+        public const string COMMUNICATION = "Communication";
+        public const string CYBERSECURITY = "Cybersecurity";
+        public const string DATA = "Data";
+        public const string INFORMATION = "Information";
+        public const string NETWORKING = "Networking";
+        public const string SECURITY = "Security";
+        public const string SURVEILLANCE = "Surveillance";
+
+        public const string AUTOMATION = "Automation";
+        public const string BIOLOGY = "Biology";
+        public const string CHEMISTRY = "Chemistry";
+        public const string COMPUTING = "Computing";
+        public const string NANOTECHNOLOGY = "Nanotechnology";
+        public const string PHYSICS = "Physics";
+        public const string QUANTUM = "Quantum";
+        public const string ROBOTICS = "Robotics";
+        public const string SCIENCE = "Science";
+
+        public const string CULTURE = "Culture";
+        public const string DEMOGRAPHY = "Demography";
+        public const string EDUCATION = "Education";
+        public const string GOVERNANCE = "Governance";
+        public const string HAPPINESS = "Happiness";
+        public const string LAW = "Law";
+        public const string POLICY = "Policy";
+        public const string POPULATION = "Population";
+        public const string SOCIETY = "Society";
+    }
     public static class MainMenuSet1
     {
         public const string EQUIPMENTS = "Equipments";
