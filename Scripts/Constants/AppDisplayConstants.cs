@@ -358,6 +358,95 @@ public static class AppDisplayConstants
         public const string LEGENDARY_MATERIAL_ITEM = "Market.LegendaryMaterialItem";
         public const string MYSTIC_MATERIAL_ITEM = "Market.MysticMaterialItem";
     }
+    public static class Research
+    {
+        public const string HOUSING = "Research.Housing";
+        public const string INFRASTRUCTURE = "Research.Infrastructure";
+        public const string LOGISTICS = "Research.Logistics";
+        public const string SANITATION = "Research.Sanitation";
+        public const string TRANSPORTATION = "Research.Transportation";
+        public const string URBANIZATION = "Research.Urbanization";
+        public const string UTILITIES = "Research.Utilities";
+        public const string WASTE = "Research.Waste";
+        public const string WATER = "Research.Water";
+
+        public const string CONSTRUCTION = "Research.Construction";
+        public const string ENERGY = "Research.Energy";
+        public const string ENGINEERING = "Research.Engineering";
+        public const string INDUSTRY = "Research.Industry";
+        public const string MANUFACTURING = "Research.Manufacturing";
+        public const string MATERIALS = "Research.Materials";
+        public const string POWER = "Research.Power";
+
+        public const string ARMOR = "Research.Armor";
+        public const string DEFENSE = "Research.Defense";
+        public const string DISASTER = "Research.Disaster";
+        public const string EMERGENCY = "Research.Emergency";
+        public const string MILITARY = "Research.Military";
+        public const string SAFETY = "Research.Safety";
+        public const string SHIELDING = "Research.Shielding";
+        public const string WEAPONS = "Research.Weapons";
+
+        public const string COMMERCE = "Research.Commerce";
+        public const string ECONOMY = "Research.Economy";
+        public const string FINANCE = "Research.Finance";
+        public const string INVESTMENT = "Research.Investment";
+        public const string PRODUCTIVITY = "Research.Productivity";
+        public const string TRADE = "Research.Trade";
+
+        public const string CLIMATE = "Research.Climate";
+        public const string CONSERVATION = "Research.Conservation";
+        public const string ECOLOGY = "Research.Ecology";
+        public const string ENVIRONMENT = "Research.Environment";
+        public const string POLLUTION = "Research.Pollution";
+        public const string RECYCLING = "Research.Recycling";
+        public const string SUSTAINABILITY = "Research.Sustainability";
+
+        public const string ASCENSION = "Research.Ascension";
+        public const string COLONIZATION = "Research.Colonization";
+        public const string DIMENSIONAL = "Research.Dimensional";
+        public const string EXPANSION = "Research.Expansion";
+        public const string EXPLORATION = "Research.Exploration";
+        public const string MEGASTRUCTURE = "Research.Megastructure";
+        public const string SINGULARITY = "Research.Singularity";
+        public const string TERRAFORMING = "Research.Terraforming";
+        public const string TIME = "Research.Time";
+
+        public const string EPIDEMIOLOGY = "Research.Epidemiology";
+        public const string GENETICS = "Research.Genetics";
+        public const string HEALTH = "Research.Health";
+        public const string LONGEVITY = "Research.Longevity";
+        public const string MEDICINE = "Research.Medicine";
+
+        public const string AI = "Research.AI";
+        public const string COMMUNICATION = "Research.Communication";
+        public const string CYBERSECURITY = "Research.Cybersecurity";
+        public const string DATA = "Research.Data";
+        public const string INFORMATION = "Research.Information";
+        public const string NETWORKING = "Research.Networking";
+        public const string SECURITY = "Research.Security";
+        public const string SURVEILLANCE = "Research.Surveillance";
+
+        public const string AUTOMATION = "Research.Automation";
+        public const string BIOLOGY = "Research.Biology";
+        public const string CHEMISTRY = "Research.Chemistry";
+        public const string COMPUTING = "Research.Computing";
+        public const string NANOTECHNOLOGY = "Research.Nanotechnology";
+        public const string PHYSICS = "Research.Physics";
+        public const string QUANTUM = "Research.Quantum";
+        public const string ROBOTICS = "Research.Robotics";
+        public const string SCIENCE = "Research.Science";
+
+        public const string CULTURE = "Research.Culture";
+        public const string DEMOGRAPHY = "Research.Demography";
+        public const string EDUCATION = "Research.Education";
+        public const string GOVERNANCE = "Research.Governance";
+        public const string HAPPINESS = "Research.Happiness";
+        public const string LAW = "Research.Law";
+        public const string POLICY = "Research.Policy";
+        public const string POPULATION = "Research.Population";
+        public const string SOCIETY = "Research.Society";
+    }
     public static class MainMenuSet1
     {
         //Set 1

@@ -132,6 +132,7 @@ public class MainMenuManager : MonoBehaviour
         Button profileButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
         Button missionButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
         Button guildButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
+        Button researchButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ResearchButton").GetComponent<Button>();
 
         _=HomeManager.Instance.CreateHomePanelAsync();
 
@@ -345,6 +346,13 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             // await ProfileManager.Instance.CreateProfileAsync();
+        });
+        
+        researchButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            ResearchManager.Instance.CreateResearch();
         });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)

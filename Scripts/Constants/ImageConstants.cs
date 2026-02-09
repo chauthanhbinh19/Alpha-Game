@@ -391,6 +391,96 @@ public static class ImageConstants
         public const string ABSORPTION_RUNE_URL = "UI/Rune/Absorption_Rune";
         public const string FACTION_RUNE_URL = "UI/Rune/Faction_Rune";
     }
+    public static class Research
+    {
+        public const string HOUSING_URL = "UI/Icon/Housing";
+        public const string INFRASTRUCTURE_URL = "UI/Icon/Infrastructure";
+        public const string LOGISTICS_URL = "UI/Icon/Logistics";
+        public const string SANITATION_URL = "UI/Icon/Sanitation";
+        public const string TRANSPORTATION_URL = "UI/Icon/Transportation";
+        public const string URBANIZATION_URL = "UI/Icon/Urbanization";
+        public const string UTILITIES_URL = "UI/Icon/Utilities";
+        public const string WASTE_URL = "UI/Icon/Waste";
+        public const string WATER_URL = "UI/Icon/Water";
+
+        public const string CONSTRUCTION_URL = "UI/Icon/Construction";
+        public const string ENERGY_URL = "UI/Icon/Energy";
+        public const string ENGINEERING_URL = "UI/Icon/Engineering";
+        public const string INDUSTRY_URL = "UI/Icon/Industry";
+        public const string MANUFACTURING_URL = "UI/Icon/Manufacturing";
+        public const string MATERIALS_URL = "UI/Icon/Materials";
+        public const string POWER_URL = "UI/Icon/Power";
+
+        public const string ARMOR_URL = "UI/Icon/Armor";
+        public const string DEFENSE_URL = "UI/Icon/Defense";
+        public const string DISASTER_URL = "UI/Icon/Disaster";
+        public const string EMERGENCY_URL = "UI/Icon/Emergency";
+        public const string MILITARY_URL = "UI/Icon/Military";
+        public const string SAFETY_URL = "UI/Icon/Safety";
+        public const string SHIELDING_URL = "UI/Icon/Shielding";
+        public const string WEAPONS_URL = "UI/Icon/Weapons";
+
+        public const string COMMERCE_URL = "UI/Icon/Commerce";
+        public const string ECONOMY_URL = "UI/Icon/Economy";
+        public const string FINANCE_URL = "UI/Icon/Finance";
+        public const string INVESTMENT_URL = "UI/Icon/Investment";
+        public const string PRODUCTIVITY_URL = "UI/Icon/Productivity";
+        public const string TRADE_URL = "UI/Icon/Trade";
+
+        public const string CLIMATE_URL = "UI/Icon/Climate";
+        public const string CONSERVATION_URL = "UI/Icon/Conservation";
+        public const string ECOLOGY_URL = "UI/Icon/Ecology";
+        public const string ENVIRONMENT_URL = "UI/Icon/Environment";
+        public const string POLLUTION_URL = "UI/Icon/Pollution";
+        public const string RECYCLING_URL = "UI/Icon/Recycling";
+        public const string SUSTAINABILITY_URL = "UI/Icon/Sustainability";
+
+        public const string ASCENSION_URL = "UI/Icon/Ascension";
+        public const string COLONIZATION_URL = "UI/Icon/Colonization";
+        public const string DIMENSIONAL_URL = "UI/Icon/Dimensional";
+        public const string EXPANSION_URL = "UI/Icon/Expansion";
+        public const string EXPLORATION_URL = "UI/Icon/Exploration";
+        public const string MEGASTRUCTURE_URL = "UI/Icon/Megastructure";
+        public const string SINGULARITY_URL = "UI/Icon/Singularity";
+        public const string TERRAFORMING_URL = "UI/Icon/Terraforming";
+        public const string TIME_URL = "UI/Icon/Time";
+
+        public const string EPIDEMIOLOGY_URL = "UI/Icon/Epidemiology";
+        public const string GENETICS_URL = "UI/Icon/Genetics";
+        public const string HEALTH_URL = "UI/Icon/Health";
+        public const string LONGEVITY_URL = "UI/Icon/Longevity";
+        public const string MEDICINE_URL = "UI/Icon/Medicine";
+
+        public const string AI_URL = "UI/Icon/AI";
+        public const string COMMUNICATION_URL = "UI/Icon/Communication";
+        public const string CYBERSECURITY_URL = "UI/Icon/Cybersecurity";
+        public const string DATA_URL = "UI/Icon/Data";
+        public const string INFORMATION_URL = "UI/Icon/Information";
+        public const string NETWORKING_URL = "UI/Icon/Networking";
+        public const string SECURITY_URL = "UI/Icon/Security";
+        public const string SURVEILLANCE_URL = "UI/Icon/Surveillance";
+
+        public const string AUTOMATION_URL = "UI/Icon/Automation";
+        public const string BIOLOGY_URL = "UI/Icon/Biology";
+        public const string CHEMISTRY_URL = "UI/Icon/Chemistry";
+        public const string COMPUTING_URL = "UI/Icon/Computing";
+        public const string NANOTECHNOLOGY_URL = "UI/Icon/Nanotechnology";
+        public const string PHYSICS_URL = "UI/Icon/Physics";
+        public const string QUANTUM_URL = "UI/Icon/Quantum";
+        public const string ROBOTICS_URL = "UI/Icon/Robotics";
+        public const string SCIENCE_URL = "UI/Icon/Science";
+
+        public const string CULTURE_URL = "UI/Icon/Culture";
+        public const string DEMOGRAPHY_URL = "UI/Icon/Demography";
+        public const string EDUCATION_URL = "UI/Icon/Education";
+        public const string GOVERNANCE_URL = "UI/Icon/Governance";
+        public const string HAPPINESS_URL = "UI/Icon/Happiness";
+        public const string LAW_URL = "UI/Icon/Law";
+        public const string POLICY_URL = "UI/Icon/Policy";
+        public const string POPULATION_URL = "UI/Icon/Population";
+        public const string SOCIETY_URL = "UI/Icon/Society";
+
+    }
     public static class Star
     {
         public const string STAR_LV1_URL = "UI/UI/Star1";
