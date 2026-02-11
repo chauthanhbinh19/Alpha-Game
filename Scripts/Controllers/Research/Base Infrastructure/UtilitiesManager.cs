@@ -2,9 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HousingManager : MonoBehaviour
+public class UtilitiesManager : MonoBehaviour
 {
-    public static HousingManager Instance { get; private set; }
+    public static UtilitiesManager Instance { get; private set; }
     private Transform MainPanel;
     private GameObject ResearchPanelPrefab;
     private GameObject ResearchButtonPrefab;
