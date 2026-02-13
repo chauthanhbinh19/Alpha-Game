@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 public class ResearchsService : IResearchsService
 {
     private static ResearchsService _instance;
-    private readonly IResearchsRepository _researchsRepository;
+    private readonly IResearchsRepository _ResearchsRepository;
 
-    public ResearchsService(IResearchsRepository researchsRepository)
+    public ResearchsService(IResearchsRepository ResearchsRepository)
     {
-        _researchsRepository = researchsRepository;
+        _ResearchsRepository = ResearchsRepository;
     }
 
     public static ResearchsService Create()
@@ -20,42 +19,18 @@ public class ResearchsService : IResearchsService
         return _instance;
     }
 
-    public async Task<List<Researchs>> GetResearchsAsync(string userId, int pageSize, int offset)
+    public async Task<Researchs> GetResearchsAsync(string id)
     {
-        List<Researchs> list = await _researchsRepository.GetResearchsAsync(userId, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
-        return list;
+        return await _ResearchsRepository.GetResearchsAsync(id);
     }
 
-    public async Task<int> GetResearchsCountAsync(string rare)
+    public async Task<Researchs> GetSumResearchsAsync(string user_id)
     {
-        return await _researchsRepository.GetResearchsCountAsync(rare);
+        return await _ResearchsRepository.GetSumResearchsAsync(user_id);
     }
 
-    public async Task<List<Researchs>> GetResearchsWithPriceAsync(int pageSize, int offset)
+    public async Task InsertOrUpdateResearchsAsync(string userId, Researchs Researchs, string id)
     {
-        List<Researchs> list = await _researchsRepository.GetResearchsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
-        return list;
-    }
-
-    public async Task<int> GetResearchsWithPriceCountAsync()
-    {
-        return await _researchsRepository.GetResearchsWithPriceCountAsync();
-    }
-
-    public async Task<Researchs> GetResearchByIdAsync(string Id)
-    {
-        return await _researchsRepository.GetResearchByIdAsync(Id);
-    }
-
-    public async Task<Researchs> SumPowerResearchsPercentAsync()
-    {
-        return await _researchsRepository.SumPowerResearchsPercentAsync();
-    }
-
-    public async Task<List<string>> GetUniqueResearchsIdAsync()
-    {
-        return await _researchsRepository.GetUniqueResearchsIdAsync();
+        await _ResearchsRepository.InsertOrUpdateResearchsAsync(userId, Researchs, id);
     }
 }

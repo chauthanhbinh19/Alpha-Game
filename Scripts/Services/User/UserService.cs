@@ -30,13 +30,13 @@ public class UserService : IUserService
             await CreateUserCurrencyAsync(userId);
             User.CurrentUserId = userId;
 
-            await UserBordersService.Create().InsertUserBorderByIdAsync("359", userId);
-            await BordersGalleryService.Create().InsertBorderGalleryAsync("359");
-            await UserBordersService.Create().UpdateIsUsedBorderAsync("359", userId, true);
+            await UserBordersService.Create().InsertUserBorderByIdAsync("BD359", userId);
+            await BordersGalleryService.Create().InsertBorderGalleryAsync("BD359");
+            await UserBordersService.Create().UpdateIsUsedBorderAsync("BD359", userId, true);
 
-            await UserAvatarsService.Create().InsertUserAvatarByIdAsync("1", userId);
-            await AvatarsGalleryService.Create().InsertAvatarGalleryAsync("1");
-            await UserAvatarsService.Create().UpdateIsUsedAvatarAsync("1", userId, true);
+            await UserAvatarsService.Create().InsertUserAvatarByIdAsync("AT1", userId);
+            await AvatarsGalleryService.Create().InsertAvatarGalleryAsync("AT1");
+            await UserAvatarsService.Create().UpdateIsUsedAvatarAsync("AT1", userId, true);
 
             await PowerManagerService.Create().InsertUserStatsAsync(userId);
 

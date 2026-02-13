@@ -31,4 +31,8 @@ public class SanitationManager : MonoBehaviour
         ResearchPanelPrefab = UIManager.Instance.Get("ResearchPanelPrefab");
         ResearchButtonPrefab = UIManager.Instance.Get("ResearchButtonPrefab");
     }
+    public void CreateSanitationManager()
+    {
+        
+    }
 }

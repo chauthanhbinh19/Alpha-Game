@@ -1,13 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 public interface IResearchsRepository
 {
-    Task<List<string>> GetUniqueResearchsIdAsync();
-    Task<List<Researchs>> GetResearchsAsync(string userId, int pageSize, int offset);
-    Task<int> GetResearchsCountAsync(string rare);
-    Task<List<Researchs>> GetResearchsWithPriceAsync(int pageSize, int offset);
-    Task<int> GetResearchsWithPriceCountAsync();
-    Task<Researchs> GetResearchByIdAsync(string Id);
-    Task<Researchs> SumPowerResearchsPercentAsync();
+    Task<Researchs> GetResearchsAsync(string type);
+    Task InsertOrUpdateResearchsAsync(string user_id, Researchs Researchs, string id);
+    Task<Researchs> GetSumResearchsAsync(string user_id);
 }

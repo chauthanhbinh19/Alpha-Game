@@ -31,4 +31,8 @@ public class LogisticsManager : MonoBehaviour
         ResearchPanelPrefab = UIManager.Instance.Get("ResearchPanelPrefab");
         ResearchButtonPrefab = UIManager.Instance.Get("ResearchButtonPrefab");
     }
+    public void CreateLogisticsManager()
+    {
+        
+    }
 }

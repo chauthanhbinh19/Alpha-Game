@@ -133,6 +133,17 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(75, AppDisplayConstants.Research.POLICY, Resources.Load<Texture2D>(ImageConstants.Research.POLICY_URL), research10Panel);
         CreateResearchButtonUI(76, AppDisplayConstants.Research.POPULATION, Resources.Load<Texture2D>(ImageConstants.Research.POPULATION_URL), research10Panel);
         CreateResearchButtonUI(77, AppDisplayConstants.Research.SOCIETY, Resources.Load<Texture2D>(ImageConstants.Research.SOCIETY_URL), research10Panel);
+
+        CreateBaseInfrastructure(research1Panel);
+        CreateCoreSystems(research2Panel);
+        CreateDefenseSafety(research3Panel);
+        CreateEconomyProduction(research4Panel);
+        CreateEnvironmentSustainability(research5Panel);
+        CreateExpansionExploration(research6Panel);
+        CreateHealthLife(research7Panel);
+        CreateInformationControl(research8Panel);
+        CreateScienceTechnology(research9Panel);
+        CreateSocietyPopulation(research10Panel);
     }
     private void CreateResearchButtonUI(int index, string itemName, Texture2D _itemImage, Transform panel)
     {
@@ -153,5 +164,112 @@ public class ResearchManager : MonoBehaviour
         {
             nameText.text = LocalizationManager.Get(itemName);
         }
+    }
+    public void CreateBaseInfrastructure(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HousingManager.Instance.CreateHousingManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, () => InfrastructureManager.Instance.CreateInfrastructureManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, () => LogisticsManager.Instance.CreateLogisticsManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, () => SanitationManager.Instance.CreateSanitationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, () => TransportationManager.Instance.CreateTransportationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, () => UrbanizationManager.Instance.CreateUrbanizationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, () => UtilitiesManager.Instance.CreateUtilitiesManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, () => WasteManager.Instance.CreateWasteManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, () => WaterManager.Instance.CreateWaterManager());
+    }
+    public void CreateCoreSystems(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, () => ConstructionManager.Instance.CreateConstructionManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, () => EnergyManager.Instance.CreateEnergyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, () => EngineeringManager.Instance.CreateEngineeringManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, () => IndustryManager.Instance.CreateIndustryManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, () => ManufacturingManager.Instance.CreateManufacturingManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", panel, () => MaterialsManager.Instance.CreateMaterialsManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", panel, () => PowerResearchManager.Instance.CreatePowerManager());
+    }
+    public void CreateDefenseSafety(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", panel, () => ArmorManager.Instance.CreateArmorManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", panel, () => DefenseManager.Instance.CreateDefenseManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", panel, () => DisasterManager.Instance.CreateDisasterManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", panel, () => EmergencyManager.Instance.CreateEmergencyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", panel, () => MilitaryManager.Instance.CreateMilitaryManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", panel, () => SafetyManager.Instance.CreateSafetyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", panel, () => ShieldingManager.Instance.CreateShieldingManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_24", panel, () => WeaponsManager.Instance.CreateWeaponsManager());
+    }
+    public void CreateEconomyProduction(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_25", panel, () => CommerceManager.Instance.CreateCommerceManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_26", panel, () => EconomyManager.Instance.CreateEconomyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", panel, () => FinanceManager.Instance.CreateFinanceManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", panel, () => InvestmentManager.Instance.CreateInvestmentManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", panel, () => ProductivityManager.Instance.CreateProductivityManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_30", panel, () => TradeManager.Instance.CreateTradeManager());
+    }
+    public void CreateEnvironmentSustainability(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_31", panel, () => ClimateManager.Instance.CreateClimateManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_32", panel, () => ConservationManager.Instance.CreateConservationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_33", panel, () => EcologyManager.Instance.CreateEcologyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_34", panel, () => EnvironmentManager.Instance.CreateEnvironmentManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_35", panel, () => PollutionManager.Instance.CreatePollutionManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_36", panel, () => RecyclingManager.Instance.CreateRecyclingManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_37", panel, () => SustainabilityManager.Instance.CreateSustainabilityManager());
+    }
+    public void CreateExpansionExploration(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_38", panel, () => AscensionManager.Instance.CreateAscensionManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_39", panel, () => ColonizationManager.Instance.CreateColonizationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_40", panel, () => DimensionalManager.Instance.CreateDimensionalManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_41", panel, () => ExpansionManager.Instance.CreateExpansionManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_42", panel, () => ExplorationManager.Instance.CreateExplorationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_43", panel, () => MegastructureManager.Instance.CreateMegastructureManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_44", panel, () => SingularityManager.Instance.CreateSingularityManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_45", panel, () => TerraformingManager.Instance.CreateTerraformingManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_46", panel, () => TimeManager.Instance.CreateTimeManager());
+    }
+    public void CreateHealthLife(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_47", panel, () => EpidemiologyManager.Instance.CreateEpidemiologyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_48", panel, () => GeneticsManager.Instance.CreateGeneticsManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_49", panel, () => HealthManager.Instance.CreateHealthManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_50", panel, () => LongevityManager.Instance.CreateLongevityManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_51", panel, () => MedicineManager.Instance.CreateMedicineManager());
+    }
+    public void CreateInformationControl(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_52", panel, () => AIManager.Instance.CreateAIManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_53", panel, () => CommunicationManager.Instance.CreateCommunicationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_54", panel, () => CybersecurityManager.Instance.CreateCybersecurityManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_55", panel, () => DataManager.Instance.CreateDataManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_56", panel, () => InformationManager.Instance.CreateInformationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_57", panel, () => NetworkingManager.Instance.CreateNetworkingManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_58", panel, () => SecurityManager.Instance.CreateSecurityManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_59", panel, () => SurveillanceManager.Instance.CreateSurveillanceManager());
+    }
+    public void CreateScienceTechnology(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_60", panel, () => AutomationManager.Instance.CreateAutomationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_61", panel, () => BiologyManager.Instance.CreateBiologyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_62", panel, () => ChemistryManager.Instance.CreateChemistryManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_63", panel, () => ComputingManager.Instance.CreateComputingManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_64", panel, () => NanotechnologyManager.Instance.CreateNanotechnologyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_65", panel, () => PhysicsManager.Instance.CreatePhysicsManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_66", panel, () => QuantumManager.Instance.CreateQuantumManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_67", panel, () => RoboticsManager.Instance.CreateRoboticsManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_68", panel, () => ScienceManager.Instance.CreateScienceManager());
+    }
+    public void CreateSocietyPopulation(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_69", panel, () => CultureManager.Instance.CreateCultureManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_70", panel, () => DemographyManager.Instance.CreateDemographyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_71", panel, () => EducationManager.Instance.CreateEducationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_72", panel, () => GovernanceManager.Instance.CreateGovernanceManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_73", panel, () => HappinessManager.Instance.CreateHappinessManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_74", panel, () => LawManager.Instance.CreateLawManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_75", panel, () => PolicyManager.Instance.CreatePolicyManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_76", panel, () => PopulationManager.Instance.CreatePopulationManager());
+        ButtonEvent.Instance.AssignButtonEvent("Button_77", panel, () => SocietyManager.Instance.CreateSocietyManager());
     }
 }

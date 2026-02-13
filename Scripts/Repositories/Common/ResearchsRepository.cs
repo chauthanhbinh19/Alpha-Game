@@ -6,32 +6,10 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class ResearchsRepository : IResearchsRepository
 {
-    public async Task<List<string>> GetUniqueResearchsIdAsync()
+    public async Task<Researchs> GetResearchsAsync(string id)
     {
-        List<string> typeList = new List<string>();
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            await connection.OpenAsync();
-
-            string query = "SELECT DISTINCT id FROM Researchs";
-
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
-            {
-                while (await reader.ReadAsync())
-                {
-                    typeList.Add(reader.GetString(0));
-                }
-            }
-        }
-
-        return typeList;
-    }
-    public async Task<List<Researchs>> GetResearchsAsync(string userId, int pageSize, int offset)
-    {
-        List<Researchs> researchs = new List<Researchs>();
+        Researchs Researchs = new Researchs();
+        string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -41,367 +19,83 @@ public class ResearchsRepository : IResearchsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                SELECT w.*, 
-                       CASE WHEN uw.Research_id IS NULL THEN 'block' ELSE 'available' END AS status
-                FROM Researchs w
-                LEFT JOIN user_Researchs uw ON w.id = uw.Research_id AND uw.user_id = @userId
-                ORDER BY w.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(w.name, '[0-9]+$') AS UNSIGNED), 
-                         w.name
-                LIMIT @limit OFFSET @offset";
+                SELECT *
+                FROM Researchs
+                WHERE user_id = @user_id AND Researchs_id = @type;
+            ";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@type", id);
 
                     using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        while (await reader.ReadAsync())
-                        {
-                            Researchs research = new Researchs
-                            {
-                                Id = reader.GetStringSafe("id"),
-                                Name = reader.GetStringSafe("name"),
-                                Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
-                                Quality = reader.GetDoubleSafe("quality"),
-                                Status = reader.GetStringSafe("status"),
-                                Power = reader.GetDoubleSafe("power"),
-                                Health = reader.GetDoubleSafe("health"),
-                                PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
-                                PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
-                                MagicalAttack = reader.GetDoubleSafe("magical_attack"),
-                                MagicalDefense = reader.GetDoubleSafe("magical_defense"),
-                                ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
-                                ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
-                                AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
-                                AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
-                                MentalAttack = reader.GetDoubleSafe("mental_attack"),
-                                MentalDefense = reader.GetDoubleSafe("mental_defense"),
-                                Speed = reader.GetDoubleSafe("speed"),
-                                CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
-                                CriticalRate = reader.GetDoubleSafe("critical_rate"),
-                                CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
-                                IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
-                                PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
-                                PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
-                                EvasionRate = reader.GetDoubleSafe("evasion_rate"),
-                                DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
-                                IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
-                                AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
-                                VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
-                                VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
-                                AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
-                                LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
-                                ShieldStrength = reader.GetDoubleSafe("shield_strength"),
-                                Tenacity = reader.GetDoubleSafe("tenacity"),
-                                ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
-                                ComboRate = reader.GetDoubleSafe("combo_rate"),
-                                IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
-                                ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
-                                ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
-                                StunRate = reader.GetDoubleSafe("stun_rate"),
-                                IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
-                                ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
-                                IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
-                                ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
-                                ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
-                                Mana = reader.GetDoubleSafe("mana"),
-                                ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
-                                DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
-                                ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
-                                DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
-                                ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
-                                NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
-                                NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
-                                SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
-                                SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                                PercentAllHealth = reader.GetDoubleSafe("percent_all_health"),
-                                PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack"),
-                                PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense"),
-                                PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack"),
-                                PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense"),
-                                PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack"),
-                                PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense"),
-                                PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack"),
-                                PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense"),
-                                PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack"),
-                                PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense"),
-                                Description = reader.GetStringSafe("description")
-                            };
-
-                            researchs.Add(research);
-                        }
-                    }
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
-        }
-
-        return researchs;
-    }
-    public async Task<int> GetResearchsCountAsync(string rare)
-    {
-        int count = 0;
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                await connection.OpenAsync();
-
-                string query = "SELECT COUNT(*) FROM Researchs WHERE (@rare = 'All' OR rare = @rare)";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@rare", rare);
-                    object result = await command.ExecuteScalarAsync();
-                    count = Convert.ToInt32(result);
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
-        }
-
-        return count;
-    }
-    public async Task<List<Researchs>> GetResearchsWithPriceAsync(int pageSize, int offset)
-    {
-        List<Researchs> researchs = new List<Researchs>();
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                await connection.OpenAsync();
-
-                string query = @"
-                SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
-                FROM Researchs t
-                INNER JOIN Research_trade tt ON t.id = tt.Research_id
-                INNER JOIN currencies cu ON tt.currency_id = cu.id
-                ORDER BY t.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), 
-                         t.name
-                LIMIT @limit OFFSET @offset;";
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
-
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            Researchs research = new Researchs
-                            {
-                                Id = reader.GetStringSafe("id"),
-                                Name = reader.GetStringSafe("name"),
-                                Rare = reader.GetStringSafe("rare"),
-                                Image = reader.GetStringSafe("image"),
-                                Quality = reader.GetDoubleSafe("quality"),
-                                Power = reader.GetDoubleSafe("power"),
-                                Health = reader.GetDoubleSafe("health"),
-                                PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
-                                PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
-                                MagicalAttack = reader.GetDoubleSafe("magical_attack"),
-                                MagicalDefense = reader.GetDoubleSafe("magical_defense"),
-                                ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
-                                ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
-                                AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
-                                AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
-                                MentalAttack = reader.GetDoubleSafe("mental_attack"),
-                                MentalDefense = reader.GetDoubleSafe("mental_defense"),
-                                Speed = reader.GetDoubleSafe("speed"),
-                                CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
-                                CriticalRate = reader.GetDoubleSafe("critical_rate"),
-                                CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
-                                IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
-                                PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
-                                PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
-                                EvasionRate = reader.GetDoubleSafe("evasion_rate"),
-                                DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
-                                IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
-                                AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
-                                VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
-                                VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
-                                AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
-                                LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
-                                ShieldStrength = reader.GetDoubleSafe("shield_strength"),
-                                Tenacity = reader.GetDoubleSafe("tenacity"),
-                                ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
-                                ComboRate = reader.GetDoubleSafe("combo_rate"),
-                                IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
-                                ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
-                                ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
-                                StunRate = reader.GetDoubleSafe("stun_rate"),
-                                IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
-                                ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
-                                IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
-                                ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
-                                ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
-                                Mana = reader.GetDoubleSafe("mana"),
-                                ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
-                                DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
-                                ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
-                                DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
-                                ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
-                                NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
-                                NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
-                                SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
-                                SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                                PercentAllHealth = reader.GetDoubleSafe("percent_all_health"),
-                                PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack"),
-                                PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense"),
-                                PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack"),
-                                PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense"),
-                                PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack"),
-                                PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense"),
-                                PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack"),
-                                PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense"),
-                                PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack"),
-                                PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense"),
-                                Description = reader.GetStringSafe("description"),
-                                Currency = new Currencies
-                                {
-                                    Id = reader.GetStringSafe("currency_id"),
-                                    Image = reader.GetStringSafe("currency_image"),
-                                    Quantity = reader.GetIntSafe("price")
-                                }
-                            };
-
-                            researchs.Add(research);
-                        }
-                    }
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
-        }
-
-        return researchs;
-    }
-    public async Task<int> GetResearchsWithPriceCountAsync()
-    {
-        int count = 0;
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                await connection.OpenAsync();
-
-                string query = @"
-                SELECT COUNT(*)
-                FROM Researchs t
-                INNER JOIN Research_trade tt ON t.id = tt.Research_id
-                INNER JOIN currencies cu ON tt.currency_id = cu.id;";
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    object result = await command.ExecuteScalarAsync();
-                    count = Convert.ToInt32(result);
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
-        }
-
-        return count;
-    }
-    public async Task<Researchs> GetResearchByIdAsync(string Id)
-    {
-        Researchs research = new Researchs();
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            try
-            {
-                await connection.OpenAsync();
-
-                string query = "SELECT * FROM Researchs WHERE id=@id";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@id", Id);
-
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
-                    {
                         if (await reader.ReadAsync())
                         {
-                            research = new Researchs
-                            {
-                                Id = reader.GetStringSafe("id"),
-                                Name = reader.GetStringSafe("name"),
-                                Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
-                                Quality = reader.GetDoubleSafe("quality"),
-                                Power = reader.GetDoubleSafe("power"),
-                                Health = reader.GetDoubleSafe("health"),
-                                PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
-                                PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
-                                MagicalAttack = reader.GetDoubleSafe("magical_attack"),
-                                MagicalDefense = reader.GetDoubleSafe("magical_defense"),
-                                ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
-                                ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
-                                AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
-                                AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
-                                MentalAttack = reader.GetDoubleSafe("mental_attack"),
-                                MentalDefense = reader.GetDoubleSafe("mental_defense"),
-                                Speed = reader.GetDoubleSafe("speed"),
-                                CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
-                                CriticalRate = reader.GetDoubleSafe("critical_rate"),
-                                CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
-                                IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
-                                PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
-                                PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
-                                EvasionRate = reader.GetDoubleSafe("evasion_rate"),
-                                DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
-                                IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
-                                AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
-                                VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
-                                VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
-                                AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
-                                LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
-                                ShieldStrength = reader.GetDoubleSafe("shield_strength"),
-                                Tenacity = reader.GetDoubleSafe("tenacity"),
-                                ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
-                                ComboRate = reader.GetDoubleSafe("combo_rate"),
-                                IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
-                                ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
-                                ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
-                                StunRate = reader.GetDoubleSafe("stun_rate"),
-                                IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
-                                ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
-                                IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
-                                ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
-                                ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
-                                Mana = reader.GetDoubleSafe("mana"),
-                                ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
-                                DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
-                                ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
-                                DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
-                                ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
-                                NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
-                                NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
-                                SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
-                                SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                                Description = reader.GetStringSafe("description")
-                            };
+                            Researchs.Id = reader.GetStringSafe("Researchs_id");
+                            Researchs.Level = reader.GetIntSafe("Researchs_level");
+                            Researchs.Power = reader.GetDoubleSafe("power");
+                            Researchs.Health = reader.GetDoubleSafe("health");
+                            Researchs.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                            Researchs.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                            Researchs.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                            Researchs.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                            Researchs.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                            Researchs.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                            Researchs.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                            Researchs.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                            Researchs.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                            Researchs.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                            Researchs.Speed = reader.GetDoubleSafe("speed");
+                            Researchs.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                            Researchs.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                            Researchs.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                            Researchs.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                            Researchs.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                            Researchs.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                            Researchs.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                            Researchs.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                            Researchs.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                            Researchs.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                            Researchs.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                            Researchs.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                            Researchs.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                            Researchs.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                            Researchs.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                            Researchs.Tenacity = reader.GetDoubleSafe("tenacity");
+                            Researchs.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                            Researchs.ComboRate = reader.GetDoubleSafe("combo_rate");
+                            Researchs.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                            Researchs.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                            Researchs.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                            Researchs.StunRate = reader.GetDoubleSafe("stun_rate");
+                            Researchs.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                            Researchs.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                            Researchs.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                            Researchs.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                            Researchs.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                            Researchs.Mana = reader.GetDoubleSafe("mana");
+                            Researchs.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                            Researchs.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                            Researchs.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                            Researchs.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                            Researchs.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                            Researchs.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                            Researchs.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                            Researchs.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                            Researchs.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
+                            Researchs.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
+                            Researchs.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
+                            Researchs.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
+                            Researchs.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
+                            Researchs.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
+                            Researchs.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
+                            Researchs.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
+                            Researchs.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
+                            Researchs.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
+                            Researchs.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
+                            Researchs.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
                         }
                     }
                 }
@@ -412,11 +106,155 @@ public class ResearchsRepository : IResearchsRepository
             }
         }
 
-        return research;
+        return Researchs;
     }
-    public async Task<Researchs> SumPowerResearchsPercentAsync()
+    public async Task InsertOrUpdateResearchsAsync(string user_id, Researchs Researchs, string id)
     {
-        Researchs sumResearchs = new Researchs();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using var connection = new MySqlConnection(connectionString);
+        try
+        {
+            await connection.OpenAsync();
+
+            string checkQuery = @"
+            SELECT COUNT(*) FROM Researchs 
+            WHERE user_id = @user_id AND Researchs_id = @Researchs_id";
+
+            await using (var checkCmd = new MySqlCommand(checkQuery, connection))
+            {
+                checkCmd.Parameters.AddWithValue("@user_id", user_id);
+                checkCmd.Parameters.AddWithValue("@Researchs_id", id);
+
+                int count = Convert.ToInt32(await checkCmd.ExecuteScalarAsync());
+
+                if (count > 0)
+                {
+                    // -------- UPDATE ----------
+                    string updateQuery = @"
+                    UPDATE Researchs
+                    SET
+                        Researchs_level = @Researchs_level, power = @power, health = @health, mana = @mana, speed = @speed,
+                        physical_attack = @physical_attack, physical_defense = @physical_defense,
+                        magical_attack = @magical_attack, magical_defense = @magical_defense,
+                        chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,
+                        atomic_attack = @atomic_attack, atomic_defense = @atomic_defense,
+                        mental_attack = @mental_attack, mental_defense = @mental_defense,
+                        critical_damage_rate = @critical_damage_rate, critical_rate = @critical_rate,
+                        critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
+                        penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
+                        evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate,
+                        ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
+                        vitality_regeneration_rate = @vitality_regeneration_rate,
+                        vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate,
+                        accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate,
+                        shield_strength = @shield_strength, tenacity = @tenacity,
+                        resistance_rate = @resistance_rate, combo_rate = @combo_rate,
+                        ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate,
+                        combo_resistance_rate = @combo_resistance_rate, stun_rate = @stun_rate,
+                        ignore_stun_rate = @ignore_stun_rate,
+                        reflection_rate = @reflection_rate,
+                        ignore_reflection_rate = @ignore_reflection_rate,
+                        reflection_damage_rate = @reflection_damage_rate,
+                        reflection_resistance_rate = @reflection_resistance_rate,
+                        mana_regeneration_rate = @mana_regeneration_rate,
+                        damage_to_different_faction_rate = @damage_to_different_faction_rate,
+                        resistance_to_different_faction_rate = @resistance_to_different_faction_rate,
+                        damage_to_same_faction_rate = @damage_to_same_faction_rate,
+                        resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
+                        normal_damage_rate = @normal_damage_rate,
+                        normal_resistance_rate = @normal_resistance_rate,
+                        skill_damage_rate = @skill_damage_rate,
+                        skill_resistance_rate = @skill_resistance_rate,
+                        percent_all_health = @percent_all_health,
+                        percent_all_physical_attack = @percent_all_physical_attack,
+                        percent_all_physical_defense = @percent_all_physical_defense,
+                        percent_all_magical_attack = @percent_all_magical_attack,
+                        percent_all_magical_defense = @percent_all_magical_defense,
+                        percent_all_chemical_attack = @percent_all_chemical_attack,
+                        percent_all_chemical_defense = @percent_all_chemical_defense,
+                        percent_all_atomic_attack = @percent_all_atomic_attack,
+                        percent_all_atomic_defense = @percent_all_atomic_defense,
+                        percent_all_mental_attack = @percent_all_mental_attack,
+                        percent_all_mental_defense = @percent_all_mental_defense
+                    WHERE user_id = @user_id
+                    AND Researchs_id = @Researchs_id;
+                ";
+
+                    await using var updateCmd = new MySqlCommand(updateQuery, connection);
+                    AddAllParameters(updateCmd, Researchs, user_id, id);
+
+                    await updateCmd.ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    // -------- INSERT ----------
+                    string insertQuery = @"
+                    INSERT INTO Researchs (
+                    user_id, Researchs_id, Researchs_level, power, health, mana, speed,
+                    physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
+                    atomic_attack, atomic_defense, mental_attack, mental_defense,
+                    critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                    penetration_rate, penetration_resistance_rate, evasion_rate,
+                    damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                    vitality_regeneration_rate, vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate,
+                    shield_strength, tenacity, resistance_rate,
+                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                    stun_rate, ignore_stun_rate,
+                    reflection_rate, ignore_reflection_rate,
+                    reflection_damage_rate, reflection_resistance_rate,
+                    mana_regeneration_rate,
+                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                    normal_damage_rate, normal_resistance_rate,
+                    skill_damage_rate, skill_resistance_rate,
+                    percent_all_health,
+                    percent_all_physical_attack, percent_all_physical_defense,
+                    percent_all_magical_attack, percent_all_magical_defense,
+                    percent_all_chemical_attack, percent_all_chemical_defense,
+                    percent_all_atomic_attack, percent_all_atomic_defense,
+                    percent_all_mental_attack, percent_all_mental_defense
+                )
+                VALUES (
+                    @user_id, @Researchs_id, @Researchs_level, @power, @health, @mana, @speed,
+                    @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                    @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                    @penetration_rate, @penetration_resistance_rate, @evasion_rate,
+                    @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate, @stun_rate, @ignore_stun_rate,
+                    @reflection_rate, @ignore_reflection_rate,
+                    @reflection_damage_rate, @reflection_resistance_rate, @mana_regeneration_rate,
+                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                    @normal_damage_rate, @normal_resistance_rate,
+                    @skill_damage_rate, @skill_resistance_rate,
+                    @percent_all_health,
+                    @percent_all_physical_attack, @percent_all_physical_defense,
+                    @percent_all_magical_attack, @percent_all_magical_defense,
+                    @percent_all_chemical_attack, @percent_all_chemical_defense,
+                    @percent_all_atomic_attack, @percent_all_atomic_defense,
+                    @percent_all_mental_attack, @percent_all_mental_defense
+                );
+                ";
+
+                    await using var insertCmd = new MySqlCommand(insertQuery, connection);
+                    AddAllParameters(insertCmd, Researchs, user_id, id);
+
+                    await insertCmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+    }
+    public async Task<Researchs> GetSumResearchsAsync(string user_id)
+    {
+        Researchs Researchs = new Researchs();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -427,40 +265,140 @@ public class ResearchsRepository : IResearchsRepository
 
                 string query = @"
                 SELECT 
-                    SUM(a.percent_all_health) AS total_percent_all_health,
-                    SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
-                    SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense,
-                    SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
-                    SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense,
-                    SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
-                    SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense,
-                    SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
-                    SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense,
-                    SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
-                    SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM Researchs a
-                INNER JOIN user_Researchs ua ON a.id = ua.Research_id
-                WHERE ua.user_id = @user_id;";
+                    SUM(power) AS total_power,
+                    SUM(health) AS total_health,
+                    SUM(mana) AS total_mana,
+                    SUM(physical_attack) AS total_physical_attack,
+                    SUM(physical_defense) AS total_physical_defense,
+                    SUM(magical_attack) AS total_magical_attack,
+                    SUM(magical_defense) AS total_magical_defense,
+                    SUM(chemical_attack) AS total_chemical_attack,
+                    SUM(chemical_defense) AS total_chemical_defense,
+                    SUM(atomic_attack) AS total_atomic_attack,
+                    SUM(atomic_defense) AS total_atomic_defense,
+                    SUM(mental_attack) AS total_mental_attack,
+                    SUM(mental_defense) AS total_mental_defense,
+                    SUM(speed) AS total_speed,
+                    SUM(critical_damage_rate) AS total_critical_damage_rate,
+                    SUM(critical_rate) AS total_critical_rate,
+                    SUM(critical_resistance_rate) AS total_critical_resistance_rate,
+                    SUM(ignore_critical_rate) AS total_ignore_critical_rate,
+                    SUM(penetration_rate) AS total_penetration_rate,
+                    SUM(penetration_resistance_rate) AS total_penetration_resistance_rate,
+                    SUM(evasion_rate) AS total_evasion_rate,
+                    SUM(damage_absorption_rate) AS total_damage_absorption_rate,
+                    SUM(ignore_damage_absorption_rate) AS total_ignore_damage_absorption_rate,
+                    SUM(absorbed_damage_rate) AS total_absorbed_damage_rate,
+                    SUM(vitality_regeneration_rate) AS total_vitality_regeneration_rate,
+                    SUM(vitality_regeneration_resistance_rate) AS total_vitality_regeneration_resistance_rate,
+                    SUM(accuracy_rate) AS total_accuracy_rate,
+                    SUM(lifesteal_rate) AS total_lifesteal_rate,
+                    SUM(shield_strength) AS total_shield_strength,
+                    SUM(tenacity) AS total_tenacity,
+                    SUM(resistance_rate) AS total_resistance_rate,
+                    SUM(combo_rate) AS total_combo_rate,
+                    SUM(ignore_combo_rate) AS total_ignore_combo_rate,
+                    SUM(combo_damage_rate) AS total_combo_damage_rate,
+                    SUM(combo_resistance_rate) AS total_combo_resistance_rate,
+                    SUM(stun_rate) AS total_stun_rate,
+                    SUM(ignore_stun_rate) AS total_ignore_stun_rate,
+                    SUM(reflection_rate) AS total_reflection_rate,
+                    SUM(ignore_reflection_rate) AS total_ignore_reflection_rate,
+                    SUM(reflection_damage_rate) AS total_reflection_damage_rate,
+                    SUM(reflection_resistance_rate) AS total_reflection_resistance_rate,
+                    SUM(mana_regeneration_rate) AS total_mana_regeneration_rate,
+                    SUM(damage_to_different_faction_rate) AS total_damage_to_different_faction_rate,
+                    SUM(resistance_to_different_faction_rate) AS total_resistance_to_different_faction_rate,
+                    SUM(damage_to_same_faction_rate) AS total_damage_to_same_faction_rate,
+                    SUM(resistance_to_same_faction_rate) AS total_resistance_to_same_faction_rate,
+                    SUM(normal_damage_rate) AS total_normal_damage_rate,
+                    SUM(normal_resistance_rate) AS total_normal_resistance_rate,
+                    SUM(skill_damage_rate) AS total_skill_damage_rate,
+                    SUM(skill_resistance_rate) AS total_skill_resistance_rate,
+                    SUM(percent_all_health) AS percent_all_health,
+                    SUM(percent_all_physical_attack) AS percent_all_physical_attack,
+                    SUM(percent_all_physical_defense) AS percent_all_physical_defense,
+                    SUM(percent_all_magical_attack) AS percent_all_magical_attack,
+                    SUM(percent_all_magical_defense) AS percent_all_magical_defense,
+                    SUM(percent_all_chemical_attack) AS percent_all_chemical_attack,
+                    SUM(percent_all_chemical_defense) AS percent_all_chemical_defense,
+                    SUM(percent_all_atomic_attack) AS percent_all_atomic_attack,
+                    SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
+                    SUM(percent_all_mental_attack) AS percent_all_mental_attack,
+                    SUM(percent_all_mental_defense) AS percent_all_mental_defense
+                FROM Researchs 
+                WHERE user_id = @user_id;
+            ";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            sumResearchs.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");
-                            sumResearchs.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_attack");
-                            sumResearchs.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_defense");
-                            sumResearchs.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_attack");
-                            sumResearchs.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_defense");
-                            sumResearchs.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_attack");
-                            sumResearchs.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_defense");
-                            sumResearchs.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_attack");
-                            sumResearchs.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_defense");
-                            sumResearchs.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_attack");
-                            sumResearchs.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_defense");
+                            Researchs.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
+                            Researchs.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
+                            Researchs.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            Researchs.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
+                            Researchs.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
+                            Researchs.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
+                            Researchs.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
+                            Researchs.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
+                            Researchs.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
+                            Researchs.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
+                            Researchs.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
+                            Researchs.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
+                            Researchs.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
+                            Researchs.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
+                            Researchs.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
+                            Researchs.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
+                            Researchs.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
+                            Researchs.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
+                            Researchs.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
+                            Researchs.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
+                            Researchs.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
+                            Researchs.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
+                            Researchs.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
+                            Researchs.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
+                            Researchs.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
+                            Researchs.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
+                            Researchs.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
+                            Researchs.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
+                            Researchs.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
+                            Researchs.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
+                            Researchs.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
+                            Researchs.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
+                            Researchs.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
+                            Researchs.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
+                            Researchs.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
+                            Researchs.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
+                            Researchs.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
+                            Researchs.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
+                            Researchs.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
+                            Researchs.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
+                            Researchs.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
+                            Researchs.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
+                            Researchs.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
+                            Researchs.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
+                            Researchs.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
+                            Researchs.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
+                            Researchs.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
+                            Researchs.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
+                            Researchs.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
+                            Researchs.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
+                            Researchs.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDoubleSafe("percent_all_health");
+                            Researchs.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_physical_attack");
+                            Researchs.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_physical_defense");
+                            Researchs.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_magical_attack");
+                            Researchs.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_magical_defense");
+                            Researchs.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_attack");
+                            Researchs.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_defense");
+                            Researchs.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_attack");
+                            Researchs.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_defense");
+                            Researchs.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("percent_all_mental_attack");
+                            Researchs.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("percent_all_mental_defense");
                         }
                     }
                 }
@@ -471,6 +409,80 @@ public class ResearchsRepository : IResearchsRepository
             }
         }
 
-        return sumResearchs;
+        return Researchs;
+    }
+    private void AddAllParameters(MySqlCommand cmd, Researchs a, string user_id, string type)
+    {
+        cmd.Parameters.AddWithValue("@user_id", user_id);
+        cmd.Parameters.AddWithValue("@Researchs_id", type);
+
+        cmd.Parameters.AddWithValue("@Researchs_level", a.Level == 0 ? 1 : a.Level);
+        cmd.Parameters.AddWithValue("@power", a.Power);
+        cmd.Parameters.AddWithValue("@health", a.Health);
+        cmd.Parameters.AddWithValue("@mana", a.Mana);
+        cmd.Parameters.AddWithValue("@speed", a.Speed);
+
+        cmd.Parameters.AddWithValue("@physical_attack", a.PhysicalAttack);
+        cmd.Parameters.AddWithValue("@physical_defense", a.PhysicalDefense);
+        cmd.Parameters.AddWithValue("@magical_attack", a.MagicalAttack);
+        cmd.Parameters.AddWithValue("@magical_defense", a.MagicalDefense);
+
+        cmd.Parameters.AddWithValue("@chemical_attack", a.ChemicalAttack);
+        cmd.Parameters.AddWithValue("@chemical_defense", a.ChemicalDefense);
+        cmd.Parameters.AddWithValue("@atomic_attack", a.AtomicAttack);
+        cmd.Parameters.AddWithValue("@atomic_defense", a.AtomicDefense);
+        cmd.Parameters.AddWithValue("@mental_attack", a.MentalAttack);
+        cmd.Parameters.AddWithValue("@mental_defense", a.MentalDefense);
+
+        cmd.Parameters.AddWithValue("@critical_damage_rate", a.CriticalDamageRate);
+        cmd.Parameters.AddWithValue("@critical_rate", a.CriticalRate);
+        cmd.Parameters.AddWithValue("@critical_resistance_rate", a.CriticalResistanceRate);
+        cmd.Parameters.AddWithValue("@ignore_critical_rate", a.IgnoreCriticalRate);
+        cmd.Parameters.AddWithValue("@penetration_resistance_rate", a.PenetrationResistanceRate);
+        cmd.Parameters.AddWithValue("@penetration_rate", a.PenetrationRate);
+        cmd.Parameters.AddWithValue("@evasion_rate", a.EvasionRate);
+        cmd.Parameters.AddWithValue("@damage_absorption_rate", a.DamageAbsorptionRate);
+        cmd.Parameters.AddWithValue("@vitality_regeneration_rate", a.VitalityRegenerationRate);
+        cmd.Parameters.AddWithValue("@ignore_damage_absorption_rate", a.IgnoreDamageAbsorptionRate);
+        cmd.Parameters.AddWithValue("@absorbed_damage_rate", a.AbsorbedDamageRate);
+        cmd.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", a.VitalityRegenerationResistanceRate);
+
+        cmd.Parameters.AddWithValue("@accuracy_rate", a.AccuracyRate);
+        cmd.Parameters.AddWithValue("@lifesteal_rate", a.LifestealRate);
+        cmd.Parameters.AddWithValue("@shield_strength", a.ShieldStrength);
+        cmd.Parameters.AddWithValue("@tenacity", a.Tenacity);
+        cmd.Parameters.AddWithValue("@resistance_rate", a.ResistanceRate);
+        cmd.Parameters.AddWithValue("@combo_rate", a.ComboRate);
+        cmd.Parameters.AddWithValue("@reflection_rate", a.ReflectionRate);
+        cmd.Parameters.AddWithValue("@ignore_combo_rate", a.IgnoreComboRate);
+        cmd.Parameters.AddWithValue("@combo_damage_rate", a.ComboDamageRate);
+        cmd.Parameters.AddWithValue("@combo_resistance_rate", a.ComboResistanceRate);
+        cmd.Parameters.AddWithValue("@stun_rate", a.StunRate);
+        cmd.Parameters.AddWithValue("@ignore_stun_rate", a.IgnoreStunRate);
+        cmd.Parameters.AddWithValue("@ignore_reflection_rate", a.IgnoreReflectionRate);
+        cmd.Parameters.AddWithValue("@reflection_damage_rate", a.ReflectionDamageRate);
+        cmd.Parameters.AddWithValue("@reflection_resistance_rate", a.ReflectionResistanceRate);
+
+        cmd.Parameters.AddWithValue("@mana_regeneration_rate", a.ManaRegenerationRate);
+        cmd.Parameters.AddWithValue("@damage_to_different_faction_rate", a.DamageToDifferentFactionRate);
+        cmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", a.ResistanceToDifferentFactionRate);
+        cmd.Parameters.AddWithValue("@damage_to_same_faction_rate", a.DamageToSameFactionRate);
+        cmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", a.ResistanceToSameFactionRate);
+        cmd.Parameters.AddWithValue("@normal_damage_rate", a.NormalDamageRate);
+        cmd.Parameters.AddWithValue("@normal_resistance_rate", a.NormalResistanceRate);
+        cmd.Parameters.AddWithValue("@skill_damage_rate", a.SkillDamageRate);
+        cmd.Parameters.AddWithValue("@skill_resistance_rate", a.SkillResistanceRate);
+
+        cmd.Parameters.AddWithValue("@percent_all_health", a.PercentAllHealth);
+        cmd.Parameters.AddWithValue("@percent_all_physical_attack", a.PercentAllPhysicalAttack);
+        cmd.Parameters.AddWithValue("@percent_all_physical_defense", a.PercentAllPhysicalDefense);
+        cmd.Parameters.AddWithValue("@percent_all_magical_attack", a.PercentAllMagicalAttack);
+        cmd.Parameters.AddWithValue("@percent_all_magical_defense", a.PercentAllMagicalDefense);
+        cmd.Parameters.AddWithValue("@percent_all_chemical_attack", a.PercentAllChemicalAttack);
+        cmd.Parameters.AddWithValue("@percent_all_chemical_defense", a.PercentAllChemicalDefense);
+        cmd.Parameters.AddWithValue("@percent_all_atomic_attack", a.PercentAllAtomicAttack);
+        cmd.Parameters.AddWithValue("@percent_all_atomic_defense", a.PercentAllAtomicDefense);
+        cmd.Parameters.AddWithValue("@percent_all_mental_attack", a.PercentAllMentalAttack);
+        cmd.Parameters.AddWithValue("@percent_all_mental_defense", a.PercentAllMentalDefense);
     }
 }

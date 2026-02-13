@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,5 +31,10 @@ public class TimeManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ResearchPanelPrefab = UIManager.Instance.Get("ResearchPanelPrefab");
         ResearchButtonPrefab = UIManager.Instance.Get("ResearchButtonPrefab");
+    }
+
+    public void CreateTimeManager()
+    {
+        throw new NotImplementedException();
     }
 }
