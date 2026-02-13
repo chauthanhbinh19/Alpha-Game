@@ -47,10 +47,11 @@ public class ArenaManager : MonoBehaviour
         borderImage.texture = borderTexture;
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
+        HomeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
+            await HomeManager.Instance.CreateHomePanelAsync();
         });
         CloseButton.onClick.AddListener(() =>
         {

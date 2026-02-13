@@ -246,12 +246,13 @@ public class ShopManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(equipmentObject);
         });
-        // HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        // HomeButton.onClick.AddListener(() =>
-        // {
-        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-        //     Close(MainPanel);
-        // });
+        HomeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Close(MainPanel);
+            await HomeManager.Instance.CreateHomePanelAsync();
+        });
         NextButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);

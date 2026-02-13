@@ -50,10 +50,11 @@ public class ReactorNumber11Manager : MonoBehaviour
         GameObject currentObject = Instantiate(ReactorPanelNumberPrefab, MainPanel);
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
+        HomeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
+            await HomeManager.Instance.CreateHomePanelAsync();
         });
         CloseButton.onClick.AddListener(() =>
         {
