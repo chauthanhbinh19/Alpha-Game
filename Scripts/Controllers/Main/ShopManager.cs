@@ -29,7 +29,7 @@ public class ShopManager : MonoBehaviour
     private int offset;
     private int currentPage;
     private int totalPage;
-    private int pageSize;
+    private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
@@ -60,7 +60,6 @@ public class ShopManager : MonoBehaviour
     {
         offset = 0;
         currentPage = 1;
-        pageSize = 100;
         // rare = "All";
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ShopButtonPrefab = UIManager.Instance.Get("ShopButtonPrefab");
@@ -338,7 +337,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_2_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardHeroes> cardHeroes = await CardHeroesService.Create().GetCardHeroesWithPriceAsync(type, pageSize, offset);
+            List<CardHeroes> cardHeroes = await CardHeroesService.Create().GetCardHeroesWithPriceAsync(type, PAGE_SIZE, offset);
             await CardHeroesController.Instance.CreateCardHeroesTradeAsync(cardHeroes, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardHeroesService.Create().GetCardHeroesWithPriceCountAsync(type);
@@ -349,7 +348,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_4_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Books> books = await BooksService.Create().GetBooksWithPriceAsync(type, pageSize, offset);
+            List<Books> books = await BooksService.Create().GetBooksWithPriceAsync(type, PAGE_SIZE, offset);
             await BooksController.Instance.CreateBooksTradeAsync(books, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await BooksService.Create().GetBooksWithPriceCountAsync(type);
@@ -360,7 +359,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_6_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardCaptains> cardCaptains = await CardCaptainsService.Create().GetCardCaptainsWithPriceAsync(type, pageSize, offset);
+            List<CardCaptains> cardCaptains = await CardCaptainsService.Create().GetCardCaptainsWithPriceAsync(type, PAGE_SIZE, offset);
             await CardCaptainsController.Instance.CreateCardCaptainsTradeAsync(cardCaptains, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardCaptainsService.Create().GetCardCaptainsWithPriceCountAsync(type);
@@ -371,7 +370,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_8_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CollaborationEquipments> collaborationEquipments = await CollaborationEquipmentsService.Create().GetCollaborationEquipmentsWithPriceAsync(type, pageSize, offset);
+            List<CollaborationEquipments> collaborationEquipments = await CollaborationEquipmentsService.Create().GetCollaborationEquipmentsWithPriceAsync(type, PAGE_SIZE, offset);
             await CollaborationEquipmentsController.Instance.CreateCollaborationEquipmentsTradeAsync(collaborationEquipments, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CollaborationEquipmentsService.Create().GetCollaborationEquipmentsWithPriceCountAsync(type);
@@ -393,7 +392,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_12_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Pets> pets = await PetsService.Create().GetPetsWithPriceAsync(type, pageSize, offset);
+            List<Pets> pets = await PetsService.Create().GetPetsWithPriceAsync(type, PAGE_SIZE, offset);
             await PetsController.Instance.CreatePetsTradeAsync(pets, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await PetsService.Create().GetPetsWithPriceCountAsync(type);
@@ -404,7 +403,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_14_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Skills> skills = await SkillsService.Create().GetSkillsWithPriceAsync(type, pageSize, offset);
+            List<Skills> skills = await SkillsService.Create().GetSkillsWithPriceAsync(type, PAGE_SIZE, offset);
             await SkillsController.Instance.CreateSkillsTradeAsync(skills, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await SkillsService.Create().GetSkillsWithPriceCountAsync(type);
@@ -415,7 +414,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_16_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Symbols> symbols = await SymbolsService.Create().GetSymbolsWithPriceAsync(type, pageSize, offset);
+            List<Symbols> symbols = await SymbolsService.Create().GetSymbolsWithPriceAsync(type, PAGE_SIZE, offset);
             await SymbolsController.Instance.CreateSymbolsTradeAsync(symbols, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await SymbolsService.Create().GetSymbolsWithPriceCountAsync(type);
@@ -426,7 +425,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_18_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardMilitaries> cardMilitaries = await CardMilitariesService.Create().GetCardMilitariesWithPriceAsync(type, pageSize, offset);
+            List<CardMilitaries> cardMilitaries = await CardMilitariesService.Create().GetCardMilitariesWithPriceAsync(type, PAGE_SIZE, offset);
             await CardMilitariesController.Instance.CreateCardMilitariesTradeAsync(cardMilitaries, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardMilitariesService.Create().GetCardMilitariesWithPriceCountAsync(type);
@@ -437,7 +436,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_20_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardSpells> cardSpells = await CardSpellsService.Create().GetCardSpellsWithPriceAsync(type, pageSize, offset);
+            List<CardSpells> cardSpells = await CardSpellsService.Create().GetCardSpellsWithPriceAsync(type, PAGE_SIZE, offset);
             await CardSpellsController.Instance.CreateCardSpellsTradeAsync(cardSpells, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardSpellsService.Create().GetCardSpellsWithPriceCountAsync(type);
@@ -448,7 +447,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_22_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<MagicFormationCircles> magicFormationCircles = await MagicFormationCirclesService.Create().GetMagicFormationCirclesWithPriceAsync(type, pageSize, offset);
+            List<MagicFormationCircles> magicFormationCircles = await MagicFormationCirclesService.Create().GetMagicFormationCirclesWithPriceAsync(type, PAGE_SIZE, offset);
             await MagicFormationCirclesController.Instance.CreateMagicFormationCirclesTradeAsync(magicFormationCircles, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await MagicFormationCirclesService.Create().GetMagicFormationCirclesWithPriceCountAsync(type);
@@ -459,7 +458,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_24_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Relics> relics = await RelicsService.Create().GetRelicsWithPriceAsync(type, pageSize, offset);
+            List<Relics> relics = await RelicsService.Create().GetRelicsWithPriceAsync(type, PAGE_SIZE, offset);
             await RelicsController.Instance.CreateRelicsTradeAsync(relics, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await RelicsService.Create().GetRelicsWithPriceCountAsync(type);
@@ -470,7 +469,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_26_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardMonsters> cardMonsters = await CardMonstersService.Create().GetCardMonstersWithPriceAsync(type, pageSize, offset);
+            List<CardMonsters> cardMonsters = await CardMonstersService.Create().GetCardMonstersWithPriceAsync(type, PAGE_SIZE, offset);
             await CardMonstersController.Instance.CreateCardMonstersTradeAsync(cardMonsters, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardMonstersService.Create().GetCardMonstersWithPriceCountAsync(type);
@@ -481,7 +480,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_28_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardColonels> cardColonels = await CardColonelsService.Create().GetCardColonelsWithPriceAsync(type, pageSize, offset);
+            List<CardColonels> cardColonels = await CardColonelsService.Create().GetCardColonelsWithPriceAsync(type, PAGE_SIZE, offset);
             await CardColonelsController.Instance.CreateCardColonelsTradeAsync(cardColonels, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardColonelsService.Create().GetCardColonelsWithPriceCountAsync(type);
@@ -492,7 +491,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_30_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardGenerals> cardGenerals = await CardGeneralsService.Create().GetCardGeneralsWithPriceAsync(type, pageSize, offset);
+            List<CardGenerals> cardGenerals = await CardGeneralsService.Create().GetCardGeneralsWithPriceAsync(type, PAGE_SIZE, offset);
             await CardGeneralsController.Instance.CreateCardGeneralsTradeAsync(cardGenerals, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardGeneralsService.Create().GetCardGeneralsWithPriceCountAsync(type);
@@ -503,7 +502,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_32_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardAdmirals> cardAdmirals = await CardAdmiralsService.Create().GetCardAdmiralsWithPriceAsync(type, pageSize, offset);
+            List<CardAdmirals> cardAdmirals = await CardAdmiralsService.Create().GetCardAdmiralsWithPriceAsync(type, PAGE_SIZE, offset);
             await CardAdmiralsController.Instance.CreateCardAdmiralsTradeAsync(cardAdmirals, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardAdmiralsService.Create().GetCardAdmiralsWithPriceCountAsync(type);
@@ -514,7 +513,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_34_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Talismans> talismans = await TalismansService.Create().GetTalismansWithPriceAsync(type, pageSize, offset);
+            List<Talismans> talismans = await TalismansService.Create().GetTalismansWithPriceAsync(type, PAGE_SIZE, offset);
             await TalismansController.Instance.CreateTalismansTradeAsync(talismans, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await TalismansService.Create().GetTalismansWithPriceCountAsync(type);
@@ -525,7 +524,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_36_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Puppets> puppets = await PuppetsService.Create().GetPuppetsWithPriceAsync(type, pageSize, offset);
+            List<Puppets> puppets = await PuppetsService.Create().GetPuppetsWithPriceAsync(type, PAGE_SIZE, offset);
             await PuppetsController.Instance.CreatePuppetsTradeAsync(puppets, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await PuppetsService.Create().GetPuppetsWithPriceCountAsync(type);
@@ -536,7 +535,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_38_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Alchemies> alchemies = await AlchemiesService.Create().GetAlchemiesWithPriceAsync(type, pageSize, offset);
+            List<Alchemies> alchemies = await AlchemiesService.Create().GetAlchemiesWithPriceAsync(type, PAGE_SIZE, offset);
             await AlchemiesController.Instance.CreateAlchemiesTradeAsync(alchemies, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await AlchemiesService.Create().GetAlchemiesWithPriceCountAsync(type);
@@ -547,7 +546,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_40_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Forges> forges = await ForgesService.Create().GetForgesWithPriceAsync(type, pageSize, offset);
+            List<Forges> forges = await ForgesService.Create().GetForgesWithPriceAsync(type, PAGE_SIZE, offset);
             await ForgesController.Instance.CreateForgesTradeAsync(forges, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await ForgesService.Create().GetForgesWithPriceCountAsync(type);
@@ -558,7 +557,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_42_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<CardLives> cardLives = await CardLivesService.Create().GetCardLivesWithPriceAsync(type, pageSize, offset);
+            List<CardLives> cardLives = await CardLivesService.Create().GetCardLivesWithPriceAsync(type, PAGE_SIZE, offset);
             await CardLivesController.Instance.CreateCardLivesTradeAsync(cardLives, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardLivesService.Create().GetCardLivesWithPriceCountAsync(type);
@@ -569,7 +568,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_44_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Artworks> artworks = await ArtworksService.Create().GetArtworksWithPriceAsync(type, pageSize, offset);
+            List<Artworks> artworks = await ArtworksService.Create().GetArtworksWithPriceAsync(type, PAGE_SIZE, offset);
             await ArtworksController.Instance.CreateArtworksTradeAsync(artworks, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await ArtworksService.Create().GetArtworksWithPriceCountAsync(type);
@@ -580,7 +579,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_46_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<SpiritBeasts> spiritBeasts = await SpiritBeastsService.Create().GetSpiritBeastsWithPriceAsync(pageSize, offset);
+            List<SpiritBeasts> spiritBeasts = await SpiritBeastsService.Create().GetSpiritBeastsWithPriceAsync(PAGE_SIZE, offset);
             await SpiritBeastsController.Instance.CreateSpiritBeastsTradeAsync(spiritBeasts, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await SpiritBeastsService.Create().GetSpiritBeastsWithPriceCountAsync();
@@ -591,7 +590,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_48_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<SpiritCards> spiritCards = await SpiritCardsService.Create().GetSpiritCardsWithPriceAsync(type, pageSize, offset);
+            List<SpiritCards> spiritCards = await SpiritCardsService.Create().GetSpiritCardsWithPriceAsync(type, PAGE_SIZE, offset);
             await SpiritCardsController.Instance.CreateSpiritCardTradeAsync(spiritCards, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await SpiritCardsService.Create().GetSpiritCardsWithPriceCountAsync(type);
@@ -602,7 +601,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_58_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Cards> cards = await CardsService.Create().GetCardsWithPriceAsync(pageSize, offset);
+            List<Cards> cards = await CardsService.Create().GetCardsWithPriceAsync(PAGE_SIZE, offset);
             await CardsController.Instance.CreateCardsTradeAsync(cards, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CardsService.Create().GetCardsWithPriceCountAsync();
@@ -613,7 +612,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_60_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Architectures> architectures = await ArchitecturesService.Create().GetArchitecturesWithPriceAsync(pageSize, offset);
+            List<Architectures> architectures = await ArchitecturesService.Create().GetArchitecturesWithPriceAsync(PAGE_SIZE, offset);
             await ArchitecturesController.Instance.CreateArchitecturesTradeAsync(architectures, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await ArchitecturesService.Create().GetArchitecturesWithPriceCountAsync();
@@ -624,7 +623,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_62_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Technologies> technologies = await TechnologiesService.Create().GetTechnologiesWithPriceAsync(pageSize, offset);
+            List<Technologies> technologies = await TechnologiesService.Create().GetTechnologiesWithPriceAsync(PAGE_SIZE, offset);
             await TechnologiesController.Instance.CreateTechnologiesTradeAsync(technologies, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await TechnologiesService.Create().GetTechnologiesWithPriceCountAsync();
@@ -635,7 +634,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_64_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Vehicles> vehicles = await VehiclesService.Create().GetVehiclesWithPriceAsync(type, pageSize, offset);
+            List<Vehicles> vehicles = await VehiclesService.Create().GetVehiclesWithPriceAsync(type, PAGE_SIZE, offset);
             await VehiclesController.Instance.CreateVehiclesTradeAsync(vehicles, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await VehiclesService.Create().GetVehiclesWithPriceCountAsync(type);
@@ -646,7 +645,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_64_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Cores> cores = await CoresService.Create().GetCoresWithPriceAsync(pageSize, offset);
+            List<Cores> cores = await CoresService.Create().GetCoresWithPriceAsync(PAGE_SIZE, offset);
             await CoresController.Instance.CreateCoresTradeAsync(cores, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CoresService.Create().GetCoresWithPriceCountAsync();
@@ -657,7 +656,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_66_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Weapons> weapons = await WeaponsService.Create().GetWeaponsWithPriceAsync(pageSize, offset);
+            List<Weapons> weapons = await WeaponsService.Create().GetWeaponsWithPriceAsync(PAGE_SIZE, offset);
             await WeaponsController.Instance.CreateWeaponsTradeAsync(weapons, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await WeaponsService.Create().GetWeaponsWithPriceCountAsync();
@@ -668,7 +667,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_68_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Robots> robots = await RobotsService.Create().GetRobotsWithPriceAsync(pageSize, offset);
+            List<Robots> robots = await RobotsService.Create().GetRobotsWithPriceAsync(PAGE_SIZE, offset);
             await RobotsController.Instance.CreateRobotsTradeAsync(robots, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await RobotsService.Create().GetRobotsWithPriceCountAsync();
@@ -679,7 +678,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_70_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Badges> badges = await BadgesService.Create().GetBadgesWithPriceAsync(pageSize, offset);
+            List<Badges> badges = await BadgesService.Create().GetBadgesWithPriceAsync(PAGE_SIZE, offset);
             await BadgesController.Instance.CreateBadgesTradeAsync(badges, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await BadgesService.Create().GetBadgesWithPriceCountAsync();
@@ -690,7 +689,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_72_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<MechaBeasts> mechaBeasts = await MechaBeastsService.Create().GetMechaBeastsWithPriceAsync(pageSize, offset);
+            List<MechaBeasts> mechaBeasts = await MechaBeastsService.Create().GetMechaBeastsWithPriceAsync(PAGE_SIZE, offset);
             await MechaBeastsController.Instance.CreateMechaBeastsTradeAsync(mechaBeasts, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await MechaBeastsService.Create().GetMechaBeastsWithPriceCountAsync();
@@ -701,7 +700,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_74_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Runes> runes = await RunesService.Create().GetRunesWithPriceAsync(pageSize, offset);
+            List<Runes> runes = await RunesService.Create().GetRunesWithPriceAsync(PAGE_SIZE, offset);
             await RunesController.Instance.CreateRunesTradeAsync(runes, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await RunesService.Create().GetRunesWithPriceCountAsync();
@@ -712,7 +711,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_76_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Furnitures> furnitures = await FurnituresService.Create().GetFurnituresWithPriceAsync(type, pageSize, offset);
+            List<Furnitures> furnitures = await FurnituresService.Create().GetFurnituresWithPriceAsync(type, PAGE_SIZE, offset);
             await FurnituresController.Instance.CreateFurnituresTradeAsync(furnitures, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await FurnituresService.Create().GetFurnituresWithPriceCountAsync(type);
@@ -723,7 +722,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_78_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Foods> foods = await FoodsService.Create().GetFoodsWithPriceAsync(pageSize, offset);
+            List<Foods> foods = await FoodsService.Create().GetFoodsWithPriceAsync(PAGE_SIZE, offset);
             await FoodsController.Instance.CreateFoodsTradeAsync(foods, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await FoodsService.Create().GetFoodsWithPriceCountAsync();
@@ -734,7 +733,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_80_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Beverages> beverages = await BeveragesService.Create().GetBeveragesWithPriceAsync(pageSize, offset);
+            List<Beverages> beverages = await BeveragesService.Create().GetBeveragesWithPriceAsync(PAGE_SIZE, offset);
             await BeveragesController.Instance.CreateBeveragesTradeAsync(beverages, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await BeveragesService.Create().GetBeveragesWithPriceCountAsync();
@@ -745,7 +744,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_82_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Buildings> buildings = await BuildingsService.Create().GetBuildingsWithPriceAsync(type, pageSize, offset);
+            List<Buildings> buildings = await BuildingsService.Create().GetBuildingsWithPriceAsync(type, PAGE_SIZE, offset);
             await BuildingsController.Instance.CreateBuildingsTradeAsync(buildings, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await BuildingsService.Create().GetBuildingsWithPriceCountAsync(type);
@@ -756,7 +755,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Plants> plants = await PlantsService.Create().GetPlantsWithPriceAsync(pageSize, offset);
+            List<Plants> plants = await PlantsService.Create().GetPlantsWithPriceAsync(PAGE_SIZE, offset);
             await PlantsController.Instance.CreatePlantsTradeAsync(plants, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await PlantsService.Create().GetPlantsWithPriceCountAsync();
@@ -767,7 +766,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_86_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Fashions> fashions = await FashionsService.Create().GetFashionsWithPriceAsync(type, pageSize, offset);
+            List<Fashions> fashions = await FashionsService.Create().GetFashionsWithPriceAsync(type, PAGE_SIZE, offset);
             await FashionsController.Instance.CreateFashionsTradeAsync(fashions, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await FashionsService.Create().GetFashionsWithPriceCountAsync(type);
@@ -778,7 +777,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Medals> medals = await MedalsService.Create().GetMedalsWithPriceAsync(pageSize, offset);
+            List<Medals> medals = await MedalsService.Create().GetMedalsWithPriceAsync(PAGE_SIZE, offset);
             await MedalsController.Instance.CreateMedalsTradeAsync(medals, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await MedalsService.Create().GetMedalsWithPriceCountAsync();
@@ -789,7 +788,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Titles> titles = await TitlesService.Create().GetTitlesWithPriceAsync(pageSize, offset);
+            List<Titles> titles = await TitlesService.Create().GetTitlesWithPriceAsync(PAGE_SIZE, offset);
             await TitlesController.Instance.CreateTitlesTradeAsync(titles, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await TitlesService.Create().GetTitlesWithPriceCountAsync();
@@ -800,7 +799,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Collaborations> collaborations = await CollaborationsService.Create().GetCollaborationsWithPriceAsync(pageSize, offset);
+            List<Collaborations> collaborations = await CollaborationsService.Create().GetCollaborationsWithPriceAsync(PAGE_SIZE, offset);
             await CollaborationsController.Instance.CreateCollaborationTradeAsync(collaborations, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await CollaborationsService.Create().GetCollaborationsWithPriceCountAsync();
@@ -811,7 +810,7 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Borders> borders = await BordersService.Create().GetBordersWithPriceAsync(pageSize, offset);
+            List<Borders> borders = await BordersService.Create().GetBordersWithPriceAsync(PAGE_SIZE, offset);
             await BordersController.Instance.CreateBordersTradeAsync(borders, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await BordersService.Create().GetBordersWithPriceCountAsync();
@@ -822,13 +821,13 @@ public class ShopManager : MonoBehaviour
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_84_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Achievements> achievements = await AchievementsService.Create().GetAchievementsWithPriceAsync(pageSize, offset);
+            List<Achievements> achievements = await AchievementsService.Create().GetAchievementsWithPriceAsync(PAGE_SIZE, offset);
             await AchievementsController.Instance.CreateAchievementsTradeAsync(achievements, type, currentContent, currencyPanel, popupPanel);
 
             totalRecord = await AchievementsService.Create().GetAchievementsWithPriceCountAsync();
         }
 
-        totalPage = CalculateTotalPages(totalRecord, pageSize);
+        totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
     }
     private void createEquipments(List<Equipments> equipmentList)
@@ -910,7 +909,7 @@ public class ShopManager : MonoBehaviour
         {
             ClearAllPrefabs();
             currentPage = currentPage + 1;
-            offset = offset + pageSize;
+            offset = offset + PAGE_SIZE;
             _=LoadCurrentPageAsync();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -923,7 +922,7 @@ public class ShopManager : MonoBehaviour
         {
             ClearAllPrefabs();
             currentPage = currentPage - 1;
-            offset = offset - pageSize;
+            offset = offset - PAGE_SIZE;
             _=LoadCurrentPageAsync();
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

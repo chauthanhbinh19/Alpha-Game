@@ -1,11 +1,13 @@
 using MySqlConnector;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class RecipeRepository : IRecipeRepository
 {
-    public async Task<List<RecipeItemDto>> GetRecipeItemsAsync(string featureName,int level,string userId)
+    public async Task<List<RecipeItemDto>> GetRecipeItemsAsync(string featureName, int level, string userId)
     {
         var result = new List<RecipeItemDto>();
 
@@ -18,8 +20,11 @@ public class RecipeRepository : IRecipeRepository
             SELECT 
                 r.id AS recipe_id,
                 i.id AS item_id,
+                i.image AS item_image,
                 rli.quantity AS required_quantity,
-                COALESCE(ui.quantity, 0) AS user_quantity
+                COALESCE(ui.quantity, 0) AS user_quantity,
+                rl.min_level AS recipe_min_level,
+                rl.max_level AS recipe_max_level
             FROM features f
             JOIN feature_recipe fr ON f.id = fr.feature_id
             JOIN recipes r ON fr.recipe_id = r.id
@@ -29,7 +34,7 @@ public class RecipeRepository : IRecipeRepository
             LEFT JOIN user_items ui 
                 ON ui.item_id = i.id 
                 AND ui.user_id = @userId
-            WHERE f.name = @featureName
+            WHERE f.feature_name = @featureName
             AND @level BETWEEN rl.min_level AND rl.max_level;
         ";
 
@@ -46,8 +51,11 @@ public class RecipeRepository : IRecipeRepository
             {
                 RecipeId = reader.GetString("recipe_id"),
                 ItemId = reader.GetString("item_id"),
+                ItemImage = reader.GetString("item_image"),
                 RequiredQuantity = reader.GetDouble("required_quantity"),
                 UserQuantity = reader.GetDouble("user_quantity"),
+                MinLevel = reader.GetIntSafe("recipe_min_level"),
+                MaxLevel = reader.GetIntSafe("recipe_max_level"),
             });
         }
 

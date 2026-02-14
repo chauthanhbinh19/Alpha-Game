@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-public class UpgradeService
+public class UpgradeService : IUpgradeService
 {
     private static UpgradeService _instance;
     private readonly IRecipeRepository _recipeRepository;
@@ -57,7 +59,9 @@ public class UpgradeService
                 {
                     Success = false,
                     UpgradedLevels = 0,
-                    Message = string.Format(MessageConstants.NOT_ENOUGH_ITEM, item.ItemId)
+                    Message = string.Format(
+                        MessageConstants.NOT_ENOUGH_ITEM,
+                        item.ItemId)
                 };
             }
         }
@@ -79,7 +83,9 @@ public class UpgradeService
             {
                 Success = false,
                 UpgradedLevels = 0,
-                Message = string.Format(MessageConstants.SYSTEM_ERROR, ex.Message)
+                Message = string.Format(
+                    MessageConstants.SYSTEM_ERROR,
+                    ex.Message)
             };
         }
     }
@@ -87,7 +93,7 @@ public class UpgradeService
     // ================================
     // UPGRADE MAX LEVEL
     // ================================
-    public async Task<UpgradeResultDTO> UpgradeMaxLevelAsync(string featureName,int currentLevel,int maxLevel,string userId)
+    public async Task<UpgradeResultDTO> UpgradeMaxLevelAsync(string featureName, int currentLevel, int maxLevel, string userId)
     {
         if (currentLevel >= maxLevel)
         {
@@ -99,63 +105,95 @@ public class UpgradeService
             };
         }
 
-        int upgradedCount = 0;
-
         try
         {
-            while (currentLevel < maxLevel)
+            int upgradedCount = 0;
+            int checkLevel = currentLevel + 1;
+
+            var userItemMap = new Dictionary<string, double>();
+            var totalDeductMap = new Dictionary<string, double>();
+
+            List<RecipeItemDto> currentRecipeItems = null;
+            int currentRecipeMaxLevel = 0;
+
+            while (checkLevel <= maxLevel)
             {
-                var recipeItems = await _recipeRepository
-                    .GetRecipeItemsAsync(featureName, currentLevel + 1, userId);
-
-                // 🚨 Không tìm thấy recipe = lỗi data → return ngay
-                if (recipeItems == null || recipeItems.Count == 0)
+                if (currentRecipeItems == null || checkLevel > currentRecipeMaxLevel)
                 {
-                    return new UpgradeResultDTO
-                    {
-                        Success = false,
-                        UpgradedLevels = upgradedCount,
-                        Message = MessageConstants.RECIPE_NOT_FOUND
-                    };
-                }
+                    currentRecipeItems = await _recipeRepository
+                        .GetRecipeItemsAsync(featureName, checkLevel, userId);
 
-                // 🚨 Check đủ nguyên liệu không
-                foreach (var item in recipeItems)
-                {
-                    if (item.UserQuantity < item.RequiredQuantity)
-                    {
-                        // Nếu chưa upgrade được level nào
-                        if (upgradedCount == 0)
-                        {
-                            return new UpgradeResultDTO
-                            {
-                                Success = false,
-                                UpgradedLevels = 0,
-                                Message = MessageConstants.NOT_ENOUGH_MATERIALS
-                            };
-                        }
+                    if (currentRecipeItems == null || currentRecipeItems.Count == 0)
+                        break;
 
-                        // Nếu đã upgrade được vài level rồi
-                        return new UpgradeResultDTO
-                        {
-                            Success = true,
-                            UpgradedLevels = upgradedCount,
-                            Message = string.Format(MessageConstants.UPGRADE_SUCCESS_MULTIPLE,upgradedCount)
-                        };
+                    currentRecipeMaxLevel = currentRecipeItems.First().MaxLevel;
+
+                    foreach (var item in currentRecipeItems)
+                    {
+                        if (!userItemMap.ContainsKey(item.ItemId))
+                            userItemMap[item.ItemId] = item.UserQuantity;
                     }
                 }
 
-                await _recipeRepository.DeductItemsAsync(userId, recipeItems);
+                bool canUpgrade = true;
+
+                foreach (var item in currentRecipeItems)
+                {
+                    if (userItemMap[item.ItemId] < item.RequiredQuantity)
+                    {
+                        canUpgrade = false;
+                        break;
+                    }
+                }
+
+                if (!canUpgrade)
+                    break;
+
+                // Trừ tạm trong RAM + cộng dồn tổng trừ
+                foreach (var item in currentRecipeItems)
+                {
+                    userItemMap[item.ItemId] -= item.RequiredQuantity;
+
+                    if (!totalDeductMap.ContainsKey(item.ItemId))
+                        totalDeductMap[item.ItemId] = 0;
+
+                    totalDeductMap[item.ItemId] += item.RequiredQuantity;
+                }
 
                 upgradedCount++;
-                currentLevel++;
+                checkLevel++;
             }
+
+            if (upgradedCount == 0)
+            {
+                return new UpgradeResultDTO
+                {
+                    Success = false,
+                    UpgradedLevels = 0,
+                    Message = MessageConstants.NOT_ENOUGH_MATERIALS
+                };
+            }
+
+            // 🔥 Convert sang list gộp sẵn
+            var finalDeductList = totalDeductMap
+                .Select(x => new RecipeItemDto
+                {
+                    ItemId = x.Key,
+                    RequiredQuantity = x.Value
+                })
+                .ToList();
+
+            // Gọi hàm deduct 1 lần
+            await _recipeRepository
+                .DeductItemsAsync(userId, finalDeductList);
 
             return new UpgradeResultDTO
             {
                 Success = true,
                 UpgradedLevels = upgradedCount,
-                Message = string.Format(MessageConstants.UPGRADE_SUCCESS_MULTIPLE,upgradedCount)
+                Message = string.Format(
+                    MessageConstants.UPGRADE_SUCCESS_MULTIPLE,
+                    upgradedCount)
             };
         }
         catch (Exception ex)
@@ -164,8 +202,11 @@ public class UpgradeService
             {
                 Success = false,
                 UpgradedLevels = 0,
-                Message = string.Format(MessageConstants.SYSTEM_ERROR,ex.Message)
+                Message = string.Format(
+                    MessageConstants.SYSTEM_ERROR,
+                    ex.Message)
             };
         }
     }
+
 }

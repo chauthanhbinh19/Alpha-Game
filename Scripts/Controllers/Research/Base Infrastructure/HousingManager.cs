@@ -23,6 +23,7 @@ public class HousingManager : MonoBehaviour
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
+    private int MAX_LEVEL = 10000;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -81,6 +82,7 @@ public class HousingManager : MonoBehaviour
         SetupPagination(currentObject);
         RenderPage();
     }
+    
     private void RenderPage()
     {
         foreach (Transform child in content)
@@ -95,6 +97,7 @@ public class HousingManager : MonoBehaviour
 
             string subtype = kvp.Key;
             int requiredLevel = kvp.Value.RequiredLevel;
+            string featureId = kvp.Value.Id;
 
             GameObject button = Instantiate(PopupResearchButtonPrefab, content);
 
@@ -117,13 +120,14 @@ public class HousingManager : MonoBehaviour
             quantityText.text = (i + 1).ToString();
 
             Button btn = button.GetComponent<Button>();
-            btn.onClick.AddListener(() =>
+            btn.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CreateMainResearchPanel();
+                await CreateMainResearchPanelAsync(featureId, subtype);
             });
         }
     }
+    
     private void SetupPagination(GameObject currentObject)
     {
         nextButton = currentObject.transform
@@ -187,8 +191,125 @@ public class HousingManager : MonoBehaviour
         UpdatePageUI();
     }
 
-    public void CreateMainResearchPanel()
+    public async Task CreateMainResearchPanelAsync(string featureId, string featureName)
     {
         GameObject currentObject = Instantiate(MainResearchPanelPrefab, MainPanel);
+        Button upgradeOneLevelButton = currentObject.transform.Find("UpgradeOneLevelButton").GetComponent<Button>();
+        Button upgradeMaxLevelButton = currentObject.transform.Find("UpgradeMaxLevelButton").GetComponent<Button>();
+        Transform leftSideContent = currentObject.transform.Find("LeftSideContent");
+        Transform rightSideContent = currentObject.transform.Find("RightSideContent");
+        TextMeshProUGUI levelText = currentObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            await HomeManager.Instance.CreateHomePanelAsync();
+        });
+
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+        Researchs researchs = await ResearchsService.Create().GetResearchsAsync(featureId);
+
+        if (recipeItems == null || recipeItems.Count == 0)
+            return;
+
+        // Xoá item cũ nếu có
+        foreach (Transform child in leftSideContent)
+            Destroy(child.gameObject);
+
+        foreach (Transform child in rightSideContent)
+            Destroy(child.gameObject);
+
+        int total = recipeItems.Count;
+        int leftCount = Mathf.CeilToInt(total / 2f);
+
+        for (int i = 0; i < total; i++)
+        {
+            Transform parent = (i < leftCount)
+                ? leftSideContent
+                : rightSideContent;
+
+            GameObject itemGO = Instantiate(ResearchItemPrefab, parent);
+
+            SetupResearchItemUI(itemGO, recipeItems[i]);
+        }
+
+        int currentLevel = researchs?.Level ?? 0;
+        levelText.text = currentLevel.ToString();
+
+        upgradeOneLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
+            UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
+            if (result.Success)
+            {
+                researchs = ResearchsService.Create().EnhanceResearchs(researchs, result.UpgradedLevels, 100);
+                await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, researchs, featureId);
+                Destroy(currentObject);
+                await CreateMainResearchPanelAsync(featureId, featureName);
+            }
+            else
+            {
+                Debug.Log(result.Message);
+            }
+        });
+        upgradeMaxLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
+            UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
+            if (result.Success)
+            {
+                researchs = ResearchsService.Create().EnhanceResearchs(researchs, result.UpgradedLevels, 100);
+                await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, researchs, featureId);
+                Destroy(currentObject);
+                await CreateMainResearchPanelAsync(featureId, featureName);
+            }
+            else
+            {
+                Debug.Log(result.Message);
+            }
+        });
     }
+    
+    private void SetupResearchItemUI(GameObject itemGO,RecipeItemDto data)
+    {
+        // TextMeshProUGUI nameText =
+        //     itemGO.transform.Find("ItemName")
+        //     .GetComponent<TextMeshProUGUI>();
+
+        TextMeshProUGUI requiredText =
+            itemGO.transform.Find("RequiredText")
+            .GetComponent<TextMeshProUGUI>();
+
+        TextMeshProUGUI ownedText =
+            itemGO.transform.Find("AvailableText")
+            .GetComponent<TextMeshProUGUI>();
+
+        RawImage image =
+            itemGO.transform.Find("Image")
+            .GetComponent<RawImage>();
+
+        // nameText.text = data.ItemId;
+
+        requiredText.text = data.RequiredQuantity.ToString();
+        ownedText.text = data.UserQuantity.ToString();
+
+        // Nếu thiếu nguyên liệu -> đổi màu
+        if (data.UserQuantity < data.RequiredQuantity)
+            ownedText.color = Color.red;
+        else
+            ownedText.color = Color.green;
+
+        // Load icon nếu có
+        Texture texture = Resources.Load<Texture2D>(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
+        if (texture != null)
+            image.texture = texture;
+    }
+
 }
