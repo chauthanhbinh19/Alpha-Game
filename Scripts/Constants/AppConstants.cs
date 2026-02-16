@@ -531,6 +531,7 @@ public static class AppConstants
         public const string UTILITIES = "Utilities";
         public const string WASTE = "Waste";
         public const string WATER = "Water";
+        public const string FACILITIES = "Facilities";
 
         public const string CONSTRUCTION = "Construction";
         public const string ENERGY = "Energy";
@@ -539,6 +540,9 @@ public static class AppConstants
         public const string MANUFACTURING = "Manufacturing";
         public const string MATERIALS = "Materials";
         public const string POWER = "Power";
+        public const string RESOURCE = "Resource";
+        public const string SYSTEM = "System";
+        public const string MECHANICS = "Mechanics";
 
         public const string ARMOR = "Armor";
         public const string DEFENSE = "Defense";
@@ -548,6 +552,8 @@ public static class AppConstants
         public const string SAFETY = "Safety";
         public const string SHIELDING = "Shielding";
         public const string WEAPONS = "Weapons";
+        public const string FORTIFICATION = "Fortification";
+        public const string TACTICS = "Tactics";
 
         public const string COMMERCE = "Commerce";
         public const string ECONOMY = "Economy";
@@ -555,6 +561,10 @@ public static class AppConstants
         public const string INVESTMENT = "Investment";
         public const string PRODUCTIVITY = "Productivity";
         public const string TRADE = "Trade";
+        public const string MARKET = "Market";
+        public const string ENTERPRISE = "Enterprise";
+        public const string SUPPLY = "Supply";
+        public const string DISTRIBUTION = "Distribution";
 
         public const string CLIMATE = "Climate";
         public const string CONSERVATION = "Conservation";
@@ -563,6 +573,9 @@ public static class AppConstants
         public const string POLLUTION = "Pollution";
         public const string RECYCLING = "Recycling";
         public const string SUSTAINABILITY = "Sustainability";
+        public const string RESTORATION = "Restoration";
+        public const string RENEWABLES = "Renewables";
+        public const string PRESERVATION = "Preservation";
 
         public const string ASCENSION = "Ascension";
         public const string COLONIZATION = "Colonization";
@@ -573,12 +586,18 @@ public static class AppConstants
         public const string SINGULARITY = "Singularity";
         public const string TERRAFORMING = "Terraforming";
         public const string TIME = "Time";
+        public const string COSMOLOGY = "Cosmology";
 
         public const string EPIDEMIOLOGY = "Epidemiology";
         public const string GENETICS = "Genetics";
         public const string HEALTH = "Health";
         public const string LONGEVITY = "Longevity";
         public const string MEDICINE = "Medicine";
+        public const string IMMUNOLOGY = "Immunology";
+        public const string BIOTECH = "Biotech";
+        public const string PHARMACEUTICALS = "Pharmaceuticals";
+        public const string NUTRITION = "Nutrition";
+        public const string REGENERATION = "Regeneration";
 
         public const string AI = "AI";
         public const string COMMUNICATION = "Communication";
@@ -588,6 +607,8 @@ public static class AppConstants
         public const string NETWORKING = "Networking";
         public const string SECURITY = "Security";
         public const string SURVEILLANCE = "Surveillance";
+        public const string ANALYTICS = "Analytics";
+        public const string CONTROL = "Control";    
 
         public const string AUTOMATION = "Automation";
         public const string BIOLOGY = "Biology";
@@ -598,6 +619,7 @@ public static class AppConstants
         public const string QUANTUM = "Quantum";
         public const string ROBOTICS = "Robotics";
         public const string SCIENCE = "Science";
+        public const string INNOVATION = "Innovation";
 
         public const string CULTURE = "Culture";
         public const string DEMOGRAPHY = "Demography";
@@ -608,6 +630,24 @@ public static class AppConstants
         public const string POLICY = "Policy";
         public const string POPULATION = "Population";
         public const string SOCIETY = "Society";
+        public const string CIVICS = "Civics";
+    }
+    public static class Archive
+    {
+        public const string ARCHIVE_I = "Archive I";
+        public const string ARCHIVE_II = "Archive II";
+        public const string ARCHIVE_III = "Archive III";
+        public const string ARCHIVE_IV = "Archive IV";
+        public const string ARCHIVE_V = "Archive V";
+        public const string ARCHIVE_VI = "Archive VI";
+        public const string ARCHIVE_VII = "Archive VII";
+        public const string ARCHIVE_VIII = "Archive VIII";
+        public const string ARCHIVE_IX = "Archive IX";
+        public const string ARCHIVE_X = "Archive X";
+        public const string ARCHIVE_XI = "Archive XI";
+        public const string ARCHIVE_XII = "Archive XII";
+        public const string ARCHIVE_XIII = "Archive XIII";
+        public const string ARCHIVE_XIV = "Archive XIV";
     }
     public static class MainMenuSet1
     {

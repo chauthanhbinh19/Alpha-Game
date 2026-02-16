@@ -369,6 +369,7 @@ public static class AppDisplayConstants
         public const string UTILITIES = "Research.Utilities";
         public const string WASTE = "Research.Waste";
         public const string WATER = "Research.Water";
+        public const string FACILITIES = "Research.Facilities";
 
         public const string CONSTRUCTION = "Research.Construction";
         public const string ENERGY = "Research.Energy";
@@ -377,6 +378,9 @@ public static class AppDisplayConstants
         public const string MANUFACTURING = "Research.Manufacturing";
         public const string MATERIALS = "Research.Materials";
         public const string POWER = "Research.Power";
+        public const string RESOURCE = "Research.Resource";
+        public const string SYSTEM = "Research.System";
+        public const string MECHANICS = "Research.Mechanics";
 
         public const string ARMOR = "Research.Armor";
         public const string DEFENSE = "Research.Defense";
@@ -386,6 +390,8 @@ public static class AppDisplayConstants
         public const string SAFETY = "Research.Safety";
         public const string SHIELDING = "Research.Shielding";
         public const string WEAPONS = "Research.Weapons";
+        public const string FORTIFICATION = "Research.Fortification";
+        public const string TACTICS = "Research.Tactics";
 
         public const string COMMERCE = "Research.Commerce";
         public const string ECONOMY = "Research.Economy";
@@ -393,6 +399,10 @@ public static class AppDisplayConstants
         public const string INVESTMENT = "Research.Investment";
         public const string PRODUCTIVITY = "Research.Productivity";
         public const string TRADE = "Research.Trade";
+        public const string MARKET = "Research.Market";
+        public const string ENTERPRISE = "Research.Enterprise";
+        public const string SUPPLY = "Research.Supply";
+        public const string DISTRIBUTION = "Research.Distribution";
 
         public const string CLIMATE = "Research.Climate";
         public const string CONSERVATION = "Research.Conservation";
@@ -401,6 +411,9 @@ public static class AppDisplayConstants
         public const string POLLUTION = "Research.Pollution";
         public const string RECYCLING = "Research.Recycling";
         public const string SUSTAINABILITY = "Research.Sustainability";
+        public const string RESTORATION = "Research.Restoration";
+        public const string RENEWABLES = "Research.Renewables";
+        public const string PRESERVATION = "Research.Preservation";
 
         public const string ASCENSION = "Research.Ascension";
         public const string COLONIZATION = "Research.Colonization";
@@ -411,12 +424,18 @@ public static class AppDisplayConstants
         public const string SINGULARITY = "Research.Singularity";
         public const string TERRAFORMING = "Research.Terraforming";
         public const string TIME = "Research.Time";
+        public const string COSMOLOGY = "Research.Cosmology";
 
         public const string EPIDEMIOLOGY = "Research.Epidemiology";
         public const string GENETICS = "Research.Genetics";
         public const string HEALTH = "Research.Health";
         public const string LONGEVITY = "Research.Longevity";
         public const string MEDICINE = "Research.Medicine";
+        public const string IMMUNOLOGY = "Research.Immunology";
+        public const string BIOTECH = "Research.Biotech";
+        public const string PHARMACEUTICALS = "Research.Pharmaceuticals";
+        public const string NUTRITION = "Research.Nutrition";
+        public const string REGENERATION = "Research.Regeneration";
 
         public const string AI = "Research.AI";
         public const string COMMUNICATION = "Research.Communication";
@@ -426,6 +445,8 @@ public static class AppDisplayConstants
         public const string NETWORKING = "Research.Networking";
         public const string SECURITY = "Research.Security";
         public const string SURVEILLANCE = "Research.Surveillance";
+        public const string ANALYTICS = "Research.Analytics";
+        public const string CONTROL = "Research.Control";    
 
         public const string AUTOMATION = "Research.Automation";
         public const string BIOLOGY = "Research.Biology";
@@ -436,6 +457,7 @@ public static class AppDisplayConstants
         public const string QUANTUM = "Research.Quantum";
         public const string ROBOTICS = "Research.Robotics";
         public const string SCIENCE = "Research.Science";
+        public const string INNOVATION = "Research.Innovation";
 
         public const string CULTURE = "Research.Culture";
         public const string DEMOGRAPHY = "Research.Demography";
@@ -446,6 +468,24 @@ public static class AppDisplayConstants
         public const string POLICY = "Research.Policy";
         public const string POPULATION = "Research.Population";
         public const string SOCIETY = "Research.Society";
+        public const string CIVICS = "Research.Civics";
+    }
+    public static class Archive
+    {
+        public const string ARCHIVE_I = "Archive.ArchiveI";
+        public const string ARCHIVE_II = "Archive.ArchiveII";
+        public const string ARCHIVE_III = "Archive.ArchiveIII";
+        public const string ARCHIVE_IV = "Archive.ArchiveIV";
+        public const string ARCHIVE_V = "Archive.ArchiveV";
+        public const string ARCHIVE_VI = "Archive.ArchiveVI";
+        public const string ARCHIVE_VII = "Archive.ArchiveVII";
+        public const string ARCHIVE_VIII = "Archive.ArchiveVIII";
+        public const string ARCHIVE_IX = "Archive.ArchiveIX";
+        public const string ARCHIVE_X = "Archive.ArchiveX";
+        public const string ARCHIVE_XI = "Archive.ArchiveXI";
+        public const string ARCHIVE_XII = "Archive.ArchiveXII";
+        public const string ARCHIVE_XIII = "Archive.ArchiveXIII";
+        public const string ARCHIVE_XIV = "Archive.ArchiveXIV";
     }
     public static class MainMenuSet1
     {
