@@ -412,6 +412,10 @@
   { "key": "Universe.UniverseVIII", "value": "Universe VIII" },
   { "key": "Universe.UniverseIX", "value": "Universe IX" },
   { "key": "Universe.UniverseX", "value": "Universe X" },
+  { "key": "Universe.UniverseXI", "value": "Universe XI" },
+  { "key": "Universe.UniverseXII", "value": "Universe XII" },
+  { "key": "Universe.UniverseXIII", "value": "Universe XIII" },
+  { "key": "Universe.UniverseXIV", "value": "Universe XIV" },
 
   { "key": "Equipment.AmnitusEquipment", "value": "Amnitus" },
   { "key": "Equipment.AngelisEquipment", "value": "Angelis" },

@@ -499,6 +499,10 @@ public static class AppDisplayConstants
         public const string UNIVERSE_VIII = "Universe.UniverseVIII";
         public const string UNIVERSE_IX = "Universe.UniverseIX";
         public const string UNIVERSE_X = "Universe.UniverseX";
+        public const string UNIVERSE_XI = "UNIVERSE.UniverseXI";
+        public const string UNIVERSE_XII = "UNIVERSE.UniverseXII";
+        public const string UNIVERSE_XIII = "UNIVERSE.UniverseXIII";
+        public const string UNIVERSE_XIV = "UNIVERSE.UniverseXIV";
     }
     public static class MainMenuSet1
     {
