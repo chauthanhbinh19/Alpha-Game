@@ -402,6 +402,17 @@
   { "key": "Archive.ArchiveXIII", "value": "Archive XIII" },
   { "key": "Archive.ArchiveXIV", "value": "Archive XIV" },
 
+  { "key": "Universe.UniverseI", "value": "Universe I" },
+  { "key": "Universe.UniverseII", "value": "Universe II" },
+  { "key": "Universe.UniverseIII", "value": "Universe III" },
+  { "key": "Universe.UniverseIV", "value": "Universe IV" },
+  { "key": "Universe.UniverseV", "value": "Universe V" },
+  { "key": "Universe.UniverseVI", "value": "Universe VI" },
+  { "key": "Universe.UniverseVII", "value": "Universe VII" },
+  { "key": "Universe.UniverseVIII", "value": "Universe VIII" },
+  { "key": "Universe.UniverseIX", "value": "Universe IX" },
+  { "key": "Universe.UniverseX", "value": "Universe X" },
+
   { "key": "Equipment.AmnitusEquipment", "value": "Amnitus" },
   { "key": "Equipment.AngelisEquipment", "value": "Angelis" },
   { "key": "Equipment.BellionEquipment", "value": "Bellion" },

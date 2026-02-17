@@ -147,6 +147,7 @@ public class UIManager : MonoBehaviour
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Equipment"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Research"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Archive"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Universe"));
 
         foreach (var prefab in prefabs)
         {

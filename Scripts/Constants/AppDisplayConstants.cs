@@ -487,6 +487,19 @@ public static class AppDisplayConstants
         public const string ARCHIVE_XIII = "Archive.ArchiveXIII";
         public const string ARCHIVE_XIV = "Archive.ArchiveXIV";
     }
+    public static class Universe
+    {
+        public const string UNIVERSE_I = "Universe.UniverseI";
+        public const string UNIVERSE_II = "Universe.UniverseII";
+        public const string UNIVERSE_III = "Universe.UniverseIII";
+        public const string UNIVERSE_IV = "Universe.UniverseIV";
+        public const string UNIVERSE_V = "Universe.UniverseV";
+        public const string UNIVERSE_VI = "Universe.UniverseVI";
+        public const string UNIVERSE_VII = "Universe.UniverseVII";
+        public const string UNIVERSE_VIII = "Universe.UniverseVIII";
+        public const string UNIVERSE_IX = "Universe.UniverseIX";
+        public const string UNIVERSE_X = "Universe.UniverseX";
+    }
     public static class MainMenuSet1
     {
         //Set 1

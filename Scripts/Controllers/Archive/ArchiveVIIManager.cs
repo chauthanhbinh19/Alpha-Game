@@ -249,7 +249,7 @@ public class ArchiveVIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = ArchivesService.Create().EnhanceArchives(researchs, result.UpgradedLevels, 100);
+                researchs = ArchivesService.Create().EnhanceArchives(researchs, result.UpgradedLevels, 1000);
                 await ArchivesService.Create().InsertOrUpdateArchivesAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
                 await CreateMainArchivePanelAsync(featureId, featureName);
@@ -265,7 +265,7 @@ public class ArchiveVIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = ArchivesService.Create().EnhanceArchives(researchs, result.UpgradedLevels, 100);
+                researchs = ArchivesService.Create().EnhanceArchives(researchs, result.UpgradedLevels, 1000);
                 await ArchivesService.Create().InsertOrUpdateArchivesAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
                 await CreateMainArchivePanelAsync(featureId, featureName);

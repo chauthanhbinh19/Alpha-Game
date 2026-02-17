@@ -649,6 +649,19 @@ public static class AppConstants
         public const string ARCHIVE_XIII = "Archive XIII";
         public const string ARCHIVE_XIV = "Archive XIV";
     }
+    public static class Universe
+    {
+        public const string UNIVERSE_I = "Universe I";
+        public const string UNIVERSE_II = "Universe II";
+        public const string UNIVERSE_III = "Universe III";
+        public const string UNIVERSE_IV = "Universe IV";
+        public const string UNIVERSE_V = "Universe V";
+        public const string UNIVERSE_VI = "Universe VI";
+        public const string UNIVERSE_VII = "Universe VII";
+        public const string UNIVERSE_VIII = "Universe VIII";
+        public const string UNIVERSE_IX = "Universe IX";
+        public const string UNIVERSE_X = "Universe X";
+    }
     public static class MainMenuSet1
     {
         public const string EQUIPMENTS = "Equipments";
