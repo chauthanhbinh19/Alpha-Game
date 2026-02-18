@@ -666,6 +666,23 @@ public static class AppConstants
         public const string UNIVERSE_XIII = "UNIVERSE XIII";
         public const string UNIVERSE_XIV = "UNIVERSE XIV";
     }
+    public static class HIIN
+    {
+        public const string HIIN_I = "HIIN I";
+        public const string HIIN_II = "HIIN II";
+        public const string HIIN_III = "HIIN III";
+        public const string HIIN_IV = "HIIN IV";
+        public const string HIIN_V = "HIIN V";
+        public const string HIIN_VI = "HIIN VI";
+        public const string HIIN_VII = "HIIN VII";
+        public const string HIIN_VIII = "HIIN VIII";
+        public const string HIIN_IX = "HIIN IX";
+        public const string HIIN_X = "HIIN X";
+        public const string HIIN_XI = "HIIN XI";
+        public const string HIIN_XII = "HIIN XII";
+        public const string HIIN_XIII = "HIIN XIII";
+        public const string HIIN_XIV = "HIIN XIV";
+    }
     public static class MainMenuSet1
     {
         public const string EQUIPMENTS = "Equipments";

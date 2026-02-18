@@ -504,6 +504,23 @@ public static class AppDisplayConstants
         public const string UNIVERSE_XIII = "UNIVERSE.UniverseXIII";
         public const string UNIVERSE_XIV = "UNIVERSE.UniverseXIV";
     }
+    public static class HIIN
+    {
+        public const string HIIN_I = "HIIN.HIINI";
+        public const string HIIN_II = "HIIN.HIINII";
+        public const string HIIN_III = "HIIN.HIINIII";
+        public const string HIIN_IV = "HIIN.HIINIV";
+        public const string HIIN_V = "HIIN.HIINV";
+        public const string HIIN_VI = "HIIN.HIINVI";
+        public const string HIIN_VII = "HIIN.HIINVII";
+        public const string HIIN_VIII = "HIIN.HIINVIII";
+        public const string HIIN_IX = "HIIN.HIINIX";
+        public const string HIIN_X = "HIIN.HIINX";
+        public const string HIIN_XI = "HIIN.HIINXI";
+        public const string HIIN_XII = "HIIN.HIINXII";
+        public const string HIIN_XIII = "HIIN.HIINXIII";
+        public const string HIIN_XIV = "HIIN.HIINXIV";
+    }
     public static class MainMenuSet1
     {
         //Set 1
