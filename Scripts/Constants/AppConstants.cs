@@ -683,6 +683,40 @@ public static class AppConstants
         public const string HIIN_XIII = "HIIN XIII";
         public const string HIIN_XIV = "HIIN XIV";
     }
+    public static class SSWN
+    {
+        public const string SSWN_I = "SSWN I";
+        public const string SSWN_II = "SSWN II";
+        public const string SSWN_III = "SSWN III";
+        public const string SSWN_IV = "SSWN IV";
+        public const string SSWN_V = "SSWN V";
+        public const string SSWN_VI = "SSWN VI";
+        public const string SSWN_VII = "SSWN VII";
+        public const string SSWN_VIII = "SSWN VIII";
+        public const string SSWN_IX = "SSWN IX";
+        public const string SSWN_X = "SSWN X";
+        public const string SSWN_XI = "SSWN XI";
+        public const string SSWN_XII = "SSWN XII";
+        public const string SSWN_XIII = "SSWN XIII";
+        public const string SSWN_XIV = "SSWN XIV";
+    }
+    public static class HITN
+    {
+        public const string HITN_I = "HITN I";
+        public const string HITN_II = "HITN II";
+        public const string HITN_III = "HITN III";
+        public const string HITN_IV = "HITN IV";
+        public const string HITN_V = "HITN V";
+        public const string HITN_VI = "HITN VI";
+        public const string HITN_VII = "HITN VII";
+        public const string HITN_VIII = "HITN VIII";
+        public const string HITN_IX = "HITN IX";
+        public const string HITN_X = "HITN X";
+        public const string HITN_XI = "HITN XI";
+        public const string HITN_XII = "HITN XII";
+        public const string HITN_XIII = "HITN XIII";
+        public const string HITN_XIV = "HITN XIV";
+    }
     public static class MainMenuSet1
     {
         public const string EQUIPMENTS = "Equipments";

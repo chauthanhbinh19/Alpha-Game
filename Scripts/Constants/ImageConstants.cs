@@ -554,6 +554,40 @@ public static class ImageConstants
         public const string HIIN_XIII_URL = "UI/Icon/roman_thirteen";
         public const string HIIN_XIV_URL = "UI/Icon/roman_fourteen";
     }
+    public static class SSWN
+    {
+        public const string SSWN_I_URL = "UI/Icon/roman_one";
+        public const string SSWN_II_URL = "UI/Icon/roman_two";
+        public const string SSWN_III_URL = "UI/Icon/roman_three";
+        public const string SSWN_IV_URL = "UI/Icon/roman_four";
+        public const string SSWN_V_URL = "UI/Icon/roman_five";
+        public const string SSWN_VI_URL = "UI/Icon/roman_six";
+        public const string SSWN_VII_URL = "UI/Icon/roman_seven";
+        public const string SSWN_VIII_URL = "UI/Icon/roman_eight";
+        public const string SSWN_IX_URL = "UI/Icon/roman_nine";
+        public const string SSWN_X_URL = "UI/Icon/roman_ten";
+        public const string SSWN_XI_URL = "UI/Icon/roman_eleven";
+        public const string SSWN_XII_URL = "UI/Icon/roman_twelve";
+        public const string SSWN_XIII_URL = "UI/Icon/roman_thirteen";
+        public const string SSWN_XIV_URL = "UI/Icon/roman_fourteen";
+    }
+    public static class HITN
+    {
+        public const string HITN_I_URL = "UI/Icon/roman_one";
+        public const string HITN_II_URL = "UI/Icon/roman_two";
+        public const string HITN_III_URL = "UI/Icon/roman_three";
+        public const string HITN_IV_URL = "UI/Icon/roman_four";
+        public const string HITN_V_URL = "UI/Icon/roman_five";
+        public const string HITN_VI_URL = "UI/Icon/roman_six";
+        public const string HITN_VII_URL = "UI/Icon/roman_seven";
+        public const string HITN_VIII_URL = "UI/Icon/roman_eight";
+        public const string HITN_IX_URL = "UI/Icon/roman_nine";
+        public const string HITN_X_URL = "UI/Icon/roman_ten";
+        public const string HITN_XI_URL = "UI/Icon/roman_eleven";
+        public const string HITN_XII_URL = "UI/Icon/roman_twelve";
+        public const string HITN_XIII_URL = "UI/Icon/roman_thirteen";
+        public const string HITN_XIV_URL = "UI/Icon/roman_fourteen";
+    }
     public static class Star
     {
         public const string STAR_LV1_URL = "UI/UI/Star1";

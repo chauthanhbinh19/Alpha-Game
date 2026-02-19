@@ -521,6 +521,40 @@ public static class AppDisplayConstants
         public const string HIIN_XIII = "HIIN.HIINXIII";
         public const string HIIN_XIV = "HIIN.HIINXIV";
     }
+    public static class SSWN
+    {
+        public const string SSWN_I = "SSWN.SSWNI";
+        public const string SSWN_II = "SSWN.SSWNII";
+        public const string SSWN_III = "SSWN.SSWNIII";
+        public const string SSWN_IV = "SSWN.SSWNIV";
+        public const string SSWN_V = "SSWN.SSWNV";
+        public const string SSWN_VI = "SSWN.SSWNVI";
+        public const string SSWN_VII = "SSWN.SSWNVII";
+        public const string SSWN_VIII = "SSWN.SSWNVIII";
+        public const string SSWN_IX = "SSWN.SSWNIX";
+        public const string SSWN_X = "SSWN.SSWNX";
+        public const string SSWN_XI = "SSWN.SSWNXI";
+        public const string SSWN_XII = "SSWN.SSWNXII";
+        public const string SSWN_XIII = "SSWN.SSWNXIII";
+        public const string SSWN_XIV = "SSWN.SSWNXIV";
+    }
+    public static class HITN
+    {
+        public const string HITN_I = "HITN.HITNI";
+        public const string HITN_II = "HITN.HITNII";
+        public const string HITN_III = "HITN.HITNIII";
+        public const string HITN_IV = "HITN.HITNIV";
+        public const string HITN_V = "HITN.HITNV";
+        public const string HITN_VI = "HITN.HITNVI";
+        public const string HITN_VII = "HITN.HITNVII";
+        public const string HITN_VIII = "HITN.HITNVIII";
+        public const string HITN_IX = "HITN.HITNIX";
+        public const string HITN_X = "HITN.HITNX";
+        public const string HITN_XI = "HITN.HITNXI";
+        public const string HITN_XII = "HITN.HITNXII";
+        public const string HITN_XIII = "HITN.HITNXIII";
+        public const string HITN_XIV = "HITN.HITNXIV";
+    }
     public static class MainMenuSet1
     {
         //Set 1
