@@ -605,6 +605,57 @@ public static class ImageConstants
         public const string HIHN_XIII_URL = "UI/Icon/roman_thirteen";
         public const string HIHN_XIV_URL = "UI/Icon/roman_fourteen";
     }
+    public static class HIEN
+    {
+        public const string HIEN_I_URL = "UI/Icon/roman_one";
+        public const string HIEN_II_URL = "UI/Icon/roman_two";
+        public const string HIEN_III_URL = "UI/Icon/roman_three";
+        public const string HIEN_IV_URL = "UI/Icon/roman_four";
+        public const string HIEN_V_URL = "UI/Icon/roman_five";
+        public const string HIEN_VI_URL = "UI/Icon/roman_six";
+        public const string HIEN_VII_URL = "UI/Icon/roman_seven";
+        public const string HIEN_VIII_URL = "UI/Icon/roman_eight";
+        public const string HIEN_IX_URL = "UI/Icon/roman_nine";
+        public const string HIEN_X_URL = "UI/Icon/roman_ten";
+        public const string HIEN_XI_URL = "UI/Icon/roman_eleven";
+        public const string HIEN_XII_URL = "UI/Icon/roman_twelve";
+        public const string HIEN_XIII_URL = "UI/Icon/roman_thirteen";
+        public const string HIEN_XIV_URL = "UI/Icon/roman_fourteen";
+    }
+    public static class HICA
+    {
+        public const string HICA_I_URL = "UI/Icon/roman_one";
+        public const string HICA_II_URL = "UI/Icon/roman_two";
+        public const string HICA_III_URL = "UI/Icon/roman_three";
+        public const string HICA_IV_URL = "UI/Icon/roman_four";
+        public const string HICA_V_URL = "UI/Icon/roman_five";
+        public const string HICA_VI_URL = "UI/Icon/roman_six";
+        public const string HICA_VII_URL = "UI/Icon/roman_seven";
+        public const string HICA_VIII_URL = "UI/Icon/roman_eight";
+        public const string HICA_IX_URL = "UI/Icon/roman_nine";
+        public const string HICA_X_URL = "UI/Icon/roman_ten";
+        public const string HICA_XI_URL = "UI/Icon/roman_eleven";
+        public const string HICA_XII_URL = "UI/Icon/roman_twelve";
+        public const string HICA_XIII_URL = "UI/Icon/roman_thirteen";
+        public const string HICA_XIV_URL = "UI/Icon/roman_fourteen";
+    }
+    public static class HIRN
+    {
+        public const string HIRN_I_URL = "UI/Icon/roman_one";
+        public const string HIRN_II_URL = "UI/Icon/roman_two";
+        public const string HIRN_III_URL = "UI/Icon/roman_three";
+        public const string HIRN_IV_URL = "UI/Icon/roman_four";
+        public const string HIRN_V_URL = "UI/Icon/roman_five";
+        public const string HIRN_VI_URL = "UI/Icon/roman_six";
+        public const string HIRN_VII_URL = "UI/Icon/roman_seven";
+        public const string HIRN_VIII_URL = "UI/Icon/roman_eight";
+        public const string HIRN_IX_URL = "UI/Icon/roman_nine";
+        public const string HIRN_X_URL = "UI/Icon/roman_ten";
+        public const string HIRN_XI_URL = "UI/Icon/roman_eleven";
+        public const string HIRN_XII_URL = "UI/Icon/roman_twelve";
+        public const string HIRN_XIII_URL = "UI/Icon/roman_thirteen";
+        public const string HIRN_XIV_URL = "UI/Icon/roman_fourteen";
+    }
     public static class Star
     {
         public const string STAR_LV1_URL = "UI/UI/Star1";

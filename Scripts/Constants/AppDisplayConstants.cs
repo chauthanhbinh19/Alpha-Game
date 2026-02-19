@@ -572,6 +572,57 @@ public static class AppDisplayConstants
         public const string HIHN_XIII = "HIHN.HIHNXIII";
         public const string HIHN_XIV = "HIHN.HIHNXIV";
     }
+    public static class HIEN
+    {
+        public const string HIEN_I = "HIEN.HIENI";
+        public const string HIEN_II = "HIEN.HIENII";
+        public const string HIEN_III = "HIEN.HIENIII";
+        public const string HIEN_IV = "HIEN.HIENIV";
+        public const string HIEN_V = "HIEN.HIENV";
+        public const string HIEN_VI = "HIEN.HIENVI";
+        public const string HIEN_VII = "HIEN.HIENVII";
+        public const string HIEN_VIII = "HIEN.HIENVIII";
+        public const string HIEN_IX = "HIEN.HIENIX";
+        public const string HIEN_X = "HIEN.HIENX";
+        public const string HIEN_XI = "HIEN.HIENXI";
+        public const string HIEN_XII = "HIEN.HIENXII";
+        public const string HIEN_XIII = "HIEN.HIENXIII";
+        public const string HIEN_XIV = "HIEN.HIENXIV";
+    }
+    public static class HICA
+    {
+        public const string HICA_I = "HICA.HICAI";
+        public const string HICA_II = "HICA.HICAII";
+        public const string HICA_III = "HICA.HICAIII";
+        public const string HICA_IV = "HICA.HICAIV";
+        public const string HICA_V = "HICA.HICAV";
+        public const string HICA_VI = "HICA.HICAVI";
+        public const string HICA_VII = "HICA.HICAVII";
+        public const string HICA_VIII = "HICA.HICAVIII";
+        public const string HICA_IX = "HICA.HICAIX";
+        public const string HICA_X = "HICA.HICAX";
+        public const string HICA_XI = "HICA.HICAXI";
+        public const string HICA_XII = "HICA.HICAXII";
+        public const string HICA_XIII = "HICA.HICAXIII";
+        public const string HICA_XIV = "HICA.HICAXIV";
+    }
+    public static class HIRN
+    {
+        public const string HIRN_I = "HIRN.HIRNI";
+        public const string HIRN_II = "HIRN.HIRNII";
+        public const string HIRN_III = "HIRN.HIRNIII";
+        public const string HIRN_IV = "HIRN.HIRNIV";
+        public const string HIRN_V = "HIRN.HIRNV";
+        public const string HIRN_VI = "HIRN.HIRNVI";
+        public const string HIRN_VII = "HIRN.HIRNVII";
+        public const string HIRN_VIII = "HIRN.HIRNVIII";
+        public const string HIRN_IX = "HIRN.HIRNIX";
+        public const string HIRN_X = "HIRN.HIRNX";
+        public const string HIRN_XI = "HIRN.HIRNXI";
+        public const string HIRN_XII = "HIRN.HIRNXII";
+        public const string HIRN_XIII = "HIRN.HIRNXIII";
+        public const string HIRN_XIV = "HIRN.HIRNXIV";
+    }
     public static class MainMenuSet1
     {
         //Set 1

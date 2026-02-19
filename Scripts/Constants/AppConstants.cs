@@ -734,6 +734,57 @@ public static class AppConstants
         public const string HIHN_XIII = "HIHN XIII";
         public const string HIHN_XIV = "HIHN XIV";
     }
+    public static class HIEN
+    {
+        public const string HIEN_I = "HIEN I";
+        public const string HIEN_II = "HIEN II";
+        public const string HIEN_III = "HIEN III";
+        public const string HIEN_IV = "HIEN IV";
+        public const string HIEN_V = "HIEN V";
+        public const string HIEN_VI = "HIEN VI";
+        public const string HIEN_VII = "HIEN VII";
+        public const string HIEN_VIII = "HIEN VIII";
+        public const string HIEN_IX = "HIEN IX";
+        public const string HIEN_X = "HIEN X";
+        public const string HIEN_XI = "HIEN XI";
+        public const string HIEN_XII = "HIEN XII";
+        public const string HIEN_XIII = "HIEN XIII";
+        public const string HIEN_XIV = "HIEN XIV";
+    }
+    public static class HICA
+    {
+        public const string HICA_I = "HICA I";
+        public const string HICA_II = "HICA II";
+        public const string HICA_III = "HICA III";
+        public const string HICA_IV = "HICA IV";
+        public const string HICA_V = "HICA V";
+        public const string HICA_VI = "HICA VI";
+        public const string HICA_VII = "HICA VII";
+        public const string HICA_VIII = "HICA VIII";
+        public const string HICA_IX = "HICA IX";
+        public const string HICA_X = "HICA X";
+        public const string HICA_XI = "HICA XI";
+        public const string HICA_XII = "HICA XII";
+        public const string HICA_XIII = "HICA XIII";
+        public const string HICA_XIV = "HICA XIV";
+    }
+    public static class HIRN
+    {
+        public const string HIRN_I = "HIRN I";
+        public const string HIRN_II = "HIRN II";
+        public const string HIRN_III = "HIRN III";
+        public const string HIRN_IV = "HIRN IV";
+        public const string HIRN_V = "HIRN V";
+        public const string HIRN_VI = "HIRN VI";
+        public const string HIRN_VII = "HIRN VII";
+        public const string HIRN_VIII = "HIRN VIII";
+        public const string HIRN_IX = "HIRN IX";
+        public const string HIRN_X = "HIRN X";
+        public const string HIRN_XI = "HIRN XI";
+        public const string HIRN_XII = "HIRN XII";
+        public const string HIRN_XIII = "HIRN XIII";
+        public const string HIRN_XIV = "HIRN XIV";
+    }
     public static class MainMenuSet1
     {
         public const string EQUIPMENTS = "Equipments";
