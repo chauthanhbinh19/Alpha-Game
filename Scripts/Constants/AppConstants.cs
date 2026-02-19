@@ -717,6 +717,23 @@ public static class AppConstants
         public const string HITN_XIII = "HITN XIII";
         public const string HITN_XIV = "HITN XIV";
     }
+    public static class HIHN
+    {
+        public const string HIHN_I = "HIHN I";
+        public const string HIHN_II = "HIHN II";
+        public const string HIHN_III = "HIHN III";
+        public const string HIHN_IV = "HIHN IV";
+        public const string HIHN_V = "HIHN V";
+        public const string HIHN_VI = "HIHN VI";
+        public const string HIHN_VII = "HIHN VII";
+        public const string HIHN_VIII = "HIHN VIII";
+        public const string HIHN_IX = "HIHN IX";
+        public const string HIHN_X = "HIHN X";
+        public const string HIHN_XI = "HIHN XI";
+        public const string HIHN_XII = "HIHN XII";
+        public const string HIHN_XIII = "HIHN XIII";
+        public const string HIHN_XIV = "HIHN XIV";
+    }
     public static class MainMenuSet1
     {
         public const string EQUIPMENTS = "Equipments";

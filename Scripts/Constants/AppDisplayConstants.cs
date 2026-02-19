@@ -555,6 +555,23 @@ public static class AppDisplayConstants
         public const string HITN_XIII = "HITN.HITNXIII";
         public const string HITN_XIV = "HITN.HITNXIV";
     }
+    public static class HIHN
+    {
+        public const string HIHN_I = "HIHN.HIHNI";
+        public const string HIHN_II = "HIHN.HIHNII";
+        public const string HIHN_III = "HIHN.HIHNIII";
+        public const string HIHN_IV = "HIHN.HIHNIV";
+        public const string HIHN_V = "HIHN.HIHNV";
+        public const string HIHN_VI = "HIHN.HIHNVI";
+        public const string HIHN_VII = "HIHN.HIHNVII";
+        public const string HIHN_VIII = "HIHN.HIHNVIII";
+        public const string HIHN_IX = "HIHN.HIHNIX";
+        public const string HIHN_X = "HIHN.HIHNX";
+        public const string HIHN_XI = "HIHN.HIHNXI";
+        public const string HIHN_XII = "HIHN.HIHNXII";
+        public const string HIHN_XIII = "HIHN.HIHNXIII";
+        public const string HIHN_XIV = "HIHN.HIHNXIV";
+    }
     public static class MainMenuSet1
     {
         //Set 1

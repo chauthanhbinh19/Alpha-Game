@@ -212,6 +212,12 @@ public class HIINVIIManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
+        RawImage mapImage = currentObject.transform.Find("MapImage").GetComponent<RawImage>();
+        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_11");
+        mapImage.texture = mapTexture; 
+        RawImage rankImage = currentObject.transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
+        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.HIIN.HIIN_VII}");
+        rankImage.texture = rankTexture;
 
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         HIINs researchs = await HIINsService.Create().GetHIINsAsync(featureId);
