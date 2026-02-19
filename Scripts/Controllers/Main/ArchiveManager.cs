@@ -38,20 +38,20 @@ public class ArchiveManager : MonoBehaviour
         GameObject currentObject = Instantiate(ArchivePanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("ArchiveContent/Content");
 
-        CreateArchiveButtonUI(1, AppDisplayConstants.Archive.ARCHIVE_I, Resources.Load<Texture2D>(ImageConstants.Research.HOUSING_URL), contentPanel);
-        CreateArchiveButtonUI(2, AppDisplayConstants.Archive.ARCHIVE_II, Resources.Load<Texture2D>(ImageConstants.Research.INFRASTRUCTURE_URL), contentPanel);
-        CreateArchiveButtonUI(3, AppDisplayConstants.Archive.ARCHIVE_III, Resources.Load<Texture2D>(ImageConstants.Research.LOGISTICS_URL), contentPanel);
-        CreateArchiveButtonUI(4, AppDisplayConstants.Archive.ARCHIVE_IV, Resources.Load<Texture2D>(ImageConstants.Research.SANITATION_URL), contentPanel);
-        CreateArchiveButtonUI(5, AppDisplayConstants.Archive.ARCHIVE_V, Resources.Load<Texture2D>(ImageConstants.Research.TRANSPORTATION_URL), contentPanel);
-        CreateArchiveButtonUI(6, AppDisplayConstants.Archive.ARCHIVE_VI, Resources.Load<Texture2D>(ImageConstants.Research.URBANIZATION_URL), contentPanel);
-        CreateArchiveButtonUI(7, AppDisplayConstants.Archive.ARCHIVE_VII, Resources.Load<Texture2D>(ImageConstants.Research.UTILITIES_URL), contentPanel);
-        CreateArchiveButtonUI(8, AppDisplayConstants.Archive.ARCHIVE_VIII, Resources.Load<Texture2D>(ImageConstants.Research.WASTE_URL), contentPanel);
-        CreateArchiveButtonUI(9, AppDisplayConstants.Archive.ARCHIVE_IX, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), contentPanel);
-        CreateArchiveButtonUI(10, AppDisplayConstants.Archive.ARCHIVE_X, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateArchiveButtonUI(11, AppDisplayConstants.Archive.ARCHIVE_XI, Resources.Load<Texture2D>(ImageConstants.Research.ENERGY_URL), contentPanel);
-        CreateArchiveButtonUI(12, AppDisplayConstants.Archive.ARCHIVE_XII, Resources.Load<Texture2D>(ImageConstants.Research.ENGINEERING_URL), contentPanel);
-        CreateArchiveButtonUI(13, AppDisplayConstants.Archive.ARCHIVE_XIII, Resources.Load<Texture2D>(ImageConstants.Research.INDUSTRY_URL), contentPanel);
-        CreateArchiveButtonUI(14, AppDisplayConstants.Archive.ARCHIVE_XIV, Resources.Load<Texture2D>(ImageConstants.Research.MANUFACTURING_URL), contentPanel);
+        CreateArchiveButtonUI(1, AppDisplayConstants.Archive.ARCHIVE_I, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_I_URL), contentPanel);
+        CreateArchiveButtonUI(2, AppDisplayConstants.Archive.ARCHIVE_II, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_II_URL), contentPanel);
+        CreateArchiveButtonUI(3, AppDisplayConstants.Archive.ARCHIVE_III, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_III_URL), contentPanel);
+        CreateArchiveButtonUI(4, AppDisplayConstants.Archive.ARCHIVE_IV, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_IV_URL), contentPanel);
+        CreateArchiveButtonUI(5, AppDisplayConstants.Archive.ARCHIVE_V, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_V_URL), contentPanel);
+        CreateArchiveButtonUI(6, AppDisplayConstants.Archive.ARCHIVE_VI, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_VI_URL), contentPanel);
+        CreateArchiveButtonUI(7, AppDisplayConstants.Archive.ARCHIVE_VII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_VII_URL), contentPanel);
+        CreateArchiveButtonUI(8, AppDisplayConstants.Archive.ARCHIVE_VIII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_VIII_URL), contentPanel);
+        CreateArchiveButtonUI(9, AppDisplayConstants.Archive.ARCHIVE_IX, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_IX_URL), contentPanel);
+        CreateArchiveButtonUI(10, AppDisplayConstants.Archive.ARCHIVE_X, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_X_URL), contentPanel);
+        CreateArchiveButtonUI(11, AppDisplayConstants.Archive.ARCHIVE_XI, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XI_URL), contentPanel);
+        CreateArchiveButtonUI(12, AppDisplayConstants.Archive.ARCHIVE_XII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XII_URL), contentPanel);
+        CreateArchiveButtonUI(13, AppDisplayConstants.Archive.ARCHIVE_XIII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XIII_URL), contentPanel);
+        CreateArchiveButtonUI(14, AppDisplayConstants.Archive.ARCHIVE_XIV, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XIV_URL), contentPanel);
 
         CreateArchiveButtonEvent(contentPanel);
     }

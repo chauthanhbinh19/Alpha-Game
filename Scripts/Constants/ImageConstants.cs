@@ -402,6 +402,7 @@ public static class ImageConstants
         public const string UTILITIES_URL = "UI/Icon/Utilities";
         public const string WASTE_URL = "UI/Icon/Waste";
         public const string WATER_URL = "UI/Icon/Water";
+        public const string FACILITIES_URL = "UI/Icon/Facilities";
 
         public const string CONSTRUCTION_URL = "UI/Icon/Construction";
         public const string ENERGY_URL = "UI/Icon/Energy";
@@ -410,6 +411,9 @@ public static class ImageConstants
         public const string MANUFACTURING_URL = "UI/Icon/Manufacturing";
         public const string MATERIALS_URL = "UI/Icon/Materials";
         public const string POWER_URL = "UI/Icon/Power";
+        public const string MECHANICS_URL = "UI/Icon/Mechanics";
+        public const string RESOURCE_URL = "UI/Icon/Resource";
+        public const string SYSTEM_URL = "UI/Icon/System";
 
         public const string ARMOR_URL = "UI/Icon/Armor";
         public const string DEFENSE_URL = "UI/Icon/Defense";
@@ -419,6 +423,8 @@ public static class ImageConstants
         public const string SAFETY_URL = "UI/Icon/Safety";
         public const string SHIELDING_URL = "UI/Icon/Shielding";
         public const string WEAPONS_URL = "UI/Icon/Weapons";
+        public const string FORTIFICATION_URL = "UI/Icon/Fortification";
+        public const string TACTICS_URL = "UI/Icon/Tactics";
 
         public const string COMMERCE_URL = "UI/Icon/Commerce";
         public const string ECONOMY_URL = "UI/Icon/Economy";
@@ -426,6 +432,10 @@ public static class ImageConstants
         public const string INVESTMENT_URL = "UI/Icon/Investment";
         public const string PRODUCTIVITY_URL = "UI/Icon/Productivity";
         public const string TRADE_URL = "UI/Icon/Trade";
+        public const string ENTERPRISE_URL = "UI/Icon/Enterprise";
+        public const string MARKET_URL = "UI/Icon/Market";
+        public const string SUPPLY_URL = "UI/Icon/Supply";
+        public const string DISTRIBUTION_URL = "UI/Icon/Distribution";
 
         public const string CLIMATE_URL = "UI/Icon/Climate";
         public const string CONSERVATION_URL = "UI/Icon/Conservation";
@@ -434,6 +444,9 @@ public static class ImageConstants
         public const string POLLUTION_URL = "UI/Icon/Pollution";
         public const string RECYCLING_URL = "UI/Icon/Recycling";
         public const string SUSTAINABILITY_URL = "UI/Icon/Sustainability";
+        public const string PRESERVATION_URL = "UI/Icon/Preservation";
+        public const string RENEWABLES_URL = "UI/Icon/Renewable";
+        public const string RESTORATION_URL = "UI/Icon/Restoration";
 
         public const string ASCENSION_URL = "UI/Icon/Ascension";
         public const string COLONIZATION_URL = "UI/Icon/Colonization";
@@ -444,12 +457,18 @@ public static class ImageConstants
         public const string SINGULARITY_URL = "UI/Icon/Singularity";
         public const string TERRAFORMING_URL = "UI/Icon/Terraforming";
         public const string TIME_URL = "UI/Icon/Time";
+        public const string COSMOLOGY_URL = "UI/Icon/Cosmology";
 
         public const string EPIDEMIOLOGY_URL = "UI/Icon/Epidemiology";
         public const string GENETICS_URL = "UI/Icon/Genetics";
         public const string HEALTH_URL = "UI/Icon/Health";
         public const string LONGEVITY_URL = "UI/Icon/Longevity";
         public const string MEDICINE_URL = "UI/Icon/Medicine";
+        public const string IMMUNOLOGY_URL = "UI/Icon/Immunology";
+        public const string BIOTECH_URL = "UI/Icon/Biotech";
+        public const string NUTRITION_URL = "UI/Icon/Nutrition";
+        public const string PHARMACEUTICALS_URL = "UI/Icon/Pharmaceuticals";
+        public const string REGENERATION_URL = "UI/Icon/Regeneration";
 
         public const string AI_URL = "UI/Icon/AI";
         public const string COMMUNICATION_URL = "UI/Icon/Communication";
@@ -459,6 +478,8 @@ public static class ImageConstants
         public const string NETWORKING_URL = "UI/Icon/Networking";
         public const string SECURITY_URL = "UI/Icon/Security";
         public const string SURVEILLANCE_URL = "UI/Icon/Surveillance";
+        public const string ANALYTICS_URL = "UI/Icon/Analytics";
+        public const string CONTROL_URL = "UI/Icon/Control";
 
         public const string AUTOMATION_URL = "UI/Icon/Automation";
         public const string BIOLOGY_URL = "UI/Icon/Biology";
@@ -469,6 +490,7 @@ public static class ImageConstants
         public const string QUANTUM_URL = "UI/Icon/Quantum";
         public const string ROBOTICS_URL = "UI/Icon/Robotics";
         public const string SCIENCE_URL = "UI/Icon/Science";
+        public const string INNOVATION_URL = "UI/Icon/Innovation";
 
         public const string CULTURE_URL = "UI/Icon/Culture";
         public const string DEMOGRAPHY_URL = "UI/Icon/Demography";
@@ -479,7 +501,58 @@ public static class ImageConstants
         public const string POLICY_URL = "UI/Icon/Policy";
         public const string POPULATION_URL = "UI/Icon/Population";
         public const string SOCIETY_URL = "UI/Icon/Society";
-
+        public const string CIVICS_URL = "UI/Icon/Civics";
+    }
+    public static class Archive
+    {
+        public const string ARCHIVE_I_URL = "UI/Icon/roman_one";
+        public const string ARCHIVE_II_URL = "UI/Icon/roman_two";
+        public const string ARCHIVE_III_URL = "UI/Icon/roman_three";
+        public const string ARCHIVE_IV_URL = "UI/Icon/roman_four";
+        public const string ARCHIVE_V_URL = "UI/Icon/roman_five";
+        public const string ARCHIVE_VI_URL = "UI/Icon/roman_six";
+        public const string ARCHIVE_VII_URL = "UI/Icon/roman_seven";
+        public const string ARCHIVE_VIII_URL = "UI/Icon/roman_eight";
+        public const string ARCHIVE_IX_URL = "UI/Icon/roman_nine";
+        public const string ARCHIVE_X_URL = "UI/Icon/roman_ten";
+        public const string ARCHIVE_XI_URL = "UI/Icon/roman_eleven";
+        public const string ARCHIVE_XII_URL = "UI/Icon/roman_twelve";
+        public const string ARCHIVE_XIII_URL = "UI/Icon/roman_thirteen";
+        public const string ARCHIVE_XIV_URL = "UI/Icon/roman_fourteen";
+    }
+    public static class Universe
+    {
+        public const string UNIVERSE_I_URL = "UI/Icon/roman_one";
+        public const string UNIVERSE_II_URL = "UI/Icon/roman_two";
+        public const string UNIVERSE_III_URL = "UI/Icon/roman_three";
+        public const string UNIVERSE_IV_URL = "UI/Icon/roman_four";
+        public const string UNIVERSE_V_URL = "UI/Icon/roman_five";
+        public const string UNIVERSE_VI_URL = "UI/Icon/roman_six";
+        public const string UNIVERSE_VII_URL = "UI/Icon/roman_seven";
+        public const string UNIVERSE_VIII_URL = "UI/Icon/roman_eight";
+        public const string UNIVERSE_IX_URL = "UI/Icon/roman_nine";
+        public const string UNIVERSE_X_URL = "UI/Icon/roman_ten";
+        public const string UNIVERSE_XI_URL = "UI/Icon/roman_eleven";
+        public const string UNIVERSE_XII_URL = "UI/Icon/roman_twelve";
+        public const string UNIVERSE_XIII_URL = "UI/Icon/roman_thirteen";
+        public const string UNIVERSE_XIV_URL = "UI/Icon/roman_fourteen";
+    }
+    public static class HIIN
+    {
+        public const string HIIN_I_URL = "UI/Icon/roman_one";
+        public const string HIIN_II_URL = "UI/Icon/roman_two";
+        public const string HIIN_III_URL = "UI/Icon/roman_three";
+        public const string HIIN_IV_URL = "UI/Icon/roman_four";
+        public const string HIIN_V_URL = "UI/Icon/roman_five";
+        public const string HIIN_VI_URL = "UI/Icon/roman_six";
+        public const string HIIN_VII_URL = "UI/Icon/roman_seven";
+        public const string HIIN_VIII_URL = "UI/Icon/roman_eight";
+        public const string HIIN_IX_URL = "UI/Icon/roman_nine";
+        public const string HIIN_X_URL = "UI/Icon/roman_ten";
+        public const string HIIN_XI_URL = "UI/Icon/roman_eleven";
+        public const string HIIN_XII_URL = "UI/Icon/roman_twelve";
+        public const string HIIN_XIII_URL = "UI/Icon/roman_thirteen";
+        public const string HIIN_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class Star
     {

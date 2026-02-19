@@ -56,7 +56,7 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(7, AppDisplayConstants.Research.UTILITIES, Resources.Load<Texture2D>(ImageConstants.Research.UTILITIES_URL), research1Panel);
         CreateResearchButtonUI(8, AppDisplayConstants.Research.WASTE, Resources.Load<Texture2D>(ImageConstants.Research.WASTE_URL), research1Panel);
         CreateResearchButtonUI(9, AppDisplayConstants.Research.WATER, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research1Panel);
-        CreateResearchButtonUI(10, AppDisplayConstants.Research.FACILITIES, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research1Panel);
+        CreateResearchButtonUI(10, AppDisplayConstants.Research.FACILITIES, Resources.Load<Texture2D>(ImageConstants.Research.FACILITIES_URL), research1Panel);
 
         CreateResearchButtonUI(11, AppDisplayConstants.Research.CONSTRUCTION, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), research2Panel);
         CreateResearchButtonUI(12, AppDisplayConstants.Research.ENERGY, Resources.Load<Texture2D>(ImageConstants.Research.ENERGY_URL), research2Panel);
@@ -65,9 +65,9 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(15, AppDisplayConstants.Research.MANUFACTURING, Resources.Load<Texture2D>(ImageConstants.Research.MANUFACTURING_URL), research2Panel);
         CreateResearchButtonUI(16, AppDisplayConstants.Research.MATERIALS, Resources.Load<Texture2D>(ImageConstants.Research.MATERIALS_URL), research2Panel);
         CreateResearchButtonUI(17, AppDisplayConstants.Research.POWER, Resources.Load<Texture2D>(ImageConstants.Research.POWER_URL), research2Panel);
-        CreateResearchButtonUI(18, AppDisplayConstants.Research.MECHANICS, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research2Panel);
-        CreateResearchButtonUI(19, AppDisplayConstants.Research.RESOURCE, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research2Panel);
-        CreateResearchButtonUI(20, AppDisplayConstants.Research.SYSTEM, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research2Panel);
+        CreateResearchButtonUI(18, AppDisplayConstants.Research.MECHANICS, Resources.Load<Texture2D>(ImageConstants.Research.MECHANICS_URL), research2Panel);
+        CreateResearchButtonUI(19, AppDisplayConstants.Research.RESOURCE, Resources.Load<Texture2D>(ImageConstants.Research.RESOURCE_URL), research2Panel);
+        CreateResearchButtonUI(20, AppDisplayConstants.Research.SYSTEM, Resources.Load<Texture2D>(ImageConstants.Research.SYSTEM_URL), research2Panel);
 
         CreateResearchButtonUI(21, AppDisplayConstants.Research.ARMOR, Resources.Load<Texture2D>(ImageConstants.Research.ARMOR_URL), research3Panel);
         CreateResearchButtonUI(22, AppDisplayConstants.Research.DEFENSE, Resources.Load<Texture2D>(ImageConstants.Research.DEFENSE_URL), research3Panel);
@@ -77,8 +77,8 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(26, AppDisplayConstants.Research.SAFETY, Resources.Load<Texture2D>(ImageConstants.Research.SAFETY_URL), research3Panel);
         CreateResearchButtonUI(27, AppDisplayConstants.Research.SHIELDING, Resources.Load<Texture2D>(ImageConstants.Research.SHIELDING_URL), research3Panel);
         CreateResearchButtonUI(28, AppDisplayConstants.Research.WEAPONS, Resources.Load<Texture2D>(ImageConstants.Research.WEAPONS_URL), research3Panel);
-        CreateResearchButtonUI(29, AppDisplayConstants.Research.FORTIFICATION, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research3Panel);
-        CreateResearchButtonUI(30, AppDisplayConstants.Research.TACTICS, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research3Panel);
+        CreateResearchButtonUI(29, AppDisplayConstants.Research.FORTIFICATION, Resources.Load<Texture2D>(ImageConstants.Research.FORTIFICATION_URL), research3Panel);
+        CreateResearchButtonUI(30, AppDisplayConstants.Research.TACTICS, Resources.Load<Texture2D>(ImageConstants.Research.TACTICS_URL), research3Panel);
 
         CreateResearchButtonUI(31, AppDisplayConstants.Research.COMMERCE, Resources.Load<Texture2D>(ImageConstants.Research.COMMERCE_URL), research4Panel);
         CreateResearchButtonUI(32, AppDisplayConstants.Research.ECONOMY, Resources.Load<Texture2D>(ImageConstants.Research.ECONOMY_URL), research4Panel);
@@ -86,10 +86,10 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(34, AppDisplayConstants.Research.INVESTMENT, Resources.Load<Texture2D>(ImageConstants.Research.INVESTMENT_URL), research4Panel);
         CreateResearchButtonUI(35, AppDisplayConstants.Research.PRODUCTIVITY, Resources.Load<Texture2D>(ImageConstants.Research.PRODUCTIVITY_URL), research4Panel);
         CreateResearchButtonUI(36, AppDisplayConstants.Research.TRADE, Resources.Load<Texture2D>(ImageConstants.Research.TRADE_URL), research4Panel);
-        CreateResearchButtonUI(37, AppDisplayConstants.Research.ENTERPRISE, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research4Panel);
-        CreateResearchButtonUI(38, AppDisplayConstants.Research.MARKET, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research4Panel);
-        CreateResearchButtonUI(39, AppDisplayConstants.Research.SUPPLY, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research4Panel);
-        CreateResearchButtonUI(40, AppDisplayConstants.Research.DISTRIBUTION, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research4Panel);
+        CreateResearchButtonUI(37, AppDisplayConstants.Research.ENTERPRISE, Resources.Load<Texture2D>(ImageConstants.Research.ENTERPRISE_URL), research4Panel);
+        CreateResearchButtonUI(38, AppDisplayConstants.Research.MARKET, Resources.Load<Texture2D>(ImageConstants.Research.MARKET_URL), research4Panel);
+        CreateResearchButtonUI(39, AppDisplayConstants.Research.SUPPLY, Resources.Load<Texture2D>(ImageConstants.Research.SUPPLY_URL), research4Panel);
+        CreateResearchButtonUI(40, AppDisplayConstants.Research.DISTRIBUTION, Resources.Load<Texture2D>(ImageConstants.Research.DISTRIBUTION_URL), research4Panel);
 
         CreateResearchButtonUI(41, AppDisplayConstants.Research.CLIMATE, Resources.Load<Texture2D>(ImageConstants.Research.CLIMATE_URL), research5Panel);
         CreateResearchButtonUI(42, AppDisplayConstants.Research.CONSERVATION, Resources.Load<Texture2D>(ImageConstants.Research.CONSERVATION_URL), research5Panel);
@@ -98,9 +98,9 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(45, AppDisplayConstants.Research.POLLUTION, Resources.Load<Texture2D>(ImageConstants.Research.POLLUTION_URL), research5Panel);
         CreateResearchButtonUI(46, AppDisplayConstants.Research.RECYCLING, Resources.Load<Texture2D>(ImageConstants.Research.RECYCLING_URL), research5Panel);
         CreateResearchButtonUI(47, AppDisplayConstants.Research.SUSTAINABILITY, Resources.Load<Texture2D>(ImageConstants.Research.SUSTAINABILITY_URL), research5Panel);
-        CreateResearchButtonUI(48, AppDisplayConstants.Research.PRESERVATION, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research5Panel);
-        CreateResearchButtonUI(49, AppDisplayConstants.Research.RENEWABLES, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research5Panel);
-        CreateResearchButtonUI(50, AppDisplayConstants.Research.RESTORATION, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research5Panel);
+        CreateResearchButtonUI(48, AppDisplayConstants.Research.PRESERVATION, Resources.Load<Texture2D>(ImageConstants.Research.PRESERVATION_URL), research5Panel);
+        CreateResearchButtonUI(49, AppDisplayConstants.Research.RENEWABLES, Resources.Load<Texture2D>(ImageConstants.Research.RENEWABLES_URL), research5Panel);
+        CreateResearchButtonUI(50, AppDisplayConstants.Research.RESTORATION, Resources.Load<Texture2D>(ImageConstants.Research.RESTORATION_URL), research5Panel);
 
         CreateResearchButtonUI(51, AppDisplayConstants.Research.ASCENSION, Resources.Load<Texture2D>(ImageConstants.Research.ASCENSION_URL), research6Panel);
         CreateResearchButtonUI(52, AppDisplayConstants.Research.COLONIZATION, Resources.Load<Texture2D>(ImageConstants.Research.COLONIZATION_URL), research6Panel);
@@ -111,18 +111,18 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(57, AppDisplayConstants.Research.SINGULARITY, Resources.Load<Texture2D>(ImageConstants.Research.SINGULARITY_URL), research6Panel);
         CreateResearchButtonUI(58, AppDisplayConstants.Research.TERRAFORMING, Resources.Load<Texture2D>(ImageConstants.Research.TERRAFORMING_URL), research6Panel);
         CreateResearchButtonUI(59, AppDisplayConstants.Research.TIME, Resources.Load<Texture2D>(ImageConstants.Research.TIME_URL), research6Panel);
-        CreateResearchButtonUI(60, AppDisplayConstants.Research.COSMOLOGY, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research6Panel);
+        CreateResearchButtonUI(60, AppDisplayConstants.Research.COSMOLOGY, Resources.Load<Texture2D>(ImageConstants.Research.COSMOLOGY_URL), research6Panel);
 
         CreateResearchButtonUI(61, AppDisplayConstants.Research.EPIDEMIOLOGY, Resources.Load<Texture2D>(ImageConstants.Research.EPIDEMIOLOGY_URL), research7Panel);
         CreateResearchButtonUI(62, AppDisplayConstants.Research.GENETICS, Resources.Load<Texture2D>(ImageConstants.Research.GENETICS_URL), research7Panel);
         CreateResearchButtonUI(63, AppDisplayConstants.Research.HEALTH, Resources.Load<Texture2D>(ImageConstants.Research.HEALTH_URL), research7Panel);
         CreateResearchButtonUI(64, AppDisplayConstants.Research.LONGEVITY, Resources.Load<Texture2D>(ImageConstants.Research.LONGEVITY_URL), research7Panel);
         CreateResearchButtonUI(65, AppDisplayConstants.Research.MEDICINE, Resources.Load<Texture2D>(ImageConstants.Research.MEDICINE_URL), research7Panel);
-        CreateResearchButtonUI(66, AppDisplayConstants.Research.BIOTECH, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research7Panel);
-        CreateResearchButtonUI(67, AppDisplayConstants.Research.IMMUNOLOGY, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research7Panel);
-        CreateResearchButtonUI(68, AppDisplayConstants.Research.NUTRITION, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research7Panel);
-        CreateResearchButtonUI(69, AppDisplayConstants.Research.PHARMACEUTICALS, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research7Panel);
-        CreateResearchButtonUI(70, AppDisplayConstants.Research.REGENERATION, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research7Panel);
+        CreateResearchButtonUI(66, AppDisplayConstants.Research.BIOTECH, Resources.Load<Texture2D>(ImageConstants.Research.BIOTECH_URL), research7Panel);
+        CreateResearchButtonUI(67, AppDisplayConstants.Research.IMMUNOLOGY, Resources.Load<Texture2D>(ImageConstants.Research.IMMUNOLOGY_URL), research7Panel);
+        CreateResearchButtonUI(68, AppDisplayConstants.Research.NUTRITION, Resources.Load<Texture2D>(ImageConstants.Research.NUTRITION_URL), research7Panel);
+        CreateResearchButtonUI(69, AppDisplayConstants.Research.PHARMACEUTICALS, Resources.Load<Texture2D>(ImageConstants.Research.PHARMACEUTICALS_URL), research7Panel);
+        CreateResearchButtonUI(70, AppDisplayConstants.Research.REGENERATION, Resources.Load<Texture2D>(ImageConstants.Research.REGENERATION_URL), research7Panel);
 
         CreateResearchButtonUI(71, AppDisplayConstants.Research.AI, Resources.Load<Texture2D>(ImageConstants.Research.AI_URL), research8Panel);
         CreateResearchButtonUI(72, AppDisplayConstants.Research.COMMUNICATION, Resources.Load<Texture2D>(ImageConstants.Research.COMMUNICATION_URL), research8Panel);
@@ -132,8 +132,8 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(76, AppDisplayConstants.Research.NETWORKING, Resources.Load<Texture2D>(ImageConstants.Research.NETWORKING_URL), research8Panel);
         CreateResearchButtonUI(77, AppDisplayConstants.Research.SECURITY, Resources.Load<Texture2D>(ImageConstants.Research.SECURITY_URL), research8Panel);
         CreateResearchButtonUI(78, AppDisplayConstants.Research.SURVEILLANCE, Resources.Load<Texture2D>(ImageConstants.Research.SURVEILLANCE_URL), research8Panel);
-        CreateResearchButtonUI(79, AppDisplayConstants.Research.ANALYTICS, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research8Panel);
-        CreateResearchButtonUI(80, AppDisplayConstants.Research.CONTROL, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research8Panel);
+        CreateResearchButtonUI(79, AppDisplayConstants.Research.ANALYTICS, Resources.Load<Texture2D>(ImageConstants.Research.ANALYTICS_URL), research8Panel);
+        CreateResearchButtonUI(80, AppDisplayConstants.Research.CONTROL, Resources.Load<Texture2D>(ImageConstants.Research.CONTROL_URL), research8Panel);
 
         CreateResearchButtonUI(81, AppDisplayConstants.Research.AUTOMATION, Resources.Load<Texture2D>(ImageConstants.Research.AUTOMATION_URL), research9Panel);
         CreateResearchButtonUI(82, AppDisplayConstants.Research.BIOLOGY, Resources.Load<Texture2D>(ImageConstants.Research.BIOLOGY_URL), research9Panel);
@@ -144,7 +144,7 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(87, AppDisplayConstants.Research.QUANTUM, Resources.Load<Texture2D>(ImageConstants.Research.QUANTUM_URL), research9Panel);
         CreateResearchButtonUI(88, AppDisplayConstants.Research.ROBOTICS, Resources.Load<Texture2D>(ImageConstants.Research.ROBOTICS_URL), research9Panel);
         CreateResearchButtonUI(89, AppDisplayConstants.Research.SCIENCE, Resources.Load<Texture2D>(ImageConstants.Research.SCIENCE_URL), research9Panel);
-        CreateResearchButtonUI(90, AppDisplayConstants.Research.INNOVATION, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research9Panel);
+        CreateResearchButtonUI(90, AppDisplayConstants.Research.INNOVATION, Resources.Load<Texture2D>(ImageConstants.Research.INNOVATION_URL), research9Panel);
 
         CreateResearchButtonUI(91, AppDisplayConstants.Research.CULTURE, Resources.Load<Texture2D>(ImageConstants.Research.CULTURE_URL), research10Panel);
         CreateResearchButtonUI(92, AppDisplayConstants.Research.DEMOGRAPHY, Resources.Load<Texture2D>(ImageConstants.Research.DEMOGRAPHY_URL), research10Panel);
@@ -155,7 +155,7 @@ public class ResearchManager : MonoBehaviour
         CreateResearchButtonUI(97, AppDisplayConstants.Research.POLICY, Resources.Load<Texture2D>(ImageConstants.Research.POLICY_URL), research10Panel);
         CreateResearchButtonUI(98, AppDisplayConstants.Research.POPULATION, Resources.Load<Texture2D>(ImageConstants.Research.POPULATION_URL), research10Panel);
         CreateResearchButtonUI(99, AppDisplayConstants.Research.SOCIETY, Resources.Load<Texture2D>(ImageConstants.Research.SOCIETY_URL), research10Panel);
-        CreateResearchButtonUI(100, AppDisplayConstants.Research.CIVICS, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), research10Panel);
+        CreateResearchButtonUI(100, AppDisplayConstants.Research.CIVICS, Resources.Load<Texture2D>(ImageConstants.Research.CIVICS_URL), research10Panel);
 
         CreateBaseInfrastructure(research1Panel);
         CreateCoreSystems(research2Panel);

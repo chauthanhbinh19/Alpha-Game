@@ -38,20 +38,20 @@ public class HIINManager : MonoBehaviour
         GameObject currentObject = Instantiate(HIINPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("HIINContent/Content");
 
-        CreateHIINButtonUI(1, AppDisplayConstants.HIIN.HIIN_I, Resources.Load<Texture2D>(ImageConstants.Research.HOUSING_URL), contentPanel);
-        CreateHIINButtonUI(2, AppDisplayConstants.HIIN.HIIN_II, Resources.Load<Texture2D>(ImageConstants.Research.INFRASTRUCTURE_URL), contentPanel);
-        CreateHIINButtonUI(3, AppDisplayConstants.HIIN.HIIN_III, Resources.Load<Texture2D>(ImageConstants.Research.LOGISTICS_URL), contentPanel);
-        CreateHIINButtonUI(4, AppDisplayConstants.HIIN.HIIN_IV, Resources.Load<Texture2D>(ImageConstants.Research.SANITATION_URL), contentPanel);
-        CreateHIINButtonUI(5, AppDisplayConstants.HIIN.HIIN_V, Resources.Load<Texture2D>(ImageConstants.Research.TRANSPORTATION_URL), contentPanel);
-        CreateHIINButtonUI(6, AppDisplayConstants.HIIN.HIIN_VI, Resources.Load<Texture2D>(ImageConstants.Research.URBANIZATION_URL), contentPanel);
-        CreateHIINButtonUI(7, AppDisplayConstants.HIIN.HIIN_VII, Resources.Load<Texture2D>(ImageConstants.Research.UTILITIES_URL), contentPanel);
-        CreateHIINButtonUI(8, AppDisplayConstants.HIIN.HIIN_VIII, Resources.Load<Texture2D>(ImageConstants.Research.WASTE_URL), contentPanel);
-        CreateHIINButtonUI(9, AppDisplayConstants.HIIN.HIIN_IX, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), contentPanel);
-        CreateHIINButtonUI(10, AppDisplayConstants.HIIN.HIIN_X, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateHIINButtonUI(11, AppDisplayConstants.HIIN.HIIN_XI, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateHIINButtonUI(12, AppDisplayConstants.HIIN.HIIN_XII, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateHIINButtonUI(13, AppDisplayConstants.HIIN.HIIN_XIII, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateHIINButtonUI(14, AppDisplayConstants.HIIN.HIIN_XIV, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
+        CreateHIINButtonUI(1, AppDisplayConstants.HIIN.HIIN_I, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_I_URL), contentPanel);
+        CreateHIINButtonUI(2, AppDisplayConstants.HIIN.HIIN_II, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_II_URL), contentPanel);
+        CreateHIINButtonUI(3, AppDisplayConstants.HIIN.HIIN_III, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_III_URL), contentPanel);
+        CreateHIINButtonUI(4, AppDisplayConstants.HIIN.HIIN_IV, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_IV_URL), contentPanel);
+        CreateHIINButtonUI(5, AppDisplayConstants.HIIN.HIIN_V, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_V_URL), contentPanel);
+        CreateHIINButtonUI(6, AppDisplayConstants.HIIN.HIIN_VI, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_VI_URL), contentPanel);
+        CreateHIINButtonUI(7, AppDisplayConstants.HIIN.HIIN_VII, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_VII_URL), contentPanel);
+        CreateHIINButtonUI(8, AppDisplayConstants.HIIN.HIIN_VIII, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_VIII_URL), contentPanel);
+        CreateHIINButtonUI(9, AppDisplayConstants.HIIN.HIIN_IX, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_IX_URL), contentPanel);
+        CreateHIINButtonUI(10, AppDisplayConstants.HIIN.HIIN_X, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_X_URL), contentPanel);
+        CreateHIINButtonUI(11, AppDisplayConstants.HIIN.HIIN_XI, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_XI_URL), contentPanel);
+        CreateHIINButtonUI(12, AppDisplayConstants.HIIN.HIIN_XII, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_XII_URL), contentPanel);
+        CreateHIINButtonUI(13, AppDisplayConstants.HIIN.HIIN_XIII, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_XIII_URL), contentPanel);
+        CreateHIINButtonUI(14, AppDisplayConstants.HIIN.HIIN_XIV, Resources.Load<Texture2D>(ImageConstants.HIIN.HIIN_XIV_URL), contentPanel);
 
         CreateHIINButtonEvent(contentPanel);
     }

@@ -38,20 +38,20 @@ public class UniverseManager : MonoBehaviour
         GameObject currentObject = Instantiate(UniversePanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("UniverseContent/Content");
 
-        CreateUniverseButtonUI(1, AppDisplayConstants.Universe.UNIVERSE_I, Resources.Load<Texture2D>(ImageConstants.Research.HOUSING_URL), contentPanel);
-        CreateUniverseButtonUI(2, AppDisplayConstants.Universe.UNIVERSE_II, Resources.Load<Texture2D>(ImageConstants.Research.INFRASTRUCTURE_URL), contentPanel);
-        CreateUniverseButtonUI(3, AppDisplayConstants.Universe.UNIVERSE_III, Resources.Load<Texture2D>(ImageConstants.Research.LOGISTICS_URL), contentPanel);
-        CreateUniverseButtonUI(4, AppDisplayConstants.Universe.UNIVERSE_IV, Resources.Load<Texture2D>(ImageConstants.Research.SANITATION_URL), contentPanel);
-        CreateUniverseButtonUI(5, AppDisplayConstants.Universe.UNIVERSE_V, Resources.Load<Texture2D>(ImageConstants.Research.TRANSPORTATION_URL), contentPanel);
-        CreateUniverseButtonUI(6, AppDisplayConstants.Universe.UNIVERSE_VI, Resources.Load<Texture2D>(ImageConstants.Research.URBANIZATION_URL), contentPanel);
-        CreateUniverseButtonUI(7, AppDisplayConstants.Universe.UNIVERSE_VII, Resources.Load<Texture2D>(ImageConstants.Research.UTILITIES_URL), contentPanel);
-        CreateUniverseButtonUI(8, AppDisplayConstants.Universe.UNIVERSE_VIII, Resources.Load<Texture2D>(ImageConstants.Research.WASTE_URL), contentPanel);
-        CreateUniverseButtonUI(9, AppDisplayConstants.Universe.UNIVERSE_IX, Resources.Load<Texture2D>(ImageConstants.Research.WATER_URL), contentPanel);
-        CreateUniverseButtonUI(10, AppDisplayConstants.Universe.UNIVERSE_X, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateUniverseButtonUI(11, AppDisplayConstants.Universe.UNIVERSE_XI, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateUniverseButtonUI(12, AppDisplayConstants.Universe.UNIVERSE_XII, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateUniverseButtonUI(13, AppDisplayConstants.Universe.UNIVERSE_XIII, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
-        CreateUniverseButtonUI(14, AppDisplayConstants.Universe.UNIVERSE_XIV, Resources.Load<Texture2D>(ImageConstants.Research.CONSTRUCTION_URL), contentPanel);
+        CreateUniverseButtonUI(1, AppDisplayConstants.Universe.UNIVERSE_I, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_I_URL), contentPanel);
+        CreateUniverseButtonUI(2, AppDisplayConstants.Universe.UNIVERSE_II, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_II_URL), contentPanel);
+        CreateUniverseButtonUI(3, AppDisplayConstants.Universe.UNIVERSE_III, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_III_URL), contentPanel);
+        CreateUniverseButtonUI(4, AppDisplayConstants.Universe.UNIVERSE_IV, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_IV_URL), contentPanel);
+        CreateUniverseButtonUI(5, AppDisplayConstants.Universe.UNIVERSE_V, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_V_URL), contentPanel);
+        CreateUniverseButtonUI(6, AppDisplayConstants.Universe.UNIVERSE_VI, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_VI_URL), contentPanel);
+        CreateUniverseButtonUI(7, AppDisplayConstants.Universe.UNIVERSE_VII, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_VII_URL), contentPanel);
+        CreateUniverseButtonUI(8, AppDisplayConstants.Universe.UNIVERSE_VIII, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_VIII_URL), contentPanel);
+        CreateUniverseButtonUI(9, AppDisplayConstants.Universe.UNIVERSE_IX, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_IX_URL), contentPanel);
+        CreateUniverseButtonUI(10, AppDisplayConstants.Universe.UNIVERSE_X, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_X_URL), contentPanel);
+        CreateUniverseButtonUI(11, AppDisplayConstants.Universe.UNIVERSE_XI, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_XI_URL), contentPanel);
+        CreateUniverseButtonUI(12, AppDisplayConstants.Universe.UNIVERSE_XII, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_XII_URL), contentPanel);
+        CreateUniverseButtonUI(13, AppDisplayConstants.Universe.UNIVERSE_XIII, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_XIII_URL), contentPanel);
+        CreateUniverseButtonUI(14, AppDisplayConstants.Universe.UNIVERSE_XIV, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_XIV_URL), contentPanel);
 
         CreateUniverseButtonEvent(contentPanel);
     }
