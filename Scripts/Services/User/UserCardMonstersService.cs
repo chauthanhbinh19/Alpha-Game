@@ -507,6 +507,492 @@ public class UserCardMonstersService : IUserCardMonstersService
         }
         return CardMonstersList;
     }
+    public async Task<List<CardMonsters>> GetSSWNPowerAsync(string user_id, List<CardMonsters> CardMonstersList)
+    {
+        SSWNs sswn = await SSWNsService.Create().GetSumSSWNsAsync(user_id);
+        foreach (var c in CardMonstersList)
+        {
+            c.Health = c.Health + sswn.Health + c.BaseStats.Health * sswn.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + sswn.PhysicalAttack + c.BaseStats.PhysicalAttack * sswn.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + sswn.PhysicalDefense + c.BaseStats.PhysicalDefense * sswn.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + sswn.MagicalAttack + c.BaseStats.MagicalAttack * sswn.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + sswn.MagicalDefense + c.BaseStats.MagicalDefense * sswn.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + sswn.ChemicalAttack + c.BaseStats.ChemicalAttack * sswn.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + sswn.ChemicalDefense + c.BaseStats.ChemicalDefense * sswn.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + sswn.AtomicAttack + c.BaseStats.AtomicAttack * sswn.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + sswn.AtomicDefense + c.BaseStats.AtomicDefense * sswn.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + sswn.MentalAttack + c.BaseStats.MentalAttack * sswn.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + sswn.MentalDefense + c.BaseStats.MentalDefense * sswn.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + sswn.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + sswn.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + sswn.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + sswn.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + sswn.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + sswn.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + sswn.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + sswn.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + sswn.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + sswn.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + sswn.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + sswn.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + sswn.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + sswn.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + sswn.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + sswn.ShieldStrength;
+            c.Tenacity = c.Tenacity + sswn.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + sswn.ResistanceRate;
+            c.ComboRate = c.ComboRate + sswn.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + sswn.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + sswn.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + sswn.ComboResistanceRate;
+            c.StunRate = c.StunRate + sswn.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + sswn.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + sswn.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + sswn.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + sswn.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + sswn.ReflectionResistanceRate;
+            c.Mana = c.Mana + sswn.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + sswn.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + sswn.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + sswn.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + sswn.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + sswn.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + sswn.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + sswn.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + sswn.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + sswn.SkillResistanceRate;
+
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
+        );
+        }
+        return CardMonstersList;
+    }
+    public async Task<List<CardMonsters>> GetHITNPowerAsync(string user_id, List<CardMonsters> CardMonstersList)
+    {
+        HITNs hitn = await HITNsService.Create().GetSumHITNsAsync(user_id);
+        foreach (var c in CardMonstersList)
+        {
+            c.Health = c.Health + hitn.Health + c.BaseStats.Health * hitn.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + hitn.PhysicalAttack + c.BaseStats.PhysicalAttack * hitn.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + hitn.PhysicalDefense + c.BaseStats.PhysicalDefense * hitn.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + hitn.MagicalAttack + c.BaseStats.MagicalAttack * hitn.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + hitn.MagicalDefense + c.BaseStats.MagicalDefense * hitn.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + hitn.ChemicalAttack + c.BaseStats.ChemicalAttack * hitn.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + hitn.ChemicalDefense + c.BaseStats.ChemicalDefense * hitn.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + hitn.AtomicAttack + c.BaseStats.AtomicAttack * hitn.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + hitn.AtomicDefense + c.BaseStats.AtomicDefense * hitn.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + hitn.MentalAttack + c.BaseStats.MentalAttack * hitn.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + hitn.MentalDefense + c.BaseStats.MentalDefense * hitn.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + hitn.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + hitn.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + hitn.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + hitn.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + hitn.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + hitn.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + hitn.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + hitn.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + hitn.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + hitn.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + hitn.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + hitn.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + hitn.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + hitn.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + hitn.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + hitn.ShieldStrength;
+            c.Tenacity = c.Tenacity + hitn.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + hitn.ResistanceRate;
+            c.ComboRate = c.ComboRate + hitn.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + hitn.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + hitn.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + hitn.ComboResistanceRate;
+            c.StunRate = c.StunRate + hitn.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + hitn.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + hitn.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + hitn.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + hitn.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + hitn.ReflectionResistanceRate;
+            c.Mana = c.Mana + hitn.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + hitn.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + hitn.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + hitn.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + hitn.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + hitn.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + hitn.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + hitn.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + hitn.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + hitn.SkillResistanceRate;
+
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
+        );
+        }
+        return CardMonstersList;
+    }
+    public async Task<List<CardMonsters>> GetHIHNPowerAsync(string user_id, List<CardMonsters> CardMonstersList)
+    {
+        HIHNs hihn = await HIHNsService.Create().GetSumHIHNsAsync(user_id);
+        foreach (var c in CardMonstersList)
+        {
+            c.Health = c.Health + hihn.Health + c.BaseStats.Health * hihn.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + hihn.PhysicalAttack + c.BaseStats.PhysicalAttack * hihn.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + hihn.PhysicalDefense + c.BaseStats.PhysicalDefense * hihn.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + hihn.MagicalAttack + c.BaseStats.MagicalAttack * hihn.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + hihn.MagicalDefense + c.BaseStats.MagicalDefense * hihn.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + hihn.ChemicalAttack + c.BaseStats.ChemicalAttack * hihn.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + hihn.ChemicalDefense + c.BaseStats.ChemicalDefense * hihn.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + hihn.AtomicAttack + c.BaseStats.AtomicAttack * hihn.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + hihn.AtomicDefense + c.BaseStats.AtomicDefense * hihn.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + hihn.MentalAttack + c.BaseStats.MentalAttack * hihn.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + hihn.MentalDefense + c.BaseStats.MentalDefense * hihn.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + hihn.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + hihn.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + hihn.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + hihn.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + hihn.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + hihn.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + hihn.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + hihn.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + hihn.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + hihn.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + hihn.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + hihn.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + hihn.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + hihn.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + hihn.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + hihn.ShieldStrength;
+            c.Tenacity = c.Tenacity + hihn.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + hihn.ResistanceRate;
+            c.ComboRate = c.ComboRate + hihn.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + hihn.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + hihn.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + hihn.ComboResistanceRate;
+            c.StunRate = c.StunRate + hihn.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + hihn.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + hihn.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + hihn.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + hihn.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + hihn.ReflectionResistanceRate;
+            c.Mana = c.Mana + hihn.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + hihn.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + hihn.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + hihn.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + hihn.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + hihn.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + hihn.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + hihn.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + hihn.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + hihn.SkillResistanceRate;
+
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
+        );
+        }
+        return CardMonstersList;
+    }
+    public async Task<List<CardMonsters>> GetHIENPowerAsync(string user_id, List<CardMonsters> CardMonstersList)
+    {
+        HIENs hien = await HIENsService.Create().GetSumHIENsAsync(user_id);
+        foreach (var c in CardMonstersList)
+        {
+            c.Health = c.Health + hien.Health + c.BaseStats.Health * hien.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + hien.PhysicalAttack + c.BaseStats.PhysicalAttack * hien.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + hien.PhysicalDefense + c.BaseStats.PhysicalDefense * hien.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + hien.MagicalAttack + c.BaseStats.MagicalAttack * hien.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + hien.MagicalDefense + c.BaseStats.MagicalDefense * hien.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + hien.ChemicalAttack + c.BaseStats.ChemicalAttack * hien.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + hien.ChemicalDefense + c.BaseStats.ChemicalDefense * hien.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + hien.AtomicAttack + c.BaseStats.AtomicAttack * hien.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + hien.AtomicDefense + c.BaseStats.AtomicDefense * hien.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + hien.MentalAttack + c.BaseStats.MentalAttack * hien.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + hien.MentalDefense + c.BaseStats.MentalDefense * hien.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + hien.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + hien.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + hien.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + hien.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + hien.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + hien.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + hien.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + hien.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + hien.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + hien.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + hien.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + hien.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + hien.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + hien.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + hien.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + hien.ShieldStrength;
+            c.Tenacity = c.Tenacity + hien.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + hien.ResistanceRate;
+            c.ComboRate = c.ComboRate + hien.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + hien.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + hien.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + hien.ComboResistanceRate;
+            c.StunRate = c.StunRate + hien.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + hien.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + hien.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + hien.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + hien.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + hien.ReflectionResistanceRate;
+            c.Mana = c.Mana + hien.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + hien.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + hien.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + hien.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + hien.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + hien.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + hien.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + hien.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + hien.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + hien.SkillResistanceRate;
+
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
+        );
+        }
+        return CardMonstersList;
+    }
+    public async Task<List<CardMonsters>> GetHICAPowerAsync(string user_id, List<CardMonsters> CardMonstersList)
+    {
+        HICAs hica = await HICAsService.Create().GetSumHICAsAsync(user_id);
+        foreach (var c in CardMonstersList)
+        {
+            c.Health = c.Health + hica.Health + c.BaseStats.Health * hica.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + hica.PhysicalAttack + c.BaseStats.PhysicalAttack * hica.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + hica.PhysicalDefense + c.BaseStats.PhysicalDefense * hica.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + hica.MagicalAttack + c.BaseStats.MagicalAttack * hica.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + hica.MagicalDefense + c.BaseStats.MagicalDefense * hica.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + hica.ChemicalAttack + c.BaseStats.ChemicalAttack * hica.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + hica.ChemicalDefense + c.BaseStats.ChemicalDefense * hica.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + hica.AtomicAttack + c.BaseStats.AtomicAttack * hica.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + hica.AtomicDefense + c.BaseStats.AtomicDefense * hica.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + hica.MentalAttack + c.BaseStats.MentalAttack * hica.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + hica.MentalDefense + c.BaseStats.MentalDefense * hica.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + hica.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + hica.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + hica.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + hica.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + hica.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + hica.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + hica.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + hica.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + hica.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + hica.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + hica.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + hica.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + hica.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + hica.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + hica.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + hica.ShieldStrength;
+            c.Tenacity = c.Tenacity + hica.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + hica.ResistanceRate;
+            c.ComboRate = c.ComboRate + hica.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + hica.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + hica.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + hica.ComboResistanceRate;
+            c.StunRate = c.StunRate + hica.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + hica.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + hica.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + hica.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + hica.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + hica.ReflectionResistanceRate;
+            c.Mana = c.Mana + hica.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + hica.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + hica.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + hica.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + hica.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + hica.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + hica.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + hica.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + hica.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + hica.SkillResistanceRate;
+
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
+        );
+        }
+        return CardMonstersList;
+    }
+    public async Task<List<CardMonsters>> GetHIRNPowerAsync(string user_id, List<CardMonsters> CardMonstersList)
+    {
+        HIRNs hirn = await HIRNsService.Create().GetSumHIRNsAsync(user_id);
+        foreach (var c in CardMonstersList)
+        {
+            c.Health = c.Health + hirn.Health + c.BaseStats.Health * hirn.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + hirn.PhysicalAttack + c.BaseStats.PhysicalAttack * hirn.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + hirn.PhysicalDefense + c.BaseStats.PhysicalDefense * hirn.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + hirn.MagicalAttack + c.BaseStats.MagicalAttack * hirn.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + hirn.MagicalDefense + c.BaseStats.MagicalDefense * hirn.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + hirn.ChemicalAttack + c.BaseStats.ChemicalAttack * hirn.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + hirn.ChemicalDefense + c.BaseStats.ChemicalDefense * hirn.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + hirn.AtomicAttack + c.BaseStats.AtomicAttack * hirn.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + hirn.AtomicDefense + c.BaseStats.AtomicDefense * hirn.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + hirn.MentalAttack + c.BaseStats.MentalAttack * hirn.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + hirn.MentalDefense + c.BaseStats.MentalDefense * hirn.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + hirn.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + hirn.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + hirn.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + hirn.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + hirn.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + hirn.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + hirn.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + hirn.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + hirn.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + hirn.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + hirn.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + hirn.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + hirn.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + hirn.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + hirn.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + hirn.ShieldStrength;
+            c.Tenacity = c.Tenacity + hirn.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + hirn.ResistanceRate;
+            c.ComboRate = c.ComboRate + hirn.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + hirn.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + hirn.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + hirn.ComboResistanceRate;
+            c.StunRate = c.StunRate + hirn.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + hirn.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + hirn.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + hirn.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + hirn.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + hirn.ReflectionResistanceRate;
+            c.Mana = c.Mana + hirn.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + hirn.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + hirn.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + hirn.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + hirn.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + hirn.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + hirn.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + hirn.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + hirn.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + hirn.SkillResistanceRate;
+
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
+        );
+        }
+        return CardMonstersList;
+    }
     public async Task<List<CardMonsters>> GetAllEquipmentPowerAsync(string user_id, List<CardMonsters> CardMonstersList)
     {
         foreach (var c in CardMonstersList)
@@ -1106,6 +1592,12 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = await GetArchivePowerAsync(user_id, list);
         list = await GetUniversePowerAsync(user_id, list);
         list = await GetHIINPowerAsync(user_id, list);
+        list = await GetSSWNPowerAsync(user_id, list);
+        list = await GetHITNPowerAsync(user_id, list);
+        list = await GetHIHNPowerAsync(user_id, list);
+        list = await GetHIENPowerAsync(user_id, list);
+        list = await GetHICAPowerAsync(user_id, list);
+        list = await GetHIRNPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
         ListSortHelper.SortByPower(list);
         return list;
@@ -1126,6 +1618,12 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = await GetArchivePowerAsync(user_id, list);
         list = await GetUniversePowerAsync(user_id, list);
         list = await GetHIINPowerAsync(user_id, list);
+        list = await GetSSWNPowerAsync(user_id, list);
+        list = await GetHITNPowerAsync(user_id, list);
+        list = await GetHIHNPowerAsync(user_id, list);
+        list = await GetHIENPowerAsync(user_id, list);
+        list = await GetHICAPowerAsync(user_id, list);
+        list = await GetHIRNPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
         ListSortHelper.SortByPower(list);
         return list;
@@ -1146,6 +1644,12 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = await GetArchivePowerAsync(user_id, list);
         list = await GetUniversePowerAsync(user_id, list);
         list = await GetHIINPowerAsync(user_id, list);
+        list = await GetSSWNPowerAsync(user_id, list);
+        list = await GetHITNPowerAsync(user_id, list);
+        list = await GetHIHNPowerAsync(user_id, list);
+        list = await GetHIENPowerAsync(user_id, list);
+        list = await GetHICAPowerAsync(user_id, list);
+        list = await GetHIRNPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
         ListSortHelper.SortByPower(list);
         return list;
@@ -1211,6 +1715,12 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = await GetArchivePowerAsync(user_id, list);
         list = await GetUniversePowerAsync(user_id, list);
         list = await GetHIINPowerAsync(user_id, list);
+        list = await GetSSWNPowerAsync(user_id, list);
+        list = await GetHITNPowerAsync(user_id, list);
+        list = await GetHIHNPowerAsync(user_id, list);
+        list = await GetHIENPowerAsync(user_id, list);
+        list = await GetHICAPowerAsync(user_id, list);
+        list = await GetHIRNPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
         return list.FirstOrDefault();
     }
@@ -1230,6 +1740,12 @@ public class UserCardMonstersService : IUserCardMonstersService
         list = await GetArchivePowerAsync(user_id, list);
         list = await GetUniversePowerAsync(user_id, list);
         list = await GetHIINPowerAsync(user_id, list);
+        list = await GetSSWNPowerAsync(user_id, list);
+        list = await GetHITNPowerAsync(user_id, list);
+        list = await GetHIHNPowerAsync(user_id, list);
+        list = await GetHIENPowerAsync(user_id, list);
+        list = await GetHICAPowerAsync(user_id, list);
+        list = await GetHIRNPowerAsync(user_id, list);
         list = await GetSkillsAsync(user_id, list);
         ListSortHelper.SortByPower(list);
         return list;
