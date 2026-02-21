@@ -417,6 +417,22 @@
   { "key": "Universe.UniverseXIII", "value": "Universe XIII" },
   { "key": "Universe.UniverseXIV", "value": "Universe XIV" },
 
+  { "key": "MainType.HIIN", "value": "HIIN" },
+  { "key": "MainType.SSWN", "value": "SSWN" },
+  { "key": "MainType.HITN", "value": "HITN" },
+  { "key": "MainType.HIHN", "value": "HIHN" },
+  { "key": "MainType.HIEN", "value": "HIEN" },
+  { "key": "MainType.HICA", "value": "HICA" },
+  { "key": "MainType.HIRN", "value": "HIRN" },
+
+  { "key": "MainType.HIIN_FULLNAME", "value": "Hyper-Integrated Industrial Nexus" },
+  { "key": "MainType.SSWN_FULLNAME", "value": "Supreme Strategic War Nexus" },
+  { "key": "MainType.HITN_FULLNAME", "value": "Hyper-Integrated Trade Nexus" },
+  { "key": "MainType.HIHN_FULLNAME", "value": "Hyper-Integrated Habitat Nexus" },
+  { "key": "MainType.HIEN_FULLNAME", "value": "Hyper-Integrated Energy Nexus" },
+  { "key": "MainType.HICA_FULLNAME", "value": "Hyper-Integrated Command Authority" },
+  { "key": "MainType.HIRN_FULLNAME", "value": "Hyper-Integrated Resource Nexus" },
+
   { "key": "HIIN.HIINI", "value": "HIIN I" },
   { "key": "HIIN.HIINII", "value": "HIIN II" },
   { "key": "HIIN.HIINIII", "value": "HIIN III" },

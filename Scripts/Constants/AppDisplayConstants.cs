@@ -211,6 +211,22 @@ public static class AppDisplayConstants
 
         public const string INVENTORY = "MainType.Inventory";
         public const string SCIENCE_FICTION = "MainType.ScienceFiction";
+
+        public const string HIIN = "MainType.HIIN";
+        public const string SSWN = "MainType.SSWN";
+        public const string HITN = "MainType.HITN";
+        public const string HIHN = "MainType.HIHN";
+        public const string HIEN = "MainType.HIEN";
+        public const string HICA = "MainType.HICA";
+        public const string HIRN = "MainType.HIRN";
+
+        public const string HIIN_FULLNAME = "MainType.HIIN_FULLNAME";
+        public const string SSWN_FULLNAME = "MainType.SSWN_FULLNAME";
+        public const string HITN_FULLNAME = "MainType.HITN_FULLNAME";
+        public const string HIHN_FULLNAME = "MainType.HIHN_FULLNAME";
+        public const string HIEN_FULLNAME = "MainType.HIEN_FULLNAME";
+        public const string HICA_FULLNAME = "MainType.HICA_FULLNAME";
+        public const string HIRN_FULLNAME = "MainType.HIRN_FULLNAME";
     }
     public static class Gallery
     {
