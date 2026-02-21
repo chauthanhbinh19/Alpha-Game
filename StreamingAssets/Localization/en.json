@@ -400,7 +400,11 @@
   { "key": "Archive.ArchiveXI", "value": "Archive XI" },
   { "key": "Archive.ArchiveXII", "value": "Archive XII" },
   { "key": "Archive.ArchiveXIII", "value": "Archive XIII" },
-  { "key": "Archive.ArchiveXIV", "value": "Archive XIV" },
+  { "key": "Archive.ArchiveXV", "value": "Archive XV" },
+  { "key": "Archive.ArchiveXVI", "value": "Archive XVI" },
+  { "key": "Archive.ArchiveXVII", "value": "Archive XVII" },
+  { "key": "Archive.ArchiveXVIII", "value": "Archive XVIII" },
+  { "key": "Archive.ArchiveXIX", "value": "Archive XIX" },
 
   { "key": "Universe.UniverseI", "value": "Universe I" },
   { "key": "Universe.UniverseII", "value": "Universe II" },

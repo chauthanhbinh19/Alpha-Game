@@ -502,6 +502,11 @@ public static class AppDisplayConstants
         public const string ARCHIVE_XII = "Archive.ArchiveXII";
         public const string ARCHIVE_XIII = "Archive.ArchiveXIII";
         public const string ARCHIVE_XIV = "Archive.ArchiveXIV";
+        public const string ARCHIVE_XV = "Archive.ArchiveXV";
+        public const string ARCHIVE_XVI = "Archive.ArchiveXVI";
+        public const string ARCHIVE_XVII = "Archive.ArchiveXVII";
+        public const string ARCHIVE_XVIII = "Archive.ArchiveXVIII";
+        public const string ARCHIVE_XIX = "Archive.ArchiveXIX";
     }
     public static class Universe
     {
