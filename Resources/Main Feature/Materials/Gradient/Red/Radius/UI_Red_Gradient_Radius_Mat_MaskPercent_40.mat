@@ -119,7 +119,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BorderColor: {r: 0, g: 0, b: 0, a: 1}
-    - _BottomColor: {r: 0.61960787, g: 0.18431368, b: 0.23529412, a: 1}
+    - _BottomColor: {r: 0.99215686, g: 0.12156863, b: 0.25490198, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorBottom: {r: 0.44705883, g: 0.18431373, b: 0.21568628, a: 1}
     - _ColorTop: {r: 0.6313726, g: 0.29803923, b: 0.34117648, a: 1}

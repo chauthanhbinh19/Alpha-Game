@@ -6,9 +6,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ArchiveXVIIIManager : MonoBehaviour
+public class ArchiveXIXManager : MonoBehaviour
 {
-    public static ArchiveXVIIIManager Instance { get; private set; }
+    public static ArchiveXIXManager Instance { get; private set; }
     private Transform MainPanel;
     private GameObject ArchivePanelPrefab;
     private GameObject ArchiveButtonPrefab;
@@ -51,7 +51,7 @@ public class ArchiveXVIIIManager : MonoBehaviour
         MainArchivePanelPrefab = UIManager.Instance.Get("MainArchivePanelPrefab");
         ArchiveItemPrefab = UIManager.Instance.Get("ArchiveItemPrefab");
     }
-    public async Task CreateArchiveXVIIIManagerAsync()
+    public async Task CreateArchiveXIXManagerAsync()
     {
         GameObject currentObject = Instantiate(PopupArchivePanelPrefab, MainPanel);
         content = currentObject.transform.Find("Scroll View/Viewport/Content");

@@ -38,6 +38,20 @@ public class StructureManager : MonoBehaviour
         GameObject currentObject = Instantiate(PopupStructureButtonPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
 
+        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            await HomeManager.Instance.CreateHomePanelAsync();
+        });
+
         CreateStructureButtonUI(1, AppDisplayConstants.MainType.HIIN, AppDisplayConstants.MainType.HIIN_FULLNAME, contentPanel);
         CreateStructureButtonUI(2, AppDisplayConstants.MainType.SSWN, AppDisplayConstants.MainType.SSWN_FULLNAME, contentPanel);
         CreateStructureButtonUI(3, AppDisplayConstants.MainType.HITN, AppDisplayConstants.MainType.HITN_FULLNAME, contentPanel);

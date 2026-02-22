@@ -134,6 +134,7 @@ public class MainMenuManager : MonoBehaviour
         Button researchButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ResearchButton").GetComponent<Button>();
         Button archiveButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ArchiveButton").GetComponent<Button>();
         Button universeButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/UniverseButton").GetComponent<Button>();
+        Button structureButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
 
         _=HomeManager.Instance.CreateHomePanelAsync();
 
@@ -368,6 +369,13 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             UniverseManager.Instance.CreateUniverse();
+        });
+
+        structureButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            StructureManager.Instance.CreateStructure();
         });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
