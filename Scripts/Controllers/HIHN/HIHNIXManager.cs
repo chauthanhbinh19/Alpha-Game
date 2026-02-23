@@ -213,7 +213,7 @@ public class HIHNIXManager : MonoBehaviour
             await HomeManager.Instance.CreateHomePanelAsync();
         });
         RawImage mapImage = currentObject.transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_12");
+        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_15");
         mapImage.texture = mapTexture; 
         RawImage rankImage = currentObject.transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.HIHN.HIHN_IX}");

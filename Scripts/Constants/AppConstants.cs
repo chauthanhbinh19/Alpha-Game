@@ -1028,7 +1028,7 @@ public static class AppConstants
         public const string NOVA = "Nova_Equipment";
         public const string OMONITUS = "Omonitus_Equipment";
         public const string OMEGA = "Omega_Equipment";
-        public const string PET = "Pet_Equipment";
+        public const string PARIUS = "Parius_Equipment";
         public const string PYROS = "Pyros_Equipment";
         public const string QIYANTUS = "Qiyantus_Equipment";
         public const string QUASAR = "Quasar_Equipment";

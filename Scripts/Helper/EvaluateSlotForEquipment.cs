@@ -96,7 +96,7 @@ public static class EvaluateSlotForEquipment
             case AppConstants.Equipment.OMEGA:
                 slot = 8;
                 break;
-            case AppConstants.Equipment.PET:
+            case AppConstants.Equipment.PARIUS:
                 slot = 6;
                 break;
             case AppConstants.Equipment.PYROS:
@@ -232,7 +232,7 @@ public static class EvaluateSlotForEquipment
                 return true;
             case AppConstants.Equipment.OMEGA:
                 return false;
-            case AppConstants.Equipment.PET:
+            case AppConstants.Equipment.PARIUS:
                 return true;
             case AppConstants.Equipment.PYROS:
                 return true;
@@ -345,7 +345,7 @@ public static class EvaluateSlotForEquipment
                 return ImageConstants.Background.CARD_BACKGROUND_29_URL;
             case AppConstants.Equipment.OMEGA:
                 return ImageConstants.Background.CARD_BACKGROUND_30_URL;
-            case AppConstants.Equipment.PET:
+            case AppConstants.Equipment.PARIUS:
                 return ImageConstants.Background.CARD_BACKGROUND_31_URL;
             case AppConstants.Equipment.PYROS:
                 return ImageConstants.Background.CARD_BACKGROUND_32_URL;
@@ -457,7 +457,7 @@ public static class EvaluateSlotForEquipment
                 return ImageConstants.Frame.CARD_FRAME_1;
             case AppConstants.Equipment.OMEGA:
                 return ImageConstants.Frame.CARD_FRAME_5;
-            case AppConstants.Equipment.PET:
+            case AppConstants.Equipment.PARIUS:
                 return ImageConstants.Frame.CARD_FRAME_2;
             case AppConstants.Equipment.PYROS:
                 return ImageConstants.Frame.CARD_FRAME_5;

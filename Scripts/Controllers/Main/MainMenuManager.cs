@@ -1856,15 +1856,6 @@ public class MainMenuManager : MonoBehaviour
             tenTicketText.text = "10";
         }
     }
-    void AddClickListener(EventTrigger trigger, System.Action callback)
-    {
-        EventTrigger.Entry entry = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerClick
-        };
-        entry.callback.AddListener((data) => { callback(); });
-        trigger.triggers.Add(entry);
-    }
     public void LoadAnimation()
     {
         if (LeftScrollViewContentPanel != null)
