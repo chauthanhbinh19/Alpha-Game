@@ -42,6 +42,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private string search;
     // private string type;
     private string rare;
+    EquipmentType equipmentType;
     // Start is called before the first frame update
     void Start()
     {
@@ -362,7 +363,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardHeroes.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -370,76 +372,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardHeroes, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardHeroes, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardHeroes, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardHeroes, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardHeroes, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardHeroes, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardHeroes, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -457,7 +459,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardCaptains.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -465,76 +468,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardCaptains, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardCaptains, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardCaptains, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardCaptains, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardCaptains, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardCaptains, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardCaptains, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -552,7 +555,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardColonels.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -560,76 +564,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardColonels, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardColonels, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardColonels, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardColonels, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardColonels, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardColonels, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardColonels, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -647,7 +651,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardGenerals.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -655,76 +660,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardGenerals, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardGenerals, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardGenerals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardGenerals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardGenerals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardGenerals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardGenerals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -742,7 +747,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardAdmirals.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -750,76 +756,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardAdmirals, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardAdmirals, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardAdmirals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardAdmirals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardAdmirals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardAdmirals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardAdmirals, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -837,7 +843,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardMonsters.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -845,76 +852,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardMonsters, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMonsters, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMonsters, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMonsters, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMonsters, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMonsters, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMonsters, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -932,7 +939,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardMilitary.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -940,76 +948,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardMilitary, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardMilitary, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -1027,7 +1035,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = cardSpell.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -1035,76 +1044,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(cardSpell, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(cardSpell, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -1122,7 +1131,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = books.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -1130,76 +1140,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(books, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(books, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(books, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(books, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(books, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(books, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(books, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -1217,7 +1227,8 @@ public class MainMenuEquipmentManager : MonoBehaviour
         string fileNameWithoutExtension = pets.Image.Replace(".png", "");
         Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
+        if (equipmentType.SlotValue == 1)
         {
             mainImage.gameObject.SetActive(false);
         }
@@ -1225,76 +1236,76 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             mainImage.gameObject.SetActive(true);
         }
-        if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 1)
+        if (equipmentType.SlotValue == 1)
         {
             slotObject = Instantiate(Slot1Prefab, SlotPanel);
             Button EquipmentSlot1Button = slotObject.transform.Find("EquipmentSlot1Button").GetComponent<Button>();
             ApplyEquipmentImage(pets, EquipmentSlot1Button, 1, equipmentList);
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 4)
+        else if (equipmentType.SlotValue == 4)
         {
             slotObject = Instantiate(Slot4Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(pets, slotButtons[i], i + 1, equipmentList); // i + 1 vì vị trí bắt đầu từ 1
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 6)
+        else if (equipmentType.SlotValue == 6)
         {
             slotObject = Instantiate(Slot6Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(pets, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 8)
+        else if (equipmentType.SlotValue == 8)
         {
             slotObject = Instantiate(Slot8Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(pets, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 10)
+        else if (equipmentType.SlotValue == 10)
         {
             slotObject = Instantiate(Slot10Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(pets, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 12)
+        else if (equipmentType.SlotValue == 12)
         {
             slotObject = Instantiate(Slot12Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(pets, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 14)
+        else if (equipmentType.SlotValue == 14)
         {
             slotObject = Instantiate(Slot14Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
                 ApplyEquipmentImage(pets, slotButtons[i], i + 1, equipmentList);
             }
         }
-        else if (EvaluateSlotForEquipment.CheckSlotForEquipments(mainType) == 16)
+        else if (equipmentType.SlotValue == 16)
         {
             GameObject slotObject = Instantiate(Slot16Prefab, SlotPanel);
-            Button[] slotButtons = CreateButtonArray(EvaluateSlotForEquipment.CheckSlotForEquipments(mainType));
+            Button[] slotButtons = CreateButtonArray(equipmentType.SlotValue);
             // Duyệt danh sách thiết bị và áp hình ảnh
             for (int i = 0; i < slotButtons.Length; i++)
             {
@@ -1461,7 +1472,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Transform borderEffect = button.transform.Find("BorderEffect");
                     if (borderEffect != null)
                     {
-                        if (EvaluateSlotForEquipment.CanUseBorderEffect(mainType))
+                        if (equipmentType.CanUseBorderEffect)
                         {
                             borderEffect.gameObject.SetActive(true);
                         }
