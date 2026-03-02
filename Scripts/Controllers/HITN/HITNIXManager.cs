@@ -19,7 +19,7 @@ public class HITNIXManager : MonoBehaviour
     private Transform content;
     private const int ITEMS_PER_PAGE = 50;
     private int _currentPage = 0;
-    private List<KeyValuePair<string, Features>> _featureList;
+    private List<KeyValuePair<string, FeatureHITNDTO>> _featureList;
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
@@ -68,8 +68,8 @@ public class HITNIXManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
-        uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.HITN.HITN_IX);
+        Dictionary<string, FeatureHITNDTO> uniqueTypes = new Dictionary<string, FeatureHITNDTO>();
+        uniqueTypes = await FeaturesService.Create().GetHITNFeaturesByTypeAsync(AppConstants.HITN.HITN_IX);
         uniqueTypes = uniqueTypes
             .OrderBy(kvp =>
             {

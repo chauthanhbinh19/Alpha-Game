@@ -19,7 +19,7 @@ public class ArchiveIVManager : MonoBehaviour
     private Transform content;
     private const int ITEMS_PER_PAGE = 50;
     private int _currentPage = 0;
-    private List<KeyValuePair<string, Features>> _featureList;
+    private List<KeyValuePair<string, FeatureArchiveDTO>> _featureList;
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
@@ -68,8 +68,8 @@ public class ArchiveIVManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
-        uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.Archive.ARCHIVE_IV);
+        Dictionary<string, FeatureArchiveDTO> uniqueTypes = new Dictionary<string, FeatureArchiveDTO>();
+        uniqueTypes = await FeaturesService.Create().GetArchiveFeaturesByTypeAsync(AppConstants.Archive.ARCHIVE_IV);
         uniqueTypes = uniqueTypes
             .OrderBy(kvp =>
             {

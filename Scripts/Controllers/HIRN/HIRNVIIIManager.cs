@@ -19,7 +19,7 @@ public class HIRNVIIIManager : MonoBehaviour
     private Transform content;
     private const int ITEMS_PER_PAGE = 50;
     private int _currentPage = 0;
-    private List<KeyValuePair<string, Features>> _featureList;
+    private List<KeyValuePair<string, FeatureHIRNDTO>> _featureList;
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
@@ -68,8 +68,8 @@ public class HIRNVIIIManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
-        uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.HIRN.HIRN_VIII);
+        Dictionary<string, FeatureHIRNDTO> uniqueTypes = new Dictionary<string, FeatureHIRNDTO>();
+        uniqueTypes = await FeaturesService.Create().GetHIRNFeaturesByTypeAsync(AppConstants.HIRN.HIRN_VIII);
         uniqueTypes = uniqueTypes
             .OrderBy(kvp =>
             {

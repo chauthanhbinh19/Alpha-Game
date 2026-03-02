@@ -30,5 +30,55 @@ public class FeaturesService : IFeaturesService
         return await _featuresRepository.GetAnimeFeaturesByTypeAsync(type);
     }
 
+    public async Task<Dictionary<string, FeatureResearchDTO>> GetResearchFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetResearchFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureArchiveDTO>> GetArchiveFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetArchiveFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureUniverseDTO>> GetUniverseFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetUniverseFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureHIINDTO>> GetHIINFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetHIINFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureSSWNDTO>> GetSSWNFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetSSWNFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureHITNDTO>> GetHITNFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetHITNFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureHIHNDTO>> GetHIHNFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetHIHNFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureHIENDTO>> GetHIENFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetHIENFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureHICADTO>> GetHICAFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetHICAFeaturesByTypeAsync(type);
+    }
+
+    public async Task<Dictionary<string, FeatureHIRNDTO>> GetHIRNFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetHIRNFeaturesByTypeAsync(type);
+    }
+
     // Implement other methods from IFeaturesService by calling the repository
 }

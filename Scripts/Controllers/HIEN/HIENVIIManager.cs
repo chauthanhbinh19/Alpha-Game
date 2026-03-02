@@ -19,7 +19,7 @@ public class HIENVIIManager : MonoBehaviour
     private Transform content;
     private const int ITEMS_PER_PAGE = 50;
     private int _currentPage = 0;
-    private List<KeyValuePair<string, Features>> _featureList;
+    private List<KeyValuePair<string, FeatureHIENDTO>> _featureList;
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
@@ -68,8 +68,8 @@ public class HIENVIIManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
-        uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.HIEN.HIEN_VII);
+        Dictionary<string, FeatureHIENDTO> uniqueTypes = new Dictionary<string, FeatureHIENDTO>();
+        uniqueTypes = await FeaturesService.Create().GetHIENFeaturesByTypeAsync(AppConstants.HIEN.HIEN_VII);
         uniqueTypes = uniqueTypes
             .OrderBy(kvp =>
             {

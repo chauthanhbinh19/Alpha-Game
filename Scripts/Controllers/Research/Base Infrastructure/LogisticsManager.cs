@@ -19,7 +19,7 @@ public class LogisticsManager : MonoBehaviour
     private Transform content;
     private const int ITEMS_PER_PAGE = 50;
     private int _currentPage = 0;
-    private List<KeyValuePair<string, Features>> _featureList;
+    private List<KeyValuePair<string, FeatureResearchDTO>> _featureList;
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
@@ -68,8 +68,8 @@ public class LogisticsManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
-        uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.Research.LOGISTICS);
+        Dictionary<string, FeatureResearchDTO> uniqueTypes = new Dictionary<string, FeatureResearchDTO>();
+        uniqueTypes = await FeaturesService.Create().GetResearchFeaturesByTypeAsync(AppConstants.Research.LOGISTICS);
         uniqueTypes = uniqueTypes
             .OrderBy(kvp =>
             {
