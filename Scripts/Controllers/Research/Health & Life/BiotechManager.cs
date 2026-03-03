@@ -24,7 +24,7 @@ public class BiotechManager : MonoBehaviour
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
-    private int MAX_LEVEL = 10000;
+    private const int MAX_LEVEL = 10000;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager

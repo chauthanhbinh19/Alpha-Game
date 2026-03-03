@@ -10,7 +10,7 @@ public class PowerController : MonoBehaviour
     private GameObject PowerPrefab;
     private GameObject powerObject;
     private Transform popupPanel;
-    private double countDuration = 1;
+    private const double COUNT_DURATION = 1;
     private VertexGradient greenGradient;
     private VertexGradient redGradient;
     private Coroutine countCoroutine;
@@ -105,7 +105,7 @@ public class PowerController : MonoBehaviour
         {
             targetPower = currentPower - nextPower;
         }
-        var rate = Math.Abs((targetPower - currentPower)) / countDuration;
+        var rate = Math.Abs((targetPower - currentPower)) / COUNT_DURATION;
         while (currentPower != targetPower)
         {
             currentPower = MoveTowards(currentPower, targetPower, rate * Time.deltaTime);

@@ -23,7 +23,7 @@ public class MysticMarketManager : MonoBehaviour
     private int offset;
     private int currentPage;
     private int totalPage;
-    private int pageSize;
+    private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
     private Button NextButton;
     private Button PreviousButton;
@@ -52,7 +52,6 @@ public class MysticMarketManager : MonoBehaviour
     {
         offset = 0;
         currentPage = 1;
-        pageSize = 100;
         items = new List<Items>();
         MysticMarketButtonPrefab = UIManager.Instance.Get("MysticMarketButtonPrefab");
         MysticMarketManagerPrefab = UIManager.Instance.Get("MysticMarketManagerPrefab");
@@ -143,7 +142,7 @@ public class MysticMarketManager : MonoBehaviour
         items = allItems.Where(item => item.Type.Equals(AppConstants.Market.MYSTIC_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
-        totalPage = Mathf.CeilToInt((float)items.Count / pageSize);
+        totalPage = Mathf.CeilToInt((float)items.Count / PAGE_SIZE);
         currentPage = 1;
 
         await LoadCurrentPageAsync(currency);
@@ -152,9 +151,9 @@ public class MysticMarketManager : MonoBehaviour
     {
         ClearAllPrefabs();
 
-        offset = (currentPage - 1) * pageSize;
+        offset = (currentPage - 1) * PAGE_SIZE;
 
-        var pagedItems = items.Skip(offset).Take(pageSize).ToList();
+        var pagedItems = items.Skip(offset).Take(PAGE_SIZE).ToList();
 
         await ItemsController.Instance.CreateItemsTradeAsync(pagedItems, currency, currentContent, currencyPanel, popupPanel);
 

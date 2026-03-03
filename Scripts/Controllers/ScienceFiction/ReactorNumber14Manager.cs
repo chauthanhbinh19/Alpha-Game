@@ -15,7 +15,7 @@ public class ReactorNumber14Manager : MonoBehaviour
     private int fontSize;
     TeamsService teamsService;
     UserItemsService userItemsService;
-    private int maxLevel;
+    private const int MAX_LEVEL = 10000;
     public static ReactorNumber14Manager Instance { get; private set; }
     private void Awake()
     {
@@ -44,7 +44,6 @@ public class ReactorNumber14Manager : MonoBehaviour
         fontSize = 26;
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
-        maxLevel = 10000;
     }
     public async Task CreateReactorPanelAsync()
     {
@@ -146,7 +145,7 @@ public class ReactorNumber14Manager : MonoBehaviour
         ReactorLevelText.text = scienceFiction.Level.ToString();
 
         double oneMaterialQuantity = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(scienceFiction.Level);
-        double maxMaterialQuantity = EvaluateItem.CalculateTotalMaterialRequiredForMaxUpgrade(scienceFiction.Level, maxLevel, items);
+        double maxMaterialQuantity = EvaluateItem.CalculateTotalMaterialRequiredForMaxUpgrade(scienceFiction.Level, MAX_LEVEL, items);
 
         for (int i = 0; i < items.Count; i++)
         {
@@ -171,7 +170,7 @@ public class ReactorNumber14Manager : MonoBehaviour
             double materialRequired = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(scienceFiction.Level);
 
             // Check nếu đã max level thì dừng
-            if (scienceFiction.Level >= maxLevel) return;
+            if (scienceFiction.Level >= MAX_LEVEL) return;
 
             // Kiểm tra xem tất cả items đều đủ số lượng
             bool hasAllMaterials = items.All(i => i.Quantity >= materialRequired);
@@ -199,7 +198,7 @@ public class ReactorNumber14Manager : MonoBehaviour
         });
         UpMaxLevelButton.onClick.AddListener(async () =>
         {
-            double totalMaterialRequired = EvaluateItem.CalculateTotalMaterialRequiredForMaxUpgrade(scienceFiction.Level, maxLevel, items);
+            double totalMaterialRequired = EvaluateItem.CalculateTotalMaterialRequiredForMaxUpgrade(scienceFiction.Level, MAX_LEVEL, items);
 
             if (totalMaterialRequired <= 0.0)
             {
@@ -213,7 +212,7 @@ public class ReactorNumber14Manager : MonoBehaviour
             int upgradeAmount = 0;
 
             // Vòng lặp để xác định N level
-            while (tempCost < totalMaterialRequired && currentLevel < maxLevel)
+            while (tempCost < totalMaterialRequired && currentLevel < MAX_LEVEL)
             {
                 double cost = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(currentLevel);
                 if (tempCost + cost <= totalMaterialRequired)
@@ -260,7 +259,7 @@ public class ReactorNumber14Manager : MonoBehaviour
         Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         image.texture = texture;
 
-        if (level >= maxLevel)
+        if (level >= MAX_LEVEL)
         {
             requiredQuantityText.text = "MAX";
             return;
@@ -275,7 +274,7 @@ public class ReactorNumber14Manager : MonoBehaviour
         Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         image.texture = texture;
 
-        if (level >= maxLevel)
+        if (level >= MAX_LEVEL)
         {
             requiredQuantityText.text = "MAX";
             return;
