@@ -231,15 +231,15 @@ public class HomeManager : MonoBehaviour
         Transform forgeTransform = currentObject.transform.Find("Scroll View/Viewport/Content/StatisticsPart/ForgePanel");
         TextMeshProUGUI forgeTitleText = forgeTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI forgeQuantityText = forgeTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        int userForgeCount = await UserFashionsService.Create().GetUserFashionsCountAsync(User.CurrentUserId, search, type, rare);
-        forgeTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FASHION);
+        int userForgeCount = await UserForgesService.Create().GetUserForgesCountAsync(User.CurrentUserId, search, type, rare);
+        forgeTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FORGE);
         forgeQuantityText.text = userForgeCount.ToString();
 
         Transform furnitureTransform = currentObject.transform.Find("Scroll View/Viewport/Content/StatisticsPart/FurniturePanel");
         TextMeshProUGUI furnitureTitleText = furnitureTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI furnitureQuantityText = furnitureTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
         int userFurnitureCount = await UserFurnituresService.Create().GetUserFurnituresCountAsync(User.CurrentUserId, search, type, rare);
-        furnitureTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FASHION);
+        furnitureTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FURNITURE);
         furnitureQuantityText.text = userFurnitureCount.ToString();
 
         Transform itemTransform = currentObject.transform.Find("Scroll View/Viewport/Content/StatisticsPart/ItemPanel");

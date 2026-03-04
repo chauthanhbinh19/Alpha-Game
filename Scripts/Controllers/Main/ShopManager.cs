@@ -144,7 +144,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(34, AppDisplayConstants.MainType.WEAPONS, Resources.Load<Texture2D>(ImageConstants.Gallery.WEAPON_URL), tempContent);
         CreateButton(35, AppDisplayConstants.MainType.ROBOTS, Resources.Load<Texture2D>(ImageConstants.Gallery.ROBOT_URL), tempContent);
         CreateButton(36, AppDisplayConstants.MainType.BADGES, Resources.Load<Texture2D>(ImageConstants.Gallery.BADGE_URL), tempContent);
-        CreateButton(37, AppDisplayConstants.MainType.MECHA_BEAST, Resources.Load<Texture2D>(ImageConstants.Gallery.MECHA_BEAST_URL), tempContent);
+        CreateButton(37, AppDisplayConstants.MainType.MECHA_BEASTS, Resources.Load<Texture2D>(ImageConstants.Gallery.MECHA_BEAST_URL), tempContent);
         CreateButton(38, AppDisplayConstants.MainType.RUNES, Resources.Load<Texture2D>(ImageConstants.Gallery.RUNE_URL), tempContent);
         CreateButton(39, AppDisplayConstants.MainType.FURNITURES, Resources.Load<Texture2D>(ImageConstants.Gallery.FURNITURE_URL), tempContent);
         CreateButton(40, AppDisplayConstants.MainType.FOODS, Resources.Load<Texture2D>(ImageConstants.Gallery.FOOD_URL), tempContent);

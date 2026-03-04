@@ -647,7 +647,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Furnitures furniture)
         {
             // Xử lý đối tượng rune
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FURNITURE);
             UserFurnituresController.Instance.ShowFurnitureDetails(furniture, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.FURNITURE_BACKGROUND_URL);
             cardBackground.texture = texture;
@@ -661,7 +661,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Foods food)
         {
             // Xử lý đối tượng rune
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FOOD);
             UserFoodsController.Instance.ShowFoodDetails(food, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.FOOD_BACKGROUND_URL);
             cardBackground.texture = texture;
@@ -675,7 +675,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Beverages beverage)
         {
             // Xử lý đối tượng rune
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BEVERAGE);
             UserBeveragesController.Instance.ShowBeverageDetails(beverage, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.BEVERAGE_BACKGROUND_URL);
             cardBackground.texture = texture;
@@ -689,7 +689,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Buildings building)
         {
             // Xử lý đối tượng rune
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUILDING);
             UserBuildingsController.Instance.ShowBuildingDetails(building, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.BUILDING_BACKGROUND_URL);
             cardBackground.texture = texture;
@@ -703,7 +703,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         else if (data is Plants plant)
         {
             // Xử lý đối tượng rune
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RUNE);
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PLANT);
             UserPlantsController.Instance.ShowPlantDetails(plant, currentObject);
             Texture texture = Resources.Load<Texture>(ImageConstants.Background.PLANT_BACKGROUND_URL);
             cardBackground.texture = texture;
@@ -712,6 +712,20 @@ public class MainMenuDetailsManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.PLANT);
+            });
+        }
+        else if (data is Fashions fashion)
+        {
+            // Xử lý đối tượng rune
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FASHION);
+            UserFashionsController.Instance.ShowFashionDetails(fashion, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.FASHION_BACKGROUND_URL);
+            cardBackground.texture = texture;
+            CloseButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Destroy(currentObject);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.FASHION);
             });
         }
         else
