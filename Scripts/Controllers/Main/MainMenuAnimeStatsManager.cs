@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 public class MainMenuAnimeStatsManager : MonoBehaviour
 {
     private Transform MainPanel;
+    private GameObject AnimeButtonPrefab;
     private Transform TabButtonPanel;
     private Transform SlotPanel;
     private GameObject MainMenuAnimePanelPrefab;
@@ -23,7 +24,22 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     private Features feature;
     UserItemsService userItemsService;
     TeamsService teamsService;
+    Texture2D itemBackground;
     private int maxLevel;
+    public static MainMenuAnimeStatsManager Instance { get; private set; }
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -36,12 +52,63 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         AnimeSlotPrefab = UIManager.Instance.Get("AnimeSlotPrefab");
         ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
+        AnimeButtonPrefab = UIManager.Instance.Get("AnimeButtonPrefab");
 
         userItemsService = UserItemsService.Create();
         teamsService = TeamsService.Create();
         maxLevel = 10000;
     }
-    public void CreateAnimeButton(Transform arenaMenuPanel)
+    public void CreateAnimeButton(Transform animeMenuPanel)
+    {
+        
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.ONE_PIECE, AppConstants.Anime.ONE_PIECE, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.ONE_PIECE_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.NARUTO, AppConstants.Anime.NARUTO, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.NARUTO_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.DRAGON_BALL, AppConstants.Anime.DRAGON_BALL, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.DRAGON_BALL_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.FAIRY_TAIL, AppConstants.Anime.FAIRY_TAIL, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.FAIRY_TAIL_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.SWORD_ART_ONLINE, AppConstants.Anime.SWORD_ART_ONLINE, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.SWORD_ART_ONLINE_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.DEMON_SLAYER, AppConstants.Anime.DEMON_SLAYER, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.DEMON_SLAYER_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.BLEACH, AppConstants.Anime.BLEACH, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.BLEACH_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.JUJUTSU_KAISEN, AppConstants.Anime.JUJUTSU_KAISEN, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.JUJUTSU_KAISEN_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.BLACK_CLOVER, AppConstants.Anime.BLACK_CLOVER, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.BLACK_CLOVER_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.HUNTER_X_HUNTER, AppConstants.Anime.HUNTER_X_HUNTER, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.HUNTER_X_HUNTER_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.ONE_PUNCH_MAN, AppConstants.Anime.ONE_PUNCH_MAN, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.ONE_PUNCH_MAN_URL), animeMenuPanel);
+
+        FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButtonEvent(animeMenuPanel);
+        animeMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    private void CreateAnimeButtonUI(string itemDisplayName, string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(AnimeButtonPrefab, panel);
+        newButton.name = itemName;
+
+        // Gán màu cho itemBackground
+        // RawImage  background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        // if (background != null && itemBackground != null)
+        // {
+        //     background.texture = itemBackground;
+        // }
+
+        // Gán hình ảnh cho itemImage
+        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = LocalizationManager.Get(itemDisplayName);
+        }
+
+        //Tạo animation cho border image
+        RawImage borderImage = newButton.transform.Find("BorderImage").GetComponent<RawImage>();
+        // Gán script RotateUI
+        borderImage.gameObject.AddComponent<RotateAnimation>();
+    }
+    public void CreateAnimeButtonEvent(Transform arenaMenuPanel)
     {
         Button[] buttons = arenaMenuPanel.gameObject.GetComponentsInChildren<Button>();
         foreach (Button button in buttons)

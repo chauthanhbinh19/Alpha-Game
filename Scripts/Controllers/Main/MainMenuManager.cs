@@ -250,7 +250,7 @@ public class MainMenuManager : MonoBehaviour
                 await HomeManager.Instance.CreateHomePanelAsync();
             });
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SCIENCE_FICTION);
-            ButtonLoader.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            ScienceFictionManager.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             ScienceFictionManager.Instance.GetScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         });
 
@@ -266,8 +266,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            ButtonLoader.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
-            FindAnyObjectByType<GalleryManager>().CreateGallery(popupObject.transform.Find("Content"));
+            GalleryManager.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
+            GalleryManager.Instance.CreateGallery(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
             scrollViewPanel.gameObject.SetActive(false);
         });
@@ -284,8 +284,8 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            ButtonLoader.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
-            FindAnyObjectByType<CollectionManager>().CreateCollection(popupObject.transform.Find("Content"));
+            CollectionManager.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
+            CollectionManager.Instance.CreateCollection(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
             scrollViewPanel.gameObject.SetActive(false);
         });
@@ -302,7 +302,7 @@ public class MainMenuManager : MonoBehaviour
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            await ButtonLoader.Instance.CreateEquipmentsButtonAsync(popupObject.transform.Find("Content"));
+            await EquipmentManager.Instance.CreateEquipmentsButtonAsync(popupObject.transform.Find("Content"));
             Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
             scrollViewPanel.gameObject.SetActive(false);
         });
@@ -687,7 +687,7 @@ public class MainMenuManager : MonoBehaviour
             //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             //     Close(MainPanel);
             // });
-            ButtonLoader.Instance.CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            MainMenuAnimeStatsManager.Instance.CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         }
         else if (mainType.Equals(AppConstants.MainType.TOWER))
         {

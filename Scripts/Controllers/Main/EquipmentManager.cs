@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 public class EquipmentManager : MonoBehaviour
 {
+    private GameObject ItemButtonPrefab;
     private GameObject equipmentMenuPanel;
     private Transform MainPanel;
     // private Transform EquipmentMenuPanel;
@@ -42,7 +43,72 @@ public class EquipmentManager : MonoBehaviour
     // private string type;
     private string rare;
     private GameObject currentObject;
-    // Start is called before the first frame update
+    public static EquipmentManager Instance { get; private set; }
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+    void Start()
+    {
+        Initialize();
+    }
+    public void Initialize()
+    {
+        ItemButtonPrefab = UIManager.Instance.Get("ItemButtonPrefab");
+    }
+    public async Task CreateEquipmentsButtonAsync(Transform equipmentMenuPanel)
+    {
+        Texture2D itemBackground = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_EQUIPMENT_URL);
+        //Equipment menu
+        var equipment = EquipmentsService.Create();
+        List<string> uniqueTypes = await equipment.GetUniqueEquipmentsTypesAsync();
+        if (uniqueTypes.Count > 0)
+        {
+            for (int i = 0; i < uniqueTypes.Count; i++)
+            {
+                string subtype = uniqueTypes[i];
+                CreateEquipmentButtonUI(subtype, itemBackground, Resources.Load<Texture2D>($"UI/Button/Equipments/{subtype}"), equipmentMenuPanel);
+            }
+        }
+        FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel);
+        equipmentMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    private void CreateEquipmentButtonUI(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(ItemButtonPrefab, panel);
+        newButton.name = itemName;
+
+        // Gán màu cho itemBackground
+        RawImage background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        if (background != null && itemBackground != null)
+        {
+            background.texture = itemBackground;
+        }
+
+        // Gán hình ảnh cho itemImage
+        RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = LocalizationManager.Get(itemName.Replace("_", ""));
+        }
+    }
     public void CreateEquipments(Transform EquipmentMenuPanel)
     {
         offset = 0;
