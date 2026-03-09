@@ -11,7 +11,6 @@ public class ButtonLoader : MonoBehaviour
     private GameObject TabButtonPrefab;
     private GameObject AdvancedButtonPrefab;
     private GameObject AdvancedSubButtonPrefab;
-    private GameObject ArenaButtonPrefab;
     private GameObject FeatureButtonPrefab;
     private GameObject PopupMenuPanelPrefab;
     private Transform MainPanel;
@@ -44,7 +43,6 @@ public class ButtonLoader : MonoBehaviour
         TabButtonPrefab = UIManager.Instance.Get("TabButtonPrefab");
         AdvancedButtonPrefab = UIManager.Instance.Get("AdvancedButtonPrefab");
         AdvancedSubButtonPrefab = UIManager.Instance.Get("AdvancedSubButtonPrefab");
-        ArenaButtonPrefab = UIManager.Instance.Get("ArenaButtonPrefab");
         PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
         FeatureButtonPrefab = UIManager.Instance.Get("FeatureButtonPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
@@ -173,33 +171,6 @@ public class ButtonLoader : MonoBehaviour
         var equipment = EquipmentsService.Create();
         return await equipment.GetUniqueEquipmentsTypesAsync();
     }
-    private void CreateArenaButtonUI(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
-    {
-        // Tạo button từ prefab
-        GameObject newButton = Instantiate(ArenaButtonPrefab, panel);
-        newButton.name = itemName;
-
-        // Gán màu cho itemBackground
-        // RawImage  background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
-        // if (background != null && itemBackground != null)
-        // {
-        //     background.texture = itemBackground;
-        // }
-
-        // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
-        if (image != null && itemImage != null)
-        {
-            image.texture = itemImage;
-        }
-
-        // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        if (nameText != null)
-        {
-            nameText.text = itemName;
-        }
-    }
     public void CreateFeatureButton(Transform featureMenuPanel)
     {
         itemBackground = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_GALLERY_URL);
@@ -240,17 +211,6 @@ public class ButtonLoader : MonoBehaviour
         {
             nameText.text = LocalizationManager.Get(itemName);
         }
-    }
-    public async Task CreateArenaButtonAsync(Transform arenaMenuPanel)
-    {
-
-        var uniqueMode = await ArenaService.Create().GetUniqueTypesAsync();
-        foreach (var type in uniqueMode)
-        {
-            CreateArenaButtonUI(type, itemBackground, Resources.Load<Texture2D>($"UI/Button/Arena/{type}"), arenaMenuPanel);
-        }
-        FindAnyObjectByType<ArenaManager>().CreateArenaButton(arenaMenuPanel);
-        arenaMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateTowerButton(Transform towerMenuPanel)
     {

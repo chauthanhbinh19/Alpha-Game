@@ -340,7 +340,7 @@ public class MainMenuManager : MonoBehaviour
                 Close(MainPanel);
                 await HomeManager.Instance.CreateHomePanelAsync();
             });
-            await ButtonLoader.Instance.CreateArenaButtonAsync(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            await ArenaManager.Instance.CreateArenaButtonAsync(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         });
 
         guildButton.onClick.AddListener(() =>

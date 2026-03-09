@@ -8,9 +8,25 @@ using UnityEngine.UI;
 public class ArenaManager : MonoBehaviour
 {
     private Transform MainPanel;
+    private GameObject ArenaButtonPrefab;
     private GameObject ArenaDetailsPanelPrefab;
     private GameObject ArenaSlotPrefab;
     private GameObject currentObject;
+    private Texture2D itemBackground;
+    public static ArenaManager Instance { get; private set; }
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +35,47 @@ public class ArenaManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        ArenaButtonPrefab = UIManager.Instance.Get("ArenaButtonPrefab");
         ArenaDetailsPanelPrefab = UIManager.Instance.Get("ArenaDetailPanelPrefab");
         ArenaSlotPrefab = UIManager.Instance.Get("ArenaSlotPrefab");
+    }
+    public async Task CreateArenaButtonAsync(Transform arenaMenuPanel)
+    {
+
+        var uniqueMode = await ArenaService.Create().GetUniqueTypesAsync();
+        foreach (var type in uniqueMode)
+        {
+            CreateArenaButtonUI(type, itemBackground, Resources.Load<Texture2D>($"UI/Button/Arena/{type}"), arenaMenuPanel);
+        }
+        CreateArenaButton(arenaMenuPanel);
+        arenaMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    private void CreateArenaButtonUI(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(ArenaButtonPrefab, panel);
+        newButton.name = itemName;
+
+        // Gán màu cho itemBackground
+        // RawImage  background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        // if (background != null && itemBackground != null)
+        // {
+        //     background.texture = itemBackground;
+        // }
+
+        // Gán hình ảnh cho itemImage
+        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        if (image != null && itemImage != null)
+        {
+            image.texture = itemImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = itemName;
+        }
     }
     public void CreateArenaButton(Transform arenaMenuPanel)
     {
