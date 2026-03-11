@@ -75,10 +75,6 @@ public class MainMenuManager : MonoBehaviour
         Initialize();
     }
 
-    void Update()
-    {
-
-    }
     public void Initialize()
     {
         offset = 0;

@@ -52,6 +52,12 @@ public class ArchiveManager : MonoBehaviour
         CreateArchiveButtonUI(12, AppDisplayConstants.Archive.ARCHIVE_XII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XII_URL), contentPanel);
         CreateArchiveButtonUI(13, AppDisplayConstants.Archive.ARCHIVE_XIII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XIII_URL), contentPanel);
         CreateArchiveButtonUI(14, AppDisplayConstants.Archive.ARCHIVE_XIV, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XIV_URL), contentPanel);
+        CreateArchiveButtonUI(15, AppDisplayConstants.Archive.ARCHIVE_XV, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XV_URL), contentPanel);
+        CreateArchiveButtonUI(16, AppDisplayConstants.Archive.ARCHIVE_XVI, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XVI_URL), contentPanel);
+        CreateArchiveButtonUI(17, AppDisplayConstants.Archive.ARCHIVE_XVII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XVII_URL), contentPanel);
+        CreateArchiveButtonUI(18, AppDisplayConstants.Archive.ARCHIVE_XVIII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XVIII_URL), contentPanel);
+        CreateArchiveButtonUI(19, AppDisplayConstants.Archive.ARCHIVE_XIX, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XIX_URL), contentPanel);
+        CreateArchiveButtonUI(20, AppDisplayConstants.Archive.ARCHIVE_XX, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XX_URL), contentPanel);
 
         CreateArchiveButtonEvent(contentPanel);
     }

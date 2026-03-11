@@ -507,6 +507,7 @@ public static class AppDisplayConstants
         public const string ARCHIVE_XVII = "Archive.ArchiveXVII";
         public const string ARCHIVE_XVIII = "Archive.ArchiveXVIII";
         public const string ARCHIVE_XIX = "Archive.ArchiveXIX";
+        public const string ARCHIVE_XX = "Archive.ArchiveXX";
     }
     public static class Universe
     {
