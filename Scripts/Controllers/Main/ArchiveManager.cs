@@ -58,6 +58,13 @@ public class ArchiveManager : MonoBehaviour
         CreateArchiveButtonUI(18, AppDisplayConstants.Archive.ARCHIVE_XVIII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XVIII_URL), contentPanel);
         CreateArchiveButtonUI(19, AppDisplayConstants.Archive.ARCHIVE_XIX, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XIX_URL), contentPanel);
         CreateArchiveButtonUI(20, AppDisplayConstants.Archive.ARCHIVE_XX, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XX_URL), contentPanel);
+        CreateArchiveButtonUI(21, AppDisplayConstants.Archive.ARCHIVE_XXI, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XXI_URL), contentPanel);
+        CreateArchiveButtonUI(22, AppDisplayConstants.Archive.ARCHIVE_XXII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XXII_URL), contentPanel);
+        CreateArchiveButtonUI(23, AppDisplayConstants.Archive.ARCHIVE_XXIII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XXIII_URL), contentPanel);
+        CreateArchiveButtonUI(24, AppDisplayConstants.Archive.ARCHIVE_XXIV, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XXIV_URL), contentPanel);
+        CreateArchiveButtonUI(25, AppDisplayConstants.Archive.ARCHIVE_XXV, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XXV_URL), contentPanel);
+        CreateArchiveButtonUI(26, AppDisplayConstants.Archive.ARCHIVE_XXVI, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XXVI_URL), contentPanel);
+        CreateArchiveButtonUI(27, AppDisplayConstants.Archive.ARCHIVE_XXVII, Resources.Load<Texture2D>(ImageConstants.Archive.ARCHIVE_XXVII_URL), contentPanel);
 
         CreateArchiveButtonEvent(contentPanel);
     }
@@ -97,5 +104,18 @@ public class ArchiveManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await ArchiveXIIManager.Instance.CreateArchiveXIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await ArchiveXIIIManager.Instance.CreateArchiveXIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await ArchiveXIVManager.Instance.CreateArchiveXIVManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", panel, async () => await ArchiveXVManager.Instance.CreateArchiveXVManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", panel, async () => await ArchiveXVIManager.Instance.CreateArchiveXVIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", panel, async () => await ArchiveXVIIManager.Instance.CreateArchiveXVIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", panel, async () => await ArchiveXVIIIManager.Instance.CreateArchiveXVIIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", panel, async () => await ArchiveXIXManager.Instance.CreateArchiveXIXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", panel, async () => await ArchiveXXManager.Instance.CreateArchiveXXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", panel, async () => await ArchiveXXIManager.Instance.CreateArchiveXXIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", panel, async () => await ArchiveXXIIManager.Instance.CreateArchiveXXIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", panel, async () => await ArchiveXXIIIManager.Instance.CreateArchiveXXIIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_24", panel, async () => await ArchiveXXIVManager.Instance.CreateArchiveXXIVManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_25", panel, async () => await ArchiveXXVManager.Instance.CreateArchiveXXVManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_26", panel, async () => await ArchiveXXVIManager.Instance.CreateArchiveXXVIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", panel, async () => await ArchiveXXVIIManager.Instance.CreateArchiveXXVIIManagerAsync());
     }
 }

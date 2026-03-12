@@ -216,7 +216,7 @@ public class ArchiveXXManager : MonoBehaviour
         Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_16");
         mapImage.texture = mapTexture; 
         RawImage rankImage = currentObject.transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Archive.ARCHIVE_XIX}");
+        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Archive.ARCHIVE_XX}");
         rankImage.texture = rankTexture; 
 
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);

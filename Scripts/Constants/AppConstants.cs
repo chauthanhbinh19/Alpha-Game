@@ -653,6 +653,14 @@ public static class AppConstants
         public const string ARCHIVE_XVII = "Archive XVII";
         public const string ARCHIVE_XVIII = "Archive XVIII";
         public const string ARCHIVE_XIX = "Archive XIX";
+        public const string ARCHIVE_XX = "Archive XX";
+        public const string ARCHIVE_XXI = "Archive XXI";
+        public const string ARCHIVE_XXII = "Archive XXII";
+        public const string ARCHIVE_XXIII = "Archive XXIII";
+        public const string ARCHIVE_XXIV = "Archive XXIV";
+        public const string ARCHIVE_XXV = "Archive XXV";
+        public const string ARCHIVE_XXVI = "Archive XXVI";
+        public const string ARCHIVE_XXVII = "Archive XXVII";
     }
     public static class Universe
     {
