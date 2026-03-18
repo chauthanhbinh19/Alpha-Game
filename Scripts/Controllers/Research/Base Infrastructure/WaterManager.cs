@@ -259,6 +259,12 @@ public class WaterManager : MonoBehaviour
                 researchs = ResearchsService.Create().EnhanceResearchs(researchs, result.UpgradedLevels, 100);
                 await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
                 await CreateMainResearchPanelAsync(featureId, featureName);
             }
             else
@@ -275,6 +281,12 @@ public class WaterManager : MonoBehaviour
                 researchs = ResearchsService.Create().EnhanceResearchs(researchs, result.UpgradedLevels, 100);
                 await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                
                 await CreateMainResearchPanelAsync(featureId, featureName);
             }
             else

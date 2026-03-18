@@ -258,6 +258,12 @@ public class ArchiveXIXManager : MonoBehaviour
                 researchs = ArchivesService.Create().EnhanceArchives(researchs, result.UpgradedLevels, 1000);
                 await ArchivesService.Create().InsertOrUpdateArchivesAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
                 await CreateMainArchivePanelAsync(featureId, featureName);
             }
             else
@@ -274,6 +280,12 @@ public class ArchiveXIXManager : MonoBehaviour
                 researchs = ArchivesService.Create().EnhanceArchives(researchs, result.UpgradedLevels, 1000);
                 await ArchivesService.Create().InsertOrUpdateArchivesAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                
                 await CreateMainArchivePanelAsync(featureId, featureName);
             }
             else

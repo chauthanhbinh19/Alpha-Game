@@ -258,6 +258,12 @@ public class HIINXIVManager : MonoBehaviour
                 researchs = HIINsService.Create().EnhanceHIINs(researchs, result.UpgradedLevels, 1000);
                 await HIINsService.Create().InsertOrUpdateHIINsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                
                 await CreateMainHIINPanelAsync(featureId, featureName);
             }
             else
@@ -274,6 +280,12 @@ public class HIINXIVManager : MonoBehaviour
                 researchs = HIINsService.Create().EnhanceHIINs(researchs, result.UpgradedLevels, 1000);
                 await HIINsService.Create().InsertOrUpdateHIINsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
                 await CreateMainHIINPanelAsync(featureId, featureName);
             }
             else

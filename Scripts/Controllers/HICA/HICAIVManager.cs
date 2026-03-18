@@ -258,6 +258,12 @@ public class HICAIVManager : MonoBehaviour
                 researchs = HICAsService.Create().EnhanceHICAs(researchs, result.UpgradedLevels, 1000);
                 await HICAsService.Create().InsertOrUpdateHICAsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
                 await CreateMainHICAPanelAsync(featureId, featureName);
             }
             else
@@ -274,6 +280,12 @@ public class HICAIVManager : MonoBehaviour
                 researchs = HICAsService.Create().EnhanceHICAs(researchs, result.UpgradedLevels, 1000);
                 await HICAsService.Create().InsertOrUpdateHICAsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                
                 await CreateMainHICAPanelAsync(featureId, featureName);
             }
             else

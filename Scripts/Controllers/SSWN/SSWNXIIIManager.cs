@@ -258,6 +258,12 @@ public class SSWNXIIIManager : MonoBehaviour
                 researchs = SSWNsService.Create().EnhanceSSWNs(researchs, result.UpgradedLevels, 1000);
                 await SSWNsService.Create().InsertOrUpdateSSWNsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
                 await CreateMainSSWNPanelAsync(featureId, featureName);
             }
             else
@@ -274,6 +280,12 @@ public class SSWNXIIIManager : MonoBehaviour
                 researchs = SSWNsService.Create().EnhanceSSWNs(researchs, result.UpgradedLevels, 1000);
                 await SSWNsService.Create().InsertOrUpdateSSWNsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                
                 await CreateMainSSWNPanelAsync(featureId, featureName);
             }
             else

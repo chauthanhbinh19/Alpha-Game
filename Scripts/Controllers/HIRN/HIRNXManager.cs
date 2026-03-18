@@ -258,6 +258,12 @@ public class HIRNXManager : MonoBehaviour
                 researchs = HIRNsService.Create().EnhanceHIRNs(researchs, result.UpgradedLevels, 1000);
                 await HIRNsService.Create().InsertOrUpdateHIRNsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                
                 await CreateMainHIRNPanelAsync(featureId, featureName);
             }
             else
@@ -274,6 +280,12 @@ public class HIRNXManager : MonoBehaviour
                 researchs = HIRNsService.Create().EnhanceHIRNs(researchs, result.UpgradedLevels, 1000);
                 await HIRNsService.Create().InsertOrUpdateHIRNsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
                 await CreateMainHIRNPanelAsync(featureId, featureName);
             }
             else

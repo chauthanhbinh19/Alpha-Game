@@ -252,6 +252,12 @@ public class UniverseXIIManager : MonoBehaviour
                 researchs = UniversesService.Create().EnhanceUniverses(researchs, result.UpgradedLevels, 1000);
                 await UniversesService.Create().InsertOrUpdateUniversesAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
                 await CreateMainUniversePanelAsync(featureId, featureName);
             }
             else
@@ -268,6 +274,12 @@ public class UniverseXIIManager : MonoBehaviour
                 researchs = UniversesService.Create().EnhanceUniverses(researchs, result.UpgradedLevels, 1000);
                 await UniversesService.Create().InsertOrUpdateUniversesAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                
                 await CreateMainUniversePanelAsync(featureId, featureName);
             }
             else

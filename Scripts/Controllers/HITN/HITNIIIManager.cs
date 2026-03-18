@@ -258,6 +258,12 @@ public class HITNIIIManager : MonoBehaviour
                 researchs = HITNsService.Create().EnhanceHITNs(researchs, result.UpgradedLevels, 1000);
                 await HITNsService.Create().InsertOrUpdateHITNsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
                 await CreateMainHITNPanelAsync(featureId, featureName);
             }
             else
@@ -274,6 +280,12 @@ public class HITNIIIManager : MonoBehaviour
                 researchs = HITNsService.Create().EnhanceHITNs(researchs, result.UpgradedLevels, 1000);
                 await HITNsService.Create().InsertOrUpdateHITNsAsync(User.CurrentUserId, researchs, featureId);
                 Destroy(currentObject);
+
+                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+                
                 await CreateMainHITNPanelAsync(featureId, featureName);
             }
             else
