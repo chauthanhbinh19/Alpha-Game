@@ -48,10 +48,6 @@ public class UniverseManager : MonoBehaviour
         CreateUniverseButtonUI(8, AppDisplayConstants.Universe.UNIVERSE_VIII, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_VIII_URL), contentPanel);
         CreateUniverseButtonUI(9, AppDisplayConstants.Universe.UNIVERSE_IX, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_IX_URL), contentPanel);
         CreateUniverseButtonUI(10, AppDisplayConstants.Universe.UNIVERSE_X, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_X_URL), contentPanel);
-        CreateUniverseButtonUI(11, AppDisplayConstants.Universe.UNIVERSE_XI, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_XI_URL), contentPanel);
-        CreateUniverseButtonUI(12, AppDisplayConstants.Universe.UNIVERSE_XII, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_XII_URL), contentPanel);
-        CreateUniverseButtonUI(13, AppDisplayConstants.Universe.UNIVERSE_XIII, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_XIII_URL), contentPanel);
-        CreateUniverseButtonUI(14, AppDisplayConstants.Universe.UNIVERSE_XIV, Resources.Load<Texture2D>(ImageConstants.Universe.UNIVERSE_XIV_URL), contentPanel);
 
         CreateUniverseButtonEvent(contentPanel);
     }
@@ -87,9 +83,5 @@ public class UniverseManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await UniverseVIIIManager.Instance.CreateUniverseVIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await UniverseIXManager.Instance.CreateUniverseIXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await UniverseXManager.Instance.CreateUniverseXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await UniverseXIManager.Instance.CreateUniverseXIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await UniverseXIIManager.Instance.CreateUniverseXIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await UniverseXIIIManager.Instance.CreateUniverseXIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await UniverseXIVManager.Instance.CreateUniverseXIVManagerAsync());
     }
 }

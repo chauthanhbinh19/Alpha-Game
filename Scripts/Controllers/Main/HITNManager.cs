@@ -48,10 +48,6 @@ public class HITNManager : MonoBehaviour
         CreateHITNButtonUI(8, AppDisplayConstants.HITN.HITN_VIII, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_VIII_URL), contentPanel);
         CreateHITNButtonUI(9, AppDisplayConstants.HITN.HITN_IX, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_IX_URL), contentPanel);
         CreateHITNButtonUI(10, AppDisplayConstants.HITN.HITN_X, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_X_URL), contentPanel);
-        CreateHITNButtonUI(11, AppDisplayConstants.HITN.HITN_XI, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_XI_URL), contentPanel);
-        CreateHITNButtonUI(12, AppDisplayConstants.HITN.HITN_XII, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_XII_URL), contentPanel);
-        CreateHITNButtonUI(13, AppDisplayConstants.HITN.HITN_XIII, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_XIII_URL), contentPanel);
-        CreateHITNButtonUI(14, AppDisplayConstants.HITN.HITN_XIV, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_XIV_URL), contentPanel);
 
         CreateHITNButtonEvent(contentPanel);
     }
@@ -87,9 +83,5 @@ public class HITNManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HITNVIIIManager.Instance.CreateHITNVIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HITNIXManager.Instance.CreateHITNIXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HITNXManager.Instance.CreateHITNXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await HITNXIManager.Instance.CreateHITNXIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await HITNXIIManager.Instance.CreateHITNXIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await HITNXIIIManager.Instance.CreateHITNXIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await HITNXIVManager.Instance.CreateHITNXIVManagerAsync());
     }
 }

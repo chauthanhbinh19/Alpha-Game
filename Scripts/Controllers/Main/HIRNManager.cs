@@ -48,10 +48,6 @@ public class HIRNManager : MonoBehaviour
         CreateHIRNButtonUI(8, AppDisplayConstants.HIRN.HIRN_VIII, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_VIII_URL), contentPanel);
         CreateHIRNButtonUI(9, AppDisplayConstants.HIRN.HIRN_IX, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_IX_URL), contentPanel);
         CreateHIRNButtonUI(10, AppDisplayConstants.HIRN.HIRN_X, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_X_URL), contentPanel);
-        CreateHIRNButtonUI(11, AppDisplayConstants.HIRN.HIRN_XI, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_XI_URL), contentPanel);
-        CreateHIRNButtonUI(12, AppDisplayConstants.HIRN.HIRN_XII, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_XII_URL), contentPanel);
-        CreateHIRNButtonUI(13, AppDisplayConstants.HIRN.HIRN_XIII, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_XIII_URL), contentPanel);
-        CreateHIRNButtonUI(14, AppDisplayConstants.HIRN.HIRN_XIV, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_XIV_URL), contentPanel);
 
         CreateHIRNButtonEvent(contentPanel);
     }
@@ -87,9 +83,5 @@ public class HIRNManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIRNVIIIManager.Instance.CreateHIRNVIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIRNIXManager.Instance.CreateHIRNIXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIRNXManager.Instance.CreateHIRNXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await HIRNXIManager.Instance.CreateHIRNXIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await HIRNXIIManager.Instance.CreateHIRNXIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await HIRNXIIIManager.Instance.CreateHIRNXIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await HIRNXIVManager.Instance.CreateHIRNXIVManagerAsync());
     }
 }

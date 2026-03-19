@@ -48,10 +48,6 @@ public class HIHNManager : MonoBehaviour
         CreateHIHNButtonUI(8, AppDisplayConstants.HIHN.HIHN_VIII, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_VIII_URL), contentPanel);
         CreateHIHNButtonUI(9, AppDisplayConstants.HIHN.HIHN_IX, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_IX_URL), contentPanel);
         CreateHIHNButtonUI(10, AppDisplayConstants.HIHN.HIHN_X, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_X_URL), contentPanel);
-        CreateHIHNButtonUI(11, AppDisplayConstants.HIHN.HIHN_XI, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_XI_URL), contentPanel);
-        CreateHIHNButtonUI(12, AppDisplayConstants.HIHN.HIHN_XII, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_XII_URL), contentPanel);
-        CreateHIHNButtonUI(13, AppDisplayConstants.HIHN.HIHN_XIII, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_XIII_URL), contentPanel);
-        CreateHIHNButtonUI(14, AppDisplayConstants.HIHN.HIHN_XIV, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_XIV_URL), contentPanel);
 
         CreateHIHNButtonEvent(contentPanel);
     }
@@ -87,9 +83,5 @@ public class HIHNManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIHNVIIIManager.Instance.CreateHIHNVIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIHNIXManager.Instance.CreateHIHNIXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIHNXManager.Instance.CreateHIHNXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await HIHNXIManager.Instance.CreateHIHNXIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await HIHNXIIManager.Instance.CreateHIHNXIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await HIHNXIIIManager.Instance.CreateHIHNXIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await HIHNXIVManager.Instance.CreateHIHNXIVManagerAsync());
     }
 }

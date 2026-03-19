@@ -48,10 +48,6 @@ public class SSWNManager : MonoBehaviour
         CreateSSWNButtonUI(8, AppDisplayConstants.SSWN.SSWN_VIII, Resources.Load<Texture2D>(ImageConstants.SSWN.SSWN_VIII_URL), contentPanel);
         CreateSSWNButtonUI(9, AppDisplayConstants.SSWN.SSWN_IX, Resources.Load<Texture2D>(ImageConstants.SSWN.SSWN_IX_URL), contentPanel);
         CreateSSWNButtonUI(10, AppDisplayConstants.SSWN.SSWN_X, Resources.Load<Texture2D>(ImageConstants.SSWN.SSWN_X_URL), contentPanel);
-        CreateSSWNButtonUI(11, AppDisplayConstants.SSWN.SSWN_XI, Resources.Load<Texture2D>(ImageConstants.SSWN.SSWN_XI_URL), contentPanel);
-        CreateSSWNButtonUI(12, AppDisplayConstants.SSWN.SSWN_XII, Resources.Load<Texture2D>(ImageConstants.SSWN.SSWN_XII_URL), contentPanel);
-        CreateSSWNButtonUI(13, AppDisplayConstants.SSWN.SSWN_XIII, Resources.Load<Texture2D>(ImageConstants.SSWN.SSWN_XIII_URL), contentPanel);
-        CreateSSWNButtonUI(14, AppDisplayConstants.SSWN.SSWN_XIV, Resources.Load<Texture2D>(ImageConstants.SSWN.SSWN_XIV_URL), contentPanel);
 
         CreateSSWNButtonEvent(contentPanel);
     }
@@ -87,9 +83,5 @@ public class SSWNManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await SSWNVIIIManager.Instance.CreateSSWNVIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await SSWNIXManager.Instance.CreateSSWNIXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await SSWNXManager.Instance.CreateSSWNXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await SSWNXIManager.Instance.CreateSSWNXIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await SSWNXIIManager.Instance.CreateSSWNXIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await SSWNXIIIManager.Instance.CreateSSWNXIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await SSWNXIVManager.Instance.CreateSSWNXIVManagerAsync());
     }
 }

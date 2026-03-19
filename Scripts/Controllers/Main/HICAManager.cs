@@ -48,10 +48,6 @@ public class HICAManager : MonoBehaviour
         CreateHICAButtonUI(8, AppDisplayConstants.HICA.HICA_VIII, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_VIII_URL), contentPanel);
         CreateHICAButtonUI(9, AppDisplayConstants.HICA.HICA_IX, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_IX_URL), contentPanel);
         CreateHICAButtonUI(10, AppDisplayConstants.HICA.HICA_X, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_X_URL), contentPanel);
-        CreateHICAButtonUI(11, AppDisplayConstants.HICA.HICA_XI, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_XI_URL), contentPanel);
-        CreateHICAButtonUI(12, AppDisplayConstants.HICA.HICA_XII, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_XII_URL), contentPanel);
-        CreateHICAButtonUI(13, AppDisplayConstants.HICA.HICA_XIII, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_XIII_URL), contentPanel);
-        CreateHICAButtonUI(14, AppDisplayConstants.HICA.HICA_XIV, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_XIV_URL), contentPanel);
 
         CreateHICAButtonEvent(contentPanel);
     }
@@ -87,9 +83,5 @@ public class HICAManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HICAVIIIManager.Instance.CreateHICAVIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HICAIXManager.Instance.CreateHICAIXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HICAXManager.Instance.CreateHICAXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await HICAXIManager.Instance.CreateHICAXIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await HICAXIIManager.Instance.CreateHICAXIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await HICAXIIIManager.Instance.CreateHICAXIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await HICAXIVManager.Instance.CreateHICAXIVManagerAsync());
     }
 }

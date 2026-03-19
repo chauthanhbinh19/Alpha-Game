@@ -48,10 +48,6 @@ public class HIENManager : MonoBehaviour
         CreateHIENButtonUI(8, AppDisplayConstants.HIEN.HIEN_VIII, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_VIII_URL), contentPanel);
         CreateHIENButtonUI(9, AppDisplayConstants.HIEN.HIEN_IX, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_IX_URL), contentPanel);
         CreateHIENButtonUI(10, AppDisplayConstants.HIEN.HIEN_X, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_X_URL), contentPanel);
-        CreateHIENButtonUI(11, AppDisplayConstants.HIEN.HIEN_XI, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_XI_URL), contentPanel);
-        CreateHIENButtonUI(12, AppDisplayConstants.HIEN.HIEN_XII, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_XII_URL), contentPanel);
-        CreateHIENButtonUI(13, AppDisplayConstants.HIEN.HIEN_XIII, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_XIII_URL), contentPanel);
-        CreateHIENButtonUI(14, AppDisplayConstants.HIEN.HIEN_XIV, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_XIV_URL), contentPanel);
 
         CreateHIENButtonEvent(contentPanel);
     }
@@ -87,9 +83,5 @@ public class HIENManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIENVIIIManager.Instance.CreateHIENVIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIENIXManager.Instance.CreateHIENIXManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIENXManager.Instance.CreateHIENXManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", panel, async () => await HIENXIManager.Instance.CreateHIENXIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", panel, async () => await HIENXIIManager.Instance.CreateHIENXIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", panel, async () => await HIENXIIIManager.Instance.CreateHIENXIIIManagerAsync());
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", panel, async () => await HIENXIVManager.Instance.CreateHIENXIVManagerAsync());
     }
 }
