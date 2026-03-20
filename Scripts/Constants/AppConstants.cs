@@ -674,10 +674,6 @@ public static class AppConstants
         public const string UNIVERSE_VIII = "Universe VIII";
         public const string UNIVERSE_IX = "Universe IX";
         public const string UNIVERSE_X = "Universe X";
-        public const string UNIVERSE_XI = "UNIVERSE XI";
-        public const string UNIVERSE_XII = "UNIVERSE XII";
-        public const string UNIVERSE_XIII = "UNIVERSE XIII";
-        public const string UNIVERSE_XIV = "UNIVERSE XIV";
     }
     public static class HIIN
     {
@@ -691,10 +687,6 @@ public static class AppConstants
         public const string HIIN_VIII = "HIIN VIII";
         public const string HIIN_IX = "HIIN IX";
         public const string HIIN_X = "HIIN X";
-        public const string HIIN_XI = "HIIN XI";
-        public const string HIIN_XII = "HIIN XII";
-        public const string HIIN_XIII = "HIIN XIII";
-        public const string HIIN_XIV = "HIIN XIV";
     }
     public static class SSWN
     {
@@ -708,10 +700,6 @@ public static class AppConstants
         public const string SSWN_VIII = "SSWN VIII";
         public const string SSWN_IX = "SSWN IX";
         public const string SSWN_X = "SSWN X";
-        public const string SSWN_XI = "SSWN XI";
-        public const string SSWN_XII = "SSWN XII";
-        public const string SSWN_XIII = "SSWN XIII";
-        public const string SSWN_XIV = "SSWN XIV";
     }
     public static class HITN
     {
@@ -725,10 +713,6 @@ public static class AppConstants
         public const string HITN_VIII = "HITN VIII";
         public const string HITN_IX = "HITN IX";
         public const string HITN_X = "HITN X";
-        public const string HITN_XI = "HITN XI";
-        public const string HITN_XII = "HITN XII";
-        public const string HITN_XIII = "HITN XIII";
-        public const string HITN_XIV = "HITN XIV";
     }
     public static class HIHN
     {
@@ -742,10 +726,6 @@ public static class AppConstants
         public const string HIHN_VIII = "HIHN VIII";
         public const string HIHN_IX = "HIHN IX";
         public const string HIHN_X = "HIHN X";
-        public const string HIHN_XI = "HIHN XI";
-        public const string HIHN_XII = "HIHN XII";
-        public const string HIHN_XIII = "HIHN XIII";
-        public const string HIHN_XIV = "HIHN XIV";
     }
     public static class HIEN
     {
@@ -759,10 +739,6 @@ public static class AppConstants
         public const string HIEN_VIII = "HIEN VIII";
         public const string HIEN_IX = "HIEN IX";
         public const string HIEN_X = "HIEN X";
-        public const string HIEN_XI = "HIEN XI";
-        public const string HIEN_XII = "HIEN XII";
-        public const string HIEN_XIII = "HIEN XIII";
-        public const string HIEN_XIV = "HIEN XIV";
     }
     public static class HICA
     {
@@ -776,10 +752,6 @@ public static class AppConstants
         public const string HICA_VIII = "HICA VIII";
         public const string HICA_IX = "HICA IX";
         public const string HICA_X = "HICA X";
-        public const string HICA_XI = "HICA XI";
-        public const string HICA_XII = "HICA XII";
-        public const string HICA_XIII = "HICA XIII";
-        public const string HICA_XIV = "HICA XIV";
     }
     public static class HIRN
     {
@@ -793,10 +765,6 @@ public static class AppConstants
         public const string HIRN_VIII = "HIRN VIII";
         public const string HIRN_IX = "HIRN IX";
         public const string HIRN_X = "HIRN X";
-        public const string HIRN_XI = "HIRN XI";
-        public const string HIRN_XII = "HIRN XII";
-        public const string HIRN_XIII = "HIRN XIII";
-        public const string HIRN_XIV = "HIRN XIV";
     }
     public static class MainMenuSet1
     {

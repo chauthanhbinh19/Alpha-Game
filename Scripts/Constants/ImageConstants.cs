@@ -545,10 +545,6 @@ public static class ImageConstants
         public const string UNIVERSE_VIII_URL = "UI/Icon/roman_eight";
         public const string UNIVERSE_IX_URL = "UI/Icon/roman_nine";
         public const string UNIVERSE_X_URL = "UI/Icon/roman_ten";
-        public const string UNIVERSE_XI_URL = "UI/Icon/roman_eleven";
-        public const string UNIVERSE_XII_URL = "UI/Icon/roman_twelve";
-        public const string UNIVERSE_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string UNIVERSE_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class HIIN
     {
@@ -562,10 +558,6 @@ public static class ImageConstants
         public const string HIIN_VIII_URL = "UI/Icon/roman_eight";
         public const string HIIN_IX_URL = "UI/Icon/roman_nine";
         public const string HIIN_X_URL = "UI/Icon/roman_ten";
-        public const string HIIN_XI_URL = "UI/Icon/roman_eleven";
-        public const string HIIN_XII_URL = "UI/Icon/roman_twelve";
-        public const string HIIN_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string HIIN_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class SSWN
     {
@@ -579,10 +571,6 @@ public static class ImageConstants
         public const string SSWN_VIII_URL = "UI/Icon/roman_eight";
         public const string SSWN_IX_URL = "UI/Icon/roman_nine";
         public const string SSWN_X_URL = "UI/Icon/roman_ten";
-        public const string SSWN_XI_URL = "UI/Icon/roman_eleven";
-        public const string SSWN_XII_URL = "UI/Icon/roman_twelve";
-        public const string SSWN_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string SSWN_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class HITN
     {
@@ -596,10 +584,6 @@ public static class ImageConstants
         public const string HITN_VIII_URL = "UI/Icon/roman_eight";
         public const string HITN_IX_URL = "UI/Icon/roman_nine";
         public const string HITN_X_URL = "UI/Icon/roman_ten";
-        public const string HITN_XI_URL = "UI/Icon/roman_eleven";
-        public const string HITN_XII_URL = "UI/Icon/roman_twelve";
-        public const string HITN_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string HITN_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class HIHN
     {
@@ -613,10 +597,6 @@ public static class ImageConstants
         public const string HIHN_VIII_URL = "UI/Icon/roman_eight";
         public const string HIHN_IX_URL = "UI/Icon/roman_nine";
         public const string HIHN_X_URL = "UI/Icon/roman_ten";
-        public const string HIHN_XI_URL = "UI/Icon/roman_eleven";
-        public const string HIHN_XII_URL = "UI/Icon/roman_twelve";
-        public const string HIHN_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string HIHN_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class HIEN
     {
@@ -630,10 +610,6 @@ public static class ImageConstants
         public const string HIEN_VIII_URL = "UI/Icon/roman_eight";
         public const string HIEN_IX_URL = "UI/Icon/roman_nine";
         public const string HIEN_X_URL = "UI/Icon/roman_ten";
-        public const string HIEN_XI_URL = "UI/Icon/roman_eleven";
-        public const string HIEN_XII_URL = "UI/Icon/roman_twelve";
-        public const string HIEN_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string HIEN_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class HICA
     {
@@ -647,10 +623,6 @@ public static class ImageConstants
         public const string HICA_VIII_URL = "UI/Icon/roman_eight";
         public const string HICA_IX_URL = "UI/Icon/roman_nine";
         public const string HICA_X_URL = "UI/Icon/roman_ten";
-        public const string HICA_XI_URL = "UI/Icon/roman_eleven";
-        public const string HICA_XII_URL = "UI/Icon/roman_twelve";
-        public const string HICA_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string HICA_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class HIRN
     {
@@ -664,10 +636,6 @@ public static class ImageConstants
         public const string HIRN_VIII_URL = "UI/Icon/roman_eight";
         public const string HIRN_IX_URL = "UI/Icon/roman_nine";
         public const string HIRN_X_URL = "UI/Icon/roman_ten";
-        public const string HIRN_XI_URL = "UI/Icon/roman_eleven";
-        public const string HIRN_XII_URL = "UI/Icon/roman_twelve";
-        public const string HIRN_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string HIRN_XIV_URL = "UI/Icon/roman_fourteen";
     }
     public static class Star
     {
