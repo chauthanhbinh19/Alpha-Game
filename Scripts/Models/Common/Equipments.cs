@@ -10,7 +10,6 @@ public class Equipments : BaseEntity, IPowerSortable
     public int TempStar { get; set; }
     public string Set { get; set; }
     public int Star { get; set; }
-    public double Sequence { get; set; }
     public int Level { get; set; }
     public double Experiment { get; set; }
     public double Quantity { get; set; }

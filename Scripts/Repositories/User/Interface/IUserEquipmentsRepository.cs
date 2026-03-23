@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 public interface IUserEquipmentsRepository
 {
     Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
+    Task<List<Equipments>> GetUserAllEquipmentsAsync(string user_id);
     Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare);
     Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id);
     Task<bool> BuyEquipmentAsync(string Id, Equipments EquipmentFromDB);
@@ -50,4 +51,26 @@ public interface IUserEquipmentsRepository
     Task<Equipments> GetAllEquipmentsByCardSpellIdAsync(string user_id, string cardSpellId);
     Task<Equipments> GetAllEquipmentsByBookIdAsync(string user_id, string bookId);
     Task<Equipments> GetAllEquipmentsByPetIdAsync(string user_id, string petId);
+
+    Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string cardHeroId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardHeroAsync(string cardHeroId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string cardCaptainId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardCaptainAsync(string cardCaptainId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string cardColonelId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardColonelAsync(string cardColonelId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string cardGeneralId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardGeneralAsync(string cardGeneralId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string cardAdmiralId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string cardAdmiralId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string cardMonsterId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardMonsterAsync(string cardMonsterId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string cardMilitaryId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string cardMilitaryId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string cardSpellId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardSpellAsync(string cardSpellId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string bookId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToBookAsync(string bookId, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string petId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToPetAsync(string petId, List<Equipments> availableEquipments);
+
 }

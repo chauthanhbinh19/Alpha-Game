@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using MySqlConnector;
 using System.Threading.Tasks;
+using System.Linq;
 
 public class UserEquipmentsRepository : IUserEquipmentsRepository
 {
@@ -37,6 +38,176 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     command.Parameters.AddWithValue("@rare", rare);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Equipments equipment = new Equipments
+                            {
+                                Id = reader.GetStringSafe("equipment_id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Type = reader.GetStringSafe("type"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                                Star = reader.GetIntSafe("star"),
+                                Power = reader.GetDoubleSafe("power"),
+                                Health = reader.GetDoubleSafe("health"),
+                                PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                                PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                                MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                                MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                                ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                                ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                                AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                                AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                                MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                                MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                                Speed = reader.GetDoubleSafe("speed"),
+                                CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                                CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                                CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                                LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                                ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                                Tenacity = reader.GetDoubleSafe("tenacity"),
+                                ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                                ComboRate = reader.GetDoubleSafe("combo_rate"),
+                                IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                                StunRate = reader.GetDoubleSafe("stun_rate"),
+                                IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                                Mana = reader.GetDoubleSafe("mana"),
+                                ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                                SpecialHealth = reader.GetDoubleSafe("special_health"),
+                                SpecialPhysicalAttack = reader.GetDoubleSafe("special_physical_attack"),
+                                SpecialPhysicalDefense = reader.GetDoubleSafe("special_physical_defense"),
+                                SpecialMagicalAttack = reader.GetDoubleSafe("special_magical_attack"),
+                                SpecialMagicalDefense = reader.GetDoubleSafe("special_magical_defense"),
+                                SpecialChemicalAttack = reader.GetDoubleSafe("special_chemical_attack"),
+                                SpecialChemicalDefense = reader.GetDoubleSafe("special_chemical_defense"),
+                                SpecialAtomicAttack = reader.GetDoubleSafe("special_atomic_attack"),
+                                SpecialAtomicDefense = reader.GetDoubleSafe("special_atomic_defense"),
+                                SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
+                                SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
+                                SpecialSpeed = reader.GetDoubleSafe("special_speed"),
+
+                                BaseStats = new BaseStats
+                                {
+                                    Power = reader.GetDoubleSafe("power"),
+                                    Health = reader.GetDoubleSafe("health"),
+                                    PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                                    PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                                    MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                                    MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                                    ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                                    ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                                    AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                                    AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                                    MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                                    MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                                    Speed = reader.GetDoubleSafe("speed"),
+                                    CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                                    CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                                    CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                                    IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                                    PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                                    PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                                    EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                                    DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                                    IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                                    AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                                    VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                                    VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                                    AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                                    LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                                    ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                                    Tenacity = reader.GetDoubleSafe("tenacity"),
+                                    ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                                    ComboRate = reader.GetDoubleSafe("combo_rate"),
+                                    IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                                    ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                                    ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                                    StunRate = reader.GetDoubleSafe("stun_rate"),
+                                    IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                                    ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                                    IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                                    ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                                    ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                                    Mana = reader.GetDoubleSafe("mana"),
+                                    ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                                    DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                                    ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                                    DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                                    ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                                    NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                                    NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                                    SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                                    SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                                }
+                            };
+
+                            equipments.Add(equipment);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return equipments;
+    }
+    public async Task<List<Equipments>> GetUserAllEquipmentsAsync(string user_id)
+    {
+        List<Equipments> equipments = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT e.id, e.name, ue.*, e.image, e.rare, e.type
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                WHERE ue.user_id = @userId;
+            ";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@userId", user_id);
 
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
@@ -392,126 +563,149 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string existsQuery = @"
+                SELECT COUNT(*) 
+                FROM user_equipments 
+                WHERE user_id = @user_id AND equipment_id = @equipment_id";
+
+                await using (MySqlCommand existsCmd = new MySqlCommand(existsQuery, connection))
+                {
+                    existsCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    existsCmd.Parameters.AddWithValue("@equipment_id", Id);
+
+                    var existingCount = Convert.ToInt32(await existsCmd.ExecuteScalarAsync());
+                    if (existingCount > 0)
+                    {
+                        string updateQuery = @"
+                        UPDATE user_equipments
+                        SET quality = @quality, rare = @rare
+                        WHERE user_id = @user_id AND equipment_id = @equipment_id";
+
+                        await using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
+                        {
+                            updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCmd.Parameters.AddWithValue("@equipment_id", Id);
+                            updateCmd.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(EquipmentFromDB.Rare));
+                            updateCmd.Parameters.AddWithValue("@rare", EquipmentFromDB.Rare);
+                            await updateCmd.ExecuteNonQueryAsync();
+                        }
+
+                        return true;
+                    }
+                }
+
+                string insertQuery = @"
                 INSERT INTO user_equipments (
-                    user_id, equipment_id, rare, sequence, level, experiment, star, quality, block,
+                    user_id, equipment_id, rare, level, experiment, star, quality, block,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate,
-                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                    mana, mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate,
+                    penetration_rate, penetration_resistance_rate, evasion_rate, damage_absorption_rate, 
+                    ignore_damage_absorption_rate, absorbed_damage_rate, vitality_regeneration_rate, 
+                    vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity,
+                    resistance_rate, combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                    stun_rate, ignore_stun_rate, reflection_rate, ignore_reflection_rate, reflection_damage_rate,
+                    reflection_resistance_rate, mana, mana_regeneration_rate, damage_to_different_faction_rate,
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                    normal_damage_rate, normal_resistance_rate, skill_damage_rate, skill_resistance_rate,
                     special_health, special_physical_attack, special_physical_defense, special_magical_attack,
                     special_magical_defense, special_chemical_attack, special_chemical_defense, special_atomic_attack,
                     special_atomic_defense, special_mental_attack, special_mental_defense, special_speed
                 ) VALUES (
-                    @user_id, @equipment_id, @rare, @sequence, @level, @experiment, @star, @quality, @block, 
+                    @user_id, @equipment_id, @rare, @level, @experiment, @star, @quality, @block,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                    @penetration_rate, @penetration_resistance_rate,
-                    @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
-                    @stun_rate, @ignore_stun_rate,
-                    @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
-                    @mana, @mana_regeneration_rate,
-                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                    @normal_damage_rate, @normal_resistance_rate,
-                    @skill_damage_rate, @skill_resistance_rate,
+                    @penetration_rate, @penetration_resistance_rate, @evasion_rate, @damage_absorption_rate, 
+                    @ignore_damage_absorption_rate, @absorbed_damage_rate, @vitality_regeneration_rate, 
+                    @vitality_regeneration_resistance_rate, @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity,
+                    @resistance_rate, @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                    @stun_rate, @ignore_stun_rate, @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate,
+                    @reflection_resistance_rate, @mana, @mana_regeneration_rate, @damage_to_different_faction_rate,
+                    @resistance_to_different_faction_rate, @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                    @normal_damage_rate, @normal_resistance_rate, @skill_damage_rate, @skill_resistance_rate,
                     @special_health, @special_physical_attack, @special_physical_defense, @special_magical_attack,
                     @special_magical_defense, @special_chemical_attack, @special_chemical_defense, @special_atomic_attack,
                     @special_atomic_defense, @special_mental_attack, @special_mental_defense, @special_speed
-                )";
+                );";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@equipment_id", Id);
-                    command.Parameters.AddWithValue("@rare", EquipmentFromDB.Rare);
-                    command.Parameters.AddWithValue("@sequence", await GetMaxSequenceAsync(connection, Id) + 1);
-                    command.Parameters.AddWithValue("@level", 0);
-                    command.Parameters.AddWithValue("@experiment", 0);
-                    command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(EquipmentFromDB.Rare));
-                    command.Parameters.AddWithValue("@block", false);
-                    command.Parameters.AddWithValue("@power", EquipmentFromDB.Power);
-                    command.Parameters.AddWithValue("@health", EquipmentFromDB.Health);
-                    command.Parameters.AddWithValue("@physical_attack", EquipmentFromDB.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", EquipmentFromDB.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", EquipmentFromDB.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", EquipmentFromDB.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", EquipmentFromDB.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", EquipmentFromDB.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", EquipmentFromDB.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", EquipmentFromDB.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", EquipmentFromDB.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", EquipmentFromDB.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", EquipmentFromDB.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", EquipmentFromDB.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", EquipmentFromDB.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", EquipmentFromDB.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", EquipmentFromDB.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", EquipmentFromDB.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", EquipmentFromDB.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", EquipmentFromDB.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", EquipmentFromDB.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", EquipmentFromDB.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", EquipmentFromDB.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", EquipmentFromDB.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", EquipmentFromDB.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", EquipmentFromDB.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", EquipmentFromDB.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", EquipmentFromDB.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", EquipmentFromDB.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", EquipmentFromDB.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", EquipmentFromDB.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", EquipmentFromDB.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", EquipmentFromDB.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", EquipmentFromDB.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", EquipmentFromDB.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", EquipmentFromDB.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", EquipmentFromDB.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", EquipmentFromDB.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", EquipmentFromDB.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", EquipmentFromDB.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", EquipmentFromDB.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", EquipmentFromDB.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", EquipmentFromDB.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", EquipmentFromDB.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", EquipmentFromDB.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", EquipmentFromDB.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", EquipmentFromDB.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", EquipmentFromDB.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", EquipmentFromDB.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", EquipmentFromDB.SkillResistanceRate);
-                    command.Parameters.AddWithValue("@special_health", EquipmentFromDB.SpecialHealth);
-                    command.Parameters.AddWithValue("@special_physical_attack", EquipmentFromDB.SpecialPhysicalAttack);
-                    command.Parameters.AddWithValue("@special_physical_defense", EquipmentFromDB.SpecialPhysicalDefense);
-                    command.Parameters.AddWithValue("@special_magical_attack", EquipmentFromDB.SpecialMagicalAttack);
-                    command.Parameters.AddWithValue("@special_magical_defense", EquipmentFromDB.SpecialMagicalDefense);
-                    command.Parameters.AddWithValue("@special_chemical_attack", EquipmentFromDB.SpecialChemicalAttack);
-                    command.Parameters.AddWithValue("@special_chemical_defense", EquipmentFromDB.SpecialChemicalDefense);
-                    command.Parameters.AddWithValue("@special_atomic_attack", EquipmentFromDB.SpecialAtomicAttack);
-                    command.Parameters.AddWithValue("@special_atomic_defense", EquipmentFromDB.SpecialAtomicDefense);
-                    command.Parameters.AddWithValue("@special_mental_attack", EquipmentFromDB.SpecialMentalAttack);
-                    command.Parameters.AddWithValue("@special_mental_defense", EquipmentFromDB.SpecialMentalDefense);
-                    command.Parameters.AddWithValue("@special_speed", EquipmentFromDB.SpecialSpeed);
+                    insertCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCmd.Parameters.AddWithValue("@equipment_id", Id);
+                    insertCmd.Parameters.AddWithValue("@rare", EquipmentFromDB.Rare);
+                    insertCmd.Parameters.AddWithValue("@level", 0);
+                    insertCmd.Parameters.AddWithValue("@experiment", 0);
+                    insertCmd.Parameters.AddWithValue("@star", 0);
+                    insertCmd.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(EquipmentFromDB.Rare));
+                    insertCmd.Parameters.AddWithValue("@block", false);
+                    insertCmd.Parameters.AddWithValue("@power", EquipmentFromDB.Power);
+                    insertCmd.Parameters.AddWithValue("@health", EquipmentFromDB.Health);
+                    insertCmd.Parameters.AddWithValue("@physical_attack", EquipmentFromDB.PhysicalAttack);
+                    insertCmd.Parameters.AddWithValue("@physical_defense", EquipmentFromDB.PhysicalDefense);
+                    insertCmd.Parameters.AddWithValue("@magical_attack", EquipmentFromDB.MagicalAttack);
+                    insertCmd.Parameters.AddWithValue("@magical_defense", EquipmentFromDB.MagicalDefense);
+                    insertCmd.Parameters.AddWithValue("@chemical_attack", EquipmentFromDB.ChemicalAttack);
+                    insertCmd.Parameters.AddWithValue("@chemical_defense", EquipmentFromDB.ChemicalDefense);
+                    insertCmd.Parameters.AddWithValue("@atomic_attack", EquipmentFromDB.AtomicAttack);
+                    insertCmd.Parameters.AddWithValue("@atomic_defense", EquipmentFromDB.AtomicDefense);
+                    insertCmd.Parameters.AddWithValue("@mental_attack", EquipmentFromDB.MentalAttack);
+                    insertCmd.Parameters.AddWithValue("@mental_defense", EquipmentFromDB.MentalDefense);
+                    insertCmd.Parameters.AddWithValue("@speed", EquipmentFromDB.Speed);
+                    insertCmd.Parameters.AddWithValue("@critical_damage_rate", EquipmentFromDB.CriticalDamageRate);
+                    insertCmd.Parameters.AddWithValue("@critical_rate", EquipmentFromDB.CriticalRate);
+                    insertCmd.Parameters.AddWithValue("@critical_resistance_rate", EquipmentFromDB.CriticalResistanceRate);
+                    insertCmd.Parameters.AddWithValue("@ignore_critical_rate", EquipmentFromDB.IgnoreCriticalRate);
+                    insertCmd.Parameters.AddWithValue("@penetration_rate", EquipmentFromDB.PenetrationRate);
+                    insertCmd.Parameters.AddWithValue("@penetration_resistance_rate", EquipmentFromDB.PenetrationResistanceRate);
+                    insertCmd.Parameters.AddWithValue("@evasion_rate", EquipmentFromDB.EvasionRate);
+                    insertCmd.Parameters.AddWithValue("@damage_absorption_rate", EquipmentFromDB.DamageAbsorptionRate);
+                    insertCmd.Parameters.AddWithValue("@ignore_damage_absorption_rate", EquipmentFromDB.IgnoreDamageAbsorptionRate);
+                    insertCmd.Parameters.AddWithValue("@absorbed_damage_rate", EquipmentFromDB.AbsorbedDamageRate);
+                    insertCmd.Parameters.AddWithValue("@vitality_regeneration_rate", EquipmentFromDB.VitalityRegenerationRate);
+                    insertCmd.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", EquipmentFromDB.VitalityRegenerationResistanceRate);
+                    insertCmd.Parameters.AddWithValue("@accuracy_rate", EquipmentFromDB.AccuracyRate);
+                    insertCmd.Parameters.AddWithValue("@lifesteal_rate", EquipmentFromDB.LifestealRate);
+                    insertCmd.Parameters.AddWithValue("@shield_strength", EquipmentFromDB.ShieldStrength);
+                    insertCmd.Parameters.AddWithValue("@tenacity", EquipmentFromDB.Tenacity);
+                    insertCmd.Parameters.AddWithValue("@resistance_rate", EquipmentFromDB.ResistanceRate);
+                    insertCmd.Parameters.AddWithValue("@combo_rate", EquipmentFromDB.ComboRate);
+                    insertCmd.Parameters.AddWithValue("@ignore_combo_rate", EquipmentFromDB.IgnoreComboRate);
+                    insertCmd.Parameters.AddWithValue("@combo_damage_rate", EquipmentFromDB.ComboDamageRate);
+                    insertCmd.Parameters.AddWithValue("@combo_resistance_rate", EquipmentFromDB.ComboResistanceRate);
+                    insertCmd.Parameters.AddWithValue("@stun_rate", EquipmentFromDB.StunRate);
+                    insertCmd.Parameters.AddWithValue("@ignore_stun_rate", EquipmentFromDB.IgnoreStunRate);
+                    insertCmd.Parameters.AddWithValue("@reflection_rate", EquipmentFromDB.ReflectionRate);
+                    insertCmd.Parameters.AddWithValue("@ignore_reflection_rate", EquipmentFromDB.IgnoreReflectionRate);
+                    insertCmd.Parameters.AddWithValue("@reflection_damage_rate", EquipmentFromDB.ReflectionDamageRate);
+                    insertCmd.Parameters.AddWithValue("@reflection_resistance_rate", EquipmentFromDB.ReflectionResistanceRate);
+                    insertCmd.Parameters.AddWithValue("@mana", EquipmentFromDB.Mana);
+                    insertCmd.Parameters.AddWithValue("@mana_regeneration_rate", EquipmentFromDB.ManaRegenerationRate);
+                    insertCmd.Parameters.AddWithValue("@damage_to_different_faction_rate", EquipmentFromDB.DamageToDifferentFactionRate);
+                    insertCmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", EquipmentFromDB.ResistanceToDifferentFactionRate);
+                    insertCmd.Parameters.AddWithValue("@damage_to_same_faction_rate", EquipmentFromDB.DamageToSameFactionRate);
+                    insertCmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", EquipmentFromDB.ResistanceToSameFactionRate);
+                    insertCmd.Parameters.AddWithValue("@normal_damage_rate", EquipmentFromDB.NormalDamageRate);
+                    insertCmd.Parameters.AddWithValue("@normal_resistance_rate", EquipmentFromDB.NormalResistanceRate);
+                    insertCmd.Parameters.AddWithValue("@skill_damage_rate", EquipmentFromDB.SkillDamageRate);
+                    insertCmd.Parameters.AddWithValue("@skill_resistance_rate", EquipmentFromDB.SkillResistanceRate);
+                    insertCmd.Parameters.AddWithValue("@special_health", EquipmentFromDB.SpecialHealth);
+                    insertCmd.Parameters.AddWithValue("@special_physical_attack", EquipmentFromDB.SpecialPhysicalAttack);
+                    insertCmd.Parameters.AddWithValue("@special_physical_defense", EquipmentFromDB.SpecialPhysicalDefense);
+                    insertCmd.Parameters.AddWithValue("@special_magical_attack", EquipmentFromDB.SpecialMagicalAttack);
+                    insertCmd.Parameters.AddWithValue("@special_magical_defense", EquipmentFromDB.SpecialMagicalDefense);
+                    insertCmd.Parameters.AddWithValue("@special_chemical_attack", EquipmentFromDB.SpecialChemicalAttack);
+                    insertCmd.Parameters.AddWithValue("@special_chemical_defense", EquipmentFromDB.SpecialChemicalDefense);
+                    insertCmd.Parameters.AddWithValue("@special_atomic_attack", EquipmentFromDB.SpecialAtomicAttack);
+                    insertCmd.Parameters.AddWithValue("@special_atomic_defense", EquipmentFromDB.SpecialAtomicDefense);
+                    insertCmd.Parameters.AddWithValue("@special_mental_attack", EquipmentFromDB.SpecialMentalAttack);
+                    insertCmd.Parameters.AddWithValue("@special_mental_defense", EquipmentFromDB.SpecialMentalDefense);
+                    insertCmd.Parameters.AddWithValue("@special_speed", EquipmentFromDB.SpecialSpeed);
 
-                    await command.ExecuteNonQueryAsync();
-                    return true;
+                    await insertCmd.ExecuteNonQueryAsync();
                 }
+
+                return true;
             }
             catch (MySqlException ex)
             {
@@ -750,25 +944,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    private async Task<int> GetMaxSequenceAsync(MySqlConnection connection, string equipment_id)
-    {
-        string query = "SELECT MAX(sequence) FROM user_equipments ue WHERE ue.equipment_id=@equipment_id AND ue.user_id=@user_id";
-
-        await using (MySqlCommand command = new MySqlCommand(query, connection))
-        {
-            command.Parameters.AddWithValue("@equipment_id", equipment_id);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-
-            object result = await command.ExecuteScalarAsync();
-
-            if (result != DBNull.Value && result != null)
-            {
-                return Convert.ToInt32(result);
-            }
-
-            return 0; // Nếu bảng rỗng, trả về 0
-        }
-    }
     public async Task UpdateUserCurrencyAsync(string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -845,13 +1020,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM card_heroes_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -859,25 +1033,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM card_heroes_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO card_heroes_equipment 
-                                       (user_id, card_hero_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @card_hero_id, @equipment_id, @sequence, @position)";
+                                       (user_id, card_hero_id, equipment_id, position)
+                                       VALUES (@user_id, @card_hero_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@card_hero_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -904,13 +1076,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM card_captains_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -918,25 +1089,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM card_captains_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO card_captains_equipment 
-                                       (user_id, card_captain_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @card_captain_id, @equipment_id, @sequence, @position)";
+                                       (user_id, card_captain_id, equipment_id, position)
+                                       VALUES (@user_id, @card_captain_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@card_captain_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -963,13 +1132,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM card_colonels_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -977,25 +1145,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM card_colonels_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO card_colonels_equipment 
-                                       (user_id, card_colonel_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @card_colonel_id, @equipment_id, @sequence, @position)";
+                                       (user_id, card_colonel_id, equipment_id, position)
+                                       VALUES (@user_id, @card_colonel_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@card_colonel_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1022,13 +1188,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM card_generals_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1036,25 +1201,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM card_generals_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO card_generals_equipment 
-                                       (user_id, card_general_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @card_general_id, @equipment_id, @sequence, @position)";
+                                       (user_id, card_general_id, equipment_id, position)
+                                       VALUES (@user_id, @card_general_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@card_general_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1081,13 +1244,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM card_admirals_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1095,25 +1257,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM card_admirals_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO card_admirals_equipment 
-                                       (user_id, card_admiral_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @card_admiral_id, @equipment_id, @sequence, @position)";
+                                       (user_id, card_admiral_id, equipment_id, position)
+                                       VALUES (@user_id, @card_admiral_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@card_admiral_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1140,13 +1300,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM card_monsters_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1154,25 +1313,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM card_monsters_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO card_monsters_equipment 
-                                       (user_id, card_monster_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @card_monster_id, @equipment_id, @sequence, @position)";
+                                       (user_id, card_monster_id, equipment_id, position)
+                                       VALUES (@user_id, @card_monster_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@card_monster_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1199,13 +1356,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM card_military_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1213,25 +1369,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM card_military_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO card_military_equipment 
-                                       (user_id, card_military_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @card_military_id, @equipment_id, @sequence, @position)";
+                                       (user_id, card_military_id, equipment_id, position)
+                                       VALUES (@user_id, @card_military_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@card_military_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1258,13 +1412,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM card_spell_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1272,25 +1425,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM card_spell_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO card_spell_equipment 
-                                       (user_id, card_spell_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @card_spell_id, @equipment_id, @sequence, @position)";
+                                       (user_id, card_spell_id, equipment_id, position)
+                                       VALUES (@user_id, @card_spell_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@card_spell_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1317,13 +1468,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM books_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1331,25 +1481,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM books_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO books_equipment 
-                                       (user_id, book_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @book_id, @equipment_id, @sequence, @position)";
+                                       (user_id, book_id, equipment_id, position)
+                                       VALUES (@user_id, @book_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@book_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1376,13 +1524,12 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra xem equipment_id và sequence có tồn tại trong bảng không
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
                 string checkQuery = @"SELECT COUNT(*) FROM pets_equipment 
-                                  WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                  WHERE equipment_id = @equipment_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                    checkCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1390,25 +1537,23 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (count > 0)
                     {
                         string deleteQuery = @"DELETE FROM pets_equipment 
-                                           WHERE equipment_id = @equipment_id AND sequence = @sequence";
+                                           WHERE equipment_id = @equipment_id";
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                            deleteCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
                     }
 
                     // Chèn dữ liệu mới vào bảng
                     string insertQuery = @"INSERT INTO pets_equipment 
-                                       (user_id, pet_id, equipment_id, sequence, position)
-                                       VALUES (@user_id, @pet_id, @equipment_id, @sequence, @position)";
+                                       (user_id, pet_id, equipment_id, position)
+                                       VALUES (@user_id, @pet_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                     {
                         insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                         insertCommand.Parameters.AddWithValue("@pet_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipments.Id);
-                        insertCommand.Parameters.AddWithValue("@sequence", equipments.Sequence);
                         insertCommand.Parameters.AddWithValue("@position", position);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1442,7 +1587,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_heroes_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.card_hero_id = @card_hero_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -1467,7 +1611,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1567,7 +1710,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_captains_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.card_captain_id = @card_captain_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -1592,7 +1734,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1692,7 +1833,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_colonels_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.card_colonel_id = @card_colonel_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -1717,7 +1857,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1817,7 +1956,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_generals_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.card_general_id = @card_general_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -1842,7 +1980,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1942,7 +2079,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_admirals_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.card_admiral_id = @card_admiral_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -1967,7 +2103,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2067,7 +2202,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_monsters_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.card_monster_id = @card_monster_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -2092,7 +2226,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2192,7 +2325,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_military_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.card_military_id = @card_military_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -2217,7 +2349,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2313,7 +2444,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_spell_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.card_spell_id = @card_spell_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -2338,7 +2468,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2438,7 +2567,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_books_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.book_id = @book_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -2463,7 +2591,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2563,7 +2690,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
                 JOIN card_pets_equipment che ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence
                 WHERE che.pet_id = @pet_id
                 AND ue.user_id = @user_id
                 AND e.type = @type;";
@@ -2588,7 +2714,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2690,7 +2815,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN card_heroes_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence 
                     AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                     AND e.type = @type
@@ -2721,7 +2845,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2823,7 +2946,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN card_captains_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                    AND che.sequence = ue.sequence 
                     AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                     AND e.type = @type
@@ -2854,7 +2976,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2955,7 +3076,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN card_colonels_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.sequence = ue.sequence 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                   AND e.type = @type 
@@ -2986,7 +3106,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3087,7 +3206,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN card_generals_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.sequence = ue.sequence 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                   AND e.type = @type 
@@ -3118,7 +3236,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3215,7 +3332,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN card_admirals_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.sequence = ue.sequence 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                   AND e.type = @type 
@@ -3246,7 +3362,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3347,7 +3462,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN card_monsters_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.sequence = ue.sequence 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                   AND e.type = @type 
@@ -3378,7 +3492,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3479,7 +3592,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN card_military_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.sequence = ue.sequence 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                   AND e.type = @type 
@@ -3510,7 +3622,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3611,7 +3722,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN card_spell_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.sequence = ue.sequence 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                   AND e.type = @type 
@@ -3642,7 +3752,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3743,7 +3852,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN books_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.sequence = ue.sequence 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                   AND e.type = @type 
@@ -3774,7 +3882,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3875,7 +3982,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN pets_equipment che 
                     ON che.equipment_id = ue.equipment_id 
-                   AND che.sequence = ue.sequence 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
                   AND e.type = @type 
@@ -3906,7 +4012,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Set = reader.GetStringSafe("equipmentSet"),
                                 Level = reader.GetIntSafe("level"),
                                 Star = reader.GetIntSafe("star"),
-                                Sequence = reader.GetIntSafe("sequence"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -4056,7 +4161,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_card_heroes uc
                 JOIN card_heroes c ON uc.card_hero_id = c.id
                 JOIN card_heroes_equipment che ON uc.card_hero_id = che.card_hero_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.card_hero_id = @card_hero_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -4234,7 +4339,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_card_captains uc
                 JOIN card_captains c ON uc.card_captain_id = c.id
                 JOIN card_captains_equipment che ON uc.card_captain_id = che.card_captain_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.card_captain_id = @card_captain_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -4412,7 +4517,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_card_colonels uc
                 JOIN card_colonels c ON uc.card_colonel_id = c.id
                 JOIN card_colonels_equipment che ON uc.card_colonel_id = che.card_colonel_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.card_colonel_id = @card_colonel_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -4590,7 +4695,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_card_generals uc
                 JOIN card_generals c ON uc.card_general_id = c.id
                 JOIN card_generals_equipment che ON uc.card_general_id = che.card_general_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.card_general_id = @card_general_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -4768,7 +4873,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_card_admirals uc
                 JOIN card_admirals c ON uc.card_admiral_id = c.id
                 JOIN card_admirals_equipment che ON uc.card_admiral_id = che.card_admiral_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.card_admiral_id = @card_admiral_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -4946,7 +5051,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_card_monsters uc
                 JOIN card_monsters c ON uc.card_monster_id = c.id
                 JOIN card_monsters_equipment che ON uc.card_monster_id = che.card_monster_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.card_monster_id = @card_monster_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -5124,7 +5229,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_card_militaries uc
                 JOIN card_militaries c ON uc.card_military_id = c.id
                 JOIN card_militaries_equipment che ON uc.card_military_id = che.card_military_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.card_military_id = @card_military_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -5302,7 +5407,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_card_spells uc
                 JOIN card_spells c ON uc.card_spell_id = c.id
                 JOIN card_spells_equipment che ON uc.card_spell_id = che.card_spell_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.card_spell_id = @card_spell_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -5480,7 +5585,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_books uc
                 JOIN books c ON uc.book_id = c.id
                 JOIN books_equipment che ON uc.book_id = che.book_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.book_id = @book_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -5658,7 +5763,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM user_pets uc
                 JOIN pets c ON uc.pet_id = c.id
                 JOIN pets_equipment che ON uc.pet_id = che.pet_id
-                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id AND che.sequence = ue.sequence
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
                 WHERE uc.user_id = @user_id AND uc.pet_id = @pet_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -5816,5 +5921,1675 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
         return equipment;
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string cardHeroId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT che.position
+                FROM card_heroes_equipment che
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE che.card_hero_id = @card_hero_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_hero_id", cardHeroId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_heroes_equipment 
+                WHERE card_hero_id = @card_hero_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_hero_id", cardHeroId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_heroes_equipment
+                    string insertQuery = @"
+                    INSERT INTO card_heroes_equipment
+                        (user_id, card_hero_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_hero_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_hero_id", cardHeroId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardHeroAsync(string cardHeroId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardHeroAsync(cardHeroId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card hero '{cardHeroId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string cardCaptainId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT che.position
+                FROM card_captains_equipment che
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE che.card_captain_id = @card_captain_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_captain_id", cardCaptainId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_captains_equipment 
+                WHERE card_captain_id = @card_captain_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_captain_id", cardCaptainId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_captains_equipment
+                    string insertQuery = @"
+                    INSERT INTO card_captains_equipment
+                        (user_id, card_captain_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_captain_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_captain_id", cardCaptainId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardCaptainAsync(string cardCaptainId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardCaptainAsync(cardCaptainId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card hero '{cardCaptainId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string cardColonelId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT cce.position
+                FROM card_captains_equipment cce
+                JOIN user_equipments ue ON cce.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE cce.card_captain_id = @card_captain_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_captain_id", cardColonelId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_captains_equipment 
+                WHERE card_captain_id = @card_captain_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_captain_id", cardColonelId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_captains_equipment
+                    string insertQuery = @"
+                    INSERT INTO card_captains_equipment
+                        (user_id, card_captain_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_captain_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_captain_id", cardColonelId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardColonelAsync(string cardColonelId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardColonelAsync(cardColonelId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card colonel '{cardColonelId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string cardGeneralId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT cge.position
+                FROM card_generals_equipment cge
+                JOIN user_equipments ue ON cge.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE cge.card_general_id = @card_general_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_general_id", cardGeneralId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_generals_equipment 
+                WHERE card_general_id = @card_general_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_general_id", cardGeneralId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_generals_equipment
+                    string insertQuery = @"
+                    INSERT INTO card_generals_equipment
+                        (user_id, card_general_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_general_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_general_id", cardGeneralId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardGeneralAsync(string cardGeneralId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardGeneralAsync(cardGeneralId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card general '{cardGeneralId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string cardAdmiralId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT cge.position
+                FROM card_admirals_equipment cge
+                JOIN user_equipments ue ON cge.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE cge.card_admiral_id = @card_admiral_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_admiral_id", cardAdmiralId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_admirals_equipment 
+                WHERE card_admiral_id = @card_admiral_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_admiral_id", cardAdmiralId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_admirals_equipment
+                    string insertQuery = @"
+                    INSERT INTO card_admirals_equipment
+                        (user_id, card_admiral_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_admiral_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiralId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string cardAdmiralId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardAdmiralAsync(cardAdmiralId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card admiral '{cardAdmiralId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string cardMonsterId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT che.position
+                FROM card_monsters_equipment che
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE che.card_monster_id = @card_monster_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_monster_id", cardMonsterId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_monsters_equipment 
+                WHERE card_monster_id = @card_monster_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_monster_id", cardMonsterId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_monsters_equipment
+                    string insertQuery = @"
+                    INSERT INTO card_monsters_equipment
+                        (user_id, card_monster_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_monster_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_monster_id", cardMonsterId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardMonsterAsync(string cardMonsterId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardMonsterAsync(cardMonsterId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card monster '{cardMonsterId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string cardMilitaryId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT cme.position
+                FROM card_militaries_equipment cme
+                JOIN user_equipments ue ON cme.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE cme.card_military_id = @card_military_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_military_id", cardMilitaryId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_militaries_equipment 
+                WHERE card_military_id = @card_military_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_military_id", cardMilitaryId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_militaries_equipment
+                    string insertQuery = @"
+                    INSERT INTO card_militaries_equipment
+                        (user_id, card_military_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_military_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_military_id", cardMilitaryId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string cardMilitaryId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardMilitaryAsync(cardMilitaryId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card military '{cardMilitaryId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string cardSpellId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT che.position
+                FROM card_spells_equipment che
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE che.card_spell_id = @card_spell_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_spell_id", cardSpellId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_spells_equipment 
+                WHERE card_spell_id = @card_spell_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_spell_id", cardSpellId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_spells_equipment
+                    string insertQuery = @"
+                    INSERT INTO card_spells_equipment
+                        (user_id, card_spell_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_spell_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_spell_id", cardSpellId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardSpellAsync(string cardSpellId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardSpellAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardSpellAsync(cardSpellId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card spell '{cardSpellId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string bookId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT che.position
+                FROM books_equipment che
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE che.book_id = @book_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@book_id", bookId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM books_equipment 
+                WHERE book_id = @book_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@book_id", bookId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_heroes_equipment
+                    string insertQuery = @"
+                    INSERT INTO books_equipment
+                        (user_id, book_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @book_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@book_id", bookId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToBookAsync(string bookId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToBookAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToBookAsync(bookId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card book '{bookId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string petId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string getMaxPositionsQuery = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand getMaxCmd = new MySqlCommand(getMaxPositionsQuery, connection))
+                {
+                    getMaxCmd.Parameters.AddWithValue("@type", type);
+                    object result = await getMaxCmd.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT che.position
+                FROM pets_equipment che
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE che.pet_id = @pet_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@pet_id", petId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM pets_equipment 
+                WHERE pet_id = @pet_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@pet_id", petId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_heroes_equipment
+                    string insertQuery = @"
+                    INSERT INTO pets_equipment
+                        (user_id, pet_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @pet_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@pet_id", petId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToPetAsync(string petId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string getTypesQuery = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand getTypesCmd = new MySqlCommand(getTypesQuery, connection))
+                {
+                    await using (MySqlDataReader reader = await getTypesCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToPetAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToPetAsync(petId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card hero '{petId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
     }
 }

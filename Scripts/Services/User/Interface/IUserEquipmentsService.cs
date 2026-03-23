@@ -7,6 +7,7 @@ public interface IUserEquipmentsService
     Task<Equipments> GetNewLevelPowerAsync(Equipments c, double coefficient);
     Task<Equipments> GetNewBreakthroughPowerAsync(Equipments c, double coefficient);
     Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
+    Task<List<Equipments>> GetUserAllEquipmentsAsync(string user_id);
     Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare);
     Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id);
     Task<bool> BuyEquipmentAsync(string Id);
@@ -53,4 +54,43 @@ public interface IUserEquipmentsService
     Task<Equipments> GetAllEquipmentsByCardSpellIdAsync(string user_id, string cardSpellId);
     Task<Equipments> GetAllEquipmentsByBookIdAsync(string user_id, string bookId);
     Task<Equipments> GetAllEquipmentsByPetIdAsync(string user_id, string petId);
+    // Cho CardHero
+    Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string cardHeroId, string type);
+    Task<bool> EquipAllEquipmentsToCardHeroAsync(string cardHeroId);
+
+    // Cho CardCaptain
+    Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string cardCaptainId, string type);
+    Task<bool> EquipAllEquipmentsToCardCaptainAsync(string cardCaptainId);
+
+    // Cho CardColonel
+    Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string cardColonelId, string type);
+    Task<bool> EquipAllEquipmentsToCardColonelAsync(string cardColonelId);
+
+    // Cho CardGeneral
+    Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string cardGeneralId, string type);
+    Task<bool> EquipAllEquipmentsToCardGeneralAsync(string cardGeneralId);
+
+    // Cho CardAdmiral
+    Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string cardAdmiralId, string type);
+    Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string cardAdmiralId);
+
+    // Cho CardMonster
+    Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string cardMonsterId, string type);
+    Task<bool> EquipAllEquipmentsToCardMonsterAsync(string cardMonsterId);
+
+    // Cho CardMilitary
+    Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string cardMilitaryId, string type);
+    Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string cardMilitaryId);
+
+    // Cho CardSpell
+    Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string cardSpellId, string type);
+    Task<bool> EquipAllEquipmentsToCardSpellAsync(string cardSpellId);
+
+    // Cho Book
+    Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string bookId, string type);
+    Task<bool> EquipAllEquipmentsToBookAsync(string bookId);
+
+    // Cho Pet
+    Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string petId, string type);
+    Task<bool> EquipAllEquipmentsToPetAsync(string petId);
 }
