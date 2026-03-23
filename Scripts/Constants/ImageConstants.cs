@@ -637,6 +637,19 @@ public static class ImageConstants
         public const string HIRN_IX_URL = "UI/Icon/roman_nine";
         public const string HIRN_X_URL = "UI/Icon/roman_ten";
     }
+    public static class HIDC
+    {
+        public const string HIDC_I_URL = "UI/Icon/roman_one";
+        public const string HIDC_II_URL = "UI/Icon/roman_two";
+        public const string HIDC_III_URL = "UI/Icon/roman_three";
+        public const string HIDC_IV_URL = "UI/Icon/roman_four";
+        public const string HIDC_V_URL = "UI/Icon/roman_five";
+        public const string HIDC_VI_URL = "UI/Icon/roman_six";
+        public const string HIDC_VII_URL = "UI/Icon/roman_seven";
+        public const string HIDC_VIII_URL = "UI/Icon/roman_eight";
+        public const string HIDC_IX_URL = "UI/Icon/roman_nine";
+        public const string HIDC_X_URL = "UI/Icon/roman_ten";
+    }
     public static class Star
     {
         public const string STAR_LV1_URL = "UI/UI/Star1";

@@ -992,6 +992,87 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
+    public async Task<List<Books>> GetHIDCPowerAsync(string user_id, List<Books> BooksList)
+    {
+        HIDCs hidc = await HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        foreach (var c in BooksList)
+        {
+            c.Health = c.Health + hidc.Health + c.BaseStats.Health * hidc.PercentAllHealth / 100;
+            c.PhysicalAttack = c.PhysicalAttack + hidc.PhysicalAttack + c.BaseStats.PhysicalAttack * hidc.PercentAllPhysicalAttack / 100;
+            c.PhysicalDefense = c.PhysicalDefense + hidc.PhysicalDefense + c.BaseStats.PhysicalDefense * hidc.PercentAllPhysicalDefense / 100;
+            c.MagicalAttack = c.MagicalAttack + hidc.MagicalAttack + c.BaseStats.MagicalAttack * hidc.PercentAllMagicalAttack / 100;
+            c.MagicalDefense = c.MagicalDefense + hidc.MagicalDefense + c.BaseStats.MagicalDefense * hidc.PercentAllMagicalDefense / 100;
+            c.ChemicalAttack = c.ChemicalAttack + hidc.ChemicalAttack + c.BaseStats.ChemicalAttack * hidc.PercentAllChemicalAttack / 100;
+            c.ChemicalDefense = c.ChemicalDefense + hidc.ChemicalDefense + c.BaseStats.ChemicalDefense * hidc.PercentAllChemicalDefense / 100;
+            c.AtomicAttack = c.AtomicAttack + hidc.AtomicAttack + c.BaseStats.AtomicAttack * hidc.PercentAllAtomicAttack / 100;
+            c.AtomicDefense = c.AtomicDefense + hidc.AtomicDefense + c.BaseStats.AtomicDefense * hidc.PercentAllAtomicDefense / 100;
+            c.MentalAttack = c.MentalAttack + hidc.MentalAttack + c.BaseStats.MentalAttack * hidc.PercentAllMentalAttack / 100;
+            c.MentalDefense = c.MentalDefense + hidc.MentalDefense + c.BaseStats.MentalDefense * hidc.PercentAllMentalDefense / 100;
+            c.Speed = c.Speed + hidc.Speed;
+            c.CriticalDamageRate = c.CriticalDamageRate + hidc.CriticalDamageRate;
+            c.CriticalRate = c.CriticalRate + hidc.CriticalRate;
+            c.CriticalResistanceRate = c.CriticalResistanceRate + hidc.CriticalResistanceRate;
+            c.IgnoreCriticalRate = c.IgnoreCriticalRate + hidc.IgnoreCriticalRate;
+            c.PenetrationRate = c.PenetrationRate + hidc.PenetrationRate;
+            c.PenetrationResistanceRate = c.PenetrationResistanceRate + hidc.PenetrationResistanceRate;
+            c.EvasionRate = c.EvasionRate + hidc.EvasionRate;
+            c.DamageAbsorptionRate = c.DamageAbsorptionRate + hidc.DamageAbsorptionRate;
+            c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + hidc.IgnoreDamageAbsorptionRate;
+            c.AbsorbedDamageRate = c.AbsorbedDamageRate + hidc.AbsorbedDamageRate;
+            c.VitalityRegenerationRate = c.VitalityRegenerationRate + hidc.VitalityRegenerationRate;
+            c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + hidc.VitalityRegenerationResistanceRate;
+            c.AccuracyRate = c.AccuracyRate + hidc.AccuracyRate;
+            c.LifestealRate = c.LifestealRate + hidc.LifestealRate;
+            c.ShieldStrength = c.ShieldStrength + hidc.ShieldStrength;
+            c.Tenacity = c.Tenacity + hidc.Tenacity;
+            c.ResistanceRate = c.ResistanceRate + hidc.ResistanceRate;
+            c.ComboRate = c.ComboRate + hidc.ComboRate;
+            c.IgnoreComboRate = c.IgnoreComboRate + hidc.IgnoreComboRate;
+            c.ComboDamageRate = c.ComboDamageRate + hidc.ComboDamageRate;
+            c.ComboResistanceRate = c.ComboResistanceRate + hidc.ComboResistanceRate;
+            c.StunRate = c.StunRate + hidc.StunRate;
+            c.IgnoreStunRate = c.IgnoreStunRate + hidc.IgnoreStunRate;
+            c.ReflectionRate = c.ReflectionRate + hidc.ReflectionRate;
+            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + hidc.IgnoreReflectionRate;
+            c.ReflectionDamageRate = c.ReflectionDamageRate + hidc.ReflectionDamageRate;
+            c.ReflectionResistanceRate = c.ReflectionResistanceRate + hidc.ReflectionResistanceRate;
+            c.Mana = c.Mana + hidc.Mana;
+            c.ManaRegenerationRate = c.ManaRegenerationRate + hidc.ManaRegenerationRate;
+            c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + hidc.DamageToDifferentFactionRate;
+            c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + hidc.ResistanceToDifferentFactionRate;
+            c.DamageToSameFactionRate = c.DamageToSameFactionRate + hidc.DamageToSameFactionRate;
+            c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + hidc.ResistanceToSameFactionRate;
+            c.NormalDamageRate = c.NormalDamageRate + hidc.NormalDamageRate;
+            c.NormalResistanceRate = c.NormalResistanceRate + hidc.NormalResistanceRate;
+            c.SkillDamageRate = c.SkillDamageRate + hidc.SkillDamageRate;
+            c.SkillResistanceRate = c.SkillResistanceRate + hidc.SkillResistanceRate;
+
+            c.Power = EvaluatePower.CalculatePower(
+            c.Health,
+            c.PhysicalAttack, c.PhysicalDefense,
+            c.MagicalAttack, c.MagicalDefense,
+            c.ChemicalAttack, c.ChemicalDefense,
+            c.AtomicAttack, c.AtomicDefense,
+            c.MentalAttack, c.MentalDefense,
+            c.Speed,
+            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
+            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
+            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
+            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
+            c.AccuracyRate, c.LifestealRate,
+            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
+            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
+            c.StunRate, c.IgnoreStunRate,
+            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
+            c.Mana, c.ManaRegenerationRate,
+            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
+            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
+            c.NormalDamageRate, c.NormalResistanceRate,
+            c.SkillDamageRate, c.SkillResistanceRate
+        );
+        }
+        return BooksList;
+    }
     public async Task<List<Books>> GetAllEquipmentPowerAsync(string user_id, List<Books> BooksList)
     {
         foreach (var c in BooksList)
@@ -1497,6 +1578,13 @@ public class UserBooksService : IUserBooksService
         list = await GetArchivePowerAsync(user_id, list);
         list = await GetUniversePowerAsync(user_id, list);
         list = await GetHIINPowerAsync(user_id, list);
+        list = await GetSSWNPowerAsync(user_id, list);
+        list = await GetHITNPowerAsync(user_id, list);
+        list = await GetHIHNPowerAsync(user_id, list);
+        list = await GetHIENPowerAsync(user_id, list);
+        list = await GetHICAPowerAsync(user_id, list);
+        list = await GetHIRNPowerAsync(user_id, list);
+        list = await GetHIDCPowerAsync(user_id, list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -1515,6 +1603,13 @@ public class UserBooksService : IUserBooksService
         list = await GetArchivePowerAsync(user_id, list);
         list = await GetUniversePowerAsync(user_id, list);
         list = await GetHIINPowerAsync(user_id, list);
+        list = await GetSSWNPowerAsync(user_id, list);
+        list = await GetHITNPowerAsync(user_id, list);
+        list = await GetHIHNPowerAsync(user_id, list);
+        list = await GetHIENPowerAsync(user_id, list);
+        list = await GetHICAPowerAsync(user_id, list);
+        list = await GetHIRNPowerAsync(user_id, list);
+        list = await GetHIDCPowerAsync(user_id, list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -1568,6 +1663,13 @@ public class UserBooksService : IUserBooksService
         list = await GetArchivePowerAsync(user_id, list);
         list = await GetUniversePowerAsync(user_id, list);
         list = await GetHIINPowerAsync(user_id, list);
+        list = await GetSSWNPowerAsync(user_id, list);
+        list = await GetHITNPowerAsync(user_id, list);
+        list = await GetHIHNPowerAsync(user_id, list);
+        list = await GetHIENPowerAsync(user_id, list);
+        list = await GetHICAPowerAsync(user_id, list);
+        list = await GetHIRNPowerAsync(user_id, list);
+        list = await GetHIDCPowerAsync(user_id, list);
         ListSortHelper.SortByPower(list);
         return list;
     }

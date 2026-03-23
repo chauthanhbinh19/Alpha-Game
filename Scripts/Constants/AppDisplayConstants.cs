@@ -219,6 +219,7 @@ public static class AppDisplayConstants
         public const string HIEN = "MainType.HIEN";
         public const string HICA = "MainType.HICA";
         public const string HIRN = "MainType.HIRN";
+        public const string HIDC = "MainType.HIDC";
 
         public const string HIIN_FULLNAME = "MainType.HIIN_FULLNAME";
         public const string SSWN_FULLNAME = "MainType.SSWN_FULLNAME";
@@ -227,6 +228,7 @@ public static class AppDisplayConstants
         public const string HIEN_FULLNAME = "MainType.HIEN_FULLNAME";
         public const string HICA_FULLNAME = "MainType.HICA_FULLNAME";
         public const string HIRN_FULLNAME = "MainType.HIRN_FULLNAME";
+        public const string HIDC_FULLNAME = "MainType.HIDC_FULLNAME";
     }
     public static class Gallery
     {
@@ -619,6 +621,19 @@ public static class AppDisplayConstants
         public const string HIRN_VIII = "HIRN.HIRNVIII";
         public const string HIRN_IX = "HIRN.HIRNIX";
         public const string HIRN_X = "HIRN.HIRNX";
+    }
+    public static class HIDC
+    {
+        public const string HIDC_I = "HIDC.HIDCI";
+        public const string HIDC_II = "HIDC.HIDCII";
+        public const string HIDC_III = "HIDC.HIDCIII";
+        public const string HIDC_IV = "HIDC.HIDCIV";
+        public const string HIDC_V = "HIDC.HIDCV";
+        public const string HIDC_VI = "HIDC.HIDCVI";
+        public const string HIDC_VII = "HIDC.HIDCVII";
+        public const string HIDC_VIII = "HIDC.HIDCVIII";
+        public const string HIDC_IX = "HIDC.HIDCIX";
+        public const string HIDC_X = "HIDC.HIDCX";
     }
     public static class MainMenuSet1
     {
