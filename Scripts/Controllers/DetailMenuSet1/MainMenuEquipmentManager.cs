@@ -28,7 +28,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private GameObject Slot14Prefab;
     private GameObject Slot16Prefab;
     private GameObject popupEquipmentObject;
-    private GameObject TabButton5;
+    private GameObject SetButtonPrefab;
     private GameObject StarPrefab;
     private Button equipOneTypeButton;
     private Button equipAllTypeButton;
@@ -72,7 +72,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Slot12Prefab = UIManager.Instance.Get("Slot12Prefab");
         Slot14Prefab = UIManager.Instance.Get("Slot14Prefab");
         Slot16Prefab = UIManager.Instance.Get("Slot16Prefab");
-        TabButton5 = UIManager.Instance.Get("TabButton5");
+        SetButtonPrefab = UIManager.Instance.Get("SetButtonPrefab");
         StarPrefab = UIManager.Instance.Get("StarPrefab");
 
         teamsService = TeamsService.Create();
@@ -608,7 +608,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             for (int i = 0; i < uniqueSet.Count; i++)
             {
                 string subtype = uniqueSet[i];
-                GameObject button = Instantiate(TabButton5, SetPanel);
+                GameObject button = Instantiate(SetButtonPrefab, SetPanel);
 
                 TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = subtype.Replace("set", "");
