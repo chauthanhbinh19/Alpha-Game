@@ -788,24 +788,31 @@ public class EquipmentManager : MonoBehaviour
         closeButton.onClick.AddListener(() => Close(popupPanel));
         confirmButton.onClick.AddListener(async () =>
         {
-            int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
-            bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
+            int quantity = int.Parse(quantityText.text);
+            double totalCost = originPrice * quantity;
 
-            for (int i = 1; i <= quantity; i++) // Duyệt từ 1 đến giá trị trong quantityText
+            List<Currencies> userCurrency = await userCurrencyService.GetEquipmentsCurrencyAsync(type);
+            bool hasEnough = false;
+            foreach (var uc in userCurrency)
             {
-                await userEquipmentsService.UpdateUserCurrencyAsync(equipments.Id);
-                bool success = await userEquipmentsService.BuyEquipmentAsync(equipments.Id); // Thực hiện mua từng món đồ
-                if (!success)
+                if (uc.Id == currency.Id && uc.Quantity >= totalCost)
                 {
-                    allSuccess = false; // Nếu có giao dịch thất bại, đánh dấu thất bại
-                    break; // Ngừng vòng lặp nếu có lỗi
+                    hasEnough = true;
+                    break;
                 }
             }
 
-            // Hiển thị thông báo dựa trên kết quả
-            if (allSuccess)
+            if (!hasEnough)
             {
-                 await equipmentsGalleryService.InsertEquipmentGalleryAsync(equipments.Id);
+                FindObjectOfType<NotificationManager>().ShowNotification("Not enough currency!");
+                return;
+            }
+
+            bool success = await userEquipmentsService.BuyEquipmentAsync(equipments.Id, quantity);
+            if (success)
+            {
+                await UserEquipmentsService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, totalCost);
+                await equipmentsGalleryService.InsertEquipmentGalleryAsync(equipments.Id);
                 Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                 Close(CurrencyPanel);
                 await FindObjectOfType<CurrenciesManager>().GetEquipmentsCurrencyAsync(type, CurrencyPanel);

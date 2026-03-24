@@ -553,7 +553,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipment;
     }
-    public async Task<bool> BuyEquipmentAsync(string Id, Equipments EquipmentFromDB)
+    public async Task<bool> BuyEquipmentAsync(string Id, Equipments EquipmentFromDB, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -578,15 +578,14 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     {
                         string updateQuery = @"
                         UPDATE user_equipments
-                        SET quality = @quality, rare = @rare
+                        SET quality = quality + @quantity
                         WHERE user_id = @user_id AND equipment_id = @equipment_id";
 
                         await using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                         {
                             updateCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCmd.Parameters.AddWithValue("@equipment_id", Id);
-                            updateCmd.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(EquipmentFromDB.Rare));
-                            updateCmd.Parameters.AddWithValue("@rare", EquipmentFromDB.Rare);
+                            updateCmd.Parameters.AddWithValue("@quantity", quantity);
                             await updateCmd.ExecuteNonQueryAsync();
                         }
 
@@ -637,7 +636,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     insertCmd.Parameters.AddWithValue("@level", 0);
                     insertCmd.Parameters.AddWithValue("@experiment", 0);
                     insertCmd.Parameters.AddWithValue("@star", 0);
-                    insertCmd.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(EquipmentFromDB.Rare));
+                    insertCmd.Parameters.AddWithValue("@quality", quantity);
                     insertCmd.Parameters.AddWithValue("@block", false);
                     insertCmd.Parameters.AddWithValue("@power", EquipmentFromDB.Power);
                     insertCmd.Parameters.AddWithValue("@health", EquipmentFromDB.Health);
@@ -944,7 +943,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task UpdateUserCurrencyAsync(string Id)
+    public async Task UpdateUserCurrencyAsync(string Id, double amount)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -954,8 +953,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                // Lấy currency_id và price
-                string query = @"SELECT et.currency_id, et.price 
+                // Lấy currency_id
+                string query = @"SELECT et.currency_id 
                              FROM equipments e
                              JOIN equipment_trade et ON e.id = et.equipment_id
                              WHERE e.id = @id";
@@ -965,12 +964,10 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         int currencyId = 0;
-                        double price = 0;
 
                         if (await reader.ReadAsync())
                         {
                             currencyId = reader.GetIntSafe("currency_id");
-                            price = reader.GetDoubleSafe("price");
                         }
 
                         await reader.CloseAsync();
@@ -984,7 +981,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                             object result = await cmd2.ExecuteScalarAsync();
                             double currentQuantity = result != DBNull.Value && result != null ? Convert.ToDouble(result) : 0;
-                            double newQuantity = currentQuantity - price;
+                            double newQuantity = currentQuantity - amount;
 
                             // Cập nhật quantity mới
                             query = "UPDATE user_currency SET quantity=@quantity WHERE user_id=@user_id AND currency_id=@currency_id";

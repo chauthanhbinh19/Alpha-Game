@@ -300,11 +300,11 @@ public class UserEquipmentsService : IUserEquipmentsService
         return await _userEquipmentsRepository.GetUserEquipmentsByIdAsync(user_id, Id);
     }
 
-    public async Task<bool> BuyEquipmentAsync(string Id)
+    public async Task<bool> BuyEquipmentAsync(string Id, double quantity)
     {
         IEquipmentsRepository _repository = new EquipmentsRepository();
         EquipmentsService _service = new EquipmentsService(_repository);
-        return await _userEquipmentsRepository.BuyEquipmentAsync(Id, await _service.GetEquipmentByIdAsync(Id));
+        return await _userEquipmentsRepository.BuyEquipmentAsync(Id, await _service.GetEquipmentByIdAsync(Id), quantity);
     }
 
     public async Task<bool> UpdateEquipmentsLevelAsync(Equipments equipments, int cardLevel)
@@ -317,9 +317,9 @@ public class UserEquipmentsService : IUserEquipmentsService
         return await _userEquipmentsRepository.UpdateEquipmentsBreakthroughAsync(equipments, star, quantity);
     }
 
-    public async Task UpdateUserCurrencyAsync(string Id)
+    public async Task UpdateUserCurrencyAsync(string Id, double quantity)
     {
-        await _userEquipmentsRepository.UpdateUserCurrencyAsync(Id);
+        await _userEquipmentsRepository.UpdateUserCurrencyAsync(Id, quantity);
     }
 
     public async Task InsertCardHeroEquipmentsAsync(string Id, Equipments equipments, int position)

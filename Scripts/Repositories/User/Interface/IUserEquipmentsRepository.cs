@@ -7,10 +7,10 @@ public interface IUserEquipmentsRepository
     Task<List<Equipments>> GetUserAllEquipmentsAsync(string user_id);
     Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare);
     Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id);
-    Task<bool> BuyEquipmentAsync(string Id, Equipments EquipmentFromDB);
+    Task<bool> BuyEquipmentAsync(string Id, Equipments EquipmentFromDB, double quantity);
     Task<bool> UpdateEquipmentsLevelAsync(Equipments equipments, int cardLevel);
     Task<bool> UpdateEquipmentsBreakthroughAsync(Equipments equipments, int star, double quantity);
-    Task UpdateUserCurrencyAsync(string Id);
+    Task UpdateUserCurrencyAsync(string Id, double amount);
     Task InsertCardHeroEquipmentsAsync(string Id, Equipments equipments, int position);
     Task InsertCardCaptainEquipmentsAsync(string Id, Equipments equipments, int position);
     Task InsertCardColonelEquipmentsAsync(string Id, Equipments equipments, int position);
