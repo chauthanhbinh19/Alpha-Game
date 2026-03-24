@@ -15,7 +15,7 @@ public class TitlesController : MonoBehaviour
     private GameObject EquipmentShopPrefab;
     private GameObject quantityPopupPrefab;
     private GameObject receivedNotification;
-    private GameObject ItemThird;
+    private GameObject ItemPopupPrefab;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -42,7 +42,7 @@ public class TitlesController : MonoBehaviour
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
         quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
-        ItemThird = UIManager.Instance.Get("ItemThird");
+        ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
     }
     public void CreateTitlesGallery(List<Titles> titles, Transform contentPanel)
     {
@@ -326,7 +326,7 @@ public class TitlesController : MonoBehaviour
 
                     ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
                     Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
-                    GameObject itemObject = Instantiate(ItemThird, itemContent);
+                    GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                     RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
                     Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");

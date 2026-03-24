@@ -595,7 +595,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 string insertQuery = @"
                 INSERT INTO user_equipments (
-                    user_id, equipment_id, rare, level, experiment, star, quality, block,
+                    user_id, equipment_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -611,7 +611,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     special_magical_defense, special_chemical_attack, special_chemical_defense, special_atomic_attack,
                     special_atomic_defense, special_mental_attack, special_mental_defense, special_speed
                 ) VALUES (
-                    @user_id, @equipment_id, @rare, @level, @experiment, @star, @quality, @block,
+                    @user_id, @equipment_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -636,8 +636,9 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     insertCmd.Parameters.AddWithValue("@level", 0);
                     insertCmd.Parameters.AddWithValue("@experiment", 0);
                     insertCmd.Parameters.AddWithValue("@star", 0);
-                    insertCmd.Parameters.AddWithValue("@quality", quantity);
+                    insertCmd.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(EquipmentFromDB.Rare));
                     insertCmd.Parameters.AddWithValue("@block", false);
+                    insertCmd.Parameters.AddWithValue("@quantity", quantity);
                     insertCmd.Parameters.AddWithValue("@power", EquipmentFromDB.Power);
                     insertCmd.Parameters.AddWithValue("@health", EquipmentFromDB.Health);
                     insertCmd.Parameters.AddWithValue("@physical_attack", EquipmentFromDB.PhysicalAttack);
@@ -973,7 +974,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         await reader.CloseAsync();
 
                         // Lấy quantity hiện tại
-                        query = "SELECT quantity FROM user_currency WHERE user_id = @user_id AND currency_id = @currency_id";
+                        query = "SELECT quantity FROM user_currencies WHERE user_id = @user_id AND currency_id = @currency_id";
                         await using (MySqlCommand cmd2 = new MySqlCommand(query, connection))
                         {
                             cmd2.Parameters.AddWithValue("@user_id", User.CurrentUserId);
@@ -984,7 +985,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             double newQuantity = currentQuantity - amount;
 
                             // Cập nhật quantity mới
-                            query = "UPDATE user_currency SET quantity=@quantity WHERE user_id=@user_id AND currency_id=@currency_id";
+                            query = "UPDATE user_currencies SET quantity=@quantity WHERE user_id=@user_id AND currency_id=@currency_id";
                             await using (MySqlCommand cmd3 = new MySqlCommand(query, connection))
                             {
                                 cmd3.Parameters.AddWithValue("@quantity", newQuantity);

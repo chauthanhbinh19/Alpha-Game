@@ -12,7 +12,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     private Transform MateriralPanel;
     private GameObject MainMenuAffinityPanelPrefab;
     private GameObject currentObject;
-    private GameObject ItemThird;
+    private GameObject ItemPopupPrefab;
     private RawImage mainImage;
     private TextMeshProUGUI mainLevelText;
     private Button UpLevelButton;
@@ -30,7 +30,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainMenuAffinityPanelPrefab = UIManager.Instance.Get("MainMenuAffinityPanelPrefab");
-        ItemThird = UIManager.Instance.Get("ItemThird");
+        ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
         // List<Items> itemsList = new List<Items>();
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
@@ -1827,7 +1827,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         itemsList = await userItemsService.GetItemForRankAsync("Affinity");
         foreach (Items item in itemsList)
         {
-            GameObject itemObject = Instantiate(ItemThird, MateriralPanel);
+            GameObject itemObject = Instantiate(ItemPopupPrefab, MateriralPanel);
 
             RawImage itemImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
             Texture itemTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");

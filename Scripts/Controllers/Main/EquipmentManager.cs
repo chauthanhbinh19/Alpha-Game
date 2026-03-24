@@ -32,8 +32,8 @@ public class EquipmentManager : MonoBehaviour
     private GameObject campaignPrefab;
     private GameObject campaignDetailPrefab;
     private GameObject cardsPrefab;
-    private GameObject ReceivedNotification;
-    private GameObject ItemThird;
+    private GameObject ReceivedNotificationPanelPrefab;
+    private GameObject ItemPopupPrefab;
     private int offset;
     private int currentPage;
     private int totalPage;
@@ -133,8 +133,8 @@ public class EquipmentManager : MonoBehaviour
         campaignPrefab = UIManager.Instance.Get("CampaignPrefab");
         campaignDetailPrefab = UIManager.Instance.Get("CampaignDetailPrefab");
         cardsPrefab = UIManager.Instance.Get("CardsPrefab");
-        ReceivedNotification = UIManager.Instance.Get("ReceivedNotification");
-        ItemThird = UIManager.Instance.Get("ItemThird");
+        ReceivedNotificationPanelPrefab = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
+        ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
 
         MainMenuContent = MainMenuPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/MainMenuContentPanel").GetComponent<Transform>();
         MainMenuShopContent = MainMenuShopPanelPrefab.transform.Find("DictionaryCards/Scroll View/Viewport/Content").GetComponent<Transform>();
@@ -818,11 +818,11 @@ public class EquipmentManager : MonoBehaviour
                 await FindObjectOfType<CurrenciesManager>().GetEquipmentsCurrencyAsync(type, CurrencyPanel);
                 Close(popupPanel);
                 // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
-                GameObject receivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);
+                GameObject receivedNotificationObject = Instantiate(ReceivedNotificationPanelPrefab, popupPanel);
 
                 AddCloseEvent(receivedNotificationObject);
                 Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
-                GameObject itemObject = Instantiate(ItemThird, itemContent);
+                GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                 RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.Image);

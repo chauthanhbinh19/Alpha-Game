@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5761837054593709679}
   - component: {fileID: 4665277957037900150}
   m_Layer: 5
-  m_Name: ItemThird
+  m_Name: ItemPopupPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: a92c602148ad651409183ad9327cec57, type: 3}
+  m_Texture: {fileID: 2800000, guid: b22688372cfe40c49a00f1f8f7c6fc28, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
