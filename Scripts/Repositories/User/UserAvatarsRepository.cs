@@ -164,8 +164,6 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     query += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @";";
-
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);

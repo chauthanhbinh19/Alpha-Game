@@ -18,10 +18,10 @@ public class UserBordersRepository : IUserBordersRepository
                 await connection.OpenAsync();
 
                 string query = @"
-            SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
-            FROM borders m
-            JOIN user_borders um ON m.id = um.border_id
-            WHERE um.user_id = @userId";
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                FROM borders m
+                JOIN user_borders um ON m.id = um.border_id
+                WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -34,10 +34,10 @@ public class UserBordersRepository : IUserBordersRepository
                 }
 
                 query += @"
-            ORDER BY m.name REGEXP '[0-9]+$', 
-                     CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), 
-                     m.name
-            LIMIT @limit OFFSET @offset";
+                ORDER BY m.name REGEXP '[0-9]+$', 
+                        CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), 
+                        m.name
+                LIMIT @limit OFFSET @offset";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);

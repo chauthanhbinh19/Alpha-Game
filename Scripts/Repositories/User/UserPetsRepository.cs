@@ -22,18 +22,41 @@ public class UserPetsRepository : IUserPetsRepository
             FROM user_pets up
             LEFT JOIN Pets p ON p.id = up.pet_id
             WHERE up.user_id = @userId 
-                AND (@type = 'All' OR p.type = @type)
-                AND (@rare = 'All' OR p.rare = @rare)
-                AND (@search = '' OR p.name LIKE CONCAT('%', @search, '%'))
-            ORDER BY p.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(p.name, '[0-9]+$') AS UNSIGNED), p.name
-            LIMIT @limit OFFSET @offset;
         ";
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                query += " AND p.type = @type";
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND p.rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND p.name LIKE CONCAT('%', @search, '%')";
+            }
+
+            query += " ORDER BY p.name";
+            query += " LIMIT @limit OFFSET @offset";
 
             await using MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@rare", rare);
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                command.Parameters.AddWithValue("@type", type);
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
             command.Parameters.AddWithValue("@limit", pageSize);
             command.Parameters.AddWithValue("@offset", offset);
 
@@ -373,16 +396,38 @@ public class UserPetsRepository : IUserPetsRepository
             FROM Pets p
             JOIN user_pets up ON p.id = up.pet_id
             WHERE up.user_id = @userId 
-              AND (@type = 'All' OR p.type = @type)
-              AND (@rare = 'All' OR p.rare = @rare)
-              AND (@search = '' OR p.name LIKE CONCAT('%', @search, '%'));
         ";
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                query += " AND p.type = @type";
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND p.rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND p.name LIKE CONCAT('%', @search, '%')";
+            }
 
             await using MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@rare", rare);
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                command.Parameters.AddWithValue("@type", type);
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
 
             object result = await command.ExecuteScalarAsync();
             if (result != null && result != DBNull.Value)

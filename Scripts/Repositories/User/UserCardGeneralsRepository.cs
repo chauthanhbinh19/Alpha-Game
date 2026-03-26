@@ -24,18 +24,41 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             LEFT JOIN card_generals c ON c.id = uc.card_general_id 
             LEFT JOIN teams t on t.team_id = uc.team_id
             WHERE uc.user_id = @userId 
-                AND (@type = 'All' OR c.type = @type)
-                AND (@rare = 'All' or c.rare = @rare)
-                AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
-            ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
-            LIMIT @limit OFFSET @offset;
         ";
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                query += " AND c.type = @type";
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND c.rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND c.name LIKE CONCAT('%', @search, '%')";
+            }
+
+            query += " ORDER BY c.name";
+            query += " LIMIT @limit OFFSET @offset";
 
             await using MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@rare", rare);
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                command.Parameters.AddWithValue("@type", type);
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
             command.Parameters.AddWithValue("@limit", pageSize);
             command.Parameters.AddWithValue("@offset", offset);
 
@@ -590,16 +613,38 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             FROM card_generals c
             JOIN user_card_generals uc ON c.id = uc.card_general_id
             WHERE uc.user_id = @userId 
-                AND (@type = 'All' OR c.type = @type)
-                AND (@rare = 'All' OR c.rare = @rare)
-                AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'));
         ";
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                query += " AND c.type = @type";
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND c.rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND c.name LIKE CONCAT('%', @search, '%')";
+            }
 
             await using MySqlCommand command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@rare", rare);
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                command.Parameters.AddWithValue("@type", type);
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
 
             object result = await command.ExecuteScalarAsync();
             count = Convert.ToInt32(result);

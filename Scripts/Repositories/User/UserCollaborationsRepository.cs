@@ -161,8 +161,6 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                     query += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @";";
-
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")

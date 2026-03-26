@@ -22,17 +22,32 @@ public class UserItemsRepository : IUserItemsRepository
                 SELECT ui.*, i.id, i.name, i.image
                 FROM items i
                 JOIN user_items ui ON i.id = ui.item_id
-                WHERE ui.user_id = @userId 
-                    AND (@type = 'All' OR i.type = @type)
-                    AND (@search = '' OR i.name LIKE CONCAT('%', @search, '%'))
-                ORDER BY i.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(i.name, '[0-9]+$') AS UNSIGNED), i.name
-                LIMIT @limit OFFSET @offset";
+                WHERE ui.user_id = @userId ";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND i.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND i.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += " ORDER BY i.name";
+                query += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        command.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -80,15 +95,29 @@ public class UserItemsRepository : IUserItemsRepository
                 SELECT COUNT(*) 
                 FROM items i
                 JOIN user_items ui ON i.id = ui.item_id
-                WHERE ui.user_id = @userId 
-                    AND (@type = 'All' OR i.type = @type)
-                    AND (@search = '' OR i.name LIKE CONCAT('%', @search, '%'))";
+                WHERE ui.user_id = @userId ";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND i.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND i.name LIKE CONCAT('%', @search, '%')";
+                }
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@type", type);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        command.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
 
                     object result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

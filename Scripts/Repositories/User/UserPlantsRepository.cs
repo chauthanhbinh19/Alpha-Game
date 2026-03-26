@@ -156,15 +156,29 @@ public class UserPlantsRepository : IUserPlantsRepository
                 FROM Plants t
                 INNER JOIN user_Plants ut ON t.id = ut.Plant_id
                 WHERE ut.user_id = @userId 
-                    AND (@rare = 'All' OR t.rare = @rare)
-                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'));
             ";
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND t.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                }
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
 
                     object result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

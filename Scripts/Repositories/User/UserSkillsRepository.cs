@@ -46,8 +46,20 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
-                command.Parameters.AddWithValue("@type", type);
-                command.Parameters.AddWithValue("@rare", rare);
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    command.Parameters.AddWithValue("@type", type);
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    command.Parameters.AddWithValue("@rare", rare);
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    command.Parameters.AddWithValue("@search", search);
+                }
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
 
@@ -150,16 +162,38 @@ public class UserSkillsRepository : IUserSkillsRepository
                 SELECT COUNT(*) 
                 FROM skills s
                 INNER JOIN user_skills us ON s.id = us.skill_id
-                WHERE us.user_id = @userId 
-                    AND (@type = 'All' OR s.type = @type)
-                    AND (@rare = 'All' OR s.rare = @rare)
-                    AND (@search = '' OR s.name LIKE CONCAT('%', @search, '%'));";
+                WHERE us.user_id = @userId ";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND s.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND s.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND s.name LIKE CONCAT('%', @search, '%')";
+                }
 
                 await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
-                command.Parameters.AddWithValue("@search", search);
-                command.Parameters.AddWithValue("@type", type);
-                command.Parameters.AddWithValue("@rare", rare);
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    command.Parameters.AddWithValue("@type", type);
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    command.Parameters.AddWithValue("@rare", rare);
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    command.Parameters.AddWithValue("@search", search);
+                }
 
                 var result = await command.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);

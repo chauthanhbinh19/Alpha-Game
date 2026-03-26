@@ -64,11 +64,6 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@rare", rare);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
 
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {

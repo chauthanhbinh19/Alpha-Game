@@ -167,9 +167,6 @@ public class UserMedalsRepository : IUserMedalsRepository
                     query += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @";
-                ";
-
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
