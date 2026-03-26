@@ -23,12 +23,25 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 SELECT e.id, e.name, ue.*, e.image, e.rare, e.type
                 FROM Equipments e
                 JOIN user_equipments ue ON e.id = ue.equipment_id
-                WHERE ue.user_id = @userId
-                  AND (@type = 'All' OR e.type = @type)
-                  AND (@rare = 'All' OR e.rare = @rare)
-                  AND (@search = '' OR e.name LIKE CONCAT('%', @search, '%'))
-                LIMIT @limit OFFSET @offset;
-            ";
+                WHERE ue.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND e.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND e.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND e.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += @"
+                LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {

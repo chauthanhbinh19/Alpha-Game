@@ -23,16 +23,29 @@ public class UserSkillsRepository : IUserSkillsRepository
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description 
                 FROM skills s
                 INNER JOIN user_skills us ON s.id = us.skill_id
-                WHERE us.user_id = @userId 
-                  AND (@type = 'All' OR s.type = @type)
-                  AND (@rare = 'All' OR s.rare = @rare)
-                  AND (@search = '' OR s.name LIKE CONCAT('%', @search, '%'))
+                WHERE us.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND s.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND s.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND s.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += @"
                 ORDER BY s.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name
-                LIMIT @limit OFFSET @offset;";
+                LIMIT @limit OFFSET @offset";
 
                 await using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
-                command.Parameters.AddWithValue("@search", search);
                 command.Parameters.AddWithValue("@type", type);
                 command.Parameters.AddWithValue("@rare", rare);
                 command.Parameters.AddWithValue("@limit", pageSize);

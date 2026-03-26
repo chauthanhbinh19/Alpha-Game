@@ -22,20 +22,38 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Technologies t
                 INNER JOIN user_Technologies ut ON t.id = ut.Technology_id
-                WHERE ut.user_id = @userId 
-                    AND (@rare = 'All' OR t.rare = @rare)
-                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
+                WHERE ut.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND t.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
-                LIMIT @limit OFFSET @offset;
-            ";
+                LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
+
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -139,16 +157,31 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 SELECT COUNT(*) 
                 FROM Technologies t
                 INNER JOIN user_Technologies ut ON t.id = ut.Technology_id
-                WHERE ut.user_id = @userId 
-                    AND (@rare = 'All' OR t.rare = @rare)
-                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'));
-            ";
+                WHERE ut.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND t.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                }
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
 
                     object result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

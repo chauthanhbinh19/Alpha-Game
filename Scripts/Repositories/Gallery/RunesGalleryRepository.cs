@@ -207,7 +207,7 @@ public class RunesGalleryRepository : IRunesGalleryRepository
 
         return count;
     }
-    public async Task InsertRuneGalleryAsync(string Id, Runes RuneFromDB)
+    public async Task InsertRuneGalleryAsync(string Id, Runes runeFromDB)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -281,64 +281,64 @@ public class RunesGalleryRepository : IRunesGalleryRepository
                             command.Parameters.AddWithValue("@current_star", 0);
                             command.Parameters.AddWithValue("@temp_star", 0);
 
-                            command.Parameters.AddWithValue("@power", RuneFromDB.Power);
-                            command.Parameters.AddWithValue("@health", RuneFromDB.Health);
-                            command.Parameters.AddWithValue("@physical_attack", RuneFromDB.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", RuneFromDB.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", RuneFromDB.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", RuneFromDB.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", RuneFromDB.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", RuneFromDB.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", RuneFromDB.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", RuneFromDB.AtomicDefense);
+                            command.Parameters.AddWithValue("@power", runeFromDB.Power);
+                            command.Parameters.AddWithValue("@health", runeFromDB.Health);
+                            command.Parameters.AddWithValue("@physical_attack", runeFromDB.PhysicalAttack);
+                            command.Parameters.AddWithValue("@physical_defense", runeFromDB.PhysicalDefense);
+                            command.Parameters.AddWithValue("@magical_attack", runeFromDB.MagicalAttack);
+                            command.Parameters.AddWithValue("@magical_defense", runeFromDB.MagicalDefense);
+                            command.Parameters.AddWithValue("@chemical_attack", runeFromDB.ChemicalAttack);
+                            command.Parameters.AddWithValue("@chemical_defense", runeFromDB.ChemicalDefense);
+                            command.Parameters.AddWithValue("@atomic_attack", runeFromDB.AtomicAttack);
+                            command.Parameters.AddWithValue("@atomic_defense", runeFromDB.AtomicDefense);
 
-                            command.Parameters.AddWithValue("@mental_attack", RuneFromDB.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", RuneFromDB.MentalDefense);
+                            command.Parameters.AddWithValue("@mental_attack", runeFromDB.MentalAttack);
+                            command.Parameters.AddWithValue("@mental_defense", runeFromDB.MentalDefense);
 
-                            command.Parameters.AddWithValue("@speed", RuneFromDB.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", RuneFromDB.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", RuneFromDB.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", RuneFromDB.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", RuneFromDB.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", RuneFromDB.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", RuneFromDB.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", RuneFromDB.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", RuneFromDB.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", RuneFromDB.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", RuneFromDB.AbsorbedDamageRate);
+                            command.Parameters.AddWithValue("@speed", runeFromDB.Speed);
+                            command.Parameters.AddWithValue("@critical_damage_rate", runeFromDB.CriticalDamageRate);
+                            command.Parameters.AddWithValue("@critical_rate", runeFromDB.CriticalRate);
+                            command.Parameters.AddWithValue("@critical_resistance_rate", runeFromDB.CriticalResistanceRate);
+                            command.Parameters.AddWithValue("@ignore_critical_rate", runeFromDB.IgnoreCriticalRate);
+                            command.Parameters.AddWithValue("@penetration_rate", runeFromDB.PenetrationRate);
+                            command.Parameters.AddWithValue("@penetration_resistance_rate", runeFromDB.PenetrationResistanceRate);
+                            command.Parameters.AddWithValue("@evasion_rate", runeFromDB.EvasionRate);
+                            command.Parameters.AddWithValue("@damage_absorption_rate", runeFromDB.DamageAbsorptionRate);
+                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", runeFromDB.IgnoreDamageAbsorptionRate);
+                            command.Parameters.AddWithValue("@absorbed_damage_rate", runeFromDB.AbsorbedDamageRate);
 
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", RuneFromDB.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", RuneFromDB.VitalityRegenerationResistanceRate);
+                            command.Parameters.AddWithValue("@vitality_regeneration_rate", runeFromDB.VitalityRegenerationRate);
+                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", runeFromDB.VitalityRegenerationResistanceRate);
 
-                            command.Parameters.AddWithValue("@accuracy_rate", RuneFromDB.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", RuneFromDB.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", RuneFromDB.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", RuneFromDB.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", RuneFromDB.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", RuneFromDB.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", RuneFromDB.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", RuneFromDB.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", RuneFromDB.ComboResistanceRate);
+                            command.Parameters.AddWithValue("@accuracy_rate", runeFromDB.AccuracyRate);
+                            command.Parameters.AddWithValue("@lifesteal_rate", runeFromDB.LifestealRate);
+                            command.Parameters.AddWithValue("@shield_strength", runeFromDB.ShieldStrength);
+                            command.Parameters.AddWithValue("@tenacity", runeFromDB.Tenacity);
+                            command.Parameters.AddWithValue("@resistance_rate", runeFromDB.ResistanceRate);
+                            command.Parameters.AddWithValue("@combo_rate", runeFromDB.ComboRate);
+                            command.Parameters.AddWithValue("@ignore_combo_rate", runeFromDB.IgnoreComboRate);
+                            command.Parameters.AddWithValue("@combo_damage_rate", runeFromDB.ComboDamageRate);
+                            command.Parameters.AddWithValue("@combo_resistance_rate", runeFromDB.ComboResistanceRate);
 
-                            command.Parameters.AddWithValue("@stun_rate", RuneFromDB.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", RuneFromDB.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", RuneFromDB.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", RuneFromDB.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", RuneFromDB.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", RuneFromDB.ReflectionResistanceRate);
+                            command.Parameters.AddWithValue("@stun_rate", runeFromDB.StunRate);
+                            command.Parameters.AddWithValue("@ignore_stun_rate", runeFromDB.IgnoreStunRate);
+                            command.Parameters.AddWithValue("@reflection_rate", runeFromDB.ReflectionRate);
+                            command.Parameters.AddWithValue("@ignore_reflection_rate", runeFromDB.IgnoreReflectionRate);
+                            command.Parameters.AddWithValue("@reflection_damage_rate", runeFromDB.ReflectionDamageRate);
+                            command.Parameters.AddWithValue("@reflection_resistance_rate", runeFromDB.ReflectionResistanceRate);
 
-                            command.Parameters.AddWithValue("@mana", RuneFromDB.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", RuneFromDB.ManaRegenerationRate);
+                            command.Parameters.AddWithValue("@mana", runeFromDB.Mana);
+                            command.Parameters.AddWithValue("@mana_regeneration_rate", runeFromDB.ManaRegenerationRate);
 
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", RuneFromDB.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", RuneFromDB.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", RuneFromDB.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", RuneFromDB.ResistanceToSameFactionRate);
+                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", runeFromDB.DamageToDifferentFactionRate);
+                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", runeFromDB.ResistanceToDifferentFactionRate);
+                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", runeFromDB.DamageToSameFactionRate);
+                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", runeFromDB.ResistanceToSameFactionRate);
 
-                            command.Parameters.AddWithValue("@normal_damage_rate", RuneFromDB.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", RuneFromDB.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", RuneFromDB.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", RuneFromDB.SkillResistanceRate);
+                            command.Parameters.AddWithValue("@normal_damage_rate", runeFromDB.NormalDamageRate);
+                            command.Parameters.AddWithValue("@normal_resistance_rate", runeFromDB.NormalResistanceRate);
+                            command.Parameters.AddWithValue("@skill_damage_rate", runeFromDB.SkillDamageRate);
+                            command.Parameters.AddWithValue("@skill_resistance_rate", runeFromDB.SkillResistanceRate);
 
                             command.Parameters.AddWithValue("@percent_all_health", percent);
                             command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
@@ -462,7 +462,7 @@ public class RunesGalleryRepository : IRunesGalleryRepository
             }
         }
     }
-    public async Task UpdateRuneGalleryPowerAsync(string id, Runes RuneFromDB)
+    public async Task UpdateRuneGalleryPowerAsync(string id, Runes runeFromDB)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -552,56 +552,56 @@ public class RunesGalleryRepository : IRunesGalleryRepository
                 command.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                command.Parameters.AddWithValue("@power", RuneFromDB.Power);
-                command.Parameters.AddWithValue("@health", RuneFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", RuneFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", RuneFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", RuneFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", RuneFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", RuneFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", RuneFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", RuneFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", RuneFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", RuneFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@mental_defense", RuneFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@speed", RuneFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", RuneFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", RuneFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", RuneFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", RuneFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", RuneFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", RuneFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", RuneFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", RuneFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", RuneFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", RuneFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", RuneFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", RuneFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", RuneFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", RuneFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", RuneFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", RuneFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", RuneFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", RuneFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", RuneFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", RuneFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", RuneFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", RuneFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", RuneFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", RuneFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", RuneFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", RuneFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", RuneFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", RuneFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", RuneFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", RuneFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", RuneFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", RuneFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", RuneFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", RuneFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", RuneFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", RuneFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", RuneFromDB.SkillResistanceRate);
+                command.Parameters.AddWithValue("@power", runeFromDB.Power);
+                command.Parameters.AddWithValue("@health", runeFromDB.Health);
+                command.Parameters.AddWithValue("@physical_attack", runeFromDB.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", runeFromDB.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", runeFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", runeFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", runeFromDB.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", runeFromDB.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", runeFromDB.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", runeFromDB.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", runeFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@mental_defense", runeFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@speed", runeFromDB.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", runeFromDB.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", runeFromDB.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", runeFromDB.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", runeFromDB.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", runeFromDB.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", runeFromDB.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", runeFromDB.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", runeFromDB.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", runeFromDB.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", runeFromDB.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", runeFromDB.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", runeFromDB.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", runeFromDB.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", runeFromDB.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", runeFromDB.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", runeFromDB.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", runeFromDB.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", runeFromDB.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", runeFromDB.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", runeFromDB.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", runeFromDB.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", runeFromDB.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", runeFromDB.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", runeFromDB.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", runeFromDB.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", runeFromDB.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", runeFromDB.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", runeFromDB.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", runeFromDB.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", runeFromDB.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", runeFromDB.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", runeFromDB.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", runeFromDB.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", runeFromDB.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", runeFromDB.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", runeFromDB.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", runeFromDB.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
                 command.Parameters.AddWithValue("@percent_all_health", 5);

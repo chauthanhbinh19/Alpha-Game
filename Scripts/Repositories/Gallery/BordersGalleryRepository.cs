@@ -206,7 +206,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
 
         return count;
     }
-    public async Task InsertBorderGalleryAsync(string Id, Borders BorderFromDB)
+    public async Task InsertBorderGalleryAsync(string Id, Borders borderFromDB)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -280,64 +280,64 @@ public class BordersGalleryRepository : IBordersGalleryRepository
                             command.Parameters.AddWithValue("@current_star", 0);
                             command.Parameters.AddWithValue("@temp_star", 0);
 
-                            command.Parameters.AddWithValue("@power", BorderFromDB.Power);
-                            command.Parameters.AddWithValue("@health", BorderFromDB.Health);
-                            command.Parameters.AddWithValue("@physical_attack", BorderFromDB.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", BorderFromDB.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", BorderFromDB.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", BorderFromDB.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", BorderFromDB.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", BorderFromDB.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", BorderFromDB.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", BorderFromDB.AtomicDefense);
+                            command.Parameters.AddWithValue("@power", borderFromDB.Power);
+                            command.Parameters.AddWithValue("@health", borderFromDB.Health);
+                            command.Parameters.AddWithValue("@physical_attack", borderFromDB.PhysicalAttack);
+                            command.Parameters.AddWithValue("@physical_defense", borderFromDB.PhysicalDefense);
+                            command.Parameters.AddWithValue("@magical_attack", borderFromDB.MagicalAttack);
+                            command.Parameters.AddWithValue("@magical_defense", borderFromDB.MagicalDefense);
+                            command.Parameters.AddWithValue("@chemical_attack", borderFromDB.ChemicalAttack);
+                            command.Parameters.AddWithValue("@chemical_defense", borderFromDB.ChemicalDefense);
+                            command.Parameters.AddWithValue("@atomic_attack", borderFromDB.AtomicAttack);
+                            command.Parameters.AddWithValue("@atomic_defense", borderFromDB.AtomicDefense);
 
-                            command.Parameters.AddWithValue("@mental_attack", BorderFromDB.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", BorderFromDB.MentalDefense);
+                            command.Parameters.AddWithValue("@mental_attack", borderFromDB.MentalAttack);
+                            command.Parameters.AddWithValue("@mental_defense", borderFromDB.MentalDefense);
 
-                            command.Parameters.AddWithValue("@speed", BorderFromDB.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", BorderFromDB.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", BorderFromDB.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", BorderFromDB.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", BorderFromDB.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", BorderFromDB.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", BorderFromDB.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", BorderFromDB.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", BorderFromDB.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", BorderFromDB.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", BorderFromDB.AbsorbedDamageRate);
+                            command.Parameters.AddWithValue("@speed", borderFromDB.Speed);
+                            command.Parameters.AddWithValue("@critical_damage_rate", borderFromDB.CriticalDamageRate);
+                            command.Parameters.AddWithValue("@critical_rate", borderFromDB.CriticalRate);
+                            command.Parameters.AddWithValue("@critical_resistance_rate", borderFromDB.CriticalResistanceRate);
+                            command.Parameters.AddWithValue("@ignore_critical_rate", borderFromDB.IgnoreCriticalRate);
+                            command.Parameters.AddWithValue("@penetration_rate", borderFromDB.PenetrationRate);
+                            command.Parameters.AddWithValue("@penetration_resistance_rate", borderFromDB.PenetrationResistanceRate);
+                            command.Parameters.AddWithValue("@evasion_rate", borderFromDB.EvasionRate);
+                            command.Parameters.AddWithValue("@damage_absorption_rate", borderFromDB.DamageAbsorptionRate);
+                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", borderFromDB.IgnoreDamageAbsorptionRate);
+                            command.Parameters.AddWithValue("@absorbed_damage_rate", borderFromDB.AbsorbedDamageRate);
 
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", BorderFromDB.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", BorderFromDB.VitalityRegenerationResistanceRate);
+                            command.Parameters.AddWithValue("@vitality_regeneration_rate", borderFromDB.VitalityRegenerationRate);
+                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", borderFromDB.VitalityRegenerationResistanceRate);
 
-                            command.Parameters.AddWithValue("@accuracy_rate", BorderFromDB.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", BorderFromDB.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", BorderFromDB.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", BorderFromDB.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", BorderFromDB.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", BorderFromDB.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", BorderFromDB.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", BorderFromDB.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", BorderFromDB.ComboResistanceRate);
+                            command.Parameters.AddWithValue("@accuracy_rate", borderFromDB.AccuracyRate);
+                            command.Parameters.AddWithValue("@lifesteal_rate", borderFromDB.LifestealRate);
+                            command.Parameters.AddWithValue("@shield_strength", borderFromDB.ShieldStrength);
+                            command.Parameters.AddWithValue("@tenacity", borderFromDB.Tenacity);
+                            command.Parameters.AddWithValue("@resistance_rate", borderFromDB.ResistanceRate);
+                            command.Parameters.AddWithValue("@combo_rate", borderFromDB.ComboRate);
+                            command.Parameters.AddWithValue("@ignore_combo_rate", borderFromDB.IgnoreComboRate);
+                            command.Parameters.AddWithValue("@combo_damage_rate", borderFromDB.ComboDamageRate);
+                            command.Parameters.AddWithValue("@combo_resistance_rate", borderFromDB.ComboResistanceRate);
 
-                            command.Parameters.AddWithValue("@stun_rate", BorderFromDB.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", BorderFromDB.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", BorderFromDB.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", BorderFromDB.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", BorderFromDB.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", BorderFromDB.ReflectionResistanceRate);
+                            command.Parameters.AddWithValue("@stun_rate", borderFromDB.StunRate);
+                            command.Parameters.AddWithValue("@ignore_stun_rate", borderFromDB.IgnoreStunRate);
+                            command.Parameters.AddWithValue("@reflection_rate", borderFromDB.ReflectionRate);
+                            command.Parameters.AddWithValue("@ignore_reflection_rate", borderFromDB.IgnoreReflectionRate);
+                            command.Parameters.AddWithValue("@reflection_damage_rate", borderFromDB.ReflectionDamageRate);
+                            command.Parameters.AddWithValue("@reflection_resistance_rate", borderFromDB.ReflectionResistanceRate);
 
-                            command.Parameters.AddWithValue("@mana", BorderFromDB.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", BorderFromDB.ManaRegenerationRate);
+                            command.Parameters.AddWithValue("@mana", borderFromDB.Mana);
+                            command.Parameters.AddWithValue("@mana_regeneration_rate", borderFromDB.ManaRegenerationRate);
 
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", BorderFromDB.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", BorderFromDB.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", BorderFromDB.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", BorderFromDB.ResistanceToSameFactionRate);
+                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", borderFromDB.DamageToDifferentFactionRate);
+                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", borderFromDB.ResistanceToDifferentFactionRate);
+                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", borderFromDB.DamageToSameFactionRate);
+                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", borderFromDB.ResistanceToSameFactionRate);
 
-                            command.Parameters.AddWithValue("@normal_damage_rate", BorderFromDB.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", BorderFromDB.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", BorderFromDB.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", BorderFromDB.SkillResistanceRate);
+                            command.Parameters.AddWithValue("@normal_damage_rate", borderFromDB.NormalDamageRate);
+                            command.Parameters.AddWithValue("@normal_resistance_rate", borderFromDB.NormalResistanceRate);
+                            command.Parameters.AddWithValue("@skill_damage_rate", borderFromDB.SkillDamageRate);
+                            command.Parameters.AddWithValue("@skill_resistance_rate", borderFromDB.SkillResistanceRate);
 
                             command.Parameters.AddWithValue("@percent_all_health", percent);
                             command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
@@ -461,7 +461,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
             }
         }
     }
-    public async Task UpdateBorderGalleryPowerAsync(string id, Borders BorderFromDB)
+    public async Task UpdateBorderGalleryPowerAsync(string id, Borders borderFromDB)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -551,56 +551,56 @@ public class BordersGalleryRepository : IBordersGalleryRepository
                 command.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                command.Parameters.AddWithValue("@power", BorderFromDB.Power);
-                command.Parameters.AddWithValue("@health", BorderFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", BorderFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", BorderFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", BorderFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", BorderFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", BorderFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", BorderFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", BorderFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", BorderFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", BorderFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@mental_defense", BorderFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@speed", BorderFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", BorderFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", BorderFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", BorderFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", BorderFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", BorderFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", BorderFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", BorderFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", BorderFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", BorderFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", BorderFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", BorderFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", BorderFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", BorderFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", BorderFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", BorderFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", BorderFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", BorderFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", BorderFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", BorderFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", BorderFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", BorderFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", BorderFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", BorderFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", BorderFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", BorderFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", BorderFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", BorderFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", BorderFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", BorderFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", BorderFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", BorderFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", BorderFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", BorderFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", BorderFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", BorderFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", BorderFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", BorderFromDB.SkillResistanceRate);
+                command.Parameters.AddWithValue("@power", borderFromDB.Power);
+                command.Parameters.AddWithValue("@health", borderFromDB.Health);
+                command.Parameters.AddWithValue("@physical_attack", borderFromDB.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", borderFromDB.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", borderFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", borderFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", borderFromDB.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", borderFromDB.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", borderFromDB.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", borderFromDB.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", borderFromDB.MagicalAttack);
+                command.Parameters.AddWithValue("@mental_defense", borderFromDB.MagicalDefense);
+                command.Parameters.AddWithValue("@speed", borderFromDB.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", borderFromDB.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", borderFromDB.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", borderFromDB.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", borderFromDB.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", borderFromDB.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", borderFromDB.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", borderFromDB.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", borderFromDB.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", borderFromDB.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", borderFromDB.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", borderFromDB.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", borderFromDB.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", borderFromDB.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", borderFromDB.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", borderFromDB.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", borderFromDB.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", borderFromDB.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", borderFromDB.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", borderFromDB.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", borderFromDB.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", borderFromDB.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", borderFromDB.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", borderFromDB.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", borderFromDB.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", borderFromDB.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", borderFromDB.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", borderFromDB.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", borderFromDB.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", borderFromDB.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", borderFromDB.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", borderFromDB.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", borderFromDB.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", borderFromDB.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", borderFromDB.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", borderFromDB.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", borderFromDB.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", borderFromDB.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
                 command.Parameters.AddWithValue("@percent_all_health", 5);

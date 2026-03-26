@@ -22,9 +22,19 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM mecha_beasts t
                 INNER JOIN user_mecha_beasts ut ON t.id = ut.mecha_beast_id
-                WHERE ut.user_id = @userId 
-                    AND (@rare = 'All' OR t.rare = @rare)
-                    AND (@search = '' OR t.name LIKE CONCAT('%', @search, '%'))
+                WHERE ut.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND t.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
@@ -34,8 +44,14 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 

@@ -21,16 +21,34 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 string query = @"SELECT uc.*, c.id, c.name, c.image, c.rare, c.description 
                              FROM achievements c, user_achievements uc 
                              WHERE uc.achievement_id = c.id 
-                               AND uc.user_id = @userId 
-                               AND (@rare = 'All' OR c.rare = @rare)
-                               AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
-                             LIMIT @limit OFFSET @offset";
+                               AND uc.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND c.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND c.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
+
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -134,14 +152,30 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 SELECT COUNT(*) 
                 FROM achievements c
                 JOIN user_achievements uc ON c.id = uc.achievement_id
-                WHERE uc.user_id = @userId 
-                    AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
-                AND (@rare = 'All' OR c.rare = @rare);";
+                WHERE uc.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND c.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND c.name LIKE CONCAT('%', @search, '%')";
+                }
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
-                command.Parameters.AddWithValue("@search", search);
-                command.Parameters.AddWithValue("@rare", rare);
+                
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    command.Parameters.AddWithValue("@rare", rare);
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    command.Parameters.AddWithValue("@search", search);
+                }
 
                 object result = await command.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);

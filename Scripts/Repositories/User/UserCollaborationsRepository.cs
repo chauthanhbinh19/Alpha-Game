@@ -22,17 +22,33 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 SELECT uc.*, c.id, c.name, c.image, c.rare, c.description 
                 FROM collaborations c
                 JOIN user_collaborations uc ON uc.collaboration_id = c.id
-                WHERE uc.user_id = @userId 
-                    AND (@rare = 'All' OR c.rare = @rare)
-                    AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
+                WHERE uc.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND c.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND c.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += @"
                 ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name
                 LIMIT @limit OFFSET @offset;
             ";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
-                command.Parameters.AddWithValue("@search", search);
-                command.Parameters.AddWithValue("@rare", rare);
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    command.Parameters.AddWithValue("@rare", rare);
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    command.Parameters.AddWithValue("@search", search);
+                }
                 command.Parameters.AddWithValue("@limit", pageSize);
                 command.Parameters.AddWithValue("@offset", offset);
 
@@ -133,15 +149,30 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 SELECT COUNT(*) 
                 FROM collaborations c
                 JOIN user_collaborations uc ON c.id = uc.collaboration_id
-                WHERE uc.user_id = @userId 
-                    AND (@rare = 'All' OR c.rare = @rare)
-                    AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'));
-            ";
+                WHERE uc.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND c.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND c.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += @";";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
-                command.Parameters.AddWithValue("@search", search);
-                command.Parameters.AddWithValue("@rare", rare);
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    command.Parameters.AddWithValue("@rare", rare);
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    command.Parameters.AddWithValue("@search", search);
+                }
 
                 object result = await command.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);

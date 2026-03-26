@@ -22,17 +22,48 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM vehicles m
                 JOIN user_vehicles um ON m.id = um.Vehicle_id
-                WHERE um.user_id = @userId 
-                  AND (@type = 'All' OR m.type = @type)
-                  AND (@rare = 'All' OR m.rare = @rare)
-                  AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
+                WHERE um.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND m.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND m.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += @"
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
-                LIMIT @limit OFFSET @offset;
-            ";
+                LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
+                    
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        command.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
+
+                    command.Parameters.AddWithValue("@limit", pageSize);
+                    command.Parameters.AddWithValue("@offset", offset);
                     command.Parameters.AddWithValue("@search", search);
                     command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@rare", rare);
@@ -139,18 +170,41 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 SELECT COUNT(*) 
                 FROM vehicles m
                 JOIN user_vehicles um ON m.id = um.Vehicle_id
-                WHERE um.user_id = @userId 
-                  AND (@type = 'All' OR m.type = @type)
-                  AND (@rare = 'All' OR m.rare = @rare)
-                  AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'));
-            ";
+                WHERE um.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND m.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND m.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                }
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        command.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
 
                     object result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

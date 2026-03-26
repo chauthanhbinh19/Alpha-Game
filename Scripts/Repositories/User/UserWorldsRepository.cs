@@ -22,17 +22,28 @@ public class UserWorldsRepository : IUserWorldsRepository
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Worlds t
                 INNER JOIN user_Worlds ut ON t.id = ut.World_id
-                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare)
+                WHERE ut.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND t.rare = @rare";
+                }
+
+                query += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
-                LIMIT @limit OFFSET @offset;
-            ";
+                LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -136,13 +147,21 @@ public class UserWorldsRepository : IUserWorldsRepository
                 SELECT COUNT(*) 
                 FROM Worlds t
                 INNER JOIN user_Worlds ut ON t.id = ut.World_id
-                WHERE ut.user_id = @userId AND (@rare = 'All' OR t.rare = @rare);
-            ";
+                WHERE ut.user_id = @userId";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND t.rare = @rare";
+                }
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
 
                     object result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
