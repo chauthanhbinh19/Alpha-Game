@@ -168,7 +168,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
         return count;
     }
-    public async Task<bool> InsertUserFurnitureAsync(Furnitures Furniture, string userId)
+    public async Task<bool> InsertUserFurnitureAsync(Furnitures furniture, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -188,7 +188,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Furniture_id", Furniture.Id);
+                    checkCommand.Parameters.AddWithValue("@Furniture_id", furniture.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -235,64 +235,64 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Furniture_id", Furniture.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", Furniture.Rare);
+                            insertCommand.Parameters.AddWithValue("@Furniture_id", furniture.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", furniture.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Furniture.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(furniture.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", Furniture.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", Furniture.Power);
-                            insertCommand.Parameters.AddWithValue("@health", Furniture.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", Furniture.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", Furniture.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", Furniture.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", Furniture.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", Furniture.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", Furniture.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", Furniture.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", Furniture.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", Furniture.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", Furniture.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", Furniture.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", Furniture.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", Furniture.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Furniture.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Furniture.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", Furniture.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Furniture.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", Furniture.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Furniture.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Furniture.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Furniture.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Furniture.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Furniture.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", Furniture.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", Furniture.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", Furniture.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", Furniture.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", Furniture.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", Furniture.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Furniture.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", Furniture.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Furniture.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", Furniture.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Furniture.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", Furniture.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Furniture.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Furniture.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Furniture.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", Furniture.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Furniture.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Furniture.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Furniture.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Furniture.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Furniture.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", Furniture.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Furniture.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", Furniture.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Furniture.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", furniture.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", furniture.Power);
+                            insertCommand.Parameters.AddWithValue("@health", furniture.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", furniture.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", furniture.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", furniture.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", furniture.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", furniture.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", furniture.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", furniture.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", furniture.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", furniture.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", furniture.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", furniture.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", furniture.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", furniture.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", furniture.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", furniture.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", furniture.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", furniture.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", furniture.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", furniture.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", furniture.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", furniture.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", furniture.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", furniture.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", furniture.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", furniture.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", furniture.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", furniture.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", furniture.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", furniture.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", furniture.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", furniture.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", furniture.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", furniture.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", furniture.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", furniture.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", furniture.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", furniture.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", furniture.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", furniture.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", furniture.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", furniture.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", furniture.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", furniture.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", furniture.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", furniture.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", furniture.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", furniture.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", furniture.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -309,8 +309,8 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Furniture_id", Furniture.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", Furniture.Quantity);
+                            updateCommand.Parameters.AddWithValue("@Furniture_id", furniture.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", furniture.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -330,7 +330,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
         return true;
     }
-    public async Task<bool> UpdateFurnitureLevelAsync(Furnitures Furniture, int cardLevel)
+    public async Task<bool> UpdateFurnitureLevelAsync(Furnitures furniture, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -375,58 +375,58 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Furniture_id", Furniture.Id);
+                    command.Parameters.AddWithValue("@Furniture_id", furniture.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", Furniture.Power);
-                    command.Parameters.AddWithValue("@health", Furniture.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Furniture.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Furniture.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Furniture.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Furniture.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Furniture.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Furniture.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Furniture.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Furniture.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Furniture.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Furniture.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Furniture.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Furniture.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Furniture.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Furniture.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Furniture.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Furniture.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Furniture.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Furniture.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Furniture.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Furniture.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Furniture.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Furniture.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Furniture.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Furniture.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Furniture.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Furniture.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Furniture.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Furniture.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Furniture.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Furniture.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Furniture.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Furniture.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Furniture.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Furniture.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Furniture.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Furniture.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Furniture.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Furniture.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Furniture.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Furniture.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Furniture.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Furniture.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Furniture.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Furniture.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Furniture.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Furniture.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Furniture.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Furniture.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", furniture.Power);
+                    command.Parameters.AddWithValue("@health", furniture.Health);
+                    command.Parameters.AddWithValue("@physical_attack", furniture.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", furniture.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", furniture.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", furniture.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", furniture.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", furniture.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", furniture.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", furniture.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", furniture.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", furniture.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", furniture.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", furniture.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", furniture.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", furniture.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", furniture.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", furniture.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", furniture.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", furniture.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", furniture.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", furniture.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", furniture.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", furniture.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", furniture.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", furniture.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", furniture.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", furniture.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", furniture.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", furniture.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", furniture.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", furniture.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", furniture.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", furniture.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", furniture.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", furniture.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", furniture.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", furniture.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", furniture.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", furniture.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", furniture.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", furniture.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", furniture.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", furniture.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", furniture.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", furniture.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", furniture.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", furniture.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", furniture.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", furniture.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -444,7 +444,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
         return true;
     }
-    public async Task<bool> UpdateFurnitureBreakthroughAsync(Furnitures Furniture, int star, double quantity)
+    public async Task<bool> UpdateFurnitureBreakthroughAsync(Furnitures furniture, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -488,59 +488,59 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Furniture_id", Furniture.Id);
+                    command.Parameters.AddWithValue("@Furniture_id", furniture.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", Furniture.Power);
-                    command.Parameters.AddWithValue("@health", Furniture.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Furniture.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Furniture.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Furniture.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Furniture.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Furniture.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Furniture.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Furniture.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Furniture.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Furniture.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Furniture.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Furniture.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Furniture.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Furniture.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Furniture.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Furniture.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Furniture.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Furniture.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Furniture.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Furniture.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Furniture.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Furniture.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Furniture.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Furniture.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Furniture.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Furniture.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Furniture.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Furniture.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Furniture.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Furniture.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Furniture.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Furniture.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Furniture.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Furniture.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Furniture.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Furniture.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Furniture.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Furniture.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Furniture.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Furniture.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Furniture.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Furniture.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Furniture.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Furniture.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Furniture.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Furniture.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Furniture.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Furniture.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Furniture.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", furniture.Power);
+                    command.Parameters.AddWithValue("@health", furniture.Health);
+                    command.Parameters.AddWithValue("@physical_attack", furniture.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", furniture.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", furniture.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", furniture.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", furniture.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", furniture.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", furniture.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", furniture.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", furniture.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", furniture.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", furniture.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", furniture.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", furniture.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", furniture.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", furniture.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", furniture.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", furniture.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", furniture.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", furniture.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", furniture.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", furniture.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", furniture.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", furniture.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", furniture.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", furniture.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", furniture.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", furniture.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", furniture.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", furniture.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", furniture.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", furniture.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", furniture.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", furniture.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", furniture.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", furniture.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", furniture.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", furniture.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", furniture.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", furniture.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", furniture.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", furniture.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", furniture.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", furniture.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", furniture.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", furniture.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", furniture.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", furniture.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", furniture.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }

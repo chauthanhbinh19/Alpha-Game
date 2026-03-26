@@ -63,20 +63,43 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM relics 
-                             WHERE (@type = 'All' OR type = @type)
-                                AND (@rare = 'All' OR rare = @rare)
-                                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-                             ORDER BY relics.name REGEXP '[0-9]+$', 
-                                      CAST(REGEXP_SUBSTR(relics.name, '[0-9]+$') AS UNSIGNED), 
-                                      relics.name 
-                             LIMIT @limit OFFSET @offset";
+                string query = @"SELECT * FROM relics WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += " ORDER BY relics.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(relics.name, '[0-9]+$') AS UNSIGNED), relics.name";
+                query += " LIMIT @limit OFFSET @offset";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        command.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
+
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -179,15 +202,39 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM relics 
-                WHERE (@type = 'All' OR type = @type)
-                    AND (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+                string query = @"SELECT COUNT(*) FROM relics WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        command.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
 
                     object result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

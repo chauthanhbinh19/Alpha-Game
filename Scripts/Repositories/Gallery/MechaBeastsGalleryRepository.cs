@@ -29,16 +29,37 @@ public class MechaBeastsGalleryRepository : IMechaBeastsGalleryRepository
                 FROM mecha_beasts c 
                 LEFT JOIN mecha_beasts_gallery cg 
                        ON c.id = cg.mecha_beast_id AND cg.user_id = @userId 
-                WHERE (@rare = 'All' OR c.rare = @rare) 
-                    AND (@search = '' OR c.name LIKE CONCAT('%', @search, '%'))
-                LIMIT @limit OFFSET @offset;
+                WHERE 1=1
             ";
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += @"
+                ORDER BY 
+                    c.name REGEXP '[0-9]+$',
+                    CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED),
+                    c.name
+                LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -147,12 +168,28 @@ public class MechaBeastsGalleryRepository : IMechaBeastsGalleryRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT COUNT(*) FROM mecha_beasts 
-                WHERE (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+                WHERE 1=1";
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
 
                     object result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

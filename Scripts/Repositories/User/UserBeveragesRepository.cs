@@ -166,7 +166,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
 
         return count;
     }
-    public async Task<bool> InsertUserBeverageAsync(Beverages Beverages, string userId)
+    public async Task<bool> InsertUserBeverageAsync(Beverages beverage, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -184,7 +184,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Beverage_id", Beverages.Id);
+                    checkCommand.Parameters.AddWithValue("@Beverage_id", beverage.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -230,64 +230,64 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Beverage_id", Beverages.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", Beverages.Rare);
+                            insertCommand.Parameters.AddWithValue("@Beverage_id", beverage.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", beverage.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Beverages.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(beverage.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", Beverages.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", Beverages.Power);
-                            insertCommand.Parameters.AddWithValue("@health", Beverages.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", Beverages.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", Beverages.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", Beverages.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", Beverages.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", Beverages.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", Beverages.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", Beverages.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", Beverages.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", Beverages.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", Beverages.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", Beverages.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", Beverages.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", Beverages.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Beverages.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Beverages.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", Beverages.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Beverages.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", Beverages.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Beverages.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Beverages.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Beverages.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Beverages.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Beverages.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", Beverages.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", Beverages.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", Beverages.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", Beverages.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", Beverages.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", Beverages.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Beverages.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", Beverages.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Beverages.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", Beverages.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Beverages.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", Beverages.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Beverages.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Beverages.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Beverages.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", Beverages.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Beverages.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Beverages.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Beverages.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Beverages.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Beverages.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", Beverages.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Beverages.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", Beverages.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Beverages.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", beverage.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", beverage.Power);
+                            insertCommand.Parameters.AddWithValue("@health", beverage.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", beverage.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", beverage.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", beverage.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", beverage.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", beverage.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", beverage.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", beverage.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", beverage.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", beverage.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", beverage.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", beverage.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", beverage.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", beverage.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", beverage.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", beverage.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", beverage.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", beverage.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", beverage.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", beverage.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", beverage.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", beverage.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", beverage.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", beverage.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", beverage.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", beverage.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", beverage.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", beverage.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", beverage.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", beverage.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", beverage.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", beverage.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", beverage.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", beverage.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", beverage.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", beverage.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", beverage.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", beverage.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", beverage.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", beverage.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", beverage.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", beverage.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", beverage.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", beverage.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", beverage.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", beverage.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", beverage.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", beverage.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", beverage.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -303,8 +303,8 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Beverage_id", Beverages.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", Beverages.Quantity);
+                            updateCommand.Parameters.AddWithValue("@Beverage_id", beverage.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", beverage.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -324,7 +324,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
 
         return true;
     }
-    public async Task<bool> UpdateBeverageLevelAsync(Beverages Beverages, int BeverageLevel)
+    public async Task<bool> UpdateBeverageLevelAsync(Beverages beverage, int BeverageLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -365,58 +365,58 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Beverage_id", Beverages.Id);
+                    command.Parameters.AddWithValue("@Beverage_id", beverage.Id);
                     command.Parameters.AddWithValue("@level", BeverageLevel);
-                    command.Parameters.AddWithValue("@power", Beverages.Power);
-                    command.Parameters.AddWithValue("@health", Beverages.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Beverages.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Beverages.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Beverages.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Beverages.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Beverages.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Beverages.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Beverages.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Beverages.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Beverages.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Beverages.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Beverages.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Beverages.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Beverages.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Beverages.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Beverages.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Beverages.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Beverages.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Beverages.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Beverages.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Beverages.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Beverages.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Beverages.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Beverages.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Beverages.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Beverages.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Beverages.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Beverages.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Beverages.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Beverages.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Beverages.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Beverages.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Beverages.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Beverages.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Beverages.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Beverages.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Beverages.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Beverages.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Beverages.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Beverages.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Beverages.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Beverages.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Beverages.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Beverages.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Beverages.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Beverages.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Beverages.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Beverages.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Beverages.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", beverage.Power);
+                    command.Parameters.AddWithValue("@health", beverage.Health);
+                    command.Parameters.AddWithValue("@physical_attack", beverage.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", beverage.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", beverage.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", beverage.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", beverage.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", beverage.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", beverage.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", beverage.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", beverage.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", beverage.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", beverage.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", beverage.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", beverage.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", beverage.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", beverage.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", beverage.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", beverage.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", beverage.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", beverage.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", beverage.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", beverage.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", beverage.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", beverage.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", beverage.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", beverage.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", beverage.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", beverage.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", beverage.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", beverage.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", beverage.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", beverage.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", beverage.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", beverage.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", beverage.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", beverage.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", beverage.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", beverage.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", beverage.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", beverage.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", beverage.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", beverage.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", beverage.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", beverage.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", beverage.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", beverage.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", beverage.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", beverage.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", beverage.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -433,7 +433,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
         }
         return true;
     }
-    public async Task<bool> UpdateBeverageBreakthroughAsync(Beverages Beverages, int star, double quantity)
+    public async Task<bool> UpdateBeverageBreakthroughAsync(Beverages beverage, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -473,59 +473,59 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Beverage_id", Beverages.Id);
+                    command.Parameters.AddWithValue("@Beverage_id", beverage.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", Beverages.Power);
-                    command.Parameters.AddWithValue("@health", Beverages.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Beverages.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Beverages.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Beverages.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Beverages.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Beverages.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Beverages.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Beverages.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Beverages.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Beverages.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Beverages.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Beverages.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Beverages.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Beverages.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Beverages.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Beverages.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Beverages.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Beverages.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Beverages.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Beverages.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Beverages.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Beverages.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Beverages.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Beverages.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Beverages.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Beverages.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Beverages.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Beverages.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Beverages.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Beverages.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Beverages.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Beverages.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Beverages.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Beverages.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Beverages.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Beverages.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Beverages.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Beverages.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Beverages.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Beverages.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Beverages.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Beverages.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Beverages.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Beverages.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Beverages.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Beverages.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Beverages.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Beverages.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Beverages.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", beverage.Power);
+                    command.Parameters.AddWithValue("@health", beverage.Health);
+                    command.Parameters.AddWithValue("@physical_attack", beverage.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", beverage.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", beverage.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", beverage.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", beverage.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", beverage.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", beverage.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", beverage.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", beverage.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", beverage.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", beverage.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", beverage.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", beverage.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", beverage.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", beverage.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", beverage.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", beverage.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", beverage.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", beverage.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", beverage.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", beverage.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", beverage.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", beverage.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", beverage.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", beverage.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", beverage.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", beverage.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", beverage.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", beverage.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", beverage.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", beverage.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", beverage.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", beverage.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", beverage.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", beverage.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", beverage.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", beverage.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", beverage.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", beverage.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", beverage.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", beverage.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", beverage.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", beverage.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", beverage.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", beverage.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", beverage.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", beverage.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", beverage.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }

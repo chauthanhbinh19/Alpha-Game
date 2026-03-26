@@ -277,7 +277,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return count;
     }
-    public async Task<SpiritBeasts> GetUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHeroes)
+    public async Task<SpiritBeasts> GetUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero)
     {
         SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -303,7 +303,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                    command.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
 
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
@@ -395,7 +395,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<SpiritBeasts> GetUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptains)
+    public async Task<SpiritBeasts> GetUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptain)
     {
         SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -421,7 +421,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                    command.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
 
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
@@ -513,7 +513,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<SpiritBeasts> GetUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonels)
+    public async Task<SpiritBeasts> GetUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonel)
     {
         SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -538,7 +538,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                command.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
 
                 await using MySqlDataReader reader = await command.ExecuteReaderAsync();
 
@@ -628,7 +628,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<SpiritBeasts> GetUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGenerals)
+    public async Task<SpiritBeasts> GetUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGeneral)
     {
         SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -654,7 +654,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                    command.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
 
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
@@ -746,7 +746,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<SpiritBeasts> GetUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmirals)
+    public async Task<SpiritBeasts> GetUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmiral)
     {
         SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -772,7 +772,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
+                    command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
 
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
@@ -982,7 +982,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<SpiritBeasts> GetUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonsters)
+    public async Task<SpiritBeasts> GetUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonster)
     {
         SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1008,7 +1008,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                    command.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
 
                     await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
@@ -1607,7 +1607,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHeroes, SpiritBeasts spiritBeast)
+    public async Task<bool> InsertOrUpdateUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1622,7 +1622,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (var checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1632,7 +1632,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var insertCommand = new MySqlCommand(insertQuery, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
-                        insertCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                        insertCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1643,7 +1643,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var updateCommand = new MySqlCommand(updateQuery, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
-                        updateCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                        updateCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await updateCommand.ExecuteNonQueryAsync();
@@ -1663,7 +1663,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptains, SpiritBeasts spiritBeast)
+    public async Task<bool> InsertOrUpdateUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptain, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1679,7 +1679,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (var checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1691,7 +1691,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var insertCommand = new MySqlCommand(insertQuery, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
-                        insertCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                        insertCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1704,7 +1704,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var updateCommand = new MySqlCommand(updateQuery, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
-                        updateCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                        updateCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await updateCommand.ExecuteNonQueryAsync();
@@ -1723,7 +1723,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         }
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonels, SpiritBeasts spiritBeast)
+    public async Task<bool> InsertOrUpdateUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonel, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1739,7 +1739,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (var checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1751,7 +1751,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var insertCommand = new MySqlCommand(insertQuery, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
-                        insertCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                        insertCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1764,7 +1764,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var updateCommand = new MySqlCommand(updateQuery, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
-                        updateCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                        updateCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await updateCommand.ExecuteNonQueryAsync();
@@ -1783,7 +1783,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         }
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGenerals, SpiritBeasts spiritBeast)
+    public async Task<bool> InsertOrUpdateUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGeneral, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1799,7 +1799,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (var checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1811,7 +1811,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var insertCommand = new MySqlCommand(insertQuery, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
-                        insertCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                        insertCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1824,7 +1824,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var updateCommand = new MySqlCommand(updateQuery, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi User.CurrentUserId
-                        updateCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                        updateCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await updateCommand.ExecuteNonQueryAsync();
@@ -1843,7 +1843,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         }
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmirals, SpiritBeasts spiritBeast)
+    public async Task<bool> InsertOrUpdateUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmiral, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1859,7 +1859,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (var checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1871,7 +1871,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var insertCommand = new MySqlCommand(insertQuery, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
-                        insertCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id); // sửa lỗi
+                        insertCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id); // sửa lỗi
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -1884,7 +1884,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using var updateCommand = new MySqlCommand(updateQuery, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi User.CurrentUserId
-                        updateCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
+                        updateCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await updateCommand.ExecuteNonQueryAsync();
@@ -1969,7 +1969,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonsters, SpiritBeasts spiritBeast)
+    public async Task<bool> InsertOrUpdateUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonster, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1987,7 +1987,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -2003,7 +2003,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
-                        insertCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                        insertCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await insertCommand.ExecuteNonQueryAsync();
@@ -2018,7 +2018,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
-                        updateCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                        updateCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                         await updateCommand.ExecuteNonQueryAsync();
@@ -3019,7 +3019,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<bool> DeleteUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHeroes, SpiritBeasts spiritBeast)
+    public async Task<bool> DeleteUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -3041,7 +3041,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
                     checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -3058,7 +3058,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                            deleteCommand.Parameters.AddWithValue("@user_card_hero_id", cardHeroes.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
                             deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                             await deleteCommand.ExecuteNonQueryAsync();
@@ -3079,7 +3079,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptains, SpiritBeasts spiritBeast)
+    public async Task<bool> DeleteUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptain, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -3101,7 +3101,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
                     checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -3118,7 +3118,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                            deleteCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptains.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
                             deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                             await deleteCommand.ExecuteNonQueryAsync();
@@ -3139,7 +3139,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonels, SpiritBeasts spiritBeast)
+    public async Task<bool> DeleteUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonel, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -3161,7 +3161,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
                     checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -3178,7 +3178,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                            deleteCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonels.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
                             deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                             await deleteCommand.ExecuteNonQueryAsync();
@@ -3199,7 +3199,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGenerals, SpiritBeasts spiritBeast)
+    public async Task<bool> DeleteUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGeneral, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -3221,7 +3221,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                     checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -3238,7 +3238,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                            deleteCommand.Parameters.AddWithValue("@user_card_general_id", cardGenerals.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                             deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                             await deleteCommand.ExecuteNonQueryAsync();
@@ -3259,7 +3259,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmirals, SpiritBeasts spiritBeast)
+    public async Task<bool> DeleteUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmiral, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -3281,7 +3281,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
                     checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -3298,7 +3298,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                            deleteCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmirals.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
                             deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                             await deleteCommand.ExecuteNonQueryAsync();
@@ -3319,7 +3319,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserCardMilitarySpiritBeastAsync(string userId, CardMilitaries cardMilitaries, SpiritBeasts spiritBeast)
+    public async Task<bool> DeleteUserCardMilitarySpiritBeastAsync(string userId, CardMilitaries cardMilitary, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -3341,7 +3341,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitaries.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
                     checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -3358,7 +3358,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                            deleteCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitaries.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
                             deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                             await deleteCommand.ExecuteNonQueryAsync();
@@ -3379,7 +3379,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonsters, SpiritBeasts spiritBeast)
+    public async Task<bool> DeleteUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonster, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -3401,7 +3401,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
                     checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -3418,7 +3418,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                            deleteCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonsters.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
                             deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                             await deleteCommand.ExecuteNonQueryAsync();

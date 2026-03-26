@@ -168,7 +168,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
         return count;
     }
-    public async Task<bool> InsertUserMagicFormationCircleAsync(MagicFormationCircles MagicFormationCircle, string userId)
+    public async Task<bool> InsertUserMagicFormationCircleAsync(MagicFormationCircles magicFormationCircle, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -188,7 +188,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
+                    checkCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -235,64 +235,64 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", MagicFormationCircle.Rare);
+                            insertCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", magicFormationCircle.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(MagicFormationCircle.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(magicFormationCircle.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", MagicFormationCircle.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", MagicFormationCircle.Power);
-                            insertCommand.Parameters.AddWithValue("@health", MagicFormationCircle.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", MagicFormationCircle.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", MagicFormationCircle.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", MagicFormationCircle.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", MagicFormationCircle.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", MagicFormationCircle.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", MagicFormationCircle.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", MagicFormationCircle.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", MagicFormationCircle.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", MagicFormationCircle.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", MagicFormationCircle.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", MagicFormationCircle.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", MagicFormationCircle.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", MagicFormationCircle.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", MagicFormationCircle.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", MagicFormationCircle.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", MagicFormationCircle.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", MagicFormationCircle.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", MagicFormationCircle.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", MagicFormationCircle.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", MagicFormationCircle.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", MagicFormationCircle.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", MagicFormationCircle.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", MagicFormationCircle.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", MagicFormationCircle.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", MagicFormationCircle.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", MagicFormationCircle.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", MagicFormationCircle.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", MagicFormationCircle.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", MagicFormationCircle.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", MagicFormationCircle.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", MagicFormationCircle.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", MagicFormationCircle.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", MagicFormationCircle.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", MagicFormationCircle.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", MagicFormationCircle.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", MagicFormationCircle.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", MagicFormationCircle.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", MagicFormationCircle.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", MagicFormationCircle.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", MagicFormationCircle.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", MagicFormationCircle.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", MagicFormationCircle.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", MagicFormationCircle.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", MagicFormationCircle.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", MagicFormationCircle.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", MagicFormationCircle.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", MagicFormationCircle.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", MagicFormationCircle.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", magicFormationCircle.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", magicFormationCircle.Power);
+                            insertCommand.Parameters.AddWithValue("@health", magicFormationCircle.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", magicFormationCircle.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", magicFormationCircle.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", magicFormationCircle.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", magicFormationCircle.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", magicFormationCircle.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", magicFormationCircle.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", magicFormationCircle.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", magicFormationCircle.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", magicFormationCircle.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", magicFormationCircle.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", magicFormationCircle.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircle.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", magicFormationCircle.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", magicFormationCircle.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", magicFormationCircle.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", magicFormationCircle.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", magicFormationCircle.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", magicFormationCircle.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircle.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", magicFormationCircle.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", magicFormationCircle.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircle.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", magicFormationCircle.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", magicFormationCircle.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircle.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", magicFormationCircle.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", magicFormationCircle.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", magicFormationCircle.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", magicFormationCircle.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", magicFormationCircle.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", magicFormationCircle.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", magicFormationCircle.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", magicFormationCircle.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", magicFormationCircle.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", magicFormationCircle.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", magicFormationCircle.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", magicFormationCircle.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", magicFormationCircle.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", magicFormationCircle.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircle.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircle.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircle.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircle.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircle.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", magicFormationCircle.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", magicFormationCircle.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", magicFormationCircle.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", magicFormationCircle.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -309,8 +309,8 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", MagicFormationCircle.Quantity);
+                            updateCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", magicFormationCircle.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -330,7 +330,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
         return true;
     }
-    public async Task<bool> UpdateMagicFormationCircleLevelAsync(MagicFormationCircles MagicFormationCircle, int cardLevel)
+    public async Task<bool> UpdateMagicFormationCircleLevelAsync(MagicFormationCircles magicFormationCircle, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -375,58 +375,58 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
+                    command.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", MagicFormationCircle.Power);
-                    command.Parameters.AddWithValue("@health", MagicFormationCircle.Health);
-                    command.Parameters.AddWithValue("@physical_attack", MagicFormationCircle.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", MagicFormationCircle.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", MagicFormationCircle.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", MagicFormationCircle.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", MagicFormationCircle.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", MagicFormationCircle.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", MagicFormationCircle.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", MagicFormationCircle.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", MagicFormationCircle.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", MagicFormationCircle.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", MagicFormationCircle.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", MagicFormationCircle.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", MagicFormationCircle.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", MagicFormationCircle.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", MagicFormationCircle.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", MagicFormationCircle.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", MagicFormationCircle.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", MagicFormationCircle.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", MagicFormationCircle.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", MagicFormationCircle.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", MagicFormationCircle.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", MagicFormationCircle.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", MagicFormationCircle.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", MagicFormationCircle.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", MagicFormationCircle.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", MagicFormationCircle.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", MagicFormationCircle.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", MagicFormationCircle.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", MagicFormationCircle.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", MagicFormationCircle.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", MagicFormationCircle.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", MagicFormationCircle.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", MagicFormationCircle.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", MagicFormationCircle.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", MagicFormationCircle.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", MagicFormationCircle.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", MagicFormationCircle.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", MagicFormationCircle.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", MagicFormationCircle.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", MagicFormationCircle.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", MagicFormationCircle.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", MagicFormationCircle.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", MagicFormationCircle.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", MagicFormationCircle.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", MagicFormationCircle.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", MagicFormationCircle.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", MagicFormationCircle.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", MagicFormationCircle.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", magicFormationCircle.Power);
+                    command.Parameters.AddWithValue("@health", magicFormationCircle.Health);
+                    command.Parameters.AddWithValue("@physical_attack", magicFormationCircle.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", magicFormationCircle.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", magicFormationCircle.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", magicFormationCircle.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", magicFormationCircle.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", magicFormationCircle.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", magicFormationCircle.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", magicFormationCircle.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", magicFormationCircle.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", magicFormationCircle.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", magicFormationCircle.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircle.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", magicFormationCircle.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", magicFormationCircle.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", magicFormationCircle.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", magicFormationCircle.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", magicFormationCircle.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", magicFormationCircle.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircle.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", magicFormationCircle.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", magicFormationCircle.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircle.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", magicFormationCircle.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", magicFormationCircle.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircle.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", magicFormationCircle.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", magicFormationCircle.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", magicFormationCircle.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", magicFormationCircle.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", magicFormationCircle.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", magicFormationCircle.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", magicFormationCircle.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", magicFormationCircle.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", magicFormationCircle.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", magicFormationCircle.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", magicFormationCircle.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", magicFormationCircle.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", magicFormationCircle.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", magicFormationCircle.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircle.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircle.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircle.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircle.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircle.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", magicFormationCircle.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", magicFormationCircle.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", magicFormationCircle.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", magicFormationCircle.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -444,7 +444,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
         return true;
     }
-    public async Task<bool> UpdateMagicFormationCircleBreakthroughAsync(MagicFormationCircles MagicFormationCircle, int star, double quantity)
+    public async Task<bool> UpdateMagicFormationCircleBreakthroughAsync(MagicFormationCircles magicFormationCircle, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -488,59 +488,59 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@mfc_id", MagicFormationCircle.Id);
+                    command.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", MagicFormationCircle.Power);
-                    command.Parameters.AddWithValue("@health", MagicFormationCircle.Health);
-                    command.Parameters.AddWithValue("@physical_attack", MagicFormationCircle.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", MagicFormationCircle.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", MagicFormationCircle.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", MagicFormationCircle.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", MagicFormationCircle.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", MagicFormationCircle.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", MagicFormationCircle.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", MagicFormationCircle.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", MagicFormationCircle.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", MagicFormationCircle.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", MagicFormationCircle.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", MagicFormationCircle.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", MagicFormationCircle.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", MagicFormationCircle.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", MagicFormationCircle.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", MagicFormationCircle.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", MagicFormationCircle.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", MagicFormationCircle.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", MagicFormationCircle.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", MagicFormationCircle.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", MagicFormationCircle.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", MagicFormationCircle.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", MagicFormationCircle.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", MagicFormationCircle.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", MagicFormationCircle.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", MagicFormationCircle.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", MagicFormationCircle.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", MagicFormationCircle.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", MagicFormationCircle.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", MagicFormationCircle.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", MagicFormationCircle.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", MagicFormationCircle.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", MagicFormationCircle.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", MagicFormationCircle.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", MagicFormationCircle.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", MagicFormationCircle.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", MagicFormationCircle.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", MagicFormationCircle.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", MagicFormationCircle.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", MagicFormationCircle.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", MagicFormationCircle.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", MagicFormationCircle.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", MagicFormationCircle.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", MagicFormationCircle.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", MagicFormationCircle.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", MagicFormationCircle.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", MagicFormationCircle.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", MagicFormationCircle.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", magicFormationCircle.Power);
+                    command.Parameters.AddWithValue("@health", magicFormationCircle.Health);
+                    command.Parameters.AddWithValue("@physical_attack", magicFormationCircle.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", magicFormationCircle.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", magicFormationCircle.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", magicFormationCircle.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", magicFormationCircle.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", magicFormationCircle.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", magicFormationCircle.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", magicFormationCircle.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", magicFormationCircle.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", magicFormationCircle.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", magicFormationCircle.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", magicFormationCircle.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", magicFormationCircle.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", magicFormationCircle.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", magicFormationCircle.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", magicFormationCircle.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", magicFormationCircle.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", magicFormationCircle.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", magicFormationCircle.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", magicFormationCircle.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", magicFormationCircle.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", magicFormationCircle.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", magicFormationCircle.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", magicFormationCircle.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", magicFormationCircle.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", magicFormationCircle.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", magicFormationCircle.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", magicFormationCircle.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", magicFormationCircle.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", magicFormationCircle.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", magicFormationCircle.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", magicFormationCircle.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", magicFormationCircle.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", magicFormationCircle.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", magicFormationCircle.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", magicFormationCircle.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", magicFormationCircle.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", magicFormationCircle.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", magicFormationCircle.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", magicFormationCircle.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", magicFormationCircle.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", magicFormationCircle.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", magicFormationCircle.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", magicFormationCircle.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", magicFormationCircle.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", magicFormationCircle.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", magicFormationCircle.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", magicFormationCircle.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }

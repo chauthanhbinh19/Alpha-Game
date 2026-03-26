@@ -22,27 +22,48 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 string query = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
-                        WHEN mg.Building_id IS NULL THEN 'block'
+                        WHEN mg.building_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Buildings m 
                 LEFT JOIN Buildings_gallery mg 
-                    ON m.id = mg.Building_id AND mg.user_id = @userId 
-                WHERE (@type = 'All' OR m.type = @type)
-                    AND (@rare = 'All' OR m.rare = @rare)
-                    AND (@search = '' OR m.name LIKE CONCAT('%', @search, '%'))
-                ORDER BY 
-                    m.name REGEXP '[0-9]+$',
-                    CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED),
-                    m.name
-                LIMIT @limit OFFSET @offset";
+                    ON m.id = mg.building_id AND mg.user_id = @userId 
+                WHERE 1=1";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND m.type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND m.rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += " ORDER BY m.name";
+                query += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(type) && type != "All")
+                    {
+                        command.Parameters.AddWithValue("@type", type);
+                    }
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     command.Parameters.AddWithValue("@userId", user_id);
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
@@ -155,13 +176,37 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT COUNT(*) FROM Buildings 
-                WHERE (@type = 'All' OR type = @type)
-                    AND (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+                WHERE 1=1";
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@search", search);
-                command.Parameters.AddWithValue("@type", type);
-                command.Parameters.AddWithValue("@rare", rare);
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    command.Parameters.AddWithValue("@type", type);
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    command.Parameters.AddWithValue("@rare", rare);
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    command.Parameters.AddWithValue("@search", search);
+                }
 
                 object result = await command.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);
@@ -193,12 +238,12 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM Buildings_gallery 
-                WHERE user_id = @user_id AND Building_id = @Building_id;
+                WHERE user_id = @user_id AND building_id = @building_id;
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Building_id", Id);
+                checkCommand.Parameters.AddWithValue("@building_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -207,7 +252,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 {
                     string query = @"
                 INSERT INTO Buildings_gallery (
-                    user_id, Building_id, status, current_star, temp_star, power, health, 
+                    user_id, building_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage_rate, critical_rate,
@@ -230,7 +275,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                     percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Building_id, @status, @current_star, @temp_star, @power, @health,
+                    @user_id, @building_id, @status, @current_star, @temp_star, @power, @health,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                     @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate,
@@ -257,7 +302,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
 
                     // Thêm param
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Building_id", Id);
+                    command.Parameters.AddWithValue("@building_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -350,10 +395,10 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE Buildings_gallery SET status=@status WHERE user_id=@user_id AND Building_id=@Building_id";
+                string query = "UPDATE Buildings_gallery SET status=@status WHERE user_id=@user_id AND building_id=@building_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Building_id", Id);
+                command.Parameters.AddWithValue("@building_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
 
                 await command.ExecuteNonQueryAsync();
@@ -382,12 +427,12 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 string checkQuery = @"
                 SELECT current_star, temp_star
                 FROM Buildings_gallery 
-                WHERE user_id = @user_id AND Building_id = @Building_id;
+                WHERE user_id = @user_id AND building_id = @building_id;
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Building_id", Id);
+                checkCommand.Parameters.AddWithValue("@building_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
                 {
@@ -402,12 +447,12 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                             string updateQuery = @"
                             UPDATE Buildings_gallery 
                             SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND Building_id = @Building_id;
+                            WHERE user_id = @user_id AND building_id = @building_id;
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@Building_id", Id);
+                            updateCommand.Parameters.AddWithValue("@building_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -501,12 +546,12 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Building_id = @Building_id;
+                AND building_id = @building_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Building_id", Id);
+                command.Parameters.AddWithValue("@building_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", BuildingFromDB.Power);

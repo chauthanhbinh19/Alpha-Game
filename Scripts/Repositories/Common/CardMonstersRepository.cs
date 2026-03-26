@@ -18,8 +18,8 @@ public class CardMonstersRepository : ICardMonstersRepository
 
             string query = "SELECT DISTINCT type FROM card_monsters";
             await using var command = new MySqlCommand(query, connection);
-
             await using var reader = await command.ExecuteReaderAsync();
+
             while (await reader.ReadAsync())
             {
                 typeList.Add(reader.GetString(0));
@@ -44,8 +44,8 @@ public class CardMonstersRepository : ICardMonstersRepository
 
             string query = "SELECT DISTINCT id FROM card_monsters";
             await using var command = new MySqlCommand(query, connection);
-
             await using var reader = await command.ExecuteReaderAsync();
+
             while (await reader.ReadAsync())
             {
                 idList.Add(reader.GetString(0));
@@ -60,7 +60,7 @@ public class CardMonstersRepository : ICardMonstersRepository
     }
     public async Task<List<CardMonsters>> GetCardMonstersAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<CardMonsters> cardMonsters = new List<CardMonsters>();
+        List<CardMonsters> cardMilitaries = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -68,12 +68,25 @@ public class CardMonstersRepository : ICardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT * FROM card_monsters 
-                         WHERE (@type = 'All' OR type = @type)
-                            AND (@rare = 'All' OR rare = @rare)
-                            AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-                         ORDER BY name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), name
-                         LIMIT @limit OFFSET @offset";
+            string query = @"SELECT * FROM card_monsters WHERE 1=1";
+
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                query += " AND type = @type";
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND name LIKE CONCAT('%', @search, '%')";
+            }
+
+            query += " ORDER BY card_monsters.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(card_monsters.name, '[0-9]+$') AS UNSIGNED), card_monsters.name";
+            query += " LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@search", search);
@@ -85,7 +98,7 @@ public class CardMonstersRepository : ICardMonstersRepository
             await using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                CardMonsters card = new CardMonsters
+                CardMonsters cardMilitary = new CardMonsters
                 {
                     Id = reader.GetStringSafe("id"),
                     Name = reader.GetStringSafe("name"),
@@ -147,7 +160,7 @@ public class CardMonstersRepository : ICardMonstersRepository
                     Description = reader.GetStringSafe("description")
                 };
 
-                cardMonsters.Add(card);
+                cardMilitaries.Add(cardMilitary);
             }
         }
         catch (MySqlException ex)
@@ -155,7 +168,7 @@ public class CardMonstersRepository : ICardMonstersRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return cardMonsters;
+        return cardMilitaries;
     }
     public async Task<int> GetCardMonstersCountAsync(string search, string type, string rare)
     {
@@ -167,20 +180,30 @@ public class CardMonstersRepository : ICardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM card_monsters 
-            WHERE (@type = 'All' OR type = @type)
-                AND (@rare = 'All' OR rare = @rare)
-                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+            string query = @"SELECT COUNT(*) FROM card_monsters WHERE 1=1";
+
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                query += " AND type = @type";
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND name LIKE CONCAT('%', @search, '%')";
+            }
+
             await using var command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@search", search);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@rare", rare);
 
             object result = await command.ExecuteScalarAsync();
-            if (result != null && int.TryParse(result.ToString(), out int parsedCount))
-            {
-                count = parsedCount;
-            }
+            count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
         {
@@ -191,7 +214,7 @@ public class CardMonstersRepository : ICardMonstersRepository
     }
     public async Task<List<CardMonsters>> GetCardMonstersRandomAsync(string type, int pageSize)
     {
-        List<CardMonsters> cardMonsters = new List<CardMonsters>();
+        List<CardMonsters> cardMilitaries = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -207,7 +230,7 @@ public class CardMonstersRepository : ICardMonstersRepository
             await using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                CardMonsters cardMonster = new CardMonsters
+                CardMonsters cardMilitary = new CardMonsters
                 {
                     Id = reader.GetStringSafe("id"),
                     Name = reader.GetStringSafe("name"),
@@ -269,7 +292,7 @@ public class CardMonstersRepository : ICardMonstersRepository
                     Description = reader.GetStringSafe("description")
                 };
 
-                cardMonsters.Add(cardMonster);
+                cardMilitaries.Add(cardMilitary);
             }
         }
         catch (MySqlException ex)
@@ -277,11 +300,11 @@ public class CardMonstersRepository : ICardMonstersRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return cardMonsters;
+        return cardMilitaries;
     }
     public async Task<List<CardMonsters>> GetAllCardMonstersAsync(string type)
     {
-        List<CardMonsters> cardMonsters = new List<CardMonsters>();
+        List<CardMonsters> cardMilitaries = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -296,7 +319,7 @@ public class CardMonstersRepository : ICardMonstersRepository
             await using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                CardMonsters cardMonster = new CardMonsters
+                CardMonsters CardMilitary = new CardMonsters
                 {
                     Id = reader.GetStringSafe("id"),
                     Name = reader.GetStringSafe("name"),
@@ -358,7 +381,7 @@ public class CardMonstersRepository : ICardMonstersRepository
                     Description = reader.GetStringSafe("description")
                 };
 
-                cardMonsters.Add(cardMonster);
+                cardMilitaries.Add(CardMilitary);
             }
         }
         catch (MySqlException ex)
@@ -366,11 +389,11 @@ public class CardMonstersRepository : ICardMonstersRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return cardMonsters;
+        return cardMilitaries;
     }
-    public async Task<CardMonsters> GetCardMonsterByIdAsync(string id)
+    public async Task<CardMonsters> GetCardMonsterByIdAsync(string Id)
     {
-        CardMonsters cardMonster = null;
+        CardMonsters cardMilitary = new CardMonsters();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -380,12 +403,12 @@ public class CardMonstersRepository : ICardMonstersRepository
 
             string query = "SELECT * FROM card_monsters WHERE id = @id";
             await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@id", Id);
 
             await using var reader = await command.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
-                cardMonster = new CardMonsters
+                cardMilitary = new CardMonsters
                 {
                     Id = reader.GetStringSafe("id"),
                     Name = reader.GetStringSafe("name"),
@@ -453,11 +476,11 @@ public class CardMonstersRepository : ICardMonstersRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return cardMonster;
+        return cardMilitary;
     }
     public async Task<List<CardMonsters>> GetCardMonstersWithPriceAsync(string type, int pageSize, int offset)
     {
-        var cardMonsters = new List<CardMonsters>();
+        List<CardMonsters> cardMilitaries = new List<CardMonsters>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnection(connectionString);
@@ -472,8 +495,7 @@ public class CardMonstersRepository : ICardMonstersRepository
             JOIN currencies cu ON mt.currency_id = cu.id
             WHERE m.type = @type
             ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
-            LIMIT @limit OFFSET @offset;
-        ";
+            LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@type", type);
@@ -483,7 +505,7 @@ public class CardMonstersRepository : ICardMonstersRepository
             await using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                var cardMonster = new CardMonsters
+                var cardMilitary = new CardMonsters
                 {
                     Id = reader.GetStringSafe("id"),
                     Name = reader.GetStringSafe("name"),
@@ -542,17 +564,16 @@ public class CardMonstersRepository : ICardMonstersRepository
                     NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                     SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                     SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                    Description = reader.GetStringSafe("description")
+                    Description = reader.GetStringSafe("description"),
+                    Currency = new Currencies
+                    {
+                        Id = reader.GetStringSafe("currency_id"),
+                        Image = reader.GetStringSafe("currency_image"),
+                        Quantity = reader.GetIntSafe("price")
+                    }
                 };
 
-                cardMonster.Currency = new Currencies
-                {
-                    Id = reader.GetStringSafe("currency_id"),
-                    Image = reader.GetStringSafe("currency_image"),
-                    Quantity = reader.GetIntSafe("price")
-                };
-
-                cardMonsters.Add(cardMonster);
+                cardMilitaries.Add(cardMilitary);
             }
         }
         catch (MySqlException ex)
@@ -560,7 +581,7 @@ public class CardMonstersRepository : ICardMonstersRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return cardMonsters;
+        return cardMilitaries;
     }
     public async Task<int> GetCardMonstersWithPriceCountAsync(string type)
     {
@@ -577,17 +598,13 @@ public class CardMonstersRepository : ICardMonstersRepository
             FROM card_monsters m
             JOIN card_monster_trade mt ON m.id = mt.card_monster_id
             JOIN currencies cu ON mt.currency_id = cu.id
-            WHERE m.type = @type;
-        ";
+            WHERE m.type = @type;";
 
             await using var command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@type", type);
 
             var result = await command.ExecuteScalarAsync();
-            if (result != null && result != DBNull.Value)
-            {
-                count = Convert.ToInt32(result);
-            }
+            count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
         {

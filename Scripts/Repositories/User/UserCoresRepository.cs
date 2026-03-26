@@ -159,7 +159,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return count;
     }
-    public async Task<bool> InsertUserCoreAsync(Cores Cores, string userId)
+    public async Task<bool> InsertUserCoreAsync(Cores core, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -178,7 +178,7 @@ public class UserCoresRepository : IUserCoresRepository
 
                 await using var checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@core_id", Cores.Id);
+                checkCommand.Parameters.AddWithValue("@core_id", core.Id);
 
                 int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -224,64 +224,64 @@ public class UserCoresRepository : IUserCoresRepository
                     await using var insertCommand = new MySqlCommand(insertQuery, connection);
 
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
-                    insertCommand.Parameters.AddWithValue("@core_id", Cores.Id);
-                    insertCommand.Parameters.AddWithValue("@rare", Cores.Rare);
+                    insertCommand.Parameters.AddWithValue("@core_id", core.Id);
+                    insertCommand.Parameters.AddWithValue("@rare", core.Rare);
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experiment", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Cores.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(core.Rare));
                     insertCommand.Parameters.AddWithValue("@block", false);
-                    insertCommand.Parameters.AddWithValue("@quantity", Cores.Quantity);
-                    insertCommand.Parameters.AddWithValue("@power", Cores.Power);
-                    insertCommand.Parameters.AddWithValue("@health", Cores.Health);
-                    insertCommand.Parameters.AddWithValue("@physical_attack", Cores.PhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@physical_defense", Cores.PhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@magical_attack", Cores.MagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@magical_defense", Cores.MagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@chemical_attack", Cores.ChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@chemical_defense", Cores.ChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@atomic_attack", Cores.AtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@atomic_defense", Cores.AtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@mental_attack", Cores.MentalAttack);
-                    insertCommand.Parameters.AddWithValue("@mental_defense", Cores.MentalDefense);
-                    insertCommand.Parameters.AddWithValue("@speed", Cores.Speed);
-                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", Cores.CriticalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@critical_rate", Cores.CriticalRate);
-                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Cores.CriticalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Cores.IgnoreCriticalRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_rate", Cores.PenetrationRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Cores.PenetrationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@evasion_rate", Cores.EvasionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Cores.DamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Cores.IgnoreDamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Cores.AbsorbedDamageRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Cores.VitalityRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Cores.VitalityRegenerationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@accuracy_rate", Cores.AccuracyRate);
-                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", Cores.LifestealRate);
-                    insertCommand.Parameters.AddWithValue("@shield_strength", Cores.ShieldStrength);
-                    insertCommand.Parameters.AddWithValue("@tenacity", Cores.Tenacity);
-                    insertCommand.Parameters.AddWithValue("@resistance_rate", Cores.ResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@combo_rate", Cores.ComboRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Cores.IgnoreComboRate);
-                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", Cores.ComboDamageRate);
-                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Cores.ComboResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@stun_rate", Cores.StunRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Cores.IgnoreStunRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_rate", Cores.ReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Cores.IgnoreReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Cores.ReflectionDamageRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Cores.ReflectionResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@mana", Cores.Mana);
-                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Cores.ManaRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Cores.DamageToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Cores.ResistanceToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Cores.DamageToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Cores.ResistanceToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", Cores.NormalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Cores.NormalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", Cores.SkillDamageRate);
-                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Cores.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@quantity", core.Quantity);
+                    insertCommand.Parameters.AddWithValue("@power", core.Power);
+                    insertCommand.Parameters.AddWithValue("@health", core.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", core.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", core.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", core.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", core.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", core.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", core.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", core.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", core.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", core.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", core.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", core.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", core.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", core.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", core.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", core.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", core.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", core.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", core.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", core.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", core.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", core.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", core.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", core.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", core.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", core.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", core.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", core.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", core.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", core.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", core.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", core.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", core.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", core.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", core.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", core.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", core.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", core.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", core.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", core.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", core.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", core.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", core.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", core.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", core.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", core.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", core.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", core.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", core.SkillResistanceRate);
 
                     await insertCommand.ExecuteNonQueryAsync();
                 }
@@ -296,8 +296,8 @@ public class UserCoresRepository : IUserCoresRepository
 
                     await using var updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@core_id", Cores.Id);
-                    updateCommand.Parameters.AddWithValue("@quantity", Cores.Quantity);
+                    updateCommand.Parameters.AddWithValue("@core_id", core.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", core.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -315,7 +315,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return true;
     }
-    public async Task<bool> UpdateCoreLevelAsync(Cores Cores, int cardLevel)
+    public async Task<bool> UpdateCoreLevelAsync(Cores core, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -358,58 +358,58 @@ public class UserCoresRepository : IUserCoresRepository
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@core_id", Cores.Id);
+                command.Parameters.AddWithValue("@core_id", core.Id);
                 command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", Cores.Power);
-                command.Parameters.AddWithValue("@health", Cores.Health);
-                command.Parameters.AddWithValue("@physical_attack", Cores.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", Cores.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", Cores.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", Cores.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", Cores.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", Cores.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", Cores.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", Cores.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", Cores.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", Cores.MentalDefense);
-                command.Parameters.AddWithValue("@speed", Cores.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", Cores.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", Cores.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", Cores.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", Cores.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", Cores.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", Cores.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", Cores.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", Cores.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Cores.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", Cores.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", Cores.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Cores.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", Cores.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", Cores.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", Cores.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", Cores.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", Cores.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", Cores.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", Cores.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", Cores.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", Cores.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", Cores.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", Cores.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", Cores.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", Cores.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", Cores.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", Cores.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", Cores.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", Cores.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Cores.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Cores.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Cores.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Cores.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", Cores.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", Cores.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", Cores.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", Cores.SkillResistanceRate);
+                command.Parameters.AddWithValue("@power", core.Power);
+                command.Parameters.AddWithValue("@health", core.Health);
+                command.Parameters.AddWithValue("@physical_attack", core.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", core.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", core.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", core.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", core.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", core.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", core.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", core.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", core.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", core.MentalDefense);
+                command.Parameters.AddWithValue("@speed", core.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", core.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", core.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", core.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", core.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", core.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", core.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", core.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", core.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", core.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", core.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", core.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", core.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", core.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", core.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", core.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", core.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", core.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", core.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", core.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", core.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", core.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", core.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", core.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", core.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", core.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", core.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", core.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", core.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", core.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", core.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", core.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", core.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", core.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", core.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", core.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", core.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", core.SkillResistanceRate);
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -426,7 +426,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return true;
     }
-    public async Task<bool> UpdateCoreBreakthroughAsync(Cores Cores, int star, double quantity)
+    public async Task<bool> UpdateCoreBreakthroughAsync(Cores core, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -469,59 +469,59 @@ public class UserCoresRepository : IUserCoresRepository
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@core_id", Cores.Id);
+                command.Parameters.AddWithValue("@core_id", core.Id);
                 command.Parameters.AddWithValue("@star", star);
                 command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", Cores.Power);
-                command.Parameters.AddWithValue("@health", Cores.Health);
-                command.Parameters.AddWithValue("@physical_attack", Cores.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", Cores.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", Cores.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", Cores.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", Cores.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", Cores.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", Cores.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", Cores.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", Cores.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", Cores.MentalDefense);
-                command.Parameters.AddWithValue("@speed", Cores.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", Cores.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", Cores.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", Cores.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", Cores.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", Cores.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", Cores.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", Cores.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", Cores.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Cores.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", Cores.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", Cores.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Cores.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", Cores.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", Cores.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", Cores.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", Cores.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", Cores.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", Cores.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", Cores.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", Cores.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", Cores.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", Cores.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", Cores.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", Cores.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", Cores.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", Cores.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", Cores.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", Cores.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", Cores.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", Cores.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Cores.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", Cores.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Cores.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", Cores.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", Cores.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", Cores.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", Cores.SkillResistanceRate);
+                command.Parameters.AddWithValue("@power", core.Power);
+                command.Parameters.AddWithValue("@health", core.Health);
+                command.Parameters.AddWithValue("@physical_attack", core.PhysicalAttack);
+                command.Parameters.AddWithValue("@physical_defense", core.PhysicalDefense);
+                command.Parameters.AddWithValue("@magical_attack", core.MagicalAttack);
+                command.Parameters.AddWithValue("@magical_defense", core.MagicalDefense);
+                command.Parameters.AddWithValue("@chemical_attack", core.ChemicalAttack);
+                command.Parameters.AddWithValue("@chemical_defense", core.ChemicalDefense);
+                command.Parameters.AddWithValue("@atomic_attack", core.AtomicAttack);
+                command.Parameters.AddWithValue("@atomic_defense", core.AtomicDefense);
+                command.Parameters.AddWithValue("@mental_attack", core.MentalAttack);
+                command.Parameters.AddWithValue("@mental_defense", core.MentalDefense);
+                command.Parameters.AddWithValue("@speed", core.Speed);
+                command.Parameters.AddWithValue("@critical_damage_rate", core.CriticalDamageRate);
+                command.Parameters.AddWithValue("@critical_rate", core.CriticalRate);
+                command.Parameters.AddWithValue("@critical_resistance_rate", core.CriticalResistanceRate);
+                command.Parameters.AddWithValue("@ignore_critical_rate", core.IgnoreCriticalRate);
+                command.Parameters.AddWithValue("@penetration_rate", core.PenetrationRate);
+                command.Parameters.AddWithValue("@penetration_resistance_rate", core.PenetrationResistanceRate);
+                command.Parameters.AddWithValue("@evasion_rate", core.EvasionRate);
+                command.Parameters.AddWithValue("@damage_absorption_rate", core.DamageAbsorptionRate);
+                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", core.IgnoreDamageAbsorptionRate);
+                command.Parameters.AddWithValue("@absorbed_damage_rate", core.AbsorbedDamageRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_rate", core.VitalityRegenerationRate);
+                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", core.VitalityRegenerationResistanceRate);
+                command.Parameters.AddWithValue("@accuracy_rate", core.AccuracyRate);
+                command.Parameters.AddWithValue("@lifesteal_rate", core.LifestealRate);
+                command.Parameters.AddWithValue("@shield_strength", core.ShieldStrength);
+                command.Parameters.AddWithValue("@tenacity", core.Tenacity);
+                command.Parameters.AddWithValue("@resistance_rate", core.ResistanceRate);
+                command.Parameters.AddWithValue("@combo_rate", core.ComboRate);
+                command.Parameters.AddWithValue("@ignore_combo_rate", core.IgnoreComboRate);
+                command.Parameters.AddWithValue("@combo_damage_rate", core.ComboDamageRate);
+                command.Parameters.AddWithValue("@combo_resistance_rate", core.ComboResistanceRate);
+                command.Parameters.AddWithValue("@stun_rate", core.StunRate);
+                command.Parameters.AddWithValue("@ignore_stun_rate", core.IgnoreStunRate);
+                command.Parameters.AddWithValue("@reflection_rate", core.ReflectionRate);
+                command.Parameters.AddWithValue("@ignore_reflection_rate", core.IgnoreReflectionRate);
+                command.Parameters.AddWithValue("@reflection_damage_rate", core.ReflectionDamageRate);
+                command.Parameters.AddWithValue("@reflection_resistance_rate", core.ReflectionResistanceRate);
+                command.Parameters.AddWithValue("@mana", core.Mana);
+                command.Parameters.AddWithValue("@mana_regeneration_rate", core.ManaRegenerationRate);
+                command.Parameters.AddWithValue("@damage_to_different_faction_rate", core.DamageToDifferentFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", core.ResistanceToDifferentFactionRate);
+                command.Parameters.AddWithValue("@damage_to_same_faction_rate", core.DamageToSameFactionRate);
+                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", core.ResistanceToSameFactionRate);
+                command.Parameters.AddWithValue("@normal_damage_rate", core.NormalDamageRate);
+                command.Parameters.AddWithValue("@normal_resistance_rate", core.NormalResistanceRate);
+                command.Parameters.AddWithValue("@skill_damage_rate", core.SkillDamageRate);
+                command.Parameters.AddWithValue("@skill_resistance_rate", core.SkillResistanceRate);
 
                 await command.ExecuteNonQueryAsync();
             }

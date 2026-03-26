@@ -8,7 +8,7 @@ public class StepScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private RectTransform content;
     [SerializeField] private int totalPanels = 7;
-    [SerializeField] private float lerpSpeed = 10f;
+    // [SerializeField] private float lerpSpeed = 10f;
 
     private int currentIndex = 0;
     private float targetVerticalPos = 1f; // 1 là trên cùng, 0 là dưới cùng

@@ -166,7 +166,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
         return count;
     }
-    public async Task<bool> InsertUserMedalAsync(Medals Medals, string userId)
+    public async Task<bool> InsertUserMedalAsync(Medals medal, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -184,7 +184,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@medal_id", Medals.Id);
+                    checkCommand.Parameters.AddWithValue("@medal_id", medal.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -230,64 +230,64 @@ public class UserMedalsRepository : IUserMedalsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@medal_id", Medals.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", Medals.Rare);
+                            insertCommand.Parameters.AddWithValue("@medal_id", medal.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", medal.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Medals.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(medal.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", Medals.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", Medals.Power);
-                            insertCommand.Parameters.AddWithValue("@health", Medals.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", Medals.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", Medals.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", Medals.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", Medals.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", Medals.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", Medals.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", Medals.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", Medals.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", Medals.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", Medals.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", Medals.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", Medals.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", Medals.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Medals.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Medals.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", Medals.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Medals.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", Medals.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Medals.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Medals.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Medals.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Medals.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Medals.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", Medals.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", Medals.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", Medals.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", Medals.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", Medals.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", Medals.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Medals.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", Medals.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Medals.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", Medals.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Medals.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", Medals.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Medals.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Medals.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Medals.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", Medals.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Medals.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Medals.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Medals.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Medals.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Medals.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", Medals.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Medals.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", Medals.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Medals.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", medal.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", medal.Power);
+                            insertCommand.Parameters.AddWithValue("@health", medal.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", medal.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", medal.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", medal.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", medal.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", medal.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", medal.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", medal.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", medal.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", medal.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", medal.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", medal.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", medal.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", medal.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", medal.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", medal.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", medal.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", medal.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", medal.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", medal.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", medal.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", medal.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", medal.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", medal.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", medal.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", medal.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", medal.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", medal.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", medal.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", medal.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", medal.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", medal.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", medal.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", medal.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", medal.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", medal.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", medal.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", medal.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", medal.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", medal.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", medal.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", medal.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", medal.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", medal.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", medal.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", medal.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", medal.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", medal.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", medal.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -303,8 +303,8 @@ public class UserMedalsRepository : IUserMedalsRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@medal_id", Medals.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", Medals.Quantity);
+                            updateCommand.Parameters.AddWithValue("@medal_id", medal.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", medal.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -324,7 +324,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
         return true;
     }
-    public async Task<bool> UpdateMedalLevelAsync(Medals Medals, int TitleLevel)
+    public async Task<bool> UpdateMedalLevelAsync(Medals medal, int TitleLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -365,58 +365,58 @@ public class UserMedalsRepository : IUserMedalsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@medal_id", Medals.Id);
+                    command.Parameters.AddWithValue("@medal_id", medal.Id);
                     command.Parameters.AddWithValue("@level", TitleLevel);
-                    command.Parameters.AddWithValue("@power", Medals.Power);
-                    command.Parameters.AddWithValue("@health", Medals.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Medals.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Medals.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Medals.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Medals.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Medals.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Medals.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Medals.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Medals.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Medals.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Medals.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Medals.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Medals.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Medals.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Medals.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Medals.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Medals.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Medals.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Medals.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Medals.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Medals.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Medals.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Medals.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Medals.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Medals.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Medals.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Medals.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Medals.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Medals.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Medals.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Medals.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Medals.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Medals.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Medals.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Medals.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Medals.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Medals.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Medals.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Medals.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Medals.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Medals.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Medals.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Medals.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Medals.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Medals.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Medals.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Medals.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Medals.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Medals.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", medal.Power);
+                    command.Parameters.AddWithValue("@health", medal.Health);
+                    command.Parameters.AddWithValue("@physical_attack", medal.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", medal.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", medal.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", medal.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", medal.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", medal.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", medal.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", medal.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", medal.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", medal.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", medal.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", medal.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", medal.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", medal.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", medal.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", medal.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", medal.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", medal.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", medal.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", medal.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", medal.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", medal.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", medal.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", medal.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", medal.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", medal.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", medal.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", medal.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", medal.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", medal.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", medal.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", medal.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", medal.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", medal.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", medal.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", medal.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", medal.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", medal.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", medal.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", medal.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", medal.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", medal.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", medal.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", medal.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", medal.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", medal.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", medal.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", medal.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -433,7 +433,7 @@ public class UserMedalsRepository : IUserMedalsRepository
         }
         return true;
     }
-    public async Task<bool> UpdateMedalBreakthroughAsync(Medals Medals, int star, double quantity)
+    public async Task<bool> UpdateMedalBreakthroughAsync(Medals medal, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -473,59 +473,59 @@ public class UserMedalsRepository : IUserMedalsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@medal_id", Medals.Id);
+                    command.Parameters.AddWithValue("@medal_id", medal.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", Medals.Power);
-                    command.Parameters.AddWithValue("@health", Medals.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Medals.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Medals.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Medals.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Medals.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Medals.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Medals.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Medals.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Medals.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Medals.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Medals.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Medals.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Medals.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Medals.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Medals.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Medals.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Medals.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Medals.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Medals.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Medals.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Medals.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Medals.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Medals.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Medals.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Medals.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Medals.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Medals.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Medals.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Medals.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Medals.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Medals.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Medals.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Medals.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Medals.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Medals.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Medals.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Medals.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Medals.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Medals.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Medals.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Medals.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Medals.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Medals.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Medals.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Medals.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Medals.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Medals.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Medals.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Medals.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", medal.Power);
+                    command.Parameters.AddWithValue("@health", medal.Health);
+                    command.Parameters.AddWithValue("@physical_attack", medal.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", medal.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", medal.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", medal.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", medal.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", medal.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", medal.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", medal.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", medal.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", medal.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", medal.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", medal.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", medal.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", medal.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", medal.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", medal.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", medal.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", medal.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", medal.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", medal.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", medal.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", medal.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", medal.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", medal.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", medal.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", medal.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", medal.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", medal.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", medal.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", medal.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", medal.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", medal.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", medal.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", medal.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", medal.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", medal.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", medal.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", medal.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", medal.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", medal.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", medal.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", medal.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", medal.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", medal.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", medal.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", medal.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", medal.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", medal.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }

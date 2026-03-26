@@ -168,7 +168,7 @@ public class UserForgesRepository : IUserForgesRepository
 
         return count;
     }
-    public async Task<bool> InsertUserForgeAsync(Forges Forge, string userId)
+    public async Task<bool> InsertUserForgeAsync(Forges forge, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -188,7 +188,7 @@ public class UserForgesRepository : IUserForgesRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Forge_id", Forge.Id);
+                    checkCommand.Parameters.AddWithValue("@Forge_id", forge.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -235,64 +235,64 @@ public class UserForgesRepository : IUserForgesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Forge_id", Forge.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", Forge.Rare);
+                            insertCommand.Parameters.AddWithValue("@Forge_id", forge.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", forge.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Forge.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(forge.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", Forge.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", Forge.Power);
-                            insertCommand.Parameters.AddWithValue("@health", Forge.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", Forge.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", Forge.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", Forge.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", Forge.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", Forge.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", Forge.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", Forge.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", Forge.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", Forge.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", Forge.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", Forge.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", Forge.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", Forge.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Forge.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Forge.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", Forge.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Forge.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", Forge.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Forge.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Forge.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Forge.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Forge.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Forge.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", Forge.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", Forge.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", Forge.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", Forge.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", Forge.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", Forge.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Forge.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", Forge.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Forge.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", Forge.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Forge.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", Forge.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Forge.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Forge.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Forge.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", Forge.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Forge.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Forge.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Forge.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Forge.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Forge.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", Forge.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Forge.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", Forge.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Forge.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", forge.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", forge.Power);
+                            insertCommand.Parameters.AddWithValue("@health", forge.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", forge.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", forge.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", forge.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", forge.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", forge.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", forge.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", forge.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", forge.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", forge.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", forge.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", forge.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", forge.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", forge.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", forge.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", forge.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", forge.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", forge.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", forge.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", forge.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", forge.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", forge.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", forge.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", forge.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", forge.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", forge.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", forge.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", forge.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", forge.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", forge.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", forge.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", forge.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", forge.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", forge.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", forge.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", forge.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", forge.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", forge.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", forge.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", forge.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", forge.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", forge.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", forge.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", forge.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", forge.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", forge.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", forge.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", forge.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", forge.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -309,8 +309,8 @@ public class UserForgesRepository : IUserForgesRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Forge_id", Forge.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", Forge.Quantity);
+                            updateCommand.Parameters.AddWithValue("@Forge_id", forge.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", forge.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -330,7 +330,7 @@ public class UserForgesRepository : IUserForgesRepository
 
         return true;
     }
-    public async Task<bool> UpdateForgeLevelAsync(Forges Forge, int cardLevel)
+    public async Task<bool> UpdateForgeLevelAsync(Forges forge, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -375,58 +375,58 @@ public class UserForgesRepository : IUserForgesRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Forge_id", Forge.Id);
+                    command.Parameters.AddWithValue("@Forge_id", forge.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", Forge.Power);
-                    command.Parameters.AddWithValue("@health", Forge.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Forge.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Forge.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Forge.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Forge.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Forge.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Forge.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Forge.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Forge.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Forge.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Forge.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Forge.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Forge.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Forge.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Forge.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Forge.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Forge.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Forge.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Forge.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Forge.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Forge.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Forge.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Forge.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Forge.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Forge.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Forge.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Forge.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Forge.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Forge.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Forge.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Forge.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Forge.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Forge.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Forge.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Forge.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Forge.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Forge.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Forge.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Forge.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Forge.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Forge.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Forge.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Forge.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Forge.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Forge.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Forge.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Forge.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Forge.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Forge.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", forge.Power);
+                    command.Parameters.AddWithValue("@health", forge.Health);
+                    command.Parameters.AddWithValue("@physical_attack", forge.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", forge.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", forge.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", forge.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", forge.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", forge.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", forge.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", forge.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", forge.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", forge.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", forge.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", forge.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", forge.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", forge.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", forge.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", forge.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", forge.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", forge.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", forge.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", forge.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", forge.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", forge.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", forge.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", forge.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", forge.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", forge.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", forge.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", forge.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", forge.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", forge.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", forge.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", forge.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", forge.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", forge.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", forge.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", forge.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", forge.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", forge.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", forge.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", forge.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", forge.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", forge.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", forge.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", forge.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", forge.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", forge.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", forge.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", forge.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -444,7 +444,7 @@ public class UserForgesRepository : IUserForgesRepository
 
         return true;
     }
-    public async Task<bool> UpdateForgeBreakthroughAsync(Forges Forge, int star, double quantity)
+    public async Task<bool> UpdateForgeBreakthroughAsync(Forges forge, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -488,59 +488,59 @@ public class UserForgesRepository : IUserForgesRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Forge_id", Forge.Id);
+                    command.Parameters.AddWithValue("@Forge_id", forge.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", Forge.Power);
-                    command.Parameters.AddWithValue("@health", Forge.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Forge.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Forge.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Forge.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Forge.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Forge.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Forge.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Forge.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Forge.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Forge.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Forge.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Forge.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Forge.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Forge.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Forge.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Forge.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Forge.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Forge.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Forge.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Forge.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Forge.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Forge.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Forge.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Forge.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Forge.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Forge.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Forge.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Forge.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Forge.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Forge.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Forge.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Forge.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Forge.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Forge.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Forge.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Forge.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Forge.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Forge.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Forge.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Forge.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Forge.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Forge.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Forge.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Forge.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Forge.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Forge.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Forge.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Forge.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Forge.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", forge.Power);
+                    command.Parameters.AddWithValue("@health", forge.Health);
+                    command.Parameters.AddWithValue("@physical_attack", forge.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", forge.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", forge.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", forge.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", forge.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", forge.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", forge.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", forge.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", forge.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", forge.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", forge.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", forge.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", forge.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", forge.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", forge.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", forge.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", forge.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", forge.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", forge.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", forge.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", forge.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", forge.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", forge.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", forge.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", forge.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", forge.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", forge.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", forge.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", forge.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", forge.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", forge.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", forge.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", forge.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", forge.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", forge.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", forge.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", forge.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", forge.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", forge.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", forge.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", forge.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", forge.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", forge.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", forge.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", forge.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", forge.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", forge.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", forge.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }

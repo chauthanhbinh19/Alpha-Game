@@ -168,7 +168,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return count;
     }
-    public async Task<bool> InsertUserRelicAsync(Relics Relic, string userId)
+    public async Task<bool> InsertUserRelicAsync(Relics relic, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -188,7 +188,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Relic_id", Relic.Id);
+                    checkCommand.Parameters.AddWithValue("@Relic_id", relic.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -235,64 +235,64 @@ public class UserRelicsRepository : IUserRelicsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Relic_id", Relic.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", Relic.Rare);
+                            insertCommand.Parameters.AddWithValue("@Relic_id", relic.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", relic.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Relic.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(relic.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", Relic.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", Relic.Power);
-                            insertCommand.Parameters.AddWithValue("@health", Relic.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", Relic.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", Relic.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", Relic.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", Relic.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", Relic.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", Relic.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", Relic.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", Relic.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", Relic.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", Relic.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", Relic.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", Relic.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", Relic.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Relic.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Relic.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", Relic.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Relic.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", Relic.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Relic.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Relic.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Relic.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Relic.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Relic.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", Relic.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", Relic.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", Relic.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", Relic.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", Relic.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", Relic.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Relic.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", Relic.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Relic.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", Relic.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Relic.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", Relic.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Relic.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Relic.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Relic.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", Relic.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Relic.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Relic.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Relic.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Relic.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Relic.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", Relic.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Relic.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", Relic.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Relic.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", relic.Power);
+                            insertCommand.Parameters.AddWithValue("@health", relic.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", relic.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", relic.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", relic.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", relic.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", relic.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", relic.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", relic.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", relic.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", relic.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", relic.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", relic.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", relic.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", relic.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", relic.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", relic.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", relic.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", relic.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", relic.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", relic.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", relic.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", relic.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", relic.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relic.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", relic.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", relic.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", relic.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", relic.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", relic.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", relic.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", relic.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", relic.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", relic.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", relic.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", relic.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", relic.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", relic.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", relic.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", relic.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", relic.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", relic.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", relic.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", relic.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", relic.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", relic.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", relic.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", relic.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", relic.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", relic.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -309,8 +309,8 @@ public class UserRelicsRepository : IUserRelicsRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Relic_id", Relic.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", Relic.Quantity);
+                            updateCommand.Parameters.AddWithValue("@Relic_id", relic.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -330,7 +330,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return true;
     }
-    public async Task<bool> UpdateRelicLevelAsync(Relics Relic, int cardLevel)
+    public async Task<bool> UpdateRelicLevelAsync(Relics relic, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -375,58 +375,58 @@ public class UserRelicsRepository : IUserRelicsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Relic_id", Relic.Id);
+                    command.Parameters.AddWithValue("@Relic_id", relic.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", Relic.Power);
-                    command.Parameters.AddWithValue("@health", Relic.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Relic.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Relic.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Relic.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Relic.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Relic.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Relic.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Relic.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Relic.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Relic.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Relic.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Relic.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Relic.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Relic.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Relic.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Relic.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Relic.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Relic.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Relic.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Relic.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Relic.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Relic.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Relic.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Relic.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Relic.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Relic.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Relic.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Relic.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Relic.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Relic.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Relic.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Relic.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Relic.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Relic.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Relic.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Relic.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Relic.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Relic.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Relic.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Relic.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Relic.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Relic.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Relic.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Relic.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Relic.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Relic.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Relic.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Relic.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Relic.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", relic.Power);
+                    command.Parameters.AddWithValue("@health", relic.Health);
+                    command.Parameters.AddWithValue("@physical_attack", relic.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", relic.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", relic.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", relic.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", relic.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", relic.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", relic.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", relic.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", relic.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", relic.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", relic.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", relic.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", relic.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", relic.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", relic.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", relic.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", relic.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", relic.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", relic.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relic.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", relic.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", relic.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relic.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", relic.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", relic.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", relic.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", relic.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", relic.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", relic.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", relic.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", relic.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", relic.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", relic.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", relic.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", relic.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", relic.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", relic.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", relic.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", relic.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", relic.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", relic.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relic.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", relic.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relic.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", relic.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", relic.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", relic.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", relic.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -444,7 +444,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return true;
     }
-    public async Task<bool> UpdateRelicBreakthroughAsync(Relics Relic, int star, double quantity)
+    public async Task<bool> UpdateRelicBreakthroughAsync(Relics relic, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -488,59 +488,59 @@ public class UserRelicsRepository : IUserRelicsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Relic_id", Relic.Id);
+                    command.Parameters.AddWithValue("@Relic_id", relic.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", Relic.Power);
-                    command.Parameters.AddWithValue("@health", Relic.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Relic.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Relic.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Relic.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Relic.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Relic.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Relic.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Relic.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Relic.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Relic.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Relic.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Relic.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Relic.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Relic.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Relic.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Relic.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Relic.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Relic.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Relic.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Relic.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Relic.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Relic.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Relic.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Relic.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Relic.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Relic.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Relic.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Relic.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Relic.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Relic.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Relic.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Relic.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Relic.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Relic.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Relic.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Relic.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Relic.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Relic.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Relic.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Relic.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Relic.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Relic.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Relic.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Relic.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Relic.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Relic.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Relic.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Relic.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Relic.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", relic.Power);
+                    command.Parameters.AddWithValue("@health", relic.Health);
+                    command.Parameters.AddWithValue("@physical_attack", relic.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", relic.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", relic.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", relic.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", relic.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", relic.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", relic.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", relic.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", relic.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", relic.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", relic.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", relic.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", relic.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", relic.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", relic.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", relic.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", relic.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", relic.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", relic.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relic.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", relic.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", relic.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relic.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", relic.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", relic.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", relic.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", relic.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", relic.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", relic.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", relic.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", relic.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", relic.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", relic.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", relic.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", relic.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", relic.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", relic.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", relic.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", relic.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", relic.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", relic.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relic.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", relic.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relic.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", relic.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", relic.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", relic.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", relic.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }

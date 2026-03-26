@@ -40,18 +40,38 @@ public class RobotsRepository : IRobotsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                SELECT * FROM Robots 
-                WHERE (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-                ORDER BY Robots.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(Robots.name, '[0-9]+$') AS UNSIGNED), 
-                         Robots.name 
+                SELECT * 
+                FROM robots 
+                WHERE 1=1";
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        query += " AND rare = @rare";
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                    }
+
+                    query += @"
+                ORDER BY 
+                    robots.name REGEXP '[0-9]+$',
+                    CAST(REGEXP_SUBSTR(robots.name, '[0-9]+$') AS UNSIGNED),
+                    robots.name
                 LIMIT @limit OFFSET @offset";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -154,14 +174,29 @@ public class RobotsRepository : IRobotsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Robots 
-                WHERE (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+                string query = @"SELECT COUNT(*) FROM Robots where 1=1";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     var result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }

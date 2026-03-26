@@ -18,14 +18,31 @@ public class AchievementsRepository : IAchievementsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM achievements 
-                WHERE (@rare = 'All' OR rare = @rare) 
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-                LIMIT @limit OFFSET @offset";
+                string query = @"SELECT * FROM achievements WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += " LIMIT @limit OFFSET @offset";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
+
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -131,12 +148,29 @@ public class AchievementsRepository : IAchievementsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM achievements 
-            WHERE (@rare = 'All' OR rare = @rare)
-                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+            string query = @"SELECT COUNT(*) FROM achievements WHERE 1=1";
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND name LIKE CONCAT('%', @search, '%')";
+            }
+
             await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@rare", rare);
+            
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
 
             var result = await command.ExecuteScalarAsync();
             if (result != null && result != DBNull.Value)

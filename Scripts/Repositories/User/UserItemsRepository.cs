@@ -155,7 +155,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return items;
     }
-    public async Task<bool> InsertUserItemAsync(Items items, double quantity)
+    public async Task<bool> InsertUserItemAsync(Items item, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -170,7 +170,7 @@ public class UserItemsRepository : IUserItemsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(query, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@item_id", items.Id);
+                    checkCommand.Parameters.AddWithValue("@item_id", item.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -182,7 +182,7 @@ public class UserItemsRepository : IUserItemsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            insertCommand.Parameters.AddWithValue("@item_id", items.Id);
+                            insertCommand.Parameters.AddWithValue("@item_id", item.Id);
                             insertCommand.Parameters.AddWithValue("@quantity", quantity);
 
                             await insertCommand.ExecuteNonQueryAsync();
@@ -191,8 +191,8 @@ public class UserItemsRepository : IUserItemsRepository
                     else
                     {
                         // Cập nhật số lượng item đã tồn tại
-                        items.Quantity = quantity;
-                        await UpdateUserItemQuantityAsync(items); // Giả sử bạn đã có phiên bản async
+                        item.Quantity = quantity;
+                        await UpdateUserItemQuantityAsync(item); // Giả sử bạn đã có phiên bản async
                     }
                 }
             }
@@ -209,7 +209,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return true;
     }
-    public async Task<Items> UpdateUserItemQuantityAsync(Items items)
+    public async Task<Items> UpdateUserItemQuantityAsync(Items item)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -226,8 +226,8 @@ public class UserItemsRepository : IUserItemsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@item_id", items.Id);
-                    command.Parameters.AddWithValue("@quantity", items.Quantity);
+                    command.Parameters.AddWithValue("@item_id", item.Id);
+                    command.Parameters.AddWithValue("@quantity", item.Quantity);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -242,9 +242,9 @@ public class UserItemsRepository : IUserItemsRepository
             }
         }
 
-        return items;
+        return item;
     }
-    public async Task<Items> UpdateUserItemQuantityAsync(Items items, double quantity)
+    public async Task<Items> UpdateUserItemQuantityAsync(Items item, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -261,7 +261,7 @@ public class UserItemsRepository : IUserItemsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@item_id", items.Id);
+                    command.Parameters.AddWithValue("@item_id", item.Id);
                     command.Parameters.AddWithValue("@quantity", quantity);
 
                     await command.ExecuteNonQueryAsync();
@@ -277,6 +277,6 @@ public class UserItemsRepository : IUserItemsRepository
             }
         }
 
-        return items;
+        return item;
     }
 }

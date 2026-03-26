@@ -168,7 +168,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return count;
     }
-    public async Task<bool> InsertUserVehicleAsync(Vehicles Vehicle, string userId)
+    public async Task<bool> InsertUserVehicleAsync(Vehicles vehicle, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -188,7 +188,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
+                    checkCommand.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -235,64 +235,64 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", Vehicle.Rare);
+                            insertCommand.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", vehicle.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Vehicle.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(vehicle.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", Vehicle.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", Vehicle.Power);
-                            insertCommand.Parameters.AddWithValue("@health", Vehicle.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", Vehicle.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", Vehicle.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", Vehicle.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", Vehicle.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", Vehicle.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", Vehicle.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", Vehicle.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", Vehicle.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", Vehicle.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", Vehicle.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", Vehicle.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", Vehicle.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", Vehicle.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Vehicle.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Vehicle.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", Vehicle.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Vehicle.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", Vehicle.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Vehicle.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Vehicle.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Vehicle.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Vehicle.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Vehicle.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", Vehicle.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", Vehicle.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", Vehicle.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", Vehicle.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", Vehicle.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", Vehicle.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Vehicle.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", Vehicle.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Vehicle.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", Vehicle.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Vehicle.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", Vehicle.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Vehicle.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Vehicle.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Vehicle.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", Vehicle.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Vehicle.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Vehicle.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Vehicle.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Vehicle.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Vehicle.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", Vehicle.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Vehicle.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", Vehicle.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Vehicle.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", vehicle.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", vehicle.Power);
+                            insertCommand.Parameters.AddWithValue("@health", vehicle.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", vehicle.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", vehicle.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", vehicle.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", vehicle.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", vehicle.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", vehicle.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", vehicle.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", vehicle.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", vehicle.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", vehicle.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", vehicle.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", vehicle.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", vehicle.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", vehicle.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", vehicle.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", vehicle.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", vehicle.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", vehicle.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", vehicle.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", vehicle.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", vehicle.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", vehicle.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", vehicle.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", vehicle.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", vehicle.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", vehicle.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", vehicle.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", vehicle.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", vehicle.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", vehicle.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", vehicle.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", vehicle.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", vehicle.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", vehicle.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", vehicle.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", vehicle.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", vehicle.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", vehicle.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", vehicle.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", vehicle.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", vehicle.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", vehicle.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", vehicle.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", vehicle.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", vehicle.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", vehicle.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", vehicle.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", vehicle.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -309,8 +309,8 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", Vehicle.Quantity);
+                            updateCommand.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", vehicle.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -330,7 +330,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return true;
     }
-    public async Task<bool> UpdateVehicleLevelAsync(Vehicles Vehicle, int cardLevel)
+    public async Task<bool> UpdateVehicleLevelAsync(Vehicles vehicle, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -375,58 +375,58 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
+                    command.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", Vehicle.Power);
-                    command.Parameters.AddWithValue("@health", Vehicle.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Vehicle.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Vehicle.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Vehicle.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Vehicle.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Vehicle.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Vehicle.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Vehicle.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Vehicle.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Vehicle.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Vehicle.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Vehicle.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Vehicle.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Vehicle.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Vehicle.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Vehicle.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Vehicle.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Vehicle.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Vehicle.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Vehicle.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Vehicle.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Vehicle.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Vehicle.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Vehicle.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Vehicle.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Vehicle.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Vehicle.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Vehicle.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Vehicle.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Vehicle.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Vehicle.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Vehicle.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Vehicle.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Vehicle.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Vehicle.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Vehicle.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Vehicle.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Vehicle.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Vehicle.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Vehicle.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Vehicle.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Vehicle.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Vehicle.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Vehicle.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Vehicle.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Vehicle.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Vehicle.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Vehicle.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Vehicle.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", vehicle.Power);
+                    command.Parameters.AddWithValue("@health", vehicle.Health);
+                    command.Parameters.AddWithValue("@physical_attack", vehicle.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", vehicle.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", vehicle.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", vehicle.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", vehicle.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", vehicle.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", vehicle.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", vehicle.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", vehicle.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", vehicle.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", vehicle.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", vehicle.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", vehicle.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", vehicle.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", vehicle.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", vehicle.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", vehicle.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", vehicle.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", vehicle.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", vehicle.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", vehicle.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", vehicle.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", vehicle.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", vehicle.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", vehicle.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", vehicle.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", vehicle.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", vehicle.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", vehicle.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", vehicle.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", vehicle.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", vehicle.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", vehicle.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", vehicle.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", vehicle.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", vehicle.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", vehicle.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", vehicle.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", vehicle.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", vehicle.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", vehicle.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", vehicle.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", vehicle.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", vehicle.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", vehicle.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", vehicle.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", vehicle.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", vehicle.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -444,7 +444,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return true;
     }
-    public async Task<bool> UpdateVehicleBreakthroughAsync(Vehicles Vehicle, int star, double quantity)
+    public async Task<bool> UpdateVehicleBreakthroughAsync(Vehicles vehicle, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -488,59 +488,59 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Vehicle_id", Vehicle.Id);
+                    command.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", Vehicle.Power);
-                    command.Parameters.AddWithValue("@health", Vehicle.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Vehicle.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Vehicle.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Vehicle.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Vehicle.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Vehicle.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Vehicle.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Vehicle.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Vehicle.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Vehicle.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Vehicle.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Vehicle.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Vehicle.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Vehicle.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Vehicle.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Vehicle.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Vehicle.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Vehicle.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Vehicle.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Vehicle.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Vehicle.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Vehicle.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Vehicle.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Vehicle.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Vehicle.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Vehicle.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Vehicle.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Vehicle.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Vehicle.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Vehicle.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Vehicle.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Vehicle.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Vehicle.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Vehicle.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Vehicle.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Vehicle.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Vehicle.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Vehicle.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Vehicle.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Vehicle.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Vehicle.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Vehicle.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Vehicle.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Vehicle.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Vehicle.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Vehicle.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Vehicle.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Vehicle.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Vehicle.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", vehicle.Power);
+                    command.Parameters.AddWithValue("@health", vehicle.Health);
+                    command.Parameters.AddWithValue("@physical_attack", vehicle.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", vehicle.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", vehicle.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", vehicle.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", vehicle.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", vehicle.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", vehicle.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", vehicle.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", vehicle.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", vehicle.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", vehicle.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", vehicle.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", vehicle.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", vehicle.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", vehicle.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", vehicle.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", vehicle.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", vehicle.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", vehicle.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", vehicle.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", vehicle.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", vehicle.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", vehicle.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", vehicle.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", vehicle.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", vehicle.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", vehicle.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", vehicle.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", vehicle.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", vehicle.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", vehicle.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", vehicle.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", vehicle.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", vehicle.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", vehicle.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", vehicle.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", vehicle.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", vehicle.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", vehicle.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", vehicle.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", vehicle.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", vehicle.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", vehicle.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", vehicle.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", vehicle.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", vehicle.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", vehicle.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", vehicle.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }

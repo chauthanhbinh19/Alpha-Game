@@ -48,19 +48,37 @@ public class CoresRepository : ICoresRepository
 
                 string query = @"
                 SELECT * 
-                FROM Cores 
-                WHERE (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-                ORDER BY Cores.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(Cores.name, '[0-9]+$') AS UNSIGNED), 
-                         Cores.name
-                LIMIT @limit OFFSET @offset;
-            ";
+                FROM cores 
+                WHERE 1=1";
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        query += " AND rare = @rare";
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                    }
+
+                    query += @"
+                ORDER BY 
+                    cores.name REGEXP '[0-9]+$',
+                    CAST(REGEXP_SUBSTR(cores.name, '[0-9]+$') AS UNSIGNED),
+                    cores.name
+                LIMIT @limit OFFSET @offset";
 
                 await using (var command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -163,13 +181,29 @@ public class CoresRepository : ICoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Cores 
-                WHERE (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+                string query = @"SELECT COUNT(*) FROM Cores WHERE 1= 1";
+                
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
                 await using (var command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
 
                     var result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);

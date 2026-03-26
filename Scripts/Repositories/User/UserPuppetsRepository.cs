@@ -168,7 +168,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return count;
     }
-    public async Task<bool> InsertUserPuppetAsync(Puppets Puppet, string userId)
+    public async Task<bool> InsertUserPuppetAsync(Puppets puppet, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -188,7 +188,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
+                    checkCommand.Parameters.AddWithValue("@Puppet_id", puppet.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -235,64 +235,64 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", Puppet.Rare);
+                            insertCommand.Parameters.AddWithValue("@Puppet_id", puppet.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", puppet.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(Puppet.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(puppet.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", Puppet.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", Puppet.Power);
-                            insertCommand.Parameters.AddWithValue("@health", Puppet.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", Puppet.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", Puppet.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", Puppet.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", Puppet.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", Puppet.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", Puppet.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", Puppet.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", Puppet.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", Puppet.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", Puppet.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", Puppet.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", Puppet.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", Puppet.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", Puppet.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", Puppet.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", Puppet.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", Puppet.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", Puppet.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", Puppet.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Puppet.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", Puppet.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Puppet.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Puppet.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", Puppet.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", Puppet.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", Puppet.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", Puppet.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", Puppet.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", Puppet.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", Puppet.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", Puppet.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", Puppet.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", Puppet.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", Puppet.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", Puppet.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", Puppet.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", Puppet.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", Puppet.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", Puppet.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", Puppet.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Puppet.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Puppet.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Puppet.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Puppet.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", Puppet.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", Puppet.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", Puppet.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", Puppet.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", puppet.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", puppet.Power);
+                            insertCommand.Parameters.AddWithValue("@health", puppet.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", puppet.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", puppet.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", puppet.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", puppet.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", puppet.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", puppet.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", puppet.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", puppet.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", puppet.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", puppet.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", puppet.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", puppet.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", puppet.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", puppet.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", puppet.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", puppet.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", puppet.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", puppet.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", puppet.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", puppet.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", puppet.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", puppet.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", puppet.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", puppet.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", puppet.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", puppet.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", puppet.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", puppet.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", puppet.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", puppet.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", puppet.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", puppet.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", puppet.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", puppet.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", puppet.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", puppet.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", puppet.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", puppet.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", puppet.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", puppet.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", puppet.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", puppet.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", puppet.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", puppet.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", puppet.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", puppet.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", puppet.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", puppet.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -309,8 +309,8 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", Puppet.Quantity);
+                            updateCommand.Parameters.AddWithValue("@Puppet_id", puppet.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", puppet.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -330,7 +330,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePuppetLevelAsync(Puppets Puppet, int cardLevel)
+    public async Task<bool> UpdatePuppetLevelAsync(Puppets puppet, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -375,58 +375,58 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
+                    command.Parameters.AddWithValue("@Puppet_id", puppet.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", Puppet.Power);
-                    command.Parameters.AddWithValue("@health", Puppet.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Puppet.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Puppet.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Puppet.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Puppet.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Puppet.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Puppet.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Puppet.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Puppet.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Puppet.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Puppet.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Puppet.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Puppet.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Puppet.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Puppet.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Puppet.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Puppet.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Puppet.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Puppet.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Puppet.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Puppet.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Puppet.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Puppet.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Puppet.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Puppet.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Puppet.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Puppet.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Puppet.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Puppet.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Puppet.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Puppet.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Puppet.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Puppet.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Puppet.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Puppet.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Puppet.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Puppet.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Puppet.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Puppet.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Puppet.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Puppet.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Puppet.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Puppet.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Puppet.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Puppet.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Puppet.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Puppet.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Puppet.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Puppet.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", puppet.Power);
+                    command.Parameters.AddWithValue("@health", puppet.Health);
+                    command.Parameters.AddWithValue("@physical_attack", puppet.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", puppet.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", puppet.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", puppet.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", puppet.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", puppet.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", puppet.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", puppet.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", puppet.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", puppet.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", puppet.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", puppet.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", puppet.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", puppet.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", puppet.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", puppet.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", puppet.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", puppet.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", puppet.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", puppet.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", puppet.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", puppet.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", puppet.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", puppet.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", puppet.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", puppet.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", puppet.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", puppet.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", puppet.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", puppet.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", puppet.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", puppet.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", puppet.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", puppet.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", puppet.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", puppet.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", puppet.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", puppet.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", puppet.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", puppet.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", puppet.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", puppet.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", puppet.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", puppet.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", puppet.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", puppet.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", puppet.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", puppet.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -444,7 +444,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePuppetBreakthroughAsync(Puppets Puppet, int star, double quantity)
+    public async Task<bool> UpdatePuppetBreakthroughAsync(Puppets puppet, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -488,59 +488,59 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Puppet_id", Puppet.Id);
+                    command.Parameters.AddWithValue("@Puppet_id", puppet.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", Puppet.Power);
-                    command.Parameters.AddWithValue("@health", Puppet.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Puppet.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Puppet.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Puppet.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Puppet.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Puppet.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Puppet.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Puppet.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Puppet.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Puppet.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Puppet.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Puppet.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Puppet.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Puppet.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Puppet.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Puppet.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Puppet.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Puppet.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Puppet.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Puppet.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Puppet.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Puppet.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Puppet.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Puppet.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Puppet.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Puppet.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Puppet.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Puppet.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Puppet.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Puppet.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Puppet.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Puppet.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Puppet.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Puppet.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Puppet.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Puppet.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Puppet.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Puppet.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Puppet.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Puppet.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Puppet.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Puppet.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Puppet.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Puppet.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Puppet.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Puppet.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Puppet.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Puppet.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Puppet.SkillResistanceRate);
+                    command.Parameters.AddWithValue("@power", puppet.Power);
+                    command.Parameters.AddWithValue("@health", puppet.Health);
+                    command.Parameters.AddWithValue("@physical_attack", puppet.PhysicalAttack);
+                    command.Parameters.AddWithValue("@physical_defense", puppet.PhysicalDefense);
+                    command.Parameters.AddWithValue("@magical_attack", puppet.MagicalAttack);
+                    command.Parameters.AddWithValue("@magical_defense", puppet.MagicalDefense);
+                    command.Parameters.AddWithValue("@chemical_attack", puppet.ChemicalAttack);
+                    command.Parameters.AddWithValue("@chemical_defense", puppet.ChemicalDefense);
+                    command.Parameters.AddWithValue("@atomic_attack", puppet.AtomicAttack);
+                    command.Parameters.AddWithValue("@atomic_defense", puppet.AtomicDefense);
+                    command.Parameters.AddWithValue("@mental_attack", puppet.MentalAttack);
+                    command.Parameters.AddWithValue("@mental_defense", puppet.MentalDefense);
+                    command.Parameters.AddWithValue("@speed", puppet.Speed);
+                    command.Parameters.AddWithValue("@critical_damage_rate", puppet.CriticalDamageRate);
+                    command.Parameters.AddWithValue("@critical_rate", puppet.CriticalRate);
+                    command.Parameters.AddWithValue("@critical_resistance_rate", puppet.CriticalResistanceRate);
+                    command.Parameters.AddWithValue("@ignore_critical_rate", puppet.IgnoreCriticalRate);
+                    command.Parameters.AddWithValue("@penetration_rate", puppet.PenetrationRate);
+                    command.Parameters.AddWithValue("@penetration_resistance_rate", puppet.PenetrationResistanceRate);
+                    command.Parameters.AddWithValue("@evasion_rate", puppet.EvasionRate);
+                    command.Parameters.AddWithValue("@damage_absorption_rate", puppet.DamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", puppet.IgnoreDamageAbsorptionRate);
+                    command.Parameters.AddWithValue("@absorbed_damage_rate", puppet.AbsorbedDamageRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_rate", puppet.VitalityRegenerationRate);
+                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", puppet.VitalityRegenerationResistanceRate);
+                    command.Parameters.AddWithValue("@accuracy_rate", puppet.AccuracyRate);
+                    command.Parameters.AddWithValue("@lifesteal_rate", puppet.LifestealRate);
+                    command.Parameters.AddWithValue("@shield_strength", puppet.ShieldStrength);
+                    command.Parameters.AddWithValue("@tenacity", puppet.Tenacity);
+                    command.Parameters.AddWithValue("@resistance_rate", puppet.ResistanceRate);
+                    command.Parameters.AddWithValue("@combo_rate", puppet.ComboRate);
+                    command.Parameters.AddWithValue("@ignore_combo_rate", puppet.IgnoreComboRate);
+                    command.Parameters.AddWithValue("@combo_damage_rate", puppet.ComboDamageRate);
+                    command.Parameters.AddWithValue("@combo_resistance_rate", puppet.ComboResistanceRate);
+                    command.Parameters.AddWithValue("@stun_rate", puppet.StunRate);
+                    command.Parameters.AddWithValue("@ignore_stun_rate", puppet.IgnoreStunRate);
+                    command.Parameters.AddWithValue("@reflection_rate", puppet.ReflectionRate);
+                    command.Parameters.AddWithValue("@ignore_reflection_rate", puppet.IgnoreReflectionRate);
+                    command.Parameters.AddWithValue("@reflection_damage_rate", puppet.ReflectionDamageRate);
+                    command.Parameters.AddWithValue("@reflection_resistance_rate", puppet.ReflectionResistanceRate);
+                    command.Parameters.AddWithValue("@mana", puppet.Mana);
+                    command.Parameters.AddWithValue("@mana_regeneration_rate", puppet.ManaRegenerationRate);
+                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", puppet.DamageToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", puppet.ResistanceToDifferentFactionRate);
+                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", puppet.DamageToSameFactionRate);
+                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", puppet.ResistanceToSameFactionRate);
+                    command.Parameters.AddWithValue("@normal_damage_rate", puppet.NormalDamageRate);
+                    command.Parameters.AddWithValue("@normal_resistance_rate", puppet.NormalResistanceRate);
+                    command.Parameters.AddWithValue("@skill_damage_rate", puppet.SkillDamageRate);
+                    command.Parameters.AddWithValue("@skill_resistance_rate", puppet.SkillResistanceRate);
 
                     await command.ExecuteNonQueryAsync();
                 }

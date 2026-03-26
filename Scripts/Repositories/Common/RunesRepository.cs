@@ -41,16 +41,38 @@ public class RunesRepository : IRunesRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                SELECT * FROM Runes 
-                WHERE (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-                ORDER BY Runes.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(Runes.name, '[0-9]+$') AS UNSIGNED), Runes.name
+                SELECT * 
+                FROM runes 
+                WHERE 1=1";
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        query += " AND rare = @rare";
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                    }
+
+                    query += @"
+                ORDER BY 
+                    runes.name REGEXP '[0-9]+$',
+                    CAST(REGEXP_SUBSTR(runes.name, '[0-9]+$') AS UNSIGNED),
+                    runes.name
                 LIMIT @limit OFFSET @offset";
 
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     command.Parameters.AddWithValue("@limit", pageSize);
                     command.Parameters.AddWithValue("@offset", offset);
 
@@ -153,13 +175,27 @@ public class RunesRepository : IRunesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Runes 
-                WHERE (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+                string query = @"SELECT COUNT(*) FROM Runes where 1=1";
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     object result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }

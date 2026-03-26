@@ -44,13 +44,26 @@ public class BordersRepository : IBordersRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT * FROM borders
-            WHERE (@rare = 'All' OR rare = @rare)
-                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-            ORDER BY borders.name REGEXP '[0-9]+$',
-                     CAST(REGEXP_SUBSTR(borders.name, '[0-9]+$') AS UNSIGNED),
-                     borders.name
-            LIMIT @limit OFFSET @offset";
+                SELECT * 
+                FROM borders 
+                WHERE 1=1";
+
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        query += " AND rare = @rare";
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                    }
+
+                    query += @"
+                ORDER BY 
+                    borders.name REGEXP '[0-9]+$',
+                    CAST(REGEXP_SUBSTR(borders.name, '[0-9]+$') AS UNSIGNED),
+                    borders.name
+                LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
             command.Parameters.AddWithValue("@search", search);
@@ -152,12 +165,28 @@ public class BordersRepository : IBordersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM Borders 
-            WHERE (@rare = 'All' OR rare = @rare)
-                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+            string query = @"SELECT COUNT(*) FROM Borders where 1=1";
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND name LIKE CONCAT('%', @search, '%')";
+            }
+
             await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@rare", rare);
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
 
             var result = await command.ExecuteScalarAsync();
             count = Convert.ToInt32(result);

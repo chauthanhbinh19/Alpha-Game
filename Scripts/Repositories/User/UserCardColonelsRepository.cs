@@ -677,7 +677,7 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
 
         return count;
     }
-    public async Task<bool> InsertUserCardColonelAsync(CardColonels CardColonels)
+    public async Task<bool> InsertUserCardColonelAsync(CardColonels cardColonel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -696,7 +696,7 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
 
             await using MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
             checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            checkCommand.Parameters.AddWithValue("@card_colonel_id", CardColonels.Id);
+            checkCommand.Parameters.AddWithValue("@card_colonel_id", cardColonel.Id);
 
             int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -743,64 +743,64 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                 await using MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
 
                 insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                insertCommand.Parameters.AddWithValue("@card_colonel_id", CardColonels.Id);
-                insertCommand.Parameters.AddWithValue("@rare", CardColonels.Rare);
+                insertCommand.Parameters.AddWithValue("@card_colonel_id", cardColonel.Id);
+                insertCommand.Parameters.AddWithValue("@rare", cardColonel.Rare);
                 insertCommand.Parameters.AddWithValue("@level", 0);
                 insertCommand.Parameters.AddWithValue("@experiment", 0);
                 insertCommand.Parameters.AddWithValue("@star", 0);
-                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(CardColonels.Rare));
+                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(cardColonel.Rare));
                 insertCommand.Parameters.AddWithValue("@block", false);
-                insertCommand.Parameters.AddWithValue("@quantity", CardColonels.Quantity);
-                insertCommand.Parameters.AddWithValue("@power", CardColonels.Power);
-                insertCommand.Parameters.AddWithValue("@health", CardColonels.Health);
-                insertCommand.Parameters.AddWithValue("@physical_attack", CardColonels.PhysicalAttack);
-                insertCommand.Parameters.AddWithValue("@physical_defense", CardColonels.PhysicalDefense);
-                insertCommand.Parameters.AddWithValue("@magical_attack", CardColonels.MagicalAttack);
-                insertCommand.Parameters.AddWithValue("@magical_defense", CardColonels.MagicalDefense);
-                insertCommand.Parameters.AddWithValue("@chemical_attack", CardColonels.ChemicalAttack);
-                insertCommand.Parameters.AddWithValue("@chemical_defense", CardColonels.ChemicalDefense);
-                insertCommand.Parameters.AddWithValue("@atomic_attack", CardColonels.AtomicAttack);
-                insertCommand.Parameters.AddWithValue("@atomic_defense", CardColonels.AtomicDefense);
-                insertCommand.Parameters.AddWithValue("@mental_attack", CardColonels.MentalAttack);
-                insertCommand.Parameters.AddWithValue("@mental_defense", CardColonels.MentalDefense);
-                insertCommand.Parameters.AddWithValue("@speed", CardColonels.Speed);
-                insertCommand.Parameters.AddWithValue("@critical_damage_rate", CardColonels.CriticalDamageRate);
-                insertCommand.Parameters.AddWithValue("@critical_rate", CardColonels.CriticalRate);
-                insertCommand.Parameters.AddWithValue("@critical_resistance_rate", CardColonels.CriticalResistanceRate);
-                insertCommand.Parameters.AddWithValue("@ignore_critical_rate", CardColonels.IgnoreCriticalRate);
-                insertCommand.Parameters.AddWithValue("@penetration_rate", CardColonels.PenetrationRate);
-                insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", CardColonels.PenetrationResistanceRate);
-                insertCommand.Parameters.AddWithValue("@evasion_rate", CardColonels.EvasionRate);
-                insertCommand.Parameters.AddWithValue("@damage_absorption_rate", CardColonels.DamageAbsorptionRate);
-                insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardColonels.IgnoreDamageAbsorptionRate);
-                insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", CardColonels.AbsorbedDamageRate);
-                insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", CardColonels.VitalityRegenerationRate);
-                insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardColonels.VitalityRegenerationResistanceRate);
-                insertCommand.Parameters.AddWithValue("@accuracy_rate", CardColonels.AccuracyRate);
-                insertCommand.Parameters.AddWithValue("@lifesteal_rate", CardColonels.LifestealRate);
-                insertCommand.Parameters.AddWithValue("@shield_strength", CardColonels.ShieldStrength);
-                insertCommand.Parameters.AddWithValue("@tenacity", CardColonels.Tenacity);
-                insertCommand.Parameters.AddWithValue("@resistance_rate", CardColonels.ResistanceRate);
-                insertCommand.Parameters.AddWithValue("@combo_rate", CardColonels.ComboRate);
-                insertCommand.Parameters.AddWithValue("@ignore_combo_rate", CardColonels.IgnoreComboRate);
-                insertCommand.Parameters.AddWithValue("@combo_damage_rate", CardColonels.ComboDamageRate);
-                insertCommand.Parameters.AddWithValue("@combo_resistance_rate", CardColonels.ComboResistanceRate);
-                insertCommand.Parameters.AddWithValue("@stun_rate", CardColonels.StunRate);
-                insertCommand.Parameters.AddWithValue("@ignore_stun_rate", CardColonels.IgnoreStunRate);
-                insertCommand.Parameters.AddWithValue("@reflection_rate", CardColonels.ReflectionRate);
-                insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", CardColonels.IgnoreReflectionRate);
-                insertCommand.Parameters.AddWithValue("@reflection_damage_rate", CardColonels.ReflectionDamageRate);
-                insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", CardColonels.ReflectionResistanceRate);
-                insertCommand.Parameters.AddWithValue("@mana", CardColonels.Mana);
-                insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", CardColonels.ManaRegenerationRate);
-                insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", CardColonels.DamageToDifferentFactionRate);
-                insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardColonels.ResistanceToDifferentFactionRate);
-                insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", CardColonels.DamageToSameFactionRate);
-                insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardColonels.ResistanceToSameFactionRate);
-                insertCommand.Parameters.AddWithValue("@normal_damage_rate", CardColonels.NormalDamageRate);
-                insertCommand.Parameters.AddWithValue("@normal_resistance_rate", CardColonels.NormalResistanceRate);
-                insertCommand.Parameters.AddWithValue("@skill_damage_rate", CardColonels.SkillDamageRate);
-                insertCommand.Parameters.AddWithValue("@skill_resistance_rate", CardColonels.SkillResistanceRate);
+                insertCommand.Parameters.AddWithValue("@quantity", cardColonel.Quantity);
+                insertCommand.Parameters.AddWithValue("@power", cardColonel.Power);
+                insertCommand.Parameters.AddWithValue("@health", cardColonel.Health);
+                insertCommand.Parameters.AddWithValue("@physical_attack", cardColonel.PhysicalAttack);
+                insertCommand.Parameters.AddWithValue("@physical_defense", cardColonel.PhysicalDefense);
+                insertCommand.Parameters.AddWithValue("@magical_attack", cardColonel.MagicalAttack);
+                insertCommand.Parameters.AddWithValue("@magical_defense", cardColonel.MagicalDefense);
+                insertCommand.Parameters.AddWithValue("@chemical_attack", cardColonel.ChemicalAttack);
+                insertCommand.Parameters.AddWithValue("@chemical_defense", cardColonel.ChemicalDefense);
+                insertCommand.Parameters.AddWithValue("@atomic_attack", cardColonel.AtomicAttack);
+                insertCommand.Parameters.AddWithValue("@atomic_defense", cardColonel.AtomicDefense);
+                insertCommand.Parameters.AddWithValue("@mental_attack", cardColonel.MentalAttack);
+                insertCommand.Parameters.AddWithValue("@mental_defense", cardColonel.MentalDefense);
+                insertCommand.Parameters.AddWithValue("@speed", cardColonel.Speed);
+                insertCommand.Parameters.AddWithValue("@critical_damage_rate", cardColonel.CriticalDamageRate);
+                insertCommand.Parameters.AddWithValue("@critical_rate", cardColonel.CriticalRate);
+                insertCommand.Parameters.AddWithValue("@critical_resistance_rate", cardColonel.CriticalResistanceRate);
+                insertCommand.Parameters.AddWithValue("@ignore_critical_rate", cardColonel.IgnoreCriticalRate);
+                insertCommand.Parameters.AddWithValue("@penetration_rate", cardColonel.PenetrationRate);
+                insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardColonel.PenetrationResistanceRate);
+                insertCommand.Parameters.AddWithValue("@evasion_rate", cardColonel.EvasionRate);
+                insertCommand.Parameters.AddWithValue("@damage_absorption_rate", cardColonel.DamageAbsorptionRate);
+                insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardColonel.IgnoreDamageAbsorptionRate);
+                insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardColonel.AbsorbedDamageRate);
+                insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardColonel.VitalityRegenerationRate);
+                insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardColonel.VitalityRegenerationResistanceRate);
+                insertCommand.Parameters.AddWithValue("@accuracy_rate", cardColonel.AccuracyRate);
+                insertCommand.Parameters.AddWithValue("@lifesteal_rate", cardColonel.LifestealRate);
+                insertCommand.Parameters.AddWithValue("@shield_strength", cardColonel.ShieldStrength);
+                insertCommand.Parameters.AddWithValue("@tenacity", cardColonel.Tenacity);
+                insertCommand.Parameters.AddWithValue("@resistance_rate", cardColonel.ResistanceRate);
+                insertCommand.Parameters.AddWithValue("@combo_rate", cardColonel.ComboRate);
+                insertCommand.Parameters.AddWithValue("@ignore_combo_rate", cardColonel.IgnoreComboRate);
+                insertCommand.Parameters.AddWithValue("@combo_damage_rate", cardColonel.ComboDamageRate);
+                insertCommand.Parameters.AddWithValue("@combo_resistance_rate", cardColonel.ComboResistanceRate);
+                insertCommand.Parameters.AddWithValue("@stun_rate", cardColonel.StunRate);
+                insertCommand.Parameters.AddWithValue("@ignore_stun_rate", cardColonel.IgnoreStunRate);
+                insertCommand.Parameters.AddWithValue("@reflection_rate", cardColonel.ReflectionRate);
+                insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardColonel.IgnoreReflectionRate);
+                insertCommand.Parameters.AddWithValue("@reflection_damage_rate", cardColonel.ReflectionDamageRate);
+                insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardColonel.ReflectionResistanceRate);
+                insertCommand.Parameters.AddWithValue("@mana", cardColonel.Mana);
+                insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardColonel.ManaRegenerationRate);
+                insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardColonel.DamageToDifferentFactionRate);
+                insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardColonel.ResistanceToDifferentFactionRate);
+                insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardColonel.DamageToSameFactionRate);
+                insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardColonel.ResistanceToSameFactionRate);
+                insertCommand.Parameters.AddWithValue("@normal_damage_rate", cardColonel.NormalDamageRate);
+                insertCommand.Parameters.AddWithValue("@normal_resistance_rate", cardColonel.NormalResistanceRate);
+                insertCommand.Parameters.AddWithValue("@skill_damage_rate", cardColonel.SkillDamageRate);
+                insertCommand.Parameters.AddWithValue("@skill_resistance_rate", cardColonel.SkillResistanceRate);
 
                 await insertCommand.ExecuteNonQueryAsync();
             }
@@ -815,8 +815,8 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
 
                 await using MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                updateCommand.Parameters.AddWithValue("@card_colonel_id", CardColonels.Id);
-                updateCommand.Parameters.AddWithValue("@quantity", CardColonels.Quantity);
+                updateCommand.Parameters.AddWithValue("@card_colonel_id", cardColonel.Id);
+                updateCommand.Parameters.AddWithValue("@quantity", cardColonel.Quantity);
 
                 await updateCommand.ExecuteNonQueryAsync();
             }
@@ -829,7 +829,7 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
 
         return true;
     }
-    public async Task<bool> UpdateCardColonelLevelAsync(CardColonels CardColonels, int cardLevel)
+    public async Task<bool> UpdateCardColonelLevelAsync(CardColonels cardColonel, int cardLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -873,58 +873,58 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
             await using MySqlCommand command = new MySqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            command.Parameters.AddWithValue("@card_colonel_id", CardColonels.Id);
+            command.Parameters.AddWithValue("@card_colonel_id", cardColonel.Id);
             command.Parameters.AddWithValue("@level", cardLevel);
-            command.Parameters.AddWithValue("@power", CardColonels.Power);
-            command.Parameters.AddWithValue("@health", CardColonels.Health);
-            command.Parameters.AddWithValue("@physical_attack", CardColonels.PhysicalAttack);
-            command.Parameters.AddWithValue("@physical_defense", CardColonels.PhysicalDefense);
-            command.Parameters.AddWithValue("@magical_attack", CardColonels.MagicalAttack);
-            command.Parameters.AddWithValue("@magical_defense", CardColonels.MagicalDefense);
-            command.Parameters.AddWithValue("@chemical_attack", CardColonels.ChemicalAttack);
-            command.Parameters.AddWithValue("@chemical_defense", CardColonels.ChemicalDefense);
-            command.Parameters.AddWithValue("@atomic_attack", CardColonels.AtomicAttack);
-            command.Parameters.AddWithValue("@atomic_defense", CardColonels.AtomicDefense);
-            command.Parameters.AddWithValue("@mental_attack", CardColonels.MentalAttack);
-            command.Parameters.AddWithValue("@mental_defense", CardColonels.MentalDefense);
-            command.Parameters.AddWithValue("@speed", CardColonels.Speed);
-            command.Parameters.AddWithValue("@critical_damage_rate", CardColonels.CriticalDamageRate);
-            command.Parameters.AddWithValue("@critical_rate", CardColonels.CriticalRate);
-            command.Parameters.AddWithValue("@critical_resistance_rate", CardColonels.CriticalResistanceRate);
-            command.Parameters.AddWithValue("@ignore_critical_rate", CardColonels.IgnoreCriticalRate);
-            command.Parameters.AddWithValue("@penetration_rate", CardColonels.PenetrationRate);
-            command.Parameters.AddWithValue("@penetration_resistance_rate", CardColonels.PenetrationResistanceRate);
-            command.Parameters.AddWithValue("@evasion_rate", CardColonels.EvasionRate);
-            command.Parameters.AddWithValue("@damage_absorption_rate", CardColonels.DamageAbsorptionRate);
-            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardColonels.IgnoreDamageAbsorptionRate);
-            command.Parameters.AddWithValue("@absorbed_damage_rate", CardColonels.AbsorbedDamageRate);
-            command.Parameters.AddWithValue("@vitality_regeneration_rate", CardColonels.VitalityRegenerationRate);
-            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardColonels.VitalityRegenerationResistanceRate);
-            command.Parameters.AddWithValue("@accuracy_rate", CardColonels.AccuracyRate);
-            command.Parameters.AddWithValue("@lifesteal_rate", CardColonels.LifestealRate);
-            command.Parameters.AddWithValue("@shield_strength", CardColonels.ShieldStrength);
-            command.Parameters.AddWithValue("@tenacity", CardColonels.Tenacity);
-            command.Parameters.AddWithValue("@resistance_rate", CardColonels.ResistanceRate);
-            command.Parameters.AddWithValue("@combo_rate", CardColonels.ComboRate);
-            command.Parameters.AddWithValue("@ignore_combo_rate", CardColonels.IgnoreComboRate);
-            command.Parameters.AddWithValue("@combo_damage_rate", CardColonels.ComboDamageRate);
-            command.Parameters.AddWithValue("@combo_resistance_rate", CardColonels.ComboResistanceRate);
-            command.Parameters.AddWithValue("@stun_rate", CardColonels.StunRate);
-            command.Parameters.AddWithValue("@ignore_stun_rate", CardColonels.IgnoreStunRate);
-            command.Parameters.AddWithValue("@reflection_rate", CardColonels.ReflectionRate);
-            command.Parameters.AddWithValue("@ignore_reflection_rate", CardColonels.IgnoreReflectionRate);
-            command.Parameters.AddWithValue("@reflection_damage_rate", CardColonels.ReflectionDamageRate);
-            command.Parameters.AddWithValue("@reflection_resistance_rate", CardColonels.ReflectionResistanceRate);
-            command.Parameters.AddWithValue("@mana", CardColonels.Mana);
-            command.Parameters.AddWithValue("@mana_regeneration_rate", CardColonels.ManaRegenerationRate);
-            command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardColonels.DamageToDifferentFactionRate);
-            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardColonels.ResistanceToDifferentFactionRate);
-            command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardColonels.DamageToSameFactionRate);
-            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardColonels.ResistanceToSameFactionRate);
-            command.Parameters.AddWithValue("@normal_damage_rate", CardColonels.NormalDamageRate);
-            command.Parameters.AddWithValue("@normal_resistance_rate", CardColonels.NormalResistanceRate);
-            command.Parameters.AddWithValue("@skill_damage_rate", CardColonels.SkillDamageRate);
-            command.Parameters.AddWithValue("@skill_resistance_rate", CardColonels.SkillResistanceRate);
+            command.Parameters.AddWithValue("@power", cardColonel.Power);
+            command.Parameters.AddWithValue("@health", cardColonel.Health);
+            command.Parameters.AddWithValue("@physical_attack", cardColonel.PhysicalAttack);
+            command.Parameters.AddWithValue("@physical_defense", cardColonel.PhysicalDefense);
+            command.Parameters.AddWithValue("@magical_attack", cardColonel.MagicalAttack);
+            command.Parameters.AddWithValue("@magical_defense", cardColonel.MagicalDefense);
+            command.Parameters.AddWithValue("@chemical_attack", cardColonel.ChemicalAttack);
+            command.Parameters.AddWithValue("@chemical_defense", cardColonel.ChemicalDefense);
+            command.Parameters.AddWithValue("@atomic_attack", cardColonel.AtomicAttack);
+            command.Parameters.AddWithValue("@atomic_defense", cardColonel.AtomicDefense);
+            command.Parameters.AddWithValue("@mental_attack", cardColonel.MentalAttack);
+            command.Parameters.AddWithValue("@mental_defense", cardColonel.MentalDefense);
+            command.Parameters.AddWithValue("@speed", cardColonel.Speed);
+            command.Parameters.AddWithValue("@critical_damage_rate", cardColonel.CriticalDamageRate);
+            command.Parameters.AddWithValue("@critical_rate", cardColonel.CriticalRate);
+            command.Parameters.AddWithValue("@critical_resistance_rate", cardColonel.CriticalResistanceRate);
+            command.Parameters.AddWithValue("@ignore_critical_rate", cardColonel.IgnoreCriticalRate);
+            command.Parameters.AddWithValue("@penetration_rate", cardColonel.PenetrationRate);
+            command.Parameters.AddWithValue("@penetration_resistance_rate", cardColonel.PenetrationResistanceRate);
+            command.Parameters.AddWithValue("@evasion_rate", cardColonel.EvasionRate);
+            command.Parameters.AddWithValue("@damage_absorption_rate", cardColonel.DamageAbsorptionRate);
+            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardColonel.IgnoreDamageAbsorptionRate);
+            command.Parameters.AddWithValue("@absorbed_damage_rate", cardColonel.AbsorbedDamageRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_rate", cardColonel.VitalityRegenerationRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardColonel.VitalityRegenerationResistanceRate);
+            command.Parameters.AddWithValue("@accuracy_rate", cardColonel.AccuracyRate);
+            command.Parameters.AddWithValue("@lifesteal_rate", cardColonel.LifestealRate);
+            command.Parameters.AddWithValue("@shield_strength", cardColonel.ShieldStrength);
+            command.Parameters.AddWithValue("@tenacity", cardColonel.Tenacity);
+            command.Parameters.AddWithValue("@resistance_rate", cardColonel.ResistanceRate);
+            command.Parameters.AddWithValue("@combo_rate", cardColonel.ComboRate);
+            command.Parameters.AddWithValue("@ignore_combo_rate", cardColonel.IgnoreComboRate);
+            command.Parameters.AddWithValue("@combo_damage_rate", cardColonel.ComboDamageRate);
+            command.Parameters.AddWithValue("@combo_resistance_rate", cardColonel.ComboResistanceRate);
+            command.Parameters.AddWithValue("@stun_rate", cardColonel.StunRate);
+            command.Parameters.AddWithValue("@ignore_stun_rate", cardColonel.IgnoreStunRate);
+            command.Parameters.AddWithValue("@reflection_rate", cardColonel.ReflectionRate);
+            command.Parameters.AddWithValue("@ignore_reflection_rate", cardColonel.IgnoreReflectionRate);
+            command.Parameters.AddWithValue("@reflection_damage_rate", cardColonel.ReflectionDamageRate);
+            command.Parameters.AddWithValue("@reflection_resistance_rate", cardColonel.ReflectionResistanceRate);
+            command.Parameters.AddWithValue("@mana", cardColonel.Mana);
+            command.Parameters.AddWithValue("@mana_regeneration_rate", cardColonel.ManaRegenerationRate);
+            command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardColonel.DamageToDifferentFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardColonel.ResistanceToDifferentFactionRate);
+            command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardColonel.DamageToSameFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardColonel.ResistanceToSameFactionRate);
+            command.Parameters.AddWithValue("@normal_damage_rate", cardColonel.NormalDamageRate);
+            command.Parameters.AddWithValue("@normal_resistance_rate", cardColonel.NormalResistanceRate);
+            command.Parameters.AddWithValue("@skill_damage_rate", cardColonel.SkillDamageRate);
+            command.Parameters.AddWithValue("@skill_resistance_rate", cardColonel.SkillResistanceRate);
 
             await command.ExecuteNonQueryAsync();
         }
@@ -936,7 +936,7 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
 
         return true;
     }
-    public async Task<bool> UpdateCardColonelBreakthroughAsync(CardColonels CardColonels, int star, double quantity)
+    public async Task<bool> UpdateCardColonelBreakthroughAsync(CardColonels cardColonel, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -980,59 +980,59 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
             await using MySqlCommand command = new MySqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            command.Parameters.AddWithValue("@card_colonel_id", CardColonels.Id);
+            command.Parameters.AddWithValue("@card_colonel_id", cardColonel.Id);
             command.Parameters.AddWithValue("@star", star);
             command.Parameters.AddWithValue("@quantity", quantity);
-            command.Parameters.AddWithValue("@power", CardColonels.Power);
-            command.Parameters.AddWithValue("@health", CardColonels.Health);
-            command.Parameters.AddWithValue("@physical_attack", CardColonels.PhysicalAttack);
-            command.Parameters.AddWithValue("@physical_defense", CardColonels.PhysicalDefense);
-            command.Parameters.AddWithValue("@magical_attack", CardColonels.MagicalAttack);
-            command.Parameters.AddWithValue("@magical_defense", CardColonels.MagicalDefense);
-            command.Parameters.AddWithValue("@chemical_attack", CardColonels.ChemicalAttack);
-            command.Parameters.AddWithValue("@chemical_defense", CardColonels.ChemicalDefense);
-            command.Parameters.AddWithValue("@atomic_attack", CardColonels.AtomicAttack);
-            command.Parameters.AddWithValue("@atomic_defense", CardColonels.AtomicDefense);
-            command.Parameters.AddWithValue("@mental_attack", CardColonels.MentalAttack);
-            command.Parameters.AddWithValue("@mental_defense", CardColonels.MentalDefense);
-            command.Parameters.AddWithValue("@speed", CardColonels.Speed);
-            command.Parameters.AddWithValue("@critical_damage_rate", CardColonels.CriticalDamageRate);
-            command.Parameters.AddWithValue("@critical_rate", CardColonels.CriticalRate);
-            command.Parameters.AddWithValue("@critical_resistance_rate", CardColonels.CriticalResistanceRate);
-            command.Parameters.AddWithValue("@ignore_critical_rate", CardColonels.IgnoreCriticalRate);
-            command.Parameters.AddWithValue("@penetration_rate", CardColonels.PenetrationRate);
-            command.Parameters.AddWithValue("@penetration_resistance_rate", CardColonels.PenetrationResistanceRate);
-            command.Parameters.AddWithValue("@evasion_rate", CardColonels.EvasionRate);
-            command.Parameters.AddWithValue("@damage_absorption_rate", CardColonels.DamageAbsorptionRate);
-            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", CardColonels.IgnoreDamageAbsorptionRate);
-            command.Parameters.AddWithValue("@absorbed_damage_rate", CardColonels.AbsorbedDamageRate);
-            command.Parameters.AddWithValue("@vitality_regeneration_rate", CardColonels.VitalityRegenerationRate);
-            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", CardColonels.VitalityRegenerationResistanceRate);
-            command.Parameters.AddWithValue("@accuracy_rate", CardColonels.AccuracyRate);
-            command.Parameters.AddWithValue("@lifesteal_rate", CardColonels.LifestealRate);
-            command.Parameters.AddWithValue("@shield_strength", CardColonels.ShieldStrength);
-            command.Parameters.AddWithValue("@tenacity", CardColonels.Tenacity);
-            command.Parameters.AddWithValue("@resistance_rate", CardColonels.ResistanceRate);
-            command.Parameters.AddWithValue("@combo_rate", CardColonels.ComboRate);
-            command.Parameters.AddWithValue("@ignore_combo_rate", CardColonels.IgnoreComboRate);
-            command.Parameters.AddWithValue("@combo_damage_rate", CardColonels.ComboDamageRate);
-            command.Parameters.AddWithValue("@combo_resistance_rate", CardColonels.ComboResistanceRate);
-            command.Parameters.AddWithValue("@stun_rate", CardColonels.StunRate);
-            command.Parameters.AddWithValue("@ignore_stun_rate", CardColonels.IgnoreStunRate);
-            command.Parameters.AddWithValue("@reflection_rate", CardColonels.ReflectionRate);
-            command.Parameters.AddWithValue("@ignore_reflection_rate", CardColonels.IgnoreReflectionRate);
-            command.Parameters.AddWithValue("@reflection_damage_rate", CardColonels.ReflectionDamageRate);
-            command.Parameters.AddWithValue("@reflection_resistance_rate", CardColonels.ReflectionResistanceRate);
-            command.Parameters.AddWithValue("@mana", CardColonels.Mana);
-            command.Parameters.AddWithValue("@mana_regeneration_rate", CardColonels.ManaRegenerationRate);
-            command.Parameters.AddWithValue("@damage_to_different_faction_rate", CardColonels.DamageToDifferentFactionRate);
-            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", CardColonels.ResistanceToDifferentFactionRate);
-            command.Parameters.AddWithValue("@damage_to_same_faction_rate", CardColonels.DamageToSameFactionRate);
-            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", CardColonels.ResistanceToSameFactionRate);
-            command.Parameters.AddWithValue("@normal_damage_rate", CardColonels.NormalDamageRate);
-            command.Parameters.AddWithValue("@normal_resistance_rate", CardColonels.NormalResistanceRate);
-            command.Parameters.AddWithValue("@skill_damage_rate", CardColonels.SkillDamageRate);
-            command.Parameters.AddWithValue("@skill_resistance_rate", CardColonels.SkillResistanceRate);
+            command.Parameters.AddWithValue("@power", cardColonel.Power);
+            command.Parameters.AddWithValue("@health", cardColonel.Health);
+            command.Parameters.AddWithValue("@physical_attack", cardColonel.PhysicalAttack);
+            command.Parameters.AddWithValue("@physical_defense", cardColonel.PhysicalDefense);
+            command.Parameters.AddWithValue("@magical_attack", cardColonel.MagicalAttack);
+            command.Parameters.AddWithValue("@magical_defense", cardColonel.MagicalDefense);
+            command.Parameters.AddWithValue("@chemical_attack", cardColonel.ChemicalAttack);
+            command.Parameters.AddWithValue("@chemical_defense", cardColonel.ChemicalDefense);
+            command.Parameters.AddWithValue("@atomic_attack", cardColonel.AtomicAttack);
+            command.Parameters.AddWithValue("@atomic_defense", cardColonel.AtomicDefense);
+            command.Parameters.AddWithValue("@mental_attack", cardColonel.MentalAttack);
+            command.Parameters.AddWithValue("@mental_defense", cardColonel.MentalDefense);
+            command.Parameters.AddWithValue("@speed", cardColonel.Speed);
+            command.Parameters.AddWithValue("@critical_damage_rate", cardColonel.CriticalDamageRate);
+            command.Parameters.AddWithValue("@critical_rate", cardColonel.CriticalRate);
+            command.Parameters.AddWithValue("@critical_resistance_rate", cardColonel.CriticalResistanceRate);
+            command.Parameters.AddWithValue("@ignore_critical_rate", cardColonel.IgnoreCriticalRate);
+            command.Parameters.AddWithValue("@penetration_rate", cardColonel.PenetrationRate);
+            command.Parameters.AddWithValue("@penetration_resistance_rate", cardColonel.PenetrationResistanceRate);
+            command.Parameters.AddWithValue("@evasion_rate", cardColonel.EvasionRate);
+            command.Parameters.AddWithValue("@damage_absorption_rate", cardColonel.DamageAbsorptionRate);
+            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardColonel.IgnoreDamageAbsorptionRate);
+            command.Parameters.AddWithValue("@absorbed_damage_rate", cardColonel.AbsorbedDamageRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_rate", cardColonel.VitalityRegenerationRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardColonel.VitalityRegenerationResistanceRate);
+            command.Parameters.AddWithValue("@accuracy_rate", cardColonel.AccuracyRate);
+            command.Parameters.AddWithValue("@lifesteal_rate", cardColonel.LifestealRate);
+            command.Parameters.AddWithValue("@shield_strength", cardColonel.ShieldStrength);
+            command.Parameters.AddWithValue("@tenacity", cardColonel.Tenacity);
+            command.Parameters.AddWithValue("@resistance_rate", cardColonel.ResistanceRate);
+            command.Parameters.AddWithValue("@combo_rate", cardColonel.ComboRate);
+            command.Parameters.AddWithValue("@ignore_combo_rate", cardColonel.IgnoreComboRate);
+            command.Parameters.AddWithValue("@combo_damage_rate", cardColonel.ComboDamageRate);
+            command.Parameters.AddWithValue("@combo_resistance_rate", cardColonel.ComboResistanceRate);
+            command.Parameters.AddWithValue("@stun_rate", cardColonel.StunRate);
+            command.Parameters.AddWithValue("@ignore_stun_rate", cardColonel.IgnoreStunRate);
+            command.Parameters.AddWithValue("@reflection_rate", cardColonel.ReflectionRate);
+            command.Parameters.AddWithValue("@ignore_reflection_rate", cardColonel.IgnoreReflectionRate);
+            command.Parameters.AddWithValue("@reflection_damage_rate", cardColonel.ReflectionDamageRate);
+            command.Parameters.AddWithValue("@reflection_resistance_rate", cardColonel.ReflectionResistanceRate);
+            command.Parameters.AddWithValue("@mana", cardColonel.Mana);
+            command.Parameters.AddWithValue("@mana_regeneration_rate", cardColonel.ManaRegenerationRate);
+            command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardColonel.DamageToDifferentFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardColonel.ResistanceToDifferentFactionRate);
+            command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardColonel.DamageToSameFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardColonel.ResistanceToSameFactionRate);
+            command.Parameters.AddWithValue("@normal_damage_rate", cardColonel.NormalDamageRate);
+            command.Parameters.AddWithValue("@normal_resistance_rate", cardColonel.NormalResistanceRate);
+            command.Parameters.AddWithValue("@skill_damage_rate", cardColonel.SkillDamageRate);
+            command.Parameters.AddWithValue("@skill_resistance_rate", cardColonel.SkillResistanceRate);
 
             await command.ExecuteNonQueryAsync();
         }

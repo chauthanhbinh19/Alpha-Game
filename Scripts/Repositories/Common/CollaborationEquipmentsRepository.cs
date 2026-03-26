@@ -68,20 +68,46 @@ public class CollaborationEquipmentsRepository : ICollaborationEquipmentsReposit
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT * 
-                         FROM collaboration_equipments 
-                         WHERE (@type = 'All' OR type = @type)
-                            AND (@rare = 'All' OR rare = @rare)
-                            AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-                         ORDER BY collaboration_equipments.name REGEXP '[0-9]+$', 
-                                  CAST(REGEXP_SUBSTR(collaboration_equipments.name, '[0-9]+$') AS UNSIGNED), 
-                                  collaboration_equipments.name 
-                         LIMIT @limit OFFSET @offset";
+            string query = @"
+            SELECT *
+            FROM collaboration_equipments
+            WHERE 1=1";
+
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                query += " AND type = @type";
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND name LIKE CONCAT('%', @search, '%')";
+            }
+
+            query += " ORDER BY name";
+            query += " LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@rare", rare);
+            
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                command.Parameters.AddWithValue("@type", type);
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
+
             command.Parameters.AddWithValue("@limit", pageSize);
             command.Parameters.AddWithValue("@offset", offset);
 
@@ -170,16 +196,38 @@ public class CollaborationEquipmentsRepository : ICollaborationEquipmentsReposit
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) 
-                         FROM collaboration_equipments 
-                         WHERE (@type = 'All' OR type = @type)
-                            AND (@rare = 'All' OR rare = @rare)
-                            AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+            string query = @"SELECT COUNT(*) FROM collaboration_equipments WHERE 1=1";
+            
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                query += " AND type = @type";
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND name LIKE CONCAT('%', @search, '%')";
+            }
 
             await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@rare", rare);
+            if (!string.IsNullOrEmpty(type) && type != "All")
+            {
+                command.Parameters.AddWithValue("@type", type);
+            }
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
 
             object result = await command.ExecuteScalarAsync();
             if (result != null && result != DBNull.Value)

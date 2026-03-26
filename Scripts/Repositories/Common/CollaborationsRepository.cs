@@ -43,18 +43,39 @@ public class CollaborationsRepository : ICollaborationsRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT * 
-            FROM Collaborations 
-            WHERE (@rare = 'All' OR rare = @rare)
-                AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-            ORDER BY name REGEXP '[0-9]+$', 
-                     CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), 
-                     name 
-            LIMIT @limit OFFSET @offset";
+                SELECT * 
+                FROM collaborations 
+                WHERE 1=1";
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                query += " AND rare = @rare";
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query += " AND name LIKE CONCAT('%', @search, '%')";
+            }
+
+            query += @"
+                ORDER BY 
+                    collaborations.name REGEXP '[0-9]+$',
+                    CAST(REGEXP_SUBSTR(collaborations.name, '[0-9]+$') AS UNSIGNED),
+                    collaborations.name
+                LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@rare", rare);
+
+            if (!string.IsNullOrEmpty(rare) && rare != "All")
+            {
+                command.Parameters.AddWithValue("@rare", rare);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                command.Parameters.AddWithValue("@search", search);
+            }
+
             command.Parameters.AddWithValue("@limit", pageSize);
             command.Parameters.AddWithValue("@offset", offset);
 
@@ -153,13 +174,29 @@ public class CollaborationsRepository : ICollaborationsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Collaborations 
-                WHERE (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+                string query = @"SELECT COUNT(*) FROM Collaborations WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
                 await using (var command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@rare", rare);
+                    if (!string.IsNullOrEmpty(rare) && rare != "All")
+                    {
+                        command.Parameters.AddWithValue("@rare", rare);
+                    }
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        command.Parameters.AddWithValue("@search", search);
+                    }
                     var result = await command.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }

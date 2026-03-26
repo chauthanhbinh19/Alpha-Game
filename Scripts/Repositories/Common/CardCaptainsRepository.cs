@@ -64,16 +64,25 @@ public class CardCaptainsRepository : ICardCaptainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
-                SELECT * 
-                FROM card_captains 
-                WHERE (@type = 'All' OR type = @type)
-                    AND (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))
-                ORDER BY name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), 
-                         name
-                LIMIT @limit OFFSET @offset";
+                string query = @"SELECT * FROM card_captains WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
+                query += " ORDER BY name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), name";
+                query += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -173,10 +182,23 @@ public class CardCaptainsRepository : ICardCaptainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM card_captains 
-                WHERE (@type = 'All' OR type = @type)
-                    AND (@rare = 'All' OR rare = @rare)
-                    AND (@search = '' OR name LIKE CONCAT('%', @search, '%'))";
+                string query = @"SELECT COUNT(*) FROM card_captains WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(type) && type != "All")
+                {
+                    query += " AND type = @type";
+                }
+
+                if (!string.IsNullOrEmpty(rare) && rare != "All")
+                {
+                    query += " AND rare = @rare";
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                }
+
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@search", search);
