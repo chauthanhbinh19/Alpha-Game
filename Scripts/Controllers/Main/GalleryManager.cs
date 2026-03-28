@@ -109,6 +109,7 @@ public class GalleryManager : MonoBehaviour
         CreateGalleryButtonUI(44, AppDisplayConstants.Gallery.BUILDINGS_GALLERY, itemBackground, Resources.Load<Texture2D>(ImageConstants.Gallery.BUILDING_URL), galleryMenuPanel);
         CreateGalleryButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, itemBackground, Resources.Load<Texture2D>(ImageConstants.Gallery.PLANT_URL), galleryMenuPanel);
         CreateGalleryButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, itemBackground, Resources.Load<Texture2D>(ImageConstants.Gallery.FASHION_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(47, AppDisplayConstants.Gallery.EMOJIS_GALLERY, itemBackground, Resources.Load<Texture2D>(ImageConstants.Gallery.EMOJI_URL), galleryMenuPanel);
 
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -199,6 +200,7 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_44", () => GetType(AppConstants.MainType.BUILDING));
         AssignButtonEvent("Button_45", () => GetType(AppConstants.MainType.PLANT));
         AssignButtonEvent("Button_46", () => GetType(AppConstants.MainType.FASHION));
+        AssignButtonEvent("Button_47", () => GetType(AppConstants.MainType.EMOJI));
         // GetCardsType();
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)

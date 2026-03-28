@@ -11,8 +11,8 @@ public class DetailMenuManager : MonoBehaviour
     TeamsService teamsService;
     UserItemsService userItemsService;
     private TMP_FontAsset EuroStyleNormalFont;
-    private int fontSize;
-    private int maxLevel;
+    private const int FONT_SIZE = 20;
+    private const int MAX_LEVEL = 10000;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -35,8 +35,6 @@ public class DetailMenuManager : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
-        fontSize = 20;
-        maxLevel = 10000;
     }
     public async Task CreateCardHeroesEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
      Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardHeroes cardHero)
@@ -52,16 +50,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -70,7 +68,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -93,7 +91,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -128,16 +126,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -146,7 +144,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -169,7 +167,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -204,16 +202,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -222,7 +220,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -245,7 +243,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -280,16 +278,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -298,7 +296,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -321,7 +319,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -356,16 +354,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -374,7 +372,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -397,7 +395,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -430,16 +428,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -448,7 +446,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -471,7 +469,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -504,16 +502,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -522,7 +520,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -545,7 +543,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -580,16 +578,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -598,7 +596,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -621,7 +619,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -656,16 +654,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -674,7 +672,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -697,7 +695,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -732,16 +730,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -750,7 +748,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -773,7 +771,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -808,16 +806,16 @@ public class DetailMenuManager : MonoBehaviour
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, maxLevel);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI UpLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
+        UpLevelButtonText.fontSize = FONT_SIZE;
         UpLevelButtonText.fontStyle = FontStyles.Bold;
         UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
         TextMeshProUGUI UpMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
+        UpMaxLevelButtonText.fontSize = FONT_SIZE;
         UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
         UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
 
@@ -826,7 +824,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -849,7 +847,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, maxLevel);
+            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {

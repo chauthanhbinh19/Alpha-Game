@@ -169,6 +169,9 @@ public static class AppDisplayConstants
         public const string FASHION = "MainType.Fashion";
         public const string FASHIONS = "MainType.Fashions";
 
+        public const string EMOJI = "MainType.Emoji";
+        public const string EMOJIS = "MainType.Emojis";
+
         public const string SUMMON_CARD_HEROES = "MainType.SummonCardHeroes";
         public const string SUMMON_BOOKS = "MainType.SummonBooks";
         public const string SUMMON_CARD_CAPTAINS = "MainType.SummonCardCaptains";
@@ -278,6 +281,7 @@ public static class AppDisplayConstants
         public const string BUILDINGS_GALLERY = "Gallery.Buildings";
         public const string PLANTS_GALLERY = "Gallery.Plants";
         public const string FASHIONS_GALLERY = "Gallery.Fashions";
+        public const string EMOJIS_GALLERY = "Gallery.Emojis";
     }
     public static class Collection
     {
@@ -327,7 +331,7 @@ public static class AppDisplayConstants
         public const string BUILDINGS_COLLECTION = "Collection.Buildings";
         public const string PLANTS_COLLECTION = "Collection.Plants";
         public const string FASHIONS_COLLECTION = "Collection.Fashions";
-    }
+        public const string EMOJIS_COLLECTION = "Collection.Emojis";}
     public static class Anime
     {
         public const string ONE_PIECE = "Anime.OnePiece";

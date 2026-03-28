@@ -72,6 +72,7 @@ public static class ImageConstants
         public const string BUILDING_URL = "UI/Button/Main/Buildings";
         public const string PLANT_URL = "UI/Button/Main/Plants";
         public const string FASHION_URL = "UI/Button/Main/Fashions";
+        public const string EMOJI_URL = "UI/Button/Main/Emojis";
         public const string SHOP_URL = "UI/UI/Shop";
         public const string GALLERY_URL = "UI/Button/Gallery";
         public const string COLLECTION_URL = "UI/Button/Collection";
@@ -292,6 +293,7 @@ public static class ImageConstants
         public const string BUILDING_URL = "UI/Button/Gallery/BuildingsGallery";
         public const string PLANT_URL = "UI/Button/Gallery/PlantsGallery";
         public const string FASHION_URL = "UI/Button/Gallery/FashionsGallery";
+        public const string EMOJI_URL = "UI/Button/Gallery/EmojisGallery";
     }
     public static class Collection
     {
@@ -341,6 +343,7 @@ public static class ImageConstants
         public const string BUILDING_URL = "UI/Button/Collection/BuildingsCollection";
         public const string PLANT_URL = "UI/Button/Collection/PlantsCollection";
         public const string FASHION_URL = "UI/Button/Collection/FashionsCollection";
+        public const string EMOJI_URL = "UI/Button/Collection/EmojisCollection";
     }
     public static class Rune
     {

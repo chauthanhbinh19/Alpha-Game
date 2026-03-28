@@ -483,6 +483,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_41", contentPanel, () => GetType(AppConstants.MainType.BUILDING));
         ButtonEvent.Instance.AssignButtonEvent("Button_42", contentPanel, () => GetType(AppConstants.MainType.PLANT));
         ButtonEvent.Instance.AssignButtonEvent("Button_43", contentPanel, () => GetType(AppConstants.MainType.FASHION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_44", contentPanel, () => GetType(AppConstants.MainType.EMOJI));
     }
     public void GetButtonEvent(GameObject popupButtonObject)
     {

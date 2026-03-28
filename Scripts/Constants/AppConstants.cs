@@ -327,6 +327,9 @@ public static class AppConstants
         public const string FASHION = "Fashion";
         public const string FASHIONS = "Fashions";
 
+        public const string EMOJI = "Emoji";
+        public const string EMOJIS = "Emojis";
+
         public const string SCIENCE_FICTION = "Science Fiction";
         public const string SUMMON_CARD_HEROES = "Summon Card Heroes";
         public const string SUMMON_BOOKS = "Summon Books";

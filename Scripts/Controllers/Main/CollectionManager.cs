@@ -108,6 +108,7 @@ public class CollectionManager : MonoBehaviour
         CreateCollectionButtonUI(44, AppDisplayConstants.Collection.BUILDINGS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.BUILDING_URL), collectionMenuPanel);
         CreateCollectionButtonUI(45, AppDisplayConstants.Collection.PLANTS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.PLANT_URL), collectionMenuPanel);
         CreateCollectionButtonUI(46, AppDisplayConstants.Collection.FASHIONS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.FASHION_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(47, AppDisplayConstants.Collection.EMOJIS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.EMOJI_URL), collectionMenuPanel);
 
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -198,6 +199,8 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_44", () => GetType(AppConstants.MainType.BUILDING));
         AssignButtonEvent("Button_45", () => GetType(AppConstants.MainType.PLANT));
         AssignButtonEvent("Button_46", () => GetType(AppConstants.MainType.FASHION));
+        AssignButtonEvent("Button_47", () => GetType(AppConstants.MainType.EMOJI));
+
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
     {

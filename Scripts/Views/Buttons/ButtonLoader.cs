@@ -98,6 +98,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(41, AppConstants.MainType.BUILDINGS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.BUILDING_URL), contentPanel);
         CreateButton(42, AppConstants.MainType.PLANTS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.PLANT_URL), contentPanel);
         CreateButton(43, AppConstants.MainType.FASHIONS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.FASHION_URL), contentPanel);
+        CreateButton(44, AppConstants.MainType.EMOJIS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.EMOJI_URL), contentPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, Resources.Load<Texture2D>(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
     }
     public void CreateEventButton(GameObject popupButtonObject)

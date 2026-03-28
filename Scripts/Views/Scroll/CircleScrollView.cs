@@ -56,7 +56,7 @@ public class CircleScrollView : MonoBehaviour
             if (!isScrolling)
             {
                 isScrolling = true;
-                // Debug.Log("🔊 Start scroll sound");
+                // Debug.Log("Start scroll sound");
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.GEAR_SCROLL_SOUND);
             }
         }
@@ -71,7 +71,7 @@ public class CircleScrollView : MonoBehaviour
                 }
                 else
                 {
-                    // Debug.Log("🔇 Stop scroll sound");
+                    // Debug.Log("Stop scroll sound");
                     isScrolling = false;
                     AudioManager.Instance.StopSFX(AudioConstants.SFX.GEAR_SCROLL_SOUND);
                 }

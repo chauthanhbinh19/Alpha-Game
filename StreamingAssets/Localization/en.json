@@ -117,6 +117,8 @@
   { "key": "MainType.Plants", "value": "Plants" },
   { "key": "MainType.Fashion", "value": "Fashion" },
   { "key": "MainType.Fashions", "value": "Fashions" },
+  { "key": "MainType.Emoji", "value": "Emoji" },
+  { "key": "MainType.Emojis", "value": "Emojis" },
   { "key": "MainType.MasterBoard", "value": "Master board" },
   { "key": "enhancement", "value": "Enhancement" },
   { "key": "MainType.DailyCheckin", "value": "Daily Checkin" },
@@ -203,6 +205,7 @@
   { "key": "Gallery.Buildings", "value": "Buildings Gallery" },
   { "key": "Gallery.Plants", "value": "Plants Gallery" },
   { "key": "Gallery.Fashions", "value": "Fashions Gallery" },
+  { "key": "Gallery.Emojis", "value": "Emojis Gallery" },
 
   { "key": "Collection.CardHeroes", "value": "Card Heroes Collection" },
   { "key": "Collection.Books", "value": "Books Collection" },
@@ -250,6 +253,7 @@
   { "key": "Collection.Buildings", "value": "Buildings Collection" },
   { "key": "Collection.Plants", "value": "Plants Collection" },
   { "key": "Collection.Fashions", "value": "Fashions Collection" },
+  { "key": "Collection.Emojis", "value": "Emojis Collection" },
 
   { "key": "CardHeroes", "value": "Card Heroes" },
   { "key": "Books", "value": "Books" },

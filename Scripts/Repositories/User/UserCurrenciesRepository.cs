@@ -2556,6 +2556,55 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
         return currency;
     }
+    public async Task<Currencies> GetUserEmojiPriceAsync(string Id)
+    {
+        Currencies currency = new Currencies();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                             FROM emojis ch
+                             LEFT JOIN emoji_trade et ON ch.id = et.emoji_id
+                             LEFT JOIN currencies c ON c.id = et.currency_id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             WHERE ch.id=@id;";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id", Id);
+
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            currency = new Currencies
+                            {
+                                Id = reader.GetStringSafe("currency_id"),
+                                Name = reader.GetStringSafe("currency_name"),
+                                Image = reader.GetStringSafe("currency_image"),
+                                Quantity = reader.GetDoubleSafe("trade_price")
+                            };
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return currency;
+    }
     public async Task<List<Currencies>> GetAchievementsCurrencyAsync()
     {
         List<Currencies> currencies = new List<Currencies>();
@@ -4718,6 +4767,54 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 SELECT DISTINCT c.id, c.image, c.name, uc.quantity
                 FROM fashions a
                 JOIN fashion_trade at ON a.id = at.fashion_id
+                JOIN currencies c ON at.currency_id = c.id
+                JOIN user_currencies uc ON c.id = uc.currency_id";
+
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Currencies currency = new Currencies
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Quantity = reader.GetIntSafe("quantity"),
+                            };
+                            currencies.Add(currency);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return currencies;
+    }
+    public async Task<List<Currencies>> GetEmojisCurrencyAsync(string type)
+    {
+        List<Currencies> currencies = new List<Currencies>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = @"
+                SELECT DISTINCT c.id, c.image, c.name, uc.quantity
+                FROM emojis a
+                JOIN emoji_trade at ON a.id = at.emoji_id
                 JOIN currencies c ON at.currency_id = c.id
                 JOIN user_currencies uc ON c.id = uc.currency_id";
 
