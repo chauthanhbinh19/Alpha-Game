@@ -62,6 +62,7 @@ public class UserService : IUserService
                 await TeamsService.Create().InsertUserTeamsAsync(userId, i + 1);
             }
             await UserSettingsService.Create().CreateInitiateUserSettingsAsync(userId);
+            await UserCurrenciesService.Create().InitiateUserCurrencyAsync(userId);
         }
         return userId;
     }

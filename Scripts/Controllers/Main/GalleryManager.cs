@@ -670,6 +670,13 @@ public class GalleryManager : MonoBehaviour
 
             totalRecord = await FashionsService.Create().GetFashionsCountAsync(search, type, rare);
         }
+        else if (mainType.Equals(AppConstants.MainType.EMOJI))
+        {
+            List<Emojis> plants = await EmojisService.Create().GetEmojisAsync(search, rare, PAGE_SIZE, offset);
+            EmojisController.Instance.CreateEmojisGallery(plants, DictionaryContentPanel);
+
+            totalRecord = await EmojisService.Create().GetEmojisCountAsync(search, rare);
+        }
 
 
         totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);

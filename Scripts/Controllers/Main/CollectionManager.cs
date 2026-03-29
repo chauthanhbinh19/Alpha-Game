@@ -717,6 +717,14 @@ public class CollectionManager : MonoBehaviour
 
             totalRecord = await fashionsGalleryService.GetFashionsCountAsync(search, type, rare);
         }
+        else if (mainType.Equals(AppConstants.MainType.EMOJI))
+        {
+            var emojisRepository = EmojisGalleryService.Create();
+            List<Emojis> emojis = await emojisRepository.GetEmojisCollectionAsync(search, PAGE_SIZE, offset, rare);
+            EmojisGalleryController.Instance.CreateEmojisGallery(emojis, DictionaryContentPanel);
+
+            totalRecord = await emojisRepository.GetEmojisCountAsync(search, rare);
+        }
         totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
     }

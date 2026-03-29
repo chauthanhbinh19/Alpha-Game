@@ -6,6 +6,7 @@ public interface IUserCurrenciesService
     Task<List<Currencies>> GetUserCurrencyAsync(string userId);
     Task<Currencies> GetUserCurrencyByIdAsync(string Id);
     Task<Currencies> GetUserCurrencyByNameAsync(string currencyName);
+    Task InitiateUserCurrencyAsync(string userId);
     Task UpdateUserCurrencyAsync(string currency_id, double price);
     Task<List<Currencies>> GetEquipmentsCurrencyAsync(string type);
     Task<Currencies> GetEquipmentsPriceAsync(string type, string equipment_id);

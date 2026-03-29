@@ -35,6 +35,11 @@ public class UserCurrenciesService : IUserCurrenciesService
         return await _userCurrenciesRepository.GetUserCurrencyByNameAsync(currencyName);
     }
 
+    public async Task InitiateUserCurrencyAsync(string userId)
+    {
+        await _userCurrenciesRepository.InitiateUserCurrencyAsync(userId);
+    }
+
     public async Task UpdateUserCurrencyAsync(string currency_id, double price)
     {
         await _userCurrenciesRepository.UpdateUserCurrencyAsync(currency_id, price);

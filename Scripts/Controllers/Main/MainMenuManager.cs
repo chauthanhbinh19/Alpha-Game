@@ -1756,6 +1756,15 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = await UserFashionsService.Create().GetUserFashionsCountAsync(User.CurrentUserId, search, type, rare);
         }
+        else if (mainType.Equals(AppConstants.MainType.EMOJI))
+        {
+            List<Emojis> emojis = await UserEmojisService.Create().GetUserEmojisAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
+            UserEmojisController.Instance.CreateUserEmojis(emojis, DictionaryContentPanel);
+            listCount = emojis.Count;
+
+            totalRecord = await UserEmojisService.Create().GetUserEmojisCountAsync(User.CurrentUserId, search, rare);
+        }
 
         if (listCount > 0)
         {

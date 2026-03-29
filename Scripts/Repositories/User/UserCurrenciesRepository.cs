@@ -158,6 +158,41 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
         return currency;
     }
+    public async Task InitiateUserCurrencyAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string query = @"INSERT INTO user_items (user_id, item_id, quantity)
+                SELECT
+                    @user_id,
+                    i.id,
+                    10000000000
+                FROM items i
+                ON DUPLICATE KEY UPDATE
+                    quantity = 10000000000; ";
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@user_id", userId);
+
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
     public async Task UpdateUserCurrencyAsync(string currency_id, double price)
     {
         string connectionString = DatabaseConfig.ConnectionString;

@@ -8,6 +8,6 @@ public interface IEmojisRepository
     Task<int> GetEmojisCountAsync(string search, string rare);
     Task<List<Emojis>> GetEmojisWithPriceAsync(int pageSize, int offset);
     Task<int> GetEmojisWithPriceCountAsync();
-    Task<Emojis> GetCoreByIdAsync(string Id);
+    Task<Emojis> GetEmojiByIdAsync(string Id);
     Task<Emojis> SumPowerEmojisPercentAsync();
 }
