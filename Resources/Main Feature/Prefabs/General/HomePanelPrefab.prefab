@@ -11412,7 +11412,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2569679457981109949}
   m_HandleRect: {fileID: 3033266055021547509}
   m_Direction: 0
-  m_Value: -1.5
+  m_Value: -3807.5
   m_Size: 0.99947476
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -14696,7 +14696,6 @@ MonoBehaviour:
   scrollRect: {fileID: 2415597877625095961}
   content: {fileID: 6932842183448829179}
   totalPanels: 3
-  lerpSpeed: 10
 --- !u!1 &4126033349209198667
 GameObject:
   m_ObjectHideFlags: 0
@@ -17183,7 +17182,7 @@ GameObject:
   - component: {fileID: 5594383936897086198}
   - component: {fileID: 8135399931222283741}
   m_Layer: 5
-  m_Name: CardPanel
+  m_Name: ArtifactPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19120,7 +19119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -950, y: 531.4999}
+  m_AnchoredPosition: {x: 2856, y: 531.5}
   m_SizeDelta: {x: 1904, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2203335591720318334
@@ -20453,7 +20452,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5317982405952785389}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.3280864
+  m_Size: 0.32803035
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

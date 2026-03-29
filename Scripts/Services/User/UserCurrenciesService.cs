@@ -205,9 +205,9 @@ public class UserCurrenciesService : IUserCurrenciesService
         return await _userCurrenciesRepository.GetUserSpiritCardPriceAsync(Id);
     }
 
-    public async Task<Currencies> GetUserCardPriceAsync(string Id)
+    public async Task<Currencies> GetUserArtifactPriceAsync(string Id)
     {
-        return await _userCurrenciesRepository.GetUserCardPriceAsync(Id);
+        return await _userCurrenciesRepository.GetUserArtifactPriceAsync(Id);
     }
 
     public async Task<Currencies> GetUserArchitecturePriceAsync(string Id)
@@ -435,9 +435,9 @@ public class UserCurrenciesService : IUserCurrenciesService
         return await _userCurrenciesRepository.GetSpiritCardsCurrencyAsync(type);
     }
 
-    public async Task<List<Currencies>> GetCardsCurrencyAsync(string type)
+    public async Task<List<Currencies>> GetArtifactsCurrencyAsync(string type)
     {
-        return await _userCurrenciesRepository.GetCardsCurrencyAsync(type);
+        return await _userCurrenciesRepository.GetArtifactsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetArchitecturesCurrencyAsync(string type)

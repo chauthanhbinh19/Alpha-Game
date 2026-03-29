@@ -467,7 +467,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.ARTWORK));
         ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
         ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.CARDS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.ARTIFACTS));
         ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.ARCHITECTURE));
         ButtonEvent.Instance.AssignButtonEvent("Button_30", contentPanel, () => GetType(AppConstants.MainType.TECHNOLOGY));
         ButtonEvent.Instance.AssignButtonEvent("Button_31", contentPanel, () => GetType(AppConstants.MainType.VEHICLE));
@@ -1624,13 +1624,13 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = await UserSpiritCardsService.Create().GetUserSpiritCardCountAsync(User.CurrentUserId, search, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD))
+        else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
         {
-            List<Cards> cards = await UserCardsService.Create().GetUserCardsAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
-            UserCardsController.Instance.CreateUserCards(cards, DictionaryContentPanel);
-            listCount = cards.Count;
+            List<Artifacts> artifacts = await UserArtifactsService.Create().GetUserArtifactsAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            UserArtifactsController.Instance.CreateUserArtifacts(artifacts, DictionaryContentPanel);
+            listCount = artifacts.Count;
 
-            totalRecord = await UserCardsService.Create().GetUserCardsCountAsync(User.CurrentUserId, search, rare);
+            totalRecord = await UserArtifactsService.Create().GetUserArtifactsCountAsync(User.CurrentUserId, search, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {

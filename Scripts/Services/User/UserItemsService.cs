@@ -179,7 +179,7 @@ public class UserItemsService : IUserItemsService
             case AppConstants.MainType.BUILDING:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BUILDING));
                 break;
-            case AppConstants.MainType.CARD:
+            case AppConstants.MainType.ARTIFACT:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD));
                 break;
             case AppConstants.MainType.CORE:
@@ -333,7 +333,7 @@ public class UserItemsService : IUserItemsService
             case AppConstants.MainType.BUILDING:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_BUILDINGS));
                 break;
-            case AppConstants.MainType.CARD:
+            case AppConstants.MainType.ARTIFACT:
                 items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARDS));
                 break;
             case AppConstants.MainType.CORE:

@@ -179,12 +179,12 @@ public class HomeManager : MonoBehaviour
         cardSpellTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
         cardSpellQuantityText.text = userCardSpellCount.ToString();
 
-        Transform cardTransform = currentObject.transform.Find("Scroll View/Viewport/Content/DataPanel/CardPanel");
-        TextMeshProUGUI cardTitleText = cardTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI cardQuantityText = cardTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        int userCardCount = await UserCardsService.Create().GetUserCardsCountAsync(User.CurrentUserId, search, rare);
-        cardTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD);
-        cardQuantityText.text = userCardCount.ToString();
+        Transform artifactTransform = currentObject.transform.Find("Scroll View/Viewport/Content/DataPanel/ArtifactPanel");
+        TextMeshProUGUI artifactTitleText = artifactTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI artifactQuantityText = artifactTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+        int userArtifactCount = await UserArtifactsService.Create().GetUserArtifactsCountAsync(User.CurrentUserId, search, rare);
+        artifactTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARTIFACT);
+        artifactQuantityText.text = userArtifactCount.ToString();
 
         Transform collaborationEquipmentTransform = currentObject.transform.Find("Scroll View/Viewport/Content/DataPanel/CollaborationEquipmentPanel");
         TextMeshProUGUI collaborationEquipmentTitleText = collaborationEquipmentTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();

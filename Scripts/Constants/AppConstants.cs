@@ -288,8 +288,8 @@ public static class AppConstants
         public const string VEHICLE = "Vehicle";
         public const string VEHICLES = "Vehicles";
 
-        public const string CARD = "Card";
-        public const string CARDS = "Cards";
+        public const string ARTIFACT = "Artifact";
+        public const string ARTIFACTS = "Artifacts";
 
         public const string CORE = "Core";
         public const string CORES = "Cores";
@@ -433,7 +433,7 @@ public static class AppConstants
         public const string SPIRIT_BEAST_GALLERY = "Spirit Beast Gallery";
         public const string AVATARS_GALLERY = "Avatars Gallery";
         public const string SPIRIT_CARD_GALLERY = "Spirit Card Gallery";
-        public const string CARD_GALLERY = "Card Gallery";
+        public const string ARTIFACT_GALLERY = "Artifact Gallery";
         public const string ARCHITECTURES_GALLERY = "Architectures Gallery";
         public const string TECHNOLOGIES_GALLERY = "Technologies Gallery";
         public const string VEHICLES_GALLERY = "Vehicle Gallery";
@@ -481,7 +481,7 @@ public static class AppConstants
         public const string SPIRIT_BEAST_COLLECTION = "Spirit Beast Collection";
         public const string AVATARS_COLLECTION = "Avatars Collection";
         public const string SPIRIT_CARD_COLLECTION = "Spirit Card Collection";
-        public const string CARD_COLLECTION = "Card Collection";
+        public const string ARTIFACT_COLLECTION = "Artifact Collection";
         public const string ARCHITECTURES_COLLECTION = "Architectures Collection";
         public const string TECHNOLOGIES_COLLECTION = "Technologies Collection";
         public const string VEHICLES_COLLECTION = "Vehicle Collection";

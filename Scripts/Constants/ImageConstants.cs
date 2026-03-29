@@ -56,7 +56,7 @@ public static class ImageConstants
         public const string SPIRIT_BEAST_URL = "UI/Button/Main/SpiritBeasts";
         public const string SCIENCE_FICTION_URL = "UI/Button/ScienceFiction";
         public const string SPIRIT_CARD_URL = "UI/Button/Main/SpiritCards";
-        public const string CARD_URL = "UI/Button/Main/Cards";
+        public const string ARTIFACT_URL = "UI/Button/Main/Artifacts";
         public const string ARCHITECTURE_URL = "UI/Button/Main/Architectures";
         public const string TECHNOLOGY_URL = "UI/Button/Main/Technologies";
         public const string VEHICLE_URL = "UI/Button/Main/Vehicles";
@@ -277,7 +277,7 @@ public static class ImageConstants
         public const string AVATAR_URL = "UI/Button/Gallery/AvatarsGallery";
         public const string SPIRIT_CARD_URL = "UI/Button/Gallery/SpiritCardsGallery";
         public const string ACHIEVEMENT_URL = "UI/Button/Gallery/AchievementsGallery";
-        public const string CARD_URL = "UI/Button/Gallery/CardsGallery";
+        public const string ARTIFACT_URL = "UI/Button/Gallery/ArtifactsGallery";
         public const string ARCHITECTURE_URL = "UI/Button/Gallery/ArchitecturesGallery";
         public const string TECHNOLOGY_URL = "UI/Button/Gallery/TechnologiesGallery";
         public const string VEHICLE_URL = "UI/Button/Gallery/VehiclesGallery";
@@ -327,7 +327,7 @@ public static class ImageConstants
         public const string AVATAR_URL = "UI/Button/Collection/AvatarsCollection";
         public const string SPIRIT_CARD_URL = "UI/Button/Collection/SpiritCardsCollection";
         public const string ACHIEVEMENT_URL = "UI/Button/Collection/AchievementsCollection";
-        public const string CARD_URL = "UI/Button/Collection/CardsCollection";
+        public const string ARTIFACT_URL = "UI/Button/Collection/ArtifactsCollection";
         public const string ARCHITECTURE_URL = "UI/Button/Collection/ArchitecturesCollection";
         public const string TECHNOLOGY_URL = "UI/Button/Collection/TechnologiesCollection";
         public const string VEHICLE_URL = "UI/Button/Collection/VehiclesCollection";
@@ -809,7 +809,7 @@ public static class ImageConstants
         public const string ARTWORK_BACKGROUND_URL = "UI/Background3/Artwork";
         public const string SPIRIT_BEAST_BACKGROUND_URL = "UI/Background3/SpiritBeast";
         public const string SPIRIT_CARD_BACKGROUND_URL = "UI/Background3/SpiritCard";
-        public const string CARD_BACKGROUND_URL = "UI/Background3/Card";
+        public const string ARTIFACT_BACKGROUND_URL = "UI/Background3/Artifact";
         public const string ARCHITECTURE_BACKGROUND_URL = "UI/Background3/Architecture";
         public const string TECHNOLOGY_BACKGROUND_URL = "UI/Background3/Technology";
         public const string VEHICLE_BACKGROUND_URL = "UI/Background3/Vehicle";
@@ -856,7 +856,7 @@ public static class ImageConstants
         public const string ARTWORK_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Artworks_Background";
         public const string SPIRIT_BEAST_BUTTON_BACKGROUND_URL = "UI/Background4/Button/SpiritBeasts_Background";
         public const string SPIRIT_CARD_BUTTON_BACKGROUND_URL = "UI/Background4/Button/SpiritCards_Background";
-        public const string CARD_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Cards_Background";
+        public const string ARTIFACT_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Artifacts_Background";
         public const string ARCHITECTURE_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Architectures_Background";
         public const string TECHNOLOGY_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Technologies_Background";
         public const string VEHICLE_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Vehicles_Background";

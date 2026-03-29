@@ -1,0 +1,129 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class ArtifactsGalleryController : MonoBehaviour
+{
+    public static ArtifactsGalleryController Instance { get; private set; }
+    private Transform MainPanel;
+    private GameObject ArtifactBlockButtonPrefab;
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        ArtifactBlockButtonPrefab = UIManager.Instance.Get("ArtifactBlockButtonPrefab");
+    }
+    public void CreateArtifactsGallery(List<Artifacts> artifacts, Transform contentPanel)
+    {
+        foreach (var artifact in artifacts)
+        {
+            GameObject artifactObject = Instantiate(ArtifactBlockButtonPrefab, contentPanel);
+
+            TextMeshProUGUI Title = artifactObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            Title.text = artifact.Name.Replace("_", " ");
+
+            RawImage image = artifactObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image);
+            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            image.texture = texture;
+
+            // Set size 130x180
+            RectTransform rect = image.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(130, 180);
+
+            RawImage backgroundImage = artifactObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ARTIFACT_BUTTON_BACKGROUND_URL);
+
+            Button button = artifactObject.GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                PopupDetailsManager.Instance.PopupDetails(artifact, MainPanel);
+            });
+
+            TextMeshProUGUI rareText = artifactObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(artifact.Rare));
+            rareText.text = artifact.Rare;
+
+            RawImage blockImage = artifactObject.transform.Find("Block").GetComponent<RawImage>();
+            Button Unlock = artifactObject.transform.Find("UnlockButton").GetComponent<Button>();
+            if (artifact.Status.Equals(AppConstants.Status.AVAILABLE))
+            {
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                image.color = Color.white;
+            }
+            else if (artifact.Status.Equals(AppConstants.Status.PENDING))
+            {
+                blockImage.gameObject.SetActive(true);
+                Unlock.gameObject.SetActive(true);
+            }
+            else if (artifact.Status.Equals(AppConstants.Status.BLOCK))
+            {
+                blockImage.gameObject.SetActive(true);
+                Unlock.gameObject.SetActive(false);
+            }
+
+            Unlock.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                await ArtifactsGalleryService.Create().UpdateStatusArtifactGalleryAsync(artifact.Id);
+                blockImage.gameObject.SetActive(false);
+                Unlock.gameObject.SetActive(false);
+                image.color = Color.white;
+
+                var powerManagerService = PowerManagerService.Create();
+                var teamsService = TeamsService.Create();
+
+                await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+            });
+
+            Button Upgrade = artifactObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            if ((artifact.CurrentStar < artifact.TempStar) && artifact.Status.Equals(AppConstants.Status.AVAILABLE))
+            {
+                Upgrade.gameObject.SetActive(true);
+            }
+            else
+            {
+                Upgrade.gameObject.SetActive(false);
+            }
+
+            Upgrade.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                await ArtifactsGalleryService.Create().UpdateArtifactGalleryPowerAsync(artifact.Id);
+            });
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
+        }
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+}

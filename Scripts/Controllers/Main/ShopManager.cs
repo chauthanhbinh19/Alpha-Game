@@ -136,7 +136,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(26, AppDisplayConstants.MainType.CARD_LIVES, Resources.Load<Texture2D>(ImageConstants.Gallery.LIFE_URL), tempContent);
         CreateButton(27, AppDisplayConstants.MainType.SPIRIT_BEASTS, Resources.Load<Texture2D>(ImageConstants.Gallery.SPIRIT_BEAST_URL), tempContent);
         CreateButton(28, AppDisplayConstants.MainType.SPIRIT_CARDS, Resources.Load<Texture2D>(ImageConstants.Gallery.SPIRIT_CARD_URL), tempContent);
-        CreateButton(29, AppDisplayConstants.MainType.CARDS, Resources.Load<Texture2D>(ImageConstants.Gallery.CARD_URL), tempContent);
+        CreateButton(29, AppDisplayConstants.MainType.ARTIFACTS, Resources.Load<Texture2D>(ImageConstants.Gallery.ARTIFACT_URL), tempContent);
         CreateButton(30, AppDisplayConstants.MainType.ARCHITECTURES, Resources.Load<Texture2D>(ImageConstants.Gallery.ARCHITECTURE_URL), tempContent);
         CreateButton(31, AppDisplayConstants.MainType.TECHONOLOGIES, Resources.Load<Texture2D>(ImageConstants.Gallery.TECHNOLOGY_URL), tempContent);
         CreateButton(32, AppDisplayConstants.MainType.VEHICLES, Resources.Load<Texture2D>(ImageConstants.Gallery.VEHICLE_URL), tempContent);
@@ -181,7 +181,7 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_26", tempContent, () => GetType(AppConstants.MainType.CARD_LIFE));
         AssignButtonEvent("Button_27", tempContent, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
         AssignButtonEvent("Button_28", tempContent, () => GetType(AppConstants.MainType.SPIRIT_CARD));
-        AssignButtonEvent("Button_29", tempContent, () => GetType(AppConstants.MainType.CARD));
+        AssignButtonEvent("Button_29", tempContent, () => GetType(AppConstants.MainType.ARTIFACT));
         AssignButtonEvent("Button_30", tempContent, () => GetType(AppConstants.MainType.ARCHITECTURE));
         AssignButtonEvent("Button_31", tempContent, () => GetType(AppConstants.MainType.TECHNOLOGY));
         AssignButtonEvent("Button_32", tempContent, () => GetType(AppConstants.MainType.VEHICLE));
@@ -595,16 +595,16 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = await SpiritCardsService.Create().GetSpiritCardsWithPriceCountAsync(type);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD))
+        else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
         {
             Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_57_URL);
             Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_58_URL);
             firstDecorationImage.texture = firstDecorationTexture;
             secondDecorationImage.texture = secondDecorationTexture;
-            List<Cards> cards = await CardsService.Create().GetCardsWithPriceAsync(PAGE_SIZE, offset);
-            await CardsController.Instance.CreateCardsTradeAsync(cards, type, currentContent, currencyPanel, popupPanel);
+            List<Artifacts> artifacts = await ArtifactsService.Create().GetArtifactsWithPriceAsync(PAGE_SIZE, offset);
+            await ArtifactsController.Instance.CreateArtifactsTradeAsync(artifacts, type, currentContent, currencyPanel, popupPanel);
 
-            totalRecord = await CardsService.Create().GetCardsWithPriceCountAsync();
+            totalRecord = await ArtifactsService.Create().GetArtifactsWithPriceCountAsync();
         }
         else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {

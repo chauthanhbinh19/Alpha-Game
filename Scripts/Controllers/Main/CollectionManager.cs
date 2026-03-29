@@ -92,7 +92,7 @@ public class CollectionManager : MonoBehaviour
         CreateCollectionButtonUI(28, AppDisplayConstants.Collection.AVATARS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.AVATAR_URL), collectionMenuPanel);
         CreateCollectionButtonUI(29, AppDisplayConstants.Collection.SPIRIT_CARDS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.SPIRIT_CARD_URL), collectionMenuPanel);
         CreateCollectionButtonUI(30, AppDisplayConstants.Collection.ACHIEVEMENTS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.ACHIEVEMENT_URL), collectionMenuPanel);
-        CreateCollectionButtonUI(31, AppDisplayConstants.Collection.CARDS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.CARD_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(31, AppDisplayConstants.Collection.ARTIFACTS_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.ARTIFACT_URL), collectionMenuPanel);
         CreateCollectionButtonUI(32, AppDisplayConstants.Collection.ARCHITECTURES_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.ARCHITECTURE_URL), collectionMenuPanel);
         CreateCollectionButtonUI(33, AppDisplayConstants.Collection.TECHNOLOGIES_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.TECHNOLOGY_URL), collectionMenuPanel);
         CreateCollectionButtonUI(34, AppDisplayConstants.Collection.VEHICLES_COLLECTION, itemBackground, Resources.Load<Texture2D>(ImageConstants.Collection.VEHICLE_URL), collectionMenuPanel);
@@ -183,7 +183,7 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.AVATAR));
         AssignButtonEvent("Button_29", () => GetType(AppConstants.MainType.SPIRIT_CARD));
         AssignButtonEvent("Button_30", () => GetType(AppConstants.MainType.ACHIEVEMENT));
-        AssignButtonEvent("Button_31", () => GetType(AppConstants.MainType.CARD));
+        AssignButtonEvent("Button_31", () => GetType(AppConstants.MainType.ARTIFACT));
         AssignButtonEvent("Button_32", () => GetType(AppConstants.MainType.ARCHITECTURE));
         AssignButtonEvent("Button_33", () => GetType(AppConstants.MainType.TECHNOLOGY));
         AssignButtonEvent("Button_34", () => GetType(AppConstants.MainType.VEHICLE));
@@ -589,13 +589,13 @@ public class CollectionManager : MonoBehaviour
 
             totalRecord = await achievementsGalleryService.GetAchievementsCountAsync(search, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD))
+        else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
         {
-            var cardsGalleryService = CardsGalleryService.Create();
-            List<Cards> cards = await cardsGalleryService.GetCardsCollectionAsync(search, PAGE_SIZE, offset, rare);
-            CardsGalleryController.Instance.CreateCardsGallery(cards, DictionaryContentPanel);
+            var artifactsGalleryService = ArtifactsGalleryService.Create();
+            List<Artifacts> artifacts = await artifactsGalleryService.GetArtifactsCollectionAsync(search, PAGE_SIZE, offset, rare);
+            ArtifactsGalleryController.Instance.CreateArtifactsGallery(artifacts, DictionaryContentPanel);
 
-            totalRecord = await cardsGalleryService.GetCardsCountAsync(search, rare);
+            totalRecord = await artifactsGalleryService.GetArtifactsCountAsync(search, rare);
         }
         else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {

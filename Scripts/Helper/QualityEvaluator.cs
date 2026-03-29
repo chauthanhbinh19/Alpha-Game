@@ -2734,7 +2734,7 @@ public static class QualityEvaluator
         }
         return list;
     }
-    public static List<Cards> GetQualityPower(List<Cards> list)
+    public static List<Artifacts> GetQualityPower(List<Artifacts> list)
     {
         foreach (var c in list)
         {

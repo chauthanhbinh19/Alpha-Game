@@ -1807,7 +1807,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
         return currency;
     }
-    public async Task<Currencies> GetUserCardPriceAsync(string Id)
+    public async Task<Currencies> GetUserArtifactPriceAsync(string Id)
     {
         Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4067,7 +4067,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
         return currencies;
     }
-    public async Task<List<Currencies>> GetCardsCurrencyAsync(string type)
+    public async Task<List<Currencies>> GetArtifactsCurrencyAsync(string type)
     {
         List<Currencies> currencies = new List<Currencies>();
         string connectionString = DatabaseConfig.ConnectionString;

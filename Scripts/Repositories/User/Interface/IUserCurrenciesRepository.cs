@@ -40,7 +40,7 @@ public interface IUserCurrenciesRepository
     Task<Currencies> GetUserArtworkPriceAsync(string Id);
     Task<Currencies> GetUserSpiritBeastPriceAsync(string Id);
     Task<Currencies> GetUserSpiritCardPriceAsync(string Id);
-    Task<Currencies> GetUserCardPriceAsync(string Id);
+    Task<Currencies> GetUserArtifactPriceAsync(string Id);
     Task<Currencies> GetUserArchitecturePriceAsync(string Id);
     Task<Currencies> GetUserTechnologyPriceAsync(string Id);
     Task<Currencies> GetUserVehiclePriceAsync(string Id);
@@ -86,7 +86,7 @@ public interface IUserCurrenciesRepository
     Task<List<Currencies>> GetArtworksCurrencyAsync(string type);
     Task<List<Currencies>> GetSpiritBeastsCurrencyAsync(string type);
     Task<List<Currencies>> GetSpiritCardsCurrencyAsync(string type);
-    Task<List<Currencies>> GetCardsCurrencyAsync(string type);
+    Task<List<Currencies>> GetArtifactsCurrencyAsync(string type);
     Task<List<Currencies>> GetArchitecturesCurrencyAsync(string type);
     Task<List<Currencies>> GetTechnologiesCurrencyAsync(string type);
     Task<List<Currencies>> GetVehiclesCurrencyAsync(string type);

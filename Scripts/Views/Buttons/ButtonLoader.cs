@@ -82,7 +82,7 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(25, AppConstants.MainType.ARTWORK, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.ARTWORK_URL), contentPanel);
         CreateButton(26, AppConstants.MainType.SPIRIT_BEAST, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SPIRIT_BEAST_URL), contentPanel);
         CreateButton(27, AppConstants.MainType.SPIRIT_CARD, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SPIRIT_CARD_URL), contentPanel);
-        CreateButton(28, AppConstants.MainType.CARDS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.CARD_URL), contentPanel);
+        CreateButton(28, AppConstants.MainType.ARTIFACTS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.ARTIFACT_URL), contentPanel);
         CreateButton(29, AppConstants.MainType.ARCHITECTURES, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.ARCHITECTURE_URL), contentPanel);
         CreateButton(30, AppConstants.MainType.TECHONOLOGIES, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.TECHNOLOGY_URL), contentPanel);
         CreateButton(31, AppConstants.MainType.VEHICLES, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.VEHICLE_URL), contentPanel);

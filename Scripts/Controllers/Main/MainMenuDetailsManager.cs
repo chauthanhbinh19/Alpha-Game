@@ -502,18 +502,18 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SPIRIT_CARD);
             });
         }
-        else if (data is Cards card)
+        else if (data is Artifacts artifact)
         {
-            // Xử lý đối tượng card
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD);
-            UserCardsController.Instance.ShowCardDetails(card, currentObject);
-            Texture texture = Resources.Load<Texture>(ImageConstants.Background.CARD_BACKGROUND_URL);
+            // Xử lý đối tượng artifact
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARTIFACT);
+            UserArtifactsController.Instance.ShowArtifactDetails(artifact, currentObject);
+            Texture texture = Resources.Load<Texture>(ImageConstants.Background.ARTIFACT_BACKGROUND_URL);
             cardBackground.texture = texture;
             CloseButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ARTIFACT);
             });
         }
         else if (data is Architectures architecture)

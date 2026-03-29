@@ -130,8 +130,8 @@ public static class AppDisplayConstants
         public const string VEHICLE = "MainType.Vehicle";
         public const string VEHICLES = "MainType.Vehicles";
 
-        public const string CARD = "MainType.Card";
-        public const string CARDS = "MainType.Cards";
+        public const string ARTIFACT = "MainType.Artifact";
+        public const string ARTIFACTS = "MainType.Artifacts";
 
         public const string CORE = "MainType.Core";
         public const string CORES = "MainType.Cores";
@@ -265,7 +265,7 @@ public static class AppDisplayConstants
         public const string AVATARS_GALLERY = "Gallery.Avatars";
         public const string SPIRIT_CARDS_GALLERY = "Gallery.SpiritCard";
         public const string ACHIEVEMENTS_GALLERY = "Gallery.Achievements";
-        public const string CARDS_GALLERY = "Gallery.Cards";
+        public const string ARTIFACTS_GALLERY = "Gallery.Artifacts";
         public const string ARCHITECTURES_GALLERY = "Gallery.Architectures";
         public const string TECHNOLOGIES_GALLERY = "Gallery.Technologies";
         public const string VEHICLES_GALLERY = "Gallery.Vehicles";
@@ -315,7 +315,7 @@ public static class AppDisplayConstants
         public const string AVATARS_COLLECTION = "Collection.Avatars";
         public const string SPIRIT_CARDS_COLLECTION = "Collection.SpiritCard";
         public const string ACHIEVEMENTS_COLLECTION = "Collection.Achievements";
-        public const string CARDS_COLLECTION = "Collection.Cards";
+        public const string ARTIFACTS_COLLECTION = "Collection.Artifacts";
         public const string ARCHITECTURES_COLLECTION = "Collection.Architectures";
         public const string TECHNOLOGIES_COLLECTION = "Collection.Technologies";
         public const string VEHICLES_COLLECTION = "Collection.Vehicles";
