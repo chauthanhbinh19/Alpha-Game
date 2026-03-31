@@ -60,4 +60,22 @@ public class AudioManager : MonoBehaviour
             sfxSource.Stop();
         }
     }
+
+    public void SetMusicVolume(float volume)
+    {
+        if (musicSource != null)
+            musicSource.volume = Mathf.Clamp01(volume);
+    }
+
+    public void SetSfxVolume(float volume)
+    {
+        if (sfxSource != null)
+            sfxSource.volume = Mathf.Clamp01(volume);
+    }
+
+    public void SetVoiceVolume(float volume)
+    {
+        if (sfxSource != null)
+            sfxSource.volume = Mathf.Clamp01(volume);
+    }
 }

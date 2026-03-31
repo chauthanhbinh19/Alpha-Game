@@ -390,6 +390,10 @@ public class ProfileManager : MonoBehaviour
         sfxSlider.value = sfxSound / 100f;
         voiceSlider.value = voiceSound / 100f;
 
+        AudioManager.Instance.SetMusicVolume(musicSlider.value);
+        AudioManager.Instance.SetSfxVolume(sfxSlider.value);
+        AudioManager.Instance.SetVoiceVolume(voiceSlider.value);
+
         defaultButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -406,6 +410,10 @@ public class ProfileManager : MonoBehaviour
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.MUSIC, 100);
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.SFX, 100);
             UserSettingsManager.Instance.SetInt(AppConstants.Setting.VOICE, 100);
+
+            AudioManager.Instance.SetMusicVolume(1f);
+            AudioManager.Instance.SetSfxVolume(1f);
+            AudioManager.Instance.SetVoiceVolume(1f);
 
             await UserSettingsService.Create().UpdateUserSettingAsync(User.CurrentUserId, new UserSettings
             {
@@ -428,6 +436,7 @@ public class ProfileManager : MonoBehaviour
 
         musicSlider.onValueChanged.AddListener(async value =>
         {
+            AudioManager.Instance.SetMusicVolume(value);
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
@@ -442,6 +451,7 @@ public class ProfileManager : MonoBehaviour
 
         sfxSlider.onValueChanged.AddListener(async value =>
         {
+            AudioManager.Instance.SetSfxVolume(value);
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
@@ -456,6 +466,7 @@ public class ProfileManager : MonoBehaviour
 
         voiceSlider.onValueChanged.AddListener(async value =>
         {
+            AudioManager.Instance.SetVoiceVolume(value);
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             float rounded = Mathf.Round(value * 100f) / 100f;
             int v = Mathf.RoundToInt(rounded * 100);
