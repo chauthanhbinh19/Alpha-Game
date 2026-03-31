@@ -152,6 +152,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(42, AppDisplayConstants.MainType.BUILDINGS, Resources.Load<Texture2D>(ImageConstants.Gallery.BUILDING_URL), tempContent);
         CreateButton(43, AppDisplayConstants.MainType.PLANTS, Resources.Load<Texture2D>(ImageConstants.Gallery.PLANT_URL), tempContent);
         CreateButton(44, AppDisplayConstants.MainType.FASHIONS, Resources.Load<Texture2D>(ImageConstants.Gallery.FASHION_URL), tempContent);
+        CreateButton(45, AppDisplayConstants.MainType.EMOJIS, Resources.Load<Texture2D>(ImageConstants.Gallery.EMOJI_URL), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.MainType.BOOK));
@@ -197,6 +198,7 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_42", tempContent, () => GetType(AppConstants.MainType.BUILDING));
         AssignButtonEvent("Button_43", tempContent, () => GetType(AppConstants.MainType.PLANT));
         AssignButtonEvent("Button_44", tempContent, () => GetType(AppConstants.MainType.FASHION));
+        AssignButtonEvent("Button_45", tempContent, () => GetType(AppConstants.MainType.EMOJI));
 
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -771,6 +773,17 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = await FashionsService.Create().GetFashionsWithPriceCountAsync(type);
         }
+        else if (mainType.Equals(AppConstants.MainType.EMOJI))
+        {
+            Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_85_URL);
+            Texture secondDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_86_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<Emojis> emojis = await EmojisService.Create().GetEmojisWithPriceAsync(PAGE_SIZE, offset);
+            await EmojisController.Instance.CreateEmojisTradeAsync(emojis, type, currentContent, currencyPanel, popupPanel);
+
+            totalRecord = await EmojisService.Create().GetEmojisWithPriceCountAsync();
+        }
         else if (mainType.Equals(AppConstants.MainType.MEDAL))
         {
             Texture firstDecorationTexture = Resources.Load<Texture>(ImageConstants.Artifact.ARTIFACT_83_URL);
@@ -829,58 +842,6 @@ public class ShopManager : MonoBehaviour
 
         totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-    }
-    private void createEquipments(List<Equipments> equipmentList)
-    {
-        foreach (var equipment in equipmentList)
-        {
-            GameObject equipmentObject = Instantiate(EquipmentShopPrefab, currentContent);
-
-            Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = equipment.Name.Replace("_", " ");
-
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = equipmentObject.transform.Find("Frame").GetComponent<RawImage>();
-            EventTrigger eventTrigger = FrameImage.gameObject.GetComponent<EventTrigger>();
-            if (eventTrigger == null)
-            {
-                eventTrigger = FrameImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
-            }
-
-            // Gán sự kiện click
-            ButtonEvent.Instance.AddClickListener(eventTrigger, () => FindObjectOfType<PopupDetailsManager>().PopupDetails(equipment, MainPanel));
-            // Thêm sự kiện Scroll để chuyển tiếp sự kiện cuộn
-            EventTrigger.Entry scrollEntry = new EventTrigger.Entry { eventID = EventTriggerType.Scroll };
-            scrollEntry.callback.AddListener((eventData) =>
-            {
-                var scrollRect = currentContent.GetComponentInParent<ScrollRect>();
-                if (scrollRect != null)
-                {
-                    scrollRect.OnScroll((PointerEventData)eventData);
-                }
-            });
-            eventTrigger.triggers.Add(scrollEntry);
-            // cardImage.SetNativeSize();
-            // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
-
-            RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
-            rareImage.texture = rareTexture;
-
-            // Button buy = equipmentObject.transform.Find("Buy").GetComponent<Button>();
-            // buy.onClick.AddListener(() =>
-            // {
-            //     GetQuantity(equipment.currency.quantity, e);
-            // });
-        }
-        // GridLayoutGroup gridLayout = DictionaryContentPanel.GetComponent<GridLayoutGroup>();
-        // if (gridLayout != null)
-        // {
-        //     gridLayout.cellSize = new Vector2(200, 230);
-        // }
     }
     public void ClearAllPrefabs()
     {
@@ -949,202 +910,5 @@ public class ShopManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    // public void GetQuantity(int price, object obj)
-    // {
-    //     GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
 
-    //     Button increaseButton = quantityObject.transform.Find("IncreaseButton").GetComponent<Button>();
-    //     Button decreaseButton = quantityObject.transform.Find("DecreaseButton").GetComponent<Button>();
-    //     Button increase10Button = quantityObject.transform.Find("Increase10Button").GetComponent<Button>();
-    //     Button decrease10Button = quantityObject.transform.Find("Decrease10Button").GetComponent<Button>();
-    //     Button maxButton = quantityObject.transform.Find("MaxButton").GetComponent<Button>();
-    //     Button minButton = quantityObject.transform.Find("MinButton").GetComponent<Button>();
-    //     Button closeButton = quantityObject.transform.Find("CloseButton").GetComponent<Button>();
-    //     Button confirmButton = quantityObject.transform.Find("Buy").GetComponent<Button>();
-    //     TextMeshProUGUI quantityText = quantityObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-    //     RawImage currencyImage = quantityObject.transform.Find("Price/CurrencyImage").GetComponent<RawImage>();
-    //     TextMeshProUGUI priceText = quantityObject.transform.Find("Price/PriceText").GetComponent<TextMeshProUGUI>();
-    //     RawImage equipmentImage = quantityObject.transform.Find("Image").GetComponent<RawImage>();
-
-    //     // Lấy thuộc tính `Id` và `Image` từ object
-    //     var idProperty = obj.GetType().GetProperty("id");
-    //     var imageProperty = obj.GetType().GetProperty("image");
-    //     var currencyProperty = obj.GetType().GetProperty("currency");
-
-
-    //     if (idProperty != null && imageProperty != null && currencyProperty != null)
-    //     {
-    //         int id = (int)idProperty.GetValue(obj);
-    //         string image = (string)imageProperty.GetValue(obj);
-
-    //         // Lấy đối tượng currency từ obj
-    //         var currencyObject = currencyProperty.GetValue(obj);
-
-    //         if (currencyObject != null)
-    //         {
-    //             // Lấy thuộc tính "image" từ currencyObject
-    //             var currencyImageProperty = currencyObject.GetType().GetProperty("image");
-    //             if (currencyImageProperty != null)
-    //             {
-    //                 string currencyImageValue = (string)currencyImageProperty.GetValue(currencyObject);
-
-    //                 if (!string.IsNullOrEmpty(currencyImageValue))
-    //                 {
-    //                     string currencyFileNameWithoutExtension = currencyImageValue.Replace(".png", "");
-    //                     Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
-    //                     currencyImage.texture = currencyTexture;
-    //                 }
-    //             }
-    //         }
-
-    //         // Xử lý image của obj
-    //         if (!string.IsNullOrEmpty(image))
-    //         {
-    //             string fileNameWithoutExtension = image.Replace(".png", "");
-    //             Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-    //             equipmentImage.texture = entityTexture;
-    //         }
-
-    //         priceText.text = price.ToString();
-    //     }
-
-    //     else
-    //     {
-    //         Debug.LogError("Object không có thuộc tính Id hoặc Image");
-    //     }
-
-    //     priceText.text = price.ToString();
-    //     double originPrice = price;
-    //     increaseButton.onClick.AddListener(() =>
-    //     {
-    //         int currentQuantity = int.Parse(quantityText.text);
-    //         double price = double.Parse(priceText.text);
-    //         currentQuantity++;
-    //         price = originPrice * currentQuantity;
-    //         quantityText.text = currentQuantity.ToString();
-    //         priceText.text = price.ToString();
-    //     });
-    //     decreaseButton.onClick.AddListener(() =>
-    //     {
-    //         int currentQuantity = int.Parse(quantityText.text);
-    //         double price = double.Parse(priceText.text);
-    //         if (currentQuantity > 1)
-    //         {
-    //             currentQuantity--;
-    //             price = originPrice * currentQuantity;
-    //             quantityText.text = currentQuantity.ToString();
-    //             priceText.text = price.ToString();
-    //         }
-    //     });
-    //     increase10Button.onClick.AddListener(() =>
-    //     {
-    //         int currentQuantity = int.Parse(quantityText.text);
-    //         double price = double.Parse(priceText.text);
-    //         currentQuantity = currentQuantity + 10;
-    //         price = originPrice * currentQuantity;
-    //         quantityText.text = currentQuantity.ToString();
-    //         priceText.text = price.ToString();
-    //     });
-    //     decrease10Button.onClick.AddListener(() =>
-    //     {
-    //         int currentQuantity = int.Parse(quantityText.text);
-    //         double price = double.Parse(priceText.text);
-    //         if (currentQuantity > 10)
-    //         {
-    //             currentQuantity = currentQuantity - 10;
-    //             price = originPrice * currentQuantity;
-    //             quantityText.text = currentQuantity.ToString();
-    //             priceText.text = price.ToString();
-    //         }
-    //     });
-    //     maxButton.onClick.AddListener(() =>
-    //     {
-    //         Currency userCurrency = new Currency();
-    //         if (obj is Equipments equipment)
-    //         {
-    //             // userCurrency = currency.GetUserCurrencyById(equipment.c);
-    //         }
-    //         // double price = double.Parse(priceText.text);
-
-    //         int max = (int)(userCurrency.quantity / price);
-    //         double newprice = originPrice * max;
-    //         quantityText.text = max.ToString();
-    //         priceText.text = newprice.ToString();
-    //     });
-    //     minButton.onClick.AddListener(() =>
-    //     {
-    //         quantityText.text = "1";
-    //         double price = double.Parse(priceText.text);
-    //         price = originPrice * 1;
-    //         priceText.text = price.ToString();
-    //     });
-    //     closeButton.onClick.AddListener(() => Close(popupPanel));
-    //     confirmButton.onClick.AddListener(() =>
-    //     {
-    //         int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
-    //         bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
-
-    //         for (int i = 1; i <= quantity; i++) // Duyệt từ 1 đến giá trị trong quantityText
-    //         {
-    //             if (obj is Equipments equipment)
-    //             {
-    //                 UserEquipmentsService.Create().UpdateUserCurrency(equipment.id);
-    //                 bool success = UserEquipmentsService.Create().BuyEquipment(equipment.id);
-    //                 if (!success)
-    //                 {
-    //                     allSuccess = false;
-    //                     break;
-    //                 }
-    //             }
-
-    //         }
-
-    //         // Hiển thị thông báo dựa trên kết quả
-    //         if (allSuccess)
-    //         {
-    //             String fileNameWithoutExtension = "";
-    //             Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
-    //             List<Currency> currencies = new List<Currency>();
-    //             string objType = "";
-    //             if (obj is Equipments equipment)
-    //             {
-    //                 EquipmentsGalleryService.Create().InsertEquipmentsGallery(equipment.id);
-    //                 FindObjectOfType<CurrencyManager>().GetEquipmentsCurrency(subType, CurrencyPanel);
-    //                 fileNameWithoutExtension = equipment.image.Replace(".png", "");
-    //             }
-    //             Close(CurrencyPanel);
-    //             FindObjectOfType<CurrencyManager>().createCurrency(currencies, currencyPanel);
-    //             Close(popupPanel);
-    //             // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
-    //             GameObject receivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);
-
-    //             ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
-    //             Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
-    //             GameObject itemObject = Instantiate(ItemThird, itemContent);
-
-    //             RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-    //             Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
-    //             eImage.texture = equipmentTexture;
-
-    //             TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
-    //             eQuantity.text = quantity.ToString();
-
-    //             if (objType.Equals("Achievements") || objType.Equals("Borders")
-    //             || objType.Equals("Collaboration") || objType.Equals("CollaborationEquipment")
-    //             || objType.Equals("Titles") || objType.Equals("Symbols") || objType.Equals("Medals")
-    //             || objType.Equals("MagicFormationCircle") || objType.Equals("Talisman") || objType.Equals("Puppet")
-    //             || objType.Equals("Alchemy") || objType.Equals("Forge") || objType.Equals("CardLife"))
-    //             {
-    //                 double currentPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-    //                 PowerManagerService.Create().UpdateUserStats(User.CurrentUserId);
-    //                 double newPower = TeamsService.Create().GetTeamsPower(User.CurrentUserId);
-    //                 FindObjectOfType<Power>().ShowPower(currentPower, newPower - currentPower, 1);
-    //             }
-    //         }
-    //         else
-    //         {
-    //             FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
-    //         }
-    //     });
-    // }
 }
