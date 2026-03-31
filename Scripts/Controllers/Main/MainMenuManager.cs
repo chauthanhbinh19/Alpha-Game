@@ -380,22 +380,22 @@ public class MainMenuManager : MonoBehaviour
         // Button userButton = userPanel.GetComponent<Button>();
         RawImage avatarImage = currentObject.transform.Find("Header/AvatarImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
-        Texture avatarTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture avatarTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         avatarImage.texture = avatarTexture;
 
         RawImage borderImage = currentObject.transform.Find("Header/BorderImage").GetComponent<RawImage>();
         fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
-        Texture borderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture borderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 
         RawImage userAvatarImage = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/AvatarImage").GetComponent<RawImage>();
         fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
-        Texture TuserAvatarexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture TuserAvatarexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         userAvatarImage.texture = TuserAvatarexture;
 
         RawImage userBorderImage = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/BorderImage").GetComponent<RawImage>();
         fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
-        Texture userBorderTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture userBorderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         userBorderImage.texture = userBorderTexture;
 
         // FindObjectOfType<CurrenciesManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
@@ -424,9 +424,9 @@ public class MainMenuManager : MonoBehaviour
         RawImage silverImage = currentObject.transform.Find("Header/SilverCurrency/Image").GetComponent<RawImage>();
         RawImage diamondImage = currentObject.transform.Find("Header/DiamondCurrency/Image").GetComponent<RawImage>();
 
-        goldImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(gold.Image));
-        silverImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(silver.Image));
-        diamondImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
+        goldImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(gold.Image));
+        silverImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(silver.Image));
+        diamondImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
 
         TextMeshProUGUI goldText = currentObject.transform.Find("Header/GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI silverText = currentObject.transform.Find("Header/SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
@@ -624,47 +624,47 @@ public class MainMenuManager : MonoBehaviour
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
             if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_HEROES_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_HEROES_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_BOOKS_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_BOOKS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_CAPTAINS_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_CAPTAINS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_MONSTERS_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_MONSTERS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_MILITARIES_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_MILITARIES_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_SPELLS_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_SPELLS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_COLONELS_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_COLONELS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_GENERALS_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_GENERALS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
             {
-                Texture texture = Resources.Load<Texture>(ImageConstants.Background.SUMMON_CARD_ADMIRALS_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_ADMIRALS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
         }
@@ -1855,7 +1855,7 @@ public class MainMenuManager : MonoBehaviour
             TextMeshProUGUI tenTicketText = summonObject.transform.Find("DictionaryCards/TenTicketText").GetComponent<TextMeshProUGUI>();
 
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             oneTicketImage.texture = texture;
             tenTicketImage.texture = texture;
             oneTicketText.text = "1";

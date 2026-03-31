@@ -91,7 +91,7 @@ public class MysticMarketManager : MonoBehaviour
 
             RawImage currencyImage = currencyObject.transform.Find("MainImage").GetComponent<RawImage>();
             string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
-            Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
+            Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             Button currencyButton = currencyObject.GetComponent<Button>();

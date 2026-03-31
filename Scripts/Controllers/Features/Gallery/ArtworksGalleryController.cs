@@ -48,7 +48,7 @@ public class ArtworksGalleryController : MonoBehaviour
 
                 RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
                 // Set size 200x130
@@ -56,7 +56,7 @@ public class ArtworksGalleryController : MonoBehaviour
                 rect.sizeDelta = new Vector2(200, 130);
 
                 RawImage backgroundImage = artworkObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
+                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
 
                 // RawImage frameImage = ArtworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
                 // frameImage.gameObject.SetActive(true);

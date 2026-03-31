@@ -267,7 +267,7 @@ public class ButtonLoader : MonoBehaviour
         RawImage buttonImage = button.GetComponent<RawImage>();
         if (buttonImage != null)
         {
-            Texture texture = Resources.Load<Texture>($"{image}");
+            Texture texture = TextureHelper.LoadTextureCached($"{image}");
             if (texture != null)
             {
                 buttonImage.texture = texture;
@@ -463,7 +463,7 @@ public class ButtonLoader : MonoBehaviour
 
         // Gán màu cho itemBackground
         RawImage background = newButton.transform.Find("Background").GetComponent<RawImage>();
-        Texture texture = Resources.Load<Texture>($"{itemBackground}");
+        Texture texture = TextureHelper.LoadTextureCached($"{itemBackground}");
         if (background != null && itemBackground != null)
         {
             background.texture = texture;

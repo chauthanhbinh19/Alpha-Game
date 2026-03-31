@@ -57,7 +57,7 @@ public class UserPetsController : MonoBehaviour
 
             RawImage image = petsObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Kích thước của RawImage (khung hiển thị)
@@ -79,7 +79,7 @@ public class UserPetsController : MonoBehaviour
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             RawImage backgroundImage = petsObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.PET_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PET_BUTTON_BACKGROUND_URL);
 
             Button button = petsObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -161,7 +161,7 @@ public class UserPetsController : MonoBehaviour
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image); // Lấy giá trị của image từ đối tượng Card
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
 
             ImageManager.Instance.ChangeSizeImage(Image, texture, 700f);
             Image.texture = texture;
@@ -176,7 +176,7 @@ public class UserPetsController : MonoBehaviour
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{pet.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{pet.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -298,7 +298,7 @@ public class UserPetsController : MonoBehaviour
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
-                Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
@@ -308,7 +308,7 @@ public class UserPetsController : MonoBehaviour
 
             RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
-            Texture cardTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture cardTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             cardImage.texture = cardTexture;
 
             TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();

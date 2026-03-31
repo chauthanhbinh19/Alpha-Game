@@ -112,7 +112,7 @@ public class ReactorNumber3Manager : MonoBehaviour
         ReactorNumberText.text = "03";
         titleText.text = LocalizationManager.Get(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_3);
 
-        // Texture conduitTexture = Resources.Load<Texture>("UI/Background2/Conduit_1");
+        // Texture conduitTexture = TextureHelper.LoadTextureCached("UI/Background2/Conduit_1");
         // leftSideCounduit1Image.texture = conduitTexture;
         // leftSideCounduit2Image.texture = conduitTexture;
         // rightSideCounduit1Image.texture = conduitTexture;
@@ -120,7 +120,7 @@ public class ReactorNumber3Manager : MonoBehaviour
 
         MainReactorBackgroundImage.AddComponent<RotateAnimation>();
 
-        Texture mainReactorTexture = Resources.Load<Texture>("UI/Background2/Reactor_1");
+        Texture mainReactorTexture = TextureHelper.LoadTextureCached("UI/Background2/Reactor_1");
         MainReactorImage.texture = mainReactorTexture;
 
         // RotateAnimation anim = MainReactorCoreImage.AddComponent<RotateAnimation>();
@@ -255,7 +255,7 @@ public class ReactorNumber3Manager : MonoBehaviour
         availableQuantityText.text = userMaterialQuantity.ToString();
         requiredQuantityText.text = materialQuantity.ToString();
 
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         image.texture = texture;
 
         if (level >= MAX_LEVEL)
@@ -269,7 +269,7 @@ public class ReactorNumber3Manager : MonoBehaviour
         availableQuantityText.text = userMaterialQuantity.ToString();
         requiredQuantityText.text = materialQuantity.ToString();
 
-        Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         image.texture = texture;
 
         if (level >= MAX_LEVEL)

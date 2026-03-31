@@ -56,15 +56,15 @@ public class MainMenuOmnipresenceManager : MonoBehaviour
             Destroy(currentObject);
         });
         RawImage background = currentObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
-        background.texture = Resources.Load<Texture>(ImageConstants.Background.BACKGROUND_77_URL);
+        background.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BACKGROUND_77_URL);
         RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
         RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
-        closeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
-        homeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+        closeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+        homeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
         RawImage scrollViewBackground = currentObject.transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
-        scrollViewBackground.texture = Resources.Load<Texture>(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
+        scrollViewBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
         RawImage titleBackground = currentObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
-        titleBackground.texture = Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
+        titleBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
 
         LevelCondition = currentObject.transform.Find("DictionaryCards/LevelCondition");
 

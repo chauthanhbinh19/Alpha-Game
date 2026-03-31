@@ -121,14 +121,42 @@ public abstract class CardBase
     public HealthBar healthBar;
     public virtual void PerformAction(PlayerController opponent)
     {
-        Debug.Log($"{CardName} performs a generic action.");
+        var target = ChooseTarget(opponent);
+        if (target == null)
+        {
+            Debug.Log($"{CardName} has no valid target.");
+            return;
+        }
+
+        Attack(target);
+    }
+
+    protected virtual CardBase ChooseTarget(PlayerController opponent)
+    {
+        if (opponent == null)
+        {
+            return null;
+        }
+
+        foreach (var enemyCard in opponent.GetCards())
+        {
+            if (enemyCard != null && enemyCard.IsAlive)
+            {
+                return enemyCard;
+            }
+        }
+
+        return null;
     }
 
     public virtual void TakeDamage(double amount)
     {
         CurrentHealth -= amount;
         if (CurrentHealth < 0) CurrentHealth = 0;
-        if (CurrentHealth > 0)
+
+        IsAlive = CurrentHealth > 0;
+
+        if (healthBar != null)
         {
             healthBar.SetHealth(CurrentHealth);
         }
@@ -208,68 +236,164 @@ public abstract class CardBase
 
     public void Attack(CardBase enemyCard)
     {
-        CausePhysicalAttack(enemyCard);
-        CauseMagicalAttack(enemyCard);
-        CauseChemicalAttack(enemyCard);
-        CauseAtomicAttack(enemyCard);
-        CauseMentalAttack(enemyCard);
+        CauseNormalAttack(enemyCard);
+        CauseSkillAttack(enemyCard);
         Debug.Log(enemyCard.CurrentHealth);
     }
 
-    public void CausePhysicalAttack(CardBase enemyCard)
+    public void CauseNormalAttack(CardBase enemyCard)
     {
-        double damage = CalculateDamage(PhysicalAttack, enemyCard.PhysicalAttack, enemyCard);
-        // enemyCard.ShowDamagePopup(damage, ColorConstants.PhysicalGradient, 1f);
-        Debug.Log("Physical damage " + damage);
+        CausePhysicalNormalAttack(enemyCard);
+        CauseMagicalNormalAttack(enemyCard);
+        CauseChemicalNormalAttack(enemyCard);
+        CauseAtomicNormalAttack(enemyCard);
+        CauseMentalNormalAttack(enemyCard);
+    }
+
+    public void CauseSkillAttack(CardBase enemyCard)
+    {
+        CausePhysicalSkillAttack(enemyCard);
+        CauseMagicalSkillAttack(enemyCard);
+        CauseChemicalSkillAttack(enemyCard);
+        CauseAtomicSkillAttack(enemyCard);
+        CauseMentalSkillAttack(enemyCard);
+    }
+
+    public enum AttackType
+    {
+        Normal,
+        Skill
+    }
+
+    protected double GetCombatValue(double currentValue, double baseValue)
+    {
+        return Math.Max(0, currentValue > 0 ? currentValue : baseValue);
+    }
+
+    protected double GetAttackTypeDamageRate(AttackType attackType)
+    {
+        if (attackType == AttackType.Skill)
+        {
+            return Math.Max(0, SkillDamageRate + CurrentSkillDamageRate);
+        }
+
+        return Math.Max(0, NormalDamageRate + CurrentNormalDamageRate);
+    }
+
+    protected double ClampPercentage(double value)
+    {
+        return Math.Max(0, Math.Min(100, value));
+    }
+
+    public void CausePhysicalNormalAttack(CardBase enemyCard)
+    {
+        double attack = GetCombatValue(CurrentPhysicalAttack, PhysicalAttack);
+        double defense = GetCombatValue(enemyCard.CurrentPhysicalDefense, enemyCard.PhysicalDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Normal);
+        Debug.Log("Physical normal damage " + damage);
         enemyCard.TakeDamage(damage);
     }
 
-    public void CauseMagicalAttack(CardBase enemyCard)
+    public void CauseMagicalNormalAttack(CardBase enemyCard)
     {
-        double damage = CalculateDamage(MagicalAttack, enemyCard.MagicalAttack, enemyCard);
-        // enemyCard.ShowDamagePopup(damage, ColorConstants.MagicGradient, 2f);
-        Debug.Log("Magical damage " + damage);
+        double attack = GetCombatValue(CurrentMagicalAttack, MagicalAttack);
+        double defense = GetCombatValue(enemyCard.CurrentMagicalDefense, enemyCard.MagicalDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Normal);
+        Debug.Log("Magical normal damage " + damage);
         enemyCard.TakeDamage(damage);
     }
 
-    public void CauseChemicalAttack(CardBase enemyCard)
+    public void CauseChemicalNormalAttack(CardBase enemyCard)
     {
-        double damage = CalculateDamage(ChemicalAttack, enemyCard.ChemicalAttack, enemyCard);
-        // enemyCard.ShowDamagePopup(damage, ColorConstants.ChemicalGradient, 3f);
-        Debug.Log("Chemical damage " + damage);
+        double attack = GetCombatValue(CurrentChemicalAttack, ChemicalAttack);
+        double defense = GetCombatValue(enemyCard.CurrentChemicalDefense, enemyCard.ChemicalDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Normal);
+        Debug.Log("Chemical normal damage " + damage);
         enemyCard.TakeDamage(damage);
     }
 
-    public void CauseAtomicAttack(CardBase enemyCard)
+    public void CauseAtomicNormalAttack(CardBase enemyCard)
     {
-        double damage = CalculateDamage(AtomicAttack, enemyCard.AtomicAttack, enemyCard);
-        // enemyCard.ShowDamagePopup(damage, ColorConstants.AtomicGradient, 4f);
-        Debug.Log("Atomic damage " + damage);
+        double attack = GetCombatValue(CurrentAtomicAttack, AtomicAttack);
+        double defense = GetCombatValue(enemyCard.CurrentAtomicDefense, enemyCard.AtomicDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Normal);
+        Debug.Log("Atomic normal damage " + damage);
         enemyCard.TakeDamage(damage);
     }
 
-    public void CauseMentalAttack(CardBase enemyCard)
+    public void CauseMentalNormalAttack(CardBase enemyCard)
     {
-        double damage = CalculateDamage(MentalAttack, enemyCard.MentalAttack, enemyCard);
-        // enemyCard.ShowDamagePopup(damage, ColorConstants.MentalGradient, 5f);
-        Debug.Log("Mental damage " + damage);
+        double attack = GetCombatValue(CurrentMentalAttack, MentalAttack);
+        double defense = GetCombatValue(enemyCard.CurrentMentalDefense, enemyCard.MentalDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Normal);
+        Debug.Log("Mental normal damage " + damage);
         enemyCard.TakeDamage(damage);
     }
 
-    public double CalculateDamage(double attack, double enemyDefense, CardBase enemyCard)
+    public void CausePhysicalSkillAttack(CardBase enemyCard)
+    {
+        double attack = GetCombatValue(CurrentPhysicalAttack, PhysicalAttack);
+        double defense = GetCombatValue(enemyCard.CurrentPhysicalDefense, enemyCard.PhysicalDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Skill);
+        Debug.Log("Physical skill damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public void CauseMagicalSkillAttack(CardBase enemyCard)
+    {
+        double attack = GetCombatValue(CurrentMagicalAttack, MagicalAttack);
+        double defense = GetCombatValue(enemyCard.CurrentMagicalDefense, enemyCard.MagicalDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Skill);
+        Debug.Log("Magical skill damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public void CauseChemicalSkillAttack(CardBase enemyCard)
+    {
+        double attack = GetCombatValue(CurrentChemicalAttack, ChemicalAttack);
+        double defense = GetCombatValue(enemyCard.CurrentChemicalDefense, enemyCard.ChemicalDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Skill);
+        Debug.Log("Chemical skill damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public void CauseAtomicSkillAttack(CardBase enemyCard)
+    {
+        double attack = GetCombatValue(CurrentAtomicAttack, AtomicAttack);
+        double defense = GetCombatValue(enemyCard.CurrentAtomicDefense, enemyCard.AtomicDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Skill);
+        Debug.Log("Atomic skill damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public void CauseMentalSkillAttack(CardBase enemyCard)
+    {
+        double attack = GetCombatValue(CurrentMentalAttack, MentalAttack);
+        double defense = GetCombatValue(enemyCard.CurrentMentalDefense, enemyCard.MentalDefense);
+        double damage = CalculateDamage(attack, defense, enemyCard, AttackType.Skill);
+        Debug.Log("Mental skill damage " + damage);
+        enemyCard.TakeDamage(damage);
+    }
+
+    public double CalculateDamage(double attack, double enemyDefense, CardBase enemyCard, AttackType attackType)
     {
         // Kiểm tra có đánh trúng không
-        // if (!IsAttackHit(enemyCard))
-        // {
-        //     return 0; // bị né => không gây sát thương
-        // }
+        if (!IsAttackHit(enemyCard))
+        {
+            return 0;
+        }
+
         // Áp dụng xuyên giáp nếu có
         double effectiveDefense = enemyDefense;
         effectiveDefense = ApplyDefenseWithPenetration(effectiveDefense, enemyCard); // bỏ qua % giáp
 
         // Công thức tính damage theo tỉ lệ attack / (attack + defense)
-        double ratio = attack / (attack + effectiveDefense);
+        double ratio = (attack + effectiveDefense) > 0 ? attack / (attack + effectiveDefense) : 0;
         double baseDamage = attack * ratio * (1 + (QualityEvaluator.CheckQuality(Rare) / 100));
+
+        // Thêm modifier theo kiểu attack (normal / skill)
+        double damageBonusRate = GetAttackTypeDamageRate(attackType);
+        baseDamage *= 1 + (damageBonusRate / 100.0);
         // Debug.Log("Attack " + attack);
         // Debug.Log("ratio " + ratio);
         // Debug.Log(baseDamage);
@@ -293,18 +417,22 @@ public abstract class CardBase
         }
 
         // Áp dụng kháng sát thương
-        baseDamage = ApplyDamageResistance(baseDamage, enemyCard);
+        baseDamage = ApplyDamageResistance(baseDamage, enemyCard, attackType);
         // Áp dụng hấp thụ sát thương
         baseDamage = ApplyDamageAbsorption(baseDamage, enemyCard);
 
-        return Math.Max(1, Math.Floor(baseDamage)); // không để damage = 0
+        double flooredDamage = Math.Floor(baseDamage);
+        if (attack > 0 && flooredDamage < 1)
+        {
+            return 1;
+        }
+
+        return Math.Max(0, flooredDamage);
     }
-
-
 
     public bool IsAttackHit(CardBase enemyCard)
     {
-        double chance = CurrentAccuracyRate - enemyCard.CurrentEvasionRate;
+        double chance = ClampPercentage(CurrentAccuracyRate - enemyCard.CurrentEvasionRate);
 
         if (chance <= 0)
             return false;
@@ -318,7 +446,7 @@ public abstract class CardBase
 
     public bool IsCriticalHit(CardBase enemyCard)
     {
-        double chance = CurrentCriticalRate - enemyCard.CurrentIgnoreCriticalRate;
+        double chance = ClampPercentage(CurrentCriticalRate - enemyCard.CurrentIgnoreCriticalRate);
 
         if (chance <= 0)
             return false;
@@ -333,7 +461,7 @@ public abstract class CardBase
     public double ApplyCriticalDamage(double baseDamage, CardBase enemyCard)
     {
         // Tính multiplier (hệ số nhân sát thương chí mạng)
-        double multiplier = 1.0 + (CriticalDamageRate / 100.0) - (enemyCard.CriticalResistanceRate / 100.0);
+        double multiplier = 1.0 + (ClampPercentage(CriticalDamageRate) / 100.0) - (ClampPercentage(enemyCard.CurrentCriticalResistanceRate) / 100.0);
 
         // Đảm bảo không giảm dưới sát thương cơ bản
         if (multiplier < 1.0)
@@ -345,9 +473,7 @@ public abstract class CardBase
     public double ApplyDefenseWithPenetration(double enemyDefense, CardBase enemyCard)
     {
         // Phần trăm xuyên giáp sau khi bị kháng
-        double actualPenetration = CurrentPenetrationRate - enemyCard.CurrentPenetrationResistanceRate;
-        if (actualPenetration < 0)
-            actualPenetration = 0;
+        double actualPenetration = ClampPercentage(CurrentPenetrationRate - enemyCard.CurrentPenetrationResistanceRate);
 
         // Tính defense sau khi xuyên
         double effectiveDefense = enemyDefense * (1 - actualPenetration / 100.0);
@@ -417,10 +543,16 @@ public abstract class CardBase
         return roll < CurrentTenacity;
     }
 
-    public double ApplyDamageResistance(double incomingDamage, CardBase enemyCard)
+    public double ApplyDamageResistance(double incomingDamage, CardBase enemyCard, AttackType attackType)
     {
+        double resistanceRate = attackType == AttackType.Skill
+            ? enemyCard.SkillResistanceRate + enemyCard.CurrentSkillResistanceRate
+            : enemyCard.NormalResistanceRate + enemyCard.CurrentNormalResistanceRate;
+
+        resistanceRate = Math.Max(0, resistanceRate);
+
         // Áp dụng công thức bão hòa cho kháng cao
-        double resistanceFactor = 1.0 / (1.0 + enemyCard.ResistanceRate / 100.0);
+        double resistanceFactor = 1.0 / (1.0 + resistanceRate / 100.0);
         double reducedDamage = incomingDamage * resistanceFactor;
         return Math.Max(0, reducedDamage);
     }

@@ -96,8 +96,8 @@ public class ArenaManager : MonoBehaviour
         Transform arenaSlotGroup = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         TextMeshProUGUI rankText = currentObject.transform.Find("DictionaryCards/RankText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI rankPointText = currentObject.transform.Find("DictionaryCards/RankPointText").GetComponent<TextMeshProUGUI>();
-        Texture avatarTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserAvatar)}");
-        Texture borderTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder)}");
+        Texture avatarTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserAvatar)}");
+        Texture borderTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder)}");
         avatarImage.texture = avatarTexture;
         borderImage.texture = borderTexture;
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -146,8 +146,8 @@ public class ArenaManager : MonoBehaviour
                 
                 RawImage arenaAvatarImage = arenaSlotObject.transform.Find("AvatarImage").GetComponent<RawImage>();
                 RawImage arenaBorderImage = arenaSlotObject.transform.Find("BorderImage").GetComponent<RawImage>();
-                Texture arenaAvatarTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserAvatar)}");
-                Texture arenaBorderTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder)}");
+                Texture arenaAvatarTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserAvatar)}");
+                Texture arenaBorderTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder)}");
                 arenaAvatarImage.texture = arenaAvatarTexture;
                 arenaBorderImage.texture = arenaBorderTexture;
                 TextMeshProUGUI arenaRankText = arenaSlotObject.transform.Find("RankText").GetComponent<TextMeshProUGUI>();

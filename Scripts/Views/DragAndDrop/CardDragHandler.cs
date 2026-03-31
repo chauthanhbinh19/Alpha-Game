@@ -96,7 +96,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         foreach (CardDropHandler dropHandler in dropHandlers)
         {
             RawImage positionImage = dropHandler.transform.Find("Image").GetComponent<RawImage>();
-            Texture texture = Resources.Load<Texture>($"UI/Background4/Background_V4_408");
+            Texture texture = TextureHelper.LoadTextureCached($"UI/Background4/Background_V4_408");
             if (positionImage.texture == texture) // Kiểm tra xem vị trí có trống không
             {
                 // Thêm thẻ vào vị trí này

@@ -10,6 +10,7 @@ public class StepScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     [SerializeField] private int totalPanels = 7;
     // [SerializeField] private float lerpSpeed = 10f;
 
+    public int page = 1;
     private int currentIndex = 0;
     private float targetVerticalPos = 1f; // 1 là trên cùng, 0 là dưới cùng
     private Coroutine smoothCoroutine;
@@ -69,6 +70,7 @@ public class StepScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         if (index < 0 || index >= totalPanels) return;
 
         currentIndex = index;
+        page = currentIndex + 1;
         // Tính toán vị trí Normalized (từ 0 đến 1)
         // Với Vertical: Panel 0 ở 1.0, Panel cuối ở 0.0
         targetVerticalPos = 1f - ((float)currentIndex / (totalPanels - 1));

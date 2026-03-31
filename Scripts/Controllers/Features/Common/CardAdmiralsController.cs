@@ -54,7 +54,7 @@ public class CardAdmiralsController : MonoBehaviour
 
             RawImage Image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             TextMeshProUGUI levelText = cardAdmiralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
@@ -70,7 +70,7 @@ public class CardAdmiralsController : MonoBehaviour
             rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardAdmiral.Rare));
 
             RawImage backgroundImage = cardAdmiralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_ADMIRAL_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_ADMIRAL_BUTTON_BACKGROUND_URL);
 
             Button button = cardAdmiralObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -103,7 +103,7 @@ public class CardAdmiralsController : MonoBehaviour
 
             RawImage image = admiralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Kích thước của RawImage (khung hiển thị)
@@ -144,7 +144,7 @@ public class CardAdmiralsController : MonoBehaviour
 
             RawImage currencyImage = admiralObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Currency.Image);
-            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = admiralObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
@@ -215,7 +215,7 @@ public class CardAdmiralsController : MonoBehaviour
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
                         string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
-                        Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
+                        Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
                 }
@@ -225,7 +225,7 @@ public class CardAdmiralsController : MonoBehaviour
             if (!string.IsNullOrEmpty(image))
             {
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
-                Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
 
@@ -340,7 +340,7 @@ public class CardAdmiralsController : MonoBehaviour
                     GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                     RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-                    Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                     eImage.texture = equipmentTexture;
 
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();

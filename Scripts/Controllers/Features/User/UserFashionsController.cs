@@ -55,7 +55,7 @@ public class UserFashionsController : MonoBehaviour
 
             RawImage image = fashionObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Kích thước của RawImage (khung hiển thị)
@@ -77,7 +77,7 @@ public class UserFashionsController : MonoBehaviour
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             RawImage backgroundImage = fashionObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.FASHION_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FASHION_BUTTON_BACKGROUND_URL);
 
             Button button = fashionObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -156,7 +156,7 @@ public class UserFashionsController : MonoBehaviour
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Fashion.Image); // Lấy giá trị của image từ đối tượng Card
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
@@ -170,7 +170,7 @@ public class UserFashionsController : MonoBehaviour
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Fashion.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Fashion.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -292,7 +292,7 @@ public class UserFashionsController : MonoBehaviour
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
-                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
@@ -302,7 +302,7 @@ public class UserFashionsController : MonoBehaviour
 
             RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Fashion.Image);
-            Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             magicFormationImage.texture = magicFormationTexture;
 
             TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();

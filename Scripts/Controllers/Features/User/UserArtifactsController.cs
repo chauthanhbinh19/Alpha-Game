@@ -55,7 +55,7 @@ public class UserArtifactsController : MonoBehaviour
 
             RawImage image = artifactObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Set size 130x180
@@ -63,7 +63,7 @@ public class UserArtifactsController : MonoBehaviour
             rect.sizeDelta = new Vector2(130, 180);
 
             RawImage backgroundImage = artifactObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ARTIFACT_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTIFACT_BUTTON_BACKGROUND_URL);
 
             TextMeshProUGUI rareText = artifactObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(artifact.Rare));
@@ -138,7 +138,7 @@ public class UserArtifactsController : MonoBehaviour
         {
             RawImage Image = currentObject.transform.Find("DictionaryArtifacts/ArtifactImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artifacts.Image); // Lấy giá trị của image từ đối tượng Artifact
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
@@ -152,7 +152,7 @@ public class UserArtifactsController : MonoBehaviour
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryArtifacts/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Artifacts.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Artifacts.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryArtifacts/CloseButton").GetComponent<Button>();
@@ -273,7 +273,7 @@ public class UserArtifactsController : MonoBehaviour
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
-                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
@@ -283,7 +283,7 @@ public class UserArtifactsController : MonoBehaviour
 
             RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artifacts.Image);
-            Texture magicFormationTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             magicFormationImage.texture = magicFormationTexture;
 
             TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();

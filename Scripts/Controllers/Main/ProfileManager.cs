@@ -86,8 +86,8 @@ public class ProfileManager : MonoBehaviour
         Button editNameButton = profileObject.transform.Find("Group2/EditNameButton").GetComponent<Button>();
         Button moreCurrencyButton = profileObject.transform.Find("Group4/MoreButton").GetComponent<Button>();
 
-        avatarImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(User.CurrentUserAvatar));
-        borderImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder));
+        avatarImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(User.CurrentUserAvatar));
+        borderImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder));
         nameText.text = User.CurrentUserName;
         levelText.text = User.CurrentUserLevel.ToString();
         powerText.text = User.CurrentUserPower.ToString();
@@ -105,9 +105,9 @@ public class ProfileManager : MonoBehaviour
         TextMeshProUGUI goldText = profileObject.transform.Find("Group4/CurrencyGroup/Gold/CurrencyText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI diamondText = profileObject.transform.Find("Group4/CurrencyGroup/Diamond/CurrencyText").GetComponent<TextMeshProUGUI>();
 
-        silverImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(silver.Image));
-        goldImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(gold.Image));
-        diamondImage.texture = Resources.Load<Texture>(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
+        silverImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(silver.Image));
+        goldImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(gold.Image));
+        diamondImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
         silverText.text = silver.Quantity.ToString();
         goldText.text = gold.Quantity.ToString();
         diamondText.text = diamond.Quantity.ToString();
@@ -230,13 +230,13 @@ public class ProfileManager : MonoBehaviour
         });
 
         RawImage graphicImage = graphicObject.transform.Find("IconImage").GetComponent<RawImage>();
-        graphicImage.texture = Resources.Load<Texture>($"UI/Icon/photo");
+        graphicImage.texture = TextureHelper.LoadTextureCached($"UI/Icon/photo");
         RawImage soundImage = soundObject.transform.Find("IconImage").GetComponent<RawImage>();
-        soundImage.texture = Resources.Load<Texture>($"UI/Icon/speaker-filled-audio-tool");
+        soundImage.texture = TextureHelper.LoadTextureCached($"UI/Icon/speaker-filled-audio-tool");
         RawImage otherImage = otherObject.transform.Find("IconImage").GetComponent<RawImage>();
-        otherImage.texture = Resources.Load<Texture>($"UI/Icon/setting-1");
+        otherImage.texture = TextureHelper.LoadTextureCached($"UI/Icon/setting-1");
         RawImage languageImage = languageObject.transform.Find("IconImage").GetComponent<RawImage>();
-        languageImage.texture = Resources.Load<Texture>($"UI/Icon/translation");
+        languageImage.texture = TextureHelper.LoadTextureCached($"UI/Icon/translation");
 
         Button graphicButton = graphicObject.transform.GetComponent<Button>();
         Button soundButton = soundObject.transform.GetComponent<Button>();
@@ -728,7 +728,7 @@ public class ProfileManager : MonoBehaviour
             topImage.color = ColorHelper.ToColor("#FFB300");
             backgroundOutline.enabled = true;
             topImageOutline.enabled = true;
-            iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_ACTIVE_URL);
+            iconImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Icon.ICON_ACTIVE_URL);
         }
         else
         {
@@ -736,7 +736,7 @@ public class ProfileManager : MonoBehaviour
             topImage.color = ColorHelper.ToColor("#646464");
             backgroundOutline.enabled = false;
             topImageOutline.enabled = false;
-            iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_UNACTIVE_URL);
+            iconImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Icon.ICON_UNACTIVE_URL);
         }
     }
     public void CreateTexture(GameObject textureObject)
@@ -856,14 +856,14 @@ public class ProfileManager : MonoBehaviour
             iconText.color = Color.black;
             background.color = ColorHelper.ToColor("#FFB300");
             backgroundOutline.enabled = true;
-            iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_ACTIVE_URL);
+            iconImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Icon.ICON_ACTIVE_URL);
         }
         else
         {
             iconText.color = Color.white;
             background.color = ColorHelper.ToColor("#646464");
             backgroundOutline.enabled = false;
-            iconImage.texture = Resources.Load<Texture>(ImageConstants.Icon.ICON_UNACTIVE_URL);
+            iconImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Icon.ICON_UNACTIVE_URL);
         }
     }
 }

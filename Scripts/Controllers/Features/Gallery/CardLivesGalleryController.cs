@@ -45,7 +45,7 @@ public class CardLivesGalleryController : MonoBehaviour
 
             RawImage Image = cardLifeObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             TextMeshProUGUI levelText = cardLifeObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
@@ -61,7 +61,7 @@ public class CardLivesGalleryController : MonoBehaviour
             rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardLife.Rare));
 
             RawImage backgroundImage = cardLifeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.CARD_LIFE_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_LIFE_BUTTON_BACKGROUND_URL);
 
             Button button = cardLifeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

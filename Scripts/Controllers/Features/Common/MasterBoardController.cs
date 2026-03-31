@@ -120,19 +120,19 @@ public class MasterBoardController : MonoBehaviour
             rectTransform.anchoredPosition = new Vector2(masterBoard.PositionX * 105, masterBoard.PositionY * 105);
 
             RawImage mainImage = node.transform.Find("MainImage").GetComponent<RawImage>();
-            Texture mainTexture = Resources.Load<Texture>($"UI/Master_Board/{masterBoard.Type}");
+            Texture mainTexture = TextureHelper.LoadTextureCached($"UI/Master_Board/{masterBoard.Type}");
             mainImage.texture = mainTexture;
 
             RawImage backgroundImage = node.transform.Find("Background").GetComponent<RawImage>();
             if (masterBoard.Status.Equals("block"))
             {
-                Texture backgroundTexture = Resources.Load<Texture>($"UI/Background4/Node_0");
+                Texture backgroundTexture = TextureHelper.LoadTextureCached($"UI/Background4/Node_0");
                 backgroundImage.texture = backgroundTexture;
                 mainImage.color = Color.black;
             }
             else
             {
-                Texture backgroundTexture = Resources.Load<Texture>($"UI/Background4/Node_5");
+                Texture backgroundTexture = TextureHelper.LoadTextureCached($"UI/Background4/Node_5");
                 backgroundImage.texture = backgroundTexture;
                 mainImage.color = Color.white;
             }
@@ -157,18 +157,18 @@ public class MasterBoardController : MonoBehaviour
         buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
 
         RawImage mainImage = popup.transform.Find("MainImage").GetComponent<RawImage>();
-        Texture mainTexture = Resources.Load<Texture>($"UI/Master_Board/{masterBoard.Type}");
+        Texture mainTexture = TextureHelper.LoadTextureCached($"UI/Master_Board/{masterBoard.Type}");
         mainImage.texture = mainTexture;
 
         RawImage backgroundImage = popup.transform.Find("BackgroundImage").GetComponent<RawImage>();
-        Texture backgroundTexture = Resources.Load<Texture>($"UI/Background4/Node_5");
+        Texture backgroundTexture = TextureHelper.LoadTextureCached($"UI/Background4/Node_5");
         backgroundImage.texture = backgroundTexture;
         mainImage.color = Color.white;
 
         RawImage materialImage = popup.transform.Find("Material/MaterialImage").GetComponent<RawImage>();
         Items items = await userItemsService.GetUserItemByNameAsync("Attack Amulet");
         string fileNameWithoutExtension = items.Image.Split('.')[0];
-        Texture materialTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture materialTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         materialImage.texture = materialTexture;
 
         TextMeshProUGUI materialNameText = popup.transform.Find("Material/QuantityText").GetComponent<TextMeshProUGUI>();

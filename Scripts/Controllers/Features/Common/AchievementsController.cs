@@ -55,7 +55,7 @@ public class AchievementsController : MonoBehaviour
 
             RawImage image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Kích thước của RawImage (khung hiển thị)
@@ -77,7 +77,7 @@ public class AchievementsController : MonoBehaviour
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             RawImage backgroundImage = achievementObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ACHIEVEMENT_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ACHIEVEMENT_BUTTON_BACKGROUND_URL);
 
             Button button = achievementObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -109,7 +109,7 @@ public class AchievementsController : MonoBehaviour
 
             RawImage Image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = achievementObject.transform.Find("Frame").GetComponent<RawImage>();
 
@@ -132,7 +132,7 @@ public class AchievementsController : MonoBehaviour
 
             RawImage currencyImage = achievementObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Currency.Image);
-            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = achievementObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
@@ -202,7 +202,7 @@ public class AchievementsController : MonoBehaviour
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
                         string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
-                        Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
+                        Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
                 }
@@ -212,7 +212,7 @@ public class AchievementsController : MonoBehaviour
             if (!string.IsNullOrEmpty(image))
             {
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
-                Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
 
@@ -327,7 +327,7 @@ public class AchievementsController : MonoBehaviour
                     GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                     RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-                    Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                     eImage.texture = equipmentTexture;
 
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();

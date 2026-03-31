@@ -68,7 +68,7 @@ public class WorldsController : MonoBehaviour
 
             RawImage Image = WorldObject.transform.Find("MainImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(world.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             if (world.Status.Equals("block"))
@@ -88,7 +88,7 @@ public class WorldsController : MonoBehaviour
             });
 
             RawImage rareImage = WorldObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{world.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{world.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

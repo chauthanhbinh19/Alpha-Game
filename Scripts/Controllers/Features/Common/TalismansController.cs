@@ -54,7 +54,7 @@ public class TalismansController : MonoBehaviour
 
             RawImage image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Kích thước của RawImage (khung hiển thị)
@@ -76,7 +76,7 @@ public class TalismansController : MonoBehaviour
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             RawImage backgroundImage = talismanObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.TALISMAN_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TALISMAN_BUTTON_BACKGROUND_URL);
 
             // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
@@ -111,7 +111,7 @@ public class TalismansController : MonoBehaviour
 
             RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = talismanObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = talismanObject.transform.Find("FrameImage").GetComponent<RawImage>();
@@ -134,7 +134,7 @@ public class TalismansController : MonoBehaviour
 
             RawImage currencyImage = talismanObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Currency.Image);
-            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = talismanObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
@@ -206,7 +206,7 @@ public class TalismansController : MonoBehaviour
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
                         string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
-                        Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
+                        Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
                 }
@@ -216,7 +216,7 @@ public class TalismansController : MonoBehaviour
             if (!string.IsNullOrEmpty(image))
             {
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
-                Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
 
@@ -331,7 +331,7 @@ public class TalismansController : MonoBehaviour
                     GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                     RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-                    Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                     eImage.texture = equipmentTexture;
 
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();

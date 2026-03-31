@@ -9,14 +9,25 @@ public class LoadTeams
 {
     public async Task<List<CardBase>> LoadPlayerTeamCardAsync(string userId, string teamId)
     {
-        var cardHeroesList = await UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
-        var cardCaptainsList = await UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(userId, teamId);
-        var cardColonelsList = await UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(userId, teamId);
-        var cardGeneralsList = await UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(userId, teamId);
-        var cardAdmiralsList = await UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(userId, teamId);
-        var cardMonstersList = await UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(userId, teamId);
-        var cardMilitaryList = await UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(userId, teamId);
-        var cardSpellList = await UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(userId, teamId);
+        var heroTask = UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
+        var captainTask = UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(userId, teamId);
+        var colonelTask = UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(userId, teamId);
+        var generalTask = UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(userId, teamId);
+        var admiralTask = UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(userId, teamId);
+        var monsterTask = UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(userId, teamId);
+        var militaryTask = UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(userId, teamId);
+        var spellTask = UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(userId, teamId);
+
+        await Task.WhenAll(heroTask, captainTask, colonelTask, generalTask, admiralTask, monsterTask, militaryTask, spellTask);
+
+        var cardHeroesList = heroTask.Result;
+        var cardCaptainsList = captainTask.Result;
+        var cardColonelsList = colonelTask.Result;
+        var cardGeneralsList = generalTask.Result;
+        var cardAdmiralsList = admiralTask.Result;
+        var cardMonstersList = monsterTask.Result;
+        var cardMilitaryList = militaryTask.Result;
+        var cardSpellList = spellTask.Result;
 
         List<CardBase> allCards = new List<CardBase>();
 

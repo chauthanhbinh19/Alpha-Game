@@ -1,140 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Unity.VisualStudio.Editor;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    public static BattleManager Instance { get; private set; }
-    [SerializeField] private int maxTurn = 10;
-    // Cần gán các GameObject Slot này vào Inspector
-    // private TeamSetupService teamSetupService;
-    [SerializeField] private CardDisplayManager cardDisplayManager;
-    [SerializeField] private Transform openingPanel;
-    [SerializeField] private Transform displayPanel;
-    private TurnManager turnManager;
+    [SerializeField] private CardDisplayManager displayManager;
+    [SerializeField] private int maxTurns = 8;
+
     private PlayerController attacker;
     private PlayerController defender;
-    void Awake()
+    private TurnManager turnManager;
+
+    public void InitializeBattle(PlayerController attacker, PlayerController defender)
     {
-        // Ensure there's only one instance of PanelManager
-        if (Instance == null)
-        {
-            Instance = this;
-            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
-        }
-        else
-        {
-            Destroy(gameObject); // Destroy duplicate instances
-        }
+        this.attacker = attacker;
+        this.defender = defender;
+
+        displayManager?.InitializeBattleGrid();
+
+        AssignDefaultGridPositions(attacker.GetCards(), BattleCellType.Player);
+        AssignDefaultGridPositions(defender.GetCards(), BattleCellType.Enemy);
+
+        turnManager = new TurnManager(attacker, defender, maxTurns, displayManager);
     }
 
-    private void Start()
+    public void StartBattle()
     {
-        StartCoroutine(BattleSequence());
-    }
+        if (attacker == null || defender == null)
+        {
+            Debug.LogError("BattleManager requires attacker and defender before starting the battle.");
+            return;
+        }
 
-    private IEnumerator BattleSequence()
-    {
-        Debug.Log("--- Bắt đầu Battle Sequence ---");
-
-        // 1. GỌI INTIALIZE OPENING (Thực hiện animation)
-        InitializeOpening();
-
-        Debug.Log("Đang chạy Opening Animation...");
-
-        // 2. CHỜ ĐỢI 3 GIÂY
-        // Dòng này tạm dừng Coroutine trong 3 giây.
-        yield return new WaitForSeconds(3.0f);
-        openingPanel.gameObject.SetActive(false);
-        displayPanel.gameObject.SetActive(true);
-
-        Debug.Log("Opening Animation hoàn tất. Bắt đầu Battle.");
-
-        // 3. KHỞI TẠO VÀ BẮT ĐẦU TRẬN ĐẤU
-        // await InitializeBattleAsync();
-
-        // 4. BẮT ĐẦU VÒNG CHƠI (chỉ bắt đầu sau khi Battle được Initialize)
         StartCoroutine(turnManager.RunTurns(attacker, defender));
     }
-    private void InitializeOpening()
+
+    private void AssignDefaultGridPositions(List<CardModel> cards, BattleCellType owner)
     {
-        Transform circleGroup = openingPanel.Find("CircleGroup");
-        circleGroup.AddComponent<RotateAnimation>();
-    }
-    private async Task InitializeBattleAsync()
-    {
-        string userId = "638957884856698071";
-        var teams = await TeamsService.Create().GetUserTeamsAsync(userId);
-        var firstTeam = teams.FirstOrDefault(t => t.TeamNumber == 1);
-
-        attacker = new PlayerController();
-        await attacker.GetPlayerCardAsync(userId, firstTeam.TeamId);
-        defender = new PlayerController();
-
-        turnManager = new TurnManager(attacker, defender, maxTurn);
-
-        // var teams = TeamsService.Create().GetUserTeams(User.CurrentUserId);
-
-        // Giả lập thêm vài lá bài vào field
-        // attacker.AddCard(new DummyCard("🔥 Attacker Card A"));
-        // attacker.AddCard(new DummyCard("⚔️ Attacker Card B"));
-        // defender.AddCard(new DummyCard("🛡️ Defender Card X"));
-        // defender.AddCard(new DummyCard("🧱 Defender Card Y"));
-
-        Debug.Log("Battle initialized successfully!");
-    }
-    public void ToggleDisplayManager()
-    {
-        if (displayPanel != null)
+        var availablePositions = displayManager?.GetAvailablePositions(owner);
+        if (availablePositions == null || availablePositions.Count == 0)
         {
-            bool currentState = displayPanel.gameObject.activeSelf;
-            displayPanel.gameObject.SetActive(!currentState);
-
-            // Debug.Log($"DisplayManager state changed to {!currentState}");
+            Debug.LogWarning($"No available grid slots defined for owner {owner}.");
+            return;
         }
-    }
 
-    private List<CardBase> SelectUniquePositionCards(List<CardBase> allLoadedCards, int count)
-    {
-        List<CardBase> selectedCards = new List<CardBase>();
-        // Sử dụng HashSet để theo dõi các giá trị MainPosition (int) đã được chọn.
-        HashSet<int> usedPositions = new HashSet<int>();
-
-        // 1. Sắp xếp danh sách. Việc sắp xếp theo MainPosition đảm bảo các vị trí
-        //    nhỏ (ví dụ: 1, 2, 3) sẽ được ưu tiên chọn trước.
-        List<CardBase> sortedCards = allLoadedCards
-            .OrderBy(card => card.MainPosition)
-            .ToList();
-
-        foreach (var card in sortedCards)
+        int index = 0;
+        foreach (var card in cards)
         {
-            // Kiểm tra xem đã đủ số lượng thẻ cần chọn chưa
-            if (selectedCards.Count >= count)
+            if (card == null || !card.IsAlive)
+                continue;
+
+            if (card.CellPosition >= 0 && availablePositions.Contains(card.CellPosition))
             {
+                if (displayManager?.PlaceCardModel(card, card.CellPosition, owner) == true)
+                    continue;
+            }
+
+            if (index >= availablePositions.Count)
                 break;
-            }
 
-            // Lấy MainPosition (Đã là int, không cần phân tích chuỗi)
-            int mainPosition = card.MainPosition;
-
-            // 2. Kiểm tra tính độc nhất của vị trí
-            if (!usedPositions.Contains(mainPosition))
-            {
-                // Vị trí chưa được sử dụng:
-                selectedCards.Add(card);       // Thêm thẻ bài vào danh sách
-                usedPositions.Add(mainPosition); // Đánh dấu vị trí đã được sử dụng
-            }
+            int position = availablePositions[index];
+            displayManager?.PlaceCardModel(card, position, owner);
+            index++;
         }
-
-        return selectedCards;
     }
-
-
-
-    // Logic gán và Instantiate
-
 }
+

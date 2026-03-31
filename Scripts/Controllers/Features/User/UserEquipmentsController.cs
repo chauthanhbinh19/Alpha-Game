@@ -95,7 +95,7 @@ public class UserEquipmentsController : MonoBehaviour
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image); // Lấy giá trị của image từ đối tượng Card
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
@@ -109,7 +109,7 @@ public class UserEquipmentsController : MonoBehaviour
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -231,7 +231,7 @@ public class UserEquipmentsController : MonoBehaviour
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
-                Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
@@ -241,7 +241,7 @@ public class UserEquipmentsController : MonoBehaviour
 
             RawImage equipmentImage = equipmentObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.Image);
-            Texture equipTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture equipTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             equipmentImage.texture = equipTexture;
 
             TextMeshProUGUI equipQuantity = equipmentObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();

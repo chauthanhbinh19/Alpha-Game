@@ -54,7 +54,7 @@ public class ArtworksController : MonoBehaviour
 
             RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Set size 200x130
@@ -62,7 +62,7 @@ public class ArtworksController : MonoBehaviour
             rect.sizeDelta = new Vector2(200, 130);
 
             RawImage backgroundImage = artworkObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
 
             // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
@@ -97,7 +97,7 @@ public class ArtworksController : MonoBehaviour
 
             RawImage Image = ArtworkObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             RawImage FrameImage = ArtworkObject.transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = ArtworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
@@ -120,7 +120,7 @@ public class ArtworksController : MonoBehaviour
 
             RawImage currencyImage = ArtworkObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Currency.Image);
-            Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = ArtworkObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
@@ -192,7 +192,7 @@ public class ArtworksController : MonoBehaviour
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
                         string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
-                        Texture currencyTexture = Resources.Load<Texture>($"{currencyFileNameWithoutExtension}");
+                        Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
                 }
@@ -202,7 +202,7 @@ public class ArtworksController : MonoBehaviour
             if (!string.IsNullOrEmpty(image))
             {
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
-                Texture entityTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
 
@@ -317,7 +317,7 @@ public class ArtworksController : MonoBehaviour
                     GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                     RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-                    Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                     eImage.texture = equipmentTexture;
 
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();

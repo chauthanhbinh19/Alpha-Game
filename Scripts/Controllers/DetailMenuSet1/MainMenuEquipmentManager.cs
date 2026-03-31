@@ -99,15 +99,15 @@ public class MainMenuEquipmentManager : MonoBehaviour
             Destroy(currentObject);
         });
         RawImage background = currentObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
-        background.texture = Resources.Load<Texture>(ImageConstants.Background.BACKGROUND_58_URL);
+        background.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BACKGROUND_58_URL);
         RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
         RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
-        closeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
-        homeButtonBackground.texture = Resources.Load<Texture>(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
+        closeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
+        homeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
         RawImage scrollViewBackground = currentObject.transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
-        scrollViewBackground.texture = Resources.Load<Texture>(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
+        scrollViewBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
         RawImage titleBackground = currentObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
-        titleBackground.texture = Resources.Load<Texture>(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
+        titleBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
         equipOneTypeButton = currentObject.transform.Find("DictionaryCards/EquipOneTypeButton").GetComponent<Button>();
         equipAllTypeButton = currentObject.transform.Find("DictionaryCards/EquipAllTypeButton").GetComponent<Button>();
 
@@ -577,7 +577,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         RawImage buttonImage = button.GetComponent<RawImage>();
         if (buttonImage != null)
         {
-            Texture texture = Resources.Load<Texture>($"{image}");
+            Texture texture = TextureHelper.LoadTextureCached($"{image}");
             if (texture != null)
             {
                 buttonImage.texture = texture;
@@ -696,7 +696,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetCardHeroesEquipmentsAsync(User.CurrentUserId, cardHero.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHero.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -792,7 +792,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetCardCaptainsEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -888,7 +888,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetCardColonelsEquipmentsAsync(User.CurrentUserId, cardColonel.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonel.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -984,7 +984,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetCardGeneralsEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -1080,7 +1080,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -1176,7 +1176,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetCardMonstersEquipmentsAsync(User.CurrentUserId, cardMonster.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -1272,7 +1272,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetCardMilitariesEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -1368,7 +1368,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetCardSpellsEquipmentsAsync(User.CurrentUserId, cardSpell.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -1464,7 +1464,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetBooksEquipmentsAsync(User.CurrentUserId, book.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -1560,7 +1560,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipmentList = await UserEquipmentsService.Create().GetPetsEquipmentsAsync(User.CurrentUserId, pet.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
         if (equipmentType.SlotValue == 1)
@@ -1781,7 +1781,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             if (equipment.Position == position)
             {
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
-                Texture equipmentTexture = Resources.Load<Texture>(fileNameWithoutExtension);
+                Texture equipmentTexture = TextureHelper.LoadTextureCached(fileNameWithoutExtension);
 
                 if (equipmentTexture != null)
                 {
@@ -1926,13 +1926,13 @@ public class MainMenuEquipmentManager : MonoBehaviour
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = equipment.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
 
             Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
@@ -2263,51 +2263,51 @@ public class MainMenuEquipmentManager : MonoBehaviour
     }
     public void GetStarImage(RawImage starImage, int starIndex)
     {
-        Texture starTexture = Resources.Load<Texture>($"UI/UI/Star1");
+        Texture starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star1");
         switch (starIndex)
         {
             case 0:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star1");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star1");
                 starImage.texture = starTexture;
                 break;
             case 1:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star2");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star2");
                 starImage.texture = starTexture;
                 break;
             case 2:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star3");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star3");
                 starImage.texture = starTexture;
                 break;
             case 3:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star4");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star4");
                 starImage.texture = starTexture;
                 break;
             case 4:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star5");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star5");
                 starImage.texture = starTexture;
                 break;
             case 5:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star6");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star6");
                 starImage.texture = starTexture;
                 break;
             case 6:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star7");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star7");
                 starImage.texture = starTexture;
                 break;
             case 7:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star8");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star8");
                 starImage.texture = starTexture;
                 break;
             case 8:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star9");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star9");
                 starImage.texture = starTexture;
                 break;
             case 9:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star10");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star10");
                 starImage.texture = starTexture;
                 break;
             default:
-                starTexture = Resources.Load<Texture>($"UI/UI/Star1");
+                starTexture = TextureHelper.LoadTextureCached($"UI/UI/Star1");
                 starImage.texture = starTexture;
                 break;
         }

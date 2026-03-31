@@ -55,7 +55,7 @@ public class UserMedalsController : MonoBehaviour
 
             RawImage image = medalObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Kích thước của RawImage (khung hiển thị)
@@ -77,7 +77,7 @@ public class UserMedalsController : MonoBehaviour
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             RawImage backgroundImage = medalObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.MEDAL_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MEDAL_BUTTON_BACKGROUND_URL);
 
             Button button = medalObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -152,7 +152,7 @@ public class UserMedalsController : MonoBehaviour
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image); // Lấy giá trị của image từ đối tượng Card
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
@@ -166,7 +166,7 @@ public class UserMedalsController : MonoBehaviour
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{medal.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{medal.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -288,7 +288,7 @@ public class UserMedalsController : MonoBehaviour
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
-                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
@@ -298,7 +298,7 @@ public class UserMedalsController : MonoBehaviour
 
             RawImage medalImage = medalObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
-            Texture medalTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture medalTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             medalImage.texture = medalTexture;
 
             TextMeshProUGUI medalQuantity = medalObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();

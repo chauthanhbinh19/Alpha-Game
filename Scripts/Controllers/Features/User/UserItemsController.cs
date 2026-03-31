@@ -49,7 +49,7 @@ public class UserItemsController : MonoBehaviour
 
                 RawImage image = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
                 // Kích thước của RawImage (khung hiển thị)

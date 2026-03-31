@@ -94,7 +94,7 @@ public class UserAchievementsController : MonoBehaviour
         {
             RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.Image); // Lấy giá trị của image từ đối tượng Card
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(Image, texture);
 
@@ -108,7 +108,7 @@ public class UserAchievementsController : MonoBehaviour
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievements.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievements.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -230,7 +230,7 @@ public class UserAchievementsController : MonoBehaviour
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
-                Texture itemTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
@@ -240,7 +240,7 @@ public class UserAchievementsController : MonoBehaviour
 
             RawImage achievementsImage = achievementsObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.Image);
-            Texture achievementsTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture achievementsTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             achievementsImage.texture = achievementsTexture;
 
             TextMeshProUGUI achievementsQuantity = achievementsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();

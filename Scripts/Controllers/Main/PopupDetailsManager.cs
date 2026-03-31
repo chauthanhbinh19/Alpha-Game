@@ -251,7 +251,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHero.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -264,7 +264,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = cardHero.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardHero.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardHero.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -282,7 +282,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -310,7 +310,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = book.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{book.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -328,7 +328,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -341,7 +341,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = cardCaptain.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardCaptain.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardCaptain.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -359,7 +359,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -392,7 +392,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = pet.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{pet.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{pet.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -410,7 +410,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -439,7 +439,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = collaborationEquipment.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaborationEquipment.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaborationEquipment.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -457,7 +457,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -470,7 +470,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = cardMilitary.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMilitary.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMilitary.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -488,7 +488,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -501,7 +501,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = cardSpell.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSpell.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -519,7 +519,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -532,7 +532,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = collaboration.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{collaboration.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaboration.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -550,7 +550,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -563,7 +563,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = cardMonster.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonster.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -581,7 +581,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -610,7 +610,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = equipment.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -627,7 +627,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -656,7 +656,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = medals.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{medal.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{medal.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -674,7 +674,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -710,7 +710,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{skill.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{skill.Rare}");
         rareImage.texture = rareTexture;
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
@@ -721,7 +721,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -734,7 +734,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{symbol.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{symbol.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -752,7 +752,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -781,7 +781,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{title.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{title.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -799,7 +799,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -828,7 +828,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{border.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{border.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -846,7 +846,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -875,7 +875,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{achievement.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievement.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -893,7 +893,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -922,7 +922,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{magicFormationCircle.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{magicFormationCircle.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -940,7 +940,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -969,7 +969,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{relic.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{relic.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -987,7 +987,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonel.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1000,7 +1000,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardColonel.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardColonel.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1018,7 +1018,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1031,7 +1031,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardGeneral.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardGeneral.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1049,7 +1049,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1062,7 +1062,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmiral.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1080,7 +1080,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -1109,7 +1109,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{talisman.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{talisman.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1127,7 +1127,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -1156,7 +1156,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{puppet.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{puppet.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1174,7 +1174,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -1203,7 +1203,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{alchemy.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{alchemy.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1221,7 +1221,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
         if (texture != null)
         {
@@ -1250,7 +1250,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = skills.level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{forge.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{forge.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1268,7 +1268,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1281,7 +1281,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = cardLife.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardLife.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardLife.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1299,7 +1299,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1312,7 +1312,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = artwork.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artwork.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1330,7 +1330,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1343,7 +1343,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = spiritBeast.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritBeast.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1361,7 +1361,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1374,7 +1374,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = spiritCard.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spiritCard.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritCard.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1392,7 +1392,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1405,7 +1405,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = artifact.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{artifact.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artifact.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1423,7 +1423,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1436,7 +1436,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = architecture.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{architecture.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{architecture.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1454,7 +1454,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1467,7 +1467,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = technology.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{technology.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{technology.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1485,7 +1485,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1498,7 +1498,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = vehicle.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{vehicle.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{vehicle.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1516,7 +1516,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1529,7 +1529,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = core.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{core.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{core.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1547,7 +1547,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1560,7 +1560,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = weapon.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{weapon.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{weapon.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1578,7 +1578,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1591,7 +1591,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = robot.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{robot.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{robot.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1609,7 +1609,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1622,7 +1622,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = badge.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{badge.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{badge.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1640,7 +1640,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1653,7 +1653,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = mechaBeast.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{mechaBeast.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{mechaBeast.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1671,7 +1671,7 @@ public class PopupDetailsManager : MonoBehaviour
     {
         RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image); // Lấy giá trị của image từ đối tượng Card
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
         TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
@@ -1684,7 +1684,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = rune.Level.ToString();
 
         RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = Resources.Load<Texture>($"UI/UI/{rune.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{rune.Rare}");
         rareImage.texture = rareTexture;
 
         Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1836,219 +1836,219 @@ public class PopupDetailsManager : MonoBehaviour
         Texture runeTexture;
         if (title.Equals(AppConstants.StatFields.PHYSICAL_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.PHYSICAL_ATTACK_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.PHYSICAL_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.PHYSICAL_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.PHYSICAL_DEFENSE_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.PHYSICAL_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MAGICAL_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MAGICAL_ATTACK_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.MAGICAL_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MAGICAL_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MAGICAL_DEFENSE_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.MAGICAL_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CHEMICAL_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.CHEMICAL_ATTACK_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.CHEMICAL_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CHEMICAL_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.CHEMICAL_DEFENSE_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.CHEMICAL_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ATOMIC_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.ATOMIC_ATTACK_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.ATOMIC_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ATOMIC_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.ATOMIC_DEFENSE_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.ATOMIC_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MENTAL_ATTACK))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MENTAL_ATTACK_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.MENTAL_ATTACK_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MENTAL_DEFENSE))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.MENTAL_DEFENSE_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.MENTAL_DEFENSE_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.HEALTH))
         {
-            runeTexture = Resources.Load<Texture>(ImageConstants.Rune.HEALTH_RUNE_URL);
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.HEALTH_RUNE_URL);
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.SPEED)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SPEED_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.SPEED_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CRITICAL_RATE)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CRITICAL_DAMAGE_RATE)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.DAMAGE_ABSORPTION_RATE)) {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.CRITICAL_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_CRITICAL_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.PENETRATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PENETRATION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.PENETRATION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.PENETRATION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.PENETRATION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.PENETRATION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.EVASION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.EVASION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.EVASION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ABSORBED_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.VITALITY_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.VITALITY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.VITALITY_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.VITALITY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.ACCURACY_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.ACCURACY_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.ACCURACY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.LIFE_STEAL_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.LIFESTEAL_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.LIFESTEAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.SHIELD_STRENGTH))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SHIELD_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.SHIELD_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.TENACITY))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.TENACITY_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.TENACITY_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.COMBO_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.COMBO_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_COMBO_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.COMBO_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.COMBO_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.COMBO_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.COMBO_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.COMBO_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.COMBO_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.COMBO_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.STUN_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.STUN_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.STUN_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_STUN_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.STUN_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.STUN_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MANA))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.MANA_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.MANA_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.MANA_REGENERATION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.MANA_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.MANA_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.IGNORE_REFLECTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_DAMAGE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.REFLECTION_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE) || title.Equals(AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE) ||
          title.Equals(AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE) || title.Equals(AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.FACTION_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.FACTION_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.NORMAL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.NORMAL_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.NORMAL_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.NORMAL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         else if (title.Equals(AppConstants.StatFields.SKILL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.SKILL_RESISTANCE_RATE))
         {
-            runeTexture = Resources.Load<Texture>($"{ImageConstants.Rune.SKILL_RUNE_URL}");
+            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.SKILL_RUNE_URL}");
             runeImage.texture = runeTexture;
         }
         runeImage.gameObject.SetActive(true);

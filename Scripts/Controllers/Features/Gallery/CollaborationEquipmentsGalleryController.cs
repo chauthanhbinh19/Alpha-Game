@@ -48,7 +48,7 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
 
                 RawImage image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
                 // Kích thước của RawImage (khung hiển thị)
@@ -70,7 +70,7 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
                 RawImage backgroundImage = collaborationEquipmentObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.COLLABORATION_EQUIPMENT_BUTTON_BACKGROUND_URL);
+                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.COLLABORATION_EQUIPMENT_BUTTON_BACKGROUND_URL);
 
                 Button button = collaborationEquipmentObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>

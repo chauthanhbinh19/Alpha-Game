@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public CardBase cardData;
+    public CardModel cardModel;
 
-    public void Initialize(CardBase card)
+    public void Initialize(CardModel model)
     {
-        cardData = card;
+        cardModel = model;
     }
 }

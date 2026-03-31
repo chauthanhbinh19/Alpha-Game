@@ -162,7 +162,7 @@ public class EquipmentManager : MonoBehaviour
 
         RawImage Image = equipmentObject.transform.Find("Background").GetComponent<RawImage>();
         string image = "Background_V1_" + count;
-        Texture texture = Resources.Load<Texture>($"UI/Background1/{image}");
+        Texture texture = TextureHelper.LoadTextureCached($"UI/Background1/{image}");
         Image.texture = texture;
         Button closeBtn = equipmentObject.transform.Find("CloseButton").GetComponent<Button>();
         closeBtn.onClick.AddListener(() => OnClose());
@@ -239,17 +239,17 @@ public class EquipmentManager : MonoBehaviour
             Power.text = equipment.Power.ToString();
 
             RawImage BackgroundImage = equipmentObject.transform.Find("Background").GetComponent<RawImage>();
-            Texture backgroundTexture = Resources.Load<Texture>($"{EvaluateSlotForEquipment.BackgroundImageForEquipment(type)}");
+            Texture backgroundTexture = TextureHelper.LoadTextureCached($"{EvaluateSlotForEquipment.BackgroundImageForEquipment(type)}");
             BackgroundImage.texture = backgroundTexture;
 
             RawImage Image = equipmentObject.transform.Find("MainImage").GetComponent<RawImage>();
-            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.Image)}");
+            Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(equipment.Image)}");
             Image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage BorderImage = equipmentObject.transform.Find("FrameImage").GetComponent<RawImage>();
-            Texture frameTexture = Resources.Load<Texture>($"{EvaluateSlotForEquipment.FrameImageForEquipment(type)}");
+            Texture frameTexture = TextureHelper.LoadTextureCached($"{EvaluateSlotForEquipment.FrameImageForEquipment(type)}");
             BorderImage.texture = frameTexture;
             // Lấy EventTrigger của RawImage
             EventTrigger eventTrigger = BorderImage.gameObject.GetComponent<EventTrigger>();
@@ -273,7 +273,7 @@ public class EquipmentManager : MonoBehaviour
             eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
         }
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -288,14 +288,14 @@ public class EquipmentManager : MonoBehaviour
             Title.text = equipment.Name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.Image)}");
+            Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(equipment.Image)}");
             Image.texture = texture;
             // RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            // Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.rare}");
+            // Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.rare}");
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = equipmentObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            Texture currencyTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.CurrencyImage)}");
+            Texture currencyTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(equipment.CurrencyImage)}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyTitle = equipmentObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
@@ -326,13 +326,13 @@ public class EquipmentManager : MonoBehaviour
             Title.text = equipment.Name.Replace("_", " ");
 
             RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
-            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(equipment.Image)}");
+            Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(equipment.Image)}");
             Image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{equipment.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = MainMenuContent.GetComponent<GridLayoutGroup>();
@@ -358,7 +358,7 @@ public class EquipmentManager : MonoBehaviour
             // RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             // string fileNameWithoutExtension = equipment.image.Replace(".png", "");
             // fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            // Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            // Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             // Image.texture = texture;
             // Tính toán vị trí cho equipmentObject
             RectTransform equipmentRect = equipmentObject.GetComponent<RectTransform>();
@@ -369,7 +369,7 @@ public class EquipmentManager : MonoBehaviour
             if (campaignDetail.Equals("available"))
             {
                 Transform starGroup = equipmentObject.transform.Find("StarGroup");
-                Texture texture = Resources.Load<Texture>("UI/UI/BlueStar");
+                Texture texture = TextureHelper.LoadTextureCached("UI/UI/BlueStar");
 
                 // Xóa các ngôi sao hiện có trong StarGroup để tránh trùng lặp
                 foreach (Transform child in starGroup)
@@ -708,11 +708,11 @@ public class EquipmentManager : MonoBehaviour
         var userCurrencyService = UserCurrenciesService.Create();
         Currencies currency = await userCurrencyService.GetUserEquipmentsPriceAsync(type, equipments.Id);
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);;
-        Texture currencyTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         currencyImage.texture = currencyTexture;
 
         fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.Image);
-        Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         equipmentImage.texture = equipmentTexture;
 
         currency = await userCurrencyService.GetEquipmentsPriceAsync(type, equipments.Id);
@@ -826,7 +826,7 @@ public class EquipmentManager : MonoBehaviour
 
                 RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipments.Image);
-                Texture equipmentTexture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
@@ -881,11 +881,11 @@ public class EquipmentManager : MonoBehaviour
             itemTitleText.gameObject.SetActive(false);
             // itemBackground.gameObject.SetActive(false);
 
-            Texture backgroundTexture = Resources.Load<Texture>("UI/Material_473");
+            Texture backgroundTexture = TextureHelper.LoadTextureCached("UI/Material_473");
             itemBackground.texture = backgroundTexture;
 
             RawImage itemImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            Texture itemTexture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(campaignReward.Items.Image)}");
+            Texture itemTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(campaignReward.Items.Image)}");
             itemImage.texture = itemTexture;
 
             // Chỉnh kích thước RectTransform thành 100x100
@@ -899,7 +899,7 @@ public class EquipmentManager : MonoBehaviour
         {
             GameObject cardObject = Instantiate(cardsPrefab, enemyGroup);
             RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            Texture texture = Resources.Load<Texture>($"{ImageExtensionHandler.RemoveImageExtension(campaignDetailCardcard.Cards.Image)}");
+            Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(campaignDetailCardcard.Cards.Image)}");
             Image.texture = texture;
         }
     }

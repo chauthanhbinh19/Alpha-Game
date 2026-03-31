@@ -48,7 +48,7 @@ public class RunesGalleryController : MonoBehaviour
 
                 RawImage image = runeObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
                 // Kích thước của RawImage (khung hiển thị)
@@ -70,7 +70,7 @@ public class RunesGalleryController : MonoBehaviour
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
                 RawImage backgroundImage = runeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.RUNE_BUTTON_BACKGROUND_URL);
+                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.RUNE_BUTTON_BACKGROUND_URL);
 
                 Button button = runeObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>

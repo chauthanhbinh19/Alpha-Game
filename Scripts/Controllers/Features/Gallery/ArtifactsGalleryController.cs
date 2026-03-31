@@ -45,7 +45,7 @@ public class ArtifactsGalleryController : MonoBehaviour
 
             RawImage image = artifactObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Set size 130x180
@@ -53,7 +53,7 @@ public class ArtifactsGalleryController : MonoBehaviour
             rect.sizeDelta = new Vector2(130, 180);
 
             RawImage backgroundImage = artifactObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.ARTIFACT_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTIFACT_BUTTON_BACKGROUND_URL);
 
             Button button = artifactObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

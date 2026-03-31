@@ -137,7 +137,7 @@ public class GachaSystem : MonoBehaviour
             Debug.LogError("No items found for type: " + type);
             return false;
         }
-        backImage = Resources.Load<Texture>("UI/Frame_5");
+        backImage = TextureHelper.LoadTextureCached("UI/Frame_5");
         if (backImage == null)
         {
             Debug.LogError(MessageHelper.ImageConstants.ImageIsNull);
@@ -283,47 +283,47 @@ public class GachaSystem : MonoBehaviour
             RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
             if (item is CardHeroes card)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{card.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{card.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is Books book)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{book.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{book.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardCaptains captains)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{captains.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{captains.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardMonsters monsters)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{monsters.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{monsters.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardMilitaries military)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{military.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{military.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardSpells spell)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{spell.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spell.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardColonels colonels)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{colonels.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{colonels.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardGenerals generals)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{generals.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{generals.Rare}");
                 rareImage.texture = rareTexture;
             }
             else if (item is CardAdmirals admirals)
             {
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{admirals.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{admirals.Rare}");
                 rareImage.texture = rareTexture;
             }
             rareImage.gameObject.SetActive(false);
@@ -415,7 +415,7 @@ public class GachaSystem : MonoBehaviour
 
         // Thay đổi từ mặt sau sang mặt trước
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(frontImagePath);
-        Texture frontTexture = Resources.Load<Texture>(fileNameWithoutExtension);
+        Texture frontTexture = TextureHelper.LoadTextureCached(fileNameWithoutExtension);
 
         if (frontTexture != null)
         {

@@ -45,7 +45,7 @@ public class EquipmentsGalleryController : MonoBehaviour
 
             RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             // Kích thước của RawImage (khung hiển thị)
@@ -67,7 +67,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             RawImage backgroundImage = equipmentObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = Resources.Load<Texture>(ImageConstants.Background.EQUIPMENT_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.EQUIPMENT_BUTTON_BACKGROUND_URL);
 
             Button button = EquipmentBlockButtonPrefab.GetComponent<Button>();
             button.onClick.AddListener(() =>

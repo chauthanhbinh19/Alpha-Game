@@ -68,7 +68,7 @@ public class EmployeesController : MonoBehaviour
 
             RawImage Image = EmployeeObject.transform.Find("MainImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Employee.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             Button button = EmployeeObject.GetComponent<Button>();
@@ -79,7 +79,7 @@ public class EmployeesController : MonoBehaviour
             });
 
             RawImage rareImage = EmployeeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Employee.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Employee.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

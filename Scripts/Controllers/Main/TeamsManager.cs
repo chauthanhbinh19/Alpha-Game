@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TextureHelper;
 using TMPro;
 using System.Linq;
 using UnityEngine.UI;
@@ -93,6 +94,7 @@ public class TeamsManager : MonoBehaviour
         teamsService = TeamsService.Create();
         rare = "All";
     }
+
     public async Task CreateTeamsAsync()
     {
         GameObject teamsObject = Instantiate(TeamsPanelPrefab, MainPanel);
@@ -134,8 +136,8 @@ public class TeamsManager : MonoBehaviour
             RawImage teamAvatarImage = cardTeam.transform.Find("AvatarImage").GetComponent<RawImage>();
             RawImage teamBorderImage = cardTeam.transform.Find("BorderImage").GetComponent<RawImage>();
             teamsPositionText.text = team.TeamNumber.ToString();
-            Texture teamAvatarTexture = Resources.Load<Texture>(team.TeamAvatar);
-            Texture teamBorderTexture = Resources.Load<Texture>(team.TeamBorder);
+            Texture teamAvatarTexture = TextureHelper.LoadTextureCached(team.TeamAvatar);
+            Texture teamBorderTexture = TextureHelper.LoadTextureCached(team.TeamBorder);
             teamAvatarImage.texture = teamAvatarTexture;
             teamBorderImage.texture = teamBorderTexture;
 
@@ -143,9 +145,37 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI cardHeroesQuantityText = cardHeroesObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI cardHeroesTitleText = cardHeroesObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             RawImage cardHeroesBackground1Image = cardHeroesObject.transform.Find("Background1").GetComponent<RawImage>();
-            Texture cardHeroesBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_438");
+            Texture cardHeroesBackground1Texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_438");
             cardHeroesBackground1Image.texture = cardHeroesBackground1Texture;
-            int cardHeroesQuantity = await UserCardHeroesService.Create().GetUserCardHeroesTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            int cardHeroesQuantity = 0;
+            int cardCaptainsQuantity = 0;
+            int cardColonelsQuantity = 0;
+            int cardGeneralsQuantity = 0;
+            int cardAdmiralsQuantity = 0;
+            int cardMonstersQuantity = 0;
+            int cardMilitaryQuantity = 0;
+            int cardSpellQuantity = 0;
+
+            var heroCountTask = userCardHeroesService.GetUserCardHeroesTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            var captainCountTask = userCardCaptainsService.GetUserCardCaptainsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            var colonelCountTask = userCardColonelsService.GetUserCardColonelsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            var generalCountTask = userCardGeneralsService.GetUserCardGeneralsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            var admiralCountTask = userCardAdmiralsService.GetUserCardAdmiralsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            var monsterCountTask = userCardMonstersService.GetUserCardMonstersTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            var militaryCountTask = userCardMilitaryService.GetUserCardMilitariesTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            var spellCountTask = userCardSpellService.GetUserCardSpellsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+
+            await Task.WhenAll(heroCountTask, captainCountTask, colonelCountTask, generalCountTask, admiralCountTask, monsterCountTask, militaryCountTask, spellCountTask);
+
+            cardHeroesQuantity = heroCountTask.Result;
+            cardCaptainsQuantity = captainCountTask.Result;
+            cardColonelsQuantity = colonelCountTask.Result;
+            cardGeneralsQuantity = generalCountTask.Result;
+            cardAdmiralsQuantity = admiralCountTask.Result;
+            cardMonstersQuantity = monsterCountTask.Result;
+            cardMilitaryQuantity = militaryCountTask.Result;
+            cardSpellQuantity = spellCountTask.Result;
+
             cardHeroesQuantityText.text = cardHeroesQuantity.ToString();
             cardHeroesTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HEROES);
 
@@ -153,9 +183,7 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI cardCaptainsQuantityText = cardCaptainsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI cardCaptainsTitleText = cardCaptainsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             RawImage cardCaptainsBackground1Image = cardCaptainsObject.transform.Find("Background1").GetComponent<RawImage>();
-            Texture cardCaptainsBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_439");
-            cardCaptainsBackground1Image.texture = cardCaptainsBackground1Texture;
-            int cardCaptainsQuantity = await UserCardCaptainsService.Create().GetUserCardCaptainsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            cardCaptainsBackground1Image.texture = LoadTextureCached("UI/Background4/Background_V4_439");
             cardCaptainsQuantityText.text = cardCaptainsQuantity.ToString();
             cardCaptainsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAINS);
 
@@ -163,9 +191,7 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI cardColonelsQuantityText = cardColonelsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI cardColonelsTitleText = cardColonelsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             RawImage cardColonelsBackground1Image = cardColonelsObject.transform.Find("Background1").GetComponent<RawImage>();
-            Texture cardColonelsBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_438");
-            cardColonelsBackground1Image.texture = cardColonelsBackground1Texture;
-            int cardColonelsQuantity = await UserCardColonelsService.Create().GetUserCardColonelsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            cardColonelsBackground1Image.texture = LoadTextureCached("UI/Background4/Background_V4_438");
             cardColonelsQuantityText.text = cardColonelsQuantity.ToString();
             cardColonelsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONELS);
 
@@ -173,9 +199,7 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI cardGeneralsQuantityText = cardGeneralsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI cardGeneralsTitleText = cardGeneralsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             RawImage cardGeneralsBackground1Image = cardGeneralsObject.transform.Find("Background1").GetComponent<RawImage>();
-            Texture cardGeneralsBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_439");
-            cardGeneralsBackground1Image.texture = cardGeneralsBackground1Texture;
-            int cardGeneralsQuantity = await UserCardGeneralsService.Create().GetUserCardGeneralsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            cardGeneralsBackground1Image.texture = LoadTextureCached("UI/Background4/Background_V4_439");
             cardGeneralsQuantityText.text = cardGeneralsQuantity.ToString();
             cardGeneralsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERALS);
 
@@ -183,9 +207,7 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI cardAdmiralsQuantityText = cardAdmiralsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI cardAdmiralsTitleText = cardAdmiralsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             RawImage cardAdmiralsBackground1Image = cardAdmiralsObject.transform.Find("Background1").GetComponent<RawImage>();
-            Texture cardAdmiralsBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_438");
-            cardAdmiralsBackground1Image.texture = cardAdmiralsBackground1Texture;
-            int cardAdmiralsQuantity = await UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            cardAdmiralsBackground1Image.texture = LoadTextureCached("UI/Background4/Background_V4_438");
             cardAdmiralsQuantityText.text = cardAdmiralsQuantity.ToString();
             cardAdmiralsTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRALS);
 
@@ -193,9 +215,7 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI cardMonstersQuantityText = cardMonstersObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI cardMonstersTitleText = cardMonstersObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             RawImage cardMonstersBackground1Image = cardMonstersObject.transform.Find("Background1").GetComponent<RawImage>();
-            Texture cardMonstersBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_439");
-            cardMonstersBackground1Image.texture = cardMonstersBackground1Texture;
-            int cardMonstersQuantity = await UserCardMonstersService.Create().GetUserCardMonstersTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            cardMonstersBackground1Image.texture = LoadTextureCached("UI/Background4/Background_V4_439");
             cardMonstersQuantityText.text = cardMonstersQuantity.ToString();
             cardMonstersTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTERS);
 
@@ -203,9 +223,7 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI cardMilitaryQuantityText = cardMilitaryObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI cardMilitaryTitleText = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             RawImage cardMilitaryBackground1Image = cardMilitaryObject.transform.Find("Background1").GetComponent<RawImage>();
-            Texture cardMilitaryBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_438");
-            cardMilitaryBackground1Image.texture = cardMilitaryBackground1Texture;
-            int cardMilitaryQuantity = await UserCardMilitariesService.Create().GetUserCardMilitariesTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            cardMilitaryBackground1Image.texture = LoadTextureCached("UI/Background4/Background_V4_438");
             cardMilitaryQuantityText.text = cardMilitaryQuantity.ToString();
             cardMilitaryTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
 
@@ -213,9 +231,7 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI cardSpellQuantityText = cardSpellObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI cardSpellTitleText = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             RawImage cardSpellBackground1Image = cardSpellObject.transform.Find("Background1").GetComponent<RawImage>();
-            Texture cardSpellBackground1Texture = Resources.Load<Texture>("UI/Background4/Background_V4_439");
-            cardSpellBackground1Image.texture = cardSpellBackground1Texture;
-            int cardSpellQuantity = await UserCardSpellsService.Create().GetUserCardSpellsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+            cardSpellBackground1Image.texture = LoadTextureCached("UI/Background4/Background_V4_439");
             cardSpellQuantityText.text = cardSpellQuantity.ToString();
             cardSpellTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
 
@@ -843,6 +859,7 @@ public class TeamsManager : MonoBehaviour
             Destroy(child.gameObject); // Hoặc DestroyImmediate(child.gameObject) nếu cần xóa ngay lập tức
         }
         var backgroundTexture = "Background_V4_408";
+        Texture defaultBackgroundTexture = LoadTextureCached($"UI/Background4/{backgroundTexture}");
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
             double totalPower = 0;
@@ -878,7 +895,7 @@ public class TeamsManager : MonoBehaviour
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardHero.Image);
-                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture texture = LoadTextureCached(fileNameWithoutExtension);
                     image.texture = texture;
 
                     LeaveBackground.gameObject.SetActive(true);
@@ -889,8 +906,7 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
-                    image.texture = texture;
+                    image.texture = defaultBackgroundTexture;
                     buttonText.text = "Front";
                 }
 
@@ -962,7 +978,7 @@ public class TeamsManager : MonoBehaviour
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardCaptain.Image);
-                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture texture = LoadTextureCached(fileNameWithoutExtension);
                     image.texture = texture;
 
                     LeaveBackground.gameObject.SetActive(true);
@@ -973,8 +989,7 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
-                    image.texture = texture;
+                    image.texture = defaultBackgroundTexture;
                     buttonText.text = "Front";
                 }
 
@@ -1046,7 +1061,7 @@ public class TeamsManager : MonoBehaviour
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardColonel.Image);
-                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture texture = LoadTextureCached(fileNameWithoutExtension);
                     image.texture = texture;
 
                     LeaveBackground.gameObject.SetActive(true);
@@ -1057,8 +1072,7 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
-                    image.texture = texture;
+                    image.texture = defaultBackgroundTexture;
                     buttonText.text = "Front";
                 }
 
@@ -1130,7 +1144,7 @@ public class TeamsManager : MonoBehaviour
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardGeneral.Image);
-                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture texture = LoadTextureCached(fileNameWithoutExtension);
                     image.texture = texture;
 
                     LeaveBackground.gameObject.SetActive(true);
@@ -1141,8 +1155,7 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
-                    image.texture = texture;
+                    image.texture = defaultBackgroundTexture;
                     buttonText.text = "Front";
                 }
 
@@ -1214,7 +1227,7 @@ public class TeamsManager : MonoBehaviour
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardAdmiral.Image);
-                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture texture = LoadTextureCached(fileNameWithoutExtension);
                     image.texture = texture;
 
                     LeaveBackground.gameObject.SetActive(true);
@@ -1225,8 +1238,7 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
-                    image.texture = texture;
+                    image.texture = defaultBackgroundTexture;
                     buttonText.text = "Front";
                 }
 
@@ -1298,7 +1310,7 @@ public class TeamsManager : MonoBehaviour
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardMonster.Image);
-                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture texture = LoadTextureCached(fileNameWithoutExtension);
                     image.texture = texture;
 
                     LeaveBackground.gameObject.SetActive(true);
@@ -1309,8 +1321,7 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
-                    image.texture = texture;
+                    image.texture = defaultBackgroundTexture;
                     buttonText.text = "Front";
                 }
 
@@ -1382,7 +1393,7 @@ public class TeamsManager : MonoBehaviour
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardMilitary.Image);
-                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture texture = LoadTextureCached(fileNameWithoutExtension);
                     image.texture = texture;
 
                     LeaveBackground.gameObject.SetActive(true);
@@ -1393,8 +1404,7 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
-                    image.texture = texture;
+                    image.texture = defaultBackgroundTexture;
                     buttonText.text = "Front";
                 }
 
@@ -1466,7 +1476,7 @@ public class TeamsManager : MonoBehaviour
                 {
                     // Gán texture từ cardHero vào Image
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(matchingCardSpell.Image);
-                    Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                    Texture texture = LoadTextureCached(fileNameWithoutExtension);
                     image.texture = texture;
 
                     LeaveBackground.gameObject.SetActive(true);
@@ -1477,8 +1487,7 @@ public class TeamsManager : MonoBehaviour
                 }
                 else
                 {
-                    Texture texture = Resources.Load<Texture>($"UI/Background4/{backgroundTexture}");
-                    image.texture = texture;
+                    image.texture = defaultBackgroundTexture;
                     buttonText.text = "Front";
                 }
 
@@ -1535,11 +1544,11 @@ public class TeamsManager : MonoBehaviour
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHeroes.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = LoadTextureCached(fileNameWithoutExtension);
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardHeroes.Rare}");
+                Texture rareTexture = LoadTextureCached($"UI/UI/{cardHeroes.Rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardHeroes.TeamId != null)
@@ -1588,11 +1597,11 @@ public class TeamsManager : MonoBehaviour
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptains.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = LoadTextureCached(fileNameWithoutExtension);
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardCaptains.Rare}");
+                Texture rareTexture = LoadTextureCached($"UI/UI/{cardCaptains.Rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardCaptains.TeamId != null)
@@ -1640,11 +1649,11 @@ public class TeamsManager : MonoBehaviour
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonels.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = LoadTextureCached(fileNameWithoutExtension);
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardColonels.Rare}");
+                Texture rareTexture = LoadTextureCached($"UI/UI/{cardColonels.Rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardColonels.TeamId != null)
@@ -1692,11 +1701,11 @@ public class TeamsManager : MonoBehaviour
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGenerals.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = LoadTextureCached(fileNameWithoutExtension);
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardGenerals.Rare}");
+                Texture rareTexture = LoadTextureCached($"UI/UI/{cardGenerals.Rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardGenerals.TeamId != null)
@@ -1744,11 +1753,11 @@ public class TeamsManager : MonoBehaviour
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = LoadTextureCached(fileNameWithoutExtension);
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardAdmirals.Rare}");
+                Texture rareTexture = LoadTextureCached($"UI/UI/{cardAdmirals.Rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardAdmirals.TeamId != null)
@@ -1796,11 +1805,11 @@ public class TeamsManager : MonoBehaviour
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonsters.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = LoadTextureCached(fileNameWithoutExtension);
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMonsters.Rare}");
+                Texture rareTexture = LoadTextureCached($"UI/UI/{cardMonsters.Rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardMonsters.TeamId != null)
@@ -1848,11 +1857,11 @@ public class TeamsManager : MonoBehaviour
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = LoadTextureCached(fileNameWithoutExtension);
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardMilitary.Rare}");
+                Texture rareTexture = LoadTextureCached($"UI/UI/{cardMilitary.Rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardMilitary.TeamId != null)
@@ -1900,11 +1909,11 @@ public class TeamsManager : MonoBehaviour
 
                 RawImage Image = cardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
-                Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+                Texture texture = LoadTextureCached(fileNameWithoutExtension);
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = Resources.Load<Texture>($"UI/UI/{cardSpell.Rare}");
+                Texture rareTexture = LoadTextureCached($"UI/UI/{cardSpell.Rare}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardSpell.TeamId != null)
@@ -2270,7 +2279,7 @@ public class TeamsManager : MonoBehaviour
         RawImage buttonImage = button.GetComponent<RawImage>();
         if (buttonImage != null)
         {
-            Texture texture = Resources.Load<Texture>($"UI/Background4/{image}");
+            Texture texture = LoadTextureCached($"UI/Background4/{image}");
             if (texture != null)
             {
                 buttonImage.texture = texture;

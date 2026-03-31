@@ -45,7 +45,7 @@ public class CurrenciesManager : MonoBehaviour
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
-            Texture texutre = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texutre = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texutre;
         }
         GridLayoutGroup gridLayout = CurrencyPanel.GetComponent<GridLayoutGroup>();
@@ -66,7 +66,7 @@ public class CurrenciesManager : MonoBehaviour
 
             RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
-            Texture texutre = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texutre = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texutre;
         }
         GridLayoutGroup gridLayout = itemPanel.GetComponent<GridLayoutGroup>();

@@ -256,7 +256,7 @@ public class DailyCheckinManager : MonoBehaviour
         TextMeshProUGUI quantityText = dailyCheckinComponent.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
 
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
-        Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         dailyCheckinImage.texture = texture;
 
         quantityText.text = NumberFormatter.FormatNumber(quantity, false);

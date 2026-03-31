@@ -68,7 +68,7 @@ public class CitiesController : MonoBehaviour
 
             RawImage Image = CitieObject.transform.Find("MainImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Citie.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             Button button = CitieObject.GetComponent<Button>();
@@ -79,7 +79,7 @@ public class CitiesController : MonoBehaviour
             });
 
             RawImage rareImage = CitieObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Citie.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Citie.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

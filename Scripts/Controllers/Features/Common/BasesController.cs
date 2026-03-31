@@ -68,7 +68,7 @@ public class BasesController : MonoBehaviour
 
             RawImage Image = BaseObject.transform.Find("MainImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Base.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             Button button = BaseObject.GetComponent<Button>();
@@ -79,7 +79,7 @@ public class BasesController : MonoBehaviour
             });
 
             RawImage rareImage = BaseObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Base.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Base.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

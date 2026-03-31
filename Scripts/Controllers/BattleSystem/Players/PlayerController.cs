@@ -1,29 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
 
 public class PlayerController
 {
-    private List<CardBase> allCards;
+    private List<CardModel> allCards;
     private LoadTeams _loadTeamService;
 
     public PlayerController()
     {
-        allCards = new List<CardBase>();
+        allCards = new List<CardModel>();
         _loadTeamService = new LoadTeams();
     }
 
     public async Task GetPlayerCardAsync(string userId, string teamId)
     {
-        allCards = await _loadTeamService.LoadPlayerTeamCardAsync(userId, teamId);
+        var loadedCards = await _loadTeamService.LoadPlayerTeamCardAsync(userId, teamId);
+        allCards = loadedCards.Select(CardModel.CreateFrom).ToList();
     }
 
     public void Attack(PlayerController opponent)
     {
         foreach (var card in allCards)
         {
+            if (card == null || !card.IsAlive)
+            {
+                continue;
+            }
+
             card.PerformAction(opponent);
         }
     }
@@ -33,7 +40,7 @@ public class PlayerController
         return allCards.Count == 0;
     }
 
-    public List<CardBase> GetCards()
+    public List<CardModel> GetCards()
     {
         return allCards;
     }

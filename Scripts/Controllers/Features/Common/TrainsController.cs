@@ -68,7 +68,7 @@ public class TrainsController : MonoBehaviour
 
             RawImage Image = TrainObject.transform.Find("MainImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Train.Image);
-            Texture texture = Resources.Load<Texture>($"{fileNameWithoutExtension}");
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
             Button button = TrainObject.GetComponent<Button>();
@@ -79,7 +79,7 @@ public class TrainsController : MonoBehaviour
             });
 
             RawImage rareImage = TrainObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = Resources.Load<Texture>($"UI/UI/{Train.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Train.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
