@@ -166,23 +166,23 @@ public class AuthenticationManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(username))
         {
-            SU_ErrorUsername.text = MessageHelper.MessageConstants.UsernameIsEmpty;
+            SU_ErrorUsername.text = MessageConstants.USERNAME_IS_EMPTY;
             return;
         }
         if (string.IsNullOrEmpty(password))
         {
-            SU_ErrorPassword.text = MessageHelper.MessageConstants.PasswordIsEmpty;
+            SU_ErrorPassword.text = MessageConstants.PASSWORD_IS_EMPTY;
             return;
         }
         if (string.IsNullOrEmpty(confirmPassword))
         {
-            SU_ErrorConfirmPassword.text = MessageHelper.MessageConstants.ConfirmPasswordIsEmpty;
+            SU_ErrorConfirmPassword.text = MessageConstants.CONFIRM_PASSWORD_IS_EMPTY;
             return;
         }
 
         if (password != confirmPassword)
         {
-            SU_ErrorPassword.text = MessageHelper.MessageConstants.PasswordNotMatch;
+            SU_ErrorPassword.text = MessageConstants.PASSWORDS_DO_NOT_MATCH;
             return;
         }
 
@@ -191,7 +191,7 @@ public class AuthenticationManager : MonoBehaviour
         string registerStatus = await _userService.RegisterUserAsync(username, password);
         if (string.IsNullOrEmpty(registerStatus))
         {
-            SU_ErrorUsername.text = MessageHelper.MessageConstants.UsernameAlreadyExist;
+            SU_ErrorUsername.text = MessageConstants.USERNAME_ALREADY_EXIST;
         }
         else
         {

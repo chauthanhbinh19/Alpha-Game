@@ -1961,7 +1961,7 @@ public class TeamsManager : MonoBehaviour
     }
     public async Task InsertCardToTeamAsync(object obj, string position_id, string card_id, string team_id, double card_power)
     {
-        string position = "F" + position_id;
+        string position = position_id;
         double currentPower = User.CurrentUserPower;
         if (obj is CardHeroes cardHero)
         {

@@ -51,15 +51,15 @@ public static class EvaluatePower
         double adjusted_reflection_resistance_rate = (reflectionResistanceRate / 100) * totalDefense / 100;
 
         // Điều chỉnh thuộc tính faction
-        double adjustedDamageToDifferentFaction = (damageToDifferentFactionRate / 100) * totalAttack / 100;
-        double adjustedResistanceToDifferentFaction = (resistanceToDifferentFactionRate / 100) * totalDefense / 100;
-        double adjustedDamageToSameFaction = (damageToSameFactionRate / 100) * totalAttack / 100;
-        double adjustedResistanceToSameFaction = (resistanceToSameFactionRate / 100) * totalDefense / 100;
+        double adjusted_damage_to_different_faction = (damageToDifferentFactionRate / 100) * totalAttack / 100;
+        double adjusted_resistance_to_different_faction = (resistanceToDifferentFactionRate / 100) * totalDefense / 100;
+        double adjusted_damage_to_same_faction = (damageToSameFactionRate / 100) * totalAttack / 100;
+        double adjusted_resistance_to_same_faction = (resistanceToSameFactionRate / 100) * totalDefense / 100;
 
-        double adjustedNormalDamageRate = (normalDamageRate / 100) * totalAttack / 100;
-        double adjustedNormalResistanceRate = (normalResistanceRate / 100) * totalDefense / 100;
-        double adjustedSkillDamageRate = (skillDamageRate / 100) * totalAttack / 100;
-        double adjustedSkillResistanceRate = (skillResistanceRate / 100) * totalDefense / 100;
+        double adjusted_normal_damage_rate = (normalDamageRate / 100) * totalAttack / 100;
+        double adjusted_normal_resistance_rate = (normalResistanceRate / 100) * totalDefense / 100;
+        double adjusted_skill_damage_rate = (skillDamageRate / 100) * totalAttack / 100;
+        double adjusted_skill_resistance_rate = (skillResistanceRate / 100) * totalDefense / 100;
 
         // Điều chỉnh mana
         double adjustedMana = mana * 0.5;
@@ -75,10 +75,10 @@ public static class EvaluatePower
         adjusted_combo + adjusted_ignore_combo_rate + adjusted_combo_damage_rate + adjusted_combo_resistance_rate + 
         adjusted_stun_rate + adjusted_ignore_stun_rate + 
         adjusted_reflection + adjusted_ignore_reflection_rate + adjusted_reflection_damage_rate + adjusted_reflection_resistance_rate +
-        adjustedDamageToDifferentFaction + adjustedResistanceToDifferentFaction +
-        adjustedDamageToSameFaction + adjustedResistanceToSameFaction +
+        adjusted_damage_to_different_faction + adjusted_resistance_to_different_faction +
+        adjusted_damage_to_same_faction + adjusted_resistance_to_same_faction +
         adjustedMana + adjustedManaRegeneration + 
-        adjustedNormalDamageRate + adjustedNormalResistanceRate +
-        adjustedSkillDamageRate + adjustedSkillResistanceRate;
+        adjusted_normal_damage_rate + adjusted_normal_resistance_rate +
+        adjusted_skill_damage_rate + adjusted_skill_resistance_rate;
     }
 }

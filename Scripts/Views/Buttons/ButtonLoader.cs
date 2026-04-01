@@ -107,15 +107,15 @@ public class ButtonLoader : MonoBehaviour
         subBackground = Resources.Load<Texture2D>(ImageConstants.Flag.FLAG_INVENTORY_URL);
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
 
-        CreateButton(1, AppConstants.MainType.SUMMON_CARD_HEROES, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_HERO_URL), contentPanel);
-        CreateButton(2, AppConstants.MainType.SUMMON_BOOKS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_BOOK_URL), contentPanel);
-        CreateButton(3, AppConstants.MainType.SUMMON_CARD_CAPTAINS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.CARD_CAPTAIN_URL), contentPanel);
-        CreateButton(4, AppConstants.MainType.SUMMON_CARD_MONSTERS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.CARD_MONSTER_URL), contentPanel);
+        CreateButton(1, AppConstants.MainType.SUMMON_CARD_HERO, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_HERO_URL), contentPanel);
+        CreateButton(2, AppConstants.MainType.SUMMON_BOOK, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_BOOK_URL), contentPanel);
+        CreateButton(3, AppConstants.MainType.SUMMON_CARD_CAPTAIN, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.CARD_CAPTAIN_URL), contentPanel);
+        CreateButton(4, AppConstants.MainType.SUMMON_CARD_MONSTER, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.CARD_MONSTER_URL), contentPanel);
         CreateButton(5, AppConstants.MainType.SUMMON_CARD_MILITARY, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.CARD_MILITARY_URL), contentPanel);
-        CreateButton(6, AppConstants.MainType.SUMMON_CARD_SPELLS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_SPELL_URL), contentPanel);
-        CreateButton(7, AppConstants.MainType.SUMMON_CARD_COLONELS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_COLONEL_URL), contentPanel);
-        CreateButton(8, AppConstants.MainType.SUMMON_CARD_GENERALS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_GENERAL_URL), contentPanel);
-        CreateButton(9, AppConstants.MainType.SUMMON_CARD_ADMIRALS, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_ADMIRAL_URL), contentPanel);
+        CreateButton(6, AppConstants.MainType.SUMMON_CARD_SPELL, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_SPELL_URL), contentPanel);
+        CreateButton(7, AppConstants.MainType.SUMMON_CARD_COLONEL, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_COLONEL_URL), contentPanel);
+        CreateButton(8, AppConstants.MainType.SUMMON_CARD_GENERAL, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_GENERAL_URL), contentPanel);
+        CreateButton(9, AppConstants.MainType.SUMMON_CARD_ADMIRAL, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.SUMMON_CARD_ADMIRAL_URL), contentPanel);
         CreateButton(10, AppConstants.MainType.ANIME, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.ANIME_URL), contentPanel);
         CreateButton(11, AppConstants.MainType.TOWER, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.TOWER_URL), contentPanel);
         CreateButton(12, AppConstants.MainType.EVENT, subBackground, itemBackground, Resources.Load<Texture2D>(ImageConstants.Main.EVENT_URL), contentPanel);

@@ -416,7 +416,7 @@ public class MainMenuXyphosManager : MonoBehaviour
         warningText.font = EuroStyleNormalFont;
         warningText.fontSize = 50;
         warningText.fontStyle = FontStyles.Bold; 
-        warningText.text = MessageHelper.WaringLevel(requiredLevel);
+        warningText.text = MessageConstants.WaringLevel(requiredLevel);
         LevelCondition.gameObject.AddComponent<SlideBottomToTopAnimation>();
     }
     public void LoadAnimation()

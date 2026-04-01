@@ -488,15 +488,15 @@ public class MainMenuManager : MonoBehaviour
     public void GetButtonEvent(GameObject popupButtonObject)
     {
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_HEROES));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => GetType(AppConstants.MainType.SUMMON_BOOKS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_CAPTAINS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MONSTERS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_HERO));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => GetType(AppConstants.MainType.SUMMON_BOOK));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_CAPTAIN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MONSTER));
         ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MILITARY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_SPELLS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_COLONELS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_GENERALS));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_ADMIRALS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_SPELL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_COLONEL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_GENERAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_ADMIRAL));
         ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.ANIME));
         // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.GUILD));
         ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.TOWER));
@@ -520,9 +520,9 @@ public class MainMenuManager : MonoBehaviour
     public async Task GetButtonTypeAsync()
     {
         // MainMenuPanel.SetActive(true);
-        if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES) || mainType.Equals(AppConstants.MainType.SUMMON_BOOKS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS) ||
-        mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS) ||
-        mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
+        if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HERO) || mainType.Equals(AppConstants.MainType.SUMMON_BOOK) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAIN) ||
+        mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONEL) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERAL) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRAL) ||
+        mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTER) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELL))
         {
             buttonType = "button2";
             summonObject = Instantiate(SummonPanelPrefab, MainPanel);
@@ -622,22 +622,22 @@ public class MainMenuManager : MonoBehaviour
             }
 
             RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
-            if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
+            if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HERO))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_HEROES_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOK))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_BOOKS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAIN))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_CAPTAINS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTER))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_MONSTERS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
@@ -647,22 +647,22 @@ public class MainMenuManager : MonoBehaviour
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_MILITARIES_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELL))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_SPELLS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONEL))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_COLONELS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERAL))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_GENERALS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
+            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRAL))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_ADMIRALS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
@@ -1099,7 +1099,7 @@ public class MainMenuManager : MonoBehaviour
 
             totalRecord = await UserCardAdmiralsService.Create().GetUserCardAdmiralsCountAsync(User.CurrentUserId, search, type, rare);
         }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HEROES))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HERO))
         {
             List<CardHeroes> cardHeroes = await CardHeroesService.Create().GetCardHeroesRandomAsync(type, 3);
             UserCardHeroesController.Instance.CreateUserCardHeroesForSummon(cardHeroes, PositionPanel);
@@ -1152,7 +1152,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOKS))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOK))
         {
             List<Books> books = await BooksService.Create().GetBooksRandomAsync(type, 3);
             UserBooksController.Instance.CreateUserBooksForSummon(books, PositionPanel);
@@ -1202,7 +1202,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAINS))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAIN))
         {
             List<CardCaptains> cardCaptains = await CardCaptainsService.Create().GetCardCaptainsRandomAsync(type, 3);
             UserCardCaptainsController.Instance.CreateUserCardCaptainsForSummon(cardCaptains, PositionPanel);
@@ -1302,7 +1302,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELLS))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELL))
         {
             List<CardSpells> cardSpells = await CardSpellsService.Create().GetCardSpellsRandomAsync(type, 3);
             UserCardSpellsController.Instance.CreateUserCardSpellForSummon(cardSpells, PositionPanel);
@@ -1352,7 +1352,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTERS))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTER))
         {
             List<CardMonsters> cardMonsters = await CardMonstersService.Create().GetCardMonstersRandomAsync(type, 3);
             UserCardMonstersController.Instance.CreateUserCardMonstersForSummon(cardMonsters, PositionPanel);
@@ -1402,7 +1402,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONELS))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONEL))
         {
             List<CardColonels> cardColonels = await CardColonelsService.Create().GetCardColonelsRandomAsync(type, 3);
             UserCardColonelsController.Instance.CreateUserCardColonelsForSummon(cardColonels, PositionPanel);
@@ -1452,7 +1452,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERALS))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERAL))
         {
             List<CardGenerals> cardGenerals = await CardGeneralsService.Create().GetCardGeneralsRandomAsync(type, 3);
             UserCardGeneralsController.Instance.CreateUserCardGeneralsForSummon(cardGenerals, PositionPanel);
@@ -1502,7 +1502,7 @@ public class MainMenuManager : MonoBehaviour
                 });
             });
         }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRALS))
+        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRAL))
         {
             List<CardAdmirals> cardAdmirals = await CardAdmiralsService.Create().GetCardAdmiralsRandomAsync(type, 3);
             UserCardAdmiralsController.Instance.CreateUserCardAdmiralsForSummon(cardAdmirals, PositionPanel);

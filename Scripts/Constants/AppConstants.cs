@@ -331,15 +331,15 @@ public static class AppConstants
         public const string EMOJIS = "Emojis";
 
         public const string SCIENCE_FICTION = "Science Fiction";
-        public const string SUMMON_CARD_HEROES = "Summon Card Heroes";
-        public const string SUMMON_BOOKS = "Summon Books";
-        public const string SUMMON_CARD_CAPTAINS = "Summon Card Captains";
-        public const string SUMMON_CARD_MONSTERS = "Summon Card Monsters";
-        public const string SUMMON_CARD_MILITARY = "Summon Card Militaries";
-        public const string SUMMON_CARD_SPELLS = "Summon Card Spells";
-        public const string SUMMON_CARD_COLONELS = "Summon Card Colonels";
-        public const string SUMMON_CARD_GENERALS = "Summon Card Generals";
-        public const string SUMMON_CARD_ADMIRALS = "Summon Card Admirals";
+        public const string SUMMON_CARD_HERO = "Summon Card Hero";
+        public const string SUMMON_BOOK = "Summon Book";
+        public const string SUMMON_CARD_CAPTAIN = "Summon Card Captain";
+        public const string SUMMON_CARD_MONSTER = "Summon Card Monster";
+        public const string SUMMON_CARD_MILITARY = "Summon Card Military";
+        public const string SUMMON_CARD_SPELL = "Summon Card Spell";
+        public const string SUMMON_CARD_COLONEL = "Summon Card Colonel";
+        public const string SUMMON_CARD_GENERAL = "Summon Card General";
+        public const string SUMMON_CARD_ADMIRAL = "Summon Card Admiral";
 
         public const string CAMPAIGN = "Campaign";
         public const string CAMPAIGNS = "Campaigns";
