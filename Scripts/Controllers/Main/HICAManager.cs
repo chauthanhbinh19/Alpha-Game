@@ -38,16 +38,16 @@ public class HICAManager : MonoBehaviour
         GameObject currentObject = Instantiate(HICAPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("HICAContent/Content");
 
-        CreateHICAButtonUI(1, AppDisplayConstants.HICA.HICA_I, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_I_URL), contentPanel);
-        CreateHICAButtonUI(2, AppDisplayConstants.HICA.HICA_II, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_II_URL), contentPanel);
-        CreateHICAButtonUI(3, AppDisplayConstants.HICA.HICA_III, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_III_URL), contentPanel);
-        CreateHICAButtonUI(4, AppDisplayConstants.HICA.HICA_IV, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_IV_URL), contentPanel);
-        CreateHICAButtonUI(5, AppDisplayConstants.HICA.HICA_V, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_V_URL), contentPanel);
-        CreateHICAButtonUI(6, AppDisplayConstants.HICA.HICA_VI, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_VI_URL), contentPanel);
-        CreateHICAButtonUI(7, AppDisplayConstants.HICA.HICA_VII, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_VII_URL), contentPanel);
-        CreateHICAButtonUI(8, AppDisplayConstants.HICA.HICA_VIII, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_VIII_URL), contentPanel);
-        CreateHICAButtonUI(9, AppDisplayConstants.HICA.HICA_IX, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_IX_URL), contentPanel);
-        CreateHICAButtonUI(10, AppDisplayConstants.HICA.HICA_X, Resources.Load<Texture2D>(ImageConstants.HICA.HICA_X_URL), contentPanel);
+        CreateHICAButtonUI(1, AppDisplayConstants.HICA.HICA_I, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_I_URL), contentPanel);
+        CreateHICAButtonUI(2, AppDisplayConstants.HICA.HICA_II, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_II_URL), contentPanel);
+        CreateHICAButtonUI(3, AppDisplayConstants.HICA.HICA_III, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_III_URL), contentPanel);
+        CreateHICAButtonUI(4, AppDisplayConstants.HICA.HICA_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_IV_URL), contentPanel);
+        CreateHICAButtonUI(5, AppDisplayConstants.HICA.HICA_V, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_V_URL), contentPanel);
+        CreateHICAButtonUI(6, AppDisplayConstants.HICA.HICA_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_VI_URL), contentPanel);
+        CreateHICAButtonUI(7, AppDisplayConstants.HICA.HICA_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_VII_URL), contentPanel);
+        CreateHICAButtonUI(8, AppDisplayConstants.HICA.HICA_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_VIII_URL), contentPanel);
+        CreateHICAButtonUI(9, AppDisplayConstants.HICA.HICA_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_IX_URL), contentPanel);
+        CreateHICAButtonUI(10, AppDisplayConstants.HICA.HICA_X, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_X_URL), contentPanel);
 
         CreateHICAButtonEvent(contentPanel);
     }

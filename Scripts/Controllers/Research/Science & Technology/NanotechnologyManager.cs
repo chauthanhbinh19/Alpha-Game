@@ -215,10 +215,10 @@ public class NanotechnologyManager : MonoBehaviour
             await HomeManager.Instance.CreateHomePanelAsync();
         });
         RawImage mapImage = currentObject.transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_9");
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_9");
         mapImage.texture = mapTexture; 
         RawImage rankImage = currentObject.transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Research.NANOTECHNOLOGY}");
+        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Research.NANOTECHNOLOGY}");
         rankImage.texture = rankTexture; 
 
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
@@ -329,7 +329,7 @@ public class NanotechnologyManager : MonoBehaviour
             ownedText.color = Color.green;
 
         // Load icon nếu có
-        Texture texture = Resources.Load<Texture2D>(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
+        Texture texture = TextureHelper.LoadTexture2DCached(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
         if (texture != null)
             image.texture = texture;
     }

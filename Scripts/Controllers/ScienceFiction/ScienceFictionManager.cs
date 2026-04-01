@@ -33,27 +33,27 @@ public class ScienceFictionManager : MonoBehaviour
     }
     public void CreateScienceFictionButton(Transform reactorMenuPanel)
     {
-        Texture2D itemBackground = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_INVENTORY_URL);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_1, 1, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_1_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_2, 2, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_2_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_3, 3, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_3_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_4, 4, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_4_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_5, 5, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_5_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_6, 6, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_6_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_7, 7, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_7_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_8, 8, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_8_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_9, 9, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_9_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_10, 10, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_10_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_11, 11, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_11_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_12, 12, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_12_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_13, 13, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_13_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_14, 14, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_14_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_15, 15, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_15_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_16, 16, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_16_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_17, 17, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_17_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_18, 18, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_18_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_19, 19, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_19_URL), reactorMenuPanel);
-        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_20, 20, itemBackground, Resources.Load<Texture2D>(ImageConstants.ScienceFiction.REACTOR_NUMBER_20_URL), reactorMenuPanel);
+        Texture2D itemBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Badge.BADGE_INVENTORY_URL);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_1, 1, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_1_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_2, 2, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_2_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_3, 3, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_3_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_4, 4, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_4_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_5, 5, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_5_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_6, 6, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_6_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_7, 7, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_7_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_8, 8, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_8_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_9, 9, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_9_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_10, 10, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_10_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_11, 11, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_11_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_12, 12, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_12_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_13, 13, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_13_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_14, 14, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_14_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_15, 15, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_15_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_16, 16, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_16_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_17, 17, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_17_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_18, 18, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_18_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_19, 19, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_19_URL), reactorMenuPanel);
+        CreateScienceFictionButtonUI(AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_20, 20, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_20_URL), reactorMenuPanel);
 
         FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButton(reactorMenuPanel);
         reactorMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

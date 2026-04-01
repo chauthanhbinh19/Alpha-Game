@@ -319,7 +319,7 @@ public class UniverseIVManager : MonoBehaviour
             ownedText.color = Color.green;
 
         // Load icon nếu có
-        Texture texture = Resources.Load<Texture2D>(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
+        Texture texture = TextureHelper.LoadTexture2DCached(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
         if (texture != null)
             image.texture = texture;
     }

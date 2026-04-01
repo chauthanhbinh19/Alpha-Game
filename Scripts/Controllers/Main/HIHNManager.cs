@@ -38,16 +38,16 @@ public class HIHNManager : MonoBehaviour
         GameObject currentObject = Instantiate(HIHNPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("HIHNContent/Content");
 
-        CreateHIHNButtonUI(1, AppDisplayConstants.HIHN.HIHN_I, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_I_URL), contentPanel);
-        CreateHIHNButtonUI(2, AppDisplayConstants.HIHN.HIHN_II, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_II_URL), contentPanel);
-        CreateHIHNButtonUI(3, AppDisplayConstants.HIHN.HIHN_III, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_III_URL), contentPanel);
-        CreateHIHNButtonUI(4, AppDisplayConstants.HIHN.HIHN_IV, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_IV_URL), contentPanel);
-        CreateHIHNButtonUI(5, AppDisplayConstants.HIHN.HIHN_V, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_V_URL), contentPanel);
-        CreateHIHNButtonUI(6, AppDisplayConstants.HIHN.HIHN_VI, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_VI_URL), contentPanel);
-        CreateHIHNButtonUI(7, AppDisplayConstants.HIHN.HIHN_VII, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_VII_URL), contentPanel);
-        CreateHIHNButtonUI(8, AppDisplayConstants.HIHN.HIHN_VIII, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_VIII_URL), contentPanel);
-        CreateHIHNButtonUI(9, AppDisplayConstants.HIHN.HIHN_IX, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_IX_URL), contentPanel);
-        CreateHIHNButtonUI(10, AppDisplayConstants.HIHN.HIHN_X, Resources.Load<Texture2D>(ImageConstants.HIHN.HIHN_X_URL), contentPanel);
+        CreateHIHNButtonUI(1, AppDisplayConstants.HIHN.HIHN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_I_URL), contentPanel);
+        CreateHIHNButtonUI(2, AppDisplayConstants.HIHN.HIHN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_II_URL), contentPanel);
+        CreateHIHNButtonUI(3, AppDisplayConstants.HIHN.HIHN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_III_URL), contentPanel);
+        CreateHIHNButtonUI(4, AppDisplayConstants.HIHN.HIHN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_IV_URL), contentPanel);
+        CreateHIHNButtonUI(5, AppDisplayConstants.HIHN.HIHN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_V_URL), contentPanel);
+        CreateHIHNButtonUI(6, AppDisplayConstants.HIHN.HIHN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_VI_URL), contentPanel);
+        CreateHIHNButtonUI(7, AppDisplayConstants.HIHN.HIHN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_VII_URL), contentPanel);
+        CreateHIHNButtonUI(8, AppDisplayConstants.HIHN.HIHN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_VIII_URL), contentPanel);
+        CreateHIHNButtonUI(9, AppDisplayConstants.HIHN.HIHN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_IX_URL), contentPanel);
+        CreateHIHNButtonUI(10, AppDisplayConstants.HIHN.HIHN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_X_URL), contentPanel);
 
         CreateHIHNButtonEvent(contentPanel);
     }

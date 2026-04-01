@@ -38,16 +38,16 @@ public class HITNManager : MonoBehaviour
         GameObject currentObject = Instantiate(HITNPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("HITNContent/Content");
 
-        CreateHITNButtonUI(1, AppDisplayConstants.HITN.HITN_I, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_I_URL), contentPanel);
-        CreateHITNButtonUI(2, AppDisplayConstants.HITN.HITN_II, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_II_URL), contentPanel);
-        CreateHITNButtonUI(3, AppDisplayConstants.HITN.HITN_III, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_III_URL), contentPanel);
-        CreateHITNButtonUI(4, AppDisplayConstants.HITN.HITN_IV, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_IV_URL), contentPanel);
-        CreateHITNButtonUI(5, AppDisplayConstants.HITN.HITN_V, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_V_URL), contentPanel);
-        CreateHITNButtonUI(6, AppDisplayConstants.HITN.HITN_VI, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_VI_URL), contentPanel);
-        CreateHITNButtonUI(7, AppDisplayConstants.HITN.HITN_VII, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_VII_URL), contentPanel);
-        CreateHITNButtonUI(8, AppDisplayConstants.HITN.HITN_VIII, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_VIII_URL), contentPanel);
-        CreateHITNButtonUI(9, AppDisplayConstants.HITN.HITN_IX, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_IX_URL), contentPanel);
-        CreateHITNButtonUI(10, AppDisplayConstants.HITN.HITN_X, Resources.Load<Texture2D>(ImageConstants.HITN.HITN_X_URL), contentPanel);
+        CreateHITNButtonUI(1, AppDisplayConstants.HITN.HITN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_I_URL), contentPanel);
+        CreateHITNButtonUI(2, AppDisplayConstants.HITN.HITN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_II_URL), contentPanel);
+        CreateHITNButtonUI(3, AppDisplayConstants.HITN.HITN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_III_URL), contentPanel);
+        CreateHITNButtonUI(4, AppDisplayConstants.HITN.HITN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_IV_URL), contentPanel);
+        CreateHITNButtonUI(5, AppDisplayConstants.HITN.HITN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_V_URL), contentPanel);
+        CreateHITNButtonUI(6, AppDisplayConstants.HITN.HITN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_VI_URL), contentPanel);
+        CreateHITNButtonUI(7, AppDisplayConstants.HITN.HITN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_VII_URL), contentPanel);
+        CreateHITNButtonUI(8, AppDisplayConstants.HITN.HITN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_VIII_URL), contentPanel);
+        CreateHITNButtonUI(9, AppDisplayConstants.HITN.HITN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_IX_URL), contentPanel);
+        CreateHITNButtonUI(10, AppDisplayConstants.HITN.HITN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_X_URL), contentPanel);
 
         CreateHITNButtonEvent(contentPanel);
     }

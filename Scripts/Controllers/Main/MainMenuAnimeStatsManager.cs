@@ -61,17 +61,17 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     public void CreateAnimeButton(Transform animeMenuPanel)
     {
         
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.ONE_PIECE, AppConstants.Anime.ONE_PIECE, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.ONE_PIECE_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.NARUTO, AppConstants.Anime.NARUTO, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.NARUTO_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.DRAGON_BALL, AppConstants.Anime.DRAGON_BALL, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.DRAGON_BALL_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.FAIRY_TAIL, AppConstants.Anime.FAIRY_TAIL, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.FAIRY_TAIL_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.SWORD_ART_ONLINE, AppConstants.Anime.SWORD_ART_ONLINE, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.SWORD_ART_ONLINE_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.DEMON_SLAYER, AppConstants.Anime.DEMON_SLAYER, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.DEMON_SLAYER_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.BLEACH, AppConstants.Anime.BLEACH, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.BLEACH_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.JUJUTSU_KAISEN, AppConstants.Anime.JUJUTSU_KAISEN, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.JUJUTSU_KAISEN_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.BLACK_CLOVER, AppConstants.Anime.BLACK_CLOVER, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.BLACK_CLOVER_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.HUNTER_X_HUNTER, AppConstants.Anime.HUNTER_X_HUNTER, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.HUNTER_X_HUNTER_URL), animeMenuPanel);
-        CreateAnimeButtonUI(AppDisplayConstants.Anime.ONE_PUNCH_MAN, AppConstants.Anime.ONE_PUNCH_MAN, itemBackground, Resources.Load<Texture2D>(ImageConstants.Anime.ONE_PUNCH_MAN_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.ONE_PIECE, AppConstants.Anime.ONE_PIECE, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.ONE_PIECE_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.NARUTO, AppConstants.Anime.NARUTO, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.NARUTO_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.DRAGON_BALL, AppConstants.Anime.DRAGON_BALL, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.DRAGON_BALL_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.FAIRY_TAIL, AppConstants.Anime.FAIRY_TAIL, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.FAIRY_TAIL_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.SWORD_ART_ONLINE, AppConstants.Anime.SWORD_ART_ONLINE, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.SWORD_ART_ONLINE_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.DEMON_SLAYER, AppConstants.Anime.DEMON_SLAYER, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.DEMON_SLAYER_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.BLEACH, AppConstants.Anime.BLEACH, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.BLEACH_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.JUJUTSU_KAISEN, AppConstants.Anime.JUJUTSU_KAISEN, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.JUJUTSU_KAISEN_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.BLACK_CLOVER, AppConstants.Anime.BLACK_CLOVER, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.BLACK_CLOVER_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.HUNTER_X_HUNTER, AppConstants.Anime.HUNTER_X_HUNTER, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.HUNTER_X_HUNTER_URL), animeMenuPanel);
+        CreateAnimeButtonUI(AppDisplayConstants.Anime.ONE_PUNCH_MAN, AppConstants.Anime.ONE_PUNCH_MAN, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.ONE_PUNCH_MAN_URL), animeMenuPanel);
 
         FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButtonEvent(animeMenuPanel);
         animeMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -182,7 +182,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                     {
                         LevelCondition.gameObject.SetActive(true);
                         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
-                        warningText.text = MessageHelper.WaringLevel(requiredLevel);
+                        warningText.text = MessageConstants.WaringLevel(requiredLevel);
                     }
                 }
                 else
@@ -220,7 +220,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         {
             LevelCondition.gameObject.SetActive(true);
             TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
-            warningText.text = MessageHelper.WaringLevel(requiredLevel);
+            warningText.text = MessageConstants.WaringLevel(requiredLevel);
         }
     }
     public async Task CreateAnimeStatsAsync()

@@ -67,7 +67,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public async Task CreateEquipmentsButtonAsync(Transform equipmentMenuPanel)
     {
-        Texture2D itemBackground = Resources.Load<Texture2D>(ImageConstants.Badge.BADGE_EQUIPMENT_URL);
+        Texture2D itemBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Badge.BADGE_EQUIPMENT_URL);
         //Equipment menu
         var equipment = EquipmentsService.Create();
         List<string> uniqueTypes = await equipment.GetUniqueEquipmentsTypesAsync();
@@ -76,7 +76,7 @@ public class EquipmentManager : MonoBehaviour
             for (int i = 0; i < uniqueTypes.Count; i++)
             {
                 string subtype = uniqueTypes[i];
-                CreateEquipmentButtonUI(subtype, itemBackground, Resources.Load<Texture2D>($"UI/Button/Equipments/{subtype}"), equipmentMenuPanel);
+                CreateEquipmentButtonUI(subtype, itemBackground, TextureHelper.LoadTexture2DCached($"UI/Button/Equipments/{subtype}"), equipmentMenuPanel);
             }
         }
         FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel);

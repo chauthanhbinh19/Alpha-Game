@@ -38,16 +38,16 @@ public class HIENManager : MonoBehaviour
         GameObject currentObject = Instantiate(HIENPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("HIENContent/Content");
 
-        CreateHIENButtonUI(1, AppDisplayConstants.HIEN.HIEN_I, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_I_URL), contentPanel);
-        CreateHIENButtonUI(2, AppDisplayConstants.HIEN.HIEN_II, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_II_URL), contentPanel);
-        CreateHIENButtonUI(3, AppDisplayConstants.HIEN.HIEN_III, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_III_URL), contentPanel);
-        CreateHIENButtonUI(4, AppDisplayConstants.HIEN.HIEN_IV, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_IV_URL), contentPanel);
-        CreateHIENButtonUI(5, AppDisplayConstants.HIEN.HIEN_V, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_V_URL), contentPanel);
-        CreateHIENButtonUI(6, AppDisplayConstants.HIEN.HIEN_VI, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_VI_URL), contentPanel);
-        CreateHIENButtonUI(7, AppDisplayConstants.HIEN.HIEN_VII, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_VII_URL), contentPanel);
-        CreateHIENButtonUI(8, AppDisplayConstants.HIEN.HIEN_VIII, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_VIII_URL), contentPanel);
-        CreateHIENButtonUI(9, AppDisplayConstants.HIEN.HIEN_IX, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_IX_URL), contentPanel);
-        CreateHIENButtonUI(10, AppDisplayConstants.HIEN.HIEN_X, Resources.Load<Texture2D>(ImageConstants.HIEN.HIEN_X_URL), contentPanel);
+        CreateHIENButtonUI(1, AppDisplayConstants.HIEN.HIEN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_I_URL), contentPanel);
+        CreateHIENButtonUI(2, AppDisplayConstants.HIEN.HIEN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_II_URL), contentPanel);
+        CreateHIENButtonUI(3, AppDisplayConstants.HIEN.HIEN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_III_URL), contentPanel);
+        CreateHIENButtonUI(4, AppDisplayConstants.HIEN.HIEN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_IV_URL), contentPanel);
+        CreateHIENButtonUI(5, AppDisplayConstants.HIEN.HIEN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_V_URL), contentPanel);
+        CreateHIENButtonUI(6, AppDisplayConstants.HIEN.HIEN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_VI_URL), contentPanel);
+        CreateHIENButtonUI(7, AppDisplayConstants.HIEN.HIEN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_VII_URL), contentPanel);
+        CreateHIENButtonUI(8, AppDisplayConstants.HIEN.HIEN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_VIII_URL), contentPanel);
+        CreateHIENButtonUI(9, AppDisplayConstants.HIEN.HIEN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_IX_URL), contentPanel);
+        CreateHIENButtonUI(10, AppDisplayConstants.HIEN.HIEN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_X_URL), contentPanel);
 
         CreateHIENButtonEvent(contentPanel);
     }

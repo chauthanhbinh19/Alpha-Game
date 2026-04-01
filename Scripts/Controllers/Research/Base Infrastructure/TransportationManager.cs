@@ -214,10 +214,10 @@ public class TransportationManager : MonoBehaviour
             await HomeManager.Instance.CreateHomePanelAsync();
         });
         RawImage mapImage = currentObject.transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_1");
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_1");
         mapImage.texture = mapTexture; 
         RawImage rankImage = currentObject.transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Research.TRANSPORTATION}");
+        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Research.TRANSPORTATION}");
         rankImage.texture = rankTexture; 
 
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
@@ -326,7 +326,7 @@ public class TransportationManager : MonoBehaviour
             ownedText.color = Color.green;
 
         // Load icon nếu có
-        Texture texture = Resources.Load<Texture2D>(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
+        Texture texture = TextureHelper.LoadTexture2DCached(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
         if (texture != null)
             image.texture = texture;
     }

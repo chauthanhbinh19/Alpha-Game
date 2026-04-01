@@ -420,7 +420,7 @@ public class MasterOfChemicalManager : MonoBehaviour
         warningText.font = EuroStyleNormalFont;
         warningText.fontSize = 50;
         warningText.fontStyle = FontStyles.Bold; 
-        warningText.text = MessageHelper.WaringLevel(value);
+        warningText.text = MessageConstants.WaringLevel(value);
     }
     public void LoadAnimation()
     {

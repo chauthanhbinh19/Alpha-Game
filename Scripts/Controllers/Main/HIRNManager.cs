@@ -38,16 +38,16 @@ public class HIRNManager : MonoBehaviour
         GameObject currentObject = Instantiate(HIRNPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("HIRNContent/Content");
 
-        CreateHIRNButtonUI(1, AppDisplayConstants.HIRN.HIRN_I, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_I_URL), contentPanel);
-        CreateHIRNButtonUI(2, AppDisplayConstants.HIRN.HIRN_II, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_II_URL), contentPanel);
-        CreateHIRNButtonUI(3, AppDisplayConstants.HIRN.HIRN_III, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_III_URL), contentPanel);
-        CreateHIRNButtonUI(4, AppDisplayConstants.HIRN.HIRN_IV, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_IV_URL), contentPanel);
-        CreateHIRNButtonUI(5, AppDisplayConstants.HIRN.HIRN_V, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_V_URL), contentPanel);
-        CreateHIRNButtonUI(6, AppDisplayConstants.HIRN.HIRN_VI, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_VI_URL), contentPanel);
-        CreateHIRNButtonUI(7, AppDisplayConstants.HIRN.HIRN_VII, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_VII_URL), contentPanel);
-        CreateHIRNButtonUI(8, AppDisplayConstants.HIRN.HIRN_VIII, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_VIII_URL), contentPanel);
-        CreateHIRNButtonUI(9, AppDisplayConstants.HIRN.HIRN_IX, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_IX_URL), contentPanel);
-        CreateHIRNButtonUI(10, AppDisplayConstants.HIRN.HIRN_X, Resources.Load<Texture2D>(ImageConstants.HIRN.HIRN_X_URL), contentPanel);
+        CreateHIRNButtonUI(1, AppDisplayConstants.HIRN.HIRN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_I_URL), contentPanel);
+        CreateHIRNButtonUI(2, AppDisplayConstants.HIRN.HIRN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_II_URL), contentPanel);
+        CreateHIRNButtonUI(3, AppDisplayConstants.HIRN.HIRN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_III_URL), contentPanel);
+        CreateHIRNButtonUI(4, AppDisplayConstants.HIRN.HIRN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_IV_URL), contentPanel);
+        CreateHIRNButtonUI(5, AppDisplayConstants.HIRN.HIRN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_V_URL), contentPanel);
+        CreateHIRNButtonUI(6, AppDisplayConstants.HIRN.HIRN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_VI_URL), contentPanel);
+        CreateHIRNButtonUI(7, AppDisplayConstants.HIRN.HIRN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_VII_URL), contentPanel);
+        CreateHIRNButtonUI(8, AppDisplayConstants.HIRN.HIRN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_VIII_URL), contentPanel);
+        CreateHIRNButtonUI(9, AppDisplayConstants.HIRN.HIRN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_IX_URL), contentPanel);
+        CreateHIRNButtonUI(10, AppDisplayConstants.HIRN.HIRN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_X_URL), contentPanel);
 
         CreateHIRNButtonEvent(contentPanel);
     }

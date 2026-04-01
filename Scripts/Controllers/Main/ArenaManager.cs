@@ -45,7 +45,7 @@ public class ArenaManager : MonoBehaviour
         var uniqueMode = await ArenaService.Create().GetUniqueTypesAsync();
         foreach (var type in uniqueMode)
         {
-            CreateArenaButtonUI(type, itemBackground, Resources.Load<Texture2D>($"UI/Button/Arena/{type}"), arenaMenuPanel);
+            CreateArenaButtonUI(type, itemBackground, TextureHelper.LoadTexture2DCached($"UI/Button/Arena/{type}"), arenaMenuPanel);
         }
         CreateArenaButton(arenaMenuPanel);
         arenaMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();

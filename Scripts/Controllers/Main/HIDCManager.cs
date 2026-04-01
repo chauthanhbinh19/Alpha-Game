@@ -38,16 +38,16 @@ public class HIDCManager : MonoBehaviour
         GameObject currentObject = Instantiate(HIDCPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("HIDCContent/Content");
 
-        CreateHIDCButtonUI(1, AppDisplayConstants.HIDC.HIDC_I, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_I_URL), contentPanel);
-        CreateHIDCButtonUI(2, AppDisplayConstants.HIDC.HIDC_II, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_II_URL), contentPanel);
-        CreateHIDCButtonUI(3, AppDisplayConstants.HIDC.HIDC_III, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_III_URL), contentPanel);
-        CreateHIDCButtonUI(4, AppDisplayConstants.HIDC.HIDC_IV, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_IV_URL), contentPanel);
-        CreateHIDCButtonUI(5, AppDisplayConstants.HIDC.HIDC_V, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_V_URL), contentPanel);
-        CreateHIDCButtonUI(6, AppDisplayConstants.HIDC.HIDC_VI, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_VI_URL), contentPanel);
-        CreateHIDCButtonUI(7, AppDisplayConstants.HIDC.HIDC_VII, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_VII_URL), contentPanel);
-        CreateHIDCButtonUI(8, AppDisplayConstants.HIDC.HIDC_VIII, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_VIII_URL), contentPanel);
-        CreateHIDCButtonUI(9, AppDisplayConstants.HIDC.HIDC_IX, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_IX_URL), contentPanel);
-        CreateHIDCButtonUI(10, AppDisplayConstants.HIDC.HIDC_X, Resources.Load<Texture2D>(ImageConstants.HIDC.HIDC_X_URL), contentPanel);
+        CreateHIDCButtonUI(1, AppDisplayConstants.HIDC.HIDC_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_I_URL), contentPanel);
+        CreateHIDCButtonUI(2, AppDisplayConstants.HIDC.HIDC_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_II_URL), contentPanel);
+        CreateHIDCButtonUI(3, AppDisplayConstants.HIDC.HIDC_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_III_URL), contentPanel);
+        CreateHIDCButtonUI(4, AppDisplayConstants.HIDC.HIDC_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_IV_URL), contentPanel);
+        CreateHIDCButtonUI(5, AppDisplayConstants.HIDC.HIDC_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_V_URL), contentPanel);
+        CreateHIDCButtonUI(6, AppDisplayConstants.HIDC.HIDC_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_VI_URL), contentPanel);
+        CreateHIDCButtonUI(7, AppDisplayConstants.HIDC.HIDC_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_VII_URL), contentPanel);
+        CreateHIDCButtonUI(8, AppDisplayConstants.HIDC.HIDC_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_VIII_URL), contentPanel);
+        CreateHIDCButtonUI(9, AppDisplayConstants.HIDC.HIDC_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_IX_URL), contentPanel);
+        CreateHIDCButtonUI(10, AppDisplayConstants.HIDC.HIDC_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_X_URL), contentPanel);
 
         CreateHIDCButtonEvent(contentPanel);
     }
