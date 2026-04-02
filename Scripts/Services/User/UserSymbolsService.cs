@@ -25,7 +25,7 @@ public class UserSymbolsService : IUserSymbolsService
         ISymbolsRepository _repository = new SymbolsRepository();
         SymbolsService _service = new SymbolsService(_repository);
         Symbols orginCard = await _service.GetSymbolByIdAsync(c.Id);
-        Symbols symbols = new Symbols
+        Symbols symbol = new Symbols
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserSymbolsService : IUserSymbolsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        symbols.Power = EvaluatePower.CalculatePower(
-            symbols.Health,
-            symbols.PhysicalAttack, symbols.PhysicalDefense,
-            symbols.MagicalAttack, symbols.MagicalDefense,
-            symbols.ChemicalAttack, symbols.ChemicalDefense,
-            symbols.AtomicAttack, symbols.AtomicDefense,
-            symbols.MentalAttack, symbols.MentalDefense,
-            symbols.Speed,
-            symbols.CriticalDamageRate, symbols.CriticalRate, symbols.CriticalResistanceRate, symbols.IgnoreCriticalRate,
-            symbols.PenetrationRate, symbols.PenetrationResistanceRate, symbols.EvasionRate,
-            symbols.DamageAbsorptionRate, symbols.IgnoreDamageAbsorptionRate, symbols.AbsorbedDamageRate,
-            symbols.VitalityRegenerationRate, symbols.VitalityRegenerationResistanceRate,
-            symbols.AccuracyRate, symbols.LifestealRate,
-            symbols.ShieldStrength, symbols.Tenacity, symbols.ResistanceRate,
-            symbols.ComboRate, symbols.IgnoreComboRate, symbols.ComboDamageRate, symbols.ComboResistanceRate,
-            symbols.StunRate, symbols.IgnoreStunRate,
-            symbols.ReflectionRate, symbols.IgnoreReflectionRate, symbols.ReflectionDamageRate, symbols.ReflectionResistanceRate,
-            symbols.Mana, symbols.ManaRegenerationRate,
-            symbols.DamageToDifferentFactionRate, symbols.ResistanceToDifferentFactionRate,
-            symbols.DamageToSameFactionRate, symbols.ResistanceToSameFactionRate,
-            symbols.NormalDamageRate, symbols.NormalResistanceRate,
-            symbols.SkillDamageRate, symbols.SkillResistanceRate
+        symbol.Power = EvaluatePower.CalculatePower(
+            symbol.Health,
+            symbol.PhysicalAttack, symbol.PhysicalDefense,
+            symbol.MagicalAttack, symbol.MagicalDefense,
+            symbol.ChemicalAttack, symbol.ChemicalDefense,
+            symbol.AtomicAttack, symbol.AtomicDefense,
+            symbol.MentalAttack, symbol.MentalDefense,
+            symbol.Speed,
+            symbol.CriticalDamageRate, symbol.CriticalRate, symbol.CriticalResistanceRate, symbol.IgnoreCriticalRate,
+            symbol.PenetrationRate, symbol.PenetrationResistanceRate, symbol.EvasionRate,
+            symbol.DamageAbsorptionRate, symbol.IgnoreDamageAbsorptionRate, symbol.AbsorbedDamageRate,
+            symbol.VitalityRegenerationRate, symbol.VitalityRegenerationResistanceRate,
+            symbol.AccuracyRate, symbol.LifestealRate,
+            symbol.ShieldStrength, symbol.Tenacity, symbol.ResistanceRate,
+            symbol.ComboRate, symbol.IgnoreComboRate, symbol.ComboDamageRate, symbol.ComboResistanceRate,
+            symbol.StunRate, symbol.IgnoreStunRate,
+            symbol.ReflectionRate, symbol.IgnoreReflectionRate, symbol.ReflectionDamageRate, symbol.ReflectionResistanceRate,
+            symbol.Mana, symbol.ManaRegenerationRate,
+            symbol.DamageToDifferentFactionRate, symbol.ResistanceToDifferentFactionRate,
+            symbol.DamageToSameFactionRate, symbol.ResistanceToSameFactionRate,
+            symbol.NormalDamageRate, symbol.NormalResistanceRate,
+            symbol.SkillDamageRate, symbol.SkillResistanceRate
         );
-        return symbols;
+        return symbol;
     }
     public async Task<Symbols> GetNewBreakthroughPowerAsync(Symbols c, double coefficient)
     {
         ISymbolsRepository _repository = new SymbolsRepository();
         SymbolsService _service = new SymbolsService(_repository);
         Symbols orginCard = await _service.GetSymbolByIdAsync(c.Id);
-        Symbols symbols = new Symbols
+        Symbols symbol = new Symbols
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserSymbolsService : IUserSymbolsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        symbols.Power = EvaluatePower.CalculatePower(
-            symbols.Health,
-            symbols.PhysicalAttack, symbols.PhysicalDefense,
-            symbols.MagicalAttack, symbols.MagicalDefense,
-            symbols.ChemicalAttack, symbols.ChemicalDefense,
-            symbols.AtomicAttack, symbols.AtomicDefense,
-            symbols.MentalAttack, symbols.MentalDefense,
-            symbols.Speed,
-            symbols.CriticalDamageRate, symbols.CriticalRate, symbols.CriticalResistanceRate, symbols.IgnoreCriticalRate,
-            symbols.PenetrationRate, symbols.PenetrationResistanceRate, symbols.EvasionRate,
-            symbols.DamageAbsorptionRate, symbols.IgnoreDamageAbsorptionRate, symbols.AbsorbedDamageRate,
-            symbols.VitalityRegenerationRate, symbols.VitalityRegenerationResistanceRate,
-            symbols.AccuracyRate, symbols.LifestealRate,
-            symbols.ShieldStrength, symbols.Tenacity, symbols.ResistanceRate,
-            symbols.ComboRate, symbols.IgnoreComboRate, symbols.ComboDamageRate, symbols.ComboResistanceRate,
-            symbols.StunRate, symbols.IgnoreStunRate,
-            symbols.ReflectionRate, symbols.IgnoreReflectionRate, symbols.ReflectionDamageRate, symbols.ReflectionResistanceRate,
-            symbols.Mana, symbols.ManaRegenerationRate,
-            symbols.DamageToDifferentFactionRate, symbols.ResistanceToDifferentFactionRate,
-            symbols.DamageToSameFactionRate, symbols.ResistanceToSameFactionRate,
-            symbols.NormalDamageRate, symbols.NormalResistanceRate,
-            symbols.SkillDamageRate, symbols.SkillResistanceRate
+        symbol.Power = EvaluatePower.CalculatePower(
+            symbol.Health,
+            symbol.PhysicalAttack, symbol.PhysicalDefense,
+            symbol.MagicalAttack, symbol.MagicalDefense,
+            symbol.ChemicalAttack, symbol.ChemicalDefense,
+            symbol.AtomicAttack, symbol.AtomicDefense,
+            symbol.MentalAttack, symbol.MentalDefense,
+            symbol.Speed,
+            symbol.CriticalDamageRate, symbol.CriticalRate, symbol.CriticalResistanceRate, symbol.IgnoreCriticalRate,
+            symbol.PenetrationRate, symbol.PenetrationResistanceRate, symbol.EvasionRate,
+            symbol.DamageAbsorptionRate, symbol.IgnoreDamageAbsorptionRate, symbol.AbsorbedDamageRate,
+            symbol.VitalityRegenerationRate, symbol.VitalityRegenerationResistanceRate,
+            symbol.AccuracyRate, symbol.LifestealRate,
+            symbol.ShieldStrength, symbol.Tenacity, symbol.ResistanceRate,
+            symbol.ComboRate, symbol.IgnoreComboRate, symbol.ComboDamageRate, symbol.ComboResistanceRate,
+            symbol.StunRate, symbol.IgnoreStunRate,
+            symbol.ReflectionRate, symbol.IgnoreReflectionRate, symbol.ReflectionDamageRate, symbol.ReflectionResistanceRate,
+            symbol.Mana, symbol.ManaRegenerationRate,
+            symbol.DamageToDifferentFactionRate, symbol.ResistanceToDifferentFactionRate,
+            symbol.DamageToSameFactionRate, symbol.ResistanceToSameFactionRate,
+            symbol.NormalDamageRate, symbol.NormalResistanceRate,
+            symbol.SkillDamageRate, symbol.SkillResistanceRate
         );
-        return symbols;
+        return symbol;
     }
 
     public async Task<List<Symbols>> GetUserSymbolsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

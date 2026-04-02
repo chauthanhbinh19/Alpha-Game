@@ -25,7 +25,7 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         ISpiritBeastsRepository _repository = new SpiritBeastsRepository();
         SpiritBeastsService _service = new SpiritBeastsService(_repository);
         SpiritBeasts orginCard = await _service.GetSpiritBeastByIdAsync(c.Id);
-        SpiritBeasts SpiritBeast = new SpiritBeasts
+        SpiritBeasts spiritBeast = new SpiritBeasts
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        SpiritBeast.Power = EvaluatePower.CalculatePower(
-            SpiritBeast.Health,
-            SpiritBeast.PhysicalAttack, SpiritBeast.PhysicalDefense,
-            SpiritBeast.MagicalAttack, SpiritBeast.MagicalDefense,
-            SpiritBeast.ChemicalAttack, SpiritBeast.ChemicalDefense,
-            SpiritBeast.AtomicAttack, SpiritBeast.AtomicDefense,
-            SpiritBeast.MentalAttack, SpiritBeast.MentalDefense,
-            SpiritBeast.Speed,
-            SpiritBeast.CriticalDamageRate, SpiritBeast.CriticalRate, SpiritBeast.CriticalResistanceRate, SpiritBeast.IgnoreCriticalRate,
-            SpiritBeast.PenetrationRate, SpiritBeast.PenetrationResistanceRate, SpiritBeast.EvasionRate,
-            SpiritBeast.DamageAbsorptionRate, SpiritBeast.IgnoreDamageAbsorptionRate, SpiritBeast.AbsorbedDamageRate,
-            SpiritBeast.VitalityRegenerationRate, SpiritBeast.VitalityRegenerationResistanceRate,
-            SpiritBeast.AccuracyRate, SpiritBeast.LifestealRate,
-            SpiritBeast.ShieldStrength, SpiritBeast.Tenacity, SpiritBeast.ResistanceRate,
-            SpiritBeast.ComboRate, SpiritBeast.IgnoreComboRate, SpiritBeast.ComboDamageRate, SpiritBeast.ComboResistanceRate,
-            SpiritBeast.StunRate, SpiritBeast.IgnoreStunRate,
-            SpiritBeast.ReflectionRate, SpiritBeast.IgnoreReflectionRate, SpiritBeast.ReflectionDamageRate, SpiritBeast.ReflectionResistanceRate,
-            SpiritBeast.Mana, SpiritBeast.ManaRegenerationRate,
-            SpiritBeast.DamageToDifferentFactionRate, SpiritBeast.ResistanceToDifferentFactionRate,
-            SpiritBeast.DamageToSameFactionRate, SpiritBeast.ResistanceToSameFactionRate,
-            SpiritBeast.NormalDamageRate, SpiritBeast.NormalResistanceRate,
-            SpiritBeast.SkillDamageRate, SpiritBeast.SkillResistanceRate
+        spiritBeast.Power = EvaluatePower.CalculatePower(
+            spiritBeast.Health,
+            spiritBeast.PhysicalAttack, spiritBeast.PhysicalDefense,
+            spiritBeast.MagicalAttack, spiritBeast.MagicalDefense,
+            spiritBeast.ChemicalAttack, spiritBeast.ChemicalDefense,
+            spiritBeast.AtomicAttack, spiritBeast.AtomicDefense,
+            spiritBeast.MentalAttack, spiritBeast.MentalDefense,
+            spiritBeast.Speed,
+            spiritBeast.CriticalDamageRate, spiritBeast.CriticalRate, spiritBeast.CriticalResistanceRate, spiritBeast.IgnoreCriticalRate,
+            spiritBeast.PenetrationRate, spiritBeast.PenetrationResistanceRate, spiritBeast.EvasionRate,
+            spiritBeast.DamageAbsorptionRate, spiritBeast.IgnoreDamageAbsorptionRate, spiritBeast.AbsorbedDamageRate,
+            spiritBeast.VitalityRegenerationRate, spiritBeast.VitalityRegenerationResistanceRate,
+            spiritBeast.AccuracyRate, spiritBeast.LifestealRate,
+            spiritBeast.ShieldStrength, spiritBeast.Tenacity, spiritBeast.ResistanceRate,
+            spiritBeast.ComboRate, spiritBeast.IgnoreComboRate, spiritBeast.ComboDamageRate, spiritBeast.ComboResistanceRate,
+            spiritBeast.StunRate, spiritBeast.IgnoreStunRate,
+            spiritBeast.ReflectionRate, spiritBeast.IgnoreReflectionRate, spiritBeast.ReflectionDamageRate, spiritBeast.ReflectionResistanceRate,
+            spiritBeast.Mana, spiritBeast.ManaRegenerationRate,
+            spiritBeast.DamageToDifferentFactionRate, spiritBeast.ResistanceToDifferentFactionRate,
+            spiritBeast.DamageToSameFactionRate, spiritBeast.ResistanceToSameFactionRate,
+            spiritBeast.NormalDamageRate, spiritBeast.NormalResistanceRate,
+            spiritBeast.SkillDamageRate, spiritBeast.SkillResistanceRate
         );
-        return SpiritBeast;
+        return spiritBeast;
     }
     public async Task<SpiritBeasts> GetNewBreakthroughPowerAsync(SpiritBeasts c, double coefficient)
     {
         ISpiritBeastsRepository _repository = new SpiritBeastsRepository();
         SpiritBeastsService _service = new SpiritBeastsService(_repository);
         SpiritBeasts orginCard = await _service.GetSpiritBeastByIdAsync(c.Id);
-        SpiritBeasts SpiritBeast = new SpiritBeasts
+        SpiritBeasts spiritBeast = new SpiritBeasts
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        SpiritBeast.Power = EvaluatePower.CalculatePower(
-            SpiritBeast.Health,
-            SpiritBeast.PhysicalAttack, SpiritBeast.PhysicalDefense,
-            SpiritBeast.MagicalAttack, SpiritBeast.MagicalDefense,
-            SpiritBeast.ChemicalAttack, SpiritBeast.ChemicalDefense,
-            SpiritBeast.AtomicAttack, SpiritBeast.AtomicDefense,
-            SpiritBeast.MentalAttack, SpiritBeast.MentalDefense,
-            SpiritBeast.Speed,
-            SpiritBeast.CriticalDamageRate, SpiritBeast.CriticalRate, SpiritBeast.CriticalResistanceRate, SpiritBeast.IgnoreCriticalRate,
-            SpiritBeast.PenetrationRate, SpiritBeast.PenetrationResistanceRate, SpiritBeast.EvasionRate,
-            SpiritBeast.DamageAbsorptionRate, SpiritBeast.IgnoreDamageAbsorptionRate, SpiritBeast.AbsorbedDamageRate,
-            SpiritBeast.VitalityRegenerationRate, SpiritBeast.VitalityRegenerationResistanceRate,
-            SpiritBeast.AccuracyRate, SpiritBeast.LifestealRate,
-            SpiritBeast.ShieldStrength, SpiritBeast.Tenacity, SpiritBeast.ResistanceRate,
-            SpiritBeast.ComboRate, SpiritBeast.IgnoreComboRate, SpiritBeast.ComboDamageRate, SpiritBeast.ComboResistanceRate,
-            SpiritBeast.StunRate, SpiritBeast.IgnoreStunRate,
-            SpiritBeast.ReflectionRate, SpiritBeast.IgnoreReflectionRate, SpiritBeast.ReflectionDamageRate, SpiritBeast.ReflectionResistanceRate,
-            SpiritBeast.Mana, SpiritBeast.ManaRegenerationRate,
-            SpiritBeast.DamageToDifferentFactionRate, SpiritBeast.ResistanceToDifferentFactionRate,
-            SpiritBeast.DamageToSameFactionRate, SpiritBeast.ResistanceToSameFactionRate,
-            SpiritBeast.NormalDamageRate, SpiritBeast.NormalResistanceRate,
-            SpiritBeast.SkillDamageRate, SpiritBeast.SkillResistanceRate
+        spiritBeast.Power = EvaluatePower.CalculatePower(
+            spiritBeast.Health,
+            spiritBeast.PhysicalAttack, spiritBeast.PhysicalDefense,
+            spiritBeast.MagicalAttack, spiritBeast.MagicalDefense,
+            spiritBeast.ChemicalAttack, spiritBeast.ChemicalDefense,
+            spiritBeast.AtomicAttack, spiritBeast.AtomicDefense,
+            spiritBeast.MentalAttack, spiritBeast.MentalDefense,
+            spiritBeast.Speed,
+            spiritBeast.CriticalDamageRate, spiritBeast.CriticalRate, spiritBeast.CriticalResistanceRate, spiritBeast.IgnoreCriticalRate,
+            spiritBeast.PenetrationRate, spiritBeast.PenetrationResistanceRate, spiritBeast.EvasionRate,
+            spiritBeast.DamageAbsorptionRate, spiritBeast.IgnoreDamageAbsorptionRate, spiritBeast.AbsorbedDamageRate,
+            spiritBeast.VitalityRegenerationRate, spiritBeast.VitalityRegenerationResistanceRate,
+            spiritBeast.AccuracyRate, spiritBeast.LifestealRate,
+            spiritBeast.ShieldStrength, spiritBeast.Tenacity, spiritBeast.ResistanceRate,
+            spiritBeast.ComboRate, spiritBeast.IgnoreComboRate, spiritBeast.ComboDamageRate, spiritBeast.ComboResistanceRate,
+            spiritBeast.StunRate, spiritBeast.IgnoreStunRate,
+            spiritBeast.ReflectionRate, spiritBeast.IgnoreReflectionRate, spiritBeast.ReflectionDamageRate, spiritBeast.ReflectionResistanceRate,
+            spiritBeast.Mana, spiritBeast.ManaRegenerationRate,
+            spiritBeast.DamageToDifferentFactionRate, spiritBeast.ResistanceToDifferentFactionRate,
+            spiritBeast.DamageToSameFactionRate, spiritBeast.ResistanceToSameFactionRate,
+            spiritBeast.NormalDamageRate, spiritBeast.NormalResistanceRate,
+            spiritBeast.SkillDamageRate, spiritBeast.SkillResistanceRate
         );
-        return SpiritBeast;
+        return spiritBeast;
     }
 
     public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)

@@ -25,7 +25,7 @@ public class UserCardLivesService : IUserCardLivesService
         ICardLivesRepository _repository = new CardLivesRepository();
         CardLivesService _service = new CardLivesService(_repository);
         CardLives orginCard = await _service.GetCardLifeByIdAsync(c.Id);
-        CardLives CardLife = new CardLives
+        CardLives cardLife = new CardLives
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserCardLivesService : IUserCardLivesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        CardLife.Power = EvaluatePower.CalculatePower(
-            CardLife.Health,
-            CardLife.PhysicalAttack, CardLife.PhysicalDefense,
-            CardLife.MagicalAttack, CardLife.MagicalDefense,
-            CardLife.ChemicalAttack, CardLife.ChemicalDefense,
-            CardLife.AtomicAttack, CardLife.AtomicDefense,
-            CardLife.MentalAttack, CardLife.MentalDefense,
-            CardLife.Speed,
-            CardLife.CriticalDamageRate, CardLife.CriticalRate, CardLife.CriticalResistanceRate, CardLife.IgnoreCriticalRate,
-            CardLife.PenetrationRate, CardLife.PenetrationResistanceRate, CardLife.EvasionRate,
-            CardLife.DamageAbsorptionRate, CardLife.IgnoreDamageAbsorptionRate, CardLife.AbsorbedDamageRate,
-            CardLife.VitalityRegenerationRate, CardLife.VitalityRegenerationResistanceRate,
-            CardLife.AccuracyRate, CardLife.LifestealRate,
-            CardLife.ShieldStrength, CardLife.Tenacity, CardLife.ResistanceRate,
-            CardLife.ComboRate, CardLife.IgnoreComboRate, CardLife.ComboDamageRate, CardLife.ComboResistanceRate,
-            CardLife.StunRate, CardLife.IgnoreStunRate,
-            CardLife.ReflectionRate, CardLife.IgnoreReflectionRate, CardLife.ReflectionDamageRate, CardLife.ReflectionResistanceRate,
-            CardLife.Mana, CardLife.ManaRegenerationRate,
-            CardLife.DamageToDifferentFactionRate, CardLife.ResistanceToDifferentFactionRate,
-            CardLife.DamageToSameFactionRate, CardLife.ResistanceToSameFactionRate,
-            CardLife.NormalDamageRate, CardLife.NormalResistanceRate,
-            CardLife.SkillDamageRate, CardLife.SkillResistanceRate
+        cardLife.Power = EvaluatePower.CalculatePower(
+            cardLife.Health,
+            cardLife.PhysicalAttack, cardLife.PhysicalDefense,
+            cardLife.MagicalAttack, cardLife.MagicalDefense,
+            cardLife.ChemicalAttack, cardLife.ChemicalDefense,
+            cardLife.AtomicAttack, cardLife.AtomicDefense,
+            cardLife.MentalAttack, cardLife.MentalDefense,
+            cardLife.Speed,
+            cardLife.CriticalDamageRate, cardLife.CriticalRate, cardLife.CriticalResistanceRate, cardLife.IgnoreCriticalRate,
+            cardLife.PenetrationRate, cardLife.PenetrationResistanceRate, cardLife.EvasionRate,
+            cardLife.DamageAbsorptionRate, cardLife.IgnoreDamageAbsorptionRate, cardLife.AbsorbedDamageRate,
+            cardLife.VitalityRegenerationRate, cardLife.VitalityRegenerationResistanceRate,
+            cardLife.AccuracyRate, cardLife.LifestealRate,
+            cardLife.ShieldStrength, cardLife.Tenacity, cardLife.ResistanceRate,
+            cardLife.ComboRate, cardLife.IgnoreComboRate, cardLife.ComboDamageRate, cardLife.ComboResistanceRate,
+            cardLife.StunRate, cardLife.IgnoreStunRate,
+            cardLife.ReflectionRate, cardLife.IgnoreReflectionRate, cardLife.ReflectionDamageRate, cardLife.ReflectionResistanceRate,
+            cardLife.Mana, cardLife.ManaRegenerationRate,
+            cardLife.DamageToDifferentFactionRate, cardLife.ResistanceToDifferentFactionRate,
+            cardLife.DamageToSameFactionRate, cardLife.ResistanceToSameFactionRate,
+            cardLife.NormalDamageRate, cardLife.NormalResistanceRate,
+            cardLife.SkillDamageRate, cardLife.SkillResistanceRate
         );
-        return CardLife;
+        return cardLife;
     }
     public async Task<CardLives> GetNewBreakthroughPowerAsync(CardLives c, double coefficient)
     {
         ICardLivesRepository _repository = new CardLivesRepository();
         CardLivesService _service = new CardLivesService(_repository);
         CardLives orginCard = await _service.GetCardLifeByIdAsync(c.Id);
-        CardLives CardLife = new CardLives
+        CardLives cardLife = new CardLives
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserCardLivesService : IUserCardLivesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        CardLife.Power = EvaluatePower.CalculatePower(
-            CardLife.Health,
-            CardLife.PhysicalAttack, CardLife.PhysicalDefense,
-            CardLife.MagicalAttack, CardLife.MagicalDefense,
-            CardLife.ChemicalAttack, CardLife.ChemicalDefense,
-            CardLife.AtomicAttack, CardLife.AtomicDefense,
-            CardLife.MentalAttack, CardLife.MentalDefense,
-            CardLife.Speed,
-            CardLife.CriticalDamageRate, CardLife.CriticalRate, CardLife.CriticalResistanceRate, CardLife.IgnoreCriticalRate,
-            CardLife.PenetrationRate, CardLife.PenetrationResistanceRate, CardLife.EvasionRate,
-            CardLife.DamageAbsorptionRate, CardLife.IgnoreDamageAbsorptionRate, CardLife.AbsorbedDamageRate,
-            CardLife.VitalityRegenerationRate, CardLife.VitalityRegenerationResistanceRate,
-            CardLife.AccuracyRate, CardLife.LifestealRate,
-            CardLife.ShieldStrength, CardLife.Tenacity, CardLife.ResistanceRate,
-            CardLife.ComboRate, CardLife.IgnoreComboRate, CardLife.ComboDamageRate, CardLife.ComboResistanceRate,
-            CardLife.StunRate, CardLife.IgnoreStunRate,
-            CardLife.ReflectionRate, CardLife.IgnoreReflectionRate, CardLife.ReflectionDamageRate, CardLife.ReflectionResistanceRate,
-            CardLife.Mana, CardLife.ManaRegenerationRate,
-            CardLife.DamageToDifferentFactionRate, CardLife.ResistanceToDifferentFactionRate,
-            CardLife.DamageToSameFactionRate, CardLife.ResistanceToSameFactionRate,
-            CardLife.NormalDamageRate, CardLife.NormalResistanceRate,
-            CardLife.SkillDamageRate, CardLife.SkillResistanceRate
+        cardLife.Power = EvaluatePower.CalculatePower(
+            cardLife.Health,
+            cardLife.PhysicalAttack, cardLife.PhysicalDefense,
+            cardLife.MagicalAttack, cardLife.MagicalDefense,
+            cardLife.ChemicalAttack, cardLife.ChemicalDefense,
+            cardLife.AtomicAttack, cardLife.AtomicDefense,
+            cardLife.MentalAttack, cardLife.MentalDefense,
+            cardLife.Speed,
+            cardLife.CriticalDamageRate, cardLife.CriticalRate, cardLife.CriticalResistanceRate, cardLife.IgnoreCriticalRate,
+            cardLife.PenetrationRate, cardLife.PenetrationResistanceRate, cardLife.EvasionRate,
+            cardLife.DamageAbsorptionRate, cardLife.IgnoreDamageAbsorptionRate, cardLife.AbsorbedDamageRate,
+            cardLife.VitalityRegenerationRate, cardLife.VitalityRegenerationResistanceRate,
+            cardLife.AccuracyRate, cardLife.LifestealRate,
+            cardLife.ShieldStrength, cardLife.Tenacity, cardLife.ResistanceRate,
+            cardLife.ComboRate, cardLife.IgnoreComboRate, cardLife.ComboDamageRate, cardLife.ComboResistanceRate,
+            cardLife.StunRate, cardLife.IgnoreStunRate,
+            cardLife.ReflectionRate, cardLife.IgnoreReflectionRate, cardLife.ReflectionDamageRate, cardLife.ReflectionResistanceRate,
+            cardLife.Mana, cardLife.ManaRegenerationRate,
+            cardLife.DamageToDifferentFactionRate, cardLife.ResistanceToDifferentFactionRate,
+            cardLife.DamageToSameFactionRate, cardLife.ResistanceToSameFactionRate,
+            cardLife.NormalDamageRate, cardLife.NormalResistanceRate,
+            cardLife.SkillDamageRate, cardLife.SkillResistanceRate
         );
-        return CardLife;
+        return cardLife;
     }
 
     public async Task<List<CardLives>> GetUserCardLivesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

@@ -25,7 +25,7 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         IMechaBeastsRepository _repository = new MechaBeastsRepository();
         MechaBeastsService _service = new MechaBeastsService(_repository);
         MechaBeasts orginCard = await _service.GetMechaBeastByIdAsync(c.Id);
-        MechaBeasts MechaBeasts = new MechaBeasts
+        MechaBeasts mechaBeast = new MechaBeasts
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserMechaBeastsService : IUserMechaBeastsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        MechaBeasts.Power = EvaluatePower.CalculatePower(
-            MechaBeasts.Health,
-            MechaBeasts.PhysicalAttack, MechaBeasts.PhysicalDefense,
-            MechaBeasts.MagicalAttack, MechaBeasts.MagicalDefense,
-            MechaBeasts.ChemicalAttack, MechaBeasts.ChemicalDefense,
-            MechaBeasts.AtomicAttack, MechaBeasts.AtomicDefense,
-            MechaBeasts.MentalAttack, MechaBeasts.MentalDefense,
-            MechaBeasts.Speed,
-            MechaBeasts.CriticalDamageRate, MechaBeasts.CriticalRate, MechaBeasts.CriticalResistanceRate, MechaBeasts.IgnoreCriticalRate,
-            MechaBeasts.PenetrationRate, MechaBeasts.PenetrationResistanceRate, MechaBeasts.EvasionRate,
-            MechaBeasts.DamageAbsorptionRate, MechaBeasts.IgnoreDamageAbsorptionRate, MechaBeasts.AbsorbedDamageRate,
-            MechaBeasts.VitalityRegenerationRate, MechaBeasts.VitalityRegenerationResistanceRate,
-            MechaBeasts.AccuracyRate, MechaBeasts.LifestealRate,
-            MechaBeasts.ShieldStrength, MechaBeasts.Tenacity, MechaBeasts.ResistanceRate,
-            MechaBeasts.ComboRate, MechaBeasts.IgnoreComboRate, MechaBeasts.ComboDamageRate, MechaBeasts.ComboResistanceRate,
-            MechaBeasts.StunRate, MechaBeasts.IgnoreStunRate,
-            MechaBeasts.ReflectionRate, MechaBeasts.IgnoreReflectionRate, MechaBeasts.ReflectionDamageRate, MechaBeasts.ReflectionResistanceRate,
-            MechaBeasts.Mana, MechaBeasts.ManaRegenerationRate,
-            MechaBeasts.DamageToDifferentFactionRate, MechaBeasts.ResistanceToDifferentFactionRate,
-            MechaBeasts.DamageToSameFactionRate, MechaBeasts.ResistanceToSameFactionRate,
-            MechaBeasts.NormalDamageRate, MechaBeasts.NormalResistanceRate,
-            MechaBeasts.SkillDamageRate, MechaBeasts.SkillResistanceRate
+        mechaBeast.Power = EvaluatePower.CalculatePower(
+            mechaBeast.Health,
+            mechaBeast.PhysicalAttack, mechaBeast.PhysicalDefense,
+            mechaBeast.MagicalAttack, mechaBeast.MagicalDefense,
+            mechaBeast.ChemicalAttack, mechaBeast.ChemicalDefense,
+            mechaBeast.AtomicAttack, mechaBeast.AtomicDefense,
+            mechaBeast.MentalAttack, mechaBeast.MentalDefense,
+            mechaBeast.Speed,
+            mechaBeast.CriticalDamageRate, mechaBeast.CriticalRate, mechaBeast.CriticalResistanceRate, mechaBeast.IgnoreCriticalRate,
+            mechaBeast.PenetrationRate, mechaBeast.PenetrationResistanceRate, mechaBeast.EvasionRate,
+            mechaBeast.DamageAbsorptionRate, mechaBeast.IgnoreDamageAbsorptionRate, mechaBeast.AbsorbedDamageRate,
+            mechaBeast.VitalityRegenerationRate, mechaBeast.VitalityRegenerationResistanceRate,
+            mechaBeast.AccuracyRate, mechaBeast.LifestealRate,
+            mechaBeast.ShieldStrength, mechaBeast.Tenacity, mechaBeast.ResistanceRate,
+            mechaBeast.ComboRate, mechaBeast.IgnoreComboRate, mechaBeast.ComboDamageRate, mechaBeast.ComboResistanceRate,
+            mechaBeast.StunRate, mechaBeast.IgnoreStunRate,
+            mechaBeast.ReflectionRate, mechaBeast.IgnoreReflectionRate, mechaBeast.ReflectionDamageRate, mechaBeast.ReflectionResistanceRate,
+            mechaBeast.Mana, mechaBeast.ManaRegenerationRate,
+            mechaBeast.DamageToDifferentFactionRate, mechaBeast.ResistanceToDifferentFactionRate,
+            mechaBeast.DamageToSameFactionRate, mechaBeast.ResistanceToSameFactionRate,
+            mechaBeast.NormalDamageRate, mechaBeast.NormalResistanceRate,
+            mechaBeast.SkillDamageRate, mechaBeast.SkillResistanceRate
         );
-        return MechaBeasts;
+        return mechaBeast;
     }
     public async Task<MechaBeasts> GetNewBreakthroughPowerAsync(MechaBeasts c, double coefficient)
     {
         IMechaBeastsRepository _repository = new MechaBeastsRepository();
         MechaBeastsService _service = new MechaBeastsService(_repository);
         MechaBeasts orginCard = await _service.GetMechaBeastByIdAsync(c.Id);
-        MechaBeasts MechaBeasts = new MechaBeasts
+        MechaBeasts mechaBeast = new MechaBeasts
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserMechaBeastsService : IUserMechaBeastsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        MechaBeasts.Power = EvaluatePower.CalculatePower(
-            MechaBeasts.Health,
-            MechaBeasts.PhysicalAttack, MechaBeasts.PhysicalDefense,
-            MechaBeasts.MagicalAttack, MechaBeasts.MagicalDefense,
-            MechaBeasts.ChemicalAttack, MechaBeasts.ChemicalDefense,
-            MechaBeasts.AtomicAttack, MechaBeasts.AtomicDefense,
-            MechaBeasts.MentalAttack, MechaBeasts.MentalDefense,
-            MechaBeasts.Speed,
-            MechaBeasts.CriticalDamageRate, MechaBeasts.CriticalRate, MechaBeasts.CriticalResistanceRate, MechaBeasts.IgnoreCriticalRate,
-            MechaBeasts.PenetrationRate, MechaBeasts.PenetrationResistanceRate, MechaBeasts.EvasionRate,
-            MechaBeasts.DamageAbsorptionRate, MechaBeasts.IgnoreDamageAbsorptionRate, MechaBeasts.AbsorbedDamageRate,
-            MechaBeasts.VitalityRegenerationRate, MechaBeasts.VitalityRegenerationResistanceRate,
-            MechaBeasts.AccuracyRate, MechaBeasts.LifestealRate,
-            MechaBeasts.ShieldStrength, MechaBeasts.Tenacity, MechaBeasts.ResistanceRate,
-            MechaBeasts.ComboRate, MechaBeasts.IgnoreComboRate, MechaBeasts.ComboDamageRate, MechaBeasts.ComboResistanceRate,
-            MechaBeasts.StunRate, MechaBeasts.IgnoreStunRate,
-            MechaBeasts.ReflectionRate, MechaBeasts.IgnoreReflectionRate, MechaBeasts.ReflectionDamageRate, MechaBeasts.ReflectionResistanceRate,
-            MechaBeasts.Mana, MechaBeasts.ManaRegenerationRate,
-            MechaBeasts.DamageToDifferentFactionRate, MechaBeasts.ResistanceToDifferentFactionRate,
-            MechaBeasts.DamageToSameFactionRate, MechaBeasts.ResistanceToSameFactionRate,
-            MechaBeasts.NormalDamageRate, MechaBeasts.NormalResistanceRate,
-            MechaBeasts.SkillDamageRate, MechaBeasts.SkillResistanceRate
+        mechaBeast.Power = EvaluatePower.CalculatePower(
+            mechaBeast.Health,
+            mechaBeast.PhysicalAttack, mechaBeast.PhysicalDefense,
+            mechaBeast.MagicalAttack, mechaBeast.MagicalDefense,
+            mechaBeast.ChemicalAttack, mechaBeast.ChemicalDefense,
+            mechaBeast.AtomicAttack, mechaBeast.AtomicDefense,
+            mechaBeast.MentalAttack, mechaBeast.MentalDefense,
+            mechaBeast.Speed,
+            mechaBeast.CriticalDamageRate, mechaBeast.CriticalRate, mechaBeast.CriticalResistanceRate, mechaBeast.IgnoreCriticalRate,
+            mechaBeast.PenetrationRate, mechaBeast.PenetrationResistanceRate, mechaBeast.EvasionRate,
+            mechaBeast.DamageAbsorptionRate, mechaBeast.IgnoreDamageAbsorptionRate, mechaBeast.AbsorbedDamageRate,
+            mechaBeast.VitalityRegenerationRate, mechaBeast.VitalityRegenerationResistanceRate,
+            mechaBeast.AccuracyRate, mechaBeast.LifestealRate,
+            mechaBeast.ShieldStrength, mechaBeast.Tenacity, mechaBeast.ResistanceRate,
+            mechaBeast.ComboRate, mechaBeast.IgnoreComboRate, mechaBeast.ComboDamageRate, mechaBeast.ComboResistanceRate,
+            mechaBeast.StunRate, mechaBeast.IgnoreStunRate,
+            mechaBeast.ReflectionRate, mechaBeast.IgnoreReflectionRate, mechaBeast.ReflectionDamageRate, mechaBeast.ReflectionResistanceRate,
+            mechaBeast.Mana, mechaBeast.ManaRegenerationRate,
+            mechaBeast.DamageToDifferentFactionRate, mechaBeast.ResistanceToDifferentFactionRate,
+            mechaBeast.DamageToSameFactionRate, mechaBeast.ResistanceToSameFactionRate,
+            mechaBeast.NormalDamageRate, mechaBeast.NormalResistanceRate,
+            mechaBeast.SkillDamageRate, mechaBeast.SkillResistanceRate
         );
-        return MechaBeasts;
+        return mechaBeast;
     }
 
     public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)

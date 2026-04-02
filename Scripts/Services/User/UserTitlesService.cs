@@ -25,7 +25,7 @@ public class UserTitlesService : IUserTitlesService
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
         Titles orginCard = await _service.GetTitleByIdAsync(c.Id);
-        Titles titles = new Titles
+        Titles title = new Titles
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserTitlesService : IUserTitlesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        titles.Power = EvaluatePower.CalculatePower(
-            titles.Health,
-            titles.PhysicalAttack, titles.PhysicalDefense,
-            titles.MagicalAttack, titles.MagicalDefense,
-            titles.ChemicalAttack, titles.ChemicalDefense,
-            titles.AtomicAttack, titles.AtomicDefense,
-            titles.MentalAttack, titles.MentalDefense,
-            titles.Speed,
-            titles.CriticalDamageRate, titles.CriticalRate, titles.CriticalResistanceRate, titles.IgnoreCriticalRate,
-            titles.PenetrationRate, titles.PenetrationResistanceRate, titles.EvasionRate,
-            titles.DamageAbsorptionRate, titles.IgnoreDamageAbsorptionRate, titles.AbsorbedDamageRate,
-            titles.VitalityRegenerationRate, titles.VitalityRegenerationResistanceRate,
-            titles.AccuracyRate, titles.LifestealRate,
-            titles.ShieldStrength, titles.Tenacity, titles.ResistanceRate,
-            titles.ComboRate, titles.IgnoreComboRate, titles.ComboDamageRate, titles.ComboResistanceRate,
-            titles.StunRate, titles.IgnoreStunRate,
-            titles.ReflectionRate, titles.IgnoreReflectionRate, titles.ReflectionDamageRate, titles.ReflectionResistanceRate,
-            titles.Mana, titles.ManaRegenerationRate,
-            titles.DamageToDifferentFactionRate, titles.ResistanceToDifferentFactionRate,
-            titles.DamageToSameFactionRate, titles.ResistanceToSameFactionRate,
-            titles.NormalDamageRate, titles.NormalResistanceRate,
-            titles.SkillDamageRate, titles.SkillResistanceRate
+        title.Power = EvaluatePower.CalculatePower(
+            title.Health,
+            title.PhysicalAttack, title.PhysicalDefense,
+            title.MagicalAttack, title.MagicalDefense,
+            title.ChemicalAttack, title.ChemicalDefense,
+            title.AtomicAttack, title.AtomicDefense,
+            title.MentalAttack, title.MentalDefense,
+            title.Speed,
+            title.CriticalDamageRate, title.CriticalRate, title.CriticalResistanceRate, title.IgnoreCriticalRate,
+            title.PenetrationRate, title.PenetrationResistanceRate, title.EvasionRate,
+            title.DamageAbsorptionRate, title.IgnoreDamageAbsorptionRate, title.AbsorbedDamageRate,
+            title.VitalityRegenerationRate, title.VitalityRegenerationResistanceRate,
+            title.AccuracyRate, title.LifestealRate,
+            title.ShieldStrength, title.Tenacity, title.ResistanceRate,
+            title.ComboRate, title.IgnoreComboRate, title.ComboDamageRate, title.ComboResistanceRate,
+            title.StunRate, title.IgnoreStunRate,
+            title.ReflectionRate, title.IgnoreReflectionRate, title.ReflectionDamageRate, title.ReflectionResistanceRate,
+            title.Mana, title.ManaRegenerationRate,
+            title.DamageToDifferentFactionRate, title.ResistanceToDifferentFactionRate,
+            title.DamageToSameFactionRate, title.ResistanceToSameFactionRate,
+            title.NormalDamageRate, title.NormalResistanceRate,
+            title.SkillDamageRate, title.SkillResistanceRate
         );
-        return titles;
+        return title;
     }
     public async Task<Titles> GetNewBreakthroughPowerAsync(Titles c, double coefficient)
     {
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
         Titles orginCard = await _service.GetTitleByIdAsync(c.Id);
-        Titles titles = new Titles
+        Titles title = new Titles
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserTitlesService : IUserTitlesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        titles.Power = EvaluatePower.CalculatePower(
-            titles.Health,
-            titles.PhysicalAttack, titles.PhysicalDefense,
-            titles.MagicalAttack, titles.MagicalDefense,
-            titles.ChemicalAttack, titles.ChemicalDefense,
-            titles.AtomicAttack, titles.AtomicDefense,
-            titles.MentalAttack, titles.MentalDefense,
-            titles.Speed,
-            titles.CriticalDamageRate, titles.CriticalRate, titles.CriticalResistanceRate, titles.IgnoreCriticalRate,
-            titles.PenetrationRate, titles.PenetrationResistanceRate, titles.EvasionRate,
-            titles.DamageAbsorptionRate, titles.IgnoreDamageAbsorptionRate, titles.AbsorbedDamageRate,
-            titles.VitalityRegenerationRate, titles.VitalityRegenerationResistanceRate,
-            titles.AccuracyRate, titles.LifestealRate,
-            titles.ShieldStrength, titles.Tenacity, titles.ResistanceRate,
-            titles.ComboRate, titles.IgnoreComboRate, titles.ComboDamageRate, titles.ComboResistanceRate,
-            titles.StunRate, titles.IgnoreStunRate,
-            titles.ReflectionRate, titles.IgnoreReflectionRate, titles.ReflectionDamageRate, titles.ReflectionResistanceRate,
-            titles.Mana, titles.ManaRegenerationRate,
-            titles.DamageToDifferentFactionRate, titles.ResistanceToDifferentFactionRate,
-            titles.DamageToSameFactionRate, titles.ResistanceToSameFactionRate,
-            titles.NormalDamageRate, titles.NormalResistanceRate,
-            titles.SkillDamageRate, titles.SkillResistanceRate
+        title.Power = EvaluatePower.CalculatePower(
+            title.Health,
+            title.PhysicalAttack, title.PhysicalDefense,
+            title.MagicalAttack, title.MagicalDefense,
+            title.ChemicalAttack, title.ChemicalDefense,
+            title.AtomicAttack, title.AtomicDefense,
+            title.MentalAttack, title.MentalDefense,
+            title.Speed,
+            title.CriticalDamageRate, title.CriticalRate, title.CriticalResistanceRate, title.IgnoreCriticalRate,
+            title.PenetrationRate, title.PenetrationResistanceRate, title.EvasionRate,
+            title.DamageAbsorptionRate, title.IgnoreDamageAbsorptionRate, title.AbsorbedDamageRate,
+            title.VitalityRegenerationRate, title.VitalityRegenerationResistanceRate,
+            title.AccuracyRate, title.LifestealRate,
+            title.ShieldStrength, title.Tenacity, title.ResistanceRate,
+            title.ComboRate, title.IgnoreComboRate, title.ComboDamageRate, title.ComboResistanceRate,
+            title.StunRate, title.IgnoreStunRate,
+            title.ReflectionRate, title.IgnoreReflectionRate, title.ReflectionDamageRate, title.ReflectionResistanceRate,
+            title.Mana, title.ManaRegenerationRate,
+            title.DamageToDifferentFactionRate, title.ResistanceToDifferentFactionRate,
+            title.DamageToSameFactionRate, title.ResistanceToSameFactionRate,
+            title.NormalDamageRate, title.NormalResistanceRate,
+            title.SkillDamageRate, title.SkillResistanceRate
         );
-        return titles;
+        return title;
     }
 
     public async Task<List<Titles>> GetUserTitlesAsync(string user_id, string search, int pageSize, int offset, string rare)

@@ -26,7 +26,7 @@ public class UserAlchemiesService : IUserAlchemiesService
         IAlchemiesRepository _repository = new AlchemiesRepository();
         AlchemiesService _service = new AlchemiesService(_repository);
         Alchemies orginCard = await _service.GetAlchemyByIdAsync(c.Id);
-        Alchemies Alchemy = new Alchemies
+        Alchemies alchemy = new Alchemies
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -79,37 +79,37 @@ public class UserAlchemiesService : IUserAlchemiesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Alchemy.Power = EvaluatePower.CalculatePower(
-            Alchemy.Health,
-            Alchemy.PhysicalAttack, Alchemy.PhysicalDefense,
-            Alchemy.MagicalAttack, Alchemy.MagicalDefense,
-            Alchemy.ChemicalAttack, Alchemy.ChemicalDefense,
-            Alchemy.AtomicAttack, Alchemy.AtomicDefense,
-            Alchemy.MentalAttack, Alchemy.MentalDefense,
-            Alchemy.Speed,
-            Alchemy.CriticalDamageRate, Alchemy.CriticalRate, Alchemy.CriticalResistanceRate, Alchemy.IgnoreCriticalRate,
-            Alchemy.PenetrationRate, Alchemy.PenetrationResistanceRate, Alchemy.EvasionRate,
-            Alchemy.DamageAbsorptionRate, Alchemy.IgnoreDamageAbsorptionRate, Alchemy.AbsorbedDamageRate,
-            Alchemy.VitalityRegenerationRate, Alchemy.VitalityRegenerationResistanceRate,
-            Alchemy.AccuracyRate, Alchemy.LifestealRate,
-            Alchemy.ShieldStrength, Alchemy.Tenacity, Alchemy.ResistanceRate,
-            Alchemy.ComboRate, Alchemy.IgnoreComboRate, Alchemy.ComboDamageRate, Alchemy.ComboResistanceRate,
-            Alchemy.StunRate, Alchemy.IgnoreStunRate,
-            Alchemy.ReflectionRate, Alchemy.IgnoreReflectionRate, Alchemy.ReflectionDamageRate, Alchemy.ReflectionResistanceRate,
-            Alchemy.Mana, Alchemy.ManaRegenerationRate,
-            Alchemy.DamageToDifferentFactionRate, Alchemy.ResistanceToDifferentFactionRate,
-            Alchemy.DamageToSameFactionRate, Alchemy.ResistanceToSameFactionRate,
-            Alchemy.NormalDamageRate, Alchemy.NormalResistanceRate,
-            Alchemy.SkillDamageRate, Alchemy.SkillResistanceRate
+        alchemy.Power = EvaluatePower.CalculatePower(
+            alchemy.Health,
+            alchemy.PhysicalAttack, alchemy.PhysicalDefense,
+            alchemy.MagicalAttack, alchemy.MagicalDefense,
+            alchemy.ChemicalAttack, alchemy.ChemicalDefense,
+            alchemy.AtomicAttack, alchemy.AtomicDefense,
+            alchemy.MentalAttack, alchemy.MentalDefense,
+            alchemy.Speed,
+            alchemy.CriticalDamageRate, alchemy.CriticalRate, alchemy.CriticalResistanceRate, alchemy.IgnoreCriticalRate,
+            alchemy.PenetrationRate, alchemy.PenetrationResistanceRate, alchemy.EvasionRate,
+            alchemy.DamageAbsorptionRate, alchemy.IgnoreDamageAbsorptionRate, alchemy.AbsorbedDamageRate,
+            alchemy.VitalityRegenerationRate, alchemy.VitalityRegenerationResistanceRate,
+            alchemy.AccuracyRate, alchemy.LifestealRate,
+            alchemy.ShieldStrength, alchemy.Tenacity, alchemy.ResistanceRate,
+            alchemy.ComboRate, alchemy.IgnoreComboRate, alchemy.ComboDamageRate, alchemy.ComboResistanceRate,
+            alchemy.StunRate, alchemy.IgnoreStunRate,
+            alchemy.ReflectionRate, alchemy.IgnoreReflectionRate, alchemy.ReflectionDamageRate, alchemy.ReflectionResistanceRate,
+            alchemy.Mana, alchemy.ManaRegenerationRate,
+            alchemy.DamageToDifferentFactionRate, alchemy.ResistanceToDifferentFactionRate,
+            alchemy.DamageToSameFactionRate, alchemy.ResistanceToSameFactionRate,
+            alchemy.NormalDamageRate, alchemy.NormalResistanceRate,
+            alchemy.SkillDamageRate, alchemy.SkillResistanceRate
         );
-        return Alchemy;
+        return alchemy;
     }
     public async Task<Alchemies> GetNewBreakthroughPowerAsync(Alchemies c, double coefficient)
     {
         IAlchemiesRepository _repository = new AlchemiesRepository();
         AlchemiesService _service = new AlchemiesService(_repository);
         Alchemies orginCard = await _service.GetAlchemyByIdAsync(c.Id);
-        Alchemies Alchemy = new Alchemies
+        Alchemies alchemy = new Alchemies
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -162,30 +162,30 @@ public class UserAlchemiesService : IUserAlchemiesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Alchemy.Power = EvaluatePower.CalculatePower(
-            Alchemy.Health,
-            Alchemy.PhysicalAttack, Alchemy.PhysicalDefense,
-            Alchemy.MagicalAttack, Alchemy.MagicalDefense,
-            Alchemy.ChemicalAttack, Alchemy.ChemicalDefense,
-            Alchemy.AtomicAttack, Alchemy.AtomicDefense,
-            Alchemy.MentalAttack, Alchemy.MentalDefense,
-            Alchemy.Speed,
-            Alchemy.CriticalDamageRate, Alchemy.CriticalRate, Alchemy.CriticalResistanceRate, Alchemy.IgnoreCriticalRate,
-            Alchemy.PenetrationRate, Alchemy.PenetrationResistanceRate, Alchemy.EvasionRate,
-            Alchemy.DamageAbsorptionRate, Alchemy.IgnoreDamageAbsorptionRate, Alchemy.AbsorbedDamageRate,
-            Alchemy.VitalityRegenerationRate, Alchemy.VitalityRegenerationResistanceRate,
-            Alchemy.AccuracyRate, Alchemy.LifestealRate,
-            Alchemy.ShieldStrength, Alchemy.Tenacity, Alchemy.ResistanceRate,
-            Alchemy.ComboRate, Alchemy.IgnoreComboRate, Alchemy.ComboDamageRate, Alchemy.ComboResistanceRate,
-            Alchemy.StunRate, Alchemy.IgnoreStunRate,
-            Alchemy.ReflectionRate, Alchemy.IgnoreReflectionRate, Alchemy.ReflectionDamageRate, Alchemy.ReflectionResistanceRate,
-            Alchemy.Mana, Alchemy.ManaRegenerationRate,
-            Alchemy.DamageToDifferentFactionRate, Alchemy.ResistanceToDifferentFactionRate,
-            Alchemy.DamageToSameFactionRate, Alchemy.ResistanceToSameFactionRate,
-            Alchemy.NormalDamageRate, Alchemy.NormalResistanceRate,
-            Alchemy.SkillDamageRate, Alchemy.SkillResistanceRate
+        alchemy.Power = EvaluatePower.CalculatePower(
+            alchemy.Health,
+            alchemy.PhysicalAttack, alchemy.PhysicalDefense,
+            alchemy.MagicalAttack, alchemy.MagicalDefense,
+            alchemy.ChemicalAttack, alchemy.ChemicalDefense,
+            alchemy.AtomicAttack, alchemy.AtomicDefense,
+            alchemy.MentalAttack, alchemy.MentalDefense,
+            alchemy.Speed,
+            alchemy.CriticalDamageRate, alchemy.CriticalRate, alchemy.CriticalResistanceRate, alchemy.IgnoreCriticalRate,
+            alchemy.PenetrationRate, alchemy.PenetrationResistanceRate, alchemy.EvasionRate,
+            alchemy.DamageAbsorptionRate, alchemy.IgnoreDamageAbsorptionRate, alchemy.AbsorbedDamageRate,
+            alchemy.VitalityRegenerationRate, alchemy.VitalityRegenerationResistanceRate,
+            alchemy.AccuracyRate, alchemy.LifestealRate,
+            alchemy.ShieldStrength, alchemy.Tenacity, alchemy.ResistanceRate,
+            alchemy.ComboRate, alchemy.IgnoreComboRate, alchemy.ComboDamageRate, alchemy.ComboResistanceRate,
+            alchemy.StunRate, alchemy.IgnoreStunRate,
+            alchemy.ReflectionRate, alchemy.IgnoreReflectionRate, alchemy.ReflectionDamageRate, alchemy.ReflectionResistanceRate,
+            alchemy.Mana, alchemy.ManaRegenerationRate,
+            alchemy.DamageToDifferentFactionRate, alchemy.ResistanceToDifferentFactionRate,
+            alchemy.DamageToSameFactionRate, alchemy.ResistanceToSameFactionRate,
+            alchemy.NormalDamageRate, alchemy.NormalResistanceRate,
+            alchemy.SkillDamageRate, alchemy.SkillResistanceRate
         );
-        return Alchemy;
+        return alchemy;
     }
 
     public async Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

@@ -1571,7 +1571,7 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         ICardAdmiralsRepository _repository = new CardAdmiralsRepository();
         CardAdmiralsService _service = new CardAdmiralsService(_repository);
         CardAdmirals orginCard = await _service.GetCardAdmiralByIdAsync(c.Id);
-        CardAdmirals cardAdmirals = new CardAdmirals
+        CardAdmirals cardAdmiral = new CardAdmirals
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1624,37 +1624,37 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardAdmirals.Power = EvaluatePower.CalculatePower(
-            cardAdmirals.Health,
-            cardAdmirals.PhysicalAttack, cardAdmirals.PhysicalDefense,
-            cardAdmirals.MagicalAttack, cardAdmirals.MagicalDefense,
-            cardAdmirals.ChemicalAttack, cardAdmirals.ChemicalDefense,
-            cardAdmirals.AtomicAttack, cardAdmirals.AtomicDefense,
-            cardAdmirals.MentalAttack, cardAdmirals.MentalDefense,
-            cardAdmirals.Speed,
-            cardAdmirals.CriticalDamageRate, cardAdmirals.CriticalRate, cardAdmirals.CriticalResistanceRate, cardAdmirals.IgnoreCriticalRate,
-            cardAdmirals.PenetrationRate, cardAdmirals.PenetrationResistanceRate, cardAdmirals.EvasionRate,
-            cardAdmirals.DamageAbsorptionRate, cardAdmirals.IgnoreDamageAbsorptionRate, cardAdmirals.AbsorbedDamageRate,
-            cardAdmirals.VitalityRegenerationRate, cardAdmirals.VitalityRegenerationResistanceRate,
-            cardAdmirals.AccuracyRate, cardAdmirals.LifestealRate,
-            cardAdmirals.ShieldStrength, cardAdmirals.Tenacity, cardAdmirals.ResistanceRate,
-            cardAdmirals.ComboRate, cardAdmirals.IgnoreComboRate, cardAdmirals.ComboDamageRate, cardAdmirals.ComboResistanceRate,
-            cardAdmirals.StunRate, cardAdmirals.IgnoreStunRate,
-            cardAdmirals.ReflectionRate, cardAdmirals.IgnoreReflectionRate, cardAdmirals.ReflectionDamageRate, cardAdmirals.ReflectionResistanceRate,
-            cardAdmirals.Mana, cardAdmirals.ManaRegenerationRate,
-            cardAdmirals.DamageToDifferentFactionRate, cardAdmirals.ResistanceToDifferentFactionRate,
-            cardAdmirals.DamageToSameFactionRate, cardAdmirals.ResistanceToSameFactionRate,
-            cardAdmirals.NormalDamageRate, cardAdmirals.NormalResistanceRate,
-            cardAdmirals.SkillDamageRate, cardAdmirals.SkillResistanceRate
+        cardAdmiral.Power = EvaluatePower.CalculatePower(
+            cardAdmiral.Health,
+            cardAdmiral.PhysicalAttack, cardAdmiral.PhysicalDefense,
+            cardAdmiral.MagicalAttack, cardAdmiral.MagicalDefense,
+            cardAdmiral.ChemicalAttack, cardAdmiral.ChemicalDefense,
+            cardAdmiral.AtomicAttack, cardAdmiral.AtomicDefense,
+            cardAdmiral.MentalAttack, cardAdmiral.MentalDefense,
+            cardAdmiral.Speed,
+            cardAdmiral.CriticalDamageRate, cardAdmiral.CriticalRate, cardAdmiral.CriticalResistanceRate, cardAdmiral.IgnoreCriticalRate,
+            cardAdmiral.PenetrationRate, cardAdmiral.PenetrationResistanceRate, cardAdmiral.EvasionRate,
+            cardAdmiral.DamageAbsorptionRate, cardAdmiral.IgnoreDamageAbsorptionRate, cardAdmiral.AbsorbedDamageRate,
+            cardAdmiral.VitalityRegenerationRate, cardAdmiral.VitalityRegenerationResistanceRate,
+            cardAdmiral.AccuracyRate, cardAdmiral.LifestealRate,
+            cardAdmiral.ShieldStrength, cardAdmiral.Tenacity, cardAdmiral.ResistanceRate,
+            cardAdmiral.ComboRate, cardAdmiral.IgnoreComboRate, cardAdmiral.ComboDamageRate, cardAdmiral.ComboResistanceRate,
+            cardAdmiral.StunRate, cardAdmiral.IgnoreStunRate,
+            cardAdmiral.ReflectionRate, cardAdmiral.IgnoreReflectionRate, cardAdmiral.ReflectionDamageRate, cardAdmiral.ReflectionResistanceRate,
+            cardAdmiral.Mana, cardAdmiral.ManaRegenerationRate,
+            cardAdmiral.DamageToDifferentFactionRate, cardAdmiral.ResistanceToDifferentFactionRate,
+            cardAdmiral.DamageToSameFactionRate, cardAdmiral.ResistanceToSameFactionRate,
+            cardAdmiral.NormalDamageRate, cardAdmiral.NormalResistanceRate,
+            cardAdmiral.SkillDamageRate, cardAdmiral.SkillResistanceRate
         );
-        return cardAdmirals;
+        return cardAdmiral;
     }
     public async Task<CardAdmirals> GetNewBreakthroughPowerAsync(CardAdmirals c, double coefficient)
     {
         ICardAdmiralsRepository _repository = new CardAdmiralsRepository();
         CardAdmiralsService _service = new CardAdmiralsService(_repository);
         CardAdmirals orginCard = await _service.GetCardAdmiralByIdAsync(c.Id);
-        CardAdmirals cardAdmirals = new CardAdmirals
+        CardAdmirals cardAdmiral = new CardAdmirals
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1707,30 +1707,30 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardAdmirals.Power = EvaluatePower.CalculatePower(
-            cardAdmirals.Health,
-            cardAdmirals.PhysicalAttack, cardAdmirals.PhysicalDefense,
-            cardAdmirals.MagicalAttack, cardAdmirals.MagicalDefense,
-            cardAdmirals.ChemicalAttack, cardAdmirals.ChemicalDefense,
-            cardAdmirals.AtomicAttack, cardAdmirals.AtomicDefense,
-            cardAdmirals.MentalAttack, cardAdmirals.MentalDefense,
-            cardAdmirals.Speed,
-            cardAdmirals.CriticalDamageRate, cardAdmirals.CriticalRate, cardAdmirals.CriticalResistanceRate, cardAdmirals.IgnoreCriticalRate,
-            cardAdmirals.PenetrationRate, cardAdmirals.PenetrationResistanceRate, cardAdmirals.EvasionRate,
-            cardAdmirals.DamageAbsorptionRate, cardAdmirals.IgnoreDamageAbsorptionRate, cardAdmirals.AbsorbedDamageRate,
-            cardAdmirals.VitalityRegenerationRate, cardAdmirals.VitalityRegenerationResistanceRate,
-            cardAdmirals.AccuracyRate, cardAdmirals.LifestealRate,
-            cardAdmirals.ShieldStrength, cardAdmirals.Tenacity, cardAdmirals.ResistanceRate,
-            cardAdmirals.ComboRate, cardAdmirals.IgnoreComboRate, cardAdmirals.ComboDamageRate, cardAdmirals.ComboResistanceRate,
-            cardAdmirals.StunRate, cardAdmirals.IgnoreStunRate,
-            cardAdmirals.ReflectionRate, cardAdmirals.IgnoreReflectionRate, cardAdmirals.ReflectionDamageRate, cardAdmirals.ReflectionResistanceRate,
-            cardAdmirals.Mana, cardAdmirals.ManaRegenerationRate,
-            cardAdmirals.DamageToDifferentFactionRate, cardAdmirals.ResistanceToDifferentFactionRate,
-            cardAdmirals.DamageToSameFactionRate, cardAdmirals.ResistanceToSameFactionRate,
-            cardAdmirals.NormalDamageRate, cardAdmirals.NormalResistanceRate,
-            cardAdmirals.SkillDamageRate, cardAdmirals.SkillResistanceRate
+        cardAdmiral.Power = EvaluatePower.CalculatePower(
+            cardAdmiral.Health,
+            cardAdmiral.PhysicalAttack, cardAdmiral.PhysicalDefense,
+            cardAdmiral.MagicalAttack, cardAdmiral.MagicalDefense,
+            cardAdmiral.ChemicalAttack, cardAdmiral.ChemicalDefense,
+            cardAdmiral.AtomicAttack, cardAdmiral.AtomicDefense,
+            cardAdmiral.MentalAttack, cardAdmiral.MentalDefense,
+            cardAdmiral.Speed,
+            cardAdmiral.CriticalDamageRate, cardAdmiral.CriticalRate, cardAdmiral.CriticalResistanceRate, cardAdmiral.IgnoreCriticalRate,
+            cardAdmiral.PenetrationRate, cardAdmiral.PenetrationResistanceRate, cardAdmiral.EvasionRate,
+            cardAdmiral.DamageAbsorptionRate, cardAdmiral.IgnoreDamageAbsorptionRate, cardAdmiral.AbsorbedDamageRate,
+            cardAdmiral.VitalityRegenerationRate, cardAdmiral.VitalityRegenerationResistanceRate,
+            cardAdmiral.AccuracyRate, cardAdmiral.LifestealRate,
+            cardAdmiral.ShieldStrength, cardAdmiral.Tenacity, cardAdmiral.ResistanceRate,
+            cardAdmiral.ComboRate, cardAdmiral.IgnoreComboRate, cardAdmiral.ComboDamageRate, cardAdmiral.ComboResistanceRate,
+            cardAdmiral.StunRate, cardAdmiral.IgnoreStunRate,
+            cardAdmiral.ReflectionRate, cardAdmiral.IgnoreReflectionRate, cardAdmiral.ReflectionDamageRate, cardAdmiral.ReflectionResistanceRate,
+            cardAdmiral.Mana, cardAdmiral.ManaRegenerationRate,
+            cardAdmiral.DamageToDifferentFactionRate, cardAdmiral.ResistanceToDifferentFactionRate,
+            cardAdmiral.DamageToSameFactionRate, cardAdmiral.ResistanceToSameFactionRate,
+            cardAdmiral.NormalDamageRate, cardAdmiral.NormalResistanceRate,
+            cardAdmiral.SkillDamageRate, cardAdmiral.SkillResistanceRate
         );
-        return cardAdmirals;
+        return cardAdmiral;
     }
     public async Task<List<CardAdmirals>> GetSkillsAsync(string user_id, List<CardAdmirals> CardAdmiralsList)
     {

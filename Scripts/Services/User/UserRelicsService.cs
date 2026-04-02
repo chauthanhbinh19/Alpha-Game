@@ -25,7 +25,7 @@ public class UserRelicsService : IUserRelicsService
         IRelicsRepository _repository = new RelicsRepository();
         RelicsService _service = new RelicsService(_repository);
         Relics orginCard = await _service.GetRelicByIdAsync(c.Id);
-        Relics relics = new Relics
+        Relics relic = new Relics
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserRelicsService : IUserRelicsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        relics.Power = EvaluatePower.CalculatePower(
-            relics.Health,
-            relics.PhysicalAttack, relics.PhysicalDefense,
-            relics.MagicalAttack, relics.MagicalDefense,
-            relics.ChemicalAttack, relics.ChemicalDefense,
-            relics.AtomicAttack, relics.AtomicDefense,
-            relics.MentalAttack, relics.MentalDefense,
-            relics.Speed,
-            relics.CriticalDamageRate, relics.CriticalRate, relics.CriticalResistanceRate, relics.IgnoreCriticalRate,
-            relics.PenetrationRate, relics.PenetrationResistanceRate, relics.EvasionRate,
-            relics.DamageAbsorptionRate, relics.IgnoreDamageAbsorptionRate, relics.AbsorbedDamageRate,
-            relics.VitalityRegenerationRate, relics.VitalityRegenerationResistanceRate,
-            relics.AccuracyRate, relics.LifestealRate,
-            relics.ShieldStrength, relics.Tenacity, relics.ResistanceRate,
-            relics.ComboRate, relics.IgnoreComboRate, relics.ComboDamageRate, relics.ComboResistanceRate,
-            relics.StunRate, relics.IgnoreStunRate,
-            relics.ReflectionRate, relics.IgnoreReflectionRate, relics.ReflectionDamageRate, relics.ReflectionResistanceRate,
-            relics.Mana, relics.ManaRegenerationRate,
-            relics.DamageToDifferentFactionRate, relics.ResistanceToDifferentFactionRate,
-            relics.DamageToSameFactionRate, relics.ResistanceToSameFactionRate,
-            relics.NormalDamageRate, relics.NormalResistanceRate,
-            relics.SkillDamageRate, relics.SkillResistanceRate
+        relic.Power = EvaluatePower.CalculatePower(
+            relic.Health,
+            relic.PhysicalAttack, relic.PhysicalDefense,
+            relic.MagicalAttack, relic.MagicalDefense,
+            relic.ChemicalAttack, relic.ChemicalDefense,
+            relic.AtomicAttack, relic.AtomicDefense,
+            relic.MentalAttack, relic.MentalDefense,
+            relic.Speed,
+            relic.CriticalDamageRate, relic.CriticalRate, relic.CriticalResistanceRate, relic.IgnoreCriticalRate,
+            relic.PenetrationRate, relic.PenetrationResistanceRate, relic.EvasionRate,
+            relic.DamageAbsorptionRate, relic.IgnoreDamageAbsorptionRate, relic.AbsorbedDamageRate,
+            relic.VitalityRegenerationRate, relic.VitalityRegenerationResistanceRate,
+            relic.AccuracyRate, relic.LifestealRate,
+            relic.ShieldStrength, relic.Tenacity, relic.ResistanceRate,
+            relic.ComboRate, relic.IgnoreComboRate, relic.ComboDamageRate, relic.ComboResistanceRate,
+            relic.StunRate, relic.IgnoreStunRate,
+            relic.ReflectionRate, relic.IgnoreReflectionRate, relic.ReflectionDamageRate, relic.ReflectionResistanceRate,
+            relic.Mana, relic.ManaRegenerationRate,
+            relic.DamageToDifferentFactionRate, relic.ResistanceToDifferentFactionRate,
+            relic.DamageToSameFactionRate, relic.ResistanceToSameFactionRate,
+            relic.NormalDamageRate, relic.NormalResistanceRate,
+            relic.SkillDamageRate, relic.SkillResistanceRate
         );
-        return relics;
+        return relic;
     }
     public async Task<Relics> GetNewBreakthroughPowerAsync(Relics c, double coefficient)
     {
         IRelicsRepository _repository = new RelicsRepository();
         RelicsService _service = new RelicsService(_repository);
         Relics orginCard = await _service.GetRelicByIdAsync(c.Id);
-        Relics relics = new Relics
+        Relics relic = new Relics
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserRelicsService : IUserRelicsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        relics.Power = EvaluatePower.CalculatePower(
-            relics.Health,
-            relics.PhysicalAttack, relics.PhysicalDefense,
-            relics.MagicalAttack, relics.MagicalDefense,
-            relics.ChemicalAttack, relics.ChemicalDefense,
-            relics.AtomicAttack, relics.AtomicDefense,
-            relics.MentalAttack, relics.MentalDefense,
-            relics.Speed,
-            relics.CriticalDamageRate, relics.CriticalRate, relics.CriticalResistanceRate, relics.IgnoreCriticalRate,
-            relics.PenetrationRate, relics.PenetrationResistanceRate, relics.EvasionRate,
-            relics.DamageAbsorptionRate, relics.IgnoreDamageAbsorptionRate, relics.AbsorbedDamageRate,
-            relics.VitalityRegenerationRate, relics.VitalityRegenerationResistanceRate,
-            relics.AccuracyRate, relics.LifestealRate,
-            relics.ShieldStrength, relics.Tenacity, relics.ResistanceRate,
-            relics.ComboRate, relics.IgnoreComboRate, relics.ComboDamageRate, relics.ComboResistanceRate,
-            relics.StunRate, relics.IgnoreStunRate,
-            relics.ReflectionRate, relics.IgnoreReflectionRate, relics.ReflectionDamageRate, relics.ReflectionResistanceRate,
-            relics.Mana, relics.ManaRegenerationRate,
-            relics.DamageToDifferentFactionRate, relics.ResistanceToDifferentFactionRate,
-            relics.DamageToSameFactionRate, relics.ResistanceToSameFactionRate,
-            relics.NormalDamageRate, relics.NormalResistanceRate,
-            relics.SkillDamageRate, relics.SkillResistanceRate
+        relic.Power = EvaluatePower.CalculatePower(
+            relic.Health,
+            relic.PhysicalAttack, relic.PhysicalDefense,
+            relic.MagicalAttack, relic.MagicalDefense,
+            relic.ChemicalAttack, relic.ChemicalDefense,
+            relic.AtomicAttack, relic.AtomicDefense,
+            relic.MentalAttack, relic.MentalDefense,
+            relic.Speed,
+            relic.CriticalDamageRate, relic.CriticalRate, relic.CriticalResistanceRate, relic.IgnoreCriticalRate,
+            relic.PenetrationRate, relic.PenetrationResistanceRate, relic.EvasionRate,
+            relic.DamageAbsorptionRate, relic.IgnoreDamageAbsorptionRate, relic.AbsorbedDamageRate,
+            relic.VitalityRegenerationRate, relic.VitalityRegenerationResistanceRate,
+            relic.AccuracyRate, relic.LifestealRate,
+            relic.ShieldStrength, relic.Tenacity, relic.ResistanceRate,
+            relic.ComboRate, relic.IgnoreComboRate, relic.ComboDamageRate, relic.ComboResistanceRate,
+            relic.StunRate, relic.IgnoreStunRate,
+            relic.ReflectionRate, relic.IgnoreReflectionRate, relic.ReflectionDamageRate, relic.ReflectionResistanceRate,
+            relic.Mana, relic.ManaRegenerationRate,
+            relic.DamageToDifferentFactionRate, relic.ResistanceToDifferentFactionRate,
+            relic.DamageToSameFactionRate, relic.ResistanceToSameFactionRate,
+            relic.NormalDamageRate, relic.NormalResistanceRate,
+            relic.SkillDamageRate, relic.SkillResistanceRate
         );
-        return relics;
+        return relic;
     }
 
     public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

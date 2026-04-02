@@ -25,7 +25,7 @@ public class UserTechnologiesService : IUserTechnologiesService
         ITechnologiesRepository _repository = new TechnologiesRepository();
         TechnologiesService _service = new TechnologiesService(_repository);
         Technologies orginCard = await _service.GetTechnologyByIdAsync(c.Id);
-        Technologies Technologies = new Technologies
+        Technologies technology = new Technologies
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserTechnologiesService : IUserTechnologiesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Technologies.Power = EvaluatePower.CalculatePower(
-            Technologies.Health,
-            Technologies.PhysicalAttack, Technologies.PhysicalDefense,
-            Technologies.MagicalAttack, Technologies.MagicalDefense,
-            Technologies.ChemicalAttack, Technologies.ChemicalDefense,
-            Technologies.AtomicAttack, Technologies.AtomicDefense,
-            Technologies.MentalAttack, Technologies.MentalDefense,
-            Technologies.Speed,
-            Technologies.CriticalDamageRate, Technologies.CriticalRate, Technologies.CriticalResistanceRate, Technologies.IgnoreCriticalRate,
-            Technologies.PenetrationRate, Technologies.PenetrationResistanceRate, Technologies.EvasionRate,
-            Technologies.DamageAbsorptionRate, Technologies.IgnoreDamageAbsorptionRate, Technologies.AbsorbedDamageRate,
-            Technologies.VitalityRegenerationRate, Technologies.VitalityRegenerationResistanceRate,
-            Technologies.AccuracyRate, Technologies.LifestealRate,
-            Technologies.ShieldStrength, Technologies.Tenacity, Technologies.ResistanceRate,
-            Technologies.ComboRate, Technologies.IgnoreComboRate, Technologies.ComboDamageRate, Technologies.ComboResistanceRate,
-            Technologies.StunRate, Technologies.IgnoreStunRate,
-            Technologies.ReflectionRate, Technologies.IgnoreReflectionRate, Technologies.ReflectionDamageRate, Technologies.ReflectionResistanceRate,
-            Technologies.Mana, Technologies.ManaRegenerationRate,
-            Technologies.DamageToDifferentFactionRate, Technologies.ResistanceToDifferentFactionRate,
-            Technologies.DamageToSameFactionRate, Technologies.ResistanceToSameFactionRate,
-            Technologies.NormalDamageRate, Technologies.NormalResistanceRate,
-            Technologies.SkillDamageRate, Technologies.SkillResistanceRate
+        technology.Power = EvaluatePower.CalculatePower(
+            technology.Health,
+            technology.PhysicalAttack, technology.PhysicalDefense,
+            technology.MagicalAttack, technology.MagicalDefense,
+            technology.ChemicalAttack, technology.ChemicalDefense,
+            technology.AtomicAttack, technology.AtomicDefense,
+            technology.MentalAttack, technology.MentalDefense,
+            technology.Speed,
+            technology.CriticalDamageRate, technology.CriticalRate, technology.CriticalResistanceRate, technology.IgnoreCriticalRate,
+            technology.PenetrationRate, technology.PenetrationResistanceRate, technology.EvasionRate,
+            technology.DamageAbsorptionRate, technology.IgnoreDamageAbsorptionRate, technology.AbsorbedDamageRate,
+            technology.VitalityRegenerationRate, technology.VitalityRegenerationResistanceRate,
+            technology.AccuracyRate, technology.LifestealRate,
+            technology.ShieldStrength, technology.Tenacity, technology.ResistanceRate,
+            technology.ComboRate, technology.IgnoreComboRate, technology.ComboDamageRate, technology.ComboResistanceRate,
+            technology.StunRate, technology.IgnoreStunRate,
+            technology.ReflectionRate, technology.IgnoreReflectionRate, technology.ReflectionDamageRate, technology.ReflectionResistanceRate,
+            technology.Mana, technology.ManaRegenerationRate,
+            technology.DamageToDifferentFactionRate, technology.ResistanceToDifferentFactionRate,
+            technology.DamageToSameFactionRate, technology.ResistanceToSameFactionRate,
+            technology.NormalDamageRate, technology.NormalResistanceRate,
+            technology.SkillDamageRate, technology.SkillResistanceRate
         );
-        return Technologies;
+        return technology;
     }
     public async Task<Technologies> GetNewBreakthroughPowerAsync(Technologies c, double coefficient)
     {
         ITechnologiesRepository _repository = new TechnologiesRepository();
         TechnologiesService _service = new TechnologiesService(_repository);
         Technologies orginCard = await _service.GetTechnologyByIdAsync(c.Id);
-        Technologies Technologies = new Technologies
+        Technologies technology = new Technologies
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserTechnologiesService : IUserTechnologiesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Technologies.Power = EvaluatePower.CalculatePower(
-            Technologies.Health,
-            Technologies.PhysicalAttack, Technologies.PhysicalDefense,
-            Technologies.MagicalAttack, Technologies.MagicalDefense,
-            Technologies.ChemicalAttack, Technologies.ChemicalDefense,
-            Technologies.AtomicAttack, Technologies.AtomicDefense,
-            Technologies.MentalAttack, Technologies.MentalDefense,
-            Technologies.Speed,
-            Technologies.CriticalDamageRate, Technologies.CriticalRate, Technologies.CriticalResistanceRate, Technologies.IgnoreCriticalRate,
-            Technologies.PenetrationRate, Technologies.PenetrationResistanceRate, Technologies.EvasionRate,
-            Technologies.DamageAbsorptionRate, Technologies.IgnoreDamageAbsorptionRate, Technologies.AbsorbedDamageRate,
-            Technologies.VitalityRegenerationRate, Technologies.VitalityRegenerationResistanceRate,
-            Technologies.AccuracyRate, Technologies.LifestealRate,
-            Technologies.ShieldStrength, Technologies.Tenacity, Technologies.ResistanceRate,
-            Technologies.ComboRate, Technologies.IgnoreComboRate, Technologies.ComboDamageRate, Technologies.ComboResistanceRate,
-            Technologies.StunRate, Technologies.IgnoreStunRate,
-            Technologies.ReflectionRate, Technologies.IgnoreReflectionRate, Technologies.ReflectionDamageRate, Technologies.ReflectionResistanceRate,
-            Technologies.Mana, Technologies.ManaRegenerationRate,
-            Technologies.DamageToDifferentFactionRate, Technologies.ResistanceToDifferentFactionRate,
-            Technologies.DamageToSameFactionRate, Technologies.ResistanceToSameFactionRate,
-            Technologies.NormalDamageRate, Technologies.NormalResistanceRate,
-            Technologies.SkillDamageRate, Technologies.SkillResistanceRate
+        technology.Power = EvaluatePower.CalculatePower(
+            technology.Health,
+            technology.PhysicalAttack, technology.PhysicalDefense,
+            technology.MagicalAttack, technology.MagicalDefense,
+            technology.ChemicalAttack, technology.ChemicalDefense,
+            technology.AtomicAttack, technology.AtomicDefense,
+            technology.MentalAttack, technology.MentalDefense,
+            technology.Speed,
+            technology.CriticalDamageRate, technology.CriticalRate, technology.CriticalResistanceRate, technology.IgnoreCriticalRate,
+            technology.PenetrationRate, technology.PenetrationResistanceRate, technology.EvasionRate,
+            technology.DamageAbsorptionRate, technology.IgnoreDamageAbsorptionRate, technology.AbsorbedDamageRate,
+            technology.VitalityRegenerationRate, technology.VitalityRegenerationResistanceRate,
+            technology.AccuracyRate, technology.LifestealRate,
+            technology.ShieldStrength, technology.Tenacity, technology.ResistanceRate,
+            technology.ComboRate, technology.IgnoreComboRate, technology.ComboDamageRate, technology.ComboResistanceRate,
+            technology.StunRate, technology.IgnoreStunRate,
+            technology.ReflectionRate, technology.IgnoreReflectionRate, technology.ReflectionDamageRate, technology.ReflectionResistanceRate,
+            technology.Mana, technology.ManaRegenerationRate,
+            technology.DamageToDifferentFactionRate, technology.ResistanceToDifferentFactionRate,
+            technology.DamageToSameFactionRate, technology.ResistanceToSameFactionRate,
+            technology.NormalDamageRate, technology.NormalResistanceRate,
+            technology.SkillDamageRate, technology.SkillResistanceRate
         );
-        return Technologies;
+        return technology;
     }
 
     public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, string search, int pageSize, int offset, string rare)

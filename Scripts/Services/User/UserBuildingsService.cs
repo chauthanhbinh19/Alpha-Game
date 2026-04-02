@@ -25,7 +25,7 @@ public class UserBuildingsService : IUserBuildingsService
         IBuildingsRepository _repository = new BuildingsRepository();
         BuildingsService _service = new BuildingsService(_repository);
         Buildings orginCard = await _service.GetBuildingByIdAsync(c.Id);
-        Buildings Building = new Buildings
+        Buildings building = new Buildings
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserBuildingsService : IUserBuildingsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Building.Power = EvaluatePower.CalculatePower(
-            Building.Health,
-            Building.PhysicalAttack, Building.PhysicalDefense,
-            Building.MagicalAttack, Building.MagicalDefense,
-            Building.ChemicalAttack, Building.ChemicalDefense,
-            Building.AtomicAttack, Building.AtomicDefense,
-            Building.MentalAttack, Building.MentalDefense,
-            Building.Speed,
-            Building.CriticalDamageRate, Building.CriticalRate, Building.CriticalResistanceRate, Building.IgnoreCriticalRate,
-            Building.PenetrationRate, Building.PenetrationResistanceRate, Building.EvasionRate,
-            Building.DamageAbsorptionRate, Building.IgnoreDamageAbsorptionRate, Building.AbsorbedDamageRate,
-            Building.VitalityRegenerationRate, Building.VitalityRegenerationResistanceRate,
-            Building.AccuracyRate, Building.LifestealRate,
-            Building.ShieldStrength, Building.Tenacity, Building.ResistanceRate,
-            Building.ComboRate, Building.IgnoreComboRate, Building.ComboDamageRate, Building.ComboResistanceRate,
-            Building.StunRate, Building.IgnoreStunRate,
-            Building.ReflectionRate, Building.IgnoreReflectionRate, Building.ReflectionDamageRate, Building.ReflectionResistanceRate,
-            Building.Mana, Building.ManaRegenerationRate,
-            Building.DamageToDifferentFactionRate, Building.ResistanceToDifferentFactionRate,
-            Building.DamageToSameFactionRate, Building.ResistanceToSameFactionRate,
-            Building.NormalDamageRate, Building.NormalResistanceRate,
-            Building.SkillDamageRate, Building.SkillResistanceRate
+        building.Power = EvaluatePower.CalculatePower(
+            building.Health,
+            building.PhysicalAttack, building.PhysicalDefense,
+            building.MagicalAttack, building.MagicalDefense,
+            building.ChemicalAttack, building.ChemicalDefense,
+            building.AtomicAttack, building.AtomicDefense,
+            building.MentalAttack, building.MentalDefense,
+            building.Speed,
+            building.CriticalDamageRate, building.CriticalRate, building.CriticalResistanceRate, building.IgnoreCriticalRate,
+            building.PenetrationRate, building.PenetrationResistanceRate, building.EvasionRate,
+            building.DamageAbsorptionRate, building.IgnoreDamageAbsorptionRate, building.AbsorbedDamageRate,
+            building.VitalityRegenerationRate, building.VitalityRegenerationResistanceRate,
+            building.AccuracyRate, building.LifestealRate,
+            building.ShieldStrength, building.Tenacity, building.ResistanceRate,
+            building.ComboRate, building.IgnoreComboRate, building.ComboDamageRate, building.ComboResistanceRate,
+            building.StunRate, building.IgnoreStunRate,
+            building.ReflectionRate, building.IgnoreReflectionRate, building.ReflectionDamageRate, building.ReflectionResistanceRate,
+            building.Mana, building.ManaRegenerationRate,
+            building.DamageToDifferentFactionRate, building.ResistanceToDifferentFactionRate,
+            building.DamageToSameFactionRate, building.ResistanceToSameFactionRate,
+            building.NormalDamageRate, building.NormalResistanceRate,
+            building.SkillDamageRate, building.SkillResistanceRate
         );
-        return Building;
+        return building;
     }
     public async Task<Buildings> GetNewBreakthroughPowerAsync(Buildings c, double coefficient)
     {
         IBuildingsRepository _repository = new BuildingsRepository();
         BuildingsService _service = new BuildingsService(_repository);
         Buildings orginCard = await _service.GetBuildingByIdAsync(c.Id);
-        Buildings Building = new Buildings
+        Buildings building = new Buildings
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserBuildingsService : IUserBuildingsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Building.Power = EvaluatePower.CalculatePower(
-            Building.Health,
-            Building.PhysicalAttack, Building.PhysicalDefense,
-            Building.MagicalAttack, Building.MagicalDefense,
-            Building.ChemicalAttack, Building.ChemicalDefense,
-            Building.AtomicAttack, Building.AtomicDefense,
-            Building.MentalAttack, Building.MentalDefense,
-            Building.Speed,
-            Building.CriticalDamageRate, Building.CriticalRate, Building.CriticalResistanceRate, Building.IgnoreCriticalRate,
-            Building.PenetrationRate, Building.PenetrationResistanceRate, Building.EvasionRate,
-            Building.DamageAbsorptionRate, Building.IgnoreDamageAbsorptionRate, Building.AbsorbedDamageRate,
-            Building.VitalityRegenerationRate, Building.VitalityRegenerationResistanceRate,
-            Building.AccuracyRate, Building.LifestealRate,
-            Building.ShieldStrength, Building.Tenacity, Building.ResistanceRate,
-            Building.ComboRate, Building.IgnoreComboRate, Building.ComboDamageRate, Building.ComboResistanceRate,
-            Building.StunRate, Building.IgnoreStunRate,
-            Building.ReflectionRate, Building.IgnoreReflectionRate, Building.ReflectionDamageRate, Building.ReflectionResistanceRate,
-            Building.Mana, Building.ManaRegenerationRate,
-            Building.DamageToDifferentFactionRate, Building.ResistanceToDifferentFactionRate,
-            Building.DamageToSameFactionRate, Building.ResistanceToSameFactionRate,
-            Building.NormalDamageRate, Building.NormalResistanceRate,
-            Building.SkillDamageRate, Building.SkillResistanceRate
+        building.Power = EvaluatePower.CalculatePower(
+            building.Health,
+            building.PhysicalAttack, building.PhysicalDefense,
+            building.MagicalAttack, building.MagicalDefense,
+            building.ChemicalAttack, building.ChemicalDefense,
+            building.AtomicAttack, building.AtomicDefense,
+            building.MentalAttack, building.MentalDefense,
+            building.Speed,
+            building.CriticalDamageRate, building.CriticalRate, building.CriticalResistanceRate, building.IgnoreCriticalRate,
+            building.PenetrationRate, building.PenetrationResistanceRate, building.EvasionRate,
+            building.DamageAbsorptionRate, building.IgnoreDamageAbsorptionRate, building.AbsorbedDamageRate,
+            building.VitalityRegenerationRate, building.VitalityRegenerationResistanceRate,
+            building.AccuracyRate, building.LifestealRate,
+            building.ShieldStrength, building.Tenacity, building.ResistanceRate,
+            building.ComboRate, building.IgnoreComboRate, building.ComboDamageRate, building.ComboResistanceRate,
+            building.StunRate, building.IgnoreStunRate,
+            building.ReflectionRate, building.IgnoreReflectionRate, building.ReflectionDamageRate, building.ReflectionResistanceRate,
+            building.Mana, building.ManaRegenerationRate,
+            building.DamageToDifferentFactionRate, building.ResistanceToDifferentFactionRate,
+            building.DamageToSameFactionRate, building.ResistanceToSameFactionRate,
+            building.NormalDamageRate, building.NormalResistanceRate,
+            building.SkillDamageRate, building.SkillResistanceRate
         );
-        return Building;
+        return building;
     }
 
     public async Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

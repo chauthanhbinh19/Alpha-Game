@@ -25,7 +25,7 @@ public class UserCoresService : IUserCoresService
         ICoresRepository _repository = new CoresRepository();
         CoresService _service = new CoresService(_repository);
         Cores orginCard = await _service.GetCoreByIdAsync(c.Id);
-        Cores Cores = new Cores
+        Cores core = new Cores
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserCoresService : IUserCoresService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Cores.Power = EvaluatePower.CalculatePower(
-            Cores.Health,
-            Cores.PhysicalAttack, Cores.PhysicalDefense,
-            Cores.MagicalAttack, Cores.MagicalDefense,
-            Cores.ChemicalAttack, Cores.ChemicalDefense,
-            Cores.AtomicAttack, Cores.AtomicDefense,
-            Cores.MentalAttack, Cores.MentalDefense,
-            Cores.Speed,
-            Cores.CriticalDamageRate, Cores.CriticalRate, Cores.CriticalResistanceRate, Cores.IgnoreCriticalRate,
-            Cores.PenetrationRate, Cores.PenetrationResistanceRate, Cores.EvasionRate,
-            Cores.DamageAbsorptionRate, Cores.IgnoreDamageAbsorptionRate, Cores.AbsorbedDamageRate,
-            Cores.VitalityRegenerationRate, Cores.VitalityRegenerationResistanceRate,
-            Cores.AccuracyRate, Cores.LifestealRate,
-            Cores.ShieldStrength, Cores.Tenacity, Cores.ResistanceRate,
-            Cores.ComboRate, Cores.IgnoreComboRate, Cores.ComboDamageRate, Cores.ComboResistanceRate,
-            Cores.StunRate, Cores.IgnoreStunRate,
-            Cores.ReflectionRate, Cores.IgnoreReflectionRate, Cores.ReflectionDamageRate, Cores.ReflectionResistanceRate,
-            Cores.Mana, Cores.ManaRegenerationRate,
-            Cores.DamageToDifferentFactionRate, Cores.ResistanceToDifferentFactionRate,
-            Cores.DamageToSameFactionRate, Cores.ResistanceToSameFactionRate,
-            Cores.NormalDamageRate, Cores.NormalResistanceRate,
-            Cores.SkillDamageRate, Cores.SkillResistanceRate
+        core.Power = EvaluatePower.CalculatePower(
+            core.Health,
+            core.PhysicalAttack, core.PhysicalDefense,
+            core.MagicalAttack, core.MagicalDefense,
+            core.ChemicalAttack, core.ChemicalDefense,
+            core.AtomicAttack, core.AtomicDefense,
+            core.MentalAttack, core.MentalDefense,
+            core.Speed,
+            core.CriticalDamageRate, core.CriticalRate, core.CriticalResistanceRate, core.IgnoreCriticalRate,
+            core.PenetrationRate, core.PenetrationResistanceRate, core.EvasionRate,
+            core.DamageAbsorptionRate, core.IgnoreDamageAbsorptionRate, core.AbsorbedDamageRate,
+            core.VitalityRegenerationRate, core.VitalityRegenerationResistanceRate,
+            core.AccuracyRate, core.LifestealRate,
+            core.ShieldStrength, core.Tenacity, core.ResistanceRate,
+            core.ComboRate, core.IgnoreComboRate, core.ComboDamageRate, core.ComboResistanceRate,
+            core.StunRate, core.IgnoreStunRate,
+            core.ReflectionRate, core.IgnoreReflectionRate, core.ReflectionDamageRate, core.ReflectionResistanceRate,
+            core.Mana, core.ManaRegenerationRate,
+            core.DamageToDifferentFactionRate, core.ResistanceToDifferentFactionRate,
+            core.DamageToSameFactionRate, core.ResistanceToSameFactionRate,
+            core.NormalDamageRate, core.NormalResistanceRate,
+            core.SkillDamageRate, core.SkillResistanceRate
         );
-        return Cores;
+        return core;
     }
     public async Task<Cores> GetNewBreakthroughPowerAsync(Cores c, double coefficient)
     {
         ICoresRepository _repository = new CoresRepository();
         CoresService _service = new CoresService(_repository);
         Cores orginCard = await _service.GetCoreByIdAsync(c.Id);
-        Cores Cores = new Cores
+        Cores core = new Cores
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserCoresService : IUserCoresService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Cores.Power = EvaluatePower.CalculatePower(
-            Cores.Health,
-            Cores.PhysicalAttack, Cores.PhysicalDefense,
-            Cores.MagicalAttack, Cores.MagicalDefense,
-            Cores.ChemicalAttack, Cores.ChemicalDefense,
-            Cores.AtomicAttack, Cores.AtomicDefense,
-            Cores.MentalAttack, Cores.MentalDefense,
-            Cores.Speed,
-            Cores.CriticalDamageRate, Cores.CriticalRate, Cores.CriticalResistanceRate, Cores.IgnoreCriticalRate,
-            Cores.PenetrationRate, Cores.PenetrationResistanceRate, Cores.EvasionRate,
-            Cores.DamageAbsorptionRate, Cores.IgnoreDamageAbsorptionRate, Cores.AbsorbedDamageRate,
-            Cores.VitalityRegenerationRate, Cores.VitalityRegenerationResistanceRate,
-            Cores.AccuracyRate, Cores.LifestealRate,
-            Cores.ShieldStrength, Cores.Tenacity, Cores.ResistanceRate,
-            Cores.ComboRate, Cores.IgnoreComboRate, Cores.ComboDamageRate, Cores.ComboResistanceRate,
-            Cores.StunRate, Cores.IgnoreStunRate,
-            Cores.ReflectionRate, Cores.IgnoreReflectionRate, Cores.ReflectionDamageRate, Cores.ReflectionResistanceRate,
-            Cores.Mana, Cores.ManaRegenerationRate,
-            Cores.DamageToDifferentFactionRate, Cores.ResistanceToDifferentFactionRate,
-            Cores.DamageToSameFactionRate, Cores.ResistanceToSameFactionRate,
-            Cores.NormalDamageRate, Cores.NormalResistanceRate,
-            Cores.SkillDamageRate, Cores.SkillResistanceRate
+        core.Power = EvaluatePower.CalculatePower(
+            core.Health,
+            core.PhysicalAttack, core.PhysicalDefense,
+            core.MagicalAttack, core.MagicalDefense,
+            core.ChemicalAttack, core.ChemicalDefense,
+            core.AtomicAttack, core.AtomicDefense,
+            core.MentalAttack, core.MentalDefense,
+            core.Speed,
+            core.CriticalDamageRate, core.CriticalRate, core.CriticalResistanceRate, core.IgnoreCriticalRate,
+            core.PenetrationRate, core.PenetrationResistanceRate, core.EvasionRate,
+            core.DamageAbsorptionRate, core.IgnoreDamageAbsorptionRate, core.AbsorbedDamageRate,
+            core.VitalityRegenerationRate, core.VitalityRegenerationResistanceRate,
+            core.AccuracyRate, core.LifestealRate,
+            core.ShieldStrength, core.Tenacity, core.ResistanceRate,
+            core.ComboRate, core.IgnoreComboRate, core.ComboDamageRate, core.ComboResistanceRate,
+            core.StunRate, core.IgnoreStunRate,
+            core.ReflectionRate, core.IgnoreReflectionRate, core.ReflectionDamageRate, core.ReflectionResistanceRate,
+            core.Mana, core.ManaRegenerationRate,
+            core.DamageToDifferentFactionRate, core.ResistanceToDifferentFactionRate,
+            core.DamageToSameFactionRate, core.ResistanceToSameFactionRate,
+            core.NormalDamageRate, core.NormalResistanceRate,
+            core.SkillDamageRate, core.SkillResistanceRate
         );
-        return Cores;
+        return core;
     }
 
     public async Task<List<Cores>> GetUserCoresAsync(string user_id, string search, int pageSize, int offset, string rare)

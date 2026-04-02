@@ -25,7 +25,7 @@ public class UserBadgesService : IUserBadgesService
         IBadgesRepository _repository = new BadgesRepository();
         BadgesService _service = new BadgesService(_repository);
         Badges orginCard = await _service.GetBadgeByIdAsync(c.Id);
-        Badges Badges = new Badges
+        Badges badge = new Badges
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserBadgesService : IUserBadgesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Badges.Power = EvaluatePower.CalculatePower(
-            Badges.Health,
-            Badges.PhysicalAttack, Badges.PhysicalDefense,
-            Badges.MagicalAttack, Badges.MagicalDefense,
-            Badges.ChemicalAttack, Badges.ChemicalDefense,
-            Badges.AtomicAttack, Badges.AtomicDefense,
-            Badges.MentalAttack, Badges.MentalDefense,
-            Badges.Speed,
-            Badges.CriticalDamageRate, Badges.CriticalRate, Badges.CriticalResistanceRate, Badges.IgnoreCriticalRate,
-            Badges.PenetrationRate, Badges.PenetrationResistanceRate, Badges.EvasionRate,
-            Badges.DamageAbsorptionRate, Badges.IgnoreDamageAbsorptionRate, Badges.AbsorbedDamageRate,
-            Badges.VitalityRegenerationRate, Badges.VitalityRegenerationResistanceRate,
-            Badges.AccuracyRate, Badges.LifestealRate,
-            Badges.ShieldStrength, Badges.Tenacity, Badges.ResistanceRate,
-            Badges.ComboRate, Badges.IgnoreComboRate, Badges.ComboDamageRate, Badges.ComboResistanceRate,
-            Badges.StunRate, Badges.IgnoreStunRate,
-            Badges.ReflectionRate, Badges.IgnoreReflectionRate, Badges.ReflectionDamageRate, Badges.ReflectionResistanceRate,
-            Badges.Mana, Badges.ManaRegenerationRate,
-            Badges.DamageToDifferentFactionRate, Badges.ResistanceToDifferentFactionRate,
-            Badges.DamageToSameFactionRate, Badges.ResistanceToSameFactionRate,
-            Badges.NormalDamageRate, Badges.NormalResistanceRate,
-            Badges.SkillDamageRate, Badges.SkillResistanceRate
+        badge.Power = EvaluatePower.CalculatePower(
+            badge.Health,
+            badge.PhysicalAttack, badge.PhysicalDefense,
+            badge.MagicalAttack, badge.MagicalDefense,
+            badge.ChemicalAttack, badge.ChemicalDefense,
+            badge.AtomicAttack, badge.AtomicDefense,
+            badge.MentalAttack, badge.MentalDefense,
+            badge.Speed,
+            badge.CriticalDamageRate, badge.CriticalRate, badge.CriticalResistanceRate, badge.IgnoreCriticalRate,
+            badge.PenetrationRate, badge.PenetrationResistanceRate, badge.EvasionRate,
+            badge.DamageAbsorptionRate, badge.IgnoreDamageAbsorptionRate, badge.AbsorbedDamageRate,
+            badge.VitalityRegenerationRate, badge.VitalityRegenerationResistanceRate,
+            badge.AccuracyRate, badge.LifestealRate,
+            badge.ShieldStrength, badge.Tenacity, badge.ResistanceRate,
+            badge.ComboRate, badge.IgnoreComboRate, badge.ComboDamageRate, badge.ComboResistanceRate,
+            badge.StunRate, badge.IgnoreStunRate,
+            badge.ReflectionRate, badge.IgnoreReflectionRate, badge.ReflectionDamageRate, badge.ReflectionResistanceRate,
+            badge.Mana, badge.ManaRegenerationRate,
+            badge.DamageToDifferentFactionRate, badge.ResistanceToDifferentFactionRate,
+            badge.DamageToSameFactionRate, badge.ResistanceToSameFactionRate,
+            badge.NormalDamageRate, badge.NormalResistanceRate,
+            badge.SkillDamageRate, badge.SkillResistanceRate
         );
-        return Badges;
+        return badge;
     }
     public async Task<Badges> GetNewBreakthroughPowerAsync(Badges c, double coefficient)
     {
         IBadgesRepository _repository = new BadgesRepository();
         BadgesService _service = new BadgesService(_repository);
         Badges orginCard = await _service.GetBadgeByIdAsync(c.Id);
-        Badges Badges = new Badges
+        Badges badge = new Badges
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserBadgesService : IUserBadgesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Badges.Power = EvaluatePower.CalculatePower(
-            Badges.Health,
-            Badges.PhysicalAttack, Badges.PhysicalDefense,
-            Badges.MagicalAttack, Badges.MagicalDefense,
-            Badges.ChemicalAttack, Badges.ChemicalDefense,
-            Badges.AtomicAttack, Badges.AtomicDefense,
-            Badges.MentalAttack, Badges.MentalDefense,
-            Badges.Speed,
-            Badges.CriticalDamageRate, Badges.CriticalRate, Badges.CriticalResistanceRate, Badges.IgnoreCriticalRate,
-            Badges.PenetrationRate, Badges.PenetrationResistanceRate, Badges.EvasionRate,
-            Badges.DamageAbsorptionRate, Badges.IgnoreDamageAbsorptionRate, Badges.AbsorbedDamageRate,
-            Badges.VitalityRegenerationRate, Badges.VitalityRegenerationResistanceRate,
-            Badges.AccuracyRate, Badges.LifestealRate,
-            Badges.ShieldStrength, Badges.Tenacity, Badges.ResistanceRate,
-            Badges.ComboRate, Badges.IgnoreComboRate, Badges.ComboDamageRate, Badges.ComboResistanceRate,
-            Badges.StunRate, Badges.IgnoreStunRate,
-            Badges.ReflectionRate, Badges.IgnoreReflectionRate, Badges.ReflectionDamageRate, Badges.ReflectionResistanceRate,
-            Badges.Mana, Badges.ManaRegenerationRate,
-            Badges.DamageToDifferentFactionRate, Badges.ResistanceToDifferentFactionRate,
-            Badges.DamageToSameFactionRate, Badges.ResistanceToSameFactionRate,
-            Badges.NormalDamageRate, Badges.NormalResistanceRate,
-            Badges.SkillDamageRate, Badges.SkillResistanceRate
+        badge.Power = EvaluatePower.CalculatePower(
+            badge.Health,
+            badge.PhysicalAttack, badge.PhysicalDefense,
+            badge.MagicalAttack, badge.MagicalDefense,
+            badge.ChemicalAttack, badge.ChemicalDefense,
+            badge.AtomicAttack, badge.AtomicDefense,
+            badge.MentalAttack, badge.MentalDefense,
+            badge.Speed,
+            badge.CriticalDamageRate, badge.CriticalRate, badge.CriticalResistanceRate, badge.IgnoreCriticalRate,
+            badge.PenetrationRate, badge.PenetrationResistanceRate, badge.EvasionRate,
+            badge.DamageAbsorptionRate, badge.IgnoreDamageAbsorptionRate, badge.AbsorbedDamageRate,
+            badge.VitalityRegenerationRate, badge.VitalityRegenerationResistanceRate,
+            badge.AccuracyRate, badge.LifestealRate,
+            badge.ShieldStrength, badge.Tenacity, badge.ResistanceRate,
+            badge.ComboRate, badge.IgnoreComboRate, badge.ComboDamageRate, badge.ComboResistanceRate,
+            badge.StunRate, badge.IgnoreStunRate,
+            badge.ReflectionRate, badge.IgnoreReflectionRate, badge.ReflectionDamageRate, badge.ReflectionResistanceRate,
+            badge.Mana, badge.ManaRegenerationRate,
+            badge.DamageToDifferentFactionRate, badge.ResistanceToDifferentFactionRate,
+            badge.DamageToSameFactionRate, badge.ResistanceToSameFactionRate,
+            badge.NormalDamageRate, badge.NormalResistanceRate,
+            badge.SkillDamageRate, badge.SkillResistanceRate
         );
-        return Badges;
+        return badge;
     }
 
     public async Task<List<Badges>> GetUserBadgesAsync(string user_id, string search, int pageSize, int offset, string rare)

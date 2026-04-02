@@ -25,7 +25,7 @@ public class UserSkillsService : IUserSkillsService
         ISkillsRepository _repository = new SkillsRepository();
         SkillsService _service = new SkillsService(_repository);
         Skills orginCard = await _service.GetSkillByIdAsync(c.Id);
-        Skills skills = new Skills
+        Skills skill = new Skills
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserSkillsService : IUserSkillsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        skills.Power = EvaluatePower.CalculatePower(
-            skills.Health,
-            skills.PhysicalAttack, skills.PhysicalDefense,
-            skills.MagicalAttack, skills.MagicalDefense,
-            skills.ChemicalAttack, skills.ChemicalDefense,
-            skills.AtomicAttack, skills.AtomicDefense,
-            skills.MentalAttack, skills.MentalDefense,
-            skills.Speed,
-            skills.CriticalDamageRate, skills.CriticalRate, skills.CriticalResistanceRate, skills.IgnoreCriticalRate,
-            skills.PenetrationRate, skills.PenetrationResistanceRate, skills.EvasionRate,
-            skills.DamageAbsorptionRate, skills.IgnoreDamageAbsorptionRate, skills.AbsorbedDamageRate,
-            skills.VitalityRegenerationRate, skills.VitalityRegenerationResistanceRate,
-            skills.AccuracyRate, skills.LifestealRate,
-            skills.ShieldStrength, skills.Tenacity, skills.ResistanceRate,
-            skills.ComboRate, skills.IgnoreComboRate, skills.ComboDamageRate, skills.ComboResistanceRate,
-            skills.StunRate, skills.IgnoreStunRate,
-            skills.ReflectionRate, skills.IgnoreReflectionRate, skills.ReflectionDamageRate, skills.ReflectionResistanceRate,
-            skills.Mana, skills.ManaRegenerationRate,
-            skills.DamageToDifferentFactionRate, skills.ResistanceToDifferentFactionRate,
-            skills.DamageToSameFactionRate, skills.ResistanceToSameFactionRate,
-            skills.NormalDamageRate, skills.NormalResistanceRate,
-            skills.SkillDamageRate, skills.SkillResistanceRate
+        skill.Power = EvaluatePower.CalculatePower(
+            skill.Health,
+            skill.PhysicalAttack, skill.PhysicalDefense,
+            skill.MagicalAttack, skill.MagicalDefense,
+            skill.ChemicalAttack, skill.ChemicalDefense,
+            skill.AtomicAttack, skill.AtomicDefense,
+            skill.MentalAttack, skill.MentalDefense,
+            skill.Speed,
+            skill.CriticalDamageRate, skill.CriticalRate, skill.CriticalResistanceRate, skill.IgnoreCriticalRate,
+            skill.PenetrationRate, skill.PenetrationResistanceRate, skill.EvasionRate,
+            skill.DamageAbsorptionRate, skill.IgnoreDamageAbsorptionRate, skill.AbsorbedDamageRate,
+            skill.VitalityRegenerationRate, skill.VitalityRegenerationResistanceRate,
+            skill.AccuracyRate, skill.LifestealRate,
+            skill.ShieldStrength, skill.Tenacity, skill.ResistanceRate,
+            skill.ComboRate, skill.IgnoreComboRate, skill.ComboDamageRate, skill.ComboResistanceRate,
+            skill.StunRate, skill.IgnoreStunRate,
+            skill.ReflectionRate, skill.IgnoreReflectionRate, skill.ReflectionDamageRate, skill.ReflectionResistanceRate,
+            skill.Mana, skill.ManaRegenerationRate,
+            skill.DamageToDifferentFactionRate, skill.ResistanceToDifferentFactionRate,
+            skill.DamageToSameFactionRate, skill.ResistanceToSameFactionRate,
+            skill.NormalDamageRate, skill.NormalResistanceRate,
+            skill.SkillDamageRate, skill.SkillResistanceRate
         );
-        return skills;
+        return skill;
     }
     public async Task<Skills> GetNewBreakthroughPowerAsync(Skills c, double coefficient)
     {
         ISkillsRepository _repository = new SkillsRepository();
         SkillsService _service = new SkillsService(_repository);
         Skills orginCard = await _service.GetSkillByIdAsync(c.Id);
-        Skills skills = new Skills
+        Skills skill = new Skills
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserSkillsService : IUserSkillsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        skills.Power = EvaluatePower.CalculatePower(
-            skills.Health,
-            skills.PhysicalAttack, skills.PhysicalDefense,
-            skills.MagicalAttack, skills.MagicalDefense,
-            skills.ChemicalAttack, skills.ChemicalDefense,
-            skills.AtomicAttack, skills.AtomicDefense,
-            skills.MentalAttack, skills.MentalDefense,
-            skills.Speed,
-            skills.CriticalDamageRate, skills.CriticalRate, skills.CriticalResistanceRate, skills.IgnoreCriticalRate,
-            skills.PenetrationRate, skills.PenetrationResistanceRate, skills.EvasionRate,
-            skills.DamageAbsorptionRate, skills.IgnoreDamageAbsorptionRate, skills.AbsorbedDamageRate,
-            skills.VitalityRegenerationRate, skills.VitalityRegenerationResistanceRate,
-            skills.AccuracyRate, skills.LifestealRate,
-            skills.ShieldStrength, skills.Tenacity, skills.ResistanceRate,
-            skills.ComboRate, skills.IgnoreComboRate, skills.ComboDamageRate, skills.ComboResistanceRate,
-            skills.StunRate, skills.IgnoreStunRate,
-            skills.ReflectionRate, skills.IgnoreReflectionRate, skills.ReflectionDamageRate, skills.ReflectionResistanceRate,
-            skills.Mana, skills.ManaRegenerationRate,
-            skills.DamageToDifferentFactionRate, skills.ResistanceToDifferentFactionRate,
-            skills.DamageToSameFactionRate, skills.ResistanceToSameFactionRate,
-            skills.NormalDamageRate, skills.NormalResistanceRate,
-            skills.SkillDamageRate, skills.SkillResistanceRate
+        skill.Power = EvaluatePower.CalculatePower(
+            skill.Health,
+            skill.PhysicalAttack, skill.PhysicalDefense,
+            skill.MagicalAttack, skill.MagicalDefense,
+            skill.ChemicalAttack, skill.ChemicalDefense,
+            skill.AtomicAttack, skill.AtomicDefense,
+            skill.MentalAttack, skill.MentalDefense,
+            skill.Speed,
+            skill.CriticalDamageRate, skill.CriticalRate, skill.CriticalResistanceRate, skill.IgnoreCriticalRate,
+            skill.PenetrationRate, skill.PenetrationResistanceRate, skill.EvasionRate,
+            skill.DamageAbsorptionRate, skill.IgnoreDamageAbsorptionRate, skill.AbsorbedDamageRate,
+            skill.VitalityRegenerationRate, skill.VitalityRegenerationResistanceRate,
+            skill.AccuracyRate, skill.LifestealRate,
+            skill.ShieldStrength, skill.Tenacity, skill.ResistanceRate,
+            skill.ComboRate, skill.IgnoreComboRate, skill.ComboDamageRate, skill.ComboResistanceRate,
+            skill.StunRate, skill.IgnoreStunRate,
+            skill.ReflectionRate, skill.IgnoreReflectionRate, skill.ReflectionDamageRate, skill.ReflectionResistanceRate,
+            skill.Mana, skill.ManaRegenerationRate,
+            skill.DamageToDifferentFactionRate, skill.ResistanceToDifferentFactionRate,
+            skill.DamageToSameFactionRate, skill.ResistanceToSameFactionRate,
+            skill.NormalDamageRate, skill.NormalResistanceRate,
+            skill.SkillDamageRate, skill.SkillResistanceRate
         );
-        return skills;
+        return skill;
     }
 
     public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

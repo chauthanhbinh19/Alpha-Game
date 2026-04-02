@@ -26,7 +26,7 @@ public class UserArtworksService : IUserArtworksService
         IArtworksRepository _repository = new ArtworksRepository();
         ArtworksService _service = new ArtworksService(_repository);
         Artworks orginCard = await _service.GetArtworkByIdAsync(c.Id);
-        Artworks Artwork = new Artworks
+        Artworks artwork = new Artworks
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -79,37 +79,37 @@ public class UserArtworksService : IUserArtworksService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Artwork.Power = EvaluatePower.CalculatePower(
-            Artwork.Health,
-            Artwork.PhysicalAttack, Artwork.PhysicalDefense,
-            Artwork.MagicalAttack, Artwork.MagicalDefense,
-            Artwork.ChemicalAttack, Artwork.ChemicalDefense,
-            Artwork.AtomicAttack, Artwork.AtomicDefense,
-            Artwork.MentalAttack, Artwork.MentalDefense,
-            Artwork.Speed,
-            Artwork.CriticalDamageRate, Artwork.CriticalRate, Artwork.CriticalResistanceRate, Artwork.IgnoreCriticalRate,
-            Artwork.PenetrationRate, Artwork.PenetrationResistanceRate, Artwork.EvasionRate,
-            Artwork.DamageAbsorptionRate, Artwork.IgnoreDamageAbsorptionRate, Artwork.AbsorbedDamageRate,
-            Artwork.VitalityRegenerationRate, Artwork.VitalityRegenerationResistanceRate,
-            Artwork.AccuracyRate, Artwork.LifestealRate,
-            Artwork.ShieldStrength, Artwork.Tenacity, Artwork.ResistanceRate,
-            Artwork.ComboRate, Artwork.IgnoreComboRate, Artwork.ComboDamageRate, Artwork.ComboResistanceRate,
-            Artwork.StunRate, Artwork.IgnoreStunRate,
-            Artwork.ReflectionRate, Artwork.IgnoreReflectionRate, Artwork.ReflectionDamageRate, Artwork.ReflectionResistanceRate,
-            Artwork.Mana, Artwork.ManaRegenerationRate,
-            Artwork.DamageToDifferentFactionRate, Artwork.ResistanceToDifferentFactionRate,
-            Artwork.DamageToSameFactionRate, Artwork.ResistanceToSameFactionRate,
-            Artwork.NormalDamageRate, Artwork.NormalResistanceRate,
-            Artwork.SkillDamageRate, Artwork.SkillResistanceRate
+        artwork.Power = EvaluatePower.CalculatePower(
+            artwork.Health,
+            artwork.PhysicalAttack, artwork.PhysicalDefense,
+            artwork.MagicalAttack, artwork.MagicalDefense,
+            artwork.ChemicalAttack, artwork.ChemicalDefense,
+            artwork.AtomicAttack, artwork.AtomicDefense,
+            artwork.MentalAttack, artwork.MentalDefense,
+            artwork.Speed,
+            artwork.CriticalDamageRate, artwork.CriticalRate, artwork.CriticalResistanceRate, artwork.IgnoreCriticalRate,
+            artwork.PenetrationRate, artwork.PenetrationResistanceRate, artwork.EvasionRate,
+            artwork.DamageAbsorptionRate, artwork.IgnoreDamageAbsorptionRate, artwork.AbsorbedDamageRate,
+            artwork.VitalityRegenerationRate, artwork.VitalityRegenerationResistanceRate,
+            artwork.AccuracyRate, artwork.LifestealRate,
+            artwork.ShieldStrength, artwork.Tenacity, artwork.ResistanceRate,
+            artwork.ComboRate, artwork.IgnoreComboRate, artwork.ComboDamageRate, artwork.ComboResistanceRate,
+            artwork.StunRate, artwork.IgnoreStunRate,
+            artwork.ReflectionRate, artwork.IgnoreReflectionRate, artwork.ReflectionDamageRate, artwork.ReflectionResistanceRate,
+            artwork.Mana, artwork.ManaRegenerationRate,
+            artwork.DamageToDifferentFactionRate, artwork.ResistanceToDifferentFactionRate,
+            artwork.DamageToSameFactionRate, artwork.ResistanceToSameFactionRate,
+            artwork.NormalDamageRate, artwork.NormalResistanceRate,
+            artwork.SkillDamageRate, artwork.SkillResistanceRate
         );
-        return Artwork;
+        return artwork;
     }
     public async Task<Artworks> GetNewBreakthroughPowerAsync(Artworks c, double coefficient)
     {
         IArtworksRepository _repository = new ArtworksRepository();
         ArtworksService _service = new ArtworksService(_repository);
         Artworks orginCard = await _service.GetArtworkByIdAsync(c.Id);
-        Artworks Artwork = new Artworks
+        Artworks artwork = new Artworks
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -162,30 +162,30 @@ public class UserArtworksService : IUserArtworksService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Artwork.Power = EvaluatePower.CalculatePower(
-            Artwork.Health,
-            Artwork.PhysicalAttack, Artwork.PhysicalDefense,
-            Artwork.MagicalAttack, Artwork.MagicalDefense,
-            Artwork.ChemicalAttack, Artwork.ChemicalDefense,
-            Artwork.AtomicAttack, Artwork.AtomicDefense,
-            Artwork.MentalAttack, Artwork.MentalDefense,
-            Artwork.Speed,
-            Artwork.CriticalDamageRate, Artwork.CriticalRate, Artwork.CriticalResistanceRate, Artwork.IgnoreCriticalRate,
-            Artwork.PenetrationRate, Artwork.PenetrationResistanceRate, Artwork.EvasionRate,
-            Artwork.DamageAbsorptionRate, Artwork.IgnoreDamageAbsorptionRate, Artwork.AbsorbedDamageRate,
-            Artwork.VitalityRegenerationRate, Artwork.VitalityRegenerationResistanceRate,
-            Artwork.AccuracyRate, Artwork.LifestealRate,
-            Artwork.ShieldStrength, Artwork.Tenacity, Artwork.ResistanceRate,
-            Artwork.ComboRate, Artwork.IgnoreComboRate, Artwork.ComboDamageRate, Artwork.ComboResistanceRate,
-            Artwork.StunRate, Artwork.IgnoreStunRate,
-            Artwork.ReflectionRate, Artwork.IgnoreReflectionRate, Artwork.ReflectionDamageRate, Artwork.ReflectionResistanceRate,
-            Artwork.Mana, Artwork.ManaRegenerationRate,
-            Artwork.DamageToDifferentFactionRate, Artwork.ResistanceToDifferentFactionRate,
-            Artwork.DamageToSameFactionRate, Artwork.ResistanceToSameFactionRate,
-            Artwork.NormalDamageRate, Artwork.NormalResistanceRate,
-            Artwork.SkillDamageRate, Artwork.SkillResistanceRate
+        artwork.Power = EvaluatePower.CalculatePower(
+            artwork.Health,
+            artwork.PhysicalAttack, artwork.PhysicalDefense,
+            artwork.MagicalAttack, artwork.MagicalDefense,
+            artwork.ChemicalAttack, artwork.ChemicalDefense,
+            artwork.AtomicAttack, artwork.AtomicDefense,
+            artwork.MentalAttack, artwork.MentalDefense,
+            artwork.Speed,
+            artwork.CriticalDamageRate, artwork.CriticalRate, artwork.CriticalResistanceRate, artwork.IgnoreCriticalRate,
+            artwork.PenetrationRate, artwork.PenetrationResistanceRate, artwork.EvasionRate,
+            artwork.DamageAbsorptionRate, artwork.IgnoreDamageAbsorptionRate, artwork.AbsorbedDamageRate,
+            artwork.VitalityRegenerationRate, artwork.VitalityRegenerationResistanceRate,
+            artwork.AccuracyRate, artwork.LifestealRate,
+            artwork.ShieldStrength, artwork.Tenacity, artwork.ResistanceRate,
+            artwork.ComboRate, artwork.IgnoreComboRate, artwork.ComboDamageRate, artwork.ComboResistanceRate,
+            artwork.StunRate, artwork.IgnoreStunRate,
+            artwork.ReflectionRate, artwork.IgnoreReflectionRate, artwork.ReflectionDamageRate, artwork.ReflectionResistanceRate,
+            artwork.Mana, artwork.ManaRegenerationRate,
+            artwork.DamageToDifferentFactionRate, artwork.ResistanceToDifferentFactionRate,
+            artwork.DamageToSameFactionRate, artwork.ResistanceToSameFactionRate,
+            artwork.NormalDamageRate, artwork.NormalResistanceRate,
+            artwork.SkillDamageRate, artwork.SkillResistanceRate
         );
-        return Artwork;
+        return artwork;
     }
 
     public async Task<List<Artworks>> GetUserArtworksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

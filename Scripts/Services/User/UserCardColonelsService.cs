@@ -1487,7 +1487,7 @@ public class UserCardColonelsService : IUseCardColonelsService
         ICardColonelsRepository _repository = new CardColonelsRepository();
         CardColonelsService _service = new CardColonelsService(_repository);
         CardColonels orginCard = await _service.GetCardColonelByIdAsync(c.Id);
-        CardColonels cardColonels = new CardColonels
+        CardColonels cardColonel = new CardColonels
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1540,37 +1540,37 @@ public class UserCardColonelsService : IUseCardColonelsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardColonels.Power = EvaluatePower.CalculatePower(
-            cardColonels.Health,
-            cardColonels.PhysicalAttack, cardColonels.PhysicalDefense,
-            cardColonels.MagicalAttack, cardColonels.MagicalDefense,
-            cardColonels.ChemicalAttack, cardColonels.ChemicalDefense,
-            cardColonels.AtomicAttack, cardColonels.AtomicDefense,
-            cardColonels.MentalAttack, cardColonels.MentalDefense,
-            cardColonels.Speed,
-            cardColonels.CriticalDamageRate, cardColonels.CriticalRate, cardColonels.CriticalResistanceRate, cardColonels.IgnoreCriticalRate,
-            cardColonels.PenetrationRate, cardColonels.PenetrationResistanceRate, cardColonels.EvasionRate,
-            cardColonels.DamageAbsorptionRate, cardColonels.IgnoreDamageAbsorptionRate, cardColonels.AbsorbedDamageRate,
-            cardColonels.VitalityRegenerationRate, cardColonels.VitalityRegenerationResistanceRate,
-            cardColonels.AccuracyRate, cardColonels.LifestealRate,
-            cardColonels.ShieldStrength, cardColonels.Tenacity, cardColonels.ResistanceRate,
-            cardColonels.ComboRate, cardColonels.IgnoreComboRate, cardColonels.ComboDamageRate, cardColonels.ComboResistanceRate,
-            cardColonels.StunRate, cardColonels.IgnoreStunRate,
-            cardColonels.ReflectionRate, cardColonels.IgnoreReflectionRate, cardColonels.ReflectionDamageRate, cardColonels.ReflectionResistanceRate,
-            cardColonels.Mana, cardColonels.ManaRegenerationRate,
-            cardColonels.DamageToDifferentFactionRate, cardColonels.ResistanceToDifferentFactionRate,
-            cardColonels.DamageToSameFactionRate, cardColonels.ResistanceToSameFactionRate,
-            cardColonels.NormalDamageRate, cardColonels.NormalResistanceRate,
-            cardColonels.SkillDamageRate, cardColonels.SkillResistanceRate
+        cardColonel.Power = EvaluatePower.CalculatePower(
+            cardColonel.Health,
+            cardColonel.PhysicalAttack, cardColonel.PhysicalDefense,
+            cardColonel.MagicalAttack, cardColonel.MagicalDefense,
+            cardColonel.ChemicalAttack, cardColonel.ChemicalDefense,
+            cardColonel.AtomicAttack, cardColonel.AtomicDefense,
+            cardColonel.MentalAttack, cardColonel.MentalDefense,
+            cardColonel.Speed,
+            cardColonel.CriticalDamageRate, cardColonel.CriticalRate, cardColonel.CriticalResistanceRate, cardColonel.IgnoreCriticalRate,
+            cardColonel.PenetrationRate, cardColonel.PenetrationResistanceRate, cardColonel.EvasionRate,
+            cardColonel.DamageAbsorptionRate, cardColonel.IgnoreDamageAbsorptionRate, cardColonel.AbsorbedDamageRate,
+            cardColonel.VitalityRegenerationRate, cardColonel.VitalityRegenerationResistanceRate,
+            cardColonel.AccuracyRate, cardColonel.LifestealRate,
+            cardColonel.ShieldStrength, cardColonel.Tenacity, cardColonel.ResistanceRate,
+            cardColonel.ComboRate, cardColonel.IgnoreComboRate, cardColonel.ComboDamageRate, cardColonel.ComboResistanceRate,
+            cardColonel.StunRate, cardColonel.IgnoreStunRate,
+            cardColonel.ReflectionRate, cardColonel.IgnoreReflectionRate, cardColonel.ReflectionDamageRate, cardColonel.ReflectionResistanceRate,
+            cardColonel.Mana, cardColonel.ManaRegenerationRate,
+            cardColonel.DamageToDifferentFactionRate, cardColonel.ResistanceToDifferentFactionRate,
+            cardColonel.DamageToSameFactionRate, cardColonel.ResistanceToSameFactionRate,
+            cardColonel.NormalDamageRate, cardColonel.NormalResistanceRate,
+            cardColonel.SkillDamageRate, cardColonel.SkillResistanceRate
         );
-        return cardColonels;
+        return cardColonel;
     }
     public async Task<CardColonels> GetNewBreakthroughPowerAsync(CardColonels c, double coefficient)
     {
         ICardColonelsRepository _repository = new CardColonelsRepository();
         CardColonelsService _service = new CardColonelsService(_repository);
         CardColonels orginCard = await _service.GetCardColonelByIdAsync(c.Id);
-        CardColonels cardColonels = new CardColonels
+        CardColonels cardColonel = new CardColonels
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1623,30 +1623,30 @@ public class UserCardColonelsService : IUseCardColonelsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardColonels.Power = EvaluatePower.CalculatePower(
-            cardColonels.Health,
-            cardColonels.PhysicalAttack, cardColonels.PhysicalDefense,
-            cardColonels.MagicalAttack, cardColonels.MagicalDefense,
-            cardColonels.ChemicalAttack, cardColonels.ChemicalDefense,
-            cardColonels.AtomicAttack, cardColonels.AtomicDefense,
-            cardColonels.MentalAttack, cardColonels.MentalDefense,
-            cardColonels.Speed,
-            cardColonels.CriticalDamageRate, cardColonels.CriticalRate, cardColonels.CriticalResistanceRate, cardColonels.IgnoreCriticalRate,
-            cardColonels.PenetrationRate, cardColonels.PenetrationResistanceRate, cardColonels.EvasionRate,
-            cardColonels.DamageAbsorptionRate, cardColonels.IgnoreDamageAbsorptionRate, cardColonels.AbsorbedDamageRate,
-            cardColonels.VitalityRegenerationRate, cardColonels.VitalityRegenerationResistanceRate,
-            cardColonels.AccuracyRate, cardColonels.LifestealRate,
-            cardColonels.ShieldStrength, cardColonels.Tenacity, cardColonels.ResistanceRate,
-            cardColonels.ComboRate, cardColonels.IgnoreComboRate, cardColonels.ComboDamageRate, cardColonels.ComboResistanceRate,
-            cardColonels.StunRate, cardColonels.IgnoreStunRate,
-            cardColonels.ReflectionRate, cardColonels.IgnoreReflectionRate, cardColonels.ReflectionDamageRate, cardColonels.ReflectionResistanceRate,
-            cardColonels.Mana, cardColonels.ManaRegenerationRate,
-            cardColonels.DamageToDifferentFactionRate, cardColonels.ResistanceToDifferentFactionRate,
-            cardColonels.DamageToSameFactionRate, cardColonels.ResistanceToSameFactionRate,
-            cardColonels.NormalDamageRate, cardColonels.NormalResistanceRate,
-            cardColonels.SkillDamageRate, cardColonels.SkillResistanceRate
+        cardColonel.Power = EvaluatePower.CalculatePower(
+            cardColonel.Health,
+            cardColonel.PhysicalAttack, cardColonel.PhysicalDefense,
+            cardColonel.MagicalAttack, cardColonel.MagicalDefense,
+            cardColonel.ChemicalAttack, cardColonel.ChemicalDefense,
+            cardColonel.AtomicAttack, cardColonel.AtomicDefense,
+            cardColonel.MentalAttack, cardColonel.MentalDefense,
+            cardColonel.Speed,
+            cardColonel.CriticalDamageRate, cardColonel.CriticalRate, cardColonel.CriticalResistanceRate, cardColonel.IgnoreCriticalRate,
+            cardColonel.PenetrationRate, cardColonel.PenetrationResistanceRate, cardColonel.EvasionRate,
+            cardColonel.DamageAbsorptionRate, cardColonel.IgnoreDamageAbsorptionRate, cardColonel.AbsorbedDamageRate,
+            cardColonel.VitalityRegenerationRate, cardColonel.VitalityRegenerationResistanceRate,
+            cardColonel.AccuracyRate, cardColonel.LifestealRate,
+            cardColonel.ShieldStrength, cardColonel.Tenacity, cardColonel.ResistanceRate,
+            cardColonel.ComboRate, cardColonel.IgnoreComboRate, cardColonel.ComboDamageRate, cardColonel.ComboResistanceRate,
+            cardColonel.StunRate, cardColonel.IgnoreStunRate,
+            cardColonel.ReflectionRate, cardColonel.IgnoreReflectionRate, cardColonel.ReflectionDamageRate, cardColonel.ReflectionResistanceRate,
+            cardColonel.Mana, cardColonel.ManaRegenerationRate,
+            cardColonel.DamageToDifferentFactionRate, cardColonel.ResistanceToDifferentFactionRate,
+            cardColonel.DamageToSameFactionRate, cardColonel.ResistanceToSameFactionRate,
+            cardColonel.NormalDamageRate, cardColonel.NormalResistanceRate,
+            cardColonel.SkillDamageRate, cardColonel.SkillResistanceRate
         );
-        return cardColonels;
+        return cardColonel;
     }
     public async Task<List<CardColonels>> GetSkillsAsync(string user_id, List<CardColonels> CardColonelsList)
     {

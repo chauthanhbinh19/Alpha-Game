@@ -25,7 +25,7 @@ public class UserVehiclesService : IUserVehiclesService
         IVehiclesRepository _repository = new VehiclesRepository();
         VehiclesService _service = new VehiclesService(_repository);
         Vehicles orginCard = await _service.GetVehicleByIdAsync(c.Id);
-        Vehicles Vehicle = new Vehicles
+        Vehicles vehicle = new Vehicles
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserVehiclesService : IUserVehiclesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Vehicle.Power = EvaluatePower.CalculatePower(
-            Vehicle.Health,
-            Vehicle.PhysicalAttack, Vehicle.PhysicalDefense,
-            Vehicle.MagicalAttack, Vehicle.MagicalDefense,
-            Vehicle.ChemicalAttack, Vehicle.ChemicalDefense,
-            Vehicle.AtomicAttack, Vehicle.AtomicDefense,
-            Vehicle.MentalAttack, Vehicle.MentalDefense,
-            Vehicle.Speed,
-            Vehicle.CriticalDamageRate, Vehicle.CriticalRate, Vehicle.CriticalResistanceRate, Vehicle.IgnoreCriticalRate,
-            Vehicle.PenetrationRate, Vehicle.PenetrationResistanceRate, Vehicle.EvasionRate,
-            Vehicle.DamageAbsorptionRate, Vehicle.IgnoreDamageAbsorptionRate, Vehicle.AbsorbedDamageRate,
-            Vehicle.VitalityRegenerationRate, Vehicle.VitalityRegenerationResistanceRate,
-            Vehicle.AccuracyRate, Vehicle.LifestealRate,
-            Vehicle.ShieldStrength, Vehicle.Tenacity, Vehicle.ResistanceRate,
-            Vehicle.ComboRate, Vehicle.IgnoreComboRate, Vehicle.ComboDamageRate, Vehicle.ComboResistanceRate,
-            Vehicle.StunRate, Vehicle.IgnoreStunRate,
-            Vehicle.ReflectionRate, Vehicle.IgnoreReflectionRate, Vehicle.ReflectionDamageRate, Vehicle.ReflectionResistanceRate,
-            Vehicle.Mana, Vehicle.ManaRegenerationRate,
-            Vehicle.DamageToDifferentFactionRate, Vehicle.ResistanceToDifferentFactionRate,
-            Vehicle.DamageToSameFactionRate, Vehicle.ResistanceToSameFactionRate,
-            Vehicle.NormalDamageRate, Vehicle.NormalResistanceRate,
-            Vehicle.SkillDamageRate, Vehicle.SkillResistanceRate
+        vehicle.Power = EvaluatePower.CalculatePower(
+            vehicle.Health,
+            vehicle.PhysicalAttack, vehicle.PhysicalDefense,
+            vehicle.MagicalAttack, vehicle.MagicalDefense,
+            vehicle.ChemicalAttack, vehicle.ChemicalDefense,
+            vehicle.AtomicAttack, vehicle.AtomicDefense,
+            vehicle.MentalAttack, vehicle.MentalDefense,
+            vehicle.Speed,
+            vehicle.CriticalDamageRate, vehicle.CriticalRate, vehicle.CriticalResistanceRate, vehicle.IgnoreCriticalRate,
+            vehicle.PenetrationRate, vehicle.PenetrationResistanceRate, vehicle.EvasionRate,
+            vehicle.DamageAbsorptionRate, vehicle.IgnoreDamageAbsorptionRate, vehicle.AbsorbedDamageRate,
+            vehicle.VitalityRegenerationRate, vehicle.VitalityRegenerationResistanceRate,
+            vehicle.AccuracyRate, vehicle.LifestealRate,
+            vehicle.ShieldStrength, vehicle.Tenacity, vehicle.ResistanceRate,
+            vehicle.ComboRate, vehicle.IgnoreComboRate, vehicle.ComboDamageRate, vehicle.ComboResistanceRate,
+            vehicle.StunRate, vehicle.IgnoreStunRate,
+            vehicle.ReflectionRate, vehicle.IgnoreReflectionRate, vehicle.ReflectionDamageRate, vehicle.ReflectionResistanceRate,
+            vehicle.Mana, vehicle.ManaRegenerationRate,
+            vehicle.DamageToDifferentFactionRate, vehicle.ResistanceToDifferentFactionRate,
+            vehicle.DamageToSameFactionRate, vehicle.ResistanceToSameFactionRate,
+            vehicle.NormalDamageRate, vehicle.NormalResistanceRate,
+            vehicle.SkillDamageRate, vehicle.SkillResistanceRate
         );
-        return Vehicle;
+        return vehicle;
     }
     public async Task<Vehicles> GetNewBreakthroughPowerAsync(Vehicles c, double coefficient)
     {
         IVehiclesRepository _repository = new VehiclesRepository();
         VehiclesService _service = new VehiclesService(_repository);
         Vehicles orginCard = await _service.GetVehicleByIdAsync(c.Id);
-        Vehicles Vehicle = new Vehicles
+        Vehicles vehicle = new Vehicles
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserVehiclesService : IUserVehiclesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Vehicle.Power = EvaluatePower.CalculatePower(
-            Vehicle.Health,
-            Vehicle.PhysicalAttack, Vehicle.PhysicalDefense,
-            Vehicle.MagicalAttack, Vehicle.MagicalDefense,
-            Vehicle.ChemicalAttack, Vehicle.ChemicalDefense,
-            Vehicle.AtomicAttack, Vehicle.AtomicDefense,
-            Vehicle.MentalAttack, Vehicle.MentalDefense,
-            Vehicle.Speed,
-            Vehicle.CriticalDamageRate, Vehicle.CriticalRate, Vehicle.CriticalResistanceRate, Vehicle.IgnoreCriticalRate,
-            Vehicle.PenetrationRate, Vehicle.PenetrationResistanceRate, Vehicle.EvasionRate,
-            Vehicle.DamageAbsorptionRate, Vehicle.IgnoreDamageAbsorptionRate, Vehicle.AbsorbedDamageRate,
-            Vehicle.VitalityRegenerationRate, Vehicle.VitalityRegenerationResistanceRate,
-            Vehicle.AccuracyRate, Vehicle.LifestealRate,
-            Vehicle.ShieldStrength, Vehicle.Tenacity, Vehicle.ResistanceRate,
-            Vehicle.ComboRate, Vehicle.IgnoreComboRate, Vehicle.ComboDamageRate, Vehicle.ComboResistanceRate,
-            Vehicle.StunRate, Vehicle.IgnoreStunRate,
-            Vehicle.ReflectionRate, Vehicle.IgnoreReflectionRate, Vehicle.ReflectionDamageRate, Vehicle.ReflectionResistanceRate,
-            Vehicle.Mana, Vehicle.ManaRegenerationRate,
-            Vehicle.DamageToDifferentFactionRate, Vehicle.ResistanceToDifferentFactionRate,
-            Vehicle.DamageToSameFactionRate, Vehicle.ResistanceToSameFactionRate,
-            Vehicle.NormalDamageRate, Vehicle.NormalResistanceRate,
-            Vehicle.SkillDamageRate, Vehicle.SkillResistanceRate
+        vehicle.Power = EvaluatePower.CalculatePower(
+            vehicle.Health,
+            vehicle.PhysicalAttack, vehicle.PhysicalDefense,
+            vehicle.MagicalAttack, vehicle.MagicalDefense,
+            vehicle.ChemicalAttack, vehicle.ChemicalDefense,
+            vehicle.AtomicAttack, vehicle.AtomicDefense,
+            vehicle.MentalAttack, vehicle.MentalDefense,
+            vehicle.Speed,
+            vehicle.CriticalDamageRate, vehicle.CriticalRate, vehicle.CriticalResistanceRate, vehicle.IgnoreCriticalRate,
+            vehicle.PenetrationRate, vehicle.PenetrationResistanceRate, vehicle.EvasionRate,
+            vehicle.DamageAbsorptionRate, vehicle.IgnoreDamageAbsorptionRate, vehicle.AbsorbedDamageRate,
+            vehicle.VitalityRegenerationRate, vehicle.VitalityRegenerationResistanceRate,
+            vehicle.AccuracyRate, vehicle.LifestealRate,
+            vehicle.ShieldStrength, vehicle.Tenacity, vehicle.ResistanceRate,
+            vehicle.ComboRate, vehicle.IgnoreComboRate, vehicle.ComboDamageRate, vehicle.ComboResistanceRate,
+            vehicle.StunRate, vehicle.IgnoreStunRate,
+            vehicle.ReflectionRate, vehicle.IgnoreReflectionRate, vehicle.ReflectionDamageRate, vehicle.ReflectionResistanceRate,
+            vehicle.Mana, vehicle.ManaRegenerationRate,
+            vehicle.DamageToDifferentFactionRate, vehicle.ResistanceToDifferentFactionRate,
+            vehicle.DamageToSameFactionRate, vehicle.ResistanceToSameFactionRate,
+            vehicle.NormalDamageRate, vehicle.NormalResistanceRate,
+            vehicle.SkillDamageRate, vehicle.SkillResistanceRate
         );
-        return Vehicle;
+        return vehicle;
     }
 
     public async Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

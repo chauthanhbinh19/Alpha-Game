@@ -25,7 +25,7 @@ public class UserArchitecturesService : IUserArchitecturesService
         IArchitecturesRepository _repository = new ArchitecturesRepository();
         ArchitecturesService _service = new ArchitecturesService(_repository);
         Architectures orginCard = await _service.GetArchitectureByIdAsync(c.Id);
-        Architectures Architectures = new Architectures
+        Architectures architecture = new Architectures
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserArchitecturesService : IUserArchitecturesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Architectures.Power = EvaluatePower.CalculatePower(
-            Architectures.Health,
-            Architectures.PhysicalAttack, Architectures.PhysicalDefense,
-            Architectures.MagicalAttack, Architectures.MagicalDefense,
-            Architectures.ChemicalAttack, Architectures.ChemicalDefense,
-            Architectures.AtomicAttack, Architectures.AtomicDefense,
-            Architectures.MentalAttack, Architectures.MentalDefense,
-            Architectures.Speed,
-            Architectures.CriticalDamageRate, Architectures.CriticalRate, Architectures.CriticalResistanceRate, Architectures.IgnoreCriticalRate,
-            Architectures.PenetrationRate, Architectures.PenetrationResistanceRate, Architectures.EvasionRate,
-            Architectures.DamageAbsorptionRate, Architectures.IgnoreDamageAbsorptionRate, Architectures.AbsorbedDamageRate,
-            Architectures.VitalityRegenerationRate, Architectures.VitalityRegenerationResistanceRate,
-            Architectures.AccuracyRate, Architectures.LifestealRate,
-            Architectures.ShieldStrength, Architectures.Tenacity, Architectures.ResistanceRate,
-            Architectures.ComboRate, Architectures.IgnoreComboRate, Architectures.ComboDamageRate, Architectures.ComboResistanceRate,
-            Architectures.StunRate, Architectures.IgnoreStunRate,
-            Architectures.ReflectionRate, Architectures.IgnoreReflectionRate, Architectures.ReflectionDamageRate, Architectures.ReflectionResistanceRate,
-            Architectures.Mana, Architectures.ManaRegenerationRate,
-            Architectures.DamageToDifferentFactionRate, Architectures.ResistanceToDifferentFactionRate,
-            Architectures.DamageToSameFactionRate, Architectures.ResistanceToSameFactionRate,
-            Architectures.NormalDamageRate, Architectures.NormalResistanceRate,
-            Architectures.SkillDamageRate, Architectures.SkillResistanceRate
+        architecture.Power = EvaluatePower.CalculatePower(
+            architecture.Health,
+            architecture.PhysicalAttack, architecture.PhysicalDefense,
+            architecture.MagicalAttack, architecture.MagicalDefense,
+            architecture.ChemicalAttack, architecture.ChemicalDefense,
+            architecture.AtomicAttack, architecture.AtomicDefense,
+            architecture.MentalAttack, architecture.MentalDefense,
+            architecture.Speed,
+            architecture.CriticalDamageRate, architecture.CriticalRate, architecture.CriticalResistanceRate, architecture.IgnoreCriticalRate,
+            architecture.PenetrationRate, architecture.PenetrationResistanceRate, architecture.EvasionRate,
+            architecture.DamageAbsorptionRate, architecture.IgnoreDamageAbsorptionRate, architecture.AbsorbedDamageRate,
+            architecture.VitalityRegenerationRate, architecture.VitalityRegenerationResistanceRate,
+            architecture.AccuracyRate, architecture.LifestealRate,
+            architecture.ShieldStrength, architecture.Tenacity, architecture.ResistanceRate,
+            architecture.ComboRate, architecture.IgnoreComboRate, architecture.ComboDamageRate, architecture.ComboResistanceRate,
+            architecture.StunRate, architecture.IgnoreStunRate,
+            architecture.ReflectionRate, architecture.IgnoreReflectionRate, architecture.ReflectionDamageRate, architecture.ReflectionResistanceRate,
+            architecture.Mana, architecture.ManaRegenerationRate,
+            architecture.DamageToDifferentFactionRate, architecture.ResistanceToDifferentFactionRate,
+            architecture.DamageToSameFactionRate, architecture.ResistanceToSameFactionRate,
+            architecture.NormalDamageRate, architecture.NormalResistanceRate,
+            architecture.SkillDamageRate, architecture.SkillResistanceRate
         );
-        return Architectures;
+        return architecture;
     }
     public async Task<Architectures> GetNewBreakthroughPowerAsync(Architectures c, double coefficient)
     {
         IArchitecturesRepository _repository = new ArchitecturesRepository();
         ArchitecturesService _service = new ArchitecturesService(_repository);
         Architectures orginCard = await _service.GetArchitectureByIdAsync(c.Id);
-        Architectures Architectures = new Architectures
+        Architectures architecture = new Architectures
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserArchitecturesService : IUserArchitecturesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Architectures.Power = EvaluatePower.CalculatePower(
-            Architectures.Health,
-            Architectures.PhysicalAttack, Architectures.PhysicalDefense,
-            Architectures.MagicalAttack, Architectures.MagicalDefense,
-            Architectures.ChemicalAttack, Architectures.ChemicalDefense,
-            Architectures.AtomicAttack, Architectures.AtomicDefense,
-            Architectures.MentalAttack, Architectures.MentalDefense,
-            Architectures.Speed,
-            Architectures.CriticalDamageRate, Architectures.CriticalRate, Architectures.CriticalResistanceRate, Architectures.IgnoreCriticalRate,
-            Architectures.PenetrationRate, Architectures.PenetrationResistanceRate, Architectures.EvasionRate,
-            Architectures.DamageAbsorptionRate, Architectures.IgnoreDamageAbsorptionRate, Architectures.AbsorbedDamageRate,
-            Architectures.VitalityRegenerationRate, Architectures.VitalityRegenerationResistanceRate,
-            Architectures.AccuracyRate, Architectures.LifestealRate,
-            Architectures.ShieldStrength, Architectures.Tenacity, Architectures.ResistanceRate,
-            Architectures.ComboRate, Architectures.IgnoreComboRate, Architectures.ComboDamageRate, Architectures.ComboResistanceRate,
-            Architectures.StunRate, Architectures.IgnoreStunRate,
-            Architectures.ReflectionRate, Architectures.IgnoreReflectionRate, Architectures.ReflectionDamageRate, Architectures.ReflectionResistanceRate,
-            Architectures.Mana, Architectures.ManaRegenerationRate,
-            Architectures.DamageToDifferentFactionRate, Architectures.ResistanceToDifferentFactionRate,
-            Architectures.DamageToSameFactionRate, Architectures.ResistanceToSameFactionRate,
-            Architectures.NormalDamageRate, Architectures.NormalResistanceRate,
-            Architectures.SkillDamageRate, Architectures.SkillResistanceRate
+        architecture.Power = EvaluatePower.CalculatePower(
+            architecture.Health,
+            architecture.PhysicalAttack, architecture.PhysicalDefense,
+            architecture.MagicalAttack, architecture.MagicalDefense,
+            architecture.ChemicalAttack, architecture.ChemicalDefense,
+            architecture.AtomicAttack, architecture.AtomicDefense,
+            architecture.MentalAttack, architecture.MentalDefense,
+            architecture.Speed,
+            architecture.CriticalDamageRate, architecture.CriticalRate, architecture.CriticalResistanceRate, architecture.IgnoreCriticalRate,
+            architecture.PenetrationRate, architecture.PenetrationResistanceRate, architecture.EvasionRate,
+            architecture.DamageAbsorptionRate, architecture.IgnoreDamageAbsorptionRate, architecture.AbsorbedDamageRate,
+            architecture.VitalityRegenerationRate, architecture.VitalityRegenerationResistanceRate,
+            architecture.AccuracyRate, architecture.LifestealRate,
+            architecture.ShieldStrength, architecture.Tenacity, architecture.ResistanceRate,
+            architecture.ComboRate, architecture.IgnoreComboRate, architecture.ComboDamageRate, architecture.ComboResistanceRate,
+            architecture.StunRate, architecture.IgnoreStunRate,
+            architecture.ReflectionRate, architecture.IgnoreReflectionRate, architecture.ReflectionDamageRate, architecture.ReflectionResistanceRate,
+            architecture.Mana, architecture.ManaRegenerationRate,
+            architecture.DamageToDifferentFactionRate, architecture.ResistanceToDifferentFactionRate,
+            architecture.DamageToSameFactionRate, architecture.ResistanceToSameFactionRate,
+            architecture.NormalDamageRate, architecture.NormalResistanceRate,
+            architecture.SkillDamageRate, architecture.SkillResistanceRate
         );
-        return Architectures;
+        return architecture;
     }
 
     public async Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, string search, int pageSize, int offset, string rare)

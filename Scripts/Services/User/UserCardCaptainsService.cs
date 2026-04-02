@@ -1487,7 +1487,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         ICardCaptainsRepository _repository = new CardCaptainsRepository();
         CardCaptainsService _service = new CardCaptainsService(_repository);
         CardCaptains orginCard = await _service.GetCardCaptainByIdAsync(c.Id);
-        CardCaptains cardCaptains = new CardCaptains
+        CardCaptains cardCaptain = new CardCaptains
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1540,37 +1540,37 @@ public class UserCardCaptainsService : IUserCardCaptainsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardCaptains.Power = EvaluatePower.CalculatePower(
-            cardCaptains.Health,
-            cardCaptains.PhysicalAttack, cardCaptains.PhysicalDefense,
-            cardCaptains.MagicalAttack, cardCaptains.MagicalDefense,
-            cardCaptains.ChemicalAttack, cardCaptains.ChemicalDefense,
-            cardCaptains.AtomicAttack, cardCaptains.AtomicDefense,
-            cardCaptains.MentalAttack, cardCaptains.MentalDefense,
-            cardCaptains.Speed,
-            cardCaptains.CriticalDamageRate, cardCaptains.CriticalRate, cardCaptains.CriticalResistanceRate, cardCaptains.IgnoreCriticalRate,
-            cardCaptains.PenetrationRate, cardCaptains.PenetrationResistanceRate, cardCaptains.EvasionRate,
-            cardCaptains.DamageAbsorptionRate, cardCaptains.IgnoreDamageAbsorptionRate, cardCaptains.AbsorbedDamageRate,
-            cardCaptains.VitalityRegenerationRate, cardCaptains.VitalityRegenerationResistanceRate,
-            cardCaptains.AccuracyRate, cardCaptains.LifestealRate,
-            cardCaptains.ShieldStrength, cardCaptains.Tenacity, cardCaptains.ResistanceRate,
-            cardCaptains.ComboRate, cardCaptains.IgnoreComboRate, cardCaptains.ComboDamageRate, cardCaptains.ComboResistanceRate,
-            cardCaptains.StunRate, cardCaptains.IgnoreStunRate,
-            cardCaptains.ReflectionRate, cardCaptains.IgnoreReflectionRate, cardCaptains.ReflectionDamageRate, cardCaptains.ReflectionResistanceRate,
-            cardCaptains.Mana, cardCaptains.ManaRegenerationRate,
-            cardCaptains.DamageToDifferentFactionRate, cardCaptains.ResistanceToDifferentFactionRate,
-            cardCaptains.DamageToSameFactionRate, cardCaptains.ResistanceToSameFactionRate,
-            cardCaptains.NormalDamageRate, cardCaptains.NormalResistanceRate,
-            cardCaptains.SkillDamageRate, cardCaptains.SkillResistanceRate
+        cardCaptain.Power = EvaluatePower.CalculatePower(
+            cardCaptain.Health,
+            cardCaptain.PhysicalAttack, cardCaptain.PhysicalDefense,
+            cardCaptain.MagicalAttack, cardCaptain.MagicalDefense,
+            cardCaptain.ChemicalAttack, cardCaptain.ChemicalDefense,
+            cardCaptain.AtomicAttack, cardCaptain.AtomicDefense,
+            cardCaptain.MentalAttack, cardCaptain.MentalDefense,
+            cardCaptain.Speed,
+            cardCaptain.CriticalDamageRate, cardCaptain.CriticalRate, cardCaptain.CriticalResistanceRate, cardCaptain.IgnoreCriticalRate,
+            cardCaptain.PenetrationRate, cardCaptain.PenetrationResistanceRate, cardCaptain.EvasionRate,
+            cardCaptain.DamageAbsorptionRate, cardCaptain.IgnoreDamageAbsorptionRate, cardCaptain.AbsorbedDamageRate,
+            cardCaptain.VitalityRegenerationRate, cardCaptain.VitalityRegenerationResistanceRate,
+            cardCaptain.AccuracyRate, cardCaptain.LifestealRate,
+            cardCaptain.ShieldStrength, cardCaptain.Tenacity, cardCaptain.ResistanceRate,
+            cardCaptain.ComboRate, cardCaptain.IgnoreComboRate, cardCaptain.ComboDamageRate, cardCaptain.ComboResistanceRate,
+            cardCaptain.StunRate, cardCaptain.IgnoreStunRate,
+            cardCaptain.ReflectionRate, cardCaptain.IgnoreReflectionRate, cardCaptain.ReflectionDamageRate, cardCaptain.ReflectionResistanceRate,
+            cardCaptain.Mana, cardCaptain.ManaRegenerationRate,
+            cardCaptain.DamageToDifferentFactionRate, cardCaptain.ResistanceToDifferentFactionRate,
+            cardCaptain.DamageToSameFactionRate, cardCaptain.ResistanceToSameFactionRate,
+            cardCaptain.NormalDamageRate, cardCaptain.NormalResistanceRate,
+            cardCaptain.SkillDamageRate, cardCaptain.SkillResistanceRate
         );
-        return cardCaptains;
+        return cardCaptain;
     }
     public async Task<CardCaptains> GetNewBreakthroughPowerAsync(CardCaptains c, double coefficient)
     {
         ICardCaptainsRepository _repository = new CardCaptainsRepository();
         CardCaptainsService _service = new CardCaptainsService(_repository);
         CardCaptains orginCard = await _service.GetCardCaptainByIdAsync(c.Id);
-        CardCaptains cardCaptains = new CardCaptains
+        CardCaptains cardCaptain = new CardCaptains
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1623,30 +1623,30 @@ public class UserCardCaptainsService : IUserCardCaptainsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardCaptains.Power = EvaluatePower.CalculatePower(
-            cardCaptains.Health,
-            cardCaptains.PhysicalAttack, cardCaptains.PhysicalDefense,
-            cardCaptains.MagicalAttack, cardCaptains.MagicalDefense,
-            cardCaptains.ChemicalAttack, cardCaptains.ChemicalDefense,
-            cardCaptains.AtomicAttack, cardCaptains.AtomicDefense,
-            cardCaptains.MentalAttack, cardCaptains.MentalDefense,
-            cardCaptains.Speed,
-            cardCaptains.CriticalDamageRate, cardCaptains.CriticalRate, cardCaptains.CriticalResistanceRate, cardCaptains.IgnoreCriticalRate,
-            cardCaptains.PenetrationRate, cardCaptains.PenetrationResistanceRate, cardCaptains.EvasionRate,
-            cardCaptains.DamageAbsorptionRate, cardCaptains.IgnoreDamageAbsorptionRate, cardCaptains.AbsorbedDamageRate,
-            cardCaptains.VitalityRegenerationRate, cardCaptains.VitalityRegenerationResistanceRate,
-            cardCaptains.AccuracyRate, cardCaptains.LifestealRate,
-            cardCaptains.ShieldStrength, cardCaptains.Tenacity, cardCaptains.ResistanceRate,
-            cardCaptains.ComboRate, cardCaptains.IgnoreComboRate, cardCaptains.ComboDamageRate, cardCaptains.ComboResistanceRate,
-            cardCaptains.StunRate, cardCaptains.IgnoreStunRate,
-            cardCaptains.ReflectionRate, cardCaptains.IgnoreReflectionRate, cardCaptains.ReflectionDamageRate, cardCaptains.ReflectionResistanceRate,
-            cardCaptains.Mana, cardCaptains.ManaRegenerationRate,
-            cardCaptains.DamageToDifferentFactionRate, cardCaptains.ResistanceToDifferentFactionRate,
-            cardCaptains.DamageToSameFactionRate, cardCaptains.ResistanceToSameFactionRate,
-            cardCaptains.NormalDamageRate, cardCaptains.NormalResistanceRate,
-            cardCaptains.SkillDamageRate, cardCaptains.SkillResistanceRate
+        cardCaptain.Power = EvaluatePower.CalculatePower(
+            cardCaptain.Health,
+            cardCaptain.PhysicalAttack, cardCaptain.PhysicalDefense,
+            cardCaptain.MagicalAttack, cardCaptain.MagicalDefense,
+            cardCaptain.ChemicalAttack, cardCaptain.ChemicalDefense,
+            cardCaptain.AtomicAttack, cardCaptain.AtomicDefense,
+            cardCaptain.MentalAttack, cardCaptain.MentalDefense,
+            cardCaptain.Speed,
+            cardCaptain.CriticalDamageRate, cardCaptain.CriticalRate, cardCaptain.CriticalResistanceRate, cardCaptain.IgnoreCriticalRate,
+            cardCaptain.PenetrationRate, cardCaptain.PenetrationResistanceRate, cardCaptain.EvasionRate,
+            cardCaptain.DamageAbsorptionRate, cardCaptain.IgnoreDamageAbsorptionRate, cardCaptain.AbsorbedDamageRate,
+            cardCaptain.VitalityRegenerationRate, cardCaptain.VitalityRegenerationResistanceRate,
+            cardCaptain.AccuracyRate, cardCaptain.LifestealRate,
+            cardCaptain.ShieldStrength, cardCaptain.Tenacity, cardCaptain.ResistanceRate,
+            cardCaptain.ComboRate, cardCaptain.IgnoreComboRate, cardCaptain.ComboDamageRate, cardCaptain.ComboResistanceRate,
+            cardCaptain.StunRate, cardCaptain.IgnoreStunRate,
+            cardCaptain.ReflectionRate, cardCaptain.IgnoreReflectionRate, cardCaptain.ReflectionDamageRate, cardCaptain.ReflectionResistanceRate,
+            cardCaptain.Mana, cardCaptain.ManaRegenerationRate,
+            cardCaptain.DamageToDifferentFactionRate, cardCaptain.ResistanceToDifferentFactionRate,
+            cardCaptain.DamageToSameFactionRate, cardCaptain.ResistanceToSameFactionRate,
+            cardCaptain.NormalDamageRate, cardCaptain.NormalResistanceRate,
+            cardCaptain.SkillDamageRate, cardCaptain.SkillResistanceRate
         );
-        return cardCaptains;
+        return cardCaptain;
     }
     public async Task<List<CardCaptains>> GetSkillsAsync(string user_id, List<CardCaptains> CardCaptainsList)
     {

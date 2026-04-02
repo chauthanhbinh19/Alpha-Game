@@ -88,7 +88,7 @@ public class UserEquipmentsService : IUserEquipmentsService
         IEquipmentsRepository _repository = new EquipmentsRepository();
         EquipmentsService _service = new EquipmentsService(_repository);
         Equipments orginCard = await _service.GetEquipmentByIdAsync(c.Id);
-        Equipments equipments = new Equipments
+        Equipments equipment = new Equipments
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -153,37 +153,37 @@ public class UserEquipmentsService : IUserEquipmentsService
             SpecialMentalDefense = c.SpecialMentalDefense + orginCard.SpecialMentalDefense * coefficient,
             SpecialSpeed = c.SpecialSpeed + orginCard.SpecialSpeed * coefficient,
         };
-        equipments.Power = EvaluatePower.CalculatePower(
-            equipments.Health + equipments.SpecialHealth,
-            equipments.PhysicalAttack + equipments.SpecialPhysicalAttack, equipments.PhysicalDefense + equipments.SpecialPhysicalDefense,
-            equipments.MagicalAttack + equipments.SpecialMagicalAttack, equipments.MagicalDefense + equipments.SpecialMagicalDefense,
-            equipments.ChemicalAttack + equipments.SpecialChemicalAttack, equipments.ChemicalDefense + equipments.SpecialChemicalDefense,
-            equipments.AtomicAttack + equipments.SpecialAtomicAttack, equipments.AtomicDefense + equipments.SpecialAtomicDefense,
-            equipments.MentalAttack + equipments.MentalAttack, equipments.MentalDefense + equipments.MentalDefense,
-            equipments.Speed,
-            equipments.CriticalDamageRate, equipments.CriticalRate, equipments.CriticalResistanceRate, equipments.IgnoreCriticalRate,
-            equipments.PenetrationRate, equipments.PenetrationResistanceRate, equipments.EvasionRate,
-            equipments.DamageAbsorptionRate, equipments.IgnoreDamageAbsorptionRate, equipments.AbsorbedDamageRate,
-            equipments.VitalityRegenerationRate, equipments.VitalityRegenerationResistanceRate,
-            equipments.AccuracyRate, equipments.LifestealRate,
-            equipments.ShieldStrength, equipments.Tenacity, equipments.ResistanceRate,
-            equipments.ComboRate, equipments.IgnoreComboRate, equipments.ComboDamageRate, equipments.ComboResistanceRate,
-            equipments.StunRate, equipments.IgnoreStunRate,
-            equipments.ReflectionRate, equipments.IgnoreReflectionRate, equipments.ReflectionDamageRate, equipments.ReflectionResistanceRate,
-            equipments.Mana, equipments.ManaRegenerationRate,
-            equipments.DamageToDifferentFactionRate, equipments.ResistanceToDifferentFactionRate,
-            equipments.DamageToSameFactionRate, equipments.ResistanceToSameFactionRate,
-            equipments.NormalDamageRate, equipments.NormalResistanceRate,
-            equipments.SkillDamageRate, equipments.SkillResistanceRate
+        equipment.Power = EvaluatePower.CalculatePower(
+            equipment.Health + equipment.SpecialHealth,
+            equipment.PhysicalAttack + equipment.SpecialPhysicalAttack, equipment.PhysicalDefense + equipment.SpecialPhysicalDefense,
+            equipment.MagicalAttack + equipment.SpecialMagicalAttack, equipment.MagicalDefense + equipment.SpecialMagicalDefense,
+            equipment.ChemicalAttack + equipment.SpecialChemicalAttack, equipment.ChemicalDefense + equipment.SpecialChemicalDefense,
+            equipment.AtomicAttack + equipment.SpecialAtomicAttack, equipment.AtomicDefense + equipment.SpecialAtomicDefense,
+            equipment.MentalAttack + equipment.MentalAttack, equipment.MentalDefense + equipment.MentalDefense,
+            equipment.Speed,
+            equipment.CriticalDamageRate, equipment.CriticalRate, equipment.CriticalResistanceRate, equipment.IgnoreCriticalRate,
+            equipment.PenetrationRate, equipment.PenetrationResistanceRate, equipment.EvasionRate,
+            equipment.DamageAbsorptionRate, equipment.IgnoreDamageAbsorptionRate, equipment.AbsorbedDamageRate,
+            equipment.VitalityRegenerationRate, equipment.VitalityRegenerationResistanceRate,
+            equipment.AccuracyRate, equipment.LifestealRate,
+            equipment.ShieldStrength, equipment.Tenacity, equipment.ResistanceRate,
+            equipment.ComboRate, equipment.IgnoreComboRate, equipment.ComboDamageRate, equipment.ComboResistanceRate,
+            equipment.StunRate, equipment.IgnoreStunRate,
+            equipment.ReflectionRate, equipment.IgnoreReflectionRate, equipment.ReflectionDamageRate, equipment.ReflectionResistanceRate,
+            equipment.Mana, equipment.ManaRegenerationRate,
+            equipment.DamageToDifferentFactionRate, equipment.ResistanceToDifferentFactionRate,
+            equipment.DamageToSameFactionRate, equipment.ResistanceToSameFactionRate,
+            equipment.NormalDamageRate, equipment.NormalResistanceRate,
+            equipment.SkillDamageRate, equipment.SkillResistanceRate
         );
-        return equipments;
+        return equipment;
     }
     public async Task<Equipments> GetNewBreakthroughPowerAsync(Equipments c, double coefficient)
     {
         IEquipmentsRepository _repository = new EquipmentsRepository();
         EquipmentsService _service = new EquipmentsService(_repository);
         Equipments orginCard = await _service.GetEquipmentByIdAsync(c.Id);
-        Equipments equipments = new Equipments
+        Equipments equipment = new Equipments
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -248,30 +248,30 @@ public class UserEquipmentsService : IUserEquipmentsService
             SpecialMentalDefense = c.SpecialMentalDefense + orginCard.SpecialMentalDefense * coefficient,
             SpecialSpeed = c.SpecialSpeed + orginCard.SpecialSpeed * coefficient,
         };
-        equipments.Power = EvaluatePower.CalculatePower(
-            equipments.Health + equipments.SpecialHealth,
-            equipments.PhysicalAttack + equipments.SpecialPhysicalAttack, equipments.PhysicalDefense + equipments.SpecialPhysicalDefense,
-            equipments.MagicalAttack + equipments.SpecialMagicalAttack, equipments.MagicalDefense + equipments.SpecialMagicalDefense,
-            equipments.ChemicalAttack + equipments.SpecialChemicalAttack, equipments.ChemicalDefense + equipments.SpecialChemicalDefense,
-            equipments.AtomicAttack + equipments.SpecialAtomicAttack, equipments.AtomicDefense + equipments.SpecialAtomicDefense,
-            equipments.MentalAttack + equipments.MentalAttack, equipments.MentalDefense + equipments.MentalDefense,
-            equipments.Speed,
-            equipments.CriticalDamageRate, equipments.CriticalRate, equipments.CriticalResistanceRate, equipments.IgnoreCriticalRate,
-            equipments.PenetrationRate, equipments.PenetrationResistanceRate, equipments.EvasionRate,
-            equipments.DamageAbsorptionRate, equipments.IgnoreDamageAbsorptionRate, equipments.AbsorbedDamageRate,
-            equipments.VitalityRegenerationRate, equipments.VitalityRegenerationResistanceRate,
-            equipments.AccuracyRate, equipments.LifestealRate,
-            equipments.ShieldStrength, equipments.Tenacity, equipments.ResistanceRate,
-            equipments.ComboRate, equipments.IgnoreComboRate, equipments.ComboDamageRate, equipments.ComboResistanceRate,
-            equipments.StunRate, equipments.IgnoreStunRate,
-            equipments.ReflectionRate, equipments.IgnoreReflectionRate, equipments.ReflectionDamageRate, equipments.ReflectionResistanceRate,
-            equipments.Mana, equipments.ManaRegenerationRate,
-            equipments.DamageToDifferentFactionRate, equipments.ResistanceToDifferentFactionRate,
-            equipments.DamageToSameFactionRate, equipments.ResistanceToSameFactionRate,
-            equipments.NormalDamageRate, equipments.NormalResistanceRate,
-            equipments.SkillDamageRate, equipments.SkillResistanceRate
+        equipment.Power = EvaluatePower.CalculatePower(
+            equipment.Health + equipment.SpecialHealth,
+            equipment.PhysicalAttack + equipment.SpecialPhysicalAttack, equipment.PhysicalDefense + equipment.SpecialPhysicalDefense,
+            equipment.MagicalAttack + equipment.SpecialMagicalAttack, equipment.MagicalDefense + equipment.SpecialMagicalDefense,
+            equipment.ChemicalAttack + equipment.SpecialChemicalAttack, equipment.ChemicalDefense + equipment.SpecialChemicalDefense,
+            equipment.AtomicAttack + equipment.SpecialAtomicAttack, equipment.AtomicDefense + equipment.SpecialAtomicDefense,
+            equipment.MentalAttack + equipment.MentalAttack, equipment.MentalDefense + equipment.MentalDefense,
+            equipment.Speed,
+            equipment.CriticalDamageRate, equipment.CriticalRate, equipment.CriticalResistanceRate, equipment.IgnoreCriticalRate,
+            equipment.PenetrationRate, equipment.PenetrationResistanceRate, equipment.EvasionRate,
+            equipment.DamageAbsorptionRate, equipment.IgnoreDamageAbsorptionRate, equipment.AbsorbedDamageRate,
+            equipment.VitalityRegenerationRate, equipment.VitalityRegenerationResistanceRate,
+            equipment.AccuracyRate, equipment.LifestealRate,
+            equipment.ShieldStrength, equipment.Tenacity, equipment.ResistanceRate,
+            equipment.ComboRate, equipment.IgnoreComboRate, equipment.ComboDamageRate, equipment.ComboResistanceRate,
+            equipment.StunRate, equipment.IgnoreStunRate,
+            equipment.ReflectionRate, equipment.IgnoreReflectionRate, equipment.ReflectionDamageRate, equipment.ReflectionResistanceRate,
+            equipment.Mana, equipment.ManaRegenerationRate,
+            equipment.DamageToDifferentFactionRate, equipment.ResistanceToDifferentFactionRate,
+            equipment.DamageToSameFactionRate, equipment.ResistanceToSameFactionRate,
+            equipment.NormalDamageRate, equipment.NormalResistanceRate,
+            equipment.SkillDamageRate, equipment.SkillResistanceRate
         );
-        return equipments;
+        return equipment;
     }
 
     public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

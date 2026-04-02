@@ -1402,7 +1402,7 @@ public class UserPetsService : IUserPetsService
         IPetsRepository _repository = new PetsRepository();
         PetsService _service = new PetsService(_repository);
         Pets orginCard = await _service.GetPetByIdAsync(c.Id);
-        Pets pets = new Pets
+        Pets pet = new Pets
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1455,37 +1455,37 @@ public class UserPetsService : IUserPetsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        pets.Power = EvaluatePower.CalculatePower(
-            pets.Health,
-            pets.PhysicalAttack, pets.PhysicalDefense,
-            pets.MagicalAttack, pets.MagicalDefense,
-            pets.ChemicalAttack, pets.ChemicalDefense,
-            pets.AtomicAttack, pets.AtomicDefense,
-            pets.MentalAttack, pets.MentalDefense,
-            pets.Speed,
-            pets.CriticalDamageRate, pets.CriticalRate, pets.CriticalResistanceRate, pets.IgnoreCriticalRate,
-            pets.PenetrationRate, pets.PenetrationResistanceRate, pets.EvasionRate,
-            pets.DamageAbsorptionRate, pets.IgnoreDamageAbsorptionRate, pets.AbsorbedDamageRate,
-            pets.VitalityRegenerationRate, pets.VitalityRegenerationResistanceRate,
-            pets.AccuracyRate, pets.LifestealRate,
-            pets.ShieldStrength, pets.Tenacity, pets.ResistanceRate,
-            pets.ComboRate, pets.IgnoreComboRate, pets.ComboDamageRate, pets.ComboResistanceRate,
-            pets.StunRate, pets.IgnoreStunRate,
-            pets.ReflectionRate, pets.IgnoreReflectionRate, pets.ReflectionDamageRate, pets.ReflectionResistanceRate,
-            pets.Mana, pets.ManaRegenerationRate,
-            pets.DamageToDifferentFactionRate, pets.ResistanceToDifferentFactionRate,
-            pets.DamageToSameFactionRate, pets.ResistanceToSameFactionRate,
-            pets.NormalDamageRate, pets.NormalResistanceRate,
-            pets.SkillDamageRate, pets.SkillResistanceRate
+        pet.Power = EvaluatePower.CalculatePower(
+            pet.Health,
+            pet.PhysicalAttack, pet.PhysicalDefense,
+            pet.MagicalAttack, pet.MagicalDefense,
+            pet.ChemicalAttack, pet.ChemicalDefense,
+            pet.AtomicAttack, pet.AtomicDefense,
+            pet.MentalAttack, pet.MentalDefense,
+            pet.Speed,
+            pet.CriticalDamageRate, pet.CriticalRate, pet.CriticalResistanceRate, pet.IgnoreCriticalRate,
+            pet.PenetrationRate, pet.PenetrationResistanceRate, pet.EvasionRate,
+            pet.DamageAbsorptionRate, pet.IgnoreDamageAbsorptionRate, pet.AbsorbedDamageRate,
+            pet.VitalityRegenerationRate, pet.VitalityRegenerationResistanceRate,
+            pet.AccuracyRate, pet.LifestealRate,
+            pet.ShieldStrength, pet.Tenacity, pet.ResistanceRate,
+            pet.ComboRate, pet.IgnoreComboRate, pet.ComboDamageRate, pet.ComboResistanceRate,
+            pet.StunRate, pet.IgnoreStunRate,
+            pet.ReflectionRate, pet.IgnoreReflectionRate, pet.ReflectionDamageRate, pet.ReflectionResistanceRate,
+            pet.Mana, pet.ManaRegenerationRate,
+            pet.DamageToDifferentFactionRate, pet.ResistanceToDifferentFactionRate,
+            pet.DamageToSameFactionRate, pet.ResistanceToSameFactionRate,
+            pet.NormalDamageRate, pet.NormalResistanceRate,
+            pet.SkillDamageRate, pet.SkillResistanceRate
         );
-        return pets;
+        return pet;
     }
     public async Task<Pets> GetNewBreakthroughPowerAsync(Pets c, double coefficient)
     {
         IPetsRepository _repository = new PetsRepository();
         PetsService _service = new PetsService(_repository);
         Pets orginCard = await _service.GetPetByIdAsync(c.Id);
-        Pets pets = new Pets
+        Pets pet = new Pets
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1538,30 +1538,30 @@ public class UserPetsService : IUserPetsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        pets.Power = EvaluatePower.CalculatePower(
-            pets.Health,
-            pets.PhysicalAttack, pets.PhysicalDefense,
-            pets.MagicalAttack, pets.MagicalDefense,
-            pets.ChemicalAttack, pets.ChemicalDefense,
-            pets.AtomicAttack, pets.AtomicDefense,
-            pets.MentalAttack, pets.MentalDefense,
-            pets.Speed,
-            pets.CriticalDamageRate, pets.CriticalRate, pets.CriticalResistanceRate, pets.IgnoreCriticalRate,
-            pets.PenetrationRate, pets.PenetrationResistanceRate, pets.EvasionRate,
-            pets.DamageAbsorptionRate, pets.IgnoreDamageAbsorptionRate, pets.AbsorbedDamageRate,
-            pets.VitalityRegenerationRate, pets.VitalityRegenerationResistanceRate,
-            pets.AccuracyRate, pets.LifestealRate,
-            pets.ShieldStrength, pets.Tenacity, pets.ResistanceRate,
-            pets.ComboRate, pets.IgnoreComboRate, pets.ComboDamageRate, pets.ComboResistanceRate,
-            pets.StunRate, pets.IgnoreStunRate,
-            pets.ReflectionRate, pets.IgnoreReflectionRate, pets.ReflectionDamageRate, pets.ReflectionResistanceRate,
-            pets.Mana, pets.ManaRegenerationRate,
-            pets.DamageToDifferentFactionRate, pets.ResistanceToDifferentFactionRate,
-            pets.DamageToSameFactionRate, pets.ResistanceToSameFactionRate,
-            pets.NormalDamageRate, pets.NormalResistanceRate,
-            pets.SkillDamageRate, pets.SkillResistanceRate
+        pet.Power = EvaluatePower.CalculatePower(
+            pet.Health,
+            pet.PhysicalAttack, pet.PhysicalDefense,
+            pet.MagicalAttack, pet.MagicalDefense,
+            pet.ChemicalAttack, pet.ChemicalDefense,
+            pet.AtomicAttack, pet.AtomicDefense,
+            pet.MentalAttack, pet.MentalDefense,
+            pet.Speed,
+            pet.CriticalDamageRate, pet.CriticalRate, pet.CriticalResistanceRate, pet.IgnoreCriticalRate,
+            pet.PenetrationRate, pet.PenetrationResistanceRate, pet.EvasionRate,
+            pet.DamageAbsorptionRate, pet.IgnoreDamageAbsorptionRate, pet.AbsorbedDamageRate,
+            pet.VitalityRegenerationRate, pet.VitalityRegenerationResistanceRate,
+            pet.AccuracyRate, pet.LifestealRate,
+            pet.ShieldStrength, pet.Tenacity, pet.ResistanceRate,
+            pet.ComboRate, pet.IgnoreComboRate, pet.ComboDamageRate, pet.ComboResistanceRate,
+            pet.StunRate, pet.IgnoreStunRate,
+            pet.ReflectionRate, pet.IgnoreReflectionRate, pet.ReflectionDamageRate, pet.ReflectionResistanceRate,
+            pet.Mana, pet.ManaRegenerationRate,
+            pet.DamageToDifferentFactionRate, pet.ResistanceToDifferentFactionRate,
+            pet.DamageToSameFactionRate, pet.ResistanceToSameFactionRate,
+            pet.NormalDamageRate, pet.NormalResistanceRate,
+            pet.SkillDamageRate, pet.SkillResistanceRate
         );
-        return pets;
+        return pet;
     }
 
     public async Task<List<Pets>> GetUserPetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

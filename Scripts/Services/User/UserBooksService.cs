@@ -1402,7 +1402,7 @@ public class UserBooksService : IUserBooksService
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
         Books orginCard = await _service.GetBookByIdAsync(c.Id);
-        Books books = new Books
+        Books book = new Books
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1455,37 +1455,37 @@ public class UserBooksService : IUserBooksService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        books.Power = EvaluatePower.CalculatePower(
-            books.Health,
-            books.PhysicalAttack, books.PhysicalDefense,
-            books.MagicalAttack, books.MagicalDefense,
-            books.ChemicalAttack, books.ChemicalDefense,
-            books.AtomicAttack, books.AtomicDefense,
-            books.MentalAttack, books.MentalDefense,
-            books.Speed,
-            books.CriticalDamageRate, books.CriticalRate, books.CriticalResistanceRate, books.IgnoreCriticalRate,
-            books.PenetrationRate, books.PenetrationResistanceRate, books.EvasionRate,
-            books.DamageAbsorptionRate, books.IgnoreDamageAbsorptionRate, books.AbsorbedDamageRate,
-            books.VitalityRegenerationRate, books.VitalityRegenerationResistanceRate,
-            books.AccuracyRate, books.LifestealRate,
-            books.ShieldStrength, books.Tenacity, books.ResistanceRate,
-            books.ComboRate, books.IgnoreComboRate, books.ComboDamageRate, books.ComboResistanceRate,
-            books.StunRate, books.IgnoreStunRate,
-            books.ReflectionRate, books.IgnoreReflectionRate, books.ReflectionDamageRate, books.ReflectionResistanceRate,
-            books.Mana, books.ManaRegenerationRate,
-            books.DamageToDifferentFactionRate, books.ResistanceToDifferentFactionRate,
-            books.DamageToSameFactionRate, books.ResistanceToSameFactionRate,
-            books.NormalDamageRate, books.NormalResistanceRate,
-            books.SkillDamageRate, books.SkillResistanceRate
+        book.Power = EvaluatePower.CalculatePower(
+            book.Health,
+            book.PhysicalAttack, book.PhysicalDefense,
+            book.MagicalAttack, book.MagicalDefense,
+            book.ChemicalAttack, book.ChemicalDefense,
+            book.AtomicAttack, book.AtomicDefense,
+            book.MentalAttack, book.MentalDefense,
+            book.Speed,
+            book.CriticalDamageRate, book.CriticalRate, book.CriticalResistanceRate, book.IgnoreCriticalRate,
+            book.PenetrationRate, book.PenetrationResistanceRate, book.EvasionRate,
+            book.DamageAbsorptionRate, book.IgnoreDamageAbsorptionRate, book.AbsorbedDamageRate,
+            book.VitalityRegenerationRate, book.VitalityRegenerationResistanceRate,
+            book.AccuracyRate, book.LifestealRate,
+            book.ShieldStrength, book.Tenacity, book.ResistanceRate,
+            book.ComboRate, book.IgnoreComboRate, book.ComboDamageRate, book.ComboResistanceRate,
+            book.StunRate, book.IgnoreStunRate,
+            book.ReflectionRate, book.IgnoreReflectionRate, book.ReflectionDamageRate, book.ReflectionResistanceRate,
+            book.Mana, book.ManaRegenerationRate,
+            book.DamageToDifferentFactionRate, book.ResistanceToDifferentFactionRate,
+            book.DamageToSameFactionRate, book.ResistanceToSameFactionRate,
+            book.NormalDamageRate, book.NormalResistanceRate,
+            book.SkillDamageRate, book.SkillResistanceRate
         );
-        return books;
+        return book;
     }
     public async Task<Books> GetNewBreakthroughPowerAsync(Books c, double coefficient)
     {
         IBooksRepository _repository = new BooksRepository();
         BooksService _service = new BooksService(_repository);
         Books orginCard = await _service.GetBookByIdAsync(c.Id);
-        Books books = new Books
+        Books book = new Books
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1538,30 +1538,30 @@ public class UserBooksService : IUserBooksService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        books.Power = EvaluatePower.CalculatePower(
-            books.Health,
-            books.PhysicalAttack, books.PhysicalDefense,
-            books.MagicalAttack, books.MagicalDefense,
-            books.ChemicalAttack, books.ChemicalDefense,
-            books.AtomicAttack, books.AtomicDefense,
-            books.MentalAttack, books.MentalDefense,
-            books.Speed,
-            books.CriticalDamageRate, books.CriticalRate, books.CriticalResistanceRate, books.IgnoreCriticalRate,
-            books.PenetrationRate, books.PenetrationResistanceRate, books.EvasionRate,
-            books.DamageAbsorptionRate, books.IgnoreDamageAbsorptionRate, books.AbsorbedDamageRate,
-            books.VitalityRegenerationRate, books.VitalityRegenerationResistanceRate,
-            books.AccuracyRate, books.LifestealRate,
-            books.ShieldStrength, books.Tenacity, books.ResistanceRate,
-            books.ComboRate, books.IgnoreComboRate, books.ComboDamageRate, books.ComboResistanceRate,
-            books.StunRate, books.IgnoreStunRate,
-            books.ReflectionRate, books.IgnoreReflectionRate, books.ReflectionDamageRate, books.ReflectionResistanceRate,
-            books.Mana, books.ManaRegenerationRate,
-            books.DamageToDifferentFactionRate, books.ResistanceToDifferentFactionRate,
-            books.DamageToSameFactionRate, books.ResistanceToSameFactionRate,
-            books.NormalDamageRate, books.NormalResistanceRate,
-            books.SkillDamageRate, books.SkillResistanceRate
+        book.Power = EvaluatePower.CalculatePower(
+            book.Health,
+            book.PhysicalAttack, book.PhysicalDefense,
+            book.MagicalAttack, book.MagicalDefense,
+            book.ChemicalAttack, book.ChemicalDefense,
+            book.AtomicAttack, book.AtomicDefense,
+            book.MentalAttack, book.MentalDefense,
+            book.Speed,
+            book.CriticalDamageRate, book.CriticalRate, book.CriticalResistanceRate, book.IgnoreCriticalRate,
+            book.PenetrationRate, book.PenetrationResistanceRate, book.EvasionRate,
+            book.DamageAbsorptionRate, book.IgnoreDamageAbsorptionRate, book.AbsorbedDamageRate,
+            book.VitalityRegenerationRate, book.VitalityRegenerationResistanceRate,
+            book.AccuracyRate, book.LifestealRate,
+            book.ShieldStrength, book.Tenacity, book.ResistanceRate,
+            book.ComboRate, book.IgnoreComboRate, book.ComboDamageRate, book.ComboResistanceRate,
+            book.StunRate, book.IgnoreStunRate,
+            book.ReflectionRate, book.IgnoreReflectionRate, book.ReflectionDamageRate, book.ReflectionResistanceRate,
+            book.Mana, book.ManaRegenerationRate,
+            book.DamageToDifferentFactionRate, book.ResistanceToDifferentFactionRate,
+            book.DamageToSameFactionRate, book.ResistanceToSameFactionRate,
+            book.NormalDamageRate, book.NormalResistanceRate,
+            book.SkillDamageRate, book.SkillResistanceRate
         );
-        return books;
+        return book;
     }
 
     public async Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

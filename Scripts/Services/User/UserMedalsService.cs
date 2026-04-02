@@ -25,7 +25,7 @@ public class UserMedalsService : IUserMedalsService
         IMedalsRepository _repository = new MedalsRepository();
         MedalsService _service = new MedalsService(_repository);
         Medals orginCard = await _service.GetMedalByIdAsync(c.Id);
-        Medals medals = new Medals
+        Medals medal = new Medals
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserMedalsService : IUserMedalsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        medals.Power = EvaluatePower.CalculatePower(
-            medals.Health,
-            medals.PhysicalAttack, medals.PhysicalDefense,
-            medals.MagicalAttack, medals.MagicalDefense,
-            medals.ChemicalAttack, medals.ChemicalDefense,
-            medals.AtomicAttack, medals.AtomicDefense,
-            medals.MentalAttack, medals.MentalDefense,
-            medals.Speed,
-            medals.CriticalDamageRate, medals.CriticalRate, medals.CriticalResistanceRate, medals.IgnoreCriticalRate,
-            medals.PenetrationRate, medals.PenetrationResistanceRate, medals.EvasionRate,
-            medals.DamageAbsorptionRate, medals.IgnoreDamageAbsorptionRate, medals.AbsorbedDamageRate,
-            medals.VitalityRegenerationRate, medals.VitalityRegenerationResistanceRate,
-            medals.AccuracyRate, medals.LifestealRate,
-            medals.ShieldStrength, medals.Tenacity, medals.ResistanceRate,
-            medals.ComboRate, medals.IgnoreComboRate, medals.ComboDamageRate, medals.ComboResistanceRate,
-            medals.StunRate, medals.IgnoreStunRate,
-            medals.ReflectionRate, medals.IgnoreReflectionRate, medals.ReflectionDamageRate, medals.ReflectionResistanceRate,
-            medals.Mana, medals.ManaRegenerationRate,
-            medals.DamageToDifferentFactionRate, medals.ResistanceToDifferentFactionRate,
-            medals.DamageToSameFactionRate, medals.ResistanceToSameFactionRate,
-            medals.NormalDamageRate, medals.NormalResistanceRate,
-            medals.SkillDamageRate, medals.SkillResistanceRate
+        medal.Power = EvaluatePower.CalculatePower(
+            medal.Health,
+            medal.PhysicalAttack, medal.PhysicalDefense,
+            medal.MagicalAttack, medal.MagicalDefense,
+            medal.ChemicalAttack, medal.ChemicalDefense,
+            medal.AtomicAttack, medal.AtomicDefense,
+            medal.MentalAttack, medal.MentalDefense,
+            medal.Speed,
+            medal.CriticalDamageRate, medal.CriticalRate, medal.CriticalResistanceRate, medal.IgnoreCriticalRate,
+            medal.PenetrationRate, medal.PenetrationResistanceRate, medal.EvasionRate,
+            medal.DamageAbsorptionRate, medal.IgnoreDamageAbsorptionRate, medal.AbsorbedDamageRate,
+            medal.VitalityRegenerationRate, medal.VitalityRegenerationResistanceRate,
+            medal.AccuracyRate, medal.LifestealRate,
+            medal.ShieldStrength, medal.Tenacity, medal.ResistanceRate,
+            medal.ComboRate, medal.IgnoreComboRate, medal.ComboDamageRate, medal.ComboResistanceRate,
+            medal.StunRate, medal.IgnoreStunRate,
+            medal.ReflectionRate, medal.IgnoreReflectionRate, medal.ReflectionDamageRate, medal.ReflectionResistanceRate,
+            medal.Mana, medal.ManaRegenerationRate,
+            medal.DamageToDifferentFactionRate, medal.ResistanceToDifferentFactionRate,
+            medal.DamageToSameFactionRate, medal.ResistanceToSameFactionRate,
+            medal.NormalDamageRate, medal.NormalResistanceRate,
+            medal.SkillDamageRate, medal.SkillResistanceRate
         );
-        return medals;
+        return medal;
     }
     public async Task<Medals> GetNewBreakthroughPowerAsync(Medals c, double coefficient)
     {
         IMedalsRepository _repository = new MedalsRepository();
         MedalsService _service = new MedalsService(_repository);
         Medals orginCard = await _service.GetMedalByIdAsync(c.Id);
-        Medals medals = new Medals
+        Medals medal = new Medals
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserMedalsService : IUserMedalsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        medals.Power = EvaluatePower.CalculatePower(
-            medals.Health,
-            medals.PhysicalAttack, medals.PhysicalDefense,
-            medals.MagicalAttack, medals.MagicalDefense,
-            medals.ChemicalAttack, medals.ChemicalDefense,
-            medals.AtomicAttack, medals.AtomicDefense,
-            medals.MentalAttack, medals.MentalDefense,
-            medals.Speed,
-            medals.CriticalDamageRate, medals.CriticalRate, medals.CriticalResistanceRate, medals.IgnoreCriticalRate,
-            medals.PenetrationRate, medals.PenetrationResistanceRate, medals.EvasionRate,
-            medals.DamageAbsorptionRate, medals.IgnoreDamageAbsorptionRate, medals.AbsorbedDamageRate,
-            medals.VitalityRegenerationRate, medals.VitalityRegenerationResistanceRate,
-            medals.AccuracyRate, medals.LifestealRate,
-            medals.ShieldStrength, medals.Tenacity, medals.ResistanceRate,
-            medals.ComboRate, medals.IgnoreComboRate, medals.ComboDamageRate, medals.ComboResistanceRate,
-            medals.StunRate, medals.IgnoreStunRate,
-            medals.ReflectionRate, medals.IgnoreReflectionRate, medals.ReflectionDamageRate, medals.ReflectionResistanceRate,
-            medals.Mana, medals.ManaRegenerationRate,
-            medals.DamageToDifferentFactionRate, medals.ResistanceToDifferentFactionRate,
-            medals.DamageToSameFactionRate, medals.ResistanceToSameFactionRate,
-            medals.NormalDamageRate, medals.NormalResistanceRate,
-            medals.SkillDamageRate, medals.SkillResistanceRate
+        medal.Power = EvaluatePower.CalculatePower(
+            medal.Health,
+            medal.PhysicalAttack, medal.PhysicalDefense,
+            medal.MagicalAttack, medal.MagicalDefense,
+            medal.ChemicalAttack, medal.ChemicalDefense,
+            medal.AtomicAttack, medal.AtomicDefense,
+            medal.MentalAttack, medal.MentalDefense,
+            medal.Speed,
+            medal.CriticalDamageRate, medal.CriticalRate, medal.CriticalResistanceRate, medal.IgnoreCriticalRate,
+            medal.PenetrationRate, medal.PenetrationResistanceRate, medal.EvasionRate,
+            medal.DamageAbsorptionRate, medal.IgnoreDamageAbsorptionRate, medal.AbsorbedDamageRate,
+            medal.VitalityRegenerationRate, medal.VitalityRegenerationResistanceRate,
+            medal.AccuracyRate, medal.LifestealRate,
+            medal.ShieldStrength, medal.Tenacity, medal.ResistanceRate,
+            medal.ComboRate, medal.IgnoreComboRate, medal.ComboDamageRate, medal.ComboResistanceRate,
+            medal.StunRate, medal.IgnoreStunRate,
+            medal.ReflectionRate, medal.IgnoreReflectionRate, medal.ReflectionDamageRate, medal.ReflectionResistanceRate,
+            medal.Mana, medal.ManaRegenerationRate,
+            medal.DamageToDifferentFactionRate, medal.ResistanceToDifferentFactionRate,
+            medal.DamageToSameFactionRate, medal.ResistanceToSameFactionRate,
+            medal.NormalDamageRate, medal.NormalResistanceRate,
+            medal.SkillDamageRate, medal.SkillResistanceRate
         );
-        return medals;
+        return medal;
     }
 
     public async Task<List<Medals>> GetUserMedalsAsync(string user_id, string search, int pageSize, int offset, string rare)

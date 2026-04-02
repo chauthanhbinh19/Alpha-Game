@@ -25,7 +25,7 @@ public class UserForgesService : IUserForgesService
         IForgesRepository _repository = new ForgesRepository();
         ForgesService _service = new ForgesService(_repository);
         Forges orginCard = await _service.GetForgeByIdAsync(c.Id);
-        Forges Forge = new Forges
+        Forges forge = new Forges
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserForgesService : IUserForgesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Forge.Power = EvaluatePower.CalculatePower(
-            Forge.Health,
-            Forge.PhysicalAttack, Forge.PhysicalDefense,
-            Forge.MagicalAttack, Forge.MagicalDefense,
-            Forge.ChemicalAttack, Forge.ChemicalDefense,
-            Forge.AtomicAttack, Forge.AtomicDefense,
-            Forge.MentalAttack, Forge.MentalDefense,
-            Forge.Speed,
-            Forge.CriticalDamageRate, Forge.CriticalRate, Forge.CriticalResistanceRate, Forge.IgnoreCriticalRate,
-            Forge.PenetrationRate, Forge.PenetrationResistanceRate, Forge.EvasionRate,
-            Forge.DamageAbsorptionRate, Forge.IgnoreDamageAbsorptionRate, Forge.AbsorbedDamageRate,
-            Forge.VitalityRegenerationRate, Forge.VitalityRegenerationResistanceRate,
-            Forge.AccuracyRate, Forge.LifestealRate,
-            Forge.ShieldStrength, Forge.Tenacity, Forge.ResistanceRate,
-            Forge.ComboRate, Forge.IgnoreComboRate, Forge.ComboDamageRate, Forge.ComboResistanceRate,
-            Forge.StunRate, Forge.IgnoreStunRate,
-            Forge.ReflectionRate, Forge.IgnoreReflectionRate, Forge.ReflectionDamageRate, Forge.ReflectionResistanceRate,
-            Forge.Mana, Forge.ManaRegenerationRate,
-            Forge.DamageToDifferentFactionRate, Forge.ResistanceToDifferentFactionRate,
-            Forge.DamageToSameFactionRate, Forge.ResistanceToSameFactionRate,
-            Forge.NormalDamageRate, Forge.NormalResistanceRate,
-            Forge.SkillDamageRate, Forge.SkillResistanceRate
+        forge.Power = EvaluatePower.CalculatePower(
+            forge.Health,
+            forge.PhysicalAttack, forge.PhysicalDefense,
+            forge.MagicalAttack, forge.MagicalDefense,
+            forge.ChemicalAttack, forge.ChemicalDefense,
+            forge.AtomicAttack, forge.AtomicDefense,
+            forge.MentalAttack, forge.MentalDefense,
+            forge.Speed,
+            forge.CriticalDamageRate, forge.CriticalRate, forge.CriticalResistanceRate, forge.IgnoreCriticalRate,
+            forge.PenetrationRate, forge.PenetrationResistanceRate, forge.EvasionRate,
+            forge.DamageAbsorptionRate, forge.IgnoreDamageAbsorptionRate, forge.AbsorbedDamageRate,
+            forge.VitalityRegenerationRate, forge.VitalityRegenerationResistanceRate,
+            forge.AccuracyRate, forge.LifestealRate,
+            forge.ShieldStrength, forge.Tenacity, forge.ResistanceRate,
+            forge.ComboRate, forge.IgnoreComboRate, forge.ComboDamageRate, forge.ComboResistanceRate,
+            forge.StunRate, forge.IgnoreStunRate,
+            forge.ReflectionRate, forge.IgnoreReflectionRate, forge.ReflectionDamageRate, forge.ReflectionResistanceRate,
+            forge.Mana, forge.ManaRegenerationRate,
+            forge.DamageToDifferentFactionRate, forge.ResistanceToDifferentFactionRate,
+            forge.DamageToSameFactionRate, forge.ResistanceToSameFactionRate,
+            forge.NormalDamageRate, forge.NormalResistanceRate,
+            forge.SkillDamageRate, forge.SkillResistanceRate
         );
-        return Forge;
+        return forge;
     }
     public async Task<Forges> GetNewBreakthroughPowerAsync(Forges c, double coefficient)
     {
         IForgesRepository _repository = new ForgesRepository();
         ForgesService _service = new ForgesService(_repository);
         Forges orginCard = await _service.GetForgeByIdAsync(c.Id);
-        Forges Forge = new Forges
+        Forges forge = new Forges
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserForgesService : IUserForgesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Forge.Power = EvaluatePower.CalculatePower(
-            Forge.Health,
-            Forge.PhysicalAttack, Forge.PhysicalDefense,
-            Forge.MagicalAttack, Forge.MagicalDefense,
-            Forge.ChemicalAttack, Forge.ChemicalDefense,
-            Forge.AtomicAttack, Forge.AtomicDefense,
-            Forge.MentalAttack, Forge.MentalDefense,
-            Forge.Speed,
-            Forge.CriticalDamageRate, Forge.CriticalRate, Forge.CriticalResistanceRate, Forge.IgnoreCriticalRate,
-            Forge.PenetrationRate, Forge.PenetrationResistanceRate, Forge.EvasionRate,
-            Forge.DamageAbsorptionRate, Forge.IgnoreDamageAbsorptionRate, Forge.AbsorbedDamageRate,
-            Forge.VitalityRegenerationRate, Forge.VitalityRegenerationResistanceRate,
-            Forge.AccuracyRate, Forge.LifestealRate,
-            Forge.ShieldStrength, Forge.Tenacity, Forge.ResistanceRate,
-            Forge.ComboRate, Forge.IgnoreComboRate, Forge.ComboDamageRate, Forge.ComboResistanceRate,
-            Forge.StunRate, Forge.IgnoreStunRate,
-            Forge.ReflectionRate, Forge.IgnoreReflectionRate, Forge.ReflectionDamageRate, Forge.ReflectionResistanceRate,
-            Forge.Mana, Forge.ManaRegenerationRate,
-            Forge.DamageToDifferentFactionRate, Forge.ResistanceToDifferentFactionRate,
-            Forge.DamageToSameFactionRate, Forge.ResistanceToSameFactionRate,
-            Forge.NormalDamageRate, Forge.NormalResistanceRate,
-            Forge.SkillDamageRate, Forge.SkillResistanceRate
+        forge.Power = EvaluatePower.CalculatePower(
+            forge.Health,
+            forge.PhysicalAttack, forge.PhysicalDefense,
+            forge.MagicalAttack, forge.MagicalDefense,
+            forge.ChemicalAttack, forge.ChemicalDefense,
+            forge.AtomicAttack, forge.AtomicDefense,
+            forge.MentalAttack, forge.MentalDefense,
+            forge.Speed,
+            forge.CriticalDamageRate, forge.CriticalRate, forge.CriticalResistanceRate, forge.IgnoreCriticalRate,
+            forge.PenetrationRate, forge.PenetrationResistanceRate, forge.EvasionRate,
+            forge.DamageAbsorptionRate, forge.IgnoreDamageAbsorptionRate, forge.AbsorbedDamageRate,
+            forge.VitalityRegenerationRate, forge.VitalityRegenerationResistanceRate,
+            forge.AccuracyRate, forge.LifestealRate,
+            forge.ShieldStrength, forge.Tenacity, forge.ResistanceRate,
+            forge.ComboRate, forge.IgnoreComboRate, forge.ComboDamageRate, forge.ComboResistanceRate,
+            forge.StunRate, forge.IgnoreStunRate,
+            forge.ReflectionRate, forge.IgnoreReflectionRate, forge.ReflectionDamageRate, forge.ReflectionResistanceRate,
+            forge.Mana, forge.ManaRegenerationRate,
+            forge.DamageToDifferentFactionRate, forge.ResistanceToDifferentFactionRate,
+            forge.DamageToSameFactionRate, forge.ResistanceToSameFactionRate,
+            forge.NormalDamageRate, forge.NormalResistanceRate,
+            forge.SkillDamageRate, forge.SkillResistanceRate
         );
-        return Forge;
+        return forge;
     }
 
     public async Task<List<Forges>> GetUserForgesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

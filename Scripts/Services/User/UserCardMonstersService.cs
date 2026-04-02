@@ -1487,7 +1487,7 @@ public class UserCardMonstersService : IUserCardMonstersService
         ICardMonstersRepository _repository = new CardMonstersRepository();
         CardMonstersService _service = new CardMonstersService(_repository);
         CardMonsters orginCard = await _service.GetCardMonsterByIdAsync(c.Id);
-        CardMonsters cardMonsters = new CardMonsters
+        CardMonsters cardMonster = new CardMonsters
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1540,37 +1540,37 @@ public class UserCardMonstersService : IUserCardMonstersService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardMonsters.Power = EvaluatePower.CalculatePower(
-            cardMonsters.Health,
-            cardMonsters.PhysicalAttack, cardMonsters.PhysicalDefense,
-            cardMonsters.MagicalAttack, cardMonsters.MagicalDefense,
-            cardMonsters.ChemicalAttack, cardMonsters.ChemicalDefense,
-            cardMonsters.AtomicAttack, cardMonsters.AtomicDefense,
-            cardMonsters.MentalAttack, cardMonsters.MentalDefense,
-            cardMonsters.Speed,
-            cardMonsters.CriticalDamageRate, cardMonsters.CriticalRate, cardMonsters.CriticalResistanceRate, cardMonsters.IgnoreCriticalRate,
-            cardMonsters.PenetrationRate, cardMonsters.PenetrationResistanceRate, cardMonsters.EvasionRate,
-            cardMonsters.DamageAbsorptionRate, cardMonsters.IgnoreDamageAbsorptionRate, cardMonsters.AbsorbedDamageRate,
-            cardMonsters.VitalityRegenerationRate, cardMonsters.VitalityRegenerationResistanceRate,
-            cardMonsters.AccuracyRate, cardMonsters.LifestealRate,
-            cardMonsters.ShieldStrength, cardMonsters.Tenacity, cardMonsters.ResistanceRate,
-            cardMonsters.ComboRate, cardMonsters.IgnoreComboRate, cardMonsters.ComboDamageRate, cardMonsters.ComboResistanceRate,
-            cardMonsters.StunRate, cardMonsters.IgnoreStunRate,
-            cardMonsters.ReflectionRate, cardMonsters.IgnoreReflectionRate, cardMonsters.ReflectionDamageRate, cardMonsters.ReflectionResistanceRate,
-            cardMonsters.Mana, cardMonsters.ManaRegenerationRate,
-            cardMonsters.DamageToDifferentFactionRate, cardMonsters.ResistanceToDifferentFactionRate,
-            cardMonsters.DamageToSameFactionRate, cardMonsters.ResistanceToSameFactionRate,
-            cardMonsters.NormalDamageRate, cardMonsters.NormalResistanceRate,
-            cardMonsters.SkillDamageRate, cardMonsters.SkillResistanceRate
+        cardMonster.Power = EvaluatePower.CalculatePower(
+            cardMonster.Health,
+            cardMonster.PhysicalAttack, cardMonster.PhysicalDefense,
+            cardMonster.MagicalAttack, cardMonster.MagicalDefense,
+            cardMonster.ChemicalAttack, cardMonster.ChemicalDefense,
+            cardMonster.AtomicAttack, cardMonster.AtomicDefense,
+            cardMonster.MentalAttack, cardMonster.MentalDefense,
+            cardMonster.Speed,
+            cardMonster.CriticalDamageRate, cardMonster.CriticalRate, cardMonster.CriticalResistanceRate, cardMonster.IgnoreCriticalRate,
+            cardMonster.PenetrationRate, cardMonster.PenetrationResistanceRate, cardMonster.EvasionRate,
+            cardMonster.DamageAbsorptionRate, cardMonster.IgnoreDamageAbsorptionRate, cardMonster.AbsorbedDamageRate,
+            cardMonster.VitalityRegenerationRate, cardMonster.VitalityRegenerationResistanceRate,
+            cardMonster.AccuracyRate, cardMonster.LifestealRate,
+            cardMonster.ShieldStrength, cardMonster.Tenacity, cardMonster.ResistanceRate,
+            cardMonster.ComboRate, cardMonster.IgnoreComboRate, cardMonster.ComboDamageRate, cardMonster.ComboResistanceRate,
+            cardMonster.StunRate, cardMonster.IgnoreStunRate,
+            cardMonster.ReflectionRate, cardMonster.IgnoreReflectionRate, cardMonster.ReflectionDamageRate, cardMonster.ReflectionResistanceRate,
+            cardMonster.Mana, cardMonster.ManaRegenerationRate,
+            cardMonster.DamageToDifferentFactionRate, cardMonster.ResistanceToDifferentFactionRate,
+            cardMonster.DamageToSameFactionRate, cardMonster.ResistanceToSameFactionRate,
+            cardMonster.NormalDamageRate, cardMonster.NormalResistanceRate,
+            cardMonster.SkillDamageRate, cardMonster.SkillResistanceRate
         );
-        return cardMonsters;
+        return cardMonster;
     }
     public async Task<CardMonsters> GetNewBreakthroughPowerAsync(CardMonsters c, double coefficient)
     {
         ICardMonstersRepository _repository = new CardMonstersRepository();
         CardMonstersService _service = new CardMonstersService(_repository);
         CardMonsters orginCard = await _service.GetCardMonsterByIdAsync(c.Id);
-        CardMonsters cardMonsters = new CardMonsters
+        CardMonsters cardMonster = new CardMonsters
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1623,30 +1623,30 @@ public class UserCardMonstersService : IUserCardMonstersService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardMonsters.Power = EvaluatePower.CalculatePower(
-            cardMonsters.Health,
-            cardMonsters.PhysicalAttack, cardMonsters.PhysicalDefense,
-            cardMonsters.MagicalAttack, cardMonsters.MagicalDefense,
-            cardMonsters.ChemicalAttack, cardMonsters.ChemicalDefense,
-            cardMonsters.AtomicAttack, cardMonsters.AtomicDefense,
-            cardMonsters.MentalAttack, cardMonsters.MentalDefense,
-            cardMonsters.Speed,
-            cardMonsters.CriticalDamageRate, cardMonsters.CriticalRate, cardMonsters.CriticalResistanceRate, cardMonsters.IgnoreCriticalRate,
-            cardMonsters.PenetrationRate, cardMonsters.PenetrationResistanceRate, cardMonsters.EvasionRate,
-            cardMonsters.DamageAbsorptionRate, cardMonsters.IgnoreDamageAbsorptionRate, cardMonsters.AbsorbedDamageRate,
-            cardMonsters.VitalityRegenerationRate, cardMonsters.VitalityRegenerationResistanceRate,
-            cardMonsters.AccuracyRate, cardMonsters.LifestealRate,
-            cardMonsters.ShieldStrength, cardMonsters.Tenacity, cardMonsters.ResistanceRate,
-            cardMonsters.ComboRate, cardMonsters.IgnoreComboRate, cardMonsters.ComboDamageRate, cardMonsters.ComboResistanceRate,
-            cardMonsters.StunRate, cardMonsters.IgnoreStunRate,
-            cardMonsters.ReflectionRate, cardMonsters.IgnoreReflectionRate, cardMonsters.ReflectionDamageRate, cardMonsters.ReflectionResistanceRate,
-            cardMonsters.Mana, cardMonsters.ManaRegenerationRate,
-            cardMonsters.DamageToDifferentFactionRate, cardMonsters.ResistanceToDifferentFactionRate,
-            cardMonsters.DamageToSameFactionRate, cardMonsters.ResistanceToSameFactionRate,
-            cardMonsters.NormalDamageRate, cardMonsters.NormalResistanceRate,
-            cardMonsters.SkillDamageRate, cardMonsters.SkillResistanceRate
+        cardMonster.Power = EvaluatePower.CalculatePower(
+            cardMonster.Health,
+            cardMonster.PhysicalAttack, cardMonster.PhysicalDefense,
+            cardMonster.MagicalAttack, cardMonster.MagicalDefense,
+            cardMonster.ChemicalAttack, cardMonster.ChemicalDefense,
+            cardMonster.AtomicAttack, cardMonster.AtomicDefense,
+            cardMonster.MentalAttack, cardMonster.MentalDefense,
+            cardMonster.Speed,
+            cardMonster.CriticalDamageRate, cardMonster.CriticalRate, cardMonster.CriticalResistanceRate, cardMonster.IgnoreCriticalRate,
+            cardMonster.PenetrationRate, cardMonster.PenetrationResistanceRate, cardMonster.EvasionRate,
+            cardMonster.DamageAbsorptionRate, cardMonster.IgnoreDamageAbsorptionRate, cardMonster.AbsorbedDamageRate,
+            cardMonster.VitalityRegenerationRate, cardMonster.VitalityRegenerationResistanceRate,
+            cardMonster.AccuracyRate, cardMonster.LifestealRate,
+            cardMonster.ShieldStrength, cardMonster.Tenacity, cardMonster.ResistanceRate,
+            cardMonster.ComboRate, cardMonster.IgnoreComboRate, cardMonster.ComboDamageRate, cardMonster.ComboResistanceRate,
+            cardMonster.StunRate, cardMonster.IgnoreStunRate,
+            cardMonster.ReflectionRate, cardMonster.IgnoreReflectionRate, cardMonster.ReflectionDamageRate, cardMonster.ReflectionResistanceRate,
+            cardMonster.Mana, cardMonster.ManaRegenerationRate,
+            cardMonster.DamageToDifferentFactionRate, cardMonster.ResistanceToDifferentFactionRate,
+            cardMonster.DamageToSameFactionRate, cardMonster.ResistanceToSameFactionRate,
+            cardMonster.NormalDamageRate, cardMonster.NormalResistanceRate,
+            cardMonster.SkillDamageRate, cardMonster.SkillResistanceRate
         );
-        return cardMonsters;
+        return cardMonster;
     }
     public async Task<List<CardMonsters>> GetSkillsAsync(string user_id, List<CardMonsters> CardMonstersList)
     {

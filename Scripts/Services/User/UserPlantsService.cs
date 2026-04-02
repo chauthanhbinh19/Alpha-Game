@@ -25,7 +25,7 @@ public class UserPlantsService : IUserPlantsService
         IPlantsRepository _repository = new PlantsRepository();
         PlantsService _service = new PlantsService(_repository);
         Plants orginCard = await _service.GetPlantByIdAsync(c.Id);
-        Plants Plants = new Plants
+        Plants plant = new Plants
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserPlantsService : IUserPlantsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Plants.Power = EvaluatePower.CalculatePower(
-            Plants.Health,
-            Plants.PhysicalAttack, Plants.PhysicalDefense,
-            Plants.MagicalAttack, Plants.MagicalDefense,
-            Plants.ChemicalAttack, Plants.ChemicalDefense,
-            Plants.AtomicAttack, Plants.AtomicDefense,
-            Plants.MentalAttack, Plants.MentalDefense,
-            Plants.Speed,
-            Plants.CriticalDamageRate, Plants.CriticalRate, Plants.CriticalResistanceRate, Plants.IgnoreCriticalRate,
-            Plants.PenetrationRate, Plants.PenetrationResistanceRate, Plants.EvasionRate,
-            Plants.DamageAbsorptionRate, Plants.IgnoreDamageAbsorptionRate, Plants.AbsorbedDamageRate,
-            Plants.VitalityRegenerationRate, Plants.VitalityRegenerationResistanceRate,
-            Plants.AccuracyRate, Plants.LifestealRate,
-            Plants.ShieldStrength, Plants.Tenacity, Plants.ResistanceRate,
-            Plants.ComboRate, Plants.IgnoreComboRate, Plants.ComboDamageRate, Plants.ComboResistanceRate,
-            Plants.StunRate, Plants.IgnoreStunRate,
-            Plants.ReflectionRate, Plants.IgnoreReflectionRate, Plants.ReflectionDamageRate, Plants.ReflectionResistanceRate,
-            Plants.Mana, Plants.ManaRegenerationRate,
-            Plants.DamageToDifferentFactionRate, Plants.ResistanceToDifferentFactionRate,
-            Plants.DamageToSameFactionRate, Plants.ResistanceToSameFactionRate,
-            Plants.NormalDamageRate, Plants.NormalResistanceRate,
-            Plants.SkillDamageRate, Plants.SkillResistanceRate
+        plant.Power = EvaluatePower.CalculatePower(
+            plant.Health,
+            plant.PhysicalAttack, plant.PhysicalDefense,
+            plant.MagicalAttack, plant.MagicalDefense,
+            plant.ChemicalAttack, plant.ChemicalDefense,
+            plant.AtomicAttack, plant.AtomicDefense,
+            plant.MentalAttack, plant.MentalDefense,
+            plant.Speed,
+            plant.CriticalDamageRate, plant.CriticalRate, plant.CriticalResistanceRate, plant.IgnoreCriticalRate,
+            plant.PenetrationRate, plant.PenetrationResistanceRate, plant.EvasionRate,
+            plant.DamageAbsorptionRate, plant.IgnoreDamageAbsorptionRate, plant.AbsorbedDamageRate,
+            plant.VitalityRegenerationRate, plant.VitalityRegenerationResistanceRate,
+            plant.AccuracyRate, plant.LifestealRate,
+            plant.ShieldStrength, plant.Tenacity, plant.ResistanceRate,
+            plant.ComboRate, plant.IgnoreComboRate, plant.ComboDamageRate, plant.ComboResistanceRate,
+            plant.StunRate, plant.IgnoreStunRate,
+            plant.ReflectionRate, plant.IgnoreReflectionRate, plant.ReflectionDamageRate, plant.ReflectionResistanceRate,
+            plant.Mana, plant.ManaRegenerationRate,
+            plant.DamageToDifferentFactionRate, plant.ResistanceToDifferentFactionRate,
+            plant.DamageToSameFactionRate, plant.ResistanceToSameFactionRate,
+            plant.NormalDamageRate, plant.NormalResistanceRate,
+            plant.SkillDamageRate, plant.SkillResistanceRate
         );
-        return Plants;
+        return plant;
     }
     public async Task<Plants> GetNewBreakthroughPowerAsync(Plants c, double coefficient)
     {
         IPlantsRepository _repository = new PlantsRepository();
         PlantsService _service = new PlantsService(_repository);
         Plants orginCard = await _service.GetPlantByIdAsync(c.Id);
-        Plants Plants = new Plants
+        Plants plant = new Plants
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserPlantsService : IUserPlantsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Plants.Power = EvaluatePower.CalculatePower(
-            Plants.Health,
-            Plants.PhysicalAttack, Plants.PhysicalDefense,
-            Plants.MagicalAttack, Plants.MagicalDefense,
-            Plants.ChemicalAttack, Plants.ChemicalDefense,
-            Plants.AtomicAttack, Plants.AtomicDefense,
-            Plants.MentalAttack, Plants.MentalDefense,
-            Plants.Speed,
-            Plants.CriticalDamageRate, Plants.CriticalRate, Plants.CriticalResistanceRate, Plants.IgnoreCriticalRate,
-            Plants.PenetrationRate, Plants.PenetrationResistanceRate, Plants.EvasionRate,
-            Plants.DamageAbsorptionRate, Plants.IgnoreDamageAbsorptionRate, Plants.AbsorbedDamageRate,
-            Plants.VitalityRegenerationRate, Plants.VitalityRegenerationResistanceRate,
-            Plants.AccuracyRate, Plants.LifestealRate,
-            Plants.ShieldStrength, Plants.Tenacity, Plants.ResistanceRate,
-            Plants.ComboRate, Plants.IgnoreComboRate, Plants.ComboDamageRate, Plants.ComboResistanceRate,
-            Plants.StunRate, Plants.IgnoreStunRate,
-            Plants.ReflectionRate, Plants.IgnoreReflectionRate, Plants.ReflectionDamageRate, Plants.ReflectionResistanceRate,
-            Plants.Mana, Plants.ManaRegenerationRate,
-            Plants.DamageToDifferentFactionRate, Plants.ResistanceToDifferentFactionRate,
-            Plants.DamageToSameFactionRate, Plants.ResistanceToSameFactionRate,
-            Plants.NormalDamageRate, Plants.NormalResistanceRate,
-            Plants.SkillDamageRate, Plants.SkillResistanceRate
+        plant.Power = EvaluatePower.CalculatePower(
+            plant.Health,
+            plant.PhysicalAttack, plant.PhysicalDefense,
+            plant.MagicalAttack, plant.MagicalDefense,
+            plant.ChemicalAttack, plant.ChemicalDefense,
+            plant.AtomicAttack, plant.AtomicDefense,
+            plant.MentalAttack, plant.MentalDefense,
+            plant.Speed,
+            plant.CriticalDamageRate, plant.CriticalRate, plant.CriticalResistanceRate, plant.IgnoreCriticalRate,
+            plant.PenetrationRate, plant.PenetrationResistanceRate, plant.EvasionRate,
+            plant.DamageAbsorptionRate, plant.IgnoreDamageAbsorptionRate, plant.AbsorbedDamageRate,
+            plant.VitalityRegenerationRate, plant.VitalityRegenerationResistanceRate,
+            plant.AccuracyRate, plant.LifestealRate,
+            plant.ShieldStrength, plant.Tenacity, plant.ResistanceRate,
+            plant.ComboRate, plant.IgnoreComboRate, plant.ComboDamageRate, plant.ComboResistanceRate,
+            plant.StunRate, plant.IgnoreStunRate,
+            plant.ReflectionRate, plant.IgnoreReflectionRate, plant.ReflectionDamageRate, plant.ReflectionResistanceRate,
+            plant.Mana, plant.ManaRegenerationRate,
+            plant.DamageToDifferentFactionRate, plant.ResistanceToDifferentFactionRate,
+            plant.DamageToSameFactionRate, plant.ResistanceToSameFactionRate,
+            plant.NormalDamageRate, plant.NormalResistanceRate,
+            plant.SkillDamageRate, plant.SkillResistanceRate
         );
-        return Plants;
+        return plant;
     }
 
     public async Task<List<Plants>> GetUserPlantsAsync(string user_id, string search, int pageSize, int offset, string rare)

@@ -25,7 +25,7 @@ public class UserRobotsService : IUserRobotsService
         IRobotsRepository _repository = new RobotsRepository();
         RobotsService _service = new RobotsService(_repository);
         Robots orginCard = await _service.GetRobotByIdAsync(c.Id);
-        Robots Robots = new Robots
+        Robots robot = new Robots
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserRobotsService : IUserRobotsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Robots.Power = EvaluatePower.CalculatePower(
-            Robots.Health,
-            Robots.PhysicalAttack, Robots.PhysicalDefense,
-            Robots.MagicalAttack, Robots.MagicalDefense,
-            Robots.ChemicalAttack, Robots.ChemicalDefense,
-            Robots.AtomicAttack, Robots.AtomicDefense,
-            Robots.MentalAttack, Robots.MentalDefense,
-            Robots.Speed,
-            Robots.CriticalDamageRate, Robots.CriticalRate, Robots.CriticalResistanceRate, Robots.IgnoreCriticalRate,
-            Robots.PenetrationRate, Robots.PenetrationResistanceRate, Robots.EvasionRate,
-            Robots.DamageAbsorptionRate, Robots.IgnoreDamageAbsorptionRate, Robots.AbsorbedDamageRate,
-            Robots.VitalityRegenerationRate, Robots.VitalityRegenerationResistanceRate,
-            Robots.AccuracyRate, Robots.LifestealRate,
-            Robots.ShieldStrength, Robots.Tenacity, Robots.ResistanceRate,
-            Robots.ComboRate, Robots.IgnoreComboRate, Robots.ComboDamageRate, Robots.ComboResistanceRate,
-            Robots.StunRate, Robots.IgnoreStunRate,
-            Robots.ReflectionRate, Robots.IgnoreReflectionRate, Robots.ReflectionDamageRate, Robots.ReflectionResistanceRate,
-            Robots.Mana, Robots.ManaRegenerationRate,
-            Robots.DamageToDifferentFactionRate, Robots.ResistanceToDifferentFactionRate,
-            Robots.DamageToSameFactionRate, Robots.ResistanceToSameFactionRate,
-            Robots.NormalDamageRate, Robots.NormalResistanceRate,
-            Robots.SkillDamageRate, Robots.SkillResistanceRate
+        robot.Power = EvaluatePower.CalculatePower(
+            robot.Health,
+            robot.PhysicalAttack, robot.PhysicalDefense,
+            robot.MagicalAttack, robot.MagicalDefense,
+            robot.ChemicalAttack, robot.ChemicalDefense,
+            robot.AtomicAttack, robot.AtomicDefense,
+            robot.MentalAttack, robot.MentalDefense,
+            robot.Speed,
+            robot.CriticalDamageRate, robot.CriticalRate, robot.CriticalResistanceRate, robot.IgnoreCriticalRate,
+            robot.PenetrationRate, robot.PenetrationResistanceRate, robot.EvasionRate,
+            robot.DamageAbsorptionRate, robot.IgnoreDamageAbsorptionRate, robot.AbsorbedDamageRate,
+            robot.VitalityRegenerationRate, robot.VitalityRegenerationResistanceRate,
+            robot.AccuracyRate, robot.LifestealRate,
+            robot.ShieldStrength, robot.Tenacity, robot.ResistanceRate,
+            robot.ComboRate, robot.IgnoreComboRate, robot.ComboDamageRate, robot.ComboResistanceRate,
+            robot.StunRate, robot.IgnoreStunRate,
+            robot.ReflectionRate, robot.IgnoreReflectionRate, robot.ReflectionDamageRate, robot.ReflectionResistanceRate,
+            robot.Mana, robot.ManaRegenerationRate,
+            robot.DamageToDifferentFactionRate, robot.ResistanceToDifferentFactionRate,
+            robot.DamageToSameFactionRate, robot.ResistanceToSameFactionRate,
+            robot.NormalDamageRate, robot.NormalResistanceRate,
+            robot.SkillDamageRate, robot.SkillResistanceRate
         );
-        return Robots;
+        return robot;
     }
     public async Task<Robots> GetNewBreakthroughPowerAsync(Robots c, double coefficient)
     {
         IRobotsRepository _repository = new RobotsRepository();
         RobotsService _service = new RobotsService(_repository);
         Robots orginCard = await _service.GetRobotByIdAsync(c.Id);
-        Robots Robots = new Robots
+        Robots robot = new Robots
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserRobotsService : IUserRobotsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Robots.Power = EvaluatePower.CalculatePower(
-            Robots.Health,
-            Robots.PhysicalAttack, Robots.PhysicalDefense,
-            Robots.MagicalAttack, Robots.MagicalDefense,
-            Robots.ChemicalAttack, Robots.ChemicalDefense,
-            Robots.AtomicAttack, Robots.AtomicDefense,
-            Robots.MentalAttack, Robots.MentalDefense,
-            Robots.Speed,
-            Robots.CriticalDamageRate, Robots.CriticalRate, Robots.CriticalResistanceRate, Robots.IgnoreCriticalRate,
-            Robots.PenetrationRate, Robots.PenetrationResistanceRate, Robots.EvasionRate,
-            Robots.DamageAbsorptionRate, Robots.IgnoreDamageAbsorptionRate, Robots.AbsorbedDamageRate,
-            Robots.VitalityRegenerationRate, Robots.VitalityRegenerationResistanceRate,
-            Robots.AccuracyRate, Robots.LifestealRate,
-            Robots.ShieldStrength, Robots.Tenacity, Robots.ResistanceRate,
-            Robots.ComboRate, Robots.IgnoreComboRate, Robots.ComboDamageRate, Robots.ComboResistanceRate,
-            Robots.StunRate, Robots.IgnoreStunRate,
-            Robots.ReflectionRate, Robots.IgnoreReflectionRate, Robots.ReflectionDamageRate, Robots.ReflectionResistanceRate,
-            Robots.Mana, Robots.ManaRegenerationRate,
-            Robots.DamageToDifferentFactionRate, Robots.ResistanceToDifferentFactionRate,
-            Robots.DamageToSameFactionRate, Robots.ResistanceToSameFactionRate,
-            Robots.NormalDamageRate, Robots.NormalResistanceRate,
-            Robots.SkillDamageRate, Robots.SkillResistanceRate
+        robot.Power = EvaluatePower.CalculatePower(
+            robot.Health,
+            robot.PhysicalAttack, robot.PhysicalDefense,
+            robot.MagicalAttack, robot.MagicalDefense,
+            robot.ChemicalAttack, robot.ChemicalDefense,
+            robot.AtomicAttack, robot.AtomicDefense,
+            robot.MentalAttack, robot.MentalDefense,
+            robot.Speed,
+            robot.CriticalDamageRate, robot.CriticalRate, robot.CriticalResistanceRate, robot.IgnoreCriticalRate,
+            robot.PenetrationRate, robot.PenetrationResistanceRate, robot.EvasionRate,
+            robot.DamageAbsorptionRate, robot.IgnoreDamageAbsorptionRate, robot.AbsorbedDamageRate,
+            robot.VitalityRegenerationRate, robot.VitalityRegenerationResistanceRate,
+            robot.AccuracyRate, robot.LifestealRate,
+            robot.ShieldStrength, robot.Tenacity, robot.ResistanceRate,
+            robot.ComboRate, robot.IgnoreComboRate, robot.ComboDamageRate, robot.ComboResistanceRate,
+            robot.StunRate, robot.IgnoreStunRate,
+            robot.ReflectionRate, robot.IgnoreReflectionRate, robot.ReflectionDamageRate, robot.ReflectionResistanceRate,
+            robot.Mana, robot.ManaRegenerationRate,
+            robot.DamageToDifferentFactionRate, robot.ResistanceToDifferentFactionRate,
+            robot.DamageToSameFactionRate, robot.ResistanceToSameFactionRate,
+            robot.NormalDamageRate, robot.NormalResistanceRate,
+            robot.SkillDamageRate, robot.SkillResistanceRate
         );
-        return Robots;
+        return robot;
     }
 
     public async Task<List<Robots>> GetUserRobotsAsync(string user_id, string search, int pageSize, int offset, string rare)

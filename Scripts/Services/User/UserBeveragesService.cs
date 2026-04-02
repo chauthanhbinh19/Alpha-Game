@@ -25,7 +25,7 @@ public class UserBeveragesService : IUserBeveragesService
         IBeveragesRepository _repository = new BeveragesRepository();
         BeveragesService _service = new BeveragesService(_repository);
         Beverages orginCard = await _service.GetBeverageByIdAsync(c.Id);
-        Beverages Beverages = new Beverages
+        Beverages beverage = new Beverages
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserBeveragesService : IUserBeveragesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Beverages.Power = EvaluatePower.CalculatePower(
-            Beverages.Health,
-            Beverages.PhysicalAttack, Beverages.PhysicalDefense,
-            Beverages.MagicalAttack, Beverages.MagicalDefense,
-            Beverages.ChemicalAttack, Beverages.ChemicalDefense,
-            Beverages.AtomicAttack, Beverages.AtomicDefense,
-            Beverages.MentalAttack, Beverages.MentalDefense,
-            Beverages.Speed,
-            Beverages.CriticalDamageRate, Beverages.CriticalRate, Beverages.CriticalResistanceRate, Beverages.IgnoreCriticalRate,
-            Beverages.PenetrationRate, Beverages.PenetrationResistanceRate, Beverages.EvasionRate,
-            Beverages.DamageAbsorptionRate, Beverages.IgnoreDamageAbsorptionRate, Beverages.AbsorbedDamageRate,
-            Beverages.VitalityRegenerationRate, Beverages.VitalityRegenerationResistanceRate,
-            Beverages.AccuracyRate, Beverages.LifestealRate,
-            Beverages.ShieldStrength, Beverages.Tenacity, Beverages.ResistanceRate,
-            Beverages.ComboRate, Beverages.IgnoreComboRate, Beverages.ComboDamageRate, Beverages.ComboResistanceRate,
-            Beverages.StunRate, Beverages.IgnoreStunRate,
-            Beverages.ReflectionRate, Beverages.IgnoreReflectionRate, Beverages.ReflectionDamageRate, Beverages.ReflectionResistanceRate,
-            Beverages.Mana, Beverages.ManaRegenerationRate,
-            Beverages.DamageToDifferentFactionRate, Beverages.ResistanceToDifferentFactionRate,
-            Beverages.DamageToSameFactionRate, Beverages.ResistanceToSameFactionRate,
-            Beverages.NormalDamageRate, Beverages.NormalResistanceRate,
-            Beverages.SkillDamageRate, Beverages.SkillResistanceRate
+        beverage.Power = EvaluatePower.CalculatePower(
+            beverage.Health,
+            beverage.PhysicalAttack, beverage.PhysicalDefense,
+            beverage.MagicalAttack, beverage.MagicalDefense,
+            beverage.ChemicalAttack, beverage.ChemicalDefense,
+            beverage.AtomicAttack, beverage.AtomicDefense,
+            beverage.MentalAttack, beverage.MentalDefense,
+            beverage.Speed,
+            beverage.CriticalDamageRate, beverage.CriticalRate, beverage.CriticalResistanceRate, beverage.IgnoreCriticalRate,
+            beverage.PenetrationRate, beverage.PenetrationResistanceRate, beverage.EvasionRate,
+            beverage.DamageAbsorptionRate, beverage.IgnoreDamageAbsorptionRate, beverage.AbsorbedDamageRate,
+            beverage.VitalityRegenerationRate, beverage.VitalityRegenerationResistanceRate,
+            beverage.AccuracyRate, beverage.LifestealRate,
+            beverage.ShieldStrength, beverage.Tenacity, beverage.ResistanceRate,
+            beverage.ComboRate, beverage.IgnoreComboRate, beverage.ComboDamageRate, beverage.ComboResistanceRate,
+            beverage.StunRate, beverage.IgnoreStunRate,
+            beverage.ReflectionRate, beverage.IgnoreReflectionRate, beverage.ReflectionDamageRate, beverage.ReflectionResistanceRate,
+            beverage.Mana, beverage.ManaRegenerationRate,
+            beverage.DamageToDifferentFactionRate, beverage.ResistanceToDifferentFactionRate,
+            beverage.DamageToSameFactionRate, beverage.ResistanceToSameFactionRate,
+            beverage.NormalDamageRate, beverage.NormalResistanceRate,
+            beverage.SkillDamageRate, beverage.SkillResistanceRate
         );
-        return Beverages;
+        return beverage;
     }
     public async Task<Beverages> GetNewBreakthroughPowerAsync(Beverages c, double coefficient)
     {
         IBeveragesRepository _repository = new BeveragesRepository();
         BeveragesService _service = new BeveragesService(_repository);
         Beverages orginCard = await _service.GetBeverageByIdAsync(c.Id);
-        Beverages Beverages = new Beverages
+        Beverages beverage = new Beverages
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserBeveragesService : IUserBeveragesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Beverages.Power = EvaluatePower.CalculatePower(
-            Beverages.Health,
-            Beverages.PhysicalAttack, Beverages.PhysicalDefense,
-            Beverages.MagicalAttack, Beverages.MagicalDefense,
-            Beverages.ChemicalAttack, Beverages.ChemicalDefense,
-            Beverages.AtomicAttack, Beverages.AtomicDefense,
-            Beverages.MentalAttack, Beverages.MentalDefense,
-            Beverages.Speed,
-            Beverages.CriticalDamageRate, Beverages.CriticalRate, Beverages.CriticalResistanceRate, Beverages.IgnoreCriticalRate,
-            Beverages.PenetrationRate, Beverages.PenetrationResistanceRate, Beverages.EvasionRate,
-            Beverages.DamageAbsorptionRate, Beverages.IgnoreDamageAbsorptionRate, Beverages.AbsorbedDamageRate,
-            Beverages.VitalityRegenerationRate, Beverages.VitalityRegenerationResistanceRate,
-            Beverages.AccuracyRate, Beverages.LifestealRate,
-            Beverages.ShieldStrength, Beverages.Tenacity, Beverages.ResistanceRate,
-            Beverages.ComboRate, Beverages.IgnoreComboRate, Beverages.ComboDamageRate, Beverages.ComboResistanceRate,
-            Beverages.StunRate, Beverages.IgnoreStunRate,
-            Beverages.ReflectionRate, Beverages.IgnoreReflectionRate, Beverages.ReflectionDamageRate, Beverages.ReflectionResistanceRate,
-            Beverages.Mana, Beverages.ManaRegenerationRate,
-            Beverages.DamageToDifferentFactionRate, Beverages.ResistanceToDifferentFactionRate,
-            Beverages.DamageToSameFactionRate, Beverages.ResistanceToSameFactionRate,
-            Beverages.NormalDamageRate, Beverages.NormalResistanceRate,
-            Beverages.SkillDamageRate, Beverages.SkillResistanceRate
+        beverage.Power = EvaluatePower.CalculatePower(
+            beverage.Health,
+            beverage.PhysicalAttack, beverage.PhysicalDefense,
+            beverage.MagicalAttack, beverage.MagicalDefense,
+            beverage.ChemicalAttack, beverage.ChemicalDefense,
+            beverage.AtomicAttack, beverage.AtomicDefense,
+            beverage.MentalAttack, beverage.MentalDefense,
+            beverage.Speed,
+            beverage.CriticalDamageRate, beverage.CriticalRate, beverage.CriticalResistanceRate, beverage.IgnoreCriticalRate,
+            beverage.PenetrationRate, beverage.PenetrationResistanceRate, beverage.EvasionRate,
+            beverage.DamageAbsorptionRate, beverage.IgnoreDamageAbsorptionRate, beverage.AbsorbedDamageRate,
+            beverage.VitalityRegenerationRate, beverage.VitalityRegenerationResistanceRate,
+            beverage.AccuracyRate, beverage.LifestealRate,
+            beverage.ShieldStrength, beverage.Tenacity, beverage.ResistanceRate,
+            beverage.ComboRate, beverage.IgnoreComboRate, beverage.ComboDamageRate, beverage.ComboResistanceRate,
+            beverage.StunRate, beverage.IgnoreStunRate,
+            beverage.ReflectionRate, beverage.IgnoreReflectionRate, beverage.ReflectionDamageRate, beverage.ReflectionResistanceRate,
+            beverage.Mana, beverage.ManaRegenerationRate,
+            beverage.DamageToDifferentFactionRate, beverage.ResistanceToDifferentFactionRate,
+            beverage.DamageToSameFactionRate, beverage.ResistanceToSameFactionRate,
+            beverage.NormalDamageRate, beverage.NormalResistanceRate,
+            beverage.SkillDamageRate, beverage.SkillResistanceRate
         );
-        return Beverages;
+        return beverage;
     }
 
     public async Task<List<Beverages>> GetUserBeveragesAsync(string user_id, string search, int pageSize, int offset, string rare)

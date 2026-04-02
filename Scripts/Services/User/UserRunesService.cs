@@ -25,7 +25,7 @@ public class UserRunesService : IUserRunesService
         IRunesRepository _repository = new RunesRepository();
         RunesService _service = new RunesService(_repository);
         Runes orginCard = await _service.GetRuneByIdAsync(c.Id);
-        Runes Runes = new Runes
+        Runes rune = new Runes
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserRunesService : IUserRunesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Runes.Power = EvaluatePower.CalculatePower(
-            Runes.Health,
-            Runes.PhysicalAttack, Runes.PhysicalDefense,
-            Runes.MagicalAttack, Runes.MagicalDefense,
-            Runes.ChemicalAttack, Runes.ChemicalDefense,
-            Runes.AtomicAttack, Runes.AtomicDefense,
-            Runes.MentalAttack, Runes.MentalDefense,
-            Runes.Speed,
-            Runes.CriticalDamageRate, Runes.CriticalRate, Runes.CriticalResistanceRate, Runes.IgnoreCriticalRate,
-            Runes.PenetrationRate, Runes.PenetrationResistanceRate, Runes.EvasionRate,
-            Runes.DamageAbsorptionRate, Runes.IgnoreDamageAbsorptionRate, Runes.AbsorbedDamageRate,
-            Runes.VitalityRegenerationRate, Runes.VitalityRegenerationResistanceRate,
-            Runes.AccuracyRate, Runes.LifestealRate,
-            Runes.ShieldStrength, Runes.Tenacity, Runes.ResistanceRate,
-            Runes.ComboRate, Runes.IgnoreComboRate, Runes.ComboDamageRate, Runes.ComboResistanceRate,
-            Runes.StunRate, Runes.IgnoreStunRate,
-            Runes.ReflectionRate, Runes.IgnoreReflectionRate, Runes.ReflectionDamageRate, Runes.ReflectionResistanceRate,
-            Runes.Mana, Runes.ManaRegenerationRate,
-            Runes.DamageToDifferentFactionRate, Runes.ResistanceToDifferentFactionRate,
-            Runes.DamageToSameFactionRate, Runes.ResistanceToSameFactionRate,
-            Runes.NormalDamageRate, Runes.NormalResistanceRate,
-            Runes.SkillDamageRate, Runes.SkillResistanceRate
+        rune.Power = EvaluatePower.CalculatePower(
+            rune.Health,
+            rune.PhysicalAttack, rune.PhysicalDefense,
+            rune.MagicalAttack, rune.MagicalDefense,
+            rune.ChemicalAttack, rune.ChemicalDefense,
+            rune.AtomicAttack, rune.AtomicDefense,
+            rune.MentalAttack, rune.MentalDefense,
+            rune.Speed,
+            rune.CriticalDamageRate, rune.CriticalRate, rune.CriticalResistanceRate, rune.IgnoreCriticalRate,
+            rune.PenetrationRate, rune.PenetrationResistanceRate, rune.EvasionRate,
+            rune.DamageAbsorptionRate, rune.IgnoreDamageAbsorptionRate, rune.AbsorbedDamageRate,
+            rune.VitalityRegenerationRate, rune.VitalityRegenerationResistanceRate,
+            rune.AccuracyRate, rune.LifestealRate,
+            rune.ShieldStrength, rune.Tenacity, rune.ResistanceRate,
+            rune.ComboRate, rune.IgnoreComboRate, rune.ComboDamageRate, rune.ComboResistanceRate,
+            rune.StunRate, rune.IgnoreStunRate,
+            rune.ReflectionRate, rune.IgnoreReflectionRate, rune.ReflectionDamageRate, rune.ReflectionResistanceRate,
+            rune.Mana, rune.ManaRegenerationRate,
+            rune.DamageToDifferentFactionRate, rune.ResistanceToDifferentFactionRate,
+            rune.DamageToSameFactionRate, rune.ResistanceToSameFactionRate,
+            rune.NormalDamageRate, rune.NormalResistanceRate,
+            rune.SkillDamageRate, rune.SkillResistanceRate
         );
-        return Runes;
+        return rune;
     }
     public async Task<Runes> GetNewBreakthroughPowerAsync(Runes c, double coefficient)
     {
         IRunesRepository _repository = new RunesRepository();
         RunesService _service = new RunesService(_repository);
         Runes orginCard = await _service.GetRuneByIdAsync(c.Id);
-        Runes Runes = new Runes
+        Runes rune = new Runes
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserRunesService : IUserRunesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Runes.Power = EvaluatePower.CalculatePower(
-            Runes.Health,
-            Runes.PhysicalAttack, Runes.PhysicalDefense,
-            Runes.MagicalAttack, Runes.MagicalDefense,
-            Runes.ChemicalAttack, Runes.ChemicalDefense,
-            Runes.AtomicAttack, Runes.AtomicDefense,
-            Runes.MentalAttack, Runes.MentalDefense,
-            Runes.Speed,
-            Runes.CriticalDamageRate, Runes.CriticalRate, Runes.CriticalResistanceRate, Runes.IgnoreCriticalRate,
-            Runes.PenetrationRate, Runes.PenetrationResistanceRate, Runes.EvasionRate,
-            Runes.DamageAbsorptionRate, Runes.IgnoreDamageAbsorptionRate, Runes.AbsorbedDamageRate,
-            Runes.VitalityRegenerationRate, Runes.VitalityRegenerationResistanceRate,
-            Runes.AccuracyRate, Runes.LifestealRate,
-            Runes.ShieldStrength, Runes.Tenacity, Runes.ResistanceRate,
-            Runes.ComboRate, Runes.IgnoreComboRate, Runes.ComboDamageRate, Runes.ComboResistanceRate,
-            Runes.StunRate, Runes.IgnoreStunRate,
-            Runes.ReflectionRate, Runes.IgnoreReflectionRate, Runes.ReflectionDamageRate, Runes.ReflectionResistanceRate,
-            Runes.Mana, Runes.ManaRegenerationRate,
-            Runes.DamageToDifferentFactionRate, Runes.ResistanceToDifferentFactionRate,
-            Runes.DamageToSameFactionRate, Runes.ResistanceToSameFactionRate,
-            Runes.NormalDamageRate, Runes.NormalResistanceRate,
-            Runes.SkillDamageRate, Runes.SkillResistanceRate
+        rune.Power = EvaluatePower.CalculatePower(
+            rune.Health,
+            rune.PhysicalAttack, rune.PhysicalDefense,
+            rune.MagicalAttack, rune.MagicalDefense,
+            rune.ChemicalAttack, rune.ChemicalDefense,
+            rune.AtomicAttack, rune.AtomicDefense,
+            rune.MentalAttack, rune.MentalDefense,
+            rune.Speed,
+            rune.CriticalDamageRate, rune.CriticalRate, rune.CriticalResistanceRate, rune.IgnoreCriticalRate,
+            rune.PenetrationRate, rune.PenetrationResistanceRate, rune.EvasionRate,
+            rune.DamageAbsorptionRate, rune.IgnoreDamageAbsorptionRate, rune.AbsorbedDamageRate,
+            rune.VitalityRegenerationRate, rune.VitalityRegenerationResistanceRate,
+            rune.AccuracyRate, rune.LifestealRate,
+            rune.ShieldStrength, rune.Tenacity, rune.ResistanceRate,
+            rune.ComboRate, rune.IgnoreComboRate, rune.ComboDamageRate, rune.ComboResistanceRate,
+            rune.StunRate, rune.IgnoreStunRate,
+            rune.ReflectionRate, rune.IgnoreReflectionRate, rune.ReflectionDamageRate, rune.ReflectionResistanceRate,
+            rune.Mana, rune.ManaRegenerationRate,
+            rune.DamageToDifferentFactionRate, rune.ResistanceToDifferentFactionRate,
+            rune.DamageToSameFactionRate, rune.ResistanceToSameFactionRate,
+            rune.NormalDamageRate, rune.NormalResistanceRate,
+            rune.SkillDamageRate, rune.SkillResistanceRate
         );
-        return Runes;
+        return rune;
     }
 
     public async Task<List<Runes>> GetUserRunesAsync(string user_id, string search, int pageSize, int offset, string rare)

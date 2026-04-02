@@ -25,7 +25,7 @@ public class UserEmojisService : IUserEmojisService
         IEmojisRepository _repository = new EmojisRepository();
         EmojisService _service = new EmojisService(_repository);
         Emojis orginCard = await _service.GetEmojiByIdAsync(c.Id);
-        Emojis Emojis = new Emojis
+        Emojis emoji = new Emojis
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserEmojisService : IUserEmojisService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Emojis.Power = EvaluatePower.CalculatePower(
-            Emojis.Health,
-            Emojis.PhysicalAttack, Emojis.PhysicalDefense,
-            Emojis.MagicalAttack, Emojis.MagicalDefense,
-            Emojis.ChemicalAttack, Emojis.ChemicalDefense,
-            Emojis.AtomicAttack, Emojis.AtomicDefense,
-            Emojis.MentalAttack, Emojis.MentalDefense,
-            Emojis.Speed,
-            Emojis.CriticalDamageRate, Emojis.CriticalRate, Emojis.CriticalResistanceRate, Emojis.IgnoreCriticalRate,
-            Emojis.PenetrationRate, Emojis.PenetrationResistanceRate, Emojis.EvasionRate,
-            Emojis.DamageAbsorptionRate, Emojis.IgnoreDamageAbsorptionRate, Emojis.AbsorbedDamageRate,
-            Emojis.VitalityRegenerationRate, Emojis.VitalityRegenerationResistanceRate,
-            Emojis.AccuracyRate, Emojis.LifestealRate,
-            Emojis.ShieldStrength, Emojis.Tenacity, Emojis.ResistanceRate,
-            Emojis.ComboRate, Emojis.IgnoreComboRate, Emojis.ComboDamageRate, Emojis.ComboResistanceRate,
-            Emojis.StunRate, Emojis.IgnoreStunRate,
-            Emojis.ReflectionRate, Emojis.IgnoreReflectionRate, Emojis.ReflectionDamageRate, Emojis.ReflectionResistanceRate,
-            Emojis.Mana, Emojis.ManaRegenerationRate,
-            Emojis.DamageToDifferentFactionRate, Emojis.ResistanceToDifferentFactionRate,
-            Emojis.DamageToSameFactionRate, Emojis.ResistanceToSameFactionRate,
-            Emojis.NormalDamageRate, Emojis.NormalResistanceRate,
-            Emojis.SkillDamageRate, Emojis.SkillResistanceRate
+        emoji.Power = EvaluatePower.CalculatePower(
+            emoji.Health,
+            emoji.PhysicalAttack, emoji.PhysicalDefense,
+            emoji.MagicalAttack, emoji.MagicalDefense,
+            emoji.ChemicalAttack, emoji.ChemicalDefense,
+            emoji.AtomicAttack, emoji.AtomicDefense,
+            emoji.MentalAttack, emoji.MentalDefense,
+            emoji.Speed,
+            emoji.CriticalDamageRate, emoji.CriticalRate, emoji.CriticalResistanceRate, emoji.IgnoreCriticalRate,
+            emoji.PenetrationRate, emoji.PenetrationResistanceRate, emoji.EvasionRate,
+            emoji.DamageAbsorptionRate, emoji.IgnoreDamageAbsorptionRate, emoji.AbsorbedDamageRate,
+            emoji.VitalityRegenerationRate, emoji.VitalityRegenerationResistanceRate,
+            emoji.AccuracyRate, emoji.LifestealRate,
+            emoji.ShieldStrength, emoji.Tenacity, emoji.ResistanceRate,
+            emoji.ComboRate, emoji.IgnoreComboRate, emoji.ComboDamageRate, emoji.ComboResistanceRate,
+            emoji.StunRate, emoji.IgnoreStunRate,
+            emoji.ReflectionRate, emoji.IgnoreReflectionRate, emoji.ReflectionDamageRate, emoji.ReflectionResistanceRate,
+            emoji.Mana, emoji.ManaRegenerationRate,
+            emoji.DamageToDifferentFactionRate, emoji.ResistanceToDifferentFactionRate,
+            emoji.DamageToSameFactionRate, emoji.ResistanceToSameFactionRate,
+            emoji.NormalDamageRate, emoji.NormalResistanceRate,
+            emoji.SkillDamageRate, emoji.SkillResistanceRate
         );
-        return Emojis;
+        return emoji;
     }
     public async Task<Emojis> GetNewBreakthroughPowerAsync(Emojis c, double coefficient)
     {
         IEmojisRepository _repository = new EmojisRepository();
         EmojisService _service = new EmojisService(_repository);
         Emojis orginCard = await _service.GetEmojiByIdAsync(c.Id);
-        Emojis Emojis = new Emojis
+        Emojis emoji = new Emojis
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserEmojisService : IUserEmojisService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Emojis.Power = EvaluatePower.CalculatePower(
-            Emojis.Health,
-            Emojis.PhysicalAttack, Emojis.PhysicalDefense,
-            Emojis.MagicalAttack, Emojis.MagicalDefense,
-            Emojis.ChemicalAttack, Emojis.ChemicalDefense,
-            Emojis.AtomicAttack, Emojis.AtomicDefense,
-            Emojis.MentalAttack, Emojis.MentalDefense,
-            Emojis.Speed,
-            Emojis.CriticalDamageRate, Emojis.CriticalRate, Emojis.CriticalResistanceRate, Emojis.IgnoreCriticalRate,
-            Emojis.PenetrationRate, Emojis.PenetrationResistanceRate, Emojis.EvasionRate,
-            Emojis.DamageAbsorptionRate, Emojis.IgnoreDamageAbsorptionRate, Emojis.AbsorbedDamageRate,
-            Emojis.VitalityRegenerationRate, Emojis.VitalityRegenerationResistanceRate,
-            Emojis.AccuracyRate, Emojis.LifestealRate,
-            Emojis.ShieldStrength, Emojis.Tenacity, Emojis.ResistanceRate,
-            Emojis.ComboRate, Emojis.IgnoreComboRate, Emojis.ComboDamageRate, Emojis.ComboResistanceRate,
-            Emojis.StunRate, Emojis.IgnoreStunRate,
-            Emojis.ReflectionRate, Emojis.IgnoreReflectionRate, Emojis.ReflectionDamageRate, Emojis.ReflectionResistanceRate,
-            Emojis.Mana, Emojis.ManaRegenerationRate,
-            Emojis.DamageToDifferentFactionRate, Emojis.ResistanceToDifferentFactionRate,
-            Emojis.DamageToSameFactionRate, Emojis.ResistanceToSameFactionRate,
-            Emojis.NormalDamageRate, Emojis.NormalResistanceRate,
-            Emojis.SkillDamageRate, Emojis.SkillResistanceRate
+        emoji.Power = EvaluatePower.CalculatePower(
+            emoji.Health,
+            emoji.PhysicalAttack, emoji.PhysicalDefense,
+            emoji.MagicalAttack, emoji.MagicalDefense,
+            emoji.ChemicalAttack, emoji.ChemicalDefense,
+            emoji.AtomicAttack, emoji.AtomicDefense,
+            emoji.MentalAttack, emoji.MentalDefense,
+            emoji.Speed,
+            emoji.CriticalDamageRate, emoji.CriticalRate, emoji.CriticalResistanceRate, emoji.IgnoreCriticalRate,
+            emoji.PenetrationRate, emoji.PenetrationResistanceRate, emoji.EvasionRate,
+            emoji.DamageAbsorptionRate, emoji.IgnoreDamageAbsorptionRate, emoji.AbsorbedDamageRate,
+            emoji.VitalityRegenerationRate, emoji.VitalityRegenerationResistanceRate,
+            emoji.AccuracyRate, emoji.LifestealRate,
+            emoji.ShieldStrength, emoji.Tenacity, emoji.ResistanceRate,
+            emoji.ComboRate, emoji.IgnoreComboRate, emoji.ComboDamageRate, emoji.ComboResistanceRate,
+            emoji.StunRate, emoji.IgnoreStunRate,
+            emoji.ReflectionRate, emoji.IgnoreReflectionRate, emoji.ReflectionDamageRate, emoji.ReflectionResistanceRate,
+            emoji.Mana, emoji.ManaRegenerationRate,
+            emoji.DamageToDifferentFactionRate, emoji.ResistanceToDifferentFactionRate,
+            emoji.DamageToSameFactionRate, emoji.ResistanceToSameFactionRate,
+            emoji.NormalDamageRate, emoji.NormalResistanceRate,
+            emoji.SkillDamageRate, emoji.SkillResistanceRate
         );
-        return Emojis;
+        return emoji;
     }
 
     public async Task<List<Emojis>> GetUserEmojisAsync(string user_id, string search, int pageSize, int offset, string rare)

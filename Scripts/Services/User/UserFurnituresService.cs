@@ -25,7 +25,7 @@ public class UserFurnituresService : IUserFurnituresService
         IFurnituresRepository _repository = new FurnituresRepository();
         FurnituresService _service = new FurnituresService(_repository);
         Furnitures orginCard = await _service.GetFurnitureByIdAsync(c.Id);
-        Furnitures Furniture = new Furnitures
+        Furnitures furniture = new Furnitures
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserFurnituresService : IUserFurnituresService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Furniture.Power = EvaluatePower.CalculatePower(
-            Furniture.Health,
-            Furniture.PhysicalAttack, Furniture.PhysicalDefense,
-            Furniture.MagicalAttack, Furniture.MagicalDefense,
-            Furniture.ChemicalAttack, Furniture.ChemicalDefense,
-            Furniture.AtomicAttack, Furniture.AtomicDefense,
-            Furniture.MentalAttack, Furniture.MentalDefense,
-            Furniture.Speed,
-            Furniture.CriticalDamageRate, Furniture.CriticalRate, Furniture.CriticalResistanceRate, Furniture.IgnoreCriticalRate,
-            Furniture.PenetrationRate, Furniture.PenetrationResistanceRate, Furniture.EvasionRate,
-            Furniture.DamageAbsorptionRate, Furniture.IgnoreDamageAbsorptionRate, Furniture.AbsorbedDamageRate,
-            Furniture.VitalityRegenerationRate, Furniture.VitalityRegenerationResistanceRate,
-            Furniture.AccuracyRate, Furniture.LifestealRate,
-            Furniture.ShieldStrength, Furniture.Tenacity, Furniture.ResistanceRate,
-            Furniture.ComboRate, Furniture.IgnoreComboRate, Furniture.ComboDamageRate, Furniture.ComboResistanceRate,
-            Furniture.StunRate, Furniture.IgnoreStunRate,
-            Furniture.ReflectionRate, Furniture.IgnoreReflectionRate, Furniture.ReflectionDamageRate, Furniture.ReflectionResistanceRate,
-            Furniture.Mana, Furniture.ManaRegenerationRate,
-            Furniture.DamageToDifferentFactionRate, Furniture.ResistanceToDifferentFactionRate,
-            Furniture.DamageToSameFactionRate, Furniture.ResistanceToSameFactionRate,
-            Furniture.NormalDamageRate, Furniture.NormalResistanceRate,
-            Furniture.SkillDamageRate, Furniture.SkillResistanceRate
+        furniture.Power = EvaluatePower.CalculatePower(
+            furniture.Health,
+            furniture.PhysicalAttack, furniture.PhysicalDefense,
+            furniture.MagicalAttack, furniture.MagicalDefense,
+            furniture.ChemicalAttack, furniture.ChemicalDefense,
+            furniture.AtomicAttack, furniture.AtomicDefense,
+            furniture.MentalAttack, furniture.MentalDefense,
+            furniture.Speed,
+            furniture.CriticalDamageRate, furniture.CriticalRate, furniture.CriticalResistanceRate, furniture.IgnoreCriticalRate,
+            furniture.PenetrationRate, furniture.PenetrationResistanceRate, furniture.EvasionRate,
+            furniture.DamageAbsorptionRate, furniture.IgnoreDamageAbsorptionRate, furniture.AbsorbedDamageRate,
+            furniture.VitalityRegenerationRate, furniture.VitalityRegenerationResistanceRate,
+            furniture.AccuracyRate, furniture.LifestealRate,
+            furniture.ShieldStrength, furniture.Tenacity, furniture.ResistanceRate,
+            furniture.ComboRate, furniture.IgnoreComboRate, furniture.ComboDamageRate, furniture.ComboResistanceRate,
+            furniture.StunRate, furniture.IgnoreStunRate,
+            furniture.ReflectionRate, furniture.IgnoreReflectionRate, furniture.ReflectionDamageRate, furniture.ReflectionResistanceRate,
+            furniture.Mana, furniture.ManaRegenerationRate,
+            furniture.DamageToDifferentFactionRate, furniture.ResistanceToDifferentFactionRate,
+            furniture.DamageToSameFactionRate, furniture.ResistanceToSameFactionRate,
+            furniture.NormalDamageRate, furniture.NormalResistanceRate,
+            furniture.SkillDamageRate, furniture.SkillResistanceRate
         );
-        return Furniture;
+        return furniture;
     }
     public async Task<Furnitures> GetNewBreakthroughPowerAsync(Furnitures c, double coefficient)
     {
         IFurnituresRepository _repository = new FurnituresRepository();
         FurnituresService _service = new FurnituresService(_repository);
         Furnitures orginCard = await _service.GetFurnitureByIdAsync(c.Id);
-        Furnitures Furniture = new Furnitures
+        Furnitures furniture = new Furnitures
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserFurnituresService : IUserFurnituresService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Furniture.Power = EvaluatePower.CalculatePower(
-            Furniture.Health,
-            Furniture.PhysicalAttack, Furniture.PhysicalDefense,
-            Furniture.MagicalAttack, Furniture.MagicalDefense,
-            Furniture.ChemicalAttack, Furniture.ChemicalDefense,
-            Furniture.AtomicAttack, Furniture.AtomicDefense,
-            Furniture.MentalAttack, Furniture.MentalDefense,
-            Furniture.Speed,
-            Furniture.CriticalDamageRate, Furniture.CriticalRate, Furniture.CriticalResistanceRate, Furniture.IgnoreCriticalRate,
-            Furniture.PenetrationRate, Furniture.PenetrationResistanceRate, Furniture.EvasionRate,
-            Furniture.DamageAbsorptionRate, Furniture.IgnoreDamageAbsorptionRate, Furniture.AbsorbedDamageRate,
-            Furniture.VitalityRegenerationRate, Furniture.VitalityRegenerationResistanceRate,
-            Furniture.AccuracyRate, Furniture.LifestealRate,
-            Furniture.ShieldStrength, Furniture.Tenacity, Furniture.ResistanceRate,
-            Furniture.ComboRate, Furniture.IgnoreComboRate, Furniture.ComboDamageRate, Furniture.ComboResistanceRate,
-            Furniture.StunRate, Furniture.IgnoreStunRate,
-            Furniture.ReflectionRate, Furniture.IgnoreReflectionRate, Furniture.ReflectionDamageRate, Furniture.ReflectionResistanceRate,
-            Furniture.Mana, Furniture.ManaRegenerationRate,
-            Furniture.DamageToDifferentFactionRate, Furniture.ResistanceToDifferentFactionRate,
-            Furniture.DamageToSameFactionRate, Furniture.ResistanceToSameFactionRate,
-            Furniture.NormalDamageRate, Furniture.NormalResistanceRate,
-            Furniture.SkillDamageRate, Furniture.SkillResistanceRate
+        furniture.Power = EvaluatePower.CalculatePower(
+            furniture.Health,
+            furniture.PhysicalAttack, furniture.PhysicalDefense,
+            furniture.MagicalAttack, furniture.MagicalDefense,
+            furniture.ChemicalAttack, furniture.ChemicalDefense,
+            furniture.AtomicAttack, furniture.AtomicDefense,
+            furniture.MentalAttack, furniture.MentalDefense,
+            furniture.Speed,
+            furniture.CriticalDamageRate, furniture.CriticalRate, furniture.CriticalResistanceRate, furniture.IgnoreCriticalRate,
+            furniture.PenetrationRate, furniture.PenetrationResistanceRate, furniture.EvasionRate,
+            furniture.DamageAbsorptionRate, furniture.IgnoreDamageAbsorptionRate, furniture.AbsorbedDamageRate,
+            furniture.VitalityRegenerationRate, furniture.VitalityRegenerationResistanceRate,
+            furniture.AccuracyRate, furniture.LifestealRate,
+            furniture.ShieldStrength, furniture.Tenacity, furniture.ResistanceRate,
+            furniture.ComboRate, furniture.IgnoreComboRate, furniture.ComboDamageRate, furniture.ComboResistanceRate,
+            furniture.StunRate, furniture.IgnoreStunRate,
+            furniture.ReflectionRate, furniture.IgnoreReflectionRate, furniture.ReflectionDamageRate, furniture.ReflectionResistanceRate,
+            furniture.Mana, furniture.ManaRegenerationRate,
+            furniture.DamageToDifferentFactionRate, furniture.ResistanceToDifferentFactionRate,
+            furniture.DamageToSameFactionRate, furniture.ResistanceToSameFactionRate,
+            furniture.NormalDamageRate, furniture.NormalResistanceRate,
+            furniture.SkillDamageRate, furniture.SkillResistanceRate
         );
-        return Furniture;
+        return furniture;
     }
 
     public async Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

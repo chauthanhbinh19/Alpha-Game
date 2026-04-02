@@ -25,7 +25,7 @@ public class UserFoodsService : IUserFoodsService
         IFoodsRepository _repository = new FoodsRepository();
         FoodsService _service = new FoodsService(_repository);
         Foods orginCard = await _service.GetFoodByIdAsync(c.Id);
-        Foods Foods = new Foods
+        Foods food = new Foods
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserFoodsService : IUserFoodsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Foods.Power = EvaluatePower.CalculatePower(
-            Foods.Health,
-            Foods.PhysicalAttack, Foods.PhysicalDefense,
-            Foods.MagicalAttack, Foods.MagicalDefense,
-            Foods.ChemicalAttack, Foods.ChemicalDefense,
-            Foods.AtomicAttack, Foods.AtomicDefense,
-            Foods.MentalAttack, Foods.MentalDefense,
-            Foods.Speed,
-            Foods.CriticalDamageRate, Foods.CriticalRate, Foods.CriticalResistanceRate, Foods.IgnoreCriticalRate,
-            Foods.PenetrationRate, Foods.PenetrationResistanceRate, Foods.EvasionRate,
-            Foods.DamageAbsorptionRate, Foods.IgnoreDamageAbsorptionRate, Foods.AbsorbedDamageRate,
-            Foods.VitalityRegenerationRate, Foods.VitalityRegenerationResistanceRate,
-            Foods.AccuracyRate, Foods.LifestealRate,
-            Foods.ShieldStrength, Foods.Tenacity, Foods.ResistanceRate,
-            Foods.ComboRate, Foods.IgnoreComboRate, Foods.ComboDamageRate, Foods.ComboResistanceRate,
-            Foods.StunRate, Foods.IgnoreStunRate,
-            Foods.ReflectionRate, Foods.IgnoreReflectionRate, Foods.ReflectionDamageRate, Foods.ReflectionResistanceRate,
-            Foods.Mana, Foods.ManaRegenerationRate,
-            Foods.DamageToDifferentFactionRate, Foods.ResistanceToDifferentFactionRate,
-            Foods.DamageToSameFactionRate, Foods.ResistanceToSameFactionRate,
-            Foods.NormalDamageRate, Foods.NormalResistanceRate,
-            Foods.SkillDamageRate, Foods.SkillResistanceRate
+        food.Power = EvaluatePower.CalculatePower(
+            food.Health,
+            food.PhysicalAttack, food.PhysicalDefense,
+            food.MagicalAttack, food.MagicalDefense,
+            food.ChemicalAttack, food.ChemicalDefense,
+            food.AtomicAttack, food.AtomicDefense,
+            food.MentalAttack, food.MentalDefense,
+            food.Speed,
+            food.CriticalDamageRate, food.CriticalRate, food.CriticalResistanceRate, food.IgnoreCriticalRate,
+            food.PenetrationRate, food.PenetrationResistanceRate, food.EvasionRate,
+            food.DamageAbsorptionRate, food.IgnoreDamageAbsorptionRate, food.AbsorbedDamageRate,
+            food.VitalityRegenerationRate, food.VitalityRegenerationResistanceRate,
+            food.AccuracyRate, food.LifestealRate,
+            food.ShieldStrength, food.Tenacity, food.ResistanceRate,
+            food.ComboRate, food.IgnoreComboRate, food.ComboDamageRate, food.ComboResistanceRate,
+            food.StunRate, food.IgnoreStunRate,
+            food.ReflectionRate, food.IgnoreReflectionRate, food.ReflectionDamageRate, food.ReflectionResistanceRate,
+            food.Mana, food.ManaRegenerationRate,
+            food.DamageToDifferentFactionRate, food.ResistanceToDifferentFactionRate,
+            food.DamageToSameFactionRate, food.ResistanceToSameFactionRate,
+            food.NormalDamageRate, food.NormalResistanceRate,
+            food.SkillDamageRate, food.SkillResistanceRate
         );
-        return Foods;
+        return food;
     }
     public async Task<Foods> GetNewBreakthroughPowerAsync(Foods c, double coefficient)
     {
         IFoodsRepository _repository = new FoodsRepository();
         FoodsService _service = new FoodsService(_repository);
         Foods orginCard = await _service.GetFoodByIdAsync(c.Id);
-        Foods Foods = new Foods
+        Foods food = new Foods
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserFoodsService : IUserFoodsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Foods.Power = EvaluatePower.CalculatePower(
-            Foods.Health,
-            Foods.PhysicalAttack, Foods.PhysicalDefense,
-            Foods.MagicalAttack, Foods.MagicalDefense,
-            Foods.ChemicalAttack, Foods.ChemicalDefense,
-            Foods.AtomicAttack, Foods.AtomicDefense,
-            Foods.MentalAttack, Foods.MentalDefense,
-            Foods.Speed,
-            Foods.CriticalDamageRate, Foods.CriticalRate, Foods.CriticalResistanceRate, Foods.IgnoreCriticalRate,
-            Foods.PenetrationRate, Foods.PenetrationResistanceRate, Foods.EvasionRate,
-            Foods.DamageAbsorptionRate, Foods.IgnoreDamageAbsorptionRate, Foods.AbsorbedDamageRate,
-            Foods.VitalityRegenerationRate, Foods.VitalityRegenerationResistanceRate,
-            Foods.AccuracyRate, Foods.LifestealRate,
-            Foods.ShieldStrength, Foods.Tenacity, Foods.ResistanceRate,
-            Foods.ComboRate, Foods.IgnoreComboRate, Foods.ComboDamageRate, Foods.ComboResistanceRate,
-            Foods.StunRate, Foods.IgnoreStunRate,
-            Foods.ReflectionRate, Foods.IgnoreReflectionRate, Foods.ReflectionDamageRate, Foods.ReflectionResistanceRate,
-            Foods.Mana, Foods.ManaRegenerationRate,
-            Foods.DamageToDifferentFactionRate, Foods.ResistanceToDifferentFactionRate,
-            Foods.DamageToSameFactionRate, Foods.ResistanceToSameFactionRate,
-            Foods.NormalDamageRate, Foods.NormalResistanceRate,
-            Foods.SkillDamageRate, Foods.SkillResistanceRate
+        food.Power = EvaluatePower.CalculatePower(
+            food.Health,
+            food.PhysicalAttack, food.PhysicalDefense,
+            food.MagicalAttack, food.MagicalDefense,
+            food.ChemicalAttack, food.ChemicalDefense,
+            food.AtomicAttack, food.AtomicDefense,
+            food.MentalAttack, food.MentalDefense,
+            food.Speed,
+            food.CriticalDamageRate, food.CriticalRate, food.CriticalResistanceRate, food.IgnoreCriticalRate,
+            food.PenetrationRate, food.PenetrationResistanceRate, food.EvasionRate,
+            food.DamageAbsorptionRate, food.IgnoreDamageAbsorptionRate, food.AbsorbedDamageRate,
+            food.VitalityRegenerationRate, food.VitalityRegenerationResistanceRate,
+            food.AccuracyRate, food.LifestealRate,
+            food.ShieldStrength, food.Tenacity, food.ResistanceRate,
+            food.ComboRate, food.IgnoreComboRate, food.ComboDamageRate, food.ComboResistanceRate,
+            food.StunRate, food.IgnoreStunRate,
+            food.ReflectionRate, food.IgnoreReflectionRate, food.ReflectionDamageRate, food.ReflectionResistanceRate,
+            food.Mana, food.ManaRegenerationRate,
+            food.DamageToDifferentFactionRate, food.ResistanceToDifferentFactionRate,
+            food.DamageToSameFactionRate, food.ResistanceToSameFactionRate,
+            food.NormalDamageRate, food.NormalResistanceRate,
+            food.SkillDamageRate, food.SkillResistanceRate
         );
-        return Foods;
+        return food;
     }
 
     public async Task<List<Foods>> GetUserFoodsAsync(string user_id, string search, int pageSize, int offset, string rare)

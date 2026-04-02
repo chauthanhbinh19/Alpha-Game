@@ -25,7 +25,7 @@ public class UserArtifactsService : IUserArtifactsService
         IArtifactsRepository _repository = new ArtifactsRepository();
         ArtifactsService _service = new ArtifactsService(_repository);
         Artifacts orginArtifact = await _service.GetArtifactByIdAsync(c.Id);
-        Artifacts Artifacts = new Artifacts
+        Artifacts artifact = new Artifacts
         {
             Id = c.Id,
             Health = c.Health + orginArtifact.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserArtifactsService : IUserArtifactsService
             SkillDamageRate = c.SkillDamageRate + orginArtifact.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginArtifact.SkillResistanceRate * coefficient
         };
-        Artifacts.Power = EvaluatePower.CalculatePower(
-            Artifacts.Health,
-            Artifacts.PhysicalAttack, Artifacts.PhysicalDefense,
-            Artifacts.MagicalAttack, Artifacts.MagicalDefense,
-            Artifacts.ChemicalAttack, Artifacts.ChemicalDefense,
-            Artifacts.AtomicAttack, Artifacts.AtomicDefense,
-            Artifacts.MentalAttack, Artifacts.MentalDefense,
-            Artifacts.Speed,
-            Artifacts.CriticalDamageRate, Artifacts.CriticalRate, Artifacts.CriticalResistanceRate, Artifacts.IgnoreCriticalRate,
-            Artifacts.PenetrationRate, Artifacts.PenetrationResistanceRate, Artifacts.EvasionRate,
-            Artifacts.DamageAbsorptionRate, Artifacts.IgnoreDamageAbsorptionRate, Artifacts.AbsorbedDamageRate,
-            Artifacts.VitalityRegenerationRate, Artifacts.VitalityRegenerationResistanceRate,
-            Artifacts.AccuracyRate, Artifacts.LifestealRate,
-            Artifacts.ShieldStrength, Artifacts.Tenacity, Artifacts.ResistanceRate,
-            Artifacts.ComboRate, Artifacts.IgnoreComboRate, Artifacts.ComboDamageRate, Artifacts.ComboResistanceRate,
-            Artifacts.StunRate, Artifacts.IgnoreStunRate,
-            Artifacts.ReflectionRate, Artifacts.IgnoreReflectionRate, Artifacts.ReflectionDamageRate, Artifacts.ReflectionResistanceRate,
-            Artifacts.Mana, Artifacts.ManaRegenerationRate,
-            Artifacts.DamageToDifferentFactionRate, Artifacts.ResistanceToDifferentFactionRate,
-            Artifacts.DamageToSameFactionRate, Artifacts.ResistanceToSameFactionRate,
-            Artifacts.NormalDamageRate, Artifacts.NormalResistanceRate,
-            Artifacts.SkillDamageRate, Artifacts.SkillResistanceRate
+        artifact.Power = EvaluatePower.CalculatePower(
+            artifact.Health,
+            artifact.PhysicalAttack, artifact.PhysicalDefense,
+            artifact.MagicalAttack, artifact.MagicalDefense,
+            artifact.ChemicalAttack, artifact.ChemicalDefense,
+            artifact.AtomicAttack, artifact.AtomicDefense,
+            artifact.MentalAttack, artifact.MentalDefense,
+            artifact.Speed,
+            artifact.CriticalDamageRate, artifact.CriticalRate, artifact.CriticalResistanceRate, artifact.IgnoreCriticalRate,
+            artifact.PenetrationRate, artifact.PenetrationResistanceRate, artifact.EvasionRate,
+            artifact.DamageAbsorptionRate, artifact.IgnoreDamageAbsorptionRate, artifact.AbsorbedDamageRate,
+            artifact.VitalityRegenerationRate, artifact.VitalityRegenerationResistanceRate,
+            artifact.AccuracyRate, artifact.LifestealRate,
+            artifact.ShieldStrength, artifact.Tenacity, artifact.ResistanceRate,
+            artifact.ComboRate, artifact.IgnoreComboRate, artifact.ComboDamageRate, artifact.ComboResistanceRate,
+            artifact.StunRate, artifact.IgnoreStunRate,
+            artifact.ReflectionRate, artifact.IgnoreReflectionRate, artifact.ReflectionDamageRate, artifact.ReflectionResistanceRate,
+            artifact.Mana, artifact.ManaRegenerationRate,
+            artifact.DamageToDifferentFactionRate, artifact.ResistanceToDifferentFactionRate,
+            artifact.DamageToSameFactionRate, artifact.ResistanceToSameFactionRate,
+            artifact.NormalDamageRate, artifact.NormalResistanceRate,
+            artifact.SkillDamageRate, artifact.SkillResistanceRate
         );
-        return Artifacts;
+        return artifact;
     }
     public async Task<Artifacts> GetNewBreakthroughPowerAsync(Artifacts c, double coefficient)
     {
         IArtifactsRepository _repository = new ArtifactsRepository();
         ArtifactsService _service = new ArtifactsService(_repository);
         Artifacts orginArtifact = await _service.GetArtifactByIdAsync(c.Id);
-        Artifacts Artifacts = new Artifacts
+        Artifacts artifact = new Artifacts
         {
             Id = c.Id,
             Health = c.Health + orginArtifact.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserArtifactsService : IUserArtifactsService
             SkillDamageRate = c.SkillDamageRate + orginArtifact.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginArtifact.SkillResistanceRate * coefficient
         };
-        Artifacts.Power = EvaluatePower.CalculatePower(
-            Artifacts.Health,
-            Artifacts.PhysicalAttack, Artifacts.PhysicalDefense,
-            Artifacts.MagicalAttack, Artifacts.MagicalDefense,
-            Artifacts.ChemicalAttack, Artifacts.ChemicalDefense,
-            Artifacts.AtomicAttack, Artifacts.AtomicDefense,
-            Artifacts.MentalAttack, Artifacts.MentalDefense,
-            Artifacts.Speed,
-            Artifacts.CriticalDamageRate, Artifacts.CriticalRate, Artifacts.CriticalResistanceRate, Artifacts.IgnoreCriticalRate,
-            Artifacts.PenetrationRate, Artifacts.PenetrationResistanceRate, Artifacts.EvasionRate,
-            Artifacts.DamageAbsorptionRate, Artifacts.IgnoreDamageAbsorptionRate, Artifacts.AbsorbedDamageRate,
-            Artifacts.VitalityRegenerationRate, Artifacts.VitalityRegenerationResistanceRate,
-            Artifacts.AccuracyRate, Artifacts.LifestealRate,
-            Artifacts.ShieldStrength, Artifacts.Tenacity, Artifacts.ResistanceRate,
-            Artifacts.ComboRate, Artifacts.IgnoreComboRate, Artifacts.ComboDamageRate, Artifacts.ComboResistanceRate,
-            Artifacts.StunRate, Artifacts.IgnoreStunRate,
-            Artifacts.ReflectionRate, Artifacts.IgnoreReflectionRate, Artifacts.ReflectionDamageRate, Artifacts.ReflectionResistanceRate,
-            Artifacts.Mana, Artifacts.ManaRegenerationRate,
-            Artifacts.DamageToDifferentFactionRate, Artifacts.ResistanceToDifferentFactionRate,
-            Artifacts.DamageToSameFactionRate, Artifacts.ResistanceToSameFactionRate,
-            Artifacts.NormalDamageRate, Artifacts.NormalResistanceRate,
-            Artifacts.SkillDamageRate, Artifacts.SkillResistanceRate
+        artifact.Power = EvaluatePower.CalculatePower(
+            artifact.Health,
+            artifact.PhysicalAttack, artifact.PhysicalDefense,
+            artifact.MagicalAttack, artifact.MagicalDefense,
+            artifact.ChemicalAttack, artifact.ChemicalDefense,
+            artifact.AtomicAttack, artifact.AtomicDefense,
+            artifact.MentalAttack, artifact.MentalDefense,
+            artifact.Speed,
+            artifact.CriticalDamageRate, artifact.CriticalRate, artifact.CriticalResistanceRate, artifact.IgnoreCriticalRate,
+            artifact.PenetrationRate, artifact.PenetrationResistanceRate, artifact.EvasionRate,
+            artifact.DamageAbsorptionRate, artifact.IgnoreDamageAbsorptionRate, artifact.AbsorbedDamageRate,
+            artifact.VitalityRegenerationRate, artifact.VitalityRegenerationResistanceRate,
+            artifact.AccuracyRate, artifact.LifestealRate,
+            artifact.ShieldStrength, artifact.Tenacity, artifact.ResistanceRate,
+            artifact.ComboRate, artifact.IgnoreComboRate, artifact.ComboDamageRate, artifact.ComboResistanceRate,
+            artifact.StunRate, artifact.IgnoreStunRate,
+            artifact.ReflectionRate, artifact.IgnoreReflectionRate, artifact.ReflectionDamageRate, artifact.ReflectionResistanceRate,
+            artifact.Mana, artifact.ManaRegenerationRate,
+            artifact.DamageToDifferentFactionRate, artifact.ResistanceToDifferentFactionRate,
+            artifact.DamageToSameFactionRate, artifact.ResistanceToSameFactionRate,
+            artifact.NormalDamageRate, artifact.NormalResistanceRate,
+            artifact.SkillDamageRate, artifact.SkillResistanceRate
         );
-        return Artifacts;
+        return artifact;
     }
 
     public async Task<List<Artifacts>> GetUserArtifactsAsync(string user_id, string search, int pageSize, int offset, string rare)

@@ -25,7 +25,7 @@ public class UserFashionsService : IUserFashionsService
         IFashionsRepository _repository = new FashionsRepository();
         FashionsService _service = new FashionsService(_repository);
         Fashions orginCard = await _service.GetFashionByIdAsync(c.Id);
-        Fashions Fashion = new Fashions
+        Fashions fashion = new Fashions
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserFashionsService : IUserFashionsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Fashion.Power = EvaluatePower.CalculatePower(
-            Fashion.Health,
-            Fashion.PhysicalAttack, Fashion.PhysicalDefense,
-            Fashion.MagicalAttack, Fashion.MagicalDefense,
-            Fashion.ChemicalAttack, Fashion.ChemicalDefense,
-            Fashion.AtomicAttack, Fashion.AtomicDefense,
-            Fashion.MentalAttack, Fashion.MentalDefense,
-            Fashion.Speed,
-            Fashion.CriticalDamageRate, Fashion.CriticalRate, Fashion.CriticalResistanceRate, Fashion.IgnoreCriticalRate,
-            Fashion.PenetrationRate, Fashion.PenetrationResistanceRate, Fashion.EvasionRate,
-            Fashion.DamageAbsorptionRate, Fashion.IgnoreDamageAbsorptionRate, Fashion.AbsorbedDamageRate,
-            Fashion.VitalityRegenerationRate, Fashion.VitalityRegenerationResistanceRate,
-            Fashion.AccuracyRate, Fashion.LifestealRate,
-            Fashion.ShieldStrength, Fashion.Tenacity, Fashion.ResistanceRate,
-            Fashion.ComboRate, Fashion.IgnoreComboRate, Fashion.ComboDamageRate, Fashion.ComboResistanceRate,
-            Fashion.StunRate, Fashion.IgnoreStunRate,
-            Fashion.ReflectionRate, Fashion.IgnoreReflectionRate, Fashion.ReflectionDamageRate, Fashion.ReflectionResistanceRate,
-            Fashion.Mana, Fashion.ManaRegenerationRate,
-            Fashion.DamageToDifferentFactionRate, Fashion.ResistanceToDifferentFactionRate,
-            Fashion.DamageToSameFactionRate, Fashion.ResistanceToSameFactionRate,
-            Fashion.NormalDamageRate, Fashion.NormalResistanceRate,
-            Fashion.SkillDamageRate, Fashion.SkillResistanceRate
+        fashion.Power = EvaluatePower.CalculatePower(
+            fashion.Health,
+            fashion.PhysicalAttack, fashion.PhysicalDefense,
+            fashion.MagicalAttack, fashion.MagicalDefense,
+            fashion.ChemicalAttack, fashion.ChemicalDefense,
+            fashion.AtomicAttack, fashion.AtomicDefense,
+            fashion.MentalAttack, fashion.MentalDefense,
+            fashion.Speed,
+            fashion.CriticalDamageRate, fashion.CriticalRate, fashion.CriticalResistanceRate, fashion.IgnoreCriticalRate,
+            fashion.PenetrationRate, fashion.PenetrationResistanceRate, fashion.EvasionRate,
+            fashion.DamageAbsorptionRate, fashion.IgnoreDamageAbsorptionRate, fashion.AbsorbedDamageRate,
+            fashion.VitalityRegenerationRate, fashion.VitalityRegenerationResistanceRate,
+            fashion.AccuracyRate, fashion.LifestealRate,
+            fashion.ShieldStrength, fashion.Tenacity, fashion.ResistanceRate,
+            fashion.ComboRate, fashion.IgnoreComboRate, fashion.ComboDamageRate, fashion.ComboResistanceRate,
+            fashion.StunRate, fashion.IgnoreStunRate,
+            fashion.ReflectionRate, fashion.IgnoreReflectionRate, fashion.ReflectionDamageRate, fashion.ReflectionResistanceRate,
+            fashion.Mana, fashion.ManaRegenerationRate,
+            fashion.DamageToDifferentFactionRate, fashion.ResistanceToDifferentFactionRate,
+            fashion.DamageToSameFactionRate, fashion.ResistanceToSameFactionRate,
+            fashion.NormalDamageRate, fashion.NormalResistanceRate,
+            fashion.SkillDamageRate, fashion.SkillResistanceRate
         );
-        return Fashion;
+        return fashion;
     }
     public async Task<Fashions> GetNewBreakthroughPowerAsync(Fashions c, double coefficient)
     {
         IFashionsRepository _repository = new FashionsRepository();
         FashionsService _service = new FashionsService(_repository);
         Fashions orginCard = await _service.GetFashionByIdAsync(c.Id);
-        Fashions Fashion = new Fashions
+        Fashions fashion = new Fashions
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserFashionsService : IUserFashionsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Fashion.Power = EvaluatePower.CalculatePower(
-            Fashion.Health,
-            Fashion.PhysicalAttack, Fashion.PhysicalDefense,
-            Fashion.MagicalAttack, Fashion.MagicalDefense,
-            Fashion.ChemicalAttack, Fashion.ChemicalDefense,
-            Fashion.AtomicAttack, Fashion.AtomicDefense,
-            Fashion.MentalAttack, Fashion.MentalDefense,
-            Fashion.Speed,
-            Fashion.CriticalDamageRate, Fashion.CriticalRate, Fashion.CriticalResistanceRate, Fashion.IgnoreCriticalRate,
-            Fashion.PenetrationRate, Fashion.PenetrationResistanceRate, Fashion.EvasionRate,
-            Fashion.DamageAbsorptionRate, Fashion.IgnoreDamageAbsorptionRate, Fashion.AbsorbedDamageRate,
-            Fashion.VitalityRegenerationRate, Fashion.VitalityRegenerationResistanceRate,
-            Fashion.AccuracyRate, Fashion.LifestealRate,
-            Fashion.ShieldStrength, Fashion.Tenacity, Fashion.ResistanceRate,
-            Fashion.ComboRate, Fashion.IgnoreComboRate, Fashion.ComboDamageRate, Fashion.ComboResistanceRate,
-            Fashion.StunRate, Fashion.IgnoreStunRate,
-            Fashion.ReflectionRate, Fashion.IgnoreReflectionRate, Fashion.ReflectionDamageRate, Fashion.ReflectionResistanceRate,
-            Fashion.Mana, Fashion.ManaRegenerationRate,
-            Fashion.DamageToDifferentFactionRate, Fashion.ResistanceToDifferentFactionRate,
-            Fashion.DamageToSameFactionRate, Fashion.ResistanceToSameFactionRate,
-            Fashion.NormalDamageRate, Fashion.NormalResistanceRate,
-            Fashion.SkillDamageRate, Fashion.SkillResistanceRate
+        fashion.Power = EvaluatePower.CalculatePower(
+            fashion.Health,
+            fashion.PhysicalAttack, fashion.PhysicalDefense,
+            fashion.MagicalAttack, fashion.MagicalDefense,
+            fashion.ChemicalAttack, fashion.ChemicalDefense,
+            fashion.AtomicAttack, fashion.AtomicDefense,
+            fashion.MentalAttack, fashion.MentalDefense,
+            fashion.Speed,
+            fashion.CriticalDamageRate, fashion.CriticalRate, fashion.CriticalResistanceRate, fashion.IgnoreCriticalRate,
+            fashion.PenetrationRate, fashion.PenetrationResistanceRate, fashion.EvasionRate,
+            fashion.DamageAbsorptionRate, fashion.IgnoreDamageAbsorptionRate, fashion.AbsorbedDamageRate,
+            fashion.VitalityRegenerationRate, fashion.VitalityRegenerationResistanceRate,
+            fashion.AccuracyRate, fashion.LifestealRate,
+            fashion.ShieldStrength, fashion.Tenacity, fashion.ResistanceRate,
+            fashion.ComboRate, fashion.IgnoreComboRate, fashion.ComboDamageRate, fashion.ComboResistanceRate,
+            fashion.StunRate, fashion.IgnoreStunRate,
+            fashion.ReflectionRate, fashion.IgnoreReflectionRate, fashion.ReflectionDamageRate, fashion.ReflectionResistanceRate,
+            fashion.Mana, fashion.ManaRegenerationRate,
+            fashion.DamageToDifferentFactionRate, fashion.ResistanceToDifferentFactionRate,
+            fashion.DamageToSameFactionRate, fashion.ResistanceToSameFactionRate,
+            fashion.NormalDamageRate, fashion.NormalResistanceRate,
+            fashion.SkillDamageRate, fashion.SkillResistanceRate
         );
-        return Fashion;
+        return fashion;
     }
 
     public async Task<List<Fashions>> GetUserFashionsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)

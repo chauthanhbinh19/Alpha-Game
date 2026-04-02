@@ -1487,7 +1487,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         ICardHeroesRepository _repository = new CardHeroesRepository();
         CardHeroesService _service = new CardHeroesService(_repository);
         CardHeroes orginCard = await _service.GetCardHeroByIdAsync(c.Id);
-        CardHeroes cardHeroes = new CardHeroes
+        CardHeroes cardHero = new CardHeroes
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1540,37 +1540,37 @@ public class UserCardHeroesService : IUserCardHeroesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardHeroes.Power = EvaluatePower.CalculatePower(
-            cardHeroes.Health,
-            cardHeroes.PhysicalAttack, cardHeroes.PhysicalDefense,
-            cardHeroes.MagicalAttack, cardHeroes.MagicalDefense,
-            cardHeroes.ChemicalAttack, cardHeroes.ChemicalDefense,
-            cardHeroes.AtomicAttack, cardHeroes.AtomicDefense,
-            cardHeroes.MentalAttack, cardHeroes.MentalDefense,
-            cardHeroes.Speed,
-            cardHeroes.CriticalDamageRate, cardHeroes.CriticalRate, cardHeroes.CriticalResistanceRate, cardHeroes.IgnoreCriticalRate,
-            cardHeroes.PenetrationRate, cardHeroes.PenetrationResistanceRate, cardHeroes.EvasionRate,
-            cardHeroes.DamageAbsorptionRate, cardHeroes.IgnoreDamageAbsorptionRate, cardHeroes.AbsorbedDamageRate,
-            cardHeroes.VitalityRegenerationRate, cardHeroes.VitalityRegenerationResistanceRate,
-            cardHeroes.AccuracyRate, cardHeroes.LifestealRate,
-            cardHeroes.ShieldStrength, cardHeroes.Tenacity, cardHeroes.ResistanceRate,
-            cardHeroes.ComboRate, cardHeroes.IgnoreComboRate, cardHeroes.ComboDamageRate, cardHeroes.ComboResistanceRate,
-            cardHeroes.StunRate, cardHeroes.IgnoreStunRate,
-            cardHeroes.ReflectionRate, cardHeroes.IgnoreReflectionRate, cardHeroes.ReflectionDamageRate, cardHeroes.ReflectionResistanceRate,
-            cardHeroes.Mana, cardHeroes.ManaRegenerationRate,
-            cardHeroes.DamageToDifferentFactionRate, cardHeroes.ResistanceToDifferentFactionRate,
-            cardHeroes.DamageToSameFactionRate, cardHeroes.ResistanceToSameFactionRate,
-            cardHeroes.NormalDamageRate, cardHeroes.NormalResistanceRate,
-            cardHeroes.SkillDamageRate, cardHeroes.SkillResistanceRate
+        cardHero.Power = EvaluatePower.CalculatePower(
+            cardHero.Health,
+            cardHero.PhysicalAttack, cardHero.PhysicalDefense,
+            cardHero.MagicalAttack, cardHero.MagicalDefense,
+            cardHero.ChemicalAttack, cardHero.ChemicalDefense,
+            cardHero.AtomicAttack, cardHero.AtomicDefense,
+            cardHero.MentalAttack, cardHero.MentalDefense,
+            cardHero.Speed,
+            cardHero.CriticalDamageRate, cardHero.CriticalRate, cardHero.CriticalResistanceRate, cardHero.IgnoreCriticalRate,
+            cardHero.PenetrationRate, cardHero.PenetrationResistanceRate, cardHero.EvasionRate,
+            cardHero.DamageAbsorptionRate, cardHero.IgnoreDamageAbsorptionRate, cardHero.AbsorbedDamageRate,
+            cardHero.VitalityRegenerationRate, cardHero.VitalityRegenerationResistanceRate,
+            cardHero.AccuracyRate, cardHero.LifestealRate,
+            cardHero.ShieldStrength, cardHero.Tenacity, cardHero.ResistanceRate,
+            cardHero.ComboRate, cardHero.IgnoreComboRate, cardHero.ComboDamageRate, cardHero.ComboResistanceRate,
+            cardHero.StunRate, cardHero.IgnoreStunRate,
+            cardHero.ReflectionRate, cardHero.IgnoreReflectionRate, cardHero.ReflectionDamageRate, cardHero.ReflectionResistanceRate,
+            cardHero.Mana, cardHero.ManaRegenerationRate,
+            cardHero.DamageToDifferentFactionRate, cardHero.ResistanceToDifferentFactionRate,
+            cardHero.DamageToSameFactionRate, cardHero.ResistanceToSameFactionRate,
+            cardHero.NormalDamageRate, cardHero.NormalResistanceRate,
+            cardHero.SkillDamageRate, cardHero.SkillResistanceRate
         );
-        return cardHeroes;
+        return cardHero;
     }
     public async Task<CardHeroes> GetNewBreakthroughPowerAsync(CardHeroes c, double coefficient)
     {
         ICardHeroesRepository _repository = new CardHeroesRepository();
         CardHeroesService _service = new CardHeroesService(_repository);
         CardHeroes orginCard = await _service.GetCardHeroByIdAsync(c.Id);
-        CardHeroes cardHeroes = new CardHeroes
+        CardHeroes cardHero = new CardHeroes
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -1623,30 +1623,30 @@ public class UserCardHeroesService : IUserCardHeroesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardHeroes.Power = EvaluatePower.CalculatePower(
-            cardHeroes.Health,
-            cardHeroes.PhysicalAttack, cardHeroes.PhysicalDefense,
-            cardHeroes.MagicalAttack, cardHeroes.MagicalDefense,
-            cardHeroes.ChemicalAttack, cardHeroes.ChemicalDefense,
-            cardHeroes.AtomicAttack, cardHeroes.AtomicDefense,
-            cardHeroes.MentalAttack, cardHeroes.MentalDefense,
-            cardHeroes.Speed,
-            cardHeroes.CriticalDamageRate, cardHeroes.CriticalRate, cardHeroes.CriticalResistanceRate, cardHeroes.IgnoreCriticalRate,
-            cardHeroes.PenetrationRate, cardHeroes.PenetrationResistanceRate, cardHeroes.EvasionRate,
-            cardHeroes.DamageAbsorptionRate, cardHeroes.IgnoreDamageAbsorptionRate, cardHeroes.AbsorbedDamageRate,
-            cardHeroes.VitalityRegenerationRate, cardHeroes.VitalityRegenerationResistanceRate,
-            cardHeroes.AccuracyRate, cardHeroes.LifestealRate,
-            cardHeroes.ShieldStrength, cardHeroes.Tenacity, cardHeroes.ResistanceRate,
-            cardHeroes.ComboRate, cardHeroes.IgnoreComboRate, cardHeroes.ComboDamageRate, cardHeroes.ComboResistanceRate,
-            cardHeroes.StunRate, cardHeroes.IgnoreStunRate,
-            cardHeroes.ReflectionRate, cardHeroes.IgnoreReflectionRate, cardHeroes.ReflectionDamageRate, cardHeroes.ReflectionResistanceRate,
-            cardHeroes.Mana, cardHeroes.ManaRegenerationRate,
-            cardHeroes.DamageToDifferentFactionRate, cardHeroes.ResistanceToDifferentFactionRate,
-            cardHeroes.DamageToSameFactionRate, cardHeroes.ResistanceToSameFactionRate,
-            cardHeroes.NormalDamageRate, cardHeroes.NormalResistanceRate,
-            cardHeroes.SkillDamageRate, cardHeroes.SkillResistanceRate
+        cardHero.Power = EvaluatePower.CalculatePower(
+            cardHero.Health,
+            cardHero.PhysicalAttack, cardHero.PhysicalDefense,
+            cardHero.MagicalAttack, cardHero.MagicalDefense,
+            cardHero.ChemicalAttack, cardHero.ChemicalDefense,
+            cardHero.AtomicAttack, cardHero.AtomicDefense,
+            cardHero.MentalAttack, cardHero.MentalDefense,
+            cardHero.Speed,
+            cardHero.CriticalDamageRate, cardHero.CriticalRate, cardHero.CriticalResistanceRate, cardHero.IgnoreCriticalRate,
+            cardHero.PenetrationRate, cardHero.PenetrationResistanceRate, cardHero.EvasionRate,
+            cardHero.DamageAbsorptionRate, cardHero.IgnoreDamageAbsorptionRate, cardHero.AbsorbedDamageRate,
+            cardHero.VitalityRegenerationRate, cardHero.VitalityRegenerationResistanceRate,
+            cardHero.AccuracyRate, cardHero.LifestealRate,
+            cardHero.ShieldStrength, cardHero.Tenacity, cardHero.ResistanceRate,
+            cardHero.ComboRate, cardHero.IgnoreComboRate, cardHero.ComboDamageRate, cardHero.ComboResistanceRate,
+            cardHero.StunRate, cardHero.IgnoreStunRate,
+            cardHero.ReflectionRate, cardHero.IgnoreReflectionRate, cardHero.ReflectionDamageRate, cardHero.ReflectionResistanceRate,
+            cardHero.Mana, cardHero.ManaRegenerationRate,
+            cardHero.DamageToDifferentFactionRate, cardHero.ResistanceToDifferentFactionRate,
+            cardHero.DamageToSameFactionRate, cardHero.ResistanceToSameFactionRate,
+            cardHero.NormalDamageRate, cardHero.NormalResistanceRate,
+            cardHero.SkillDamageRate, cardHero.SkillResistanceRate
         );
-        return cardHeroes;
+        return cardHero;
     }
     public async Task<List<CardHeroes>> GetSkillsAsync(string user_id, List<CardHeroes> CardHeroesList)
     {

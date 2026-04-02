@@ -29,7 +29,7 @@ public class UserAchievementsService : IUserAchievementsService
         IAchievementsRepository _repository = new AchievementsRepository();
         AchievementsService _service = new AchievementsService(_repository);
         Achievements orginCard = await _service.GetAchievementByIdAsync(c.Id);
-        Achievements achievements = new Achievements
+        Achievements achievement = new Achievements
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -82,37 +82,37 @@ public class UserAchievementsService : IUserAchievementsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        achievements.Power = EvaluatePower.CalculatePower(
-            achievements.Health,
-            achievements.PhysicalAttack, achievements.PhysicalDefense,
-            achievements.MagicalAttack, achievements.MagicalDefense,
-            achievements.ChemicalAttack, achievements.ChemicalDefense,
-            achievements.AtomicAttack, achievements.AtomicDefense,
-            achievements.MentalAttack, achievements.MentalDefense,
-            achievements.Speed,
-            achievements.CriticalDamageRate, achievements.CriticalRate, achievements.CriticalResistanceRate, achievements.IgnoreCriticalRate,
-            achievements.PenetrationRate, achievements.PenetrationResistanceRate, achievements.EvasionRate,
-            achievements.DamageAbsorptionRate, achievements.IgnoreDamageAbsorptionRate, achievements.AbsorbedDamageRate,
-            achievements.VitalityRegenerationRate, achievements.VitalityRegenerationResistanceRate,
-            achievements.AccuracyRate, achievements.LifestealRate,
-            achievements.ShieldStrength, achievements.Tenacity, achievements.ResistanceRate,
-            achievements.ComboRate, achievements.IgnoreComboRate, achievements.ComboDamageRate, achievements.ComboResistanceRate,
-            achievements.StunRate, achievements.IgnoreStunRate,
-            achievements.ReflectionRate, achievements.IgnoreReflectionRate, achievements.ReflectionDamageRate, achievements.ReflectionResistanceRate,
-            achievements.Mana, achievements.ManaRegenerationRate,
-            achievements.DamageToDifferentFactionRate, achievements.ResistanceToDifferentFactionRate,
-            achievements.DamageToSameFactionRate, achievements.ResistanceToSameFactionRate,
-            achievements.NormalDamageRate, achievements.NormalResistanceRate,
-            achievements.SkillDamageRate, achievements.SkillResistanceRate
+        achievement.Power = EvaluatePower.CalculatePower(
+            achievement.Health,
+            achievement.PhysicalAttack, achievement.PhysicalDefense,
+            achievement.MagicalAttack, achievement.MagicalDefense,
+            achievement.ChemicalAttack, achievement.ChemicalDefense,
+            achievement.AtomicAttack, achievement.AtomicDefense,
+            achievement.MentalAttack, achievement.MentalDefense,
+            achievement.Speed,
+            achievement.CriticalDamageRate, achievement.CriticalRate, achievement.CriticalResistanceRate, achievement.IgnoreCriticalRate,
+            achievement.PenetrationRate, achievement.PenetrationResistanceRate, achievement.EvasionRate,
+            achievement.DamageAbsorptionRate, achievement.IgnoreDamageAbsorptionRate, achievement.AbsorbedDamageRate,
+            achievement.VitalityRegenerationRate, achievement.VitalityRegenerationResistanceRate,
+            achievement.AccuracyRate, achievement.LifestealRate,
+            achievement.ShieldStrength, achievement.Tenacity, achievement.ResistanceRate,
+            achievement.ComboRate, achievement.IgnoreComboRate, achievement.ComboDamageRate, achievement.ComboResistanceRate,
+            achievement.StunRate, achievement.IgnoreStunRate,
+            achievement.ReflectionRate, achievement.IgnoreReflectionRate, achievement.ReflectionDamageRate, achievement.ReflectionResistanceRate,
+            achievement.Mana, achievement.ManaRegenerationRate,
+            achievement.DamageToDifferentFactionRate, achievement.ResistanceToDifferentFactionRate,
+            achievement.DamageToSameFactionRate, achievement.ResistanceToSameFactionRate,
+            achievement.NormalDamageRate, achievement.NormalResistanceRate,
+            achievement.SkillDamageRate, achievement.SkillResistanceRate
         );
-        return achievements;
+        return achievement;
     }
     public async Task<Achievements> GetNewBreakthroughPowerAsync(Achievements c, double coefficient)
     {
         IAchievementsRepository _repository = new AchievementsRepository();
         AchievementsService _service = new AchievementsService(_repository);
         Achievements orginCard = await _service.GetAchievementByIdAsync(c.Id);
-        Achievements achievements = new Achievements
+        Achievements achievement = new Achievements
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -165,30 +165,30 @@ public class UserAchievementsService : IUserAchievementsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        achievements.Power = EvaluatePower.CalculatePower(
-            achievements.Health,
-            achievements.PhysicalAttack, achievements.PhysicalDefense,
-            achievements.MagicalAttack, achievements.MagicalDefense,
-            achievements.ChemicalAttack, achievements.ChemicalDefense,
-            achievements.AtomicAttack, achievements.AtomicDefense,
-            achievements.MentalAttack, achievements.MentalDefense,
-            achievements.Speed,
-            achievements.CriticalDamageRate, achievements.CriticalRate, achievements.CriticalResistanceRate, achievements.IgnoreCriticalRate,
-            achievements.PenetrationRate, achievements.PenetrationResistanceRate, achievements.EvasionRate,
-            achievements.DamageAbsorptionRate, achievements.IgnoreDamageAbsorptionRate, achievements.AbsorbedDamageRate,
-            achievements.VitalityRegenerationRate, achievements.VitalityRegenerationResistanceRate,
-            achievements.AccuracyRate, achievements.LifestealRate,
-            achievements.ShieldStrength, achievements.Tenacity, achievements.ResistanceRate,
-            achievements.ComboRate, achievements.IgnoreComboRate, achievements.ComboDamageRate, achievements.ComboResistanceRate,
-            achievements.StunRate, achievements.IgnoreStunRate,
-            achievements.ReflectionRate, achievements.IgnoreReflectionRate, achievements.ReflectionDamageRate, achievements.ReflectionResistanceRate,
-            achievements.Mana, achievements.ManaRegenerationRate,
-            achievements.DamageToDifferentFactionRate, achievements.ResistanceToDifferentFactionRate,
-            achievements.DamageToSameFactionRate, achievements.ResistanceToSameFactionRate,
-            achievements.NormalDamageRate, achievements.NormalResistanceRate,
-            achievements.SkillDamageRate, achievements.SkillResistanceRate
+        achievement.Power = EvaluatePower.CalculatePower(
+            achievement.Health,
+            achievement.PhysicalAttack, achievement.PhysicalDefense,
+            achievement.MagicalAttack, achievement.MagicalDefense,
+            achievement.ChemicalAttack, achievement.ChemicalDefense,
+            achievement.AtomicAttack, achievement.AtomicDefense,
+            achievement.MentalAttack, achievement.MentalDefense,
+            achievement.Speed,
+            achievement.CriticalDamageRate, achievement.CriticalRate, achievement.CriticalResistanceRate, achievement.IgnoreCriticalRate,
+            achievement.PenetrationRate, achievement.PenetrationResistanceRate, achievement.EvasionRate,
+            achievement.DamageAbsorptionRate, achievement.IgnoreDamageAbsorptionRate, achievement.AbsorbedDamageRate,
+            achievement.VitalityRegenerationRate, achievement.VitalityRegenerationResistanceRate,
+            achievement.AccuracyRate, achievement.LifestealRate,
+            achievement.ShieldStrength, achievement.Tenacity, achievement.ResistanceRate,
+            achievement.ComboRate, achievement.IgnoreComboRate, achievement.ComboDamageRate, achievement.ComboResistanceRate,
+            achievement.StunRate, achievement.IgnoreStunRate,
+            achievement.ReflectionRate, achievement.IgnoreReflectionRate, achievement.ReflectionDamageRate, achievement.ReflectionResistanceRate,
+            achievement.Mana, achievement.ManaRegenerationRate,
+            achievement.DamageToDifferentFactionRate, achievement.ResistanceToDifferentFactionRate,
+            achievement.DamageToSameFactionRate, achievement.ResistanceToSameFactionRate,
+            achievement.NormalDamageRate, achievement.NormalResistanceRate,
+            achievement.SkillDamageRate, achievement.SkillResistanceRate
         );
-        return achievements;
+        return achievement;
     }
 
     public async Task<List<Achievements>> GetUserAchievementsAsync(string user_id, string search, int pageSize, int offset, string rare)

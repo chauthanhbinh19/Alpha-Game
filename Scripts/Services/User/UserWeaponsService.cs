@@ -25,7 +25,7 @@ public class UserWeaponsService : IUserWeaponsService
         IWeaponsRepository _repository = new WeaponsRepository();
         WeaponsService _service = new WeaponsService(_repository);
         Weapons orginCard = await _service.GetWeaponByIdAsync(c.Id);
-        Weapons Weapons = new Weapons
+        Weapons weapon = new Weapons
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserWeaponsService : IUserWeaponsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Weapons.Power = EvaluatePower.CalculatePower(
-            Weapons.Health,
-            Weapons.PhysicalAttack, Weapons.PhysicalDefense,
-            Weapons.MagicalAttack, Weapons.MagicalDefense,
-            Weapons.ChemicalAttack, Weapons.ChemicalDefense,
-            Weapons.AtomicAttack, Weapons.AtomicDefense,
-            Weapons.MentalAttack, Weapons.MentalDefense,
-            Weapons.Speed,
-            Weapons.CriticalDamageRate, Weapons.CriticalRate, Weapons.CriticalResistanceRate, Weapons.IgnoreCriticalRate,
-            Weapons.PenetrationRate, Weapons.PenetrationResistanceRate, Weapons.EvasionRate,
-            Weapons.DamageAbsorptionRate, Weapons.IgnoreDamageAbsorptionRate, Weapons.AbsorbedDamageRate,
-            Weapons.VitalityRegenerationRate, Weapons.VitalityRegenerationResistanceRate,
-            Weapons.AccuracyRate, Weapons.LifestealRate,
-            Weapons.ShieldStrength, Weapons.Tenacity, Weapons.ResistanceRate,
-            Weapons.ComboRate, Weapons.IgnoreComboRate, Weapons.ComboDamageRate, Weapons.ComboResistanceRate,
-            Weapons.StunRate, Weapons.IgnoreStunRate,
-            Weapons.ReflectionRate, Weapons.IgnoreReflectionRate, Weapons.ReflectionDamageRate, Weapons.ReflectionResistanceRate,
-            Weapons.Mana, Weapons.ManaRegenerationRate,
-            Weapons.DamageToDifferentFactionRate, Weapons.ResistanceToDifferentFactionRate,
-            Weapons.DamageToSameFactionRate, Weapons.ResistanceToSameFactionRate,
-            Weapons.NormalDamageRate, Weapons.NormalResistanceRate,
-            Weapons.SkillDamageRate, Weapons.SkillResistanceRate
+        weapon.Power = EvaluatePower.CalculatePower(
+            weapon.Health,
+            weapon.PhysicalAttack, weapon.PhysicalDefense,
+            weapon.MagicalAttack, weapon.MagicalDefense,
+            weapon.ChemicalAttack, weapon.ChemicalDefense,
+            weapon.AtomicAttack, weapon.AtomicDefense,
+            weapon.MentalAttack, weapon.MentalDefense,
+            weapon.Speed,
+            weapon.CriticalDamageRate, weapon.CriticalRate, weapon.CriticalResistanceRate, weapon.IgnoreCriticalRate,
+            weapon.PenetrationRate, weapon.PenetrationResistanceRate, weapon.EvasionRate,
+            weapon.DamageAbsorptionRate, weapon.IgnoreDamageAbsorptionRate, weapon.AbsorbedDamageRate,
+            weapon.VitalityRegenerationRate, weapon.VitalityRegenerationResistanceRate,
+            weapon.AccuracyRate, weapon.LifestealRate,
+            weapon.ShieldStrength, weapon.Tenacity, weapon.ResistanceRate,
+            weapon.ComboRate, weapon.IgnoreComboRate, weapon.ComboDamageRate, weapon.ComboResistanceRate,
+            weapon.StunRate, weapon.IgnoreStunRate,
+            weapon.ReflectionRate, weapon.IgnoreReflectionRate, weapon.ReflectionDamageRate, weapon.ReflectionResistanceRate,
+            weapon.Mana, weapon.ManaRegenerationRate,
+            weapon.DamageToDifferentFactionRate, weapon.ResistanceToDifferentFactionRate,
+            weapon.DamageToSameFactionRate, weapon.ResistanceToSameFactionRate,
+            weapon.NormalDamageRate, weapon.NormalResistanceRate,
+            weapon.SkillDamageRate, weapon.SkillResistanceRate
         );
-        return Weapons;
+        return weapon;
     }
     public async Task<Weapons> GetNewBreakthroughPowerAsync(Weapons c, double coefficient)
     {
         IWeaponsRepository _repository = new WeaponsRepository();
         WeaponsService _service = new WeaponsService(_repository);
         Weapons orginCard = await _service.GetWeaponByIdAsync(c.Id);
-        Weapons Weapons = new Weapons
+        Weapons weapon = new Weapons
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserWeaponsService : IUserWeaponsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        Weapons.Power = EvaluatePower.CalculatePower(
-            Weapons.Health,
-            Weapons.PhysicalAttack, Weapons.PhysicalDefense,
-            Weapons.MagicalAttack, Weapons.MagicalDefense,
-            Weapons.ChemicalAttack, Weapons.ChemicalDefense,
-            Weapons.AtomicAttack, Weapons.AtomicDefense,
-            Weapons.MentalAttack, Weapons.MentalDefense,
-            Weapons.Speed,
-            Weapons.CriticalDamageRate, Weapons.CriticalRate, Weapons.CriticalResistanceRate, Weapons.IgnoreCriticalRate,
-            Weapons.PenetrationRate, Weapons.PenetrationResistanceRate, Weapons.EvasionRate,
-            Weapons.DamageAbsorptionRate, Weapons.IgnoreDamageAbsorptionRate, Weapons.AbsorbedDamageRate,
-            Weapons.VitalityRegenerationRate, Weapons.VitalityRegenerationResistanceRate,
-            Weapons.AccuracyRate, Weapons.LifestealRate,
-            Weapons.ShieldStrength, Weapons.Tenacity, Weapons.ResistanceRate,
-            Weapons.ComboRate, Weapons.IgnoreComboRate, Weapons.ComboDamageRate, Weapons.ComboResistanceRate,
-            Weapons.StunRate, Weapons.IgnoreStunRate,
-            Weapons.ReflectionRate, Weapons.IgnoreReflectionRate, Weapons.ReflectionDamageRate, Weapons.ReflectionResistanceRate,
-            Weapons.Mana, Weapons.ManaRegenerationRate,
-            Weapons.DamageToDifferentFactionRate, Weapons.ResistanceToDifferentFactionRate,
-            Weapons.DamageToSameFactionRate, Weapons.ResistanceToSameFactionRate,
-            Weapons.NormalDamageRate, Weapons.NormalResistanceRate,
-            Weapons.SkillDamageRate, Weapons.SkillResistanceRate
+        weapon.Power = EvaluatePower.CalculatePower(
+            weapon.Health,
+            weapon.PhysicalAttack, weapon.PhysicalDefense,
+            weapon.MagicalAttack, weapon.MagicalDefense,
+            weapon.ChemicalAttack, weapon.ChemicalDefense,
+            weapon.AtomicAttack, weapon.AtomicDefense,
+            weapon.MentalAttack, weapon.MentalDefense,
+            weapon.Speed,
+            weapon.CriticalDamageRate, weapon.CriticalRate, weapon.CriticalResistanceRate, weapon.IgnoreCriticalRate,
+            weapon.PenetrationRate, weapon.PenetrationResistanceRate, weapon.EvasionRate,
+            weapon.DamageAbsorptionRate, weapon.IgnoreDamageAbsorptionRate, weapon.AbsorbedDamageRate,
+            weapon.VitalityRegenerationRate, weapon.VitalityRegenerationResistanceRate,
+            weapon.AccuracyRate, weapon.LifestealRate,
+            weapon.ShieldStrength, weapon.Tenacity, weapon.ResistanceRate,
+            weapon.ComboRate, weapon.IgnoreComboRate, weapon.ComboDamageRate, weapon.ComboResistanceRate,
+            weapon.StunRate, weapon.IgnoreStunRate,
+            weapon.ReflectionRate, weapon.IgnoreReflectionRate, weapon.ReflectionDamageRate, weapon.ReflectionResistanceRate,
+            weapon.Mana, weapon.ManaRegenerationRate,
+            weapon.DamageToDifferentFactionRate, weapon.ResistanceToDifferentFactionRate,
+            weapon.DamageToSameFactionRate, weapon.ResistanceToSameFactionRate,
+            weapon.NormalDamageRate, weapon.NormalResistanceRate,
+            weapon.SkillDamageRate, weapon.SkillResistanceRate
         );
-        return Weapons;
+        return weapon;
     }
 
     public async Task<List<Weapons>> GetUserWeaponsAsync(string user_id, string search, int pageSize, int offset, string rare)

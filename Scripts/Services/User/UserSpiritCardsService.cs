@@ -25,7 +25,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         ISpiritCardsRepository _repository = new SpiritCardsRepository();
         SpiritCardsService _service = new SpiritCardsService(_repository);
         SpiritCards orginCard = await _service.GetSpiritCardByIdAsync(c.Id);
-        SpiritCards SpiritCard = new SpiritCards
+        SpiritCards spiritCard = new SpiritCards
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -78,37 +78,37 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        SpiritCard.Power = EvaluatePower.CalculatePower(
-            SpiritCard.Health,
-            SpiritCard.PhysicalAttack, SpiritCard.PhysicalDefense,
-            SpiritCard.MagicalAttack, SpiritCard.MagicalDefense,
-            SpiritCard.ChemicalAttack, SpiritCard.ChemicalDefense,
-            SpiritCard.AtomicAttack, SpiritCard.AtomicDefense,
-            SpiritCard.MentalAttack, SpiritCard.MentalDefense,
-            SpiritCard.Speed,
-            SpiritCard.CriticalDamageRate, SpiritCard.CriticalRate, SpiritCard.CriticalResistanceRate, SpiritCard.IgnoreCriticalRate,
-            SpiritCard.PenetrationRate, SpiritCard.PenetrationResistanceRate, SpiritCard.EvasionRate,
-            SpiritCard.DamageAbsorptionRate, SpiritCard.IgnoreDamageAbsorptionRate, SpiritCard.AbsorbedDamageRate,
-            SpiritCard.VitalityRegenerationRate, SpiritCard.VitalityRegenerationResistanceRate,
-            SpiritCard.AccuracyRate, SpiritCard.LifestealRate,
-            SpiritCard.ShieldStrength, SpiritCard.Tenacity, SpiritCard.ResistanceRate,
-            SpiritCard.ComboRate, SpiritCard.IgnoreComboRate, SpiritCard.ComboDamageRate, SpiritCard.ComboResistanceRate,
-            SpiritCard.StunRate, SpiritCard.IgnoreStunRate,
-            SpiritCard.ReflectionRate, SpiritCard.IgnoreReflectionRate, SpiritCard.ReflectionDamageRate, SpiritCard.ReflectionResistanceRate,
-            SpiritCard.Mana, SpiritCard.ManaRegenerationRate,
-            SpiritCard.DamageToDifferentFactionRate, SpiritCard.ResistanceToDifferentFactionRate,
-            SpiritCard.DamageToSameFactionRate, SpiritCard.ResistanceToSameFactionRate,
-            SpiritCard.NormalDamageRate, SpiritCard.NormalResistanceRate,
-            SpiritCard.SkillDamageRate, SpiritCard.SkillResistanceRate
+        spiritCard.Power = EvaluatePower.CalculatePower(
+            spiritCard.Health,
+            spiritCard.PhysicalAttack, spiritCard.PhysicalDefense,
+            spiritCard.MagicalAttack, spiritCard.MagicalDefense,
+            spiritCard.ChemicalAttack, spiritCard.ChemicalDefense,
+            spiritCard.AtomicAttack, spiritCard.AtomicDefense,
+            spiritCard.MentalAttack, spiritCard.MentalDefense,
+            spiritCard.Speed,
+            spiritCard.CriticalDamageRate, spiritCard.CriticalRate, spiritCard.CriticalResistanceRate, spiritCard.IgnoreCriticalRate,
+            spiritCard.PenetrationRate, spiritCard.PenetrationResistanceRate, spiritCard.EvasionRate,
+            spiritCard.DamageAbsorptionRate, spiritCard.IgnoreDamageAbsorptionRate, spiritCard.AbsorbedDamageRate,
+            spiritCard.VitalityRegenerationRate, spiritCard.VitalityRegenerationResistanceRate,
+            spiritCard.AccuracyRate, spiritCard.LifestealRate,
+            spiritCard.ShieldStrength, spiritCard.Tenacity, spiritCard.ResistanceRate,
+            spiritCard.ComboRate, spiritCard.IgnoreComboRate, spiritCard.ComboDamageRate, spiritCard.ComboResistanceRate,
+            spiritCard.StunRate, spiritCard.IgnoreStunRate,
+            spiritCard.ReflectionRate, spiritCard.IgnoreReflectionRate, spiritCard.ReflectionDamageRate, spiritCard.ReflectionResistanceRate,
+            spiritCard.Mana, spiritCard.ManaRegenerationRate,
+            spiritCard.DamageToDifferentFactionRate, spiritCard.ResistanceToDifferentFactionRate,
+            spiritCard.DamageToSameFactionRate, spiritCard.ResistanceToSameFactionRate,
+            spiritCard.NormalDamageRate, spiritCard.NormalResistanceRate,
+            spiritCard.SkillDamageRate, spiritCard.SkillResistanceRate
         );
-        return SpiritCard;
+        return spiritCard;
     }
     public async Task<SpiritCards> GetNewBreakthroughPowerAsync(SpiritCards c, double coefficient)
     {
         ISpiritCardsRepository _repository = new SpiritCardsRepository();
         SpiritCardsService _service = new SpiritCardsService(_repository);
         SpiritCards orginCard = await _service.GetSpiritCardByIdAsync(c.Id);
-        SpiritCards SpiritCard = new SpiritCards
+        SpiritCards spiritCard = new SpiritCards
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -161,30 +161,30 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        SpiritCard.Power = EvaluatePower.CalculatePower(
-            SpiritCard.Health,
-            SpiritCard.PhysicalAttack, SpiritCard.PhysicalDefense,
-            SpiritCard.MagicalAttack, SpiritCard.MagicalDefense,
-            SpiritCard.ChemicalAttack, SpiritCard.ChemicalDefense,
-            SpiritCard.AtomicAttack, SpiritCard.AtomicDefense,
-            SpiritCard.MentalAttack, SpiritCard.MentalDefense,
-            SpiritCard.Speed,
-            SpiritCard.CriticalDamageRate, SpiritCard.CriticalRate, SpiritCard.CriticalResistanceRate, SpiritCard.IgnoreCriticalRate,
-            SpiritCard.PenetrationRate, SpiritCard.PenetrationResistanceRate, SpiritCard.EvasionRate,
-            SpiritCard.DamageAbsorptionRate, SpiritCard.IgnoreDamageAbsorptionRate, SpiritCard.AbsorbedDamageRate,
-            SpiritCard.VitalityRegenerationRate, SpiritCard.VitalityRegenerationResistanceRate,
-            SpiritCard.AccuracyRate, SpiritCard.LifestealRate,
-            SpiritCard.ShieldStrength, SpiritCard.Tenacity, SpiritCard.ResistanceRate,
-            SpiritCard.ComboRate, SpiritCard.IgnoreComboRate, SpiritCard.ComboDamageRate, SpiritCard.ComboResistanceRate,
-            SpiritCard.StunRate, SpiritCard.IgnoreStunRate,
-            SpiritCard.ReflectionRate, SpiritCard.IgnoreReflectionRate, SpiritCard.ReflectionDamageRate, SpiritCard.ReflectionResistanceRate,
-            SpiritCard.Mana, SpiritCard.ManaRegenerationRate,
-            SpiritCard.DamageToDifferentFactionRate, SpiritCard.ResistanceToDifferentFactionRate,
-            SpiritCard.DamageToSameFactionRate, SpiritCard.ResistanceToSameFactionRate,
-            SpiritCard.NormalDamageRate, SpiritCard.NormalResistanceRate,
-            SpiritCard.SkillDamageRate, SpiritCard.SkillResistanceRate
+        spiritCard.Power = EvaluatePower.CalculatePower(
+            spiritCard.Health,
+            spiritCard.PhysicalAttack, spiritCard.PhysicalDefense,
+            spiritCard.MagicalAttack, spiritCard.MagicalDefense,
+            spiritCard.ChemicalAttack, spiritCard.ChemicalDefense,
+            spiritCard.AtomicAttack, spiritCard.AtomicDefense,
+            spiritCard.MentalAttack, spiritCard.MentalDefense,
+            spiritCard.Speed,
+            spiritCard.CriticalDamageRate, spiritCard.CriticalRate, spiritCard.CriticalResistanceRate, spiritCard.IgnoreCriticalRate,
+            spiritCard.PenetrationRate, spiritCard.PenetrationResistanceRate, spiritCard.EvasionRate,
+            spiritCard.DamageAbsorptionRate, spiritCard.IgnoreDamageAbsorptionRate, spiritCard.AbsorbedDamageRate,
+            spiritCard.VitalityRegenerationRate, spiritCard.VitalityRegenerationResistanceRate,
+            spiritCard.AccuracyRate, spiritCard.LifestealRate,
+            spiritCard.ShieldStrength, spiritCard.Tenacity, spiritCard.ResistanceRate,
+            spiritCard.ComboRate, spiritCard.IgnoreComboRate, spiritCard.ComboDamageRate, spiritCard.ComboResistanceRate,
+            spiritCard.StunRate, spiritCard.IgnoreStunRate,
+            spiritCard.ReflectionRate, spiritCard.IgnoreReflectionRate, spiritCard.ReflectionDamageRate, spiritCard.ReflectionResistanceRate,
+            spiritCard.Mana, spiritCard.ManaRegenerationRate,
+            spiritCard.DamageToDifferentFactionRate, spiritCard.ResistanceToDifferentFactionRate,
+            spiritCard.DamageToSameFactionRate, spiritCard.ResistanceToSameFactionRate,
+            spiritCard.NormalDamageRate, spiritCard.NormalResistanceRate,
+            spiritCard.SkillDamageRate, spiritCard.SkillResistanceRate
         );
-        return SpiritCard;
+        return spiritCard;
     }
 
     public async Task<List<SpiritCards>> GetUserSpiritCardAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
