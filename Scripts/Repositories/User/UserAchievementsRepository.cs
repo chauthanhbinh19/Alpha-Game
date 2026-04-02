@@ -354,7 +354,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return true;
     }
-    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievement, int cardLevel)
+    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievement, int achievementLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -399,7 +399,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@achievement_id", achievement.Id);
-                command.Parameters.AddWithValue("@level", cardLevel);
+                command.Parameters.AddWithValue("@level", achievementLevel);
                 command.Parameters.AddWithValue("@power", achievement.Power);
                 command.Parameters.AddWithValue("@health", achievement.Health);
                 command.Parameters.AddWithValue("@physical_attack", achievement.PhysicalAttack);

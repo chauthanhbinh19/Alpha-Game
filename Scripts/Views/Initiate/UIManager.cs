@@ -18,84 +18,9 @@ public class UIManager : MonoBehaviour
     public Transform MainPanel;
     public Transform popupPanel;
     public Transform LoadingPanel;
-
-
-    // Prefab references
-    [Header("General")]
-    public GameObject CreateNamePanel;
-    public GameObject buttonPrefab;
-    public GameObject itemSecondPrefab;
-    public GameObject notificationPrefab;
-    public GameObject DictionaryPanel;
-    public GameObject TabButton;
-    public GameObject ItemPrefab;
-    public GameObject MainButtonPrefab;
-    public GameObject MainPanelPrefab;
-    public GameObject MainMenuPanel;
-    public GameObject MainMenuShopPanel;
-    public GameObject MainMenuEnhancementPanel;
-    public GameObject MainMenuCampaignPanel;
-    [Header("General")]
-    public GameObject equipmentsPrefab;
-    public GameObject equipmentsShopPrefab;
-    public GameObject currencyPrefab;
-    public GameObject EquipmentsPanelPrefab;
-    public GameObject CardsPrefab;
-    public GameObject CardsSecondPrefab;
-    public GameObject EquipmentSecondPrefab;
-    public GameObject EquipmentFirstPrefab;
-    public GameObject EquipmentFourthPrefab;
-    public GameObject SummonPanelPrefab;
-    public GameObject PositionPrefab;
-    public GameObject CampaignPrefab;
-    public GameObject CampaignDetailPrefab;
-    public GameObject NumberDetailPrefab;
-    public GameObject NumberDetail2Prefab;
-    public GameObject NumberDetail3Prefab;
-    public GameObject TabButton2;
-    public GameObject TabButton4;
-    public GameObject ReceivedNotification;
     public GameObject ItemThird;
-    public GameObject TabButton5;
-    public GameObject TabButton6;
-    public GameObject AdvancedButtonFirst;
-    public GameObject PopupTeamFirstPrefab;
-    public GameObject PopupTeamSecondPrefab;
-    public GameObject TeamsPanelPrefab;
-    public GameObject TeamsPositionPrefab;
-    public GameObject TeamTypePrefab;
-    public GameObject TeamSlotPrefab;
-    public GameObject CardsThirdPrefab;
     public GameObject StarPrefab;
-    public GameObject PowerPrefab;
-    public GameObject LoadingPanelPrefab;
-    public GameObject SkillPanelPrefab;
-    public GameObject SkillGroupPrefab;
-    public GameObject Skill1Prefab;
-    public GameObject Skill2Prefab;
-    public GameObject PopupSkillDetailPrefab;
-    public GameObject PopupButtonPrefab;
 
-    [Header("Other")]
-    public GameObject MainMenuAnimePanelPrefab;
-    public GameObject AnimePanelPrefab;
-    public GameObject MasterBoardPanelPrefab;
-    public GameObject DailyCheckinPanelPrefab;
-    public GameObject ArenaPanelPrefab;
-    public GameObject ArenaDetailsPanelPrefab;
-    public GameObject TowerDetailsPanelPrefab;
-    public GameObject PopupEquipmentsPanelPrefab;
-    public GameObject PopupSpiritBeastPanelPrefab;
-    public GameObject PopupSkillsPanelPrefab;
-    public GameObject PopupMenuPanelPrefab;
-    public GameObject EquipmentsWearingPrefab;
-    public GameObject ArenaButtonPrefab;
-    public GameObject AnimeButtonPrefab;
-    public GameObject DailyCheckinComponentPrefab;
-
-    [Header("Other")]
-    public GameObject AnimeSlotPrefab;
-    public GameObject ArenaSlotPrefab;
     [Header("Font")]
     public TMP_FontAsset EuroStyleNormalFont;
     private Dictionary<string, GameObject> prefabDict;

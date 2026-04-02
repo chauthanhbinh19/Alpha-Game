@@ -7,36 +7,152 @@ public class TurnManager
 {
     private readonly List<BattleTurn> turns;
     private int currentTurnIndex;
-    private readonly int maxTurn = 8;
+    private readonly int maxTurn;
+    private readonly Func<int, List<BattlePhaseInfo>> phaseFactory;
 
-    public TurnManager(PlayerController attacker, PlayerController defender, int maxTurn, CardDisplayManager displayManager)
+    public TurnManager(PlayerController attacker, PlayerController defender, int maxTurn, CardDisplayManager displayManager, Func<int, List<BattlePhaseInfo>> phaseFactory = null)
     {
         this.maxTurn = maxTurn;
         this.currentTurnIndex = 0;
+        this.phaseFactory = phaseFactory ?? (turnId => new List<BattlePhaseInfo>());
         turns = new List<BattleTurn>();
 
         for (int turnId = 1; turnId <= maxTurn; turnId++)
         {
-            turns.Add(CreateTurn(turnId, displayManager));
+            turns.Add(CreateTurn(turnId));
         }
     }
 
-    private BattleTurn CreateTurn(int turnId, CardDisplayManager displayManager)
+    private BattleTurn CreateTurn(int turnId)
     {
         return new BattleTurn
         {
             TurnId = turnId,
-            Phases = new List<BattlePhaseInfo>
-            {
-                new BattlePhaseInfo(1, "Start", new StartPhase(displayManager)),
-                new BattlePhaseInfo(2, "Battle", new BattlePhase()),
-                new BattlePhaseInfo(3, "Battle", new BattlePhase()),
-                new BattlePhaseInfo(4, "Battle", new BattlePhase()),
-                new BattlePhaseInfo(5, "Battle", new BattlePhase()),
-                new BattlePhaseInfo(6, "Battle", new BattlePhase()),
-                new BattlePhaseInfo(7, "End", new EndPhase())
-            }
+            Phases = phaseFactory(turnId) ?? new List<BattlePhaseInfo>()
         };
+    }
+
+    public TurnPhaseBuilder InitiateTurn(int turnId, bool clearExisting = true)
+    {
+        BattleTurn turn = turns.Find(t => t.TurnId == turnId);
+        if (turn == null)
+            return new TurnPhaseBuilder(null);
+
+        if (clearExisting)
+            turn.Phases = new List<BattlePhaseInfo>();
+
+        return new TurnPhaseBuilder(turn);
+    }
+
+    public void SetPhasesForTurn(int turnId, List<BattlePhaseInfo> phases)
+    {
+        BattleTurn turn = turns.Find(t => t.TurnId == turnId);
+        if (turn == null)
+            return;
+
+        turn.Phases = phases?.OrderBy(p => p.PhaseId).ToList() ?? new List<BattlePhaseInfo>();
+    }
+
+    public void AddPhase(int turnId, int order, IBattlePhase phase, string name = null)
+    {
+        if (phase == null)
+            return;
+
+        BattleTurn turn = turns.Find(t => t.TurnId == turnId);
+        if (turn == null)
+            return;
+
+        turn.Phases.Add(new BattlePhaseInfo(order, name ?? phase.GetType().Name, phase));
+        SortTurnPhases(turn);
+    }
+
+    public void AddPhaseToTurn(int turnId, BattlePhaseInfo phase)
+    {
+        if (phase == null)
+            return;
+
+        BattleTurn turn = turns.Find(t => t.TurnId == turnId);
+        if (turn == null)
+            return;
+
+        turn.Phases.Add(phase);
+        SortTurnPhases(turn);
+    }
+
+    public void InsertPhaseToTurn(int turnId, int index, BattlePhaseInfo phase)
+    {
+        if (phase == null)
+            return;
+
+        BattleTurn turn = turns.Find(t => t.TurnId == turnId);
+        if (turn == null)
+            return;
+
+        index = Mathf.Clamp(index, 0, turn.Phases.Count);
+        turn.Phases.Insert(index, phase);
+        SortTurnPhases(turn);
+    }
+
+    public void RemovePhaseFromTurn(int turnId, int phaseId)
+    {
+        BattleTurn turn = turns.Find(t => t.TurnId == turnId);
+        if (turn == null)
+            return;
+
+        BattlePhaseInfo phase = turn.Phases.Find(p => p.PhaseId == phaseId);
+        if (phase == null)
+            return;
+
+        turn.Phases.Remove(phase);
+        SortTurnPhases(turn);
+    }
+
+    private void SortTurnPhases(BattleTurn turn)
+    {
+        turn.Phases.Sort((a, b) => a.PhaseId.CompareTo(b.PhaseId));
+    }
+
+    public class TurnPhaseBuilder
+    {
+        private readonly BattleTurn turn;
+        private readonly List<BattlePhaseInfo> phases = new List<BattlePhaseInfo>();
+
+        internal TurnPhaseBuilder(BattleTurn turn)
+        {
+            this.turn = turn;
+        }
+
+        public TurnPhaseBuilder Add(int order, IBattlePhase phase, string name = null)
+        {
+            if (phase == null)
+                return this;
+
+            phases.Add(new BattlePhaseInfo(order, name ?? phase.GetType().Name, phase));
+            return this;
+        }
+
+        public TurnPhaseBuilder Add(IBattlePhase phase, string name = null)
+        {
+            return Add(phases.Count + 1, phase, name);
+        }
+
+        public TurnPhaseBuilder Commit()
+        {
+            if (turn == null)
+                return this;
+
+            if (turn.Phases == null)
+                turn.Phases = new List<BattlePhaseInfo>();
+
+            turn.Phases.AddRange(phases);
+            turn.Phases.Sort((a, b) => a.PhaseId.CompareTo(b.PhaseId));
+            return this;
+        }
+
+        public List<BattlePhaseInfo> Build()
+        {
+            return phases.OrderBy(p => p.PhaseId).ToList();
+        }
     }
 
     public IEnumerator RunTurns(PlayerController attacker, PlayerController defender)
@@ -46,7 +162,7 @@ public class TurnManager
             BattleTurn currentTurn = turns[currentTurnIndex];
             Debug.Log($"===== TURN {currentTurn.TurnId} START =====");
 
-            foreach (var phaseInfo in currentTurn.Phases)
+            foreach (var phaseInfo in currentTurn.Phases.OrderBy(p => p.PhaseId))
             {
                 Debug.Log($"--- TURN {currentTurn.TurnId} - PHASE {phaseInfo.PhaseId}: {phaseInfo.Name} ---");
                 yield return phaseInfo.Phase.ExecutePhase(attacker, defender);

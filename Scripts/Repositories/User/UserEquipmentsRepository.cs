@@ -412,9 +412,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     query += " AND e.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY e.name";
-                query += " LIMIT @limit OFFSET @offset";
-
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userId", user_id);
