@@ -22,6 +22,12 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayMusic(string name)
     {
+        if (string.IsNullOrEmpty(name) || musicSource == null || musicSounds == null)
+        {
+            Debug.Log("PlayMusic: invalid input or audio source not assigned.");
+            return;
+        }
+
         Sound s = Array.Find(musicSounds, x => x.name == name);
         if (s == null)
         {
@@ -32,8 +38,45 @@ public class AudioManager : MonoBehaviour
         musicSource.clip = s.clip;
         musicSource.Play();
     }
+
+    public void StopMusic(string name = null)
+    {
+        if (musicSource == null || !musicSource.isPlaying)
+            return;
+
+        if (string.IsNullOrEmpty(name) || musicSource.clip == null)
+        {
+            musicSource.Stop();
+            return;
+        }
+
+        if (musicSounds == null)
+        {
+            musicSource.Stop();
+            return;
+        }
+
+        Sound s = Array.Find(musicSounds, x => x.name == name);
+        if (s == null)
+        {
+            Debug.Log("Music Not Found");
+            return;
+        }
+
+        if (musicSource.clip == s.clip)
+        {
+            musicSource.Stop();
+        }
+    }
+
     public void PlaySFX(string name)
     {
+        if (string.IsNullOrEmpty(name) || sfxSource == null || sfxSounds == null)
+        {
+            Debug.Log("PlaySFX: invalid input or audio source not assigned.");
+            return;
+        }
+
         Sound s = Array.Find(sfxSounds, x => x.name == name);
         if (s == null)
         {
@@ -41,13 +84,28 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // Gán clip vào sfxSource để có thể stop sau này
         sfxSource.clip = s.clip;
         if (!sfxSource.isPlaying)
             sfxSource.Play();
     }
-    public void StopSFX(string name)
+
+    public void StopSFX(string name = null)
     {
+        if (sfxSource == null || !sfxSource.isPlaying)
+            return;
+
+        if (string.IsNullOrEmpty(name) || sfxSource.clip == null)
+        {
+            sfxSource.Stop();
+            return;
+        }
+
+        if (sfxSounds == null)
+        {
+            sfxSource.Stop();
+            return;
+        }
+
         Sound s = Array.Find(sfxSounds, x => x.name == name);
         if (s == null)
         {
@@ -55,7 +113,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        if (sfxSource.isPlaying && sfxSource.clip == s.clip)
+        if (sfxSource.clip == s.clip)
         {
             sfxSource.Stop();
         }

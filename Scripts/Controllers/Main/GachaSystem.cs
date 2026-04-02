@@ -20,6 +20,7 @@ public class GachaSystem : MonoBehaviour
         StartCoroutine(PlaySummonVideoAndSummon(name, type, summonObject, quantity, items, onFinished));
 
     }
+    
     IEnumerator PlaySummonVideoAndSummon(string name, string type, GameObject summonObject, int quantity, List<Items> items, Action<bool> onFinished)
     {
         RawImage summonEffectImage = summonObject.transform.Find("SummonEffectImage").GetComponent<RawImage>();
@@ -28,116 +29,69 @@ public class GachaSystem : MonoBehaviour
         if (videoPlayer == null || videoPlayer.clip == null)
         {
             Debug.LogWarning("VideoPlayer or video clip is missing!");
-            onFinished?.Invoke(false); // Thất bại
+            onFinished?.Invoke(false);
             yield break;
         }
 
-        // Gán texture cho RawImage nếu có
         if (videoPlayer.targetTexture != null)
         {
             summonEffectImage.texture = videoPlayer.targetTexture;
         }
 
         bool videoFinished = false;
+        void OnVideoFinished(VideoPlayer vp)
+        {
+            videoFinished = true;
+            vp.loopPointReached -= OnVideoFinished;
+        }
 
-        // Gán sự kiện khi video kết thúc
-        videoPlayer.loopPointReached += (VideoPlayer vp) => { videoFinished = true; };
-
+        videoPlayer.loopPointReached += OnVideoFinished;
         summonEffectImage.gameObject.SetActive(true);
         videoPlayer.Play();
 
-        // Đợi cho video bắt đầu phát (tránh skip)
         while (!videoPlayer.isPlaying && videoPlayer.frame == 0)
         {
             yield return null;
         }
 
-        // Đợi video phát xong
         while (!videoFinished)
         {
             yield return null;
         }
 
-        // Chờ thêm 0.5 giây sau khi video kết thúc
         yield return new WaitForSeconds(0.5f);
-        // Tắt RawImage sau khi video kết thúc
         summonEffectImage.gameObject.SetActive(false);
-        
-        // 👉 GỌI async method và đợi kết quả
-        Task<bool> summonTask =
-            SummonEventAsync(name, type, summonObject, quantity, items);
 
-        yield return CoroutineAsyncBridge.WaitTask(
-            summonTask,
-            result => onFinished?.Invoke(result)
-        );
+        Task<bool> summonTask = SummonEventAsync(name, type, summonObject, quantity, items);
+        yield return CoroutineAsyncBridge.WaitTask(summonTask, result => onFinished?.Invoke(result));
     }
+    
     private async Task<bool> SummonEventAsync(string name, string type, GameObject summonObject, int quantity, List<Items> items)
     {
-        Transform area = summonObject.transform.Find("SummonArea");
+        if (items == null || items.Count == 0)
+        {
+            Debug.LogError("No items provided for summon.");
+            return false;
+        }
 
+        Transform area = summonObject.transform.Find("SummonArea");
         if (area == null)
         {
             Debug.LogError("Summon area is null!");
             return false;
         }
 
-        IList cards = null;
+        if (!await DeductSummonItemsAsync(quantity, items))
+            return false;
 
-        foreach (Items item in items)
+        List<object> cards = await LoadSummonPoolAsync(name, type);
+        if (cards == null || cards.Count == 0)
         {
-            if (item.Quantity >= quantity)
-            {
-                item.Quantity = item.Quantity - quantity;
-                await UserItemsService.Create().UpdateUserItemQuantityAsync(item);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        // Xác định class dựa trên type
-        switch (name)
-        {
-            case AppConstants.MainType.SUMMON_CARD_HERO:
-                cards = await CardHeroesService.Create().GetAllCardHeroesAsync(type);
-                break;
-            case AppConstants.MainType.SUMMON_BOOK:
-                cards = await BooksService.Create().GetAllBooksAsync(type);
-                break;
-            case AppConstants.MainType.SUMMON_CARD_CAPTAIN:
-                cards = await CardCaptainsService.Create().GetAllCardCaptainsAsync(type);
-                break;
-            case AppConstants.MainType.SUMMON_CARD_MONSTER:
-                cards = await CardMonstersService.Create().GetAllCardMonstersAsync(type);
-                break;
-            case AppConstants.MainType.SUMMON_CARD_MILITARY:
-                cards = await CardMilitariesService.Create().GetAllCardMilitariesAsync(type);
-                break;
-            case AppConstants.MainType.SUMMON_CARD_SPELL:
-                cards = await CardSpellsService.Create().GetAllCardSpellsAsync(type);
-                break;
-            case AppConstants.MainType.SUMMON_CARD_COLONEL:
-                cards = await CardColonelsService.Create().GetAllCardColonelsAsync(type);
-                break;
-            case AppConstants.MainType.SUMMON_CARD_GENERAL:
-                cards = await CardGeneralsService.Create().GetAllCardGeneralsAsync(type);
-                break;
-            case AppConstants.MainType.SUMMON_CARD_ADMIRAL:
-                cards = await CardAdmiralsService.Create().GetAllCardAdmiralsAsync(type);
-                break;
-            default:
-                Debug.LogError("Invalid type: " + type);
-                return false;
-        }
-
-        if (items == null || items.Count == 0)
-        {
-            Debug.LogError("No items found for type: " + type);
+            Debug.LogError("No cards found for summon type: " + name);
             return false;
         }
-        backImage = TextureHelper.LoadTextureCached("UI/Frame_5");
+
+        backImage ??= TextureHelper.LoadTextureCached("UI/Frame_5");
         if (backImage == null)
         {
             Debug.LogError(MessageConstants.IMAGE_IS_NULL);
@@ -146,259 +100,76 @@ public class GachaSystem : MonoBehaviour
 
         summonArea = area;
         summonArea.gameObject.SetActive(true);
-        // isSummonAreaActive = true;
         AddCloseEvent();
 
         cardPrefab = UIManager.Instance.Get("CardsPrefab");
-
         if (cardPrefab == null)
         {
             Debug.LogError(MessageConstants.PREFAB_IS_NULL);
             return false;
         }
 
-        // Lấy 10 thẻ ngẫu nhiên
-        var randomItems = cards.Cast<object>().OrderBy(x => UnityEngine.Random.value).Take(quantity).ToList();
+        var randomItems = SelectRandomItems(cards, quantity);
+        if (randomItems.Count == 0)
+        {
+            Debug.LogError("Not enough cards available to summon.");
+            return false;
+        }
 
         foreach (var card in randomItems)
         {
-            // Debug.Log("Summoned item: " + item.ToString());
-            // Thực hiện logic riêng tùy thuộc vào loại đối tượng
-            if (name.Equals(AppConstants.MainType.SUMMON_CARD_HERO))
-            {
-                CardHeroes cardItem = card as CardHeroes;
-                if (cardItem != null)
-                {
-                    cardItem.Quantity = cardItem.Quantity + 1;
-                    await UserCardHeroesService.Create().InsertUserCardHeroAsync(cardItem);
-                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(cardItem.Id);
-                }
-            }
-            else if (name.Equals(AppConstants.MainType.SUMMON_BOOK))
-            {
-                Books bookItem = card as Books;
-                if (bookItem != null)
-                {
-                    bookItem.Quantity = bookItem.Quantity + 1;
-                    await UserBooksService.Create().InsertUserBookAsync(bookItem);
-                    await BooksGalleryService.Create().InsertBookGalleryAsync(bookItem.Id);
-                }
-            }
-            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAIN))
-            {
-                CardCaptains captainItem = card as CardCaptains;
-                if (captainItem != null)
-                {
-                    captainItem.Quantity = captainItem.Quantity + 1;
-                    await UserCardCaptainsService.Create().InsertUserCardCaptainAsync(captainItem);
-                    await CardCaptainsGalleryService.Create().InsertCardCaptainGalleryAsync(captainItem.Id);
-                }
-            }
-            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_MONSTER))
-            {
-                CardMonsters monsterItem = card as CardMonsters;
-                if (monsterItem != null)
-                {
-                    monsterItem.Quantity = monsterItem.Quantity + 1;
-                    await UserCardMonstersService.Create().InsertUserCardMonsterAsync(monsterItem);
-                    await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(monsterItem.Id);
-                }
-            }
-            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
-            {
-                CardMilitaries militaryItem = card as CardMilitaries;
-                if (militaryItem != null)
-                {
-                    militaryItem.Quantity = militaryItem.Quantity + 1;
-                    await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(militaryItem);
-                    await CardMilitariesGalleryService.Create().InsertCardMilitaryGalleryAsync(militaryItem.Id);
-                }
-            }
-            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_SPELL))
-            {
-                CardSpells spellItem = card as CardSpells;
-                if (spellItem != null)
-                {
-                    spellItem.Quantity = spellItem.Quantity + 1;
-                    await UserCardSpellsService.Create().InsertUserCardSpellAsync(spellItem);
-                    await CardSpellsGalleryService.Create().InsertCardSpellGalleryAsync(spellItem.Id);
-                }
-            }
-            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_COLONEL))
-            {
-                CardColonels colonelItem = card as CardColonels;
-                if (colonelItem != null)
-                {
-                    colonelItem.Quantity = colonelItem.Quantity + 1;
-                    await UserCardColonelsService.Create().InsertUserCardColonelAsync(colonelItem);
-                    await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(colonelItem.Id);
-                }
-            }
-            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_GENERAL))
-            {
-                CardGenerals generalItem = card as CardGenerals;
-                if (generalItem != null)
-                {
-                    generalItem.Quantity = generalItem.Quantity + 1;
-                    await UserCardGeneralsService.Create().InsertUserCardGeneralAsync(generalItem);
-                    await CardGeneralsGalleryService.Create().InsertCardGeneralGalleryAsync(generalItem.Id);
-                }
-            }
-            else if (name.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRAL))
-            {
-                CardAdmirals admiralItem = card as CardAdmirals;
-                if (admiralItem != null)
-                {
-                    admiralItem.Quantity = admiralItem.Quantity + 1;
-                    await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(admiralItem);
-                    await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(admiralItem.Id);
-                }
-            }
-            // Thêm các xử lý tương tự cho các loại khác
+            await InsertSummonedCardAsync(name, card);
         }
-        // Hiển thị các thẻ bài mặt sau
+
         StartCoroutine(DisplayCards(randomItems));
         return true;
     }
+    
     private IEnumerator DisplayCards(List<object> randomItems)
     {
-        float delay = 0.2f; // Thời gian giữa mỗi lần hiển thị thẻ
-        List<RawImage> cardImages = new List<RawImage>(); // Danh sách lưu trữ các RawImage của thẻ bài
+        float delay = 0.2f;
+        var cardData = new List<(RawImage Image, string FrontImagePath)>(randomItems.Count);
 
-        // Hiển thị tất cả các thẻ bài với mặt sau
-        foreach (var item in randomItems)
+        for (int i = 0; i < randomItems.Count; i++)
         {
-            // Tạo một thẻ bài từ prefab
             GameObject cardObject = Instantiate(cardPrefab, summonArea);
-
-            // Tìm RawImage trong cardObject
             RawImage image = cardObject.transform.Find("Image")?.GetComponent<RawImage>();
-            Text Title = cardObject.transform.Find("Title").GetComponent<Text>();
-            Title.gameObject.SetActive(false);
-            RawImage CardTitleImage = cardObject.transform.Find("CardTitleImage").GetComponent<RawImage>();
-            CardTitleImage.gameObject.SetActive(false);
+            Text title = cardObject.transform.Find("Title").GetComponent<Text>();
+            title.gameObject.SetActive(false);
+            RawImage cardTitleImage = cardObject.transform.Find("CardTitleImage").GetComponent<RawImage>();
+            cardTitleImage.gameObject.SetActive(false);
 
             RawImage rareBackground = cardObject.transform.Find("RareBackground").GetComponent<RawImage>();
             rareBackground.gameObject.SetActive(false);
             RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-            if (item is CardHeroes card)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{card.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            else if (item is Books book)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{book.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            else if (item is CardCaptains captains)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{captains.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            else if (item is CardMonsters monsters)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{monsters.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            else if (item is CardMilitaries military)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{military.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            else if (item is CardSpells spell)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spell.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            else if (item is CardColonels colonels)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{colonels.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            else if (item is CardGenerals generals)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{generals.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            else if (item is CardAdmirals admirals)
-            {
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{admirals.Rare}");
-                rareImage.texture = rareTexture;
-            }
-            rareImage.gameObject.SetActive(false);
-            if (image != null)
-            {
-                // Thiết lập mặt sau của thẻ bài
-                image.texture = backImage;
 
-                // Thêm vào danh sách cardImages để dùng khi lật thẻ
-                cardImages.Add(image);
-
-                // Hiển thị thẻ và đợi delay
-                yield return new WaitForSeconds(delay);
+            string rarePath = GetRareImagePath(randomItems[i]);
+            if (!string.IsNullOrEmpty(rarePath) && rareImage != null)
+            {
+                rareImage.texture = TextureHelper.LoadTextureCached(rarePath);
             }
-            else
+
+            if (image == null)
             {
                 Debug.LogError("Không tìm thấy RawImage trong cardObject");
+                continue;
             }
+
+            image.texture = backImage;
+            cardData.Add((image, GetFrontImagePath(randomItems[i])));
+            rareImage?.gameObject.SetActive(false);
+
+            yield return new WaitForSeconds(delay);
         }
 
-        // Đợi tất cả thẻ hiển thị xong
         yield return new WaitForSeconds(delay);
 
-        // Lật từng thẻ bài
-        foreach (var image in cardImages)
+        for (int i = 0; i < cardData.Count; i++)
         {
-            // Lấy thẻ bài tương ứng từ danh sách
-            int index = cardImages.IndexOf(image);
-            if (randomItems[index] is CardHeroes card)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, card.Image));
-            }
-            else if (randomItems[index] is Books book)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, book.Image));
-            }
-            else if (randomItems[index] is CardCaptains captain)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, captain.Image));
-            }
-            else if (randomItems[index] is CardMonsters monster)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, monster.Image));
-            }
-            else if (randomItems[index] is CardMilitaries military)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, military.Image));
-            }
-            else if (randomItems[index] is CardSpells spell)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, spell.Image));
-            }
-            else if (randomItems[index] is CardColonels colonels)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, colonels.Image));
-            }
-            else if (randomItems[index] is CardGenerals generals)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, generals.Image));
-            }
-            else if (randomItems[index] is CardAdmirals admirals)
-            {
-                // Gọi Coroutine để lật thẻ
-                yield return StartCoroutine(FlipCard(image, admirals.Image));
-            }
+            yield return StartCoroutine(FlipCard(cardData[i].Image, cardData[i].FrontImagePath));
         }
     }
+    
     private IEnumerator FlipCard(RawImage cardImage, string frontImagePath)
     {
         float flipDuration = 0.2f; // Thời gian lật thẻ (độ delay giống hiển thị)
@@ -458,12 +229,172 @@ public class GachaSystem : MonoBehaviour
             yield return null;
         }
     }
+    
+    private async Task<bool> DeductSummonItemsAsync(int quantity, List<Items> items)
+    {
+        foreach (Items item in items)
+        {
+            if (item.Quantity < quantity)
+            {
+                Debug.LogWarning($"Not enough quantity for item {item.Id}");
+                return false;
+            }
+
+            item.Quantity -= quantity;
+            await UserItemsService.Create().UpdateUserItemQuantityAsync(item);
+        }
+
+        return true;
+    }
+
+    private async Task<List<object>> LoadSummonPoolAsync(string name, string type)
+    {
+        return name switch
+        {
+            AppConstants.MainType.SUMMON_CARD_HERO => (await CardHeroesService.Create().GetAllCardHeroesAsync(type)).Cast<object>().ToList(),
+            AppConstants.MainType.SUMMON_BOOK => (await BooksService.Create().GetAllBooksAsync(type)).Cast<object>().ToList(),
+            AppConstants.MainType.SUMMON_CARD_CAPTAIN => (await CardCaptainsService.Create().GetAllCardCaptainsAsync(type)).Cast<object>().ToList(),
+            AppConstants.MainType.SUMMON_CARD_MONSTER => (await CardMonstersService.Create().GetAllCardMonstersAsync(type)).Cast<object>().ToList(),
+            AppConstants.MainType.SUMMON_CARD_MILITARY => (await CardMilitariesService.Create().GetAllCardMilitariesAsync(type)).Cast<object>().ToList(),
+            AppConstants.MainType.SUMMON_CARD_SPELL => (await CardSpellsService.Create().GetAllCardSpellsAsync(type)).Cast<object>().ToList(),
+            AppConstants.MainType.SUMMON_CARD_COLONEL => (await CardColonelsService.Create().GetAllCardColonelsAsync(type)).Cast<object>().ToList(),
+            AppConstants.MainType.SUMMON_CARD_GENERAL => (await CardGeneralsService.Create().GetAllCardGeneralsAsync(type)).Cast<object>().ToList(),
+            AppConstants.MainType.SUMMON_CARD_ADMIRAL => (await CardAdmiralsService.Create().GetAllCardAdmiralsAsync(type)).Cast<object>().ToList(),
+            _ => null,
+        };
+    }
+
+    private List<object> SelectRandomItems(List<object> cards, int quantity)
+    {
+        if (cards.Count <= quantity)
+            return cards.ToList();
+
+        return cards.OrderBy(_ => UnityEngine.Random.value).Take(quantity).ToList();
+    }
+
+    private async Task InsertSummonedCardAsync(string name, object card)
+    {
+        switch (name)
+        {
+            case AppConstants.MainType.SUMMON_CARD_HERO:
+                if (card is CardHeroes hero)
+                {
+                    hero.Quantity += 1;
+                    await UserCardHeroesService.Create().InsertUserCardHeroAsync(hero);
+                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(hero.Id);
+                }
+                break;
+            case AppConstants.MainType.SUMMON_BOOK:
+                if (card is Books book)
+                {
+                    book.Quantity += 1;
+                    await UserBooksService.Create().InsertUserBookAsync(book);
+                    await BooksGalleryService.Create().InsertBookGalleryAsync(book.Id);
+                }
+                break;
+            case AppConstants.MainType.SUMMON_CARD_CAPTAIN:
+                if (card is CardCaptains captain)
+                {
+                    captain.Quantity += 1;
+                    await UserCardCaptainsService.Create().InsertUserCardCaptainAsync(captain);
+                    await CardCaptainsGalleryService.Create().InsertCardCaptainGalleryAsync(captain.Id);
+                }
+                break;
+            case AppConstants.MainType.SUMMON_CARD_MONSTER:
+                if (card is CardMonsters monster)
+                {
+                    monster.Quantity += 1;
+                    await UserCardMonstersService.Create().InsertUserCardMonsterAsync(monster);
+                    await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(monster.Id);
+                }
+                break;
+            case AppConstants.MainType.SUMMON_CARD_MILITARY:
+                if (card is CardMilitaries military)
+                {
+                    military.Quantity += 1;
+                    await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(military);
+                    await CardMilitariesGalleryService.Create().InsertCardMilitaryGalleryAsync(military.Id);
+                }
+                break;
+            case AppConstants.MainType.SUMMON_CARD_SPELL:
+                if (card is CardSpells spell)
+                {
+                    spell.Quantity += 1;
+                    await UserCardSpellsService.Create().InsertUserCardSpellAsync(spell);
+                    await CardSpellsGalleryService.Create().InsertCardSpellGalleryAsync(spell.Id);
+                }
+                break;
+            case AppConstants.MainType.SUMMON_CARD_COLONEL:
+                if (card is CardColonels colonel)
+                {
+                    colonel.Quantity += 1;
+                    await UserCardColonelsService.Create().InsertUserCardColonelAsync(colonel);
+                    await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(colonel.Id);
+                }
+                break;
+            case AppConstants.MainType.SUMMON_CARD_GENERAL:
+                if (card is CardGenerals general)
+                {
+                    general.Quantity += 1;
+                    await UserCardGeneralsService.Create().InsertUserCardGeneralAsync(general);
+                    await CardGeneralsGalleryService.Create().InsertCardGeneralGalleryAsync(general.Id);
+                }
+                break;
+            case AppConstants.MainType.SUMMON_CARD_ADMIRAL:
+                if (card is CardAdmirals admiral)
+                {
+                    admiral.Quantity += 1;
+                    await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(admiral);
+                    await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(admiral.Id);
+                }
+                break;
+        }
+    }
+
+    private string GetRareImagePath(object item)
+    {
+        return item switch
+        {
+            CardHeroes c => $"UI/UI/{c.Rare}",
+            Books b => $"UI/UI/{b.Rare}",
+            CardCaptains c => $"UI/UI/{c.Rare}",
+            CardMonsters c => $"UI/UI/{c.Rare}",
+            CardMilitaries c => $"UI/UI/{c.Rare}",
+            CardSpells c => $"UI/UI/{c.Rare}",
+            CardColonels c => $"UI/UI/{c.Rare}",
+            CardGenerals c => $"UI/UI/{c.Rare}",
+            CardAdmirals c => $"UI/UI/{c.Rare}",
+            _ => string.Empty,
+        };
+    }
+
+    private string GetFrontImagePath(object item)
+    {
+        return item switch
+        {
+            CardHeroes c => c.Image,
+            Books c => c.Image,
+            CardCaptains c => c.Image,
+            CardMonsters c => c.Image,
+            CardMilitaries c => c.Image,
+            CardSpells c => c.Image,
+            CardColonels c => c.Image,
+            CardGenerals c => c.Image,
+            CardAdmirals c => c.Image,
+            _ => string.Empty,
+        };
+    }
+    
     private void AddCloseEvent()
     {
         EventTrigger trigger = summonArea.gameObject.GetComponent<EventTrigger>();
         if (trigger == null)
         {
             trigger = summonArea.gameObject.AddComponent<EventTrigger>();
+        }
+        else
+        {
+            trigger.triggers.Clear();
         }
 
         EventTrigger.Entry entry = new EventTrigger.Entry
@@ -473,7 +404,6 @@ public class GachaSystem : MonoBehaviour
         entry.callback.AddListener((data) =>
         {
             summonArea.gameObject.SetActive(false);
-            // isSummonAreaActive = false;
             foreach (Transform child in summonArea)
             {
                 Destroy(child.gameObject);
@@ -481,6 +411,7 @@ public class GachaSystem : MonoBehaviour
         });
         trigger.triggers.Add(entry);
     }
+    
     private void OnDestroy()
     {
         StopAllCoroutines();

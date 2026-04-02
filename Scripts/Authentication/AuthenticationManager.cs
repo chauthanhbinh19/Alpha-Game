@@ -55,6 +55,7 @@ public class AuthenticationManager : MonoBehaviour
         startButton = WaitingPanel.transform.Find("StartButton").GetComponent<Button>();
         createSignInButton = WaitingPanel.transform.Find("SignInButton").GetComponent<Button>();
 
+        createSignInButton.onClick.RemoveAllListeners();
         createSignInButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -98,6 +99,7 @@ public class AuthenticationManager : MonoBehaviour
             }
 
             // Nếu user hợp lệ → cho vào game
+            startButton.onClick.RemoveAllListeners();
             startButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -278,6 +280,7 @@ public class AuthenticationManager : MonoBehaviour
         Button startButton = currentObject.transform.Find("Start").GetComponent<Button>();
         TextMeshProUGUI errorText = currentObject.transform.Find("ErrorText").GetComponent<TextMeshProUGUI>();
 
+        startButton.onClick.RemoveAllListeners();
         startButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

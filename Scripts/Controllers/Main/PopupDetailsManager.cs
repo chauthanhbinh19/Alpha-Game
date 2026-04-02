@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,15 @@ public class PopupDetailsManager : MonoBehaviour
     private GameObject ElementDetailsPrefab;
     private Transform MainPanel;
     private GameObject popupObject;
+    private Dictionary<Type, Action<object>> popupDetailsMap;
+
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
         if (Instance == null)
         {
             Instance = this;
+            InitializePopupDetailMap();
             // DontDestroyOnLoad(gameObject); // Keep this object across scenes
         }
         else
@@ -30,218 +34,60 @@ public class PopupDetailsManager : MonoBehaviour
     {
         Initialize();
     }
-
     public void Initialize()
     {
         MainMenuDetailPanelPrefab = UIManager.Instance.Get("MainMenuDetailPanelPrefab");
         ElementDetailsPrefab = UIManager.Instance.Get("ElementDetailsPrefab");
     }
+    private void InitializePopupDetailMap()
+    {
+        popupDetailsMap = new Dictionary<Type, Action<object>>();
+        var methods = GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+        foreach (var method in methods)
+        {
+            if (!method.Name.StartsWith("Show") || !method.Name.EndsWith("Details"))
+                continue;
+
+            var parameters = method.GetParameters();
+            if (parameters.Length != 1)
+                continue;
+
+            var dataType = parameters[0].ParameterType;
+            popupDetailsMap[dataType] = obj => method.Invoke(this, new[] { obj });
+        }
+    }
     public void PopupDetails(object data, Transform panel)
     {
         MainPanel = panel;
         popupObject = Instantiate(MainMenuDetailPanelPrefab, MainPanel);
-        Transform numberDetailsPanel = popupObject.transform.Find("DictionaryCards/ScrollViewRight/Viewport/Content");
-        // Kiểm tra kiểu của data và ép kiểu phù hợp
-        if (data is CardHeroes cardHero)
+
+        if (data == null)
         {
-            // Xử lý đối tượng Card
-            ShowCardHeroDetails(cardHero);
-        }
-        else if (data is Books book)
-        {
-            // Xử lý đối tượng Book
-            ShowBookDetails(book);
-        }
-        else if (data is CardCaptains cardCaptain)
-        {
-            // Xử lý đối tượng Captain
-            ShowCardCaptainDetails(cardCaptain);
-        }
-        else if (data is Pets pet)
-        {
-            // Xử lý đối tượng Pet
-            ShowPetDetails(pet);
-        }
-        else if (data is CollaborationEquipments collaborationEquipmentsequipment)
-        {
-            // Xử lý đối tượng CollaborationEquipment
-            ShowCollaborationEquipmentDetails(collaborationEquipmentsequipment);
-        }
-        else if (data is CardMilitaries cardMilitary)
-        {
-            // Xử lý đối tượng Military
-            ShowCardMilitaryDetails(cardMilitary);
-        }
-        else if (data is CardSpells cardSpell)
-        {
-            // Xử lý đối tượng Spell
-            ShowCardSpellDetails(cardSpell);
-        }
-        else if (data is Collaborations collaboration)
-        {
-            // Xử lý đối tượng Collaboration
-            ShowCollaborationDetails(collaboration);
-        }
-        else if (data is CardMonsters cardMonster)
-        {
-            // Xử lý đối tượng Monster
-            ShowCardMonsterDetails(cardMonster);
-        }
-        else if (data is Equipments equipment)
-        {
-            // Xử lý đối tượng Equipment
-            ShowEquipmentDetails(equipment);
-        }
-        else if (data is Medals medal)
-        {
-            // Xử lý đối tượng Medal
-            ShowMedalDetails(medal);
-        }
-        else if (data is Skills skill)
-        {
-            // Xử lý đối tượng Skill
-            ShowSkillDetails(skill);
-        }
-        else if (data is Symbols symbol)
-        {
-            // Xử lý đối tượng Symbol
-            ShowSymbolDetails(symbol);
-        }
-        else if (data is Titles title)
-        {
-            // Xử lý đối tượng Title
-            ShowTitleDetails(title);
-        }
-        else if (data is MagicFormationCircles magicFormationCircle)
-        {
-            // Xử lý đối tượng Title
-            ShowMagicFormationCircleDetails(magicFormationCircle);
-        }
-        else if (data is Relics relics)
-        {
-            // Xử lý đối tượng Title
-            ShowRelicDetails(relics);
-        }
-        else if (data is CardColonels cardColonel)
-        {
-            // Xử lý đối tượng colonels
-            ShowCardColonelDetails(cardColonel);
-        }
-        else if (data is CardGenerals cardGeneral)
-        {
-            // Xử lý đối tượng Generals
-            ShowCardGeneralDetails(cardGeneral);
-        }
-        else if (data is CardAdmirals cardAdmiral)
-        {
-            // Xử lý đối tượng admirals
-            ShowCardAdmiralDetails(cardAdmiral);
-        }
-        else if (data is Borders borders)
-        {
-            // Xử lý đối tượng borders
-            ShowBorderDetails(borders);
-        }
-        else if (data is Achievements achievements)
-        {
-            // Xử lý đối tượng achievements
-            ShowAchievementDetails(achievements);
-        }
-        else if (data is Talismans talisman)
-        {
-            // Xử lý đối tượng talisman
-            ShowTalismanDetails(talisman);
-        }
-        else if (data is Puppets puppet)
-        {
-            // Xử lý đối tượng puppet
-            ShowPuppetDetails(puppet);
-        }
-        else if (data is Alchemies alchemy)
-        {
-            // Xử lý đối tượng alchemy
-            ShowAlchemyDetails(alchemy);
-        }
-        else if (data is Forges forge)
-        {
-            // Xử lý đối tượng forge
-            ShowForgeDetails(forge);
-        }
-        else if (data is CardLives cardLife)
-        {
-            // Xử lý đối tượng card life
-            ShowCardLifeDetails(cardLife);
-        }
-        else if (data is Artworks artwork)
-        {
-            // Xử lý đối tượng artwork
-            ShowArtworkDetails(artwork);
-        }
-        else if (data is SpiritBeasts spiritBeast)
-        {
-            // Xử lý đối tượng spirit beast
-            ShowSpiritBeastDetails(spiritBeast);
-        }
-        else if (data is SpiritCards spiritCards)
-        {
-            // Xử lý đối tượng spirit card
-            ShowSpiritCardDetails(spiritCards);
-        }
-        else if (data is Artifacts artifact)
-        {
-            // Xử lý đối tượng artifact
-            ShowArtifactDetails(artifact);
-        }
-        else if (data is Vehicles vehicle)
-        {
-            // Xử lý đối tượng vehicle
-            ShowVehicleDetails(vehicle);
-        }
-        else if (data is Architectures architecture)
-        {
-            // Xử lý đối tượng architecture
-            ShowArchitectureDetails(architecture);
-        }
-        else if (data is Technologies technology)
-        {
-            // Xử lý đối tượng technology
-            ShowTechnologyDetails(technology);
-        }
-        else if (data is Cores core)
-        {
-            // Xử lý đối tượng core
-            ShowCoreDetails(core);
-        }
-        else if (data is Weapons weapon)
-        {
-            // Xử lý đối tượng weapon
-            ShowWeaponDetails(weapon);
-        }
-        else if (data is Robots robot)
-        {
-            // Xử lý đối tượng robot
-            ShowRobotDetails(robot);
-        }
-        else if (data is Badges badge)
-        {
-            // Xử lý đối tượng badge
-            ShowBadgeDetails(badge);
-        }
-        else if (data is MechaBeasts mechaBeast)
-        {
-            // Xử lý đối tượng mecha beast
-            ShowMechaBeastDetails(mechaBeast);
-        }
-        else if (data is Runes rune)
-        {
-            // Xử lý đối tượng rune
-            ShowRuneDetails(rune);
-        }
-        else
-        {
-            Debug.LogError("Không hỗ trợ loại dữ liệu này!");
+            Debug.LogError("PopupDetails: data is null");
+            return;
         }
 
+        var dataType = data.GetType();
+        if (popupDetailsMap != null && popupDetailsMap.TryGetValue(dataType, out var action))
+        {
+            action(data);
+            return;
+        }
+
+        if (popupDetailsMap != null)
+        {
+            foreach (var entry in popupDetailsMap)
+            {
+                if (entry.Key.IsAssignableFrom(dataType))
+                {
+                    entry.Value(data);
+                    return;
+                }
+            }
+        }
+
+        Debug.LogError($"Không hỗ trợ loại dữ liệu này: {dataType}");
     }
     void ClosePopup(GameObject popup)
     {
@@ -1698,6 +1544,192 @@ public class PopupDetailsManager : MonoBehaviour
         PropertyInfo[] properties = rune.GetType().GetProperties();
         CreatePropertyUI(1, properties, rune, popupObject);
     }
+    private void ShowBuildingDetails(Buildings building)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = building.Name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = NumberFormatter.FormatNumber(building.Power, false);
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = building.Level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{building.Rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ClosePopup(popupObject);
+        });
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = building.GetType().GetProperties();
+        CreatePropertyUI(1, properties, building, popupObject);
+    }
+    private void ShowBeverageDetails(Beverages beverage)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = beverage.Name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = NumberFormatter.FormatNumber(beverage.Power, false);
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = beverage.Level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{beverage.Rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ClosePopup(popupObject);
+        });
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = beverage.GetType().GetProperties();
+        CreatePropertyUI(1, properties, beverage, popupObject);
+    }
+    private void ShowFoodDetails(Foods food)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = food.Name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = NumberFormatter.FormatNumber(food.Power, false);
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = food.Level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{food.Rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ClosePopup(popupObject);
+        });
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = food.GetType().GetProperties();
+        CreatePropertyUI(1, properties, food, popupObject);
+    }
+    private void ShowEmojiDetails(Emojis emoji)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = emoji.Name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = NumberFormatter.FormatNumber(emoji.Power, false);
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = emoji.Level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{emoji.Rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ClosePopup(popupObject);
+        });
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = emoji.GetType().GetProperties();
+        CreatePropertyUI(1, properties, emoji, popupObject);
+    }
+    private void ShowFashionDetails(Fashions fashion)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = fashion.Name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = NumberFormatter.FormatNumber(fashion.Power, false);
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = fashion.Level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{fashion.Rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ClosePopup(popupObject);
+        });
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = fashion.GetType().GetProperties();
+        CreatePropertyUI(1, properties, fashion, popupObject);
+    }
+    private void ShowFurnitureDetails(Furnitures furniture)
+    {
+        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        Image.texture = texture;
+
+        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        name.text = furniture.Name;
+
+        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        power.text = NumberFormatter.FormatNumber(furniture.Power, false);
+
+        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = furniture.Level.ToString();
+
+        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{furniture.Rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ClosePopup(popupObject);
+        });
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = furniture.GetType().GetProperties();
+        CreatePropertyUI(1, properties, furniture, popupObject);
+    }
     public void CreatePropertyUI(int status, PropertyInfo[] properties, object targetObject, GameObject currentObject)
     {
         Transform detailsContent = currentObject.transform.Find("Scroll View/Viewport/Content");
@@ -1831,226 +1863,69 @@ public class PopupDetailsManager : MonoBehaviour
             }
         }
     }
+    private static readonly Dictionary<string, string> RuneIconByStat = new Dictionary<string, string>
+    {
+        { AppConstants.StatFields.PHYSICAL_ATTACK, ImageConstants.Rune.PHYSICAL_ATTACK_RUNE_URL },
+        { AppConstants.StatFields.PHYSICAL_DEFENSE, ImageConstants.Rune.PHYSICAL_DEFENSE_RUNE_URL },
+        { AppConstants.StatFields.MAGICAL_ATTACK, ImageConstants.Rune.MAGICAL_ATTACK_RUNE_URL },
+        { AppConstants.StatFields.MAGICAL_DEFENSE, ImageConstants.Rune.MAGICAL_DEFENSE_RUNE_URL },
+        { AppConstants.StatFields.CHEMICAL_ATTACK, ImageConstants.Rune.CHEMICAL_ATTACK_RUNE_URL },
+        { AppConstants.StatFields.CHEMICAL_DEFENSE, ImageConstants.Rune.CHEMICAL_DEFENSE_RUNE_URL },
+        { AppConstants.StatFields.ATOMIC_ATTACK, ImageConstants.Rune.ATOMIC_ATTACK_RUNE_URL },
+        { AppConstants.StatFields.ATOMIC_DEFENSE, ImageConstants.Rune.ATOMIC_DEFENSE_RUNE_URL },
+        { AppConstants.StatFields.MENTAL_ATTACK, ImageConstants.Rune.MENTAL_ATTACK_RUNE_URL },
+        { AppConstants.StatFields.MENTAL_DEFENSE, ImageConstants.Rune.MENTAL_DEFENSE_RUNE_URL },
+        { AppConstants.StatFields.HEALTH, ImageConstants.Rune.HEALTH_RUNE_URL },
+        { AppConstants.StatFields.SPEED, ImageConstants.Rune.SPEED_RUNE_URL },
+        { AppConstants.StatFields.CRITICAL_RATE, ImageConstants.Rune.DAMAGE_RUNE_URL },
+        { AppConstants.StatFields.CRITICAL_DAMAGE_RATE, ImageConstants.Rune.CRITICAL_RUNE_URL },
+        { AppConstants.StatFields.DAMAGE_ABSORPTION_RATE, ImageConstants.Rune.ABSORPTION_RUNE_URL },
+        { AppConstants.StatFields.CRITICAL_RESISTANCE_RATE, ImageConstants.Rune.CRITICAL_RUNE_URL },
+        { AppConstants.StatFields.IGNORE_CRITICAL_RATE, ImageConstants.Rune.CRITICAL_RUNE_URL },
+        { AppConstants.StatFields.PENETRATION_RATE, ImageConstants.Rune.PENETRATION_RUNE_URL },
+        { AppConstants.StatFields.PENETRATION_RESISTANCE_RATE, ImageConstants.Rune.PENETRATION_RUNE_URL },
+        { AppConstants.StatFields.EVASION_RATE, ImageConstants.Rune.EVASION_RUNE_URL },
+        { AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE, ImageConstants.Rune.ABSORPTION_RUNE_URL },
+        { AppConstants.StatFields.ABSORBED_DAMAGE_RATE, ImageConstants.Rune.ABSORPTION_RUNE_URL },
+        { AppConstants.StatFields.VITALITY_REGENERATION_RATE, ImageConstants.Rune.VITALITY_RUNE_URL },
+        { AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE, ImageConstants.Rune.VITALITY_RUNE_URL },
+        { AppConstants.StatFields.ACCURACY_RATE, ImageConstants.Rune.ACCURACY_RUNE_URL },
+        { AppConstants.StatFields.LIFE_STEAL_RATE, ImageConstants.Rune.LIFESTEAL_RUNE_URL },
+        { AppConstants.StatFields.SHIELD_STRENGTH, ImageConstants.Rune.SHIELD_RUNE_URL },
+        { AppConstants.StatFields.TENACITY, ImageConstants.Rune.TENACITY_RUNE_URL },
+        { AppConstants.StatFields.RESISTANCE_RATE, ImageConstants.Rune.RESISTANCE_RUNE_URL },
+        { AppConstants.StatFields.COMBO_RATE, ImageConstants.Rune.COMBO_RUNE_URL },
+        { AppConstants.StatFields.IGNORE_COMBO_RATE, ImageConstants.Rune.COMBO_RUNE_URL },
+        { AppConstants.StatFields.COMBO_DAMAGE_RATE, ImageConstants.Rune.COMBO_RUNE_URL },
+        { AppConstants.StatFields.COMBO_RESISTANCE_RATE, ImageConstants.Rune.COMBO_RUNE_URL },
+        { AppConstants.StatFields.STUN_RATE, ImageConstants.Rune.STUN_RUNE_URL },
+        { AppConstants.StatFields.IGNORE_STUN_RATE, ImageConstants.Rune.STUN_RUNE_URL },
+        { AppConstants.StatFields.MANA, ImageConstants.Rune.MANA_RUNE_URL },
+        { AppConstants.StatFields.MANA_REGENERATION_RATE, ImageConstants.Rune.MANA_RUNE_URL },
+        { AppConstants.StatFields.REFLECTION_RATE, ImageConstants.Rune.REFLECTION_RUNE_URL },
+        { AppConstants.StatFields.IGNORE_REFLECTION_RATE, ImageConstants.Rune.REFLECTION_RUNE_URL },
+        { AppConstants.StatFields.REFLECTION_DAMAGE_RATE, ImageConstants.Rune.REFLECTION_RUNE_URL },
+        { AppConstants.StatFields.REFLECTION_RESISTANCE_RATE, ImageConstants.Rune.REFLECTION_RUNE_URL },
+        { AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE, ImageConstants.Rune.FACTION_RUNE_URL },
+        { AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE, ImageConstants.Rune.FACTION_RUNE_URL },
+        { AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE, ImageConstants.Rune.FACTION_RUNE_URL },
+        { AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE, ImageConstants.Rune.FACTION_RUNE_URL },
+        { AppConstants.StatFields.NORMAL_DAMAGE_RATE, ImageConstants.Rune.NORMAL_RUNE_URL },
+        { AppConstants.StatFields.NORMAL_RESISTANCE_RATE, ImageConstants.Rune.NORMAL_RUNE_URL },
+        { AppConstants.StatFields.SKILL_DAMAGE_RATE, ImageConstants.Rune.SKILL_RUNE_URL },
+        { AppConstants.StatFields.SKILL_RESISTANCE_RATE, ImageConstants.Rune.SKILL_RUNE_URL },
+    };
+
     public void CreatePropertyRuneUI(string title, RawImage runeImage)
     {
-        Texture runeTexture;
-        if (title.Equals(AppConstants.StatFields.PHYSICAL_ATTACK))
+        if (RuneIconByStat.TryGetValue(title, out var runeUrl))
         {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.PHYSICAL_ATTACK_RUNE_URL);
-            runeImage.texture = runeTexture;
+            runeImage.texture = TextureHelper.LoadTextureCached(runeUrl);
+            runeImage.gameObject.SetActive(true);
         }
-        else if (title.Equals(AppConstants.StatFields.PHYSICAL_DEFENSE))
+        else
         {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.PHYSICAL_DEFENSE_RUNE_URL);
-            runeImage.texture = runeTexture;
+            runeImage.gameObject.SetActive(false);
         }
-        else if (title.Equals(AppConstants.StatFields.MAGICAL_ATTACK))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.MAGICAL_ATTACK_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.MAGICAL_DEFENSE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.MAGICAL_DEFENSE_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.CHEMICAL_ATTACK))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.CHEMICAL_ATTACK_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.CHEMICAL_DEFENSE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.CHEMICAL_DEFENSE_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.ATOMIC_ATTACK))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.ATOMIC_ATTACK_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.ATOMIC_DEFENSE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.ATOMIC_DEFENSE_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.MENTAL_ATTACK))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.MENTAL_ATTACK_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.MENTAL_DEFENSE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.MENTAL_DEFENSE_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.HEALTH))
-        {
-            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.HEALTH_RUNE_URL);
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.SPEED)) {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.SPEED_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.CRITICAL_RATE)) {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.DAMAGE_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.CRITICAL_DAMAGE_RATE)) {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.DAMAGE_ABSORPTION_RATE)) {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.CRITICAL_RESISTANCE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.IGNORE_CRITICAL_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.CRITICAL_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.PENETRATION_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.PENETRATION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.PENETRATION_RESISTANCE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.PENETRATION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.EVASION_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.EVASION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.IGNORE_DAMAGE_ABSORPTION_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.ABSORBED_DAMAGE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.ABSORPTION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.VITALITY_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.VITALITY_REGENERATION_RESISTANCE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.VITALITY_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.ACCURACY_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.ACCURACY_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.LIFE_STEAL_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.LIFESTEAL_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.SHIELD_STRENGTH))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.SHIELD_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.TENACITY))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.TENACITY_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.RESISTANCE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.RESISTANCE_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.COMBO_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.COMBO_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.IGNORE_COMBO_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.COMBO_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.COMBO_DAMAGE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.COMBO_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.COMBO_RESISTANCE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.COMBO_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.STUN_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.STUN_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.IGNORE_STUN_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.STUN_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.MANA))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.MANA_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.MANA_REGENERATION_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.MANA_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.REFLECTION_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.IGNORE_REFLECTION_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.REFLECTION_DAMAGE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.REFLECTION_RESISTANCE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.REFLECTION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.DAMAGE_TO_DIFFERENT_FACTION_RATE) || title.Equals(AppConstants.StatFields.RESISTANCE_TO_DIFFERENT_FACTION_RATE) ||
-         title.Equals(AppConstants.StatFields.DAMAGE_TO_SAME_FACTION_RATE) || title.Equals(AppConstants.StatFields.RESISTANCE_TO_SAME_FACTION_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.FACTION_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.NORMAL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.NORMAL_RESISTANCE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.NORMAL_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        else if (title.Equals(AppConstants.StatFields.SKILL_DAMAGE_RATE) || title.Equals(AppConstants.StatFields.SKILL_RESISTANCE_RATE))
-        {
-            runeTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Rune.SKILL_RUNE_URL}");
-            runeImage.texture = runeTexture;
-        }
-        runeImage.gameObject.SetActive(true);
     }
 }

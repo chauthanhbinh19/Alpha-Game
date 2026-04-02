@@ -294,7 +294,7 @@ public class GalleryManager : MonoBehaviour
             rareDropdown.ClearOptions();
             rareDropdown.AddOptions(uniqueRaries);
 
-            // ⚠️ Quan trọng: clear listener cũ trước
+            //Quan trọng: clear listener cũ trước
             rareDropdown.onValueChanged.RemoveAllListeners();
 
             // Gán sự kiện
@@ -321,7 +321,7 @@ public class GalleryManager : MonoBehaviour
             typeDropdown.ClearOptions();
             typeDropdown.AddOptions(uniqueTypes);
 
-            // ⚠️ Quan trọng: clear listener cũ trước
+            //Quan trọng: clear listener cũ trước
             typeDropdown.onValueChanged.RemoveAllListeners();
 
             // Gán sự kiện
