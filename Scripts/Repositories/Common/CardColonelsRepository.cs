@@ -124,11 +124,24 @@ public class CardColonelsRepository : ICardColonelsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM card_colonels WHERE 1=1";
+                string query = @"
+                SELECT ch.*, 
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'id', e.id,
+                            'name', e.name,
+                            'image', e.image,
+                            'type', e.type
+                        )
+                    ) AS emblems_json
+                FROM card_colonels ch
+                LEFT JOIN card_colonel_emblem che ON ch.id = che.card_colonel_id
+                LEFT JOIN emblems e ON che.emblem_id = e.id
+                WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    query += " AND ch.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -138,10 +151,11 @@ public class CardColonelsRepository : ICardColonelsRepository
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    query += " AND ch.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), name";
+                query += " GROUP BY ch.id";
+                query += " ORDER BY ch.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(ch.name, '[0-9]+$') AS UNSIGNED), ch.name";
                 query += " LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -156,7 +170,7 @@ public class CardColonelsRepository : ICardColonelsRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            CardColonels captain = new CardColonels
+                            CardColonels cardColonel = new CardColonels
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -218,7 +232,24 @@ public class CardColonelsRepository : ICardColonelsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            cardColonels.Add(captain);
+                            // Đọc chuỗi JSON từ Database
+                            string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                            if (!string.IsNullOrEmpty(emblemsJson))
+                            {
+                                try
+                                {
+                                    // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                                    cardColonel.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                                }
+                                catch
+                                {
+                                    // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                                    cardColonel.Emblems = new List<Emblems>();
+                                }
+                            }
+
+                            cardColonels.Add(cardColonel);
                         }
                     }
                 }

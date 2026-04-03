@@ -25,10 +25,19 @@ public class CardSpellsGalleryRepository : ICardSpellsGalleryRepository
                         WHEN mg.card_spell_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
-                    END AS status 
+                    END AS status,
+                    JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
                 FROM card_spells m 
-                LEFT JOIN card_spells_gallery mg 
-                    ON m.id = mg.card_spell_id AND mg.user_id = @userId 
+                LEFT JOIN card_spells_gallery mg ON m.id = mg.card_spell_id AND mg.user_id = @userId,
+                LEFT JOIN card_spell_emblem che ON ch.id = che.card_spell_id
+                LEFT JOIN emblems e ON che.emblem_id = e.id
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -45,6 +54,7 @@ public class CardSpellsGalleryRepository : ICardSpellsGalleryRepository
                     query += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
+                query += " GROUP BY m.id";
                 query += " ORDER BY m.name";
                 query += " LIMIT @limit OFFSET @offset";
 
@@ -72,7 +82,7 @@ public class CardSpellsGalleryRepository : ICardSpellsGalleryRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            CardSpells CardSpell = new CardSpells
+                            CardSpells cardSpell = new CardSpells
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -149,7 +159,24 @@ public class CardSpellsGalleryRepository : ICardSpellsGalleryRepository
                                 Status = reader.GetStringSafe("status"),
                             };
 
-                            cardSpells.Add(CardSpell);
+                            // Đọc chuỗi JSON từ Database
+                            string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                            if (!string.IsNullOrEmpty(emblemsJson))
+                            {
+                                try
+                                {
+                                    // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                                    cardSpell.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                                }
+                                catch
+                                {
+                                    // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                                    cardSpell.Emblems = new List<Emblems>();
+                                }
+                            }
+
+                            cardSpells.Add(cardSpell);
                         }
                     }
                 }

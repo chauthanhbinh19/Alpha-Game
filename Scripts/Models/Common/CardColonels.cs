@@ -36,6 +36,7 @@ public class CardColonels : BaseEntity, IPowerSortable
     public List<Skills> Skills { get; set; } = new List<Skills>();
     public Teams Team { get; set; } = new Teams();
     double IPowerSortable.Power => Power;
+    public List<Emblems> Emblems { get; set; } = new List<Emblems>();
     public CardColonels()
     {
         Power = -1;

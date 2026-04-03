@@ -25,10 +25,19 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
                         WHEN mg.card_military_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
-                    END AS status 
+                    END AS status,
+                    JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
                 FROM card_militaries m 
-                LEFT JOIN card_militaries_gallery mg 
-                    ON m.id = mg.card_military_id AND mg.user_id = @userId 
+                LEFT JOIN card_militaries_gallery mg ON m.id = mg.card_military_id AND mg.user_id = @userId 
+                LEFT JOIN card_military_emblem che ON m.id = che.card_military_id
+                LEFT JOIN emblems e ON che.emblem_id = e.id
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -45,6 +54,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
                     query += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
+                query += " GROUP BY m.id";
                 query += " ORDER BY m.name";
                 query += " LIMIT @limit OFFSET @offset";
 
@@ -148,6 +158,23 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
                                 Description = reader.GetStringSafe("description"),
                                 Status = reader.GetStringSafe("status"),
                             };
+
+                            // Đọc chuỗi JSON từ Database
+                            string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                            if (!string.IsNullOrEmpty(emblemsJson))
+                            {
+                                try
+                                {
+                                    // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                                    cardMilitary.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                                }
+                                catch
+                                {
+                                    // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                                    cardMilitary.Emblems = new List<Emblems>();
+                                }
+                            }
 
                             cardMilitaries.Add(cardMilitary);
                         }

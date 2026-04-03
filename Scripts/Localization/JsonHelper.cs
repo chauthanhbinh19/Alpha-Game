@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class JsonHelper
+public static class JsonLocalizationHelper
 {
     public static T[] FromJson<T>(string json)
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using MySqlConnector;
 using System.Threading.Tasks;
+using System.Linq;
 public class CardHeroesRepository : ICardHeroesRepository
 {
     public async Task<List<string>> GetUniqueCardHeroesTypesAsync()
@@ -71,18 +72,28 @@ public class CardHeroesRepository : ICardHeroesRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT *
-            FROM card_heroes
+            SELECT ch.*, 
+                   JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
+            FROM card_heroes ch
+            LEFT JOIN card_hero_emblem che ON ch.id = che.card_hero_id
+            LEFT JOIN emblems e ON che.emblem_id = e.id
             WHERE 1=1";
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND type = @type";
+                query += " AND ch.type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                query += " AND ch.rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
@@ -90,7 +101,8 @@ public class CardHeroesRepository : ICardHeroesRepository
                 query += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " ORDER BY name";
+            query += " GROUP BY ch.id";
+            query += " ORDER BY ch.name";
             query += " LIMIT @limit OFFSET @offset";
 
             await using var command = new MySqlCommand(query, connection);
@@ -177,6 +189,23 @@ public class CardHeroesRepository : ICardHeroesRepository
                     SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
                     Description = reader.GetStringSafe("description")
                 };
+
+                // Đọc chuỗi JSON từ Database
+                string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                if (!string.IsNullOrEmpty(emblemsJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                        cardHero.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                        cardHero.Emblems = new List<Emblems>();
+                    }
+                }
 
                 cardHeroes.Add(cardHero);
             }

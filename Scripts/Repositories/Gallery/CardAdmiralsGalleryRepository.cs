@@ -24,10 +24,19 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                         WHEN mg.card_admiral_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
-                    END AS status 
+                    END AS status,
+                    JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
                 FROM card_admirals m 
-                LEFT JOIN card_admirals_gallery mg 
-                    ON m.id = mg.card_admiral_id AND mg.user_id = @userId 
+                LEFT JOIN card_admirals_gallery mg ON m.id = mg.card_admiral_id AND mg.user_id = @userId 
+                LEFT JOIN card_admiral_emblem che ON m.id = che.card_admiral_id
+                LEFT JOIN emblems e ON che.emblem_id = e.id
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -43,7 +52,8 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 {
                     query += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
-
+                
+                query += " GROUP BY m.id";
                 query += " ORDER BY m.name";
                 query += " LIMIT @limit OFFSET @offset";
 
@@ -71,7 +81,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                     {
                         while (await reader.ReadAsync())
                         {
-                            CardAdmirals CardAdmiral = new CardAdmirals
+                            CardAdmirals cardAdmiral = new CardAdmirals
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -148,7 +158,24 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                                 Status = reader.GetStringSafe("status"),
                             };
 
-                            cardAdmirals.Add(CardAdmiral);
+                            // Đọc chuỗi JSON từ Database
+                            string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                            if (!string.IsNullOrEmpty(emblemsJson))
+                            {
+                                try
+                                {
+                                    // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                                    cardAdmiral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                                }
+                                catch
+                                {
+                                    // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                                    cardAdmiral.Emblems = new List<Emblems>();
+                                }
+                            }
+
+                            cardAdmirals.Add(cardAdmiral);
                         }
                     }
                 }

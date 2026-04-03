@@ -18,10 +18,20 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                SELECT uc.*, c.name, c.image, c.type, c.description, COALESCE(t.team_number, 0) AS team_number
+                SELECT uc.*, c.name, c.image, c.type, c.description, COALESCE(t.team_number, 0) AS team_number,
+                    JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
                 FROM user_card_admirals uc
                 LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
                 LEFT JOIN teams t on t.team_id = uc.team_id
+                LEFT JOIN card_admiral_emblem che ON c.id = che.card_admiral_id
+                LEFT JOIN emblems e ON che.emblem_id = e.id
                 WHERE uc.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -39,6 +49,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                     query += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
+                query += " GROUP BY c.id";
                 query += " ORDER BY c.name";
                 query += " LIMIT @limit OFFSET @offset";
 
@@ -65,7 +76,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
                 while (await reader.ReadAsync())
                 {
-                    CardAdmirals captain = new CardAdmirals
+                    CardAdmirals cardAdmiral = new CardAdmirals
                     {
                         Id = reader.GetStringSafe("card_admiral_id"),
                         Name = reader.GetStringSafe("name"),
@@ -193,7 +204,24 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         }
                     };
 
-                    cardAdmirals.Add(captain);
+                    // Đọc chuỗi JSON từ Database
+                    string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                    if (!string.IsNullOrEmpty(emblemsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            cardAdmiral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            cardAdmiral.Emblems = new List<Emblems>();
+                        }
+                    }
+
+                    cardAdmirals.Add(cardAdmiral);
                 }
             }
             catch (MySqlException ex)
@@ -219,12 +247,23 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description
-            FROM user_card_admirals uc
-            LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
-            WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
-            ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
-        ";
+                SELECT uc.*, c.name, c.image, c.type, c.description,
+                    JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
+                FROM user_card_admirals uc
+                LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
+                LEFT JOIN card_admiral_emblem che ON c.id = che.card_admiral_id
+                LEFT JOIN emblems e ON che.emblem_id = e.id
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
+                GROUP BY c.id
+                ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
+            ";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -358,6 +397,23 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         }
                     };
 
+                    // Đọc chuỗi JSON từ Database
+                    string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                    if (!string.IsNullOrEmpty(emblemsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            cardAdmiral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            cardAdmiral.Emblems = new List<Emblems>();
+                        }
+                    }
+
                     cardAdmirals.Add(cardAdmiral);
                 }
             }
@@ -384,12 +440,23 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description
-            FROM user_card_admirals uc
-            LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
-            WHERE uc.user_id = @userId AND uc.team_id = @team_id
-            ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
-        ";
+                SELECT uc.*, c.name, c.image, c.type, c.description,
+                    JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
+                FROM user_card_admirals uc
+                LEFT JOIN card_admirals c ON c.id = uc.card_admiral_id 
+                LEFT JOIN card_admiral_emblem che ON c.id = che.card_admiral_id
+                LEFT JOIN emblems e ON che.emblem_id = e.id
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id
+                GROUP BY c.id
+                ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
+            ";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", user_id);
@@ -522,6 +589,23 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         }
                     };
 
+                    // Đọc chuỗi JSON từ Database
+                    string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                    if (!string.IsNullOrEmpty(emblemsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            cardAdmiral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            cardAdmiral.Emblems = new List<Emblems>();
+                        }
+                    }
+
                     cardAdmirals.Add(cardAdmiral);
                 }
             }
@@ -548,12 +632,12 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-            SELECT c.type, COUNT(c.type) AS number
-            FROM user_card_admirals uc
-            LEFT JOIN card_admirals c ON uc.card_admiral_id = c.id 
-            WHERE uc.user_id = @userId AND uc.team_id = @team_id
-            GROUP BY c.type;
-        ";
+                SELECT c.type, COUNT(c.type) AS number
+                FROM user_card_admirals uc
+                LEFT JOIN card_admirals c ON uc.card_admiral_id = c.id 
+                WHERE uc.user_id = @userId AND uc.team_id = @team_id
+                GROUP BY c.type;
+            ";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", User.CurrentUserId);
@@ -1294,10 +1378,21 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await connection.OpenAsync();
 
                 string userQuery = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description
-            FROM user_card_admirals uc
-            LEFT JOIN card_admirals c ON uc.card_admiral_id = c.id 
-            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL";
+                SELECT uc.*, c.name, c.image, c.type, c.description,
+                    JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
+                FROM user_card_admirals uc
+                LEFT JOIN card_admirals c ON uc.card_admiral_id = c.id 
+                LEFT JOIN card_admiral_emblem che ON c.id = che.card_admiral_id
+                LEFT JOIN emblems e ON che.emblem_id = e.id
+                WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+                GROUP BY c.id";
 
                 await using MySqlCommand command = new MySqlCommand(userQuery, connection);
                 command.Parameters.AddWithValue("@user_id", user_id);
@@ -1305,7 +1400,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await using MySqlDataReader reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
-                    CardAdmirals admirals = new CardAdmirals
+                    CardAdmirals cardAdmiral = new CardAdmirals
                     {
                         Id = reader.GetStringSafe("card_admiral_id"),
                         Name = reader.GetStringSafe("name"),
@@ -1427,7 +1522,24 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                         }
                     };
 
-                    cardAdmirals.Add(admirals);
+                    // Đọc chuỗi JSON từ Database
+                    string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                    if (!string.IsNullOrEmpty(emblemsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            cardAdmiral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            cardAdmiral.Emblems = new List<Emblems>();
+                        }
+                    }
+
+                    cardAdmirals.Add(cardAdmiral);
                 }
             }
             catch (MySqlException ex)

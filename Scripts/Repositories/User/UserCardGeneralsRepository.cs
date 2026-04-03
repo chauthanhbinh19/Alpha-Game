@@ -9,7 +9,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
 {
     public async Task<List<CardGenerals>> GetUserCardGeneralsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardGenerals> CardGeneralsList = new List<CardGenerals>();
+        List<CardGenerals> cardGenerals = new List<CardGenerals>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -19,10 +19,20 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description, COALESCE(t.team_number, 0) AS team_number
+            SELECT uc.*, c.name, c.image, c.type, c.description, COALESCE(t.team_number, 0) AS team_number,
+                JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
             FROM user_card_generals uc
             LEFT JOIN card_generals c ON c.id = uc.card_general_id 
             LEFT JOIN teams t on t.team_id = uc.team_id
+            LEFT JOIN card_general_emblem che ON c.id = che.card_general_id
+            LEFT JOIN emblems e ON che.emblem_id = e.id
             WHERE uc.user_id = @userId 
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
@@ -40,6 +50,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
                 query += " AND c.name LIKE CONCAT('%', @search, '%')";
             }
 
+            query += " GROUP BY c.id";
             query += " ORDER BY c.name";
             query += " LIMIT @limit OFFSET @offset";
 
@@ -66,7 +77,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
 
             while (await reader.ReadAsync())
             {
-                CardGenerals captain = new CardGenerals
+                CardGenerals cardGeneral = new CardGenerals
                 {
                     Id = reader.GetStringSafe("card_general_id"),
                     Name = reader.GetStringSafe("name"),
@@ -194,7 +205,24 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
                     }
                 };
 
-                CardGeneralsList.Add(captain);
+                // Đọc chuỗi JSON từ Database
+                string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                if (!string.IsNullOrEmpty(emblemsJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                        cardGeneral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                        cardGeneral.Emblems = new List<Emblems>();
+                    }
+                }
+
+                cardGenerals.Add(cardGeneral);
             }
         }
         catch (MySqlException ex)
@@ -202,11 +230,11 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return CardGeneralsList;
+        return cardGenerals;
     }
     public async Task<List<CardGenerals>> GetUserCardGeneralsTeamAsync(string user_id, string teamId, string position)
     {
-        List<CardGenerals> CardGeneralsList = new List<CardGenerals>();
+        List<CardGenerals> cardGenerals = new List<CardGenerals>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -216,10 +244,21 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description
+            SELECT uc.*, c.name, c.image, c.type, c.description,
+                JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
             FROM user_card_generals uc
             LEFT JOIN card_generals c ON c.id = uc.card_general_id 
+            LEFT JOIN card_general_emblem che ON c.id = che.card_general_id
+            LEFT JOIN emblems e ON che.emblem_id = e.id
             WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
+            GROUP BY c.id
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
         ";
 
@@ -232,7 +271,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
 
             while (await reader.ReadAsync())
             {
-                CardGenerals captain = new CardGenerals
+                CardGenerals cardGeneral = new CardGenerals
                 {
                     Id = reader.GetStringSafe("card_general_id"),
                     Name = reader.GetStringSafe("name"),
@@ -355,7 +394,24 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
                     }
                 };
 
-                CardGeneralsList.Add(captain);
+                // Đọc chuỗi JSON từ Database
+                string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                if (!string.IsNullOrEmpty(emblemsJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                        cardGeneral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                        cardGeneral.Emblems = new List<Emblems>();
+                    }
+                }
+
+                cardGenerals.Add(cardGeneral);
             }
         }
         catch (MySqlException ex)
@@ -363,11 +419,11 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return CardGeneralsList;
+        return cardGenerals;
     }
     public async Task<List<CardGenerals>> GetUserCardGeneralsTeamWithoutPositionAsync(string user_id, string teamId)
     {
-        List<CardGenerals> CardGeneralsList = new List<CardGenerals>();
+        List<CardGenerals> cardGenerals = new List<CardGenerals>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -377,10 +433,21 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description
+            SELECT uc.*, c.name, c.image, c.type, c.description,
+                JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
             FROM user_card_generals uc
             LEFT JOIN card_generals c ON c.id = uc.card_general_id 
+            LEFT JOIN card_general_emblem che ON c.id = che.card_general_id
+            LEFT JOIN emblems e ON che.emblem_id = e.id
             WHERE uc.user_id = @userId AND uc.team_id = @team_id
+            GROUP BY c.id
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
         ";
 
@@ -392,7 +459,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
 
             while (await reader.ReadAsync())
             {
-                CardGenerals captain = new CardGenerals
+                CardGenerals cardGeneral = new CardGenerals
                 {
                     Id = reader.GetStringSafe("card_general_id"),
                     Name = reader.GetStringSafe("name"),
@@ -515,7 +582,24 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
                     }
                 };
 
-                CardGeneralsList.Add(captain);
+                // Đọc chuỗi JSON từ Database
+                string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                if (!string.IsNullOrEmpty(emblemsJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                        cardGeneral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                        cardGeneral.Emblems = new List<Emblems>();
+                    }
+                }
+
+                cardGenerals.Add(cardGeneral);
             }
         }
         catch (MySqlException ex)
@@ -523,7 +607,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return CardGeneralsList;
+        return cardGenerals;
     }
     public async Task<Dictionary<string, int>> GetUniqueCardGeneralsTypesTeamAsync(string teamId)
     {
@@ -1237,7 +1321,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
     }
     public async Task<List<CardGenerals>> GetAllUserCardGeneralsInTeamAsync(string user_id)
     {
-        List<CardGenerals> CardGenerals = new List<CardGenerals>();
+        List<CardGenerals> cardGenerals = new List<CardGenerals>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -1246,10 +1330,21 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             await connection.OpenAsync();
 
             string userQuery = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description
+            SELECT uc.*, c.name, c.image, c.type, c.description,
+                JSON_ARRAYAGG(
+                       JSON_OBJECT(
+                           'id', e.id,
+                           'name', e.name,
+                           'image', e.image,
+                           'type', e.type
+                       )
+                   ) AS emblems_json
             FROM user_card_generals uc
             LEFT JOIN card_generals c ON uc.card_general_id = c.id 
-            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL";
+            LEFT JOIN card_general_emblem che ON c.id = che.card_general_id
+            LEFT JOIN emblems e ON che.emblem_id = e.id
+            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
+            GROUP BY c.id";
 
             await using MySqlCommand command = new MySqlCommand(userQuery, connection);
             command.Parameters.AddWithValue("@user_id", user_id);
@@ -1257,7 +1352,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             await using MySqlDataReader reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                CardGenerals admirals = new CardGenerals
+                CardGenerals cardGeneral = new CardGenerals
                 {
                     Id = reader.GetStringSafe("card_general_id"),
                     Name = reader.GetStringSafe("name"),
@@ -1379,7 +1474,24 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
                     }
                 };
 
-                CardGenerals.Add(admirals);
+                // Đọc chuỗi JSON từ Database
+                string emblemsJson = reader.GetStringSafe("emblems_json");
+
+                if (!string.IsNullOrEmpty(emblemsJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                        cardGeneral.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                        cardGeneral.Emblems = new List<Emblems>();
+                    }
+                }
+
+                cardGenerals.Add(cardGeneral);
             }
         }
         catch (MySqlException ex)
@@ -1387,6 +1499,6 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return CardGenerals;
+        return cardGenerals;
     }
 }

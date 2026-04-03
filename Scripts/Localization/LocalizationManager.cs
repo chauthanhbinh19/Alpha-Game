@@ -31,7 +31,7 @@ public static class LocalizationManager
         }
 
         string jsonText = File.ReadAllText(filePath);
-        LocalizationItem[] items = JsonHelper.FromJson<LocalizationItem>(jsonText);
+        LocalizationItem[] items = JsonLocalizationHelper.FromJson<LocalizationItem>(jsonText);
 
         localizedText.Clear();
         foreach (var item in items)

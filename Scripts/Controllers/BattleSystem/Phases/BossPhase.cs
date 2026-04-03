@@ -1,12 +1,12 @@
 using System.Collections;
 
-public class EndPhase : Phase
+public class BossPhase : Phase
 {
-    public EndPhase(float duration) : base("End", duration) { }
+    public BossPhase(float duration) : base("Boss", duration) { }
 
     protected override IEnumerator OnExecute()
     {
-        UnityEngine.Debug.Log("End phase...");
+        UnityEngine.Debug.Log("Giving Bosses...");
         yield return new UnityEngine.WaitForSeconds(Duration);
     }
 }
