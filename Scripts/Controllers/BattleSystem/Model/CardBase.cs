@@ -63,6 +63,7 @@ public abstract class CardBase
     public double SkillDamageRate { get; set; } = 0;
     public double SkillResistanceRate { get; set; } = 0;
     public List<Skills> Skills { get; set; } = new List<Skills>{ };
+    public List<string> Emblems { get; set; } = new();
     //Current
     public double CurrentHealth { get; set; } = 0;
     public double CurrentPhysicalAttack { get; set; } = 0;
