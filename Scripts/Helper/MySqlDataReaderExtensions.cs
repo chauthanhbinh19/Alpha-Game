@@ -17,7 +17,7 @@ public static class MySqlDataReaderExtensions
         catch (Exception ex)
         {
             Debug.LogError(
-                $"❌ GetDoubleSafe FAILED | Column: {column} | " +
+                $"GetDoubleSafe FAILED | Column: {column} | " +
                 $"Value: {reader[column]} | " +
                 $"RuntimeType: {reader[column]?.GetType()} | " +
                 $"Message: {ex.Message}"
@@ -38,7 +38,7 @@ public static class MySqlDataReaderExtensions
         catch (Exception ex)
         {
             Debug.LogError(
-                $"❌ GetIntSafe FAILED | Column: {column} | " +
+                $"GetIntSafe FAILED | Column: {column} | " +
                 $"Value: {reader[column]} | " +
                 $"RuntimeType: {reader[column]?.GetType()} | " +
                 $"Message: {ex.Message}"
@@ -59,7 +59,7 @@ public static class MySqlDataReaderExtensions
         catch (Exception ex)
         {
             Debug.LogError(
-                $"❌ GetLongSafe FAILED | Column: {column} | " +
+                $"GetLongSafe FAILED | Column: {column} | " +
                 $"Value: {reader[column]} | " +
                 $"RuntimeType: {reader[column]?.GetType()} | " +
                 $"Message: {ex.Message}"
@@ -80,7 +80,7 @@ public static class MySqlDataReaderExtensions
         catch (Exception ex)
         {
             Debug.LogError(
-                $"❌ GetBoolSafe FAILED | Column: {column} | " +
+                $"GetBoolSafe FAILED | Column: {column} | " +
                 $"Value: {reader[column]} | " +
                 $"RuntimeType: {reader[column]?.GetType()} | " +
                 $"Message: {ex.Message}"
@@ -100,7 +100,7 @@ public static class MySqlDataReaderExtensions
         catch (Exception ex)
         {
             Debug.LogError(
-                $"❌ GetStringSafe FAILED | Column: {column} | " +
+                $"GetStringSafe FAILED | Column: {column} | " +
                 $"Message: {ex.Message}"
             );
             throw;

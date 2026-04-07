@@ -24,6 +24,7 @@ public class MaterialManager : MonoBehaviour
             Destroy(gameObject); // Destroy duplicate instances
         }
     }
+    
     private void LoadAllPrefabs()
     {
         materialDict = new Dictionary<string, Material>();
@@ -51,6 +52,7 @@ public class MaterialManager : MonoBehaviour
         materials.AddRange(Resources.LoadAll<Material>("Main Feature/Materials/Gradient/White/Radius"));
         materials.AddRange(Resources.LoadAll<Material>("Main Feature/Materials/Gradient/Yellow/Basic"));
         materials.AddRange(Resources.LoadAll<Material>("Main Feature/Materials/Gradient/Yellow/Radius"));
+        materials.AddRange(Resources.LoadAll<Material>("Main Feature/Materials/Platform"));
 
         foreach (var material in materials)
         {

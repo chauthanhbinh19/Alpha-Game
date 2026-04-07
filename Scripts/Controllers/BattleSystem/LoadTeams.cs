@@ -20,46 +20,46 @@ public class LoadTeams
 
         await Task.WhenAll(heroTask, captainTask, colonelTask, generalTask, admiralTask, monsterTask, militaryTask, spellTask);
 
-        var cardHeroesList = heroTask.Result;
-        var cardCaptainsList = captainTask.Result;
-        var cardColonelsList = colonelTask.Result;
-        var cardGeneralsList = generalTask.Result;
-        var cardAdmiralsList = admiralTask.Result;
-        var cardMonstersList = monsterTask.Result;
+        var cardHeroList = heroTask.Result;
+        var cardCaptainList = captainTask.Result;
+        var cardColonelList = colonelTask.Result;
+        var cardGeneralList = generalTask.Result;
+        var cardAdmiralList = admiralTask.Result;
+        var cardMonsterList = monsterTask.Result;
         var cardMilitaryList = militaryTask.Result;
         var cardSpellList = spellTask.Result;
 
         List<CardBase> allCards = new List<CardBase>();
 
-        foreach (var entity in cardHeroesList)
+        foreach (var entity in cardHeroList)
         {
             CardHero card = new CardHero();
             card.Initialize(entity);
             allCards.Add(card);
         }
 
-        foreach (var entity in cardCaptainsList)
+        foreach (var entity in cardCaptainList)
         {
             CardCaptain card = new CardCaptain();
             card.Initialize(entity);
             allCards.Add(card);
         }
 
-        foreach (var entity in cardColonelsList)
+        foreach (var entity in cardColonelList)
         {
             CardColonel card = new CardColonel();
             card.Initialize(entity);
             allCards.Add(card);
         }
 
-        foreach (var entity in cardGeneralsList)
+        foreach (var entity in cardGeneralList)
         {
             CardGeneral card = new CardGeneral();
             card.Initialize(entity);
             allCards.Add(card);
         }
 
-        foreach (var entity in cardAdmiralsList)
+        foreach (var entity in cardAdmiralList)
         {
             CardAdmiral card = new CardAdmiral();
             card.Initialize(entity);
@@ -73,7 +73,7 @@ public class LoadTeams
             allCards.Add(card);
         }
 
-        foreach (var entity in cardMonstersList)
+        foreach (var entity in cardMonsterList)
         {
             CardMonster card = new CardMonster();
             card.Initialize(entity);

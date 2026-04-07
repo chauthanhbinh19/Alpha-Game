@@ -6,8 +6,8 @@ public class Grid3DLayout : MonoBehaviour
 {
     [Header("Grid Settings")]
     public int columns = 5;        // số cột
-    public float spacingX = 1.2f;  // khoảng cách ngang
-    public float spacingZ = 1.2f;  // khoảng cách dọc
+    public float spacingX = 3f;  // khoảng cách ngang
+    public float spacingZ = 3f;  // khoảng cách dọc
 
     [Header("Alignment")]
     public bool center = true;     // căn giữa grid
