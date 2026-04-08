@@ -3,23 +3,29 @@ using UnityEngine;
 public class CardController : MonoBehaviour 
 {
     public CardBase CardData { get; private set; }
-    public int CurrentPositionIndex { get; private set; }
+    public int QueueIndex { get; private set; }
+    public GridCell CurrentCell { get; private set; }
 
-    // Hàm này sẽ gọi khi bạn khởi tạo Card vào Arena
-    public void Setup(CardBase data, int positionIndex)
+    public void Setup(CardBase data, int queueIndex, GridCell cell)
     {
         this.CardData = data;
-        this.CurrentPositionIndex = positionIndex;
+        this.QueueIndex = queueIndex;
+        this.CurrentCell = cell;
 
-        // Cập nhật UI hoặc Model 3D dựa trên CardData
-        // Ví dụ: UpdateHealthBar(data.HP);
-        // LoadModel(data.ModelPath);
+        // Đăng ký sự kiện chết từ CardBase (nếu bạn có event OnDie trong CardBase)
+        // Hoặc kiểm tra HP trong Update
     }
 
-    // public void OnCardDie()
-    // {
-    //     // Gọi lên ArenaManager để yêu cầu thay thế
-    //     ArenaManager.Instance.HandleCardDeath(this);
-    //     Destroy(gameObject); 
-    // }
+    // Hàm này gọi khi CardBase.CurrentHealth <= 0
+    public void OnDeath()
+    {
+        // 1. Giải phóng ô Grid hiện tại
+        CurrentCell.SetType(CellType.Empty);
+
+        // 2. Yêu cầu GridArenaManager thay thế card mới vào đúng QueueIndex này
+        GridArenaManager.Instance.SpawnNextCardAtCell(QueueIndex);
+
+        // 3. Xóa prefab hiện tại
+        Destroy(gameObject);
+    }
 }

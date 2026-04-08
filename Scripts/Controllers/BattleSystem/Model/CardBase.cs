@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 
+
 public abstract class CardBase
 {
     public string Id { get; set; }
@@ -164,29 +165,6 @@ public abstract class CardBase
         // Có thể thêm hiệu ứng hoặc sự kiện khi bị tấn công ở đây
         // ShowDamagePopup(amount); // Hiển thị popup sát thương
     }
-
-    public enum AttackType
-    {
-        Normal,
-        Skill
-    }
-
-    protected double GetCombatValue(double currentValue, double baseValue)
-    {
-        return Math.Max(0, currentValue > 0 ? currentValue : baseValue);
-    }
-
-    protected double GetAttackTypeDamageRate(AttackType attackType)
-    {
-        if (attackType == AttackType.Skill)
-        {
-            return Math.Max(0, SkillDamageRate + CurrentSkillDamageRate);
-        }
-
-        return Math.Max(0, NormalDamageRate + CurrentNormalDamageRate);
-    }
-
-
 
     // public void RegenerateMana()
     // {

@@ -2,12 +2,6 @@ using System;
 
 public static class DamageCalculator
 {
-    public static void Attack(CardBase playerCard, CardBase enemyCard)
-    {
-        CauseNormalAttack(playerCard, enemyCard);
-        CauseSkillAttack(playerCard, enemyCard);
-    }
-
     public static void CauseNormalAttack(CardBase playerCard, CardBase enemyCard)
     {
         CausePhysicalNormalAttack(playerCard, enemyCard);

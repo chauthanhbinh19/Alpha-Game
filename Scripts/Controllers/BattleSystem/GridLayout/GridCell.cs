@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum CellType
@@ -23,6 +24,11 @@ public class GridCell : MonoBehaviour
     public Material enemyMaterial;   // enemy
     public Material isWalkable0Material;  // default / blocked
 
+    // Thêm vào phần khai báo biến
+    [Header("Team Display (Auto Found)")]
+    private TextMeshProUGUI teamText;
+    private GameObject teamCanvas;
+
     // cache renderer của platform
     private List<Renderer> platformRenderers = new List<Renderer>();
 
@@ -39,6 +45,7 @@ public class GridCell : MonoBehaviour
         // LoadMaterials();
         FindPlatform();
         UpdateMaterial();
+        UpdateTeamDisplay();
     }
 
     public void Refresh()
@@ -87,6 +94,45 @@ public class GridCell : MonoBehaviour
             //     platformRenderers.Add(r);
             // }
         }
+
+        // 🔥 TỰ ĐỘNG TÌM THEO CẤU TRÚC: Canvas/PositionText
+        // transform.Find sẽ tìm chính xác theo đường dẫn từ Object cha
+        Transform canvasTransform = transform.Find("Canvas");
+        if (canvasTransform != null)
+        {
+            teamCanvas = canvasTransform.gameObject;
+
+            Transform textTransform = canvasTransform.Find("PositionText");
+            if (textTransform != null)
+            {
+                teamText = textTransform.GetComponent<TextMeshProUGUI>();
+            }
+        }
+    }
+
+    // ================= CẬP NHẬT HIỂN THỊ =================
+    public void SetTeam(int team)
+    {
+        teamNumber = team;
+        UpdateTeamDisplay();
+    }
+
+    private void UpdateTeamDisplay()
+    {
+        // Tìm lại nếu chưa có (phòng trường hợp Refresh/OnValidate)
+        if (teamCanvas == null) FindPlatform();
+
+        bool shouldShow = (teamNumber != 0);
+
+        if (teamCanvas != null)
+        {
+            teamCanvas.SetActive(shouldShow);
+        }
+
+        if (teamText != null && shouldShow)
+        {
+            teamText.text = teamNumber.ToString();
+        }
     }
 
     // ================= MATERIAL =================
@@ -118,22 +164,28 @@ public class GridCell : MonoBehaviour
         if (platformRenderers == null || platformRenderers.Count == 0)
             return;
 
-        // ưu tiên IsWalkable
+        // 1. Nếu không thể đi (Blocked) -> Ưu tiên hiện màu đỏ/đen ngay lập tức
         if (!IsWalkable)
         {
             ApplyMaterial(isWalkable0Material);
             return;
         }
 
-        Material mat = !IsWalkable
-        ? isWalkable0Material
-        : CellType switch
+        // 2. Nếu có thể đi (IsWalkable == true) -> Xét tiếp loại Cell
+        Material mat;
+        switch (CellType)
         {
-            CellType.Enemy => enemyMaterial,
-            CellType.Player => playerMaterial,
-            CellType.Empty => isWalkable1Material,
-            _ => isWalkable1Material
-        };
+            case CellType.Enemy:
+                mat = enemyMaterial;
+                break;
+            case CellType.Player:
+                mat = playerMaterial;
+                break;
+            case CellType.Empty:
+            default:
+                mat = isWalkable1Material;
+                break;
+        }
 
         ApplyMaterial(mat);
     }
