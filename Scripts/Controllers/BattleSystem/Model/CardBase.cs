@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public abstract class CardBase
 {
     public string Id { get; set; }
-    public string CardName { get; set; }
+    public string Name { get; set; }
     public string Image { get; set; }
     public string Type { get; set; }
     public string Rare { get; set; }
@@ -126,7 +126,7 @@ public abstract class CardBase
         var target = ChooseTarget(opponent);
         if (target == null)
         {
-            Debug.Log($"{CardName} has no valid target.");
+            Debug.Log($"{Name} has no valid target.");
             return;
         }
 

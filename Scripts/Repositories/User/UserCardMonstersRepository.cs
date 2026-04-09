@@ -50,7 +50,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 query += " AND c.name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " GROUP BY ch.id";
+            query += " GROUP BY uc.card_monster_id, c.id, t.team_number";
             query += " ORDER BY c.name";
             query += " LIMIT @limit OFFSET @offset";
 

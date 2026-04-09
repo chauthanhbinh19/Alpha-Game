@@ -92,7 +92,7 @@ public class TeamsManager : MonoBehaviour
         userCardMilitaryService = UserCardMilitariesService.Create();
         userCardSpellService = UserCardSpellsService.Create();
         teamsService = TeamsService.Create();
-        rare = "All";
+        rare = AppConstants.Rare.ALL;
     }
 
     public async Task CreateTeamsAsync()

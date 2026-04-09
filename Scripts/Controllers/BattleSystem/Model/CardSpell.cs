@@ -6,7 +6,7 @@ public class CardSpell : CardBase
     {
         // copy thuộc tính từ CardBase
         this.Id = cardSpell.Id;
-        this.CardName = cardSpell.Name;
+        this.Name = cardSpell.Name;
         this.Image = cardSpell.Image;
         this.Type = cardSpell.Type;
         this.Rare = cardSpell.Rare;

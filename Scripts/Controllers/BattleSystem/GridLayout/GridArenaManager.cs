@@ -1,68 +1,122 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GridArenaManager : MonoBehaviour
 {
-    public static GridArenaManager Instance;
+    public static GridArenaManager Instance { get; private set; }
 
-    [Header("Grid Settings")]
-    public GridCell[,] AllCells = new GridCell[7, 7];
-    public List<GridCell> PlayableCells = new List<GridCell>(); // Danh sách 10 ô được chọn để đặt card
+    [Header("Settings")]
+    public GameObject cardPrefab;
 
-    [Header("Prefabs")]
-    public GameObject CardPrefab;
+    // Danh sách tất cả các ô trong Arena
+    private List<GridCell> allCells = new List<GridCell>();
 
-    // Hàng đợi logic: 10 vị trí, mỗi vị trí 10 thẻ bài
-    private Dictionary<int, Queue<CardBase>> positionQueues = new Dictionary<int, Queue<CardBase>>();
-
-    private void Awake() => Instance = this;
-
-    // Khởi tạo trận đấu từ list 100 card đã load
-    public void InitializeBattle(List<CardBase> allLoadedCards)
+    private void Awake()
     {
-        // 1. Chia 100 card vào 10 hàng đợi (mỗi hàng 10 card)
-        for (int i = 0; i < 10; i++)
-        {
-            positionQueues[i] = new Queue<CardBase>();
-            for (int j = 0; j < 10; j++)
-            {
-                int index = i * 10 + j;
-                if (index < allLoadedCards.Count)
-                    positionQueues[i].Enqueue(allLoadedCards[index]);
-            }
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
 
-        // 2. Đưa 10 card đầu tiên ra 10 ô PlayableCells đã chỉ định
-        for (int i = 0; i < PlayableCells.Count; i++)
-        {
-            if (i < 10) // Giới hạn 10 vị trí hiển thị
-            {
-                SpawnNextCardAtCell(i);
-            }
-        }
+        // Thu thập tất cả GridCell có trong Scene
+        allCells = FindObjectsOfType<GridCell>().ToList();
     }
 
-    public void SpawnNextCardAtCell(int queueIndex)
+    /// <summary>
+    /// Tìm một ô trống gần nhất hoặc ô cụ thể dựa trên logic game
+    /// </summary>
+    public GridCell GetCellByMainPosition(int mainPos)
     {
-        if (positionQueues[queueIndex].Count > 0)
+        // Ưu tiên tìm ô đang hiển thị teamNumber này
+        foreach (var cell in allCells)
         {
-            CardBase nextData = positionQueues[queueIndex].Dequeue();
-            GridCell targetCell = PlayableCells[queueIndex];
+            if (cell.teamNumber == mainPos) return cell;
+        }
+        return null;
+    }
 
-            // Tạo Object 3D
-            GameObject cardObj = Instantiate(CardPrefab, targetCell.transform.position, Quaternion.identity);
+    /// <summary>
+    /// Hàm quan trọng: Sinh Card tiếp theo khi Card cũ chết
+    /// </summary>
+    /// <param name="mainPos">ID luồng vị trí</param>
+    /// <param name="nextSubIndex">Thứ tự tiếp theo trong danh sách chờ</param>
+    public void SpawnNextCardAtCell(int mainPos, int nextSubIndex)
+    {
+        // 1. Tìm ô mà Card cũ vừa chết (hoặc ô mặc định cho MainPos này)
+        GridCell targetCell = GetCellByMainPosition(0); // Tìm ô trống bất kỳ hoặc theo logic của bạn
+
+        // 2. Lấy dữ liệu từ Database (giả lập)
+        CardBase nextData = GetCardDataFromDatabase(mainPos, nextSubIndex);
+
+        if (nextData != null && targetCell != null)
+        {
+            GameObject cardObj = Instantiate(cardPrefab, targetCell.transform.position, Quaternion.identity);
             CardController controller = cardObj.GetComponent<CardController>();
 
-            // Gán dữ liệu và vị trí hàng đợi cho controller
-            controller.Setup(nextData, queueIndex, targetCell);
-            
-            // Cập nhật trạng thái ô Grid
-            targetCell.SetType(CellType.Player); 
+            // Thiết lập Card mới
+            controller.Setup(nextData, mainPos, nextSubIndex, targetCell);
+
+            Debug.Log($"Spawned Hero: {nextData.Name} at Position: {mainPos} (Index: {nextSubIndex})");
         }
         else
         {
-            Debug.Log($"Hàng đợi tại vị trí {queueIndex} đã hết thẻ!");
-            PlayableCells[queueIndex].SetType(CellType.Empty);
+            Debug.LogWarning($"Không còn Card nào cho MainPosition: {mainPos} hoặc không tìm thấy ô trống!");
+        }
+    }
+
+    /// <summary>
+    /// Giả lập việc truy vấn Database 70,000 hero của bạn
+    /// </summary>
+    private CardBase GetCardDataFromDatabase(int mainPos, int subIndex)
+    {
+        // Trong thực tế, bạn sẽ dùng SQL hoặc tìm trong List<CardBase> 
+        // dựa trên logic: MainPosition == team và SubIndex == thứ tự chờ.
+
+        // Ví dụ: return MyDatabase.HeroList.Find(h => h.mainPos == mainPos && h.subIndex == subIndex);
+        return null;
+    }
+
+    // ================= LOGIC ĐIỀU KHIỂN CHUỘT (CHỌN & DI CHUYỂN) =================
+
+    private CardController selectedCard;
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            HandleSelection();
+        }
+    }
+
+    private void HandleSelection()
+    {
+        // 1. Kiểm tra xem có đang trong Phase cho phép di chuyển không
+        if (!(TurnManager.Instance.CurrentPhase is StartPhase ||
+              TurnManager.Instance.CurrentPhase is PreparationPhase))
+        {
+            Debug.Log("Không thể di chuyển trong Phase này!");
+            return;
+        }
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            GridCell clickedCell = hit.collider.GetComponentInParent<GridCell>();
+            if (clickedCell != null)
+            {
+                if (selectedCard != null)
+                {
+                    // Thực hiện di chuyển nếu ô trống và trong phạm vi 8 hướng
+                    if (selectedCard.CanMoveTo(clickedCell))
+                    {
+                        selectedCard.MoveTo(clickedCell);
+                        selectedCard = null;
+                    }
+                }
+                else if (clickedCell.CurrentCard != null)
+                {
+                    selectedCard = clickedCell.CurrentCard;
+                }
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                     query += " AND c.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " GROUP BY c.id";
+                query += " GROUP BY uc.card_admiral_id, c.id, t.team_number";
                 query += " ORDER BY c.name";
                 query += " LIMIT @limit OFFSET @offset";
 

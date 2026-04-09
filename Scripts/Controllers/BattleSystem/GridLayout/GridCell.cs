@@ -17,6 +17,8 @@ public class GridCell : MonoBehaviour
 
     public CellType CellType;
     public bool IsWalkable = true;
+    public CardController CurrentCard; // Card đang đứng tại ô này
+    public bool IsOccupied => CurrentCard != null; // Kiểm tra ô có người chưa
 
     [Header("Visual")]
     public Material isWalkable1Material; // walkable
@@ -111,9 +113,9 @@ public class GridCell : MonoBehaviour
     }
 
     // ================= CẬP NHẬT HIỂN THỊ =================
-    public void SetTeam(int team)
+    public void SetTeam(int _teamNumber)
     {
-        teamNumber = team;
+        teamNumber = _teamNumber;
         UpdateTeamDisplay();
     }
 
@@ -188,5 +190,19 @@ public class GridCell : MonoBehaviour
         }
 
         ApplyMaterial(mat);
+    }
+
+    // Hàm để Card "nhập hộ khẩu" vào ô
+    public void OccupyCell(CardController card)
+    {
+        CurrentCard = card;
+        // Cập nhật CellType dựa trên team của Card nếu cần
+        SetType(card.CardData.MainPosition == 1 ? CellType.Player : CellType.Enemy);
+    }
+
+    public void ClearCell()
+    {
+        CurrentCard = null;
+        SetType(CellType.Empty);
     }
 }

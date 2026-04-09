@@ -279,7 +279,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 if (recordCount == 0)
                 {
                     string query = @"
-                    INSERT INTO card_colonels_gallery (
+                    INSERT INTO card_admirals_gallery (
                         user_id, card_admiral_id, status, current_star, temp_star, power, health, 
                         physical_attack, physical_defense, magical_attack, magical_defense, 
                         chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
@@ -473,7 +473,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                             reader.Close(); // Đóng reader trước khi thực hiện update
 
                             string updateQuery = @"
-                                UPDATE card_colonels_gallery 
+                                UPDATE card_admirals_gallery 
                                 SET temp_star = @temp_star 
                                 WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id;
                             ";

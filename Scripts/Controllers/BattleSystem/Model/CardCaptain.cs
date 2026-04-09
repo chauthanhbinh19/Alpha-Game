@@ -6,7 +6,7 @@ public class CardCaptain : CardBase
     {
         // copy thuộc tính từ CardBase
         this.Id = cardCaptains.Id;
-        this.CardName = cardCaptains.Name;
+        this.Name = cardCaptains.Name;
         this.Image = cardCaptains.Image;
         this.Type = cardCaptains.Type;
         this.Rare = cardCaptains.Rare;

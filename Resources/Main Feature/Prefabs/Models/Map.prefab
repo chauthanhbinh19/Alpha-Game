@@ -228,6 +228,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -254,6 +255,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -350,6 +352,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -376,6 +379,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -472,6 +476,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -498,6 +503,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -594,6 +600,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -620,6 +627,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -716,6 +724,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -742,6 +751,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -838,6 +848,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -864,6 +875,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -960,6 +972,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -986,6 +999,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1082,6 +1096,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1108,6 +1123,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1204,6 +1220,7 @@ MonoBehaviour:
   teamNumber: 1
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1230,6 +1247,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1326,6 +1344,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1352,6 +1371,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1448,6 +1468,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1474,6 +1495,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1570,6 +1592,7 @@ MonoBehaviour:
   teamNumber: 2
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1596,6 +1619,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1692,6 +1716,7 @@ MonoBehaviour:
   teamNumber: 3
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1718,6 +1743,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1814,6 +1840,7 @@ MonoBehaviour:
   teamNumber: 4
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1840,6 +1867,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1936,6 +1964,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -1962,6 +1991,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2058,6 +2088,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2084,6 +2115,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2180,6 +2212,7 @@ MonoBehaviour:
   teamNumber: 5
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2206,6 +2239,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2302,6 +2336,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2328,6 +2363,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2424,6 +2460,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2450,6 +2487,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2546,6 +2584,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2572,6 +2611,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2668,6 +2708,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2694,6 +2735,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2790,6 +2832,7 @@ MonoBehaviour:
   teamNumber: 6
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2816,6 +2859,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2908,6 +2952,7 @@ MonoBehaviour:
   teamNumber: 10
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -2934,6 +2979,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3030,6 +3076,7 @@ MonoBehaviour:
   teamNumber: 1
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3056,6 +3103,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3152,6 +3200,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3178,6 +3227,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3274,6 +3324,7 @@ MonoBehaviour:
   teamNumber: 2
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3300,6 +3351,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3396,6 +3448,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3422,6 +3475,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3518,6 +3572,7 @@ MonoBehaviour:
   teamNumber: 8
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3544,6 +3599,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3640,6 +3696,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3666,6 +3723,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3762,6 +3820,7 @@ MonoBehaviour:
   teamNumber: 8
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3788,6 +3847,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3884,6 +3944,7 @@ MonoBehaviour:
   teamNumber: 7
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -3910,6 +3971,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4006,6 +4068,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4032,6 +4095,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4128,6 +4192,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4154,6 +4219,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4250,6 +4316,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4276,6 +4343,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4372,6 +4440,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4398,6 +4467,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4494,6 +4564,7 @@ MonoBehaviour:
   teamNumber: 4
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4520,6 +4591,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4616,6 +4688,7 @@ MonoBehaviour:
   teamNumber: 5
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4642,6 +4715,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4738,6 +4812,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4764,6 +4839,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4860,6 +4936,7 @@ MonoBehaviour:
   teamNumber: 9
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4886,6 +4963,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -4982,6 +5060,7 @@ MonoBehaviour:
   teamNumber: 9
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5008,6 +5087,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5104,6 +5184,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5130,6 +5211,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5222,6 +5304,7 @@ MonoBehaviour:
   teamNumber: 10
   CellType: 2
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5248,6 +5331,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5344,6 +5428,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5370,6 +5455,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5466,6 +5552,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5492,6 +5579,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5588,6 +5676,7 @@ MonoBehaviour:
   teamNumber: 7
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5614,6 +5703,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5710,6 +5800,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5736,6 +5827,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5832,6 +5924,7 @@ MonoBehaviour:
   teamNumber: 3
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5858,6 +5951,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5954,6 +6048,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -5980,6 +6075,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -6076,6 +6172,7 @@ MonoBehaviour:
   teamNumber: 6
   CellType: 1
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
@@ -6102,6 +6199,7 @@ MonoBehaviour:
   teamNumber: 0
   CellType: 0
   IsWalkable: 1
+  CurrentCard: {fileID: 0}
   isWalkable1Material: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
   playerMaterial: {fileID: 2100000, guid: aafbacddcd27b7a4a863469981949ce5, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}

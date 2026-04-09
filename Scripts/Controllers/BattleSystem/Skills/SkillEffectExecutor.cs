@@ -141,31 +141,31 @@ public class SkillEffectExecutor
         float finalDamage = CalculateDamage(attackValue, defenseValue, effect.Value);
 
         target.Health -= finalDamage;
-        Debug.Log($"{source.CardName} dealt {finalDamage} {effect.EffectProperty.PropertyCode.ToLower()} damage to {target.CardName}.");
+        Debug.Log($"{source.Name} dealt {finalDamage} {effect.EffectProperty.PropertyCode.ToLower()} damage to {target.Name}.");
     }
 
     private void ApplyHeal(Effects effect, CardBase source)
     {
         float healAmount = effect.Value;
         source.Health += healAmount;
-        Debug.Log($"{source.CardName} healed {healAmount} HP.");
+        Debug.Log($"{source.Name} healed {healAmount} HP.");
     }
 
     private void ApplyBuff(Effects effect, CardBase source)
     {
-        Debug.Log($"{source.CardName} gained buff: {effect.EffectProperty.PropertyCode} +{effect.Value}");
+        Debug.Log($"{source.Name} gained buff: {effect.EffectProperty.PropertyCode} +{effect.Value}");
         // Có thể set flag hoặc cộng stat tạm thời
     }
 
     private void ApplyDebuff(Effects effect, CardBase target)
     {
-        Debug.Log($"{target.CardName} suffered debuff: {effect.EffectProperty.PropertyCode} -{effect.Value}");
+        Debug.Log($"{target.Name} suffered debuff: {effect.EffectProperty.PropertyCode} -{effect.Value}");
         // Giảm chỉ số hoặc gắn debuff state
     }
 
     private void ApplyControlState(Effects effect, CardBase target)
     {
-        Debug.Log($"{target.CardName} is affected by {effect.EffectProperty.PropertyCode}");
+        Debug.Log($"{target.Name} is affected by {effect.EffectProperty.PropertyCode}");
         // Ví dụ: Freeze, Silence, Stun...
     }
 
