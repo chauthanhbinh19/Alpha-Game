@@ -78,7 +78,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         buttonGroupPanel1 = currentObject.transform.Find("DictionaryCards/ButtonGroup1");
         buttonGroupPanel2 = currentObject.transform.Find("DictionaryCards/ButtonGroup2");
@@ -107,7 +107,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"UI/Background3/{cardHero.Type}");
             cardBackground.texture = texture;
             cardBackground.gameObject.SetActive(true);
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -121,7 +121,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserBooksController.Instance.ShowBookDetails(book, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BOOK_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -136,7 +136,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"UI/Background3/{cardCaptain.Type}");
             cardBackground.texture = texture;
             cardBackground.gameObject.SetActive(true);
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -150,7 +150,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserPetsController.Instance.ShowPetDetails(pet, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PET_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -164,7 +164,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserCollaborationEquipmentsController.Instance.ShowCollaborationEquipmentDetails(collaborationEquipmentsequipment, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.COLLABORATION_EQUIPMENT_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -179,7 +179,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"UI/Background3/{cardMilitary.Type}");
             cardBackground.texture = texture;
             cardBackground.gameObject.SetActive(true);
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -193,7 +193,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserCardSpellsController.Instance.ShowCardSpellDetails(cardSpell, currentObject);
             Texture texture = TextureHelper.LoadTextureCached($"UI/Background3/{cardSpell.Type}");
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -207,7 +207,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserCollaborationsController.Instance.ShowCollaborationDetails(collaboration, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.COLLABORATION_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -221,7 +221,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserCardMonstersController.Instance.ShowCardMonsterDetails(cardMonster, currentObject);
             Texture texture = TextureHelper.LoadTextureCached($"UI/Background3/{cardMonster.Type}");
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -235,7 +235,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserEquipmentsController.Instance.ShowEquipmentDetails(equipment, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.EQUIPMENT_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -249,7 +249,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserMedalsController.Instance.ShowMedalDetails(medal, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MEDAL_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -263,7 +263,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserSkillsController.Instance.ShowSkillDetails(skill, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SKILL_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -277,7 +277,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserSymbolsController.Instance.ShowSymbolDetails(symbol, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SYMBOL_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -291,7 +291,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserTitlesController.Instance.ShowTitleDetails(title, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TITLE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -305,7 +305,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserMagicFormationCirclesController.Instance.ShowMagicFormationCircleDetails(magicFormationCircle, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MAGIC_FORMATION_CIRCLE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -319,7 +319,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserRelicsController.Instance.ShowRelicDetails(relic, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.RELIC_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -334,7 +334,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"UI/Background3/{cardColonel.Type}");
             cardBackground.texture = texture;
             cardBackground.gameObject.SetActive(true);
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -349,7 +349,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"UI/Background3/{cardGeneral.Type}");
             cardBackground.texture = texture;
             cardBackground.gameObject.SetActive(true);
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -364,7 +364,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"UI/Background3/{cardAdmiral.Type}");
             cardBackground.texture = texture;
             cardBackground.gameObject.SetActive(true);
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -383,7 +383,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserAchievementsController.Instance.ShowAchievementDetails(achievement, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ACHIEVEMENT_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -397,7 +397,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserTalismansController.Instance.ShowTalismanDetails(talisman, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TALISMAN_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -411,7 +411,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserPuppetsController.Instance.ShowPuppetDetails(puppet, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PUPPET_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -425,7 +425,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserAlchemiesController.Instance.ShowAlchemyDetails(alchemy, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ALCHEMY_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -439,7 +439,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserForgesController.Instance.ShowForgeDetails(forge, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FORGE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -453,7 +453,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserCardLivesController.Instance.ShowCardLifeDetails(cardLife, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_LIFE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -467,7 +467,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserArtworksController.Instance.ShowArtworkDetails(artwork, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTWORK_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -481,7 +481,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserSpiritBeastsController.Instance.ShowSpiritBeastDetails(spiritBeast, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SPIRIT_BEAST_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -495,7 +495,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserSpiritCardsController.Instance.ShowSpiritCardDetails(spiritCard, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SPIRIT_CARD_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -509,7 +509,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserArtifactsController.Instance.ShowArtifactDetails(artifact, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTIFACT_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -523,7 +523,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserArchitecturesController.Instance.ShowArchitectureDetails(architecture, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARCHITECTURE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -537,7 +537,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserTechnologiesController.Instance.ShowTechnologyDetails(technology, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TECHNOLOGY_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -551,7 +551,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserVehiclesController.Instance.ShowVehicleDetails(vehicle, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.VEHICLE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -565,7 +565,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserCoresController.Instance.ShowCoreDetails(core, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CORE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -579,7 +579,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserWeaponsController.Instance.ShowWeaponDetails(weapon, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.WEAPON_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -593,7 +593,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserRobotsController.Instance.ShowRobotDetails(robot, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ROBOT_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -607,7 +607,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserBadgesController.Instance.ShowBadgeDetails(badge, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BADGE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -621,7 +621,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserMechaBeastsController.Instance.ShowMechaBeastDetails(mechaBeast, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MECHA_BEAST_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -635,7 +635,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserRunesController.Instance.ShowRuneDetails(rune, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.RUNE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -649,7 +649,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserFurnituresController.Instance.ShowFurnitureDetails(furniture, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FURNITURE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -663,7 +663,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserFoodsController.Instance.ShowFoodDetails(food, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FOOD_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -677,7 +677,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserBeveragesController.Instance.ShowBeverageDetails(beverage, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BEVERAGE_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -691,7 +691,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserBuildingsController.Instance.ShowBuildingDetails(building, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BUILDING_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -705,7 +705,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserPlantsController.Instance.ShowPlantDetails(plant, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PLANT_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
@@ -719,7 +719,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             UserFashionsController.Instance.ShowFashionDetails(fashion, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FASHION_BACKGROUND_URL);
             cardBackground.texture = texture;
-            CloseButton.onClick.AddListener(() =>
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);

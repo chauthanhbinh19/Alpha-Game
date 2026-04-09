@@ -55,14 +55,14 @@ public class HIHNVIIIManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(PopupHIHNPanelPrefab, MainPanel);
         content = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(async () =>
+        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);

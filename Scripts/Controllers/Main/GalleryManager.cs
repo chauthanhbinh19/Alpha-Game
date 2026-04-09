@@ -21,8 +21,8 @@ public class GalleryManager : MonoBehaviour
     private Transform LeftScrollViewContentPanel;
     private Material UI_Blue_Gradient_Radius_Mat_MaskPercent_70;
     private Transform MainPanel;
-    private Button CloseButton;
-    private Button HomeButton;
+    private Button closeButton;
+    private Button homeButton;
     //Variable for pagination
     private int offset;
     private int currentPage;
@@ -244,15 +244,15 @@ public class GalleryManager : MonoBehaviour
         TMP_Dropdown typeDropdown = mainMenuObject.transform.Find("DictionaryCards/InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
         TMP_InputField searchInputField = mainMenuObject.transform.Find("DictionaryCards/InputGroup/Search").GetComponent<TMP_InputField>();
         Button searchButton = mainMenuObject.transform.Find("DictionaryCards/InputGroup/SearchButton").GetComponent<Button>();
-        CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        closeButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePanel();
             Destroy(mainMenuObject);
         });
-        HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(async () =>
+        homeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);

@@ -48,15 +48,15 @@ public class ReactorNumber15Manager : MonoBehaviour
     public async Task CreateReactorPanelAsync()
     {
         GameObject currentObject = Instantiate(ReactorPanelNumberPrefab, MainPanel);
-        Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(async () =>
+        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        CloseButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
@@ -71,8 +71,8 @@ public class ReactorNumber15Manager : MonoBehaviour
         RawImage MainReactorCoreImage = currentObject.transform.Find("DictionaryCards/Reactor/MainReactorBackgroundCore/MainReactorCoreImage").GetComponent<RawImage>();
         TextMeshProUGUI ReactorLevelText = currentObject.transform.Find("DictionaryCards/Reactor/ReactorLevel/ReactorLevelText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI ReactorNumberText = currentObject.transform.Find("DictionaryCards/Reactor/ReactorLevel/ReactorNumberText").GetComponent<TextMeshProUGUI>();
-        Button UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        Button UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        Button upLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Transform material1Group = currentObject.transform.Find("DictionaryCards/MaterialNumber1");
         Transform material2Group = currentObject.transform.Find("DictionaryCards/MaterialNumber2");
         Transform material3Group = currentObject.transform.Find("DictionaryCards/MaterialNumber3");
@@ -91,19 +91,19 @@ public class ReactorNumber15Manager : MonoBehaviour
         TextMeshProUGUI requiredQuantity4Text = currentObject.transform.Find("DictionaryCards/MaterialNumber4/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
 
-        TextMeshProUGUI UpLevelButtonText = UpLevelButton.GetComponentInChildren<TextMeshProUGUI>();
-        UpLevelButtonText.font = EuroStyleNormalFont;
-        UpLevelButtonText.fontSize = fontSize;
-        UpLevelButtonText.fontStyle = FontStyles.Bold;
-        UpLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
-        TextMeshProUGUI UpMaxLevelButtonText = UpMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
-        UpMaxLevelButtonText.font = EuroStyleNormalFont;
-        UpMaxLevelButtonText.fontSize = fontSize;
-        UpMaxLevelButtonText.fontStyle = FontStyles.Bold;
-        UpMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_MAX_LEVEL);
+        TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        upLevelButtonText.font = EuroStyleNormalFont;
+        upLevelButtonText.fontSize = fontSize;
+        upLevelButtonText.fontStyle = FontStyles.Bold;
+        upLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
+        TextMeshProUGUI upMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        upMaxLevelButtonText.font = EuroStyleNormalFont;
+        upMaxLevelButtonText.fontSize = fontSize;
+        upMaxLevelButtonText.fontStyle = FontStyles.Bold;
+        upMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_MAX_LEVEL);
 
-        UpLevelButton.AddComponent<SlideBottomToTopAnimation>();
-        UpMaxLevelButton.AddComponent<SlideBottomToTopAnimation>();
+        upLevelButton.AddComponent<SlideBottomToTopAnimation>();
+        upMaxLevelButton.AddComponent<SlideBottomToTopAnimation>();
         material1Group.AddComponent<SlideBottomToTopAnimation>();
         material2Group.AddComponent<SlideBottomToTopAnimation>();
         material3Group.AddComponent<SlideBottomToTopAnimation>();
@@ -162,10 +162,10 @@ public class ReactorNumber15Manager : MonoBehaviour
                 CreateMaterialForMaxLevel(material4Image, availableQuantity4Text, requiredQuantity4Text, item.Image, scienceFiction.Level, item.Quantity, maxMaterialQuantity);
             }
         }
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
 
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.AddListener(async () =>
         {
             double materialRequired = EvaluateItem.CalculateToMaterialRequiredForOneUpgrade(scienceFiction.Level);
 
@@ -196,7 +196,7 @@ public class ReactorNumber15Manager : MonoBehaviour
                 await CreateReactorPanelAsync();
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             double totalMaterialRequired = EvaluateItem.CalculateTotalMaterialRequiredForMaxUpgrade(scienceFiction.Level, MAX_LEVEL, items);
 

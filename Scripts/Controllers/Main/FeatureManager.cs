@@ -15,8 +15,8 @@ public class FeatureManager : MonoBehaviour
     private Transform currentContent;
     private Transform currencyPanel;
     private Transform popupPanel;
-    private Button CloseButton;
-    private Button HomeButton;
+    private Button closeButton;
+    private Button homeButton;
     private TextMeshProUGUI titleText;
     private Currencies currentCurrency;
 

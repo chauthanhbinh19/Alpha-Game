@@ -258,7 +258,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
             LEFT JOIN card_captain_emblem che ON c.id = che.card_captain_id
             LEFT JOIN emblems e ON che.emblem_id = e.id
             WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
-            GROUP BY c.id
+            GROUP BY uc.card_captain_id, c.id
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
         ";
 
@@ -447,7 +447,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
             LEFT JOIN card_captain_emblem che ON c.id = che.card_captain_id
             LEFT JOIN emblems e ON che.emblem_id = e.id
             WHERE uc.user_id = @userId AND uc.team_id = @team_id
-            GROUP BY c.id
+            GROUP BY uc.card_captain_id, c.id
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
         ";
 
@@ -1344,7 +1344,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
             LEFT JOIN card_captain_emblem che ON c.id = che.card_captain_id
             LEFT JOIN emblems e ON che.emblem_id = e.id
             WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
-            GROUP BY c.id";
+            GROUP BY uc.card_captain_id, c.id";
 
             await using MySqlCommand command = new MySqlCommand(userQuery, connection);
             command.Parameters.AddWithValue("@user_id", user_id);

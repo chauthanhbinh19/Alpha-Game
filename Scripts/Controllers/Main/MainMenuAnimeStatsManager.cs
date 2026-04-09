@@ -17,8 +17,8 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     private GameObject currentObject;
     private GameObject slotObject;
     private GameObject ElementDetails2Prefab;
-    private Button UpLevelButton;
-    private Button UpMaxLevelButton;
+    private Button upLevelButton;
+    private Button upMaxLevelButton;
     private Transform LevelCondition;
     private string animeType;
     private Features feature;
@@ -129,8 +129,8 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(nameType);
-        UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        upLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        upMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         HomeButton.onClick.AddListener(() =>
@@ -235,9 +235,9 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         Items item = await userItemsService.GetUserItemByNameAsync(itemName);
         SetUI(slotObject, animeStats.Level);
         SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, animeStats.Level);
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -259,7 +259,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 await CreateAnimeStatsAsync();
             }
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             

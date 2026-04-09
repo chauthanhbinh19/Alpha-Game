@@ -18,15 +18,15 @@ public class MysticMarketManager : MonoBehaviour
     private Transform currentContent;
     private Transform currencyPanel;
     private Transform popupPanel;
-    private Button CloseButton;
-    private Button HomeButton;
+    private Button closeButton;
+    private Button homeButton;
     private int offset;
     private int currentPage;
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
-    private Button NextButton;
-    private Button PreviousButton;
+    private Button nextButton;
+    private Button previousButton;
     private Text titleText;
     private List<Items> items;
     private Currencies currentCurrency;
@@ -64,14 +64,14 @@ public class MysticMarketManager : MonoBehaviour
         GameObject mysticMarketManagerObject = Instantiate(MysticMarketManagerPrefab, ContentPanel);
         Transform mysticMarketTransform = mysticMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         titleText = mysticMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        CloseButton = mysticMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        closeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(mysticMarketManagerObject);
         });
-        HomeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(async () =>
+        homeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(ContentPanel);
@@ -110,8 +110,8 @@ public class MysticMarketManager : MonoBehaviour
         // TabButtonPanel = mysticMarketObject.transform.Find("Scroll View/Viewport/Content");
         currencyPanel = mysticMarketObject.transform.Find("DictionaryCards/Currency");
         PageText = mysticMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        NextButton = mysticMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        PreviousButton = mysticMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+        nextButton = mysticMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
+        previousButton = mysticMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = mysticMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
         // CloseButton = mysticMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
@@ -125,12 +125,12 @@ public class MysticMarketManager : MonoBehaviour
         //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         //     Close(ContentPanel);
         // });
-        NextButton.onClick.AddListener(async ()=>
+        nextButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             await ChangeNextPageAsync();
         });
-        PreviousButton.onClick.AddListener(async ()=>
+        previousButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             await ChangePreviousPageAsync();

@@ -164,8 +164,8 @@ public class EquipmentManager : MonoBehaviour
         string image = "Background_V1_" + count;
         Texture texture = TextureHelper.LoadTextureCached($"UI/Background1/{image}");
         Image.texture = texture;
-        Button closeBtn = equipmentObject.transform.Find("CloseButton").GetComponent<Button>();
-        closeBtn.onClick.AddListener(() => OnClose());
+        Button closeButton = equipmentObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() => OnClose());
 
         Transform gridLayout = equipmentObject.transform.Find("GridLayout");
         if (gridLayout != null)
@@ -425,8 +425,8 @@ public class EquipmentManager : MonoBehaviour
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
             Title.text = LocalizationManager.Get("bag");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
-            Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            Button closeButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -434,8 +434,8 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = 1;
                 Destroy(currentObject);
             });
-            Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(() =>
+            Button homeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
+            homeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
@@ -451,14 +451,14 @@ public class EquipmentManager : MonoBehaviour
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
             TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-            Button NextButton = button.transform.Find("Next").GetComponent<Button>();
-            NextButton.onClick.AddListener(() =>
+            Button nextButton = button.transform.Find("Next").GetComponent<Button>();
+            nextButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 _=ChangeNextPageAsync(1, PageText, content, type);
             });
-            Button PreviousButton = button.transform.Find("Previous").GetComponent<Button>();
-            PreviousButton.onClick.AddListener(() =>
+            Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
+            previousButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 _=ChangePreviousPageAsync(1, PageText, content, type);
@@ -484,8 +484,8 @@ public class EquipmentManager : MonoBehaviour
             TextMeshProUGUI Title = DictionaryPanel.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             Title.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
-            Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            Button closeButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -493,8 +493,8 @@ public class EquipmentManager : MonoBehaviour
                 currentPage = 1;
                 Destroy(currentObject);
             });
-            Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(() =>
+            Button homeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
+            homeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
@@ -507,14 +507,14 @@ public class EquipmentManager : MonoBehaviour
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
             TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-            Button NextButton = button.transform.Find("Next").GetComponent<Button>();
-            NextButton.onClick.AddListener(() =>
+            Button nextButton = button.transform.Find("Next").GetComponent<Button>();
+            nextButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 _=ChangeNextPageAsync(2, PageText, content, type);
             });
-            Button PreviousButton = button.transform.Find("Previous").GetComponent<Button>();
-            PreviousButton.onClick.AddListener(() =>
+            Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
+            previousButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 _=ChangePreviousPageAsync(2, PageText, content, type);
@@ -541,10 +541,10 @@ public class EquipmentManager : MonoBehaviour
             Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
             Title.text = LocalizationManager.Get("enhancement");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuEnhancementContentPanel");
-            Button CloseButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() => Destroy(currentObject));
-            Button HomeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(() => Close(MainPanel));
+            Button closeButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() => Destroy(currentObject));
+            Button homeButton = DictionaryPanel.transform.Find("HomeButton").GetComponent<Button>();
+            homeButton.onClick.AddListener(() => Close(MainPanel));
         }
 
         Transform button = currentObject.transform.Find("Pagination");
@@ -553,10 +553,10 @@ public class EquipmentManager : MonoBehaviour
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuEnhancementContentPanel");
             TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-            Button NextButton = button.transform.Find("Next").GetComponent<Button>();
-            NextButton.onClick.AddListener(() => _=ChangeNextPageAsync(3, PageText, content, type));
-            Button PreviousButton = button.transform.Find("Previous").GetComponent<Button>();
-            PreviousButton.onClick.AddListener(() => _=ChangePreviousPageAsync(3, PageText, content, type));
+            Button nextButton = button.transform.Find("Next").GetComponent<Button>();
+            nextButton.onClick.AddListener(() => _=ChangeNextPageAsync(3, PageText, content, type));
+            Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
+            previousButton.onClick.AddListener(() => _=ChangePreviousPageAsync(3, PageText, content, type));
         }
     }
     // public async Task GetCampaignAsync(string type)

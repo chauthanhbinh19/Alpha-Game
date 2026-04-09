@@ -22,7 +22,7 @@ public class ProfileManager : MonoBehaviour
     private Transform WaitingPanel;
     private Transform MainPanel;
     private Transform RootPanel;
-    private Button CloseButton;
+    private Button closeButton;
     private TextMeshProUGUI titleText;
     private void Awake()
     {

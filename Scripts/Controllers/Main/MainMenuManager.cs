@@ -46,8 +46,8 @@ public class MainMenuManager : MonoBehaviour
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
-    private Button NextButton;
-    private Button PreviousButton;
+    private Button nextButton;
+    private Button previousButton;
     private string mainType;
     private TextMeshProUGUI titleText;
     private string buttonType;
@@ -736,8 +736,8 @@ public class MainMenuManager : MonoBehaviour
             RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
             LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
             PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-            NextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
-            PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+            nextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
+            previousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
             titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
             TMP_Dropdown rareDropdown = mainMenuObject.transform.Find("DictionaryCards/InputGroup/RareDropdown").GetComponent<TMP_Dropdown>();
             TMP_Dropdown typeDropdown = mainMenuObject.transform.Find("DictionaryCards/InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
@@ -757,12 +757,12 @@ public class MainMenuManager : MonoBehaviour
                 Close(MainPanel);
                 await HomeManager.Instance.CreateHomePanelAsync();
             });
-            NextButton.onClick.AddListener(() =>
+            nextButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangeNextPage();
             });
-            PreviousButton.onClick.AddListener(() =>
+            previousButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 ChangePreviousPage();
