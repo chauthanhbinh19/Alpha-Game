@@ -49,8 +49,8 @@ public class AlchemiesController : MonoBehaviour
         {
             GameObject alchemyObject = Instantiate(AlchemyButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = alchemyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = alchemy.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = alchemyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = alchemy.Name.Replace("_", " ");
 
             RawImage image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
@@ -77,7 +77,7 @@ public class AlchemiesController : MonoBehaviour
 
             RawImage backgroundImage = alchemyObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ALCHEMY_BUTTON_BACKGROUND_URL);
-            // RawImage frameImage = alchemyObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = alchemyObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = alchemyObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -105,17 +105,17 @@ public class AlchemiesController : MonoBehaviour
         {
             GameObject alchemyObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = alchemyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = alchemy.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = alchemyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = alchemy.Name.Replace("_", " ");
 
-            RawImage Image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = alchemyObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = alchemyObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = alchemyObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = alchemyObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

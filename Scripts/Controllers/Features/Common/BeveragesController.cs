@@ -50,8 +50,8 @@ public class BeveragesController : MonoBehaviour
         {
             GameObject beverageObject = Instantiate(BeverageButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = beverageObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            title.text = beverage.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = beverageObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = beverage.Name.Replace("_", " ");
 
             RawImage image = beverageObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image);
@@ -104,8 +104,8 @@ public class BeveragesController : MonoBehaviour
         {
             GameObject beverageObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI title = beverageObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            title.text = beverage.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = beverageObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = beverage.Name.Replace("_", " ");
 
             RawImage image = beverageObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image);
@@ -130,9 +130,9 @@ public class BeveragesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = beverageObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = beverageObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

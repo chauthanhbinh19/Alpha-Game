@@ -49,8 +49,8 @@ public class CoresController : MonoBehaviour
         {
             GameObject coreObject = Instantiate(CoreButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = coreObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = core.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = coreObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = core.Name.Replace("_", " ");
 
             RawImage image = coreObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image);
@@ -96,15 +96,15 @@ public class CoresController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCoresTradeAsync(List<Cores> CoresList, string subType, Transform currentContent,
+    public async Task CreateCoresTradeAsync(List<Cores> cores, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var core in CoresList)
+        foreach (var core in cores)
         {
             GameObject coreObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = coreObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = core.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = coreObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = core.Name.Replace("_", " ");
 
             RawImage image = coreObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image);
@@ -129,9 +129,9 @@ public class CoresController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = coreObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = coreObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

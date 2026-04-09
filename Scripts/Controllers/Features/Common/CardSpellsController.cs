@@ -49,13 +49,13 @@ public class CardSpellsController : MonoBehaviour
         {
             GameObject cardSpellObject = Instantiate(CardSpellButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardSpell.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardSpell.Name.Replace("_", " ");
 
-            RawImage Image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardSpellObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardSpell.Level.ToString().Replace("_", " ");
@@ -91,18 +91,18 @@ public class CardSpellsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardSpellsTradeAsync(List<CardSpells> spellList, string subType, Transform currentContent,
+    public async Task CreateCardSpellsTradeAsync(List<CardSpells> cardSpells, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var spell in spellList)
+        foreach (var cardSpell in cardSpells)
         {
-            GameObject spellObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject cardSpellObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = spellObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = spell.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardSpellObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardSpell.Name.Replace("_", " ");
 
-            RawImage image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
+            RawImage image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -124,33 +124,33 @@ public class CardSpellsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = spellObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = cardSpellObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(spell, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardSpell, MainPanel);
             });
 
-            RawImage topImage = spellObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = cardSpellObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Yellow_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = spellObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = cardSpellObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
-            Outline bottomOutline = spellObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = cardSpellObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
-            Outline middleOutline = spellObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = cardSpellObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.YELLOW_COLOR);
 
-            RawImage currencyImage = spellObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Currency.Image);
+            RawImage currencyImage = cardSpellObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = spellObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(spell.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = cardSpellObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(cardSpell.Currency.Quantity, false);
 
-            Button buy = spellObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = cardSpellObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -158,7 +158,7 @@ public class CardSpellsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(spell.Currency.Quantity, spell, subType, popupPanel, currencyPanel);
+                GetQuantity(cardSpell.Currency.Quantity, cardSpell, subType, popupPanel, currencyPanel);
             });
         }
 

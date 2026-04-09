@@ -54,13 +54,13 @@ public class ItemsController : MonoBehaviour
         {
             GameObject itemObject = Instantiate(ItemShopButtonPrefab, currentContent);
 
-            TextMeshProUGUI Title = itemObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = item.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = itemObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = item.Name.Replace("_", " ");
 
-            RawImage Image = itemObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = itemObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             RawImage topImage = itemObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Yellow_Gradient_Radius_Mat_MaskPercent_90");

@@ -43,8 +43,8 @@ public class EquipmentsController : MonoBehaviour
             {
                 GameObject equipmentObject = Instantiate(EquipmentButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = equipment.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = equipment.Name.Replace("_", " ");
 
                 RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);

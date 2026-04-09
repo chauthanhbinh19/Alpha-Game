@@ -49,8 +49,8 @@ public class TechnologiesController : MonoBehaviour
         {
             GameObject technologyObject = Instantiate(TechnologyButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = technologyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = technology.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = technologyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = technology.Name.Replace("_", " ");
 
             RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
@@ -96,15 +96,15 @@ public class TechnologiesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateTechnologiesTradeAsync(List<Technologies> TechnologiesList, string subType, Transform currentContent,
+    public async Task CreateTechnologiesTradeAsync(List<Technologies> technologies, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var technology in TechnologiesList)
+        foreach (var technology in technologies)
         {
             GameObject technologyObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = technologyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = technology.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = technologyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = technology.Name.Replace("_", " ");
 
             RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);
@@ -129,9 +129,9 @@ public class TechnologiesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = technologyObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = technologyObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

@@ -51,8 +51,8 @@ public class PetsController : MonoBehaviour
         {
             GameObject petsObject = Instantiate(PetButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = petsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = pet.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = petsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = pet.Name.Replace("_", " ");
 
             RawImage image = petsObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
@@ -94,10 +94,10 @@ public class PetsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreatePetsTradeAsync(List<Pets> petsList, string subType, Transform currentContent,
+    public async Task CreatePetsTradeAsync(List<Pets> pets, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var pet in petsList)
+        foreach (var pet in pets)
         {
             GameObject petsObject;
             if (pet.Type.Equals("Legendary_Dragon") || pet.Type.Equals("Naruto_Bijuu") || pet.Type.Equals("Naruto_Susanoo") || pet.Type.Equals("One_Piece_Ship") || pet.Type.Equals("Prime_Monster"))
@@ -123,8 +123,8 @@ public class PetsController : MonoBehaviour
                 // }
             }
 
-            TextMeshProUGUI Title = petsObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = pet.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = petsObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = pet.Name.Replace("_", " ");
 
             RawImage image = petsObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
@@ -149,9 +149,9 @@ public class PetsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = petsObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = petsObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

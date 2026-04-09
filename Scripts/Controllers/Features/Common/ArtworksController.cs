@@ -49,8 +49,8 @@ public class ArtworksController : MonoBehaviour
         {
             GameObject artworkObject = Instantiate(ArtworkButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = artwork.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = artwork.Name.Replace("_", " ");
 
             RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
@@ -64,7 +64,7 @@ public class ArtworksController : MonoBehaviour
             RawImage backgroundImage = artworkObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = magicFormationCircleObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = artworkObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -85,48 +85,48 @@ public class ArtworksController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateArtworksTradeAsync(List<Artworks> alchemies, string subType, Transform currentContent,
+    public async Task CreateArtworksTradeAsync(List<Artworks> artworks, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Artwork in alchemies)
+        foreach (var artwork in artworks)
         {
-            GameObject ArtworkObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject artworkObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = ArtworkObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = Artwork.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = artworkObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = artwork.Name.Replace("_", " ");
 
-            RawImage Image = ArtworkObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image);
+            RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = ArtworkObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = ArtworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = artworkObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = ArtworkObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Artwork, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(artwork, MainPanel);
             });
 
-            RawImage topImage = ArtworkObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = artworkObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = ArtworkObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = artworkObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
-            Outline bottomOutline = ArtworkObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = artworkObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
-            Outline middleOutline = ArtworkObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = artworkObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.BLUE_COLOR);
 
-            RawImage currencyImage = ArtworkObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Currency.Image);
+            RawImage currencyImage = artworkObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = ArtworkObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Artwork.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = artworkObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(artwork.Currency.Quantity, false);
 
-            Button buy = ArtworkObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = artworkObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -134,7 +134,7 @@ public class ArtworksController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Artwork.Currency.Quantity, Artwork, subType, popupPanel, currencyPanel);
+                GetQuantity(artwork.Currency.Quantity, artwork, subType, popupPanel, currencyPanel);
             });
 
         }

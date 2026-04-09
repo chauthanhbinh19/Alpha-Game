@@ -49,8 +49,8 @@ public class WeaponsController : MonoBehaviour
         {
             GameObject weaponObject = Instantiate(WeaponButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = weaponObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = weapon.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = weaponObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = weapon.Name.Replace("_", " ");
 
             RawImage image = weaponObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
@@ -103,8 +103,8 @@ public class WeaponsController : MonoBehaviour
         {
             GameObject weaponObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = weaponObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = weapon.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = weaponObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = weapon.Name.Replace("_", " ");
 
             RawImage image = weaponObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
@@ -129,9 +129,9 @@ public class WeaponsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = weaponObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = weaponObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

@@ -50,8 +50,8 @@ public class TitlesController : MonoBehaviour
         {
             GameObject titleObject = Instantiate(TitleButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = titleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = title.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = titleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = title.Name.Replace("_", " ");
 
             RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
@@ -97,25 +97,25 @@ public class TitlesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateTitlesTradeAsync(List<Titles> titlesList, string subType, Transform currentContent,
+    public async Task CreateTitlesTradeAsync(List<Titles> titles, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var title in titlesList)
+        foreach (var title in titles)
         {
             GameObject titleObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = titleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = title.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = titleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = title.Name.Replace("_", " ");
 
-            RawImage Image = titleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            RawImage FrameImage = titleObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            RawImage frameImage = titleObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

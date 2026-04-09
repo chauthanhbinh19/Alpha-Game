@@ -41,14 +41,14 @@ public class TrainsController : MonoBehaviour
     {
         GameObject currentObject = Instantiate(TrainPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        HomeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -57,29 +57,29 @@ public class TrainsController : MonoBehaviour
         var Trains = await TrainsService.Create().GetTrainsAsync(User.CurrentUserId, 1000, 0);
         CreateTrains(Trains, contentPanel);
     }
-    public void CreateTrains(List<Trains> Trains, Transform contentPanel)
+    public void CreateTrains(List<Trains> trains, Transform contentPanel)
     {
-        foreach (var Train in Trains)
+        foreach (var train in trains)
         {
-            GameObject TrainObject = Instantiate(TrainButtonPrefab, contentPanel);
+            GameObject trainObject = Instantiate(TrainButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = TrainObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Train.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = trainObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = train.Name.Replace("_", " ");
 
-            RawImage Image = TrainObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Train.Image);
+            RawImage image = trainObject.transform.Find("MainImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(train.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
-            Button button = TrainObject.GetComponent<Button>();
+            Button button = trainObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Train, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(train, MainPanel);
             });
 
-            RawImage rareImage = TrainObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Train.Rare}");
+            RawImage rareImage = trainObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{train.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

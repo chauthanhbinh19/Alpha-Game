@@ -52,8 +52,8 @@ public class BooksController : MonoBehaviour
             {
                 GameObject bookObject = Instantiate(BookButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = bookObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = book.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = bookObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = book.Name.Replace("_", " ");
 
                 RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
@@ -111,8 +111,8 @@ public class BooksController : MonoBehaviour
         {
             GameObject bookObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = bookObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = book.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = bookObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = book.Name.Replace("_", " ");
 
             RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
@@ -137,9 +137,9 @@ public class BooksController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = bookObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = bookObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

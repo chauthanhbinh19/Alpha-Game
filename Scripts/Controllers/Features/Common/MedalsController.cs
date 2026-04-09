@@ -49,8 +49,8 @@ public class MedalsController : MonoBehaviour
         {
             GameObject medalObject = Instantiate(MedalButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = medalObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = medal.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = medalObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = medal.Name.Replace("_", " ");
 
             RawImage image = medalObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
@@ -96,23 +96,23 @@ public class MedalsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateMedalsTradeAsync(List<Medals> medalsList, string subType, Transform currentContent,
+    public async Task CreateMedalsTradeAsync(List<Medals> medals, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var medal in medalsList)
+        foreach (var medal in medals)
         {
             GameObject medalObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = medalObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = medal.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = medalObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = medal.Name.Replace("_", " ");
 
-            RawImage Image = medalObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = medalObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = medalObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = medalObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

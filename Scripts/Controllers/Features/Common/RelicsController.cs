@@ -49,8 +49,8 @@ public class RelicsController : MonoBehaviour
         {
             GameObject relicObject = Instantiate(RelicButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = relicObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = relic.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = relicObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = relic.Name.Replace("_", " ");
 
             RawImage image = relicObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
@@ -78,7 +78,7 @@ public class RelicsController : MonoBehaviour
             RawImage backgroundImage = relicObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.RELIC_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = relicObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = relicObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -106,17 +106,17 @@ public class RelicsController : MonoBehaviour
         {
             GameObject relicObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = relicObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = relic.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = relicObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = relic.Name.Replace("_", " ");
 
-            RawImage Image = relicObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = relicObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = relicObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = relicObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = relicObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = relicObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

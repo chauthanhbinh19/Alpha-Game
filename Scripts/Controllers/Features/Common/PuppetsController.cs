@@ -49,8 +49,8 @@ public class PuppetsController : MonoBehaviour
         {
             GameObject puppetObject = Instantiate(PuppetButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = puppetObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = puppet.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = puppetObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = puppet.Name.Replace("_", " ");
 
             RawImage image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
@@ -78,7 +78,7 @@ public class PuppetsController : MonoBehaviour
             RawImage backgroundImage = puppetObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PUPPET_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = puppetObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = puppetObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -106,17 +106,17 @@ public class PuppetsController : MonoBehaviour
         {
             GameObject puppetObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = puppetObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = puppet.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = puppetObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = puppet.Name.Replace("_", " ");
 
-            RawImage Image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = puppetObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = puppetObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = puppetObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

@@ -39,14 +39,14 @@ public class CurrenciesManager : MonoBehaviour
         {
             GameObject currencyObject = Instantiate(currencyPrefab, CurrencyPanel);
 
-            TextMeshProUGUI Title = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            Title.text = currency.Quantity.ToString();
-            Title.text = NumberFormatter.FormatNumber(currency.Quantity, false);
+            TextMeshProUGUI titleText = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            titleText.text = currency.Quantity.ToString();
+            titleText.text = NumberFormatter.FormatNumber(currency.Quantity, false);
 
-            RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
             Texture texutre = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texutre;
+            image.texture = texutre;
         }
         GridLayoutGroup gridLayout = CurrencyPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -61,13 +61,13 @@ public class CurrenciesManager : MonoBehaviour
         {
             GameObject currencyObject = Instantiate(currencyPrefab, itemPanel);
 
-            TextMeshProUGUI Title = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            Title.text = NumberFormatter.FormatNumber(item.Quantity, false);
+            TextMeshProUGUI titleText = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            titleText.text = NumberFormatter.FormatNumber(item.Quantity, false);
 
-            RawImage Image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
             Texture texutre = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texutre;
+            image.texture = texutre;
         }
         GridLayoutGroup gridLayout = itemPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

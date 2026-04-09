@@ -49,8 +49,8 @@ public class FurnituresController : MonoBehaviour
         {
             GameObject furnitureObject = Instantiate(FurnitureButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = furnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = furniture.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = furnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = furniture.Name.Replace("_", " ");
 
             RawImage image = furnitureObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
@@ -78,7 +78,7 @@ public class FurnituresController : MonoBehaviour
             RawImage backgroundImage = furnitureObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FURNITURE_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = FurnitureObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = FurnitureObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = furnitureObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -99,18 +99,18 @@ public class FurnituresController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateFurnituresTradeAsync(List<Furnitures> Furnitures, string subType, Transform currentContent,
+    public async Task CreateFurnituresTradeAsync(List<Furnitures> furnitures, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Furniture in Furnitures)
+        foreach (var furniture in furnitures)
         {
-            GameObject FurnitureObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject furnitureObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = FurnitureObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = Furniture.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = furnitureObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = furniture.Name.Replace("_", " ");
 
-            RawImage image = FurnitureObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Furniture.Image);
+            RawImage image = furnitureObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -132,34 +132,34 @@ public class FurnituresController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = FurnitureObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = FurnitureObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = furnitureObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = FurnitureObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Furniture, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(furniture, MainPanel);
             });
 
-            RawImage topImage = FurnitureObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = furnitureObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = FurnitureObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = furnitureObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline bottomOutline = FurnitureObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = furnitureObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline middleOutline = FurnitureObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = furnitureObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
-            RawImage currencyImage = FurnitureObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Furniture.Currency.Image);
+            RawImage currencyImage = furnitureObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = FurnitureObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Furniture.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = furnitureObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(furniture.Currency.Quantity, false);
 
-            Button buy = FurnitureObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = furnitureObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -167,7 +167,7 @@ public class FurnituresController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Furniture.Currency.Quantity, Furniture, subType, popupPanel, currencyPanel);
+                GetQuantity(furniture.Currency.Quantity, furniture, subType, popupPanel, currencyPanel);
             });
 
         }

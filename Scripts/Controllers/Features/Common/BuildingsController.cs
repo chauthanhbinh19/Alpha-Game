@@ -49,8 +49,8 @@ public class BuildingsController : MonoBehaviour
         {
             GameObject buildingObject = Instantiate(BuildingButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = buildingObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = building.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = buildingObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = building.Name.Replace("_", " ");
 
             RawImage image = buildingObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image);
@@ -78,7 +78,7 @@ public class BuildingsController : MonoBehaviour
             RawImage backgroundImage = buildingObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BUILDING_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = BuildingObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = BuildingObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = buildingObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -99,18 +99,18 @@ public class BuildingsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateBuildingsTradeAsync(List<Buildings> Buildings, string subType, Transform currentContent,
+    public async Task CreateBuildingsTradeAsync(List<Buildings> buildings, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Building in Buildings)
+        foreach (var building in buildings)
         {
-            GameObject BuildingObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject buildingObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = BuildingObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = Building.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = buildingObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = building.Name.Replace("_", " ");
 
-            RawImage image = BuildingObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Building.Image);
+            RawImage image = buildingObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -132,34 +132,34 @@ public class BuildingsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = BuildingObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = BuildingObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = buildingObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = BuildingObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Building, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(building, MainPanel);
             });
 
-            RawImage topImage = BuildingObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = buildingObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = BuildingObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = buildingObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline bottomOutline = BuildingObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = buildingObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline middleOutline = BuildingObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = buildingObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
-            RawImage currencyImage = BuildingObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Building.Currency.Image);
+            RawImage currencyImage = buildingObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = BuildingObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Building.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = buildingObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(building.Currency.Quantity, false);
 
-            Button buy = BuildingObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = buildingObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -167,7 +167,7 @@ public class BuildingsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Building.Currency.Quantity, Building, subType, popupPanel, currencyPanel);
+                GetQuantity(building.Currency.Quantity, building, subType, popupPanel, currencyPanel);
             });
 
         }

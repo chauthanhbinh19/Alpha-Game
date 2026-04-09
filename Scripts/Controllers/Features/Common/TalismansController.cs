@@ -49,8 +49,8 @@ public class TalismansController : MonoBehaviour
         {
             GameObject talismanObject = Instantiate(TalismanButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = talismanObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = talisman.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = talismanObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = talisman.Name.Replace("_", " ");
 
             RawImage image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
@@ -78,7 +78,7 @@ public class TalismansController : MonoBehaviour
             RawImage backgroundImage = talismanObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TALISMAN_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = magicFormationCircleObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = talismanObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -106,17 +106,17 @@ public class TalismansController : MonoBehaviour
         {
             GameObject talismanObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = talismanObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = talisman.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = talismanObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = talisman.Name.Replace("_", " ");
 
-            RawImage Image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = talismanObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = talismanObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = talismanObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = talismanObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

@@ -49,8 +49,8 @@ public class SkillsController : MonoBehaviour
         {
             GameObject skillObject = Instantiate(SkillButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = skill.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = skill.Name.Replace("_", " ");
 
             RawImage image = skillObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
@@ -98,23 +98,23 @@ public class SkillsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateSkillsTradeAsync(List<Skills> skillsList, string subType, Transform currentContent,
+    public async Task CreateSkillsTradeAsync(List<Skills> skills, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var skill in skillsList)
+        foreach (var skill in skills)
         {
             GameObject skillObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = skillObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = skill.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = skillObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = skill.Name.Replace("_", " ");
 
-            RawImage Image = skillObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = skillObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = skillObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = skillObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

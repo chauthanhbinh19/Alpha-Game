@@ -49,8 +49,8 @@ public class RunesController : MonoBehaviour
         {
             GameObject runeObject = Instantiate(RuneButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = runeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = rune.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = runeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = rune.Name.Replace("_", " ");
 
             RawImage image = runeObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image);
@@ -96,18 +96,18 @@ public class RunesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateRunesTradeAsync(List<Runes> RunesList, string subType, Transform currentContent,
+    public async Task CreateRunesTradeAsync(List<Runes> runes, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Rune in RunesList)
+        foreach (var rune in runes)
         {
-            GameObject RuneObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject runeObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = RuneObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = Rune.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = runeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = rune.Name.Replace("_", " ");
 
-            RawImage image = RuneObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Rune.Image);
+            RawImage image = runeObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -129,33 +129,33 @@ public class RunesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = RuneObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = runeObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Rune, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(rune, MainPanel);
             });
 
-            RawImage topImage = RuneObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = runeObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = RuneObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = runeObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline bottomOutline = RuneObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = runeObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline middleOutline = RuneObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = runeObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
-            RawImage currencyImage = RuneObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Rune.Currency.Image);
+            RawImage currencyImage = runeObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = RuneObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Rune.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = runeObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(rune.Currency.Quantity, false);
 
-            Button buy = RuneObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = runeObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -163,7 +163,7 @@ public class RunesController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Rune.Currency.Quantity, Rune, subType, popupPanel, currencyPanel);
+                GetQuantity(rune.Currency.Quantity, rune, subType, popupPanel, currencyPanel);
             });
         }
 

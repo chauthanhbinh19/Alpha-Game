@@ -49,8 +49,8 @@ public class ArchitecturesController : MonoBehaviour
         {
             GameObject architectureObject = Instantiate(ArchitectureButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = architectureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = architecture.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = architectureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = architecture.Name.Replace("_", " ");
 
             RawImage image = architectureObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
@@ -96,15 +96,15 @@ public class ArchitecturesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateArchitecturesTradeAsync(List<Architectures> ArchitecturesList, string subType, Transform currentContent,
+    public async Task CreateArchitecturesTradeAsync(List<Architectures> architectures, string subType, Transform currentContent,
     Transform CurrencyPanel, Transform popupPanel)
     {
-        foreach (var architecture in ArchitecturesList)
+        foreach (var architecture in architectures)
         {
             GameObject architectureObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = architectureObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = architecture.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = architectureObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = architecture.Name.Replace("_", " ");
 
             RawImage image = architectureObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
@@ -129,9 +129,9 @@ public class ArchitecturesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = architectureObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = architectureObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

@@ -49,8 +49,8 @@ public class MagicFormationCirclesController : MonoBehaviour
         {
             GameObject magicFormationCircleObject = Instantiate(MagicFormationCircleButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = magicFormationCircle.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = magicFormationCircle.Name.Replace("_", " ");
 
             RawImage image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
@@ -78,7 +78,7 @@ public class MagicFormationCirclesController : MonoBehaviour
             RawImage backgroundImage = magicFormationCircleObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MAGIC_FORMATION_CIRCLE_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = magicFormationCircleObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = magicFormationCircleObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -106,17 +106,17 @@ public class MagicFormationCirclesController : MonoBehaviour
         {
             GameObject magicFormationCircleObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = magicFormationCircle.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = magicFormationCircleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = magicFormationCircle.Name.Replace("_", " ");
 
-            RawImage Image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = magicFormationCircleObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = magicFormationCircleObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = magicFormationCircleObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = magicFormationCircleObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

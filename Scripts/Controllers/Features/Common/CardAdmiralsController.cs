@@ -49,13 +49,13 @@ public class CardAdmiralsController : MonoBehaviour
         {
             GameObject cardAdmiralObject = Instantiate(CardAdmiralButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardAdmiral.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardAdmiral.Name.Replace("_", " ");
 
-            RawImage Image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardAdmiralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardAdmiral.Level.ToString().Replace("_", " ");
@@ -96,12 +96,12 @@ public class CardAdmiralsController : MonoBehaviour
     {
         foreach (var cardAdmiral in cardAdmirals)
         {
-            GameObject admiralObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject cardAdmiralObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = admiralObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = cardAdmiral.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardAdmiralObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardAdmiral.Name.Replace("_", " ");
 
-            RawImage image = admiralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -124,33 +124,33 @@ public class CardAdmiralsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = admiralObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = cardAdmiralObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
             });
 
-            RawImage topImage = admiralObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = cardAdmiralObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Gray_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = admiralObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = cardAdmiralObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
-            Outline bottomOutline = admiralObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = cardAdmiralObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
-            Outline middleOutline = admiralObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = cardAdmiralObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GRAY_COLOR);
 
-            RawImage currencyImage = admiralObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = cardAdmiralObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = admiralObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI currencyText = cardAdmiralObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(cardAdmiral.Currency.Quantity, false);
 
-            Button buy = admiralObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = cardAdmiralObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();

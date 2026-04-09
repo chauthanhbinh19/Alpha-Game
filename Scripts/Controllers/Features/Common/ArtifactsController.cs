@@ -49,8 +49,8 @@ public class ArtifactsController : MonoBehaviour
         {
             GameObject artifactObject = Instantiate(ArtifactButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = artifactObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = artifact.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = artifactObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = artifact.Name.Replace("_", " ");
 
             RawImage image = artifactObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image);
@@ -82,18 +82,18 @@ public class ArtifactsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateArtifactsTradeAsync(List<Artifacts> cards, string subType, Transform currentContent,
+    public async Task CreateArtifactsTradeAsync(List<Artifacts> artifacts, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var card in cards)
+        foreach (var artifact in artifacts)
         {
-            GameObject cardObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject artifactObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = cardObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = card.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = artifactObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = artifact.Name.Replace("_", " ");
 
-            RawImage image = cardObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
+            RawImage image = artifactObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -115,33 +115,33 @@ public class ArtifactsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = cardObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = artifactObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(card, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(artifact, MainPanel);
             });
 
-            RawImage topImage = cardObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = artifactObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Pink_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = cardObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = artifactObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
-            Outline bottomOutline = cardObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = artifactObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
-            Outline middleOutline = cardObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = artifactObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
 
-            RawImage currencyImage = cardObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Currency.Image);
+            RawImage currencyImage = artifactObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = cardObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(card.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = artifactObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(artifact.Currency.Quantity, false);
 
-            Button buy = cardObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = artifactObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -149,7 +149,7 @@ public class ArtifactsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(card.Currency.Quantity, card, subType, popupPanel, currencyPanel);
+                GetQuantity(artifact.Currency.Quantity, artifact, subType, popupPanel, currencyPanel);
             });
         }
 

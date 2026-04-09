@@ -41,14 +41,14 @@ public class CitiesController : MonoBehaviour
     {
         GameObject currentObject = Instantiate(CityPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        HomeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -57,29 +57,29 @@ public class CitiesController : MonoBehaviour
         var Cities = await CitiesService.Create().GetCitiesAsync(User.CurrentUserId, 1000, 0);
         CreateCity(Cities, contentPanel);
     }
-    public void CreateCity(List<Cities> Cities, Transform contentPanel)
+    public void CreateCity(List<Cities> cities, Transform contentPanel)
     {
-        foreach (var Citie in Cities)
+        foreach (var city in cities)
         {
-            GameObject CitieObject = Instantiate(CityButtonPrefab, contentPanel);
+            GameObject cityObject = Instantiate(CityButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = CitieObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Citie.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cityObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = city.Name.Replace("_", " ");
 
-            RawImage Image = CitieObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Citie.Image);
+            RawImage image = cityObject.transform.Find("MainImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(city.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
-            Button button = CitieObject.GetComponent<Button>();
+            Button button = cityObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Citie, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(city, MainPanel);
             });
 
-            RawImage rareImage = CitieObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Citie.Rare}");
+            RawImage rareImage = cityObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{city.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -49,13 +49,13 @@ public class CardMilitariesController : MonoBehaviour
         {
             GameObject cardMilitaryObject = Instantiate(CardMilitaryButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardMilitary.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardMilitary.Name.Replace("_", " ");
 
-            RawImage Image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardMilitaryObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardMilitary.Level.ToString().Replace("_", " ");
@@ -94,15 +94,15 @@ public class CardMilitariesController : MonoBehaviour
     public async Task CreateCardMilitariesTradeAsync(List<CardMilitaries> cardMilitaries, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var military in cardMilitaries)
+        foreach (var cardMilitary in cardMilitaries)
         {
-            GameObject militaryObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject cardMilitaryObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = militaryObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = military.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardMilitaryObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardMilitary.Name.Replace("_", " ");
 
-            RawImage image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Image);
+            RawImage image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -124,33 +124,33 @@ public class CardMilitariesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = militaryObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = cardMilitaryObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(military, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardMilitary, MainPanel);
             });
 
-            RawImage topImage = militaryObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = cardMilitaryObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Orange_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = militaryObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = cardMilitaryObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
-            Outline bottomOutline = militaryObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = cardMilitaryObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
-            Outline middleOutline = militaryObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = cardMilitaryObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.ORANGE_COLOR);
 
-            RawImage currencyImage = militaryObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Currency.Image);
+            RawImage currencyImage = cardMilitaryObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = militaryObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(military.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = cardMilitaryObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(cardMilitary.Currency.Quantity, false);
 
-            Button buy = militaryObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = cardMilitaryObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -158,7 +158,7 @@ public class CardMilitariesController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(military.Currency.Quantity, military, subType, popupPanel, currencyPanel);
+                GetQuantity(cardMilitary.Currency.Quantity, cardMilitary, subType, popupPanel, currencyPanel);
             });
         }
 

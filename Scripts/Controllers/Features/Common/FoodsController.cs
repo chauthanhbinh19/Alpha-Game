@@ -50,8 +50,8 @@ public class FoodsController : MonoBehaviour
         {
             GameObject foodObject = Instantiate(FoodButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = foodObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            title.text = food.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = foodObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = food.Name.Replace("_", " ");
 
             RawImage image = foodObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);
@@ -104,8 +104,8 @@ public class FoodsController : MonoBehaviour
         {
             GameObject foodObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI title = foodObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            title.text = food.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = foodObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = food.Name.Replace("_", " ");
 
             RawImage image = foodObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);
@@ -130,9 +130,9 @@ public class FoodsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = foodObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = foodObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

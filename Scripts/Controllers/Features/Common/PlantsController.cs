@@ -52,8 +52,8 @@ public class PlantsController : MonoBehaviour
             {
                 GameObject plantObject = Instantiate(PlantButtonPrefab, contentPanel);
 
-                TextMeshProUGUI title = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                title.text = plant.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = plant.Name.Replace("_", " ");
 
                 RawImage image = plantObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);
@@ -111,18 +111,18 @@ public class PlantsController : MonoBehaviour
         {
             GameObject plantObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI title = plantObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            title.text = plant.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = plantObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = plant.Name.Replace("_", " ");
 
-            RawImage Image = plantObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = plantObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
-            Image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
-            RawImage FrameImage = plantObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+            image.SetNativeSize();
+            image.transform.localScale = new Vector3(0.55f, 0.55f, 0.55f);
+            RawImage frameImage = plantObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

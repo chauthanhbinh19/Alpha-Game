@@ -49,8 +49,8 @@ public class BordersController : MonoBehaviour
         {
             GameObject borderObject = Instantiate(BorderButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = borderObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = border.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = borderObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = border.Name.Replace("_", " ");
 
             RawImage image = borderObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image);
@@ -103,16 +103,16 @@ public class BordersController : MonoBehaviour
         {
             GameObject borderObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = borderObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = border.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = borderObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = border.Name.Replace("_", " ");
 
-            RawImage Image = borderObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = borderObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = borderObject.transform.Find("Frame").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = borderObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

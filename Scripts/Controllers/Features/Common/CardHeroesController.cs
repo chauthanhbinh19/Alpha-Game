@@ -49,13 +49,13 @@ public class CardHeroesController : MonoBehaviour
         {
             GameObject cardHeroObject = Instantiate(CardHeroButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardHeroObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardHero.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardHeroObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardHero.Name.Replace("_", " ");
 
-            RawImage Image = cardHeroObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardHeroObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHero.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardHeroObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardHero.Level.ToString().Replace("_", " ");
@@ -91,18 +91,18 @@ public class CardHeroesController : MonoBehaviour
         }
         // DictionaryContentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardHeroesTradeAsync(List<CardHeroes> cards, string subType, Transform currentContent,
+    public async Task CreateCardHeroesTradeAsync(List<CardHeroes> cardHeroes, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var card in cards)
+        foreach (var cardHero in cardHeroes)
         {
             GameObject cardHeroObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = cardHeroObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = card.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardHeroObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardHero.Name.Replace("_", " ");
 
             RawImage image = cardHeroObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHero.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -124,13 +124,13 @@ public class CardHeroesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = cardHeroObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = cardHeroObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(card, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardHero, MainPanel);
             });
 
             RawImage topImage = cardHeroObject.transform.Find("TopImage").GetComponent<RawImage>();
@@ -143,12 +143,12 @@ public class CardHeroesController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
 
             RawImage currencyImage = cardHeroObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Currency.Image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHero.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = cardHeroObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(card.Currency.Quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(cardHero.Currency.Quantity, false);
 
             Button buy = cardHeroObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -158,7 +158,7 @@ public class CardHeroesController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(card.Currency.Quantity, card, subType, popupPanel, currencyPanel);
+                GetQuantity(cardHero.Currency.Quantity, cardHero, subType, popupPanel, currencyPanel);
             });
         }
         List<Currencies> currencies = new List<Currencies>();

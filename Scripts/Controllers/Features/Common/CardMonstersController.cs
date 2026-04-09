@@ -49,13 +49,13 @@ public class CardMonstersController : MonoBehaviour
         {
             GameObject cardMonstersObject = Instantiate(CardMonsterButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardMonstersObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardMonster.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardMonstersObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardMonster.Name.Replace("_", " ");
 
-            RawImage Image = cardMonstersObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardMonstersObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardMonstersObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardMonster.Level.ToString().Replace("_", " ");
@@ -94,15 +94,15 @@ public class CardMonstersController : MonoBehaviour
     public async Task CreateCardMonstersTradeAsync(List<CardMonsters> cardMonsters, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var monster in cardMonsters)
+        foreach (var cardMonster in cardMonsters)
         {
-            GameObject monstersObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject cardMonsterObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = monstersObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = monster.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardMonsterObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardMonster.Name.Replace("_", " ");
 
-            RawImage image = monstersObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monster.Image);
+            RawImage image = cardMonsterObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -124,33 +124,33 @@ public class CardMonstersController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = monstersObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = cardMonsterObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(monster, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardMonster, MainPanel);
             });
 
-            RawImage topImage = monstersObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = cardMonsterObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Purple_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = monstersObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = cardMonsterObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
-            Outline bottomOutline = monstersObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = cardMonsterObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
-            Outline middleOutline = monstersObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = cardMonsterObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
 
-            RawImage currencyImage = monstersObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(monster.Currency.Image);
+            RawImage currencyImage = cardMonsterObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = monstersObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(monster.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = cardMonsterObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(cardMonster.Currency.Quantity, false);
 
-            Button buy = monstersObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = cardMonsterObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -158,7 +158,7 @@ public class CardMonstersController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(monster.Currency.Quantity, monster, subType, popupPanel, currencyPanel);
+                GetQuantity(cardMonster.Currency.Quantity, cardMonster, subType, popupPanel, currencyPanel);
             });
         }
 

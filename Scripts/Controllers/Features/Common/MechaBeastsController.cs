@@ -49,8 +49,8 @@ public class MechaBeastsController : MonoBehaviour
         {
             GameObject mechaBeastObject = Instantiate(MechaBeastButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = mechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = mechaBeast.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = mechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = mechaBeast.Name.Replace("_", " ");
 
             RawImage image = mechaBeastObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image);
@@ -96,18 +96,18 @@ public class MechaBeastsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateMechaBeastsTradeAsync(List<MechaBeasts> MechaBeastsList, string subType, Transform currentContent,
+    public async Task CreateMechaBeastsTradeAsync(List<MechaBeasts> mechaBeasts, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var MechaBeast in MechaBeastsList)
+        foreach (var mechaBeast in mechaBeasts)
         {
-            GameObject MechaBeastObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject mechaBeastObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = MechaBeastObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = MechaBeast.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = mechaBeastObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = mechaBeast.Name.Replace("_", " ");
 
-            RawImage image = MechaBeastObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(MechaBeast.Image);
+            RawImage image = mechaBeastObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -129,33 +129,33 @@ public class MechaBeastsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = MechaBeastObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = mechaBeastObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(MechaBeast, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(mechaBeast, MainPanel);
             });
 
-            RawImage topImage = MechaBeastObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = mechaBeastObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = MechaBeastObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = mechaBeastObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline bottomOutline = MechaBeastObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = mechaBeastObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline middleOutline = MechaBeastObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = mechaBeastObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
-            RawImage currencyImage = MechaBeastObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(MechaBeast.Currency.Image);
+            RawImage currencyImage = mechaBeastObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = MechaBeastObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(MechaBeast.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = mechaBeastObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(mechaBeast.Currency.Quantity, false);
 
-            Button buy = MechaBeastObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = mechaBeastObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -163,7 +163,7 @@ public class MechaBeastsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(MechaBeast.Currency.Quantity, MechaBeast, subType, popupPanel, currencyPanel);
+                GetQuantity(mechaBeast.Currency.Quantity, mechaBeast, subType, popupPanel, currencyPanel);
             });
         }
 

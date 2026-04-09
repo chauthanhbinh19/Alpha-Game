@@ -49,8 +49,8 @@ public class BadgesController : MonoBehaviour
         {
             GameObject badgeObject = Instantiate(BadgeButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = badgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = badge.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = badgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = badge.Name.Replace("_", " ");
 
             RawImage image = badgeObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image);
@@ -96,18 +96,18 @@ public class BadgesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateBadgesTradeAsync(List<Badges> BadgesList, string subType, Transform currentContent,
+    public async Task CreateBadgesTradeAsync(List<Badges> badges, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Badge in BadgesList)
+        foreach (var badge in badges)
         {
             GameObject BadgeObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = BadgeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = Badge.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = BadgeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = badge.Name.Replace("_", " ");
 
             RawImage image = BadgeObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Badge.Image);
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -129,13 +129,13 @@ public class BadgesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = BadgeObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = BadgeObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Badge, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(badge, MainPanel);
             });
 
             RawImage topImage = BadgeObject.transform.Find("TopImage").GetComponent<RawImage>();
@@ -148,12 +148,12 @@ public class BadgesController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
             RawImage currencyImage = BadgeObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Badge.Currency.Image);
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = BadgeObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Badge.Currency.Quantity, false);
+            currencyText.text = NumberFormatter.FormatNumber(badge.Currency.Quantity, false);
 
             Button buy = BadgeObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -163,7 +163,7 @@ public class BadgesController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Badge.Currency.Quantity, Badge, subType, popupPanel, currencyPanel);
+                GetQuantity(badge.Currency.Quantity, badge, subType, popupPanel, currencyPanel);
             });
         }
 

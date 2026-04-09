@@ -49,13 +49,13 @@ public class CardGeneralsController : MonoBehaviour
         {
             GameObject cardGeneralObject = Instantiate(CardGeneralButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardGeneralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardGeneral.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardGeneralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardGeneral.Name.Replace("_", " ");
 
-            RawImage Image = cardGeneralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardGeneralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardGeneralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardGeneral.Level.ToString().Replace("_", " ");
@@ -98,8 +98,8 @@ public class CardGeneralsController : MonoBehaviour
         {
             GameObject cardGeneralObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = cardGeneralObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = cardGeneral.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardGeneralObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardGeneral.Name.Replace("_", " ");
 
             RawImage image = cardGeneralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
@@ -124,9 +124,9 @@ public class CardGeneralsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = cardGeneralObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = cardGeneralObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

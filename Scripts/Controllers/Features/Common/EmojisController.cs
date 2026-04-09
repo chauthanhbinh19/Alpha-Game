@@ -43,17 +43,17 @@ public class EmojisController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
     }
-    public void CreateEmojisGallery(List<Emojis> cores, Transform contentPanel)
+    public void CreateEmojisGallery(List<Emojis> emojis, Transform contentPanel)
     {
-        foreach (var core in cores)
+        foreach (var emoji in emojis)
         {
-            GameObject coreObject = Instantiate(EmojiButtonPrefab, contentPanel);
+            GameObject emojiObject = Instantiate(EmojiButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = coreObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = core.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = emojiObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = emoji.Name.Replace("_", " ");
 
-            RawImage image = coreObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image);
+            RawImage image = emojiObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -75,19 +75,19 @@ public class EmojisController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = coreObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            RawImage backgroundImage = emojiObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CORE_BUTTON_BACKGROUND_URL);
 
-            Button button = coreObject.GetComponent<Button>();
+            Button button = emojiObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(core, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(emoji, MainPanel);
             });
 
-            TextMeshProUGUI rareText = coreObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(core.Rare));
-            rareText.text = core.Rare;
+            TextMeshProUGUI rareText = emojiObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(emoji.Rare));
+            rareText.text = emoji.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -96,18 +96,18 @@ public class EmojisController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateEmojisTradeAsync(List<Emojis> EmojisList, string subType, Transform currentContent,
+    public async Task CreateEmojisTradeAsync(List<Emojis> emojis, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var core in EmojisList)
+        foreach (var emoji in emojis)
         {
-            GameObject coreObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject emojiObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = coreObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = core.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = emojiObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = emoji.Name.Replace("_", " ");
 
-            RawImage image = coreObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image);
+            RawImage image = emojiObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -129,33 +129,33 @@ public class EmojisController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = coreObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = emojiObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(core, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(emoji, MainPanel);
             });
 
-            RawImage topImage = coreObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = emojiObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Purple_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = coreObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = emojiObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
-            Outline bottomOutline = coreObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = emojiObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
-            Outline middleOutline = coreObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = emojiObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
 
-            RawImage currencyImage = coreObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Currency.Image);
+            RawImage currencyImage = emojiObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = coreObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(core.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = emojiObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(emoji.Currency.Quantity, false);
 
-            Button buy = coreObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = emojiObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -163,7 +163,7 @@ public class EmojisController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(core.Currency.Quantity, core, subType, popupPanel, currencyPanel);
+                GetQuantity(emoji.Currency.Quantity, emoji, subType, popupPanel, currencyPanel);
             });
         }
 

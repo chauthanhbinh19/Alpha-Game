@@ -49,8 +49,8 @@ public class FashionsController : MonoBehaviour
         {
             GameObject fashionObject = Instantiate(FashionButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = fashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = fashion.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = fashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = fashion.Name.Replace("_", " ");
 
             RawImage image = fashionObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);
@@ -78,7 +78,7 @@ public class FashionsController : MonoBehaviour
             RawImage backgroundImage = fashionObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FASHION_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = FashionObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = FashionObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = fashionObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -99,18 +99,18 @@ public class FashionsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateFashionsTradeAsync(List<Fashions> Fashions, string subType, Transform currentContent,
+    public async Task CreateFashionsTradeAsync(List<Fashions> fashions, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var Fashion in Fashions)
+        foreach (var fashion in fashions)
         {
-            GameObject FashionObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject fashionObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = FashionObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = Fashion.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = fashionObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = fashion.Name.Replace("_", " ");
 
-            RawImage image = FashionObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Fashion.Image);
+            RawImage image = fashionObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -132,34 +132,34 @@ public class FashionsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = FashionObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = FashionObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = fashionObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = FashionObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Fashion, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(fashion, MainPanel);
             });
 
-            RawImage topImage = FashionObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = fashionObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = FashionObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = fashionObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline bottomOutline = FashionObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = fashionObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline middleOutline = FashionObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = fashionObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
-            RawImage currencyImage = FashionObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Fashion.Currency.Image);
+            RawImage currencyImage = fashionObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = FashionObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(Fashion.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = fashionObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(fashion.Currency.Quantity, false);
 
-            Button buy = FashionObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = fashionObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
@@ -167,7 +167,7 @@ public class FashionsController : MonoBehaviour
             buy.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(Fashion.Currency.Quantity, Fashion, subType, popupPanel, currencyPanel);
+                GetQuantity(fashion.Currency.Quantity, fashion, subType, popupPanel, currencyPanel);
             });
 
         }

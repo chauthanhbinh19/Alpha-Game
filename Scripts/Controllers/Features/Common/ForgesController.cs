@@ -49,8 +49,8 @@ public class ForgesController : MonoBehaviour
         {
             GameObject forgeObject = Instantiate(ForgeButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = forgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = forge.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = forgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = forge.Name.Replace("_", " ");
 
             RawImage image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
@@ -78,7 +78,7 @@ public class ForgesController : MonoBehaviour
             RawImage backgroundImage = forgeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FORGE_BUTTON_BACKGROUND_URL);
 
-            // RawImage frameImage = forgeObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            // RawImage frameImage = forgeObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = forgeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -106,17 +106,17 @@ public class ForgesController : MonoBehaviour
         {
             GameObject forgeObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = forgeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = forge.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = forgeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = forge.Name.Replace("_", " ");
 
-            RawImage Image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            RawImage FrameImage = forgeObject.transform.Find("Frame").GetComponent<RawImage>();
-            // RawImage frameImage = forgeObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            image.texture = texture;
+            RawImage frameImage = forgeObject.transform.Find("Frame").GetComponent<RawImage>();
+            // RawImage frameImage = forgeObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

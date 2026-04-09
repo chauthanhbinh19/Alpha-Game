@@ -41,14 +41,14 @@ public class EmployeesController : MonoBehaviour
     {
         GameObject currentObject = Instantiate(EmployeePanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        HomeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -57,29 +57,29 @@ public class EmployeesController : MonoBehaviour
         var Employees = await EmployeesService.Create().GetEmployeesAsync(User.CurrentUserId, 1000, 0);
         CreateEmployees(Employees, contentPanel);
     }
-    public void CreateEmployees(List<Employees> Employees, Transform contentPanel)
+    public void CreateEmployees(List<Employees> employees, Transform contentPanel)
     {
-        foreach (var Employee in Employees)
+        foreach (var employee in employees)
         {
-            GameObject EmployeeObject = Instantiate(EmployeeButtonPrefab, contentPanel);
+            GameObject employeeObject = Instantiate(EmployeeButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = EmployeeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = Employee.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = employeeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = employee.Name.Replace("_", " ");
 
-            RawImage Image = EmployeeObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Employee.Image);
+            RawImage Image = employeeObject.transform.Find("MainImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(employee.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 
-            Button button = EmployeeObject.GetComponent<Button>();
+            Button button = employeeObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(Employee, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(employee, MainPanel);
             });
 
-            RawImage rareImage = EmployeeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Employee.Rare}");
+            RawImage rareImage = employeeObject.transform.Find("Rare").GetComponent<RawImage>();
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{employee.Rare}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

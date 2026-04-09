@@ -43,14 +43,14 @@ public class RobotsController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
     }
-    public void CreateRobotsGallery(List<Robots> RobotsList, Transform contentPanel)
+    public void CreateRobotsGallery(List<Robots> robots, Transform contentPanel)
     {
-        foreach (var robot in RobotsList)
+        foreach (var robot in robots)
         {
             GameObject robotObject = Instantiate(RobotButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = robotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = robot.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = robotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = robot.Name.Replace("_", " ");
 
             RawImage image = robotObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image);
@@ -103,8 +103,8 @@ public class RobotsController : MonoBehaviour
         {
             GameObject robotObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = robotObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = robot.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = robotObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = robot.Name.Replace("_", " ");
 
             RawImage image = robotObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image);
@@ -129,9 +129,9 @@ public class RobotsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = robotObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = robotObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

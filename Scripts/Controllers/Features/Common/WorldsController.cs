@@ -41,14 +41,14 @@ public class WorldsController : MonoBehaviour
     {
         GameObject currentObject = Instantiate(WorldPanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        HomeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -57,37 +57,37 @@ public class WorldsController : MonoBehaviour
         var worlds = await WorldsService.Create().GetWorldsAsync(User.CurrentUserId, 1000, 0);
         CreateWorlds(worlds, contentPanel);
     }
-    public void CreateWorlds(List<Worlds> Worlds, Transform contentPanel)
+    public void CreateWorlds(List<Worlds> worlds, Transform contentPanel)
     {
-        foreach (var world in Worlds)
+        foreach (var world in worlds)
         {
-            GameObject WorldObject = Instantiate(WorldButtonPrefab, contentPanel);
+            GameObject worldObject = Instantiate(WorldButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = WorldObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = world.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = worldObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = world.Name.Replace("_", " ");
 
-            RawImage Image = WorldObject.transform.Find("MainImage").GetComponent<RawImage>();
+            RawImage image = worldObject.transform.Find("MainImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(world.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             if (world.Status.Equals("block"))
             {
-                Image.color = Color.gray;
+                image.color = Color.gray;
             }
             else
             {
-                Image.color = Color.white;
+                image.color = Color.white;
             }
 
-            Button button = WorldObject.GetComponent<Button>();
+            Button button = worldObject.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(world, MainPanel);
             });
 
-            RawImage rareImage = WorldObject.transform.Find("Rare").GetComponent<RawImage>();
+            RawImage rareImage = worldObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{world.Rare}");
             rareImage.texture = rareTexture;
         }

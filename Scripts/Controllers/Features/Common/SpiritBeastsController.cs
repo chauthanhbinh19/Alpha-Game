@@ -49,8 +49,8 @@ public class SpiritBeastsController : MonoBehaviour
         {
             GameObject spiritBeastObject = Instantiate(SpiritBeastButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = spiritBeast.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = spiritBeast.Name.Replace("_", " ");
 
             RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image);
@@ -96,15 +96,15 @@ public class SpiritBeastsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateSpiritBeastsTradeAsync(List<SpiritBeasts> SpiritBeastList, string subType, Transform currentContent,
+    public async Task CreateSpiritBeastsTradeAsync(List<SpiritBeasts> spiritBeasts, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var spiritBeast in SpiritBeastList)
+        foreach (var spiritBeast in spiritBeasts)
         {
             GameObject spiritBeastObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = spiritBeastObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = spiritBeast.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = spiritBeastObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = spiritBeast.Name.Replace("_", " ");
 
             RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image);
@@ -129,9 +129,9 @@ public class SpiritBeastsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = spiritBeastObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = spiritBeastObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

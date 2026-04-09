@@ -49,13 +49,13 @@ public class CardCaptainsController : MonoBehaviour
         {
             GameObject cardCaptainObject = Instantiate(CardCaptainButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardCaptainObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardCaptain.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardCaptainObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardCaptain.Name.Replace("_", " ");
 
-            RawImage Image = cardCaptainObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardCaptainObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardCaptainObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardCaptain.Level.ToString().Replace("_", " ");
@@ -91,18 +91,18 @@ public class CardCaptainsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardCaptainsTradeAsync(List<CardCaptains> captainsList, string subType, Transform currentContent,
+    public async Task CreateCardCaptainsTradeAsync(List<CardCaptains> cardCaptains, string subType, Transform currentContent,
     Transform currencyPanel, Transform popupPanel)
     {
-        foreach (var captain in captainsList)
+        foreach (var cardCaptain in cardCaptains)
         {
-            GameObject captainsObject = Instantiate(EquipmentShopPrefab, currentContent);
+            GameObject cardCaptainObject = Instantiate(EquipmentShopPrefab, currentContent);
 
-            TextMeshProUGUI Title = captainsObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = captain.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardCaptainObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardCaptain.Name.Replace("_", " ");
 
-            RawImage image = captainsObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.Image);
+            RawImage image = cardCaptainObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -124,39 +124,39 @@ public class CardCaptainsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage FrameImage = captainsObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = cardCaptainObject.transform.Find("Frame").GetComponent<RawImage>();
 
-            Button button = FrameImage.GetComponent<Button>();
+            Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(captain, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardCaptain, MainPanel);
             });
 
-            RawImage topImage = captainsObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = cardCaptainObject.transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = captainsObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = cardCaptainObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline bottomOutline = captainsObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = cardCaptainObject.transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline middleOutline = captainsObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = cardCaptainObject.transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
 
-            RawImage currencyImage = captainsObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(captain.Currency.Image);
+            RawImage currencyImage = cardCaptainObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = captainsObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(captain.Currency.Quantity, false);
+            TextMeshProUGUI currencyText = cardCaptainObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyText.text = NumberFormatter.FormatNumber(cardCaptain.Currency.Quantity, false);
 
-            Button buy = captainsObject.transform.Find("Buy").GetComponent<Button>();
+            Button buy = cardCaptainObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             buttonText.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
             buy.onClick.AddListener(() =>
             {
-                GetQuantity(captain.Currency.Quantity, captain, subType, popupPanel, currencyPanel);
+                GetQuantity(cardCaptain.Currency.Quantity, cardCaptain, subType, popupPanel, currencyPanel);
             });
         }
 
