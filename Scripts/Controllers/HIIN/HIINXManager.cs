@@ -220,7 +220,7 @@ public class HIINXManager : MonoBehaviour
         rankImage.texture = rankTexture;
 
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        HIINs researchs = await HIINsService.Create().GetHIINsAsync(featureId);
+        HIINs research = await HIINsService.Create().GetHIINsAsync(featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -246,7 +246,7 @@ public class HIINXManager : MonoBehaviour
             SetupHIINItemUI(itemGO, recipeItems[i]);
         }
 
-        int currentLevel = researchs?.Level ?? 0;
+        int currentLevel = research?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
         upgradeOneLevelButton.onClick.AddListener(async () =>
@@ -255,8 +255,8 @@ public class HIINXManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = HIINsService.Create().EnhanceHIINs(researchs, result.UpgradedLevels, 1000);
-                await HIINsService.Create().InsertOrUpdateHIINsAsync(User.CurrentUserId, researchs, featureId);
+                research = HIINsService.Create().EnhanceHIINs(research, result.UpgradedLevels, 1000);
+                await HIINsService.Create().InsertOrUpdateHIINsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
@@ -277,8 +277,8 @@ public class HIINXManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = HIINsService.Create().EnhanceHIINs(researchs, result.UpgradedLevels, 1000);
-                await HIINsService.Create().InsertOrUpdateHIINsAsync(User.CurrentUserId, researchs, featureId);
+                research = HIINsService.Create().EnhanceHIINs(research, result.UpgradedLevels, 1000);
+                await HIINsService.Create().InsertOrUpdateHIINsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);

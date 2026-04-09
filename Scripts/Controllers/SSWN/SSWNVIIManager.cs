@@ -220,7 +220,7 @@ public class SSWNVIIManager : MonoBehaviour
         rankImage.texture = rankTexture;
 
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        SSWNs researchs = await SSWNsService.Create().GetSSWNsAsync(featureId);
+        SSWNs research = await SSWNsService.Create().GetSSWNsAsync(featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -246,7 +246,7 @@ public class SSWNVIIManager : MonoBehaviour
             SetupSSWNItemUI(itemGO, recipeItems[i]);
         }
 
-        int currentLevel = researchs?.Level ?? 0;
+        int currentLevel = research?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
         upgradeOneLevelButton.onClick.AddListener(async () =>
@@ -255,8 +255,8 @@ public class SSWNVIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = SSWNsService.Create().EnhanceSSWNs(researchs, result.UpgradedLevels, 1000);
-                await SSWNsService.Create().InsertOrUpdateSSWNsAsync(User.CurrentUserId, researchs, featureId);
+                research = SSWNsService.Create().EnhanceSSWNs(research, result.UpgradedLevels, 1000);
+                await SSWNsService.Create().InsertOrUpdateSSWNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
@@ -277,8 +277,8 @@ public class SSWNVIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = SSWNsService.Create().EnhanceSSWNs(researchs, result.UpgradedLevels, 1000);
-                await SSWNsService.Create().InsertOrUpdateSSWNsAsync(User.CurrentUserId, researchs, featureId);
+                research = SSWNsService.Create().EnhanceSSWNs(research, result.UpgradedLevels, 1000);
+                await SSWNsService.Create().InsertOrUpdateSSWNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);

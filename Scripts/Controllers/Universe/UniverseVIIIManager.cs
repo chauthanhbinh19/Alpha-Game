@@ -214,7 +214,7 @@ public class UniverseVIIIManager : MonoBehaviour
         });
 
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        Universes researchs = await UniversesService.Create().GetUniversesAsync(featureId);
+        Universes research = await UniversesService.Create().GetUniversesAsync(featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -240,7 +240,7 @@ public class UniverseVIIIManager : MonoBehaviour
             SetupUniverseItemUI(itemGO, recipeItems[i]);
         }
 
-        int currentLevel = researchs?.Level ?? 0;
+        int currentLevel = research?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
         upgradeOneLevelButton.onClick.AddListener(async () =>
@@ -249,8 +249,8 @@ public class UniverseVIIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = UniversesService.Create().EnhanceUniverses(researchs, result.UpgradedLevels, 1000);
-                await UniversesService.Create().InsertOrUpdateUniversesAsync(User.CurrentUserId, researchs, featureId);
+                research = UniversesService.Create().EnhanceUniverses(research, result.UpgradedLevels, 1000);
+                await UniversesService.Create().InsertOrUpdateUniversesAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
@@ -271,8 +271,8 @@ public class UniverseVIIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = UniversesService.Create().EnhanceUniverses(researchs, result.UpgradedLevels, 1000);
-                await UniversesService.Create().InsertOrUpdateUniversesAsync(User.CurrentUserId, researchs, featureId);
+                research = UniversesService.Create().EnhanceUniverses(research, result.UpgradedLevels, 1000);
+                await UniversesService.Create().InsertOrUpdateUniversesAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);

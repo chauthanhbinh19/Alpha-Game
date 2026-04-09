@@ -15,8 +15,8 @@ public class MainMenuAffinityManager : MonoBehaviour
     private GameObject ItemPopupPrefab;
     private RawImage mainImage;
     private TextMeshProUGUI mainLevelText;
-    private Button UpLevelButton;
-    private Button UpMaxLevelButton;
+    private Button upLevelButton;
+    private Button upMaxLevelButton;
     private string mainType = "Affinity";
     private List<Items> itemsList;
     TeamsService teamsService;
@@ -44,16 +44,16 @@ public class MainMenuAffinityManager : MonoBehaviour
         // SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.AFFINITY);
-        UpLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        UpMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
-        Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
+        upLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        upMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
         });
-        CloseButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
@@ -61,8 +61,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
         RawImage background = currentObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BACKGROUND_53_URL);
-        RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
-        RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+        RawImage closeButtonBackground = closeButton.GetComponent<RawImage>();
+        RawImage homeButtonBackground = homeButton.GetComponent<RawImage>();
         closeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
         homeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
         RawImage scrollViewBackground = currentObject.transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
@@ -135,9 +135,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         mainImage.texture = texture;
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -221,7 +221,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateCardHeroesEquipmentsAsync(cardHero);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -304,9 +304,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserBooksRankService.Create().GetBookRankAsync(mainType, book.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -390,7 +390,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateBooksEquipmentsAsync(book);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -473,9 +473,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserCardCaptainsRankService.Create().GetCardCaptainRankAsync(mainType, cardCaptain.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -559,7 +559,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateCardCaptainsEquipmentsAsync(cardCaptain);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -642,9 +642,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserPetsRankService.Create().GetPetRankAsync(mainType, pet.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -728,7 +728,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreatePetsEquipmentsAsync(pet);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -811,9 +811,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserCardMilitariesRankService.Create().GetCardMilitaryRankAsync(mainType, cardMilitary.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -897,7 +897,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateCardMilitaryEquipmentsAsync(cardMilitary);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -980,9 +980,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserCardSpellsRankService.Create().GetCardSpellRankAsync(mainType, cardSpell.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1066,7 +1066,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateCardSpellEquipmentsAsync(cardSpell);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1149,9 +1149,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserCardMonstersRankService.Create().GetCardMonsterRankAsync(mainType, cardMonster.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1235,7 +1235,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateCardMonstersEquipmentsAsync(cardMonster);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1319,9 +1319,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserCardColonelsRankService.Create().GetCardColonelRankAsync(mainType, cardColonel.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1405,7 +1405,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateCardColonelsEquipmentsAsync(cardColonel);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1488,9 +1488,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserCardGeneralsRankService.Create().GetCardGeneralRankAsync(mainType, cardGeneral.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1574,7 +1574,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateCardGeneralsEquipmentsAsync(cardGeneral);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1657,9 +1657,9 @@ public class MainMenuAffinityManager : MonoBehaviour
         Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(mainType, cardAdmiral.Id);
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        UpLevelButton.onClick.RemoveAllListeners();
-        UpMaxLevelButton.onClick.RemoveAllListeners();
-        UpLevelButton.onClick.AddListener(async () =>
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
@@ -1743,7 +1743,7 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
         });
-        UpMaxLevelButton.onClick.AddListener(async () =>
+        upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
