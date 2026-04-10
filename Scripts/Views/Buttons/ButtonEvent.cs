@@ -83,10 +83,10 @@ public class ButtonEvent : MonoBehaviour
     {
         RawImage buttonImage = button.GetComponent<RawImage>();
         RawImage buttonLockedImage = button.transform.Find("Locked")?.GetComponent<RawImage>();
-        if (data is CardHeroes cardHeroes)
+        if (data is CardHeroes cardHero)
         {
             // mainId = cardHeroes.id;
-            if (cardHeroes.Level >= value)
+            if (cardHero.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);
@@ -97,10 +97,10 @@ public class ButtonEvent : MonoBehaviour
                 buttonLockedImage.gameObject.SetActive(true);
             }
         }
-        else if (data is Books books)
+        else if (data is Books book)
         {
             // mainId = books.id;
-            if (books.Level >= value)
+            if (book.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);
@@ -111,10 +111,10 @@ public class ButtonEvent : MonoBehaviour
                 buttonLockedImage.gameObject.SetActive(true);
             }
         }
-        else if (data is CardCaptains cardCaptains)
+        else if (data is CardCaptains cardCaptain)
         {
             // mainId = cardCaptains.id;
-            if (cardCaptains.Level >= value)
+            if (cardCaptain.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);
@@ -125,10 +125,10 @@ public class ButtonEvent : MonoBehaviour
                 buttonLockedImage.gameObject.SetActive(true);
             }
         }
-        else if (data is Pets pets)
+        else if (data is Pets pet)
         {
             // mainId = pets.id;
-            if (pets.Level >= value)
+            if (pet.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);
@@ -167,10 +167,10 @@ public class ButtonEvent : MonoBehaviour
                 buttonLockedImage.gameObject.SetActive(true);
             }
         }
-        else if (data is CardMonsters cardMonsters)
+        else if (data is CardMonsters cardMonster)
         {
             // mainId = cardMonsters.id;
-            if (cardMonsters.Level >= value)
+            if (cardMonster.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);
@@ -181,10 +181,10 @@ public class ButtonEvent : MonoBehaviour
                 buttonLockedImage.gameObject.SetActive(true);
             }
         }
-        else if (data is CardColonels cardColonels)
+        else if (data is CardColonels cardColonel)
         {
             // mainId = cardColonels.id;
-            if (cardColonels.Level >= value)
+            if (cardColonel.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);
@@ -195,10 +195,10 @@ public class ButtonEvent : MonoBehaviour
                 buttonLockedImage.gameObject.SetActive(true);
             }
         }
-        else if (data is CardGenerals cardGenerals)
+        else if (data is CardGenerals cardGeneral)
         {
             // mainId = cardGenerals.id;
-            if (cardGenerals.Level >= value)
+            if (cardGeneral.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);
@@ -209,10 +209,10 @@ public class ButtonEvent : MonoBehaviour
                 buttonLockedImage.gameObject.SetActive(true);
             }
         }
-        else if (data is CardAdmirals cardAdmirals)
+        else if (data is CardAdmirals cardAdmiral)
         {
             // mainId = cardAdmirals.id;
-            if (cardAdmirals.Level >= value)
+            if (cardAdmiral.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);
@@ -223,10 +223,10 @@ public class ButtonEvent : MonoBehaviour
                 buttonLockedImage.gameObject.SetActive(true);
             }
         }
-        else if (data is Equipments equipments)
+        else if (data is Equipments equipment)
         {
             // mainId = cardAdmirals.id;
-            if (equipments.Level >= value)
+            if (equipment.Level >= value)
             {
                 buttonImage.color = ColorManager.Instance.HexToColor(ColorConstants.WHITE_COLOR);
                 buttonLockedImage.gameObject.SetActive(false);

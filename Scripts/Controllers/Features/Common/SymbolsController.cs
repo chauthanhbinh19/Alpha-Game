@@ -76,7 +76,7 @@ public class SymbolsController : MonoBehaviour
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             RawImage backgroundImage = symbolObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SYMBOL_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SYMBOL_BUTTON_BACKGROUND_URL);
 
             Button button = symbolObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

@@ -137,13 +137,13 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-        Transform BackgroundImageTransform = gameObject.transform.Find("Background");
-        if (BackgroundImageTransform != null)
+        Transform backgroundImageTransform = gameObject.transform.Find("Background");
+        if (backgroundImageTransform != null)
         {
-            RawImage BackgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
+            RawImage backgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
             Texture backgroundTexture = TextureHelper.LoadTextureCached($"UI/Background3/{mainType}");
-            BackgroundImage.texture = backgroundTexture;
-            BackgroundImage.rectTransform.sizeDelta = new Vector2(350, 350);
+            backgroundImage.texture = backgroundTexture;
+            backgroundImage.rectTransform.sizeDelta = new Vector2(350, 350);
         }
 
         Transform backgroundTransform = gameObject.transform.Find("BackgroundCircle");
@@ -195,8 +195,8 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
-        TextMeshProUGUI LevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-        LevelText.text = level.ToString();
+        TextMeshProUGUI totalLevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        totalLevelText.text = level.ToString();
     }
     public void SetMaterialUI(GameObject gameobject, string itemImage, double itemQuantity, double currencyQuantity, int rankLevel, int maxLevel)
     {
@@ -213,17 +213,17 @@ public class UIManager : MonoBehaviour
 
         var oneResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
         var maxResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
-        RawImage OneLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
-        RawImage MaxLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
-        Texture OneLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
-        Texture MaxLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
-        OneLevelCurrencyImage.texture = OneLevelCurrencyTexture;
-        MaxLevelCurrencyImage.texture = MaxLevelCurrencyTexture;
+        RawImage oneLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
+        RawImage maxLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
+        Texture oneLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
+        Texture maxLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
+        oneLevelCurrencyImage.texture = oneLevelCurrencyTexture;
+        maxLevelCurrencyImage.texture = maxLevelCurrencyTexture;
 
-        TextMeshProUGUI OneLevelCurrencyText = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI MaxLevelCurrencyText = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
-        OneLevelCurrencyText.text = oneResult.totalCurrencyUsed.ToString();
-        MaxLevelCurrencyText.text = maxResult.totalCurrencyUsed.ToString();
+        TextMeshProUGUI oneLevelCurrencyText = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI maxLevelCurrencyText = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
+        oneLevelCurrencyText.text = oneResult.totalCurrencyUsed.ToString();
+        maxLevelCurrencyText.text = maxResult.totalCurrencyUsed.ToString();
 
         RawImage oneLevelImage = gameobject.transform.Find("DictionaryCards/OneLevelMaterial/MaterialImage").GetComponent<RawImage>();
         Texture oneLevelTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
@@ -296,8 +296,7 @@ public class UIManager : MonoBehaviour
                 generalInformationPanel, statsInformationPanel, descriptionInformationPanel);
         }
     }
-    public void CreateSinglePropertyUI(PropertyInfo property, object value,
-    Transform generalInformationPanel, Transform statsInformationPanel, Transform descriptionInformationPanel)
+    public void CreateSinglePropertyUI(PropertyInfo property, object value, Transform generalInformationPanel, Transform statsInformationPanel, Transform descriptionInformationPanel)
     {
         // Transform DetailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
         // GameObject firstDetailsObject = Instantiate(NumberDetail2Prefab, DetailsContent);
@@ -760,16 +759,15 @@ public class UIManager : MonoBehaviour
     }
     public void CreatePropertyLevelUI(PropertyInfo[] properties, object targetObject, double increasePerLevel, GameObject currentObject)
     {
-        Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform levelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         foreach (var property in properties)
         {
             // Lấy giá trị của thuộc tính
             object value = property.GetValue(targetObject, null);
-            CreateSinglePropertyLevelUI(property, value, increasePerLevel, LevelElementContent, currentObject);
+            CreateSinglePropertyLevelUI(property, value, increasePerLevel, levelElementContent, currentObject);
         }
     }
-    public void CreateSinglePropertyLevelUI(PropertyInfo property, object value, double increasePerLevel,
-    Transform LevelElementContent, GameObject currentObject)
+    public void CreateSinglePropertyLevelUI(PropertyInfo property, object value, double increasePerLevel, Transform levelElementContent, GameObject currentObject)
     {
 
         if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
@@ -787,7 +785,7 @@ public class UIManager : MonoBehaviour
                     if (!property.Name.Contains("all"))
                     {
                         // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(Get("ElementDetailsPrefab"), LevelElementContent);
+                        GameObject elementObject = Instantiate(Get("ElementDetailsPrefab"), levelElementContent);
 
                         // Gán tên thuộc tính vào TitleText
                         TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -819,7 +817,7 @@ public class UIManager : MonoBehaviour
     }
     public void CreatePropertyUpgradeUI(PropertyInfo property, object value, double increasePerUpgrade, GameObject currentObject)
     {
-        Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        Transform upgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         if (!property.Name.Equals("id") && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
                 && !property.Name.Equals("experiment") && !property.Name.Equals("quantity") && !property.Name.Equals("block")
                 && !property.Name.Equals("status") && !property.Name.Equals("name")
@@ -835,7 +833,7 @@ public class UIManager : MonoBehaviour
                     if (!property.Name.Contains("all"))
                     {
                         // Tạo một element mới từ prefab
-                        GameObject elementObject = Instantiate(Get("ElementDetailsPrefab"), UpgradeElementContent);
+                        GameObject elementObject = Instantiate(Get("ElementDetailsPrefab"), upgradeElementContent);
 
                         // Gán tên thuộc tính vào TitleText
                         TextMeshProUGUI elementTitleText = elementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -878,14 +876,14 @@ public class UIManager : MonoBehaviour
     }
     public void CreateMaterialUI(List<Items> items, GameObject currentObject)
     {
-        Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform levelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         foreach (Items item in items)
         {
-            GameObject itemObject = Instantiate(ItemThird, LevelMaterialContent);
+            GameObject itemObject = Instantiate(ItemThird, levelMaterialContent);
 
             RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            Texture equipmentTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
-            eImage.texture = equipmentTexture;
+            Texture itemTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
+            eImage.texture = itemTexture;
 
             TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
             eQuantity.text = NumberFormatter.FormatNumber(item.Quantity, false);
@@ -900,6 +898,7 @@ public class UIManager : MonoBehaviour
         int newStar = (star + 1 > 100000) ? 0 : star + 1;
         int nextimageIndex = (newStar == 0) ? 0 : ((newStar - 1) % 10) + 1;
         int nextstarIndex = (newStar == 0) ? 0 : (newStar - 1) / 10;
+
         for (int i = 0; i < currentimageIndex; i++)
         {
             GameObject starObject = Instantiate(StarPrefab, currentStar);
@@ -907,6 +906,7 @@ public class UIManager : MonoBehaviour
             RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
             GetStarImage(starImage, currentstarIndex);
         }
+
         for (int i = 0; i < nextimageIndex; i++)
         {
             GameObject starObject = Instantiate(StarPrefab, nextStar);
@@ -914,11 +914,13 @@ public class UIManager : MonoBehaviour
             RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
             GetStarImage(starImage, nextstarIndex);
         }
+
         GridLayoutGroup currentGridLayout = currentStar.GetComponent<GridLayoutGroup>();
         if (currentGridLayout != null)
         {
             currentGridLayout.cellSize = new Vector2(20, 20);
         }
+        
         GridLayoutGroup nextGridLayout = nextStar.GetComponent<GridLayoutGroup>();
         if (nextGridLayout != null)
         {

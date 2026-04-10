@@ -76,7 +76,7 @@ public class EmojisController : MonoBehaviour
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
             RawImage backgroundImage = emojiObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CORE_BUTTON_BACKGROUND_URL);
+            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.EMOJI_BUTTON_BACKGROUND_URL);
 
             Button button = emojiObject.GetComponent<Button>();
             button.onClick.AddListener(() =>

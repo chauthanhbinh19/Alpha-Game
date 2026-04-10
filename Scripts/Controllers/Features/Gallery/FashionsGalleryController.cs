@@ -51,90 +51,90 @@ public class FashionsGalleryController : MonoBehaviour
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
-                // // Kích thước của RawImage (khung hiển thị)
-                // RectTransform rect = image.GetComponent<RectTransform>();
-                // float maxWidth = rect.rect.width;
-                // float maxHeight = rect.rect.height;
+                // Kích thước của RawImage (khung hiển thị)
+                RectTransform rect = image.GetComponent<RectTransform>();
+                float maxWidth = rect.rect.width;
+                float maxHeight = rect.rect.height;
 
-                // // Kích thước thật của texture
-                // float texWidth = texture.width;
-                // float texHeight = texture.height;
+                // Kích thước thật của texture
+                float texWidth = texture.width;
+                float texHeight = texture.height;
 
-                // // Tính scale để texture nằm gọn trong khung
-                // float widthRatio = maxWidth / texWidth;
-                // float heightRatio = maxHeight / texHeight;
-                // float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
+                // Tính scale để texture nằm gọn trong khung
+                float widthRatio = maxWidth / texWidth;
+                float heightRatio = maxHeight / texHeight;
+                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
 
-                // // Áp dụng scale theo tỉ lệ đúng
-                // image.SetNativeSize();
-                // image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+                // Áp dụng scale theo tỉ lệ đúng
+                image.SetNativeSize();
+                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                // RawImage backgroundImage = fashionObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                // backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FASHION_BUTTON_BACKGROUND_URL);
+                RawImage backgroundImage = fashionObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FASHION_BUTTON_BACKGROUND_URL);
 
-                // Button button = fashionObject.GetComponent<Button>();
-                // button.onClick.AddListener(() =>
-                // {
-                //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                //     PopupDetailsManager.Instance.PopupDetails(fashion, MainPanel);
-                // });
+                Button button = fashionObject.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    PopupDetailsManager.Instance.PopupDetails(fashion, MainPanel);
+                });
 
-                // TextMeshProUGUI rareText = fashionObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                // rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(fashion.Rare));
-                // rareText.text = fashion.Rare;
+                TextMeshProUGUI rareText = fashionObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(fashion.Rare));
+                rareText.text = fashion.Rare;
 
-                // RawImage blockImage = fashionObject.transform.Find("Block").GetComponent<RawImage>();
-                // Button Unlock = fashionObject.transform.Find("UnlockButton").GetComponent<Button>();
-                // if (fashion.Status.Equals(AppConstants.Status.AVAILABLE))
-                // {
-                //     blockImage.gameObject.SetActive(false);
-                //     Unlock.gameObject.SetActive(false);
-                //     image.color = Color.white;
-                // }
-                // else if (fashion.Status.Equals(AppConstants.Status.PENDING))
-                // {
-                //     blockImage.gameObject.SetActive(true);
-                //     Unlock.gameObject.SetActive(true);
-                // }
-                // else if (fashion.Status.Equals(AppConstants.Status.BLOCK))
-                // {
-                //     blockImage.gameObject.SetActive(true);
-                //     Unlock.gameObject.SetActive(false);
-                // }
+                RawImage blockImage = fashionObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = fashionObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (fashion.Status.Equals(AppConstants.Status.AVAILABLE))
+                {
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
+                }
+                else if (fashion.Status.Equals(AppConstants.Status.PENDING))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(true);
+                }
+                else if (fashion.Status.Equals(AppConstants.Status.BLOCK))
+                {
+                    blockImage.gameObject.SetActive(true);
+                    Unlock.gameObject.SetActive(false);
+                }
 
-                // Unlock.onClick.AddListener(async () =>
-                // {
-                //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                //     await FashionsGalleryService.Create().UpdateStatusFashionGalleryAsync(fashion.Id);
-                //     blockImage.gameObject.SetActive(false);
-                //     Unlock.gameObject.SetActive(false);
-                //     image.color = Color.white;
+                Unlock.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await FashionsGalleryService.Create().UpdateStatusFashionGalleryAsync(fashion.Id);
+                    blockImage.gameObject.SetActive(false);
+                    Unlock.gameObject.SetActive(false);
+                    image.color = Color.white;
 
-                //     var powerManagerService = PowerManagerService.Create();
-                //     var teamsService = TeamsService.Create();
+                    var powerManagerService = PowerManagerService.Create();
+                    var teamsService = TeamsService.Create();
 
-                //     await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
-                //     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                //     double currentPower = User.CurrentUserPower;
-                //     User.CurrentUserPower = newPower;
-                //     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-                // });
+                    await powerManagerService.UpdateUserStatsAsync(User.CurrentUserId);
+                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                });
 
-                // Button Upgrade = fashionObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                // if ((fashion.CurrentStar < fashion.TempStar) && fashion.Status.Equals(AppConstants.Status.AVAILABLE))
-                // {
-                //     Upgrade.gameObject.SetActive(true);
-                // }
-                // else
-                // {
-                //     Upgrade.gameObject.SetActive(false);
-                // }
+                Button Upgrade = fashionObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((fashion.CurrentStar < fashion.TempStar) && fashion.Status.Equals(AppConstants.Status.AVAILABLE))
+                {
+                    Upgrade.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Upgrade.gameObject.SetActive(false);
+                }
 
-                // Upgrade.onClick.AddListener(async () =>
-                // {
-                //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                //     await FashionsGalleryService.Create().UpdateFashionGalleryPowerAsync(fashion.Id);
-                // });
+                Upgrade.onClick.AddListener(async () =>
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await FashionsGalleryService.Create().UpdateFashionGalleryPowerAsync(fashion.Id);
+                });
             }
             catch (Exception ex)
             {

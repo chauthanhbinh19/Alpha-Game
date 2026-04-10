@@ -374,5 +374,12 @@ public class HomeManager : MonoBehaviour
         int userWeaponCount = await UserWeaponsService.Create().GetUserWeaponsCountAsync(User.CurrentUserId, search, rare);
         weaponTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.WEAPON);
         weaponQuantityText.text = userWeaponCount.ToString();
+
+        Transform emojiTransform = currentObject.transform.Find("Scroll View/Viewport/Content/DataPanel/EmojiPanel");
+        TextMeshProUGUI emojiTitleText = emojiTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI emojiQuantityText = emojiTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+        int userEmojiCount = await UserEmojisService.Create().GetUserEmojisCountAsync(User.CurrentUserId, search, rare);
+        emojiTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EMOJI);
+        emojiQuantityText.text = userEmojiCount.ToString();
     }
 }

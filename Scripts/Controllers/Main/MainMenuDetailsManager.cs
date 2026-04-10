@@ -726,6 +726,20 @@ public class MainMenuDetailsManager : MonoBehaviour
                 FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.FASHION);
             });
         }
+        else if (data is Emojis emoji)
+        {
+            // Xử lý đối tượng rune
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EMOJI);
+            UserEmojisController.Instance.ShowEmojiDetails(emoji, currentObject);
+            Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.EMOJI_BACKGROUND_URL);
+            cardBackground.texture = texture;
+            closeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Destroy(currentObject);
+                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.EMOJI);
+            });
+        }
         else
         {
             Debug.LogError("Không hỗ trợ loại dữ liệu này!");

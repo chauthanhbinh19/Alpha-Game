@@ -825,6 +825,7 @@ public static class ImageConstants
         public const string BUILDING_BACKGROUND_URL = "UI/Background3/Building";
         public const string PLANT_BACKGROUND_URL = "UI/Background3/Plant";
         public const string FASHION_BACKGROUND_URL = "UI/Background3/Fashion";
+        public const string EMOJI_BACKGROUND_URL = "UI/Background3/Emoji";
 
         public const string CARD_HERO_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardHeroes_Background";
         public const string BOOK_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Books_Background";
@@ -872,6 +873,7 @@ public static class ImageConstants
         public const string BUILDING_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Buildings_Background";
         public const string PLANT_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Plants_Background";
         public const string FASHION_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Fashions_Background";
+        public const string EMOJI_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Emojis_Background";
 
         public const string BACKGROUND_1_URL = "UI/Background1/Background_V1_1";
         public const string BACKGROUND_2_URL = "UI/Background1/Background_V1_2";
