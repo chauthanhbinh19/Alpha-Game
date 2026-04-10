@@ -57,14 +57,14 @@ public class EnergyManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(PopupResearchPanelPrefab, MainPanel);
         content = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(async () =>
+        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -201,14 +201,14 @@ public class EnergyManager : MonoBehaviour
         Transform leftSideContent = currentObject.transform.Find("LeftSideContent");
         Transform rightSideContent = currentObject.transform.Find("RightSideContent");
         TextMeshProUGUI levelText = currentObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(async () =>
+        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -222,7 +222,7 @@ public class EnergyManager : MonoBehaviour
         rankImage.texture = rankTexture; 
 
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        Researchs researchs = await ResearchsService.Create().GetResearchsAsync(featureId);
+        Researchs research = await ResearchsService.Create().GetResearchsAsync(featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -248,7 +248,7 @@ public class EnergyManager : MonoBehaviour
             SetupResearchItemUI(itemGO, recipeItems[i]);
         }
 
-        int currentLevel = researchs?.Level ?? 0;
+        int currentLevel = research?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
         upgradeOneLevelButton.onClick.AddListener(async () =>
@@ -257,8 +257,8 @@ public class EnergyManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = ResearchsService.Create().EnhanceResearchs(researchs, result.UpgradedLevels, 100);
-                await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, researchs, featureId);
+                research = ResearchsService.Create().EnhanceResearchs(research, result.UpgradedLevels, 100);
+                await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
@@ -279,8 +279,8 @@ public class EnergyManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                researchs = ResearchsService.Create().EnhanceResearchs(researchs, result.UpgradedLevels, 100);
-                await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, researchs, featureId);
+                research = ResearchsService.Create().EnhanceResearchs(research, result.UpgradedLevels, 100);
+                await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
