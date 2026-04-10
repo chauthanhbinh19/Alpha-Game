@@ -80,13 +80,13 @@ public class UserCardAdmiralsController : MonoBehaviour
         {
             GameObject cardAdmiralObject = Instantiate(CardAdmiralButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardAdmiral.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardAdmiral.Name.Replace("_", " ");
 
-            RawImage Image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardAdmiralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardAdmiral.Level.ToString().Replace("_", " ");
@@ -136,19 +136,19 @@ public class UserCardAdmiralsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateUserCardAdmiralsForSummon(List<CardAdmirals> admirals, Transform PositionPanel)
+    public void CreateUserCardAdmiralsForSummon(List<CardAdmirals> cardAdmirals, Transform PositionPanel)
     {
-        foreach (var admiral in admirals)
+        foreach (var cardAdmiral in cardAdmirals)
         {
-            GameObject captainObject = Instantiate(PositionPrefab, PositionPanel);
+            GameObject cardAdmiralObject = Instantiate(PositionPrefab, PositionPanel);
 
-            RawImage Image = captainObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(admiral.Image);
+            RawImage image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             // Chỉnh width và height
-            RectTransform rectTransform = Image.rectTransform;
+            RectTransform rectTransform = image.rectTransform;
             rectTransform.sizeDelta = new Vector2(300f, 375f);
 
             // Chỉnh vị trí cao lên 40px
@@ -156,7 +156,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
         }
     }
-    public void ShowCardAdmiralDetails(CardAdmirals cardAdmirals, GameObject currentObject, int buttonType = 1)
+    public void ShowCardAdmiralDetails(CardAdmirals cardAdmiral, GameObject currentObject, int buttonType = 1)
     {
         tempCurrentObject = currentObject;
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
@@ -169,100 +169,100 @@ public class UserCardAdmiralsController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(cardAdmirals, currentObject);
+            GetDetails(cardAdmiral, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(cardAdmirals, currentObject);
+            _=GetLevelAsync(cardAdmiral, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
         {
-            _=GetSkillsAsync(cardAdmirals, currentObject);
+            _=GetSkillsAsync(cardAdmiral, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(cardAdmirals, currentObject);
+            _=GetUpgradeAsync(cardAdmiral, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_5", RightButtonContent, () =>
         {
-            _=GetSpiritBeastAsync(cardAdmirals, currentObject);
+            _=GetSpiritBeastAsync(cardAdmiral, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_6", RightButtonContent, () =>
         {
-            GetRank(cardAdmirals, currentObject);
+            GetRank(cardAdmiral, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_6", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(cardAdmirals, currentObject);
+                GetDetails(cardAdmiral, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(cardAdmirals, currentObject);
+                _=GetLevelAsync(cardAdmiral, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                _=GetSkillsAsync(cardAdmirals, currentObject);
+                _=GetSkillsAsync(cardAdmiral, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(cardAdmirals, currentObject);
+                _=GetUpgradeAsync(cardAdmiral, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             case 5:
-                _=GetSpiritBeastAsync(cardAdmirals, currentObject);
+                _=GetSpiritBeastAsync(cardAdmiral, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
                 break;
             case 6:
-                GetRank(cardAdmirals, currentObject);
+                GetRank(cardAdmiral, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_6", RightButtonContent);
                 break;
             default:
-                GetDetails(cardAdmirals, currentObject);
+                GetDetails(cardAdmiral, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
         RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
-    public void CreateDetailsUI(CardAdmirals cardAdmirals, GameObject currentObject)
+    public void CreateDetailsUI(CardAdmirals cardAdmiral, GameObject currentObject)
     {
-        RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.Image); // Lấy giá trị của image từ đối tượng Card
+        RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardAdmirals.Name;
+        TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardAdmiral.Name;
 
-        TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardAdmirals.Power, false);
+        TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardAdmiral.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardAdmirals.level.ToString();
 
         RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmirals.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rare}");
         rareImage.texture = rareTexture;
     }
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is CardAdmirals cardAdmirals)
+        if (obj is CardAdmirals cardAdmiral)
         {
-            CreateDetailsUI(cardAdmirals, currentObject);
+            CreateDetailsUI(cardAdmiral, currentObject);
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = cardAdmirals.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, cardAdmirals, currentObject);
+            PropertyInfo[] properties = cardAdmiral.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, cardAdmiral, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -272,12 +272,11 @@ public class UserCardAdmiralsController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is CardAdmirals cardAdmirals)
+        if (obj is CardAdmirals cardAdmiral)
         {
-            PropertyInfo[] properties = cardAdmirals.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, cardAdmirals, increasePerLevel, currentObject);
+            PropertyInfo[] properties = cardAdmiral.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, cardAdmiral, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_ADMIRAL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -287,20 +286,20 @@ public class UserCardAdmiralsController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CardAdmirals currentCard = new CardAdmirals();
-                currentCard = await UserCardAdmiralsService.Create().GetUserCardAdmiralByIdAsync(User.CurrentUserId, cardAdmirals.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                CardAdmirals currentCardAdmiral = new CardAdmirals();
+                currentCardAdmiral = await UserCardAdmiralsService.Create().GetUserCardAdmiralByIdAsync(User.CurrentUserId, cardAdmiral.Id);
+                double totalExperiment = currentCardAdmiral.Experiment;
+                int currentLevel = currentCardAdmiral.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    CardAdmirals newCard = new CardAdmirals();
+                    CardAdmirals newCardAdmiral = new CardAdmirals();
 
-                    newCard = await UserCardAdmiralsService.Create().GetNewLevelPowerAsync(cardAdmirals, increasePerLevel);
-                    await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(newCard, currentLevel + 1);
+                    newCardAdmiral = await UserCardAdmiralsService.Create().GetNewLevelPowerAsync(cardAdmiral, increasePerLevel);
+                    await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(newCardAdmiral, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -315,9 +314,9 @@ public class UserCardAdmiralsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CardAdmirals currentCard = await UserCardAdmiralsService.Create().GetUserCardAdmiralByIdAsync(User.CurrentUserId, cardAdmirals.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                CardAdmirals currentCardAdmiral = await UserCardAdmiralsService.Create().GetUserCardAdmiralByIdAsync(User.CurrentUserId, cardAdmiral.Id);
+                double totalExperiment = currentCardAdmiral.Experiment;
+                int currentLevel = currentCardAdmiral.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -331,8 +330,8 @@ public class UserCardAdmiralsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CardAdmirals newCard = await UserCardAdmiralsService.Create().GetNewLevelPowerAsync(cardAdmirals, levelsGained * increasePerLevel);
-                    await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(newCard, currentLevel);
+                    CardAdmirals newCardAdmiral = await UserCardAdmiralsService.Create().GetNewLevelPowerAsync(cardAdmiral, levelsGained * increasePerLevel);
+                    await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(newCardAdmiral, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -352,9 +351,9 @@ public class UserCardAdmiralsController : MonoBehaviour
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
         Transform skillContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
         Button setUpButton = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
-        if (obj is CardAdmirals cardAdmirals)
+        if (obj is CardAdmirals cardAdmiral)
         {
-            var skills = await UserSkillsService.Create().GetUserCardAdmiralsSkillsAsync(User.CurrentUserId, cardAdmirals.Id);
+            var skills = await UserSkillsService.Create().GetUserCardAdmiralsSkillsAsync(User.CurrentUserId, cardAdmiral.Id);
             skills = skills.Where(x => x.Position != 0).ToList();
             foreach (var skill in skills)
             {
@@ -374,7 +373,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             setUpButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CreateSkillPanelAsync(cardAdmirals.Id);
+                await CreateSkillPanelAsync(cardAdmiral.Id);
             });
         }
     }
@@ -382,14 +381,14 @@ public class UserCardAdmiralsController : MonoBehaviour
     {
         skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
         Transform skillGroupContent = skillPanelObject.transform.Find("DictionaryCards/SkillGroup");
-        Button CloseButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button HomeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(skillPanelObject);
         });
-        HomeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -584,110 +583,109 @@ public class UserCardAdmiralsController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is CardAdmirals cardAdmirals)
+        if (obj is CardAdmirals cardAdmiral)
         {
-            PropertyInfo[] properties = cardAdmirals.GetType().GetProperties();
+            PropertyInfo[] properties = cardAdmiral.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(cardAdmirals, null);
+                object value = property.GetValue(cardAdmiral, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.CARD_ADMIRAL);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (cardAdmirals.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (cardAdmiral.Star + 1).ToString();
             }
-            GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject cardAdmiralObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmirals.Image);
-            Texture cardTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            cardImage.texture = cardTexture;
+            RawImage cardAdmiralImage = cardAdmiralObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
+            Texture cardAdmiralTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            cardAdmiralImage.texture = cardAdmiralTexture;
 
-            TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = cardAdmirals.Quantity.ToString() + "/" + (cardAdmirals.Star + 1).ToString();
+            TextMeshProUGUI cardAdmiralQuantity = cardAdmiralObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            cardAdmiralQuantity.text = cardAdmiral.Quantity.ToString() + "/" + (cardAdmiral.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(cardAdmirals.Star, currentObject);
+            UIManager.Instance.CreateStarUI(cardAdmiral.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = cardAdmirals.Star + 1;
+                double requiredQuantity = cardAdmiral.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = cardAdmirals.Quantity >= requiredQuantity;
+                bool hasEnoughCardAdmiral = cardAdmiral.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + cardAdmirals.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + cardAdmiral.Quantity >= requiredQuantity;
 
-                if (hasEnoughCards || hasEnoughItems)
+                if (hasEnoughCardAdmiral || hasEnoughItem)
                 {
                     // Giảm số lượng thẻ bài trước
-                    if (cardAdmirals.Quantity >= requiredQuantity)
+                    if (cardAdmiral.Quantity >= requiredQuantity)
                     {
-                        cardAdmirals.Quantity -= requiredQuantity;
+                        cardAdmiral.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - cardAdmirals.Quantity;
-                        cardAdmirals.Quantity = 0; // Dùng hết thẻ bài
+                        double remainingRequired = requiredQuantity - cardAdmiral.Quantity;
+                        cardAdmiral.Quantity = 0; // Dùng hết thẻ bài
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    CardAdmirals newCard = new CardAdmirals();
+                    CardAdmirals newCardAdmiral = new CardAdmirals();
 
-                    newCard = await UserCardAdmiralsService.Create().GetNewBreakthroughPowerAsync(cardAdmirals, increasePerUpgrade);
-                    await UserCardAdmiralsService.Create().UpdateCardAdmiralBreakthroughAsync(newCard, cardAdmirals.Star + 1, cardAdmirals.Quantity);
+                    newCardAdmiral = await UserCardAdmiralsService.Create().GetNewBreakthroughPowerAsync(cardAdmiral, increasePerUpgrade);
+                    await UserCardAdmiralsService.Create().UpdateCardAdmiralBreakthroughAsync(newCardAdmiral, cardAdmiral.Star + 1, cardAdmiral.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await  CardAdmiralsGalleryService.Create().UpdateStarCardAdmiralGalleryAsync(cardAdmirals.Id, cardAdmirals.Star + 1);
+                    await  CardAdmiralsGalleryService.Create().UpdateStarCardAdmiralGalleryAsync(cardAdmiral.Id, cardAdmiral.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(cardAdmirals.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(cardAdmiral.Star, currentObject);
                 }
                 else
                 {
@@ -709,9 +707,9 @@ public class UserCardAdmiralsController : MonoBehaviour
 
         background1Image.gameObject.AddComponent<RotateAnimation>();
 
-        if (obj is CardAdmirals cardAdmirals)
+        if (obj is CardAdmirals cardAdmiral)
         {
-            var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardAdmiralSpiritBeastAsync(User.CurrentUserId, cardAdmirals);
+            var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardAdmiralSpiritBeastAsync(User.CurrentUserId, cardAdmiral);
             RawImage spiritBeastImage = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = userCardSpiritBeast.Image != null
                 ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image)
@@ -719,7 +717,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             spiritBeastImage.texture = texture;
 
-            CreateDetailsUI(cardAdmirals, currentObject);
+            CreateDetailsUI(cardAdmiral, currentObject);
             addButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -728,12 +726,12 @@ public class UserCardAdmiralsController : MonoBehaviour
             removeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await UserSpiritBeastsService.Create().DeleteUserCardAdmiralSpiritBeastAsync(User.CurrentUserId, cardAdmirals, userCardSpiritBeast);
+                await UserSpiritBeastsService.Create().DeleteUserCardAdmiralSpiritBeastAsync(User.CurrentUserId, cardAdmiral, userCardSpiritBeast);
                 string fileNameWithoutExtension = "UI/Background4/Background_V4_352";
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 spiritBeastImage.texture = texture;
 
-                var card = await UserCardAdmiralsService.Create().GetUserCardAdmiralByIdAsync(User.CurrentUserId, cardAdmirals.Id);
+                var card = await UserCardAdmiralsService.Create().GetUserCardAdmiralByIdAsync(User.CurrentUserId, cardAdmiral.Id);
                 ShowCardAdmiralDetails(card, currentObject, 5);
             });
         }
@@ -742,7 +740,7 @@ public class UserCardAdmiralsController : MonoBehaviour
     {
         popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
         Transform contentPanel = popupSpiritBeastObject.transform.Find("Scroll View/Viewport/Content");
-        Text PageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        Text pageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
         Toggle toggle = popupSpiritBeastObject.transform.Find("Toggle").GetComponent<Toggle>();
         toggle.isOn = (statusToggle == "ALL");
         toggle.onValueChanged.AddListener(async (bool isOn) =>
@@ -751,35 +749,34 @@ public class UserCardAdmiralsController : MonoBehaviour
             Destroy(popupSpiritBeastObject);
             await CreatePopupEquipmentsAsync(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
-        Button NextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        Button PreviousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        Button CloseButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.RemoveAllListeners();
-        CloseButton.onClick.AddListener(() =>
+        Button nextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
+        Button previousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+        Button closeButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupSpiritBeastObject);
         });
-        Equipments equipments = new Equipments();
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardAdmiralsSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
 
         int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
-        PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+        pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
-        NextButton.onClick.RemoveAllListeners();
-        PreviousButton.onClick.RemoveAllListeners();
-        NextButton.onClick.AddListener(async () =>
+        nextButton.onClick.RemoveAllListeners();
+        previousButton.onClick.RemoveAllListeners();
+        nextButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            await ChangeNextPageAsync(data, PageText, contentPanel, currentObject);
+            await ChangeNextPageAsync(data, pageText, contentPanel, currentObject);
         });
-        PreviousButton.onClick.AddListener(async () =>
+        previousButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            await ChangePreviousPageAsync(data, PageText, contentPanel, currentObject);
+            await ChangePreviousPageAsync(data, pageText, contentPanel, currentObject);
         });
     }
     public int CalculateTotalPages(int totalRecords, int pageSize)
@@ -791,37 +788,37 @@ public class UserCardAdmiralsController : MonoBehaviour
     {
         foreach (var spiritBeast in spiritBeasts)
         {
-            GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, content);
+            GameObject spiritBeastObject = Instantiate(EquipmentsWearingPrefab, content);
 
-            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = spiritBeast.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = spiritBeast.Name.Replace("_", " ");
 
-            TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-            Power.text = spiritBeast.Power.ToString();
+            TextMeshProUGUI powerText = spiritBeastObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = spiritBeast.Power.ToString();
 
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = spiritBeast.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
+            RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
             rareImage.texture = rareTexture;
 
-            Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
-            EquipButton.onClick.AddListener(async () =>
+            Button equipButton = spiritBeastObject.transform.Find("EquipButton").GetComponent<Button>();
+            equipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupSpiritBeastObject);
-                if (data is CardAdmirals cardAdmirals)
+                if (data is CardAdmirals cardAdmiral)
                 {
-                    await UserSpiritBeastsService.Create().InsertOrUpdateUserCardAdmiralSpiritBeastAsync(User.CurrentUserId, cardAdmirals, spiritBeast);
+                    await UserSpiritBeastsService.Create().InsertOrUpdateUserCardAdmiralSpiritBeastAsync(User.CurrentUserId, cardAdmiral, spiritBeast);
 
                     RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
-                    var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardAdmiralSpiritBeastAsync(User.CurrentUserId, cardAdmirals);
+                    var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardAdmiralSpiritBeastAsync(User.CurrentUserId, cardAdmiral);
                     string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image);
                     Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
@@ -831,7 +828,7 @@ public class UserCardAdmiralsController : MonoBehaviour
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    var card = await UserCardAdmiralsService.Create().GetUserCardAdmiralByIdAsync(User.CurrentUserId, cardAdmirals.Id);
+                    var card = await UserCardAdmiralsService.Create().GetUserCardAdmiralByIdAsync(User.CurrentUserId, cardAdmiral.Id);
                     ShowCardAdmiralDetails(card, currentObject, 5);
                 }
 

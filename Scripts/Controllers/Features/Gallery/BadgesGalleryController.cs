@@ -35,16 +35,16 @@ public class BadgesGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         BadgeBlockButtonPrefab = UIManager.Instance.Get("BadgeBlockButtonPrefab");
     }
-    public void CreateBadgesGallery(List<Badges> BadgesList, Transform contentPanel)
+    public void CreateBadgesGallery(List<Badges> badges, Transform contentPanel)
     {
-        foreach (var badge in BadgesList)
+        foreach (var badge in badges)
         {
             try
             {
                 GameObject badgeObject = Instantiate(BadgeBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = badgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = badge.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = badgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = badge.Name.Replace("_", " ");
 
                 RawImage image = badgeObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image);

@@ -50,8 +50,8 @@ public class UserWeaponsController : MonoBehaviour
         {
             GameObject weaponObject = Instantiate(WeaponButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = weaponObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = weapon.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = weaponObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = weapon.Name.Replace("_", " ");
 
             RawImage image = weaponObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
@@ -97,7 +97,7 @@ public class UserWeaponsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowWeaponDetails(Weapons Weapons, GameObject currentObject, int buttonType = 1)
+    public void ShowWeaponDetails(Weapons weapon, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -106,40 +106,40 @@ public class UserWeaponsController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(Weapons, currentObject);
+            GetDetails(weapon, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _ = GetLevelAsync(Weapons, currentObject);
+            _ = GetLevelAsync(weapon, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _ = GetUpgradeAsync(Weapons, currentObject);
+            _ = GetUpgradeAsync(weapon, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(Weapons, currentObject);
+                GetDetails(weapon, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _ = GetLevelAsync(Weapons, currentObject);
+                _ = GetLevelAsync(weapon, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(Weapons, currentObject);
+                GetSkills(weapon, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _ = GetUpgradeAsync(Weapons, currentObject);
+                _ = GetUpgradeAsync(weapon, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(Weapons, currentObject);
+                GetDetails(weapon, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -148,33 +148,33 @@ public class UserWeaponsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Weapons title)
+        if (obj is Weapons weapon)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = title.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = weapon.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(title.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(weapon.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{title.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{weapon.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = title.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, title, currentObject);
+            PropertyInfo[] properties = weapon.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, weapon, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -184,12 +184,11 @@ public class UserWeaponsController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Weapons title)
+        if (obj is Weapons weapon)
         {
-            PropertyInfo[] properties = title.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
+            PropertyInfo[] properties = weapon.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, weapon, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -199,20 +198,20 @@ public class UserWeaponsController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Weapons currentCard = new Weapons();
-                currentCard = await UserWeaponsService.Create().GetUserWeaponByIdAsync(User.CurrentUserId, title.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Weapons currentWeapon = new Weapons();
+                currentWeapon = await UserWeaponsService.Create().GetUserWeaponByIdAsync(User.CurrentUserId, weapon.Id);
+                double totalExperiment = currentWeapon.Experiment;
+                int currentLevel = currentWeapon.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Weapons newCard = new Weapons();
+                    Weapons newWeapon = new Weapons();
 
-                    newCard = await UserWeaponsService.Create().GetNewLevelPowerAsync(title, increasePerLevel);
-                    await UserWeaponsService.Create().UpdateWeaponLevelAsync(newCard, currentLevel + 1);
+                    newWeapon = await UserWeaponsService.Create().GetNewLevelPowerAsync(weapon, increasePerLevel);
+                    await UserWeaponsService.Create().UpdateWeaponLevelAsync(newWeapon, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -227,9 +226,9 @@ public class UserWeaponsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Weapons currentCard = await UserWeaponsService.Create().GetUserWeaponByIdAsync(User.CurrentUserId, title.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Weapons currentWeapon = await UserWeaponsService.Create().GetUserWeaponByIdAsync(User.CurrentUserId, weapon.Id);
+                double totalExperiment = currentWeapon.Experiment;
+                int currentLevel = currentWeapon.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -243,8 +242,8 @@ public class UserWeaponsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Weapons newCard = await UserWeaponsService.Create().GetNewLevelPowerAsync(title, levelsGained * increasePerLevel);
-                    await UserWeaponsService.Create().UpdateWeaponLevelAsync(newCard, currentLevel);
+                    Weapons newWeapon = await UserWeaponsService.Create().GetNewLevelPowerAsync(weapon, levelsGained * increasePerLevel);
+                    await UserWeaponsService.Create().UpdateWeaponLevelAsync(newWeapon, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -269,110 +268,109 @@ public class UserWeaponsController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Weapons title)
+        if (obj is Weapons weapon)
         {
-            PropertyInfo[] properties = title.GetType().GetProperties();
+            PropertyInfo[] properties = weapon.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(title, null);
+                object value = property.GetValue(weapon, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (title.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (weapon.Star + 1).ToString();
             }
-            GameObject titleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject weaponObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage titleImage = titleObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
-            Texture titleTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            titleImage.texture = titleTexture;
+            RawImage weaponImage = weaponObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
+            Texture weaponTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            weaponImage.texture = weaponTexture;
 
-            TextMeshProUGUI titleQuantity = titleObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            titleQuantity.text = title.Quantity.ToString() + "/" + (title.Star + 1).ToString();
+            TextMeshProUGUI weaponQuantity = weaponObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            weaponQuantity.text = weapon.Quantity.ToString() + "/" + (weapon.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(title.Star, currentObject);
+            UIManager.Instance.CreateStarUI(weapon.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = title.Star + 1;
+                double requiredQuantity = weapon.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
-                bool hasEnoughWeapons = title.Quantity >= requiredQuantity;
+                bool hasEnoughWeapon = weapon.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + title.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + weapon.Quantity >= requiredQuantity;
 
-                if (hasEnoughWeapons || hasEnoughItems)
+                if (hasEnoughWeapon || hasEnoughItem)
                 {
                     // Giảm số lượng danh hiệu trước
-                    if (title.Quantity >= requiredQuantity)
+                    if (weapon.Quantity >= requiredQuantity)
                     {
-                        title.Quantity -= requiredQuantity;
+                        weapon.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu danh hiệu không đủ, dùng cả danh hiệu + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - title.Quantity;
-                        title.Quantity = 0; // Dùng hết danh hiệu
+                        double remainingRequired = requiredQuantity - weapon.Quantity;
+                        weapon.Quantity = 0; // Dùng hết danh hiệu
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    Weapons newTitle = new Weapons();
+                    Weapons newWeapon = new Weapons();
 
-                    newTitle = await UserWeaponsService.Create().GetNewBreakthroughPowerAsync(title, increasePerUpgrade);
-                    await UserWeaponsService.Create().UpdateWeaponBreakthroughAsync(newTitle, title.Star + 1, title.Quantity);
+                    newWeapon = await UserWeaponsService.Create().GetNewBreakthroughPowerAsync(weapon, increasePerUpgrade);
+                    await UserWeaponsService.Create().UpdateWeaponBreakthroughAsync(newWeapon, weapon.Star + 1, weapon.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await WeaponsGalleryService.Create().UpdateStarWeaponGalleryAsync(title.Id, title.Star + 1);
+                    await WeaponsGalleryService.Create().UpdateStarWeaponGalleryAsync(weapon.Id, weapon.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(title.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(weapon.Star, currentObject);
                 }
                 else
                 {

@@ -50,8 +50,8 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         {
             GameObject magicFormationCircleObject = Instantiate(MagicFormationCircleButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = magicFormationCircle.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = magicFormationCircle.Name.Replace("_", " ");
 
             RawImage image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
@@ -154,17 +154,17 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
         if (obj is MagicFormationCircles magicFormationCircle)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = magicFormationCircle.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = magicFormationCircle.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(magicFormationCircle.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(magicFormationCircle.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -193,7 +193,6 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             PropertyInfo[] properties = magicFormationCircle.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, magicFormationCircle, increasePerLevel, currentObject);
             
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -203,20 +202,20 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MagicFormationCircles currentCard = new MagicFormationCircles();
-                currentCard = await UserMagicFormationCirclesService.Create().GetUserMagicFormationCircleByIdAsync(User.CurrentUserId, magicFormationCircle.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                MagicFormationCircles currentMagicFormationCircle = new MagicFormationCircles();
+                currentMagicFormationCircle = await UserMagicFormationCirclesService.Create().GetUserMagicFormationCircleByIdAsync(User.CurrentUserId, magicFormationCircle.Id);
+                double totalExperiment = currentMagicFormationCircle.Experiment;
+                int currentLevel = currentMagicFormationCircle.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    MagicFormationCircles newCard = new MagicFormationCircles();
+                    MagicFormationCircles newMagicFormationCircle = new MagicFormationCircles();
 
-                    newCard = await UserMagicFormationCirclesService.Create().GetNewLevelPowerAsync(magicFormationCircle, increasePerLevel);
-                    await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(newCard, currentLevel + 1);
+                    newMagicFormationCircle = await UserMagicFormationCirclesService.Create().GetNewLevelPowerAsync(magicFormationCircle, increasePerLevel);
+                    await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(newMagicFormationCircle, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -231,9 +230,9 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MagicFormationCircles currentCard = await UserMagicFormationCirclesService.Create().GetUserMagicFormationCircleByIdAsync(User.CurrentUserId, magicFormationCircle.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                MagicFormationCircles currentMagicFormationCircle = await UserMagicFormationCirclesService.Create().GetUserMagicFormationCircleByIdAsync(User.CurrentUserId, magicFormationCircle.Id);
+                double totalExperiment = currentMagicFormationCircle.Experiment;
+                int currentLevel = currentMagicFormationCircle.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -247,8 +246,8 @@ public class UserMagicFormationCirclesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    MagicFormationCircles newCard = await UserMagicFormationCirclesService.Create().GetNewLevelPowerAsync(magicFormationCircle, levelsGained * increasePerLevel);
-                    await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(newCard, currentLevel);
+                    MagicFormationCircles newMagicFormationCircle = await UserMagicFormationCirclesService.Create().GetNewLevelPowerAsync(magicFormationCircle, levelsGained * increasePerLevel);
+                    await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(newMagicFormationCircle, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -282,31 +281,30 @@ public class UserMagicFormationCirclesController : MonoBehaviour
                 object value = property.GetValue(magicFormationCircle, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (magicFormationCircle.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (magicFormationCircle.Star + 1).ToString();
             }
-            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject magicFormationCircleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage magicFormationCircleImage = magicFormationCircleObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
-            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            magicFormationImage.texture = magicFormationTexture;
+            Texture magicFormationCircleTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            magicFormationCircleImage.texture = magicFormationCircleTexture;
 
-            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = magicFormationCircle.Quantity.ToString() + "/" + (magicFormationCircle.Star + 1).ToString();
+            TextMeshProUGUI magicFormationCircleQuantity = magicFormationCircleObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            magicFormationCircleQuantity.text = magicFormationCircle.Quantity.ToString() + "/" + (magicFormationCircle.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(magicFormationCircle.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
@@ -317,16 +315,16 @@ public class UserMagicFormationCirclesController : MonoBehaviour
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = magicFormationCircle.Quantity >= requiredQuantity;
+                bool hasEnoughMagicFormationCircle = magicFormationCircle.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + magicFormationCircle.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + magicFormationCircle.Quantity >= requiredQuantity;
 
-                if (hasEnoughMagicFormation || hasEnoughItems)
+                if (hasEnoughMagicFormationCircle || hasEnoughItem)
                 {
                     // Giảm số lượng vòng phép trước
                     if (magicFormationCircle.Quantity >= requiredQuantity)
@@ -339,26 +337,26 @@ public class UserMagicFormationCirclesController : MonoBehaviour
                         double remainingRequired = requiredQuantity - magicFormationCircle.Quantity;
                         magicFormationCircle.Quantity = 0; // Dùng hết vòng phép
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     MagicFormationCircles newMagicFormationCircle = new MagicFormationCircles();

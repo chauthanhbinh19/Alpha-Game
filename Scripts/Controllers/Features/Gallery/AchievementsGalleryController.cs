@@ -42,8 +42,8 @@ public class AchievementsGalleryController : MonoBehaviour
             {
                 GameObject achievementObject = Instantiate(AchievementBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = achievementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = achievement.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = achievementObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = achievement.Name.Replace("_", " ");
 
                 RawImage image = achievementObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);

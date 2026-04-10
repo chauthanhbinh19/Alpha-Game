@@ -50,8 +50,8 @@ public class UserFashionsController : MonoBehaviour
         {
             GameObject fashionObject = Instantiate(FashionButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = fashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = fashion.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = fashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = fashion.Name.Replace("_", " ");
 
             RawImage image = fashionObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);
@@ -101,7 +101,7 @@ public class UserFashionsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowFashionDetails(Fashions Fashion, GameObject currentObject, int buttonType = 1)
+    public void ShowFashionDetails(Fashions fashion, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -110,40 +110,40 @@ public class UserFashionsController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(Fashion, currentObject);
+            GetDetails(fashion, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(Fashion, currentObject);
+            _=GetLevelAsync(fashion, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(Fashion, currentObject);
+            _=GetUpgradeAsync(fashion, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(Fashion, currentObject);
+                GetDetails(fashion, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(Fashion, currentObject);
+                _=GetLevelAsync(fashion, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(Fashion, currentObject);
+                GetSkills(fashion, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(Fashion, currentObject);
+                _=GetUpgradeAsync(fashion, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(Fashion, currentObject);
+                GetDetails(fashion, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -152,33 +152,33 @@ public class UserFashionsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Fashions Fashion)
+        if (obj is Fashions fashion)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Fashion.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = Fashion.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = fashion.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(Fashion.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(fashion.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Fashion.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{fashion.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = Fashion.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, Fashion, currentObject);
+            PropertyInfo[] properties = fashion.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, fashion, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -188,12 +188,11 @@ public class UserFashionsController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Fashions Fashion)
+        if (obj is Fashions fashion)
         {
-            PropertyInfo[] properties = Fashion.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, Fashion, increasePerLevel, currentObject);
+            PropertyInfo[] properties = fashion.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, fashion, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FASHION);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -203,20 +202,20 @@ public class UserFashionsController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Fashions currentCard = new Fashions();
-                currentCard = await UserFashionsService.Create().GetUserFashionByIdAsync(User.CurrentUserId, Fashion.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Fashions currentFashion = new Fashions();
+                currentFashion = await UserFashionsService.Create().GetUserFashionByIdAsync(User.CurrentUserId, fashion.Id);
+                double totalExperiment = currentFashion.Experiment;
+                int currentLevel = currentFashion.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Fashions newCard = new Fashions();
+                    Fashions newFashion = new Fashions();
 
-                    newCard = await UserFashionsService.Create().GetNewLevelPowerAsync(Fashion, increasePerLevel);
-                    await UserFashionsService.Create().UpdateFashionLevelAsync(newCard, currentLevel + 1);
+                    newFashion = await UserFashionsService.Create().GetNewLevelPowerAsync(fashion, increasePerLevel);
+                    await UserFashionsService.Create().UpdateFashionLevelAsync(newFashion, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -231,9 +230,9 @@ public class UserFashionsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Fashions currentCard = await UserFashionsService.Create().GetUserFashionByIdAsync(User.CurrentUserId, Fashion.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Fashions currentFashion = await UserFashionsService.Create().GetUserFashionByIdAsync(User.CurrentUserId, fashion.Id);
+                double totalExperiment = currentFashion.Experiment;
+                int currentLevel = currentFashion.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -247,8 +246,8 @@ public class UserFashionsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Fashions newCard = await UserFashionsService.Create().GetNewLevelPowerAsync(Fashion, levelsGained * increasePerLevel);
-                    await UserFashionsService.Create().UpdateFashionLevelAsync(newCard, currentLevel);
+                    Fashions newFashion = await UserFashionsService.Create().GetNewLevelPowerAsync(fashion, levelsGained * increasePerLevel);
+                    await UserFashionsService.Create().UpdateFashionLevelAsync(newFashion, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -273,110 +272,109 @@ public class UserFashionsController : MonoBehaviour
          Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Fashions Fashion)
+        if (obj is Fashions fashion)
         {
-            PropertyInfo[] properties = Fashion.GetType().GetProperties();
+            PropertyInfo[] properties = fashion.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(Fashion, null);
+                object value = property.GetValue(fashion, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FASHION);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (Fashion.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (fashion.Star + 1).ToString();
             }
-            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject fashionObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Fashion.Image);
-            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            magicFormationImage.texture = magicFormationTexture;
+            RawImage fashionImage = fashionObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);
+            Texture fashionTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            fashionImage.texture = fashionTexture;
 
-            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = Fashion.Quantity.ToString() + "/" + (Fashion.Star + 1).ToString();
+            TextMeshProUGUI fashionQuantity = fashionObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            fashionQuantity.text = fashion.Quantity.ToString() + "/" + (fashion.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(Fashion.Star, currentObject);
+            UIManager.Instance.CreateStarUI(fashion.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = Fashion.Star + 1;
+                double requiredQuantity = fashion.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = Fashion.Quantity >= requiredQuantity;
+                bool hasEnoughFashion = fashion.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + Fashion.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + fashion.Quantity >= requiredQuantity;
 
-                if (hasEnoughMagicFormation || hasEnoughItems)
+                if (hasEnoughFashion || hasEnoughItem)
                 {
                     // Giảm số lượng vòng phép trước
-                    if (Fashion.Quantity >= requiredQuantity)
+                    if (fashion.Quantity >= requiredQuantity)
                     {
-                        Fashion.Quantity -= requiredQuantity;
+                        fashion.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - Fashion.Quantity;
-                        Fashion.Quantity = 0; // Dùng hết vòng phép
+                        double remainingRequired = requiredQuantity - fashion.Quantity;
+                        fashion.Quantity = 0; // Dùng hết vòng phép
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Fashions newFashion = new Fashions();
 
-                    newFashion = await UserFashionsService.Create().GetNewBreakthroughPowerAsync(Fashion, increasePerUpgrade);
-                    await UserFashionsService.Create().UpdateFashionBreakthroughAsync(newFashion, Fashion.Star + 1, Fashion.Quantity);
+                    newFashion = await UserFashionsService.Create().GetNewBreakthroughPowerAsync(fashion, increasePerUpgrade);
+                    await UserFashionsService.Create().UpdateFashionBreakthroughAsync(newFashion, fashion.Star + 1, fashion.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await FashionsGalleryService.Create().UpdateStarFashionGalleryAsync(Fashion.Id, Fashion.Star + 1);
+                    await FashionsGalleryService.Create().UpdateStarFashionGalleryAsync(fashion.Id, fashion.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(Fashion.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(fashion.Star, currentObject);
                 }
                 else
                 {

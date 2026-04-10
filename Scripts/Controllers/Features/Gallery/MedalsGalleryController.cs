@@ -43,8 +43,8 @@ public class MedalsGalleryController : MonoBehaviour
             {
                 GameObject medalObject = Instantiate(MedalBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = medalObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = medal.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = medalObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = medal.Name.Replace("_", " ");
 
                 RawImage image = medalObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);

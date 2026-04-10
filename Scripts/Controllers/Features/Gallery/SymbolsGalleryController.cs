@@ -43,8 +43,8 @@ public class SymbolsGalleryController : MonoBehaviour
             {
                 GameObject symbolObject = Instantiate(SymbolBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = symbol.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = symbol.Name.Replace("_", " ");
 
                 RawImage image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);

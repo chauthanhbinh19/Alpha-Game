@@ -43,8 +43,8 @@ public class SpiritBeastsGalleryController : MonoBehaviour
             {
                 GameObject spiritBeastObject = Instantiate(SpiritBeastBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = spiritBeast.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = spiritBeast.Name.Replace("_", " ");
 
                 RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image);

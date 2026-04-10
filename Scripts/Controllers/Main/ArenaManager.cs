@@ -100,15 +100,15 @@ public class ArenaManager : MonoBehaviour
         Texture borderTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder)}");
         avatarImage.texture = avatarTexture;
         borderImage.texture = borderTexture;
-        Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(async () =>
+        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        CloseButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);

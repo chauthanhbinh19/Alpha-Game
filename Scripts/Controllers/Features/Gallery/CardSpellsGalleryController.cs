@@ -40,13 +40,13 @@ public class CardSpellsGalleryController : MonoBehaviour
         {
             GameObject cardSpellObject = Instantiate(CardSpellBlockButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardSpell.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardSpell.Name.Replace("_", " ");
 
-            RawImage Image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardSpellObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardSpell.Level.ToString().Replace("_", " ");
@@ -80,7 +80,7 @@ public class CardSpellsGalleryController : MonoBehaviour
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
             else if (cardSpell.Status.Equals(AppConstants.Status.PENDING))
             {
@@ -100,7 +100,7 @@ public class CardSpellsGalleryController : MonoBehaviour
                 await spellGalleryService.UpdateStatusCardSpellGalleryAsync(cardSpell.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();

@@ -43,8 +43,8 @@ public class PlantsGalleryController : MonoBehaviour
             {
                 GameObject plantObject = Instantiate(PlantBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI title = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                title.text = plant.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = plant.Name.Replace("_", " ");
 
                 RawImage image = plantObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);

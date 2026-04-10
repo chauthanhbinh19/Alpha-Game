@@ -50,8 +50,8 @@ public class UserFurnituresController : MonoBehaviour
         {
             GameObject furnitureObject = Instantiate(FurnitureButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = furnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = furniture.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = furnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = furniture.Name.Replace("_", " ");
 
             RawImage image = furnitureObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
@@ -101,7 +101,7 @@ public class UserFurnituresController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowFurnitureDetails(Furnitures Furniture, GameObject currentObject, int buttonType = 1)
+    public void ShowFurnitureDetails(Furnitures furniture, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -110,40 +110,40 @@ public class UserFurnituresController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(Furniture, currentObject);
+            GetDetails(furniture, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(Furniture, currentObject);
+            _=GetLevelAsync(furniture, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(Furniture, currentObject);
+            _=GetUpgradeAsync(furniture, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(Furniture, currentObject);
+                GetDetails(furniture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(Furniture, currentObject);
+                _=GetLevelAsync(furniture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(Furniture, currentObject);
+                GetSkills(furniture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(Furniture, currentObject);
+                _=GetUpgradeAsync(furniture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(Furniture, currentObject);
+                GetDetails(furniture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -152,33 +152,33 @@ public class UserFurnituresController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Furnitures Furniture)
+        if (obj is Furnitures furniture)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Furniture.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = Furniture.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = furniture.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(Furniture.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(furniture.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Furniture.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{furniture.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = Furniture.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, Furniture, currentObject);
+            PropertyInfo[] properties = furniture.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, furniture, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -188,12 +188,11 @@ public class UserFurnituresController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Furnitures Furniture)
+        if (obj is Furnitures furniture)
         {
-            PropertyInfo[] properties = Furniture.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, Furniture, increasePerLevel, currentObject);
+            PropertyInfo[] properties = furniture.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, furniture, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FURNITURE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -203,20 +202,20 @@ public class UserFurnituresController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Furnitures currentCard = new Furnitures();
-                currentCard = await UserFurnituresService.Create().GetUserFurnitureByIdAsync(User.CurrentUserId, Furniture.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Furnitures currentFurniture = new Furnitures();
+                currentFurniture = await UserFurnituresService.Create().GetUserFurnitureByIdAsync(User.CurrentUserId, furniture.Id);
+                double totalExperiment = currentFurniture.Experiment;
+                int currentLevel = currentFurniture.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Furnitures newCard = new Furnitures();
+                    Furnitures newFurniture = new Furnitures();
 
-                    newCard = await UserFurnituresService.Create().GetNewLevelPowerAsync(Furniture, increasePerLevel);
-                    await UserFurnituresService.Create().UpdateFurnitureLevelAsync(newCard, currentLevel + 1);
+                    newFurniture = await UserFurnituresService.Create().GetNewLevelPowerAsync(furniture, increasePerLevel);
+                    await UserFurnituresService.Create().UpdateFurnitureLevelAsync(newFurniture, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -231,9 +230,9 @@ public class UserFurnituresController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Furnitures currentCard = await UserFurnituresService.Create().GetUserFurnitureByIdAsync(User.CurrentUserId, Furniture.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Furnitures currentFurniture = await UserFurnituresService.Create().GetUserFurnitureByIdAsync(User.CurrentUserId, furniture.Id);
+                double totalExperiment = currentFurniture.Experiment;
+                int currentLevel = currentFurniture.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -247,8 +246,8 @@ public class UserFurnituresController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Furnitures newCard = await UserFurnituresService.Create().GetNewLevelPowerAsync(Furniture, levelsGained * increasePerLevel);
-                    await UserFurnituresService.Create().UpdateFurnitureLevelAsync(newCard, currentLevel);
+                    Furnitures newFurniture = await UserFurnituresService.Create().GetNewLevelPowerAsync(furniture, levelsGained * increasePerLevel);
+                    await UserFurnituresService.Create().UpdateFurnitureLevelAsync(newFurniture, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -273,110 +272,109 @@ public class UserFurnituresController : MonoBehaviour
          Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Furnitures Furniture)
+        if (obj is Furnitures furniture)
         {
-            PropertyInfo[] properties = Furniture.GetType().GetProperties();
+            PropertyInfo[] properties = furniture.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(Furniture, null);
+                object value = property.GetValue(furniture, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FURNITURE);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (Furniture.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (furniture.Star + 1).ToString();
             }
-            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject furnitureObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Furniture.Image);
-            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            magicFormationImage.texture = magicFormationTexture;
+            RawImage furnitureImage = furnitureObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
+            Texture furnitureTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            furnitureImage.texture = furnitureTexture;
 
-            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = Furniture.Quantity.ToString() + "/" + (Furniture.Star + 1).ToString();
+            TextMeshProUGUI furnitureQuantity = furnitureObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            furnitureQuantity.text = furniture.Quantity.ToString() + "/" + (furniture.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(Furniture.Star, currentObject);
+            UIManager.Instance.CreateStarUI(furniture.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = Furniture.Star + 1;
+                double requiredQuantity = furniture.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = Furniture.Quantity >= requiredQuantity;
+                bool hasEnoughFurniture = furniture.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + Furniture.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + furniture.Quantity >= requiredQuantity;
 
-                if (hasEnoughMagicFormation || hasEnoughItems)
+                if (hasEnoughFurniture || hasEnoughItem)
                 {
                     // Giảm số lượng vòng phép trước
-                    if (Furniture.Quantity >= requiredQuantity)
+                    if (furniture.Quantity >= requiredQuantity)
                     {
-                        Furniture.Quantity -= requiredQuantity;
+                        furniture.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - Furniture.Quantity;
-                        Furniture.Quantity = 0; // Dùng hết vòng phép
+                        double remainingRequired = requiredQuantity - furniture.Quantity;
+                        furniture.Quantity = 0; // Dùng hết vòng phép
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Furnitures newFurniture = new Furnitures();
 
-                    newFurniture = await UserFurnituresService.Create().GetNewBreakthroughPowerAsync(Furniture, increasePerUpgrade);
-                    await UserFurnituresService.Create().UpdateFurnitureBreakthroughAsync(newFurniture, Furniture.Star + 1, Furniture.Quantity);
+                    newFurniture = await UserFurnituresService.Create().GetNewBreakthroughPowerAsync(furniture, increasePerUpgrade);
+                    await UserFurnituresService.Create().UpdateFurnitureBreakthroughAsync(newFurniture, furniture.Star + 1, furniture.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await FurnituresGalleryService.Create().UpdateStarFurnitureGalleryAsync(Furniture.Id, Furniture.Star + 1);
+                    await FurnituresGalleryService.Create().UpdateStarFurnitureGalleryAsync(furniture.Id, furniture.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(Furniture.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(furniture.Star, currentObject);
                 }
                 else
                 {

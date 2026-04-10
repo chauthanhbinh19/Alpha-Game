@@ -43,8 +43,8 @@ public class MechaBeastsGalleryController : MonoBehaviour
             {
                 GameObject mechaBeastObject = Instantiate(MechaBeastBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = mechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = mechaBeast.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = mechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = mechaBeast.Name.Replace("_", " ");
 
                 RawImage image = mechaBeastObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image);

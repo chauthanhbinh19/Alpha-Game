@@ -52,8 +52,8 @@ public class UserBooksController : MonoBehaviour
         {
             GameObject bookObject = Instantiate(cardsPrefab, contentPanel);
 
-            Text Title = bookObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = book.Name.Replace("_", " ");
+            Text titleText = bookObject.transform.Find("Title").GetComponent<Text>();
+            titleText.text = book.Name.Replace("_", " ");
 
             RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
@@ -105,38 +105,38 @@ public class UserBooksController : MonoBehaviour
         {
             GameObject bookObject = Instantiate(PositionPrefab, PositionPanel);
 
-            RawImage Image = bookObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            Image.SetNativeSize();
+            image.texture = texture;
+            image.SetNativeSize();
 
             // Chỉnh width và height
-            RectTransform rectTransform = Image.rectTransform;
+            RectTransform rectTransform = image.rectTransform;
             // rectTransform.sizeDelta = new Vector2(300f, 375f);
             if (texture.width < 1400 && texture.height < 1400 && texture.width > 700 && texture.height > 700)
             {
-                Image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             }
             else if (texture.width > 1000 && texture.height <= 2100 && texture.width < 2000 && texture.height > 1000)
             {
-                Image.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+                image.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             }
             else if (texture.width <= 700 && texture.height <= 700)
             {
-                Image.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                image.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             }
             else if (texture.width <= 700 && texture.height <= 1100)
             {
-                Image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             }
             else if (texture.width > 700 && texture.height <= 700)
             {
-                Image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                image.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             }
             else
             {
-                Image.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                image.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             }
 
             // Chỉnh vị trí cao lên 40px
@@ -149,7 +149,7 @@ public class UserBooksController : MonoBehaviour
             }
         }
     }
-    public void ShowBookDetails(Books books, GameObject currentObject, int buttonType = 1)
+    public void ShowBookDetails(Books book, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -159,45 +159,45 @@ public class UserBooksController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(books, currentObject);
+            GetDetails(book, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _ = GetLevelAsync(books, currentObject);
+            _ = GetLevelAsync(book, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
         {
-            GetSkills(books, currentObject);
+            GetSkills(book, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _ = GetUpgradeAsync(books, currentObject);
+            _ = GetUpgradeAsync(book, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(books, currentObject);
+                GetDetails(book, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _ = GetLevelAsync(books, currentObject);
+                _ = GetLevelAsync(book, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(books, currentObject);
+                GetSkills(book, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _ = GetUpgradeAsync(books, currentObject);
+                _ = GetUpgradeAsync(book, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(books, currentObject);
+                GetDetails(book, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -208,18 +208,18 @@ public class UserBooksController : MonoBehaviour
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
         if (obj is Books book)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
 
-            ImageManager.Instance.ChangeSizeImage(Image, texture, 700f);
-            Image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture, 700f);
+            image.texture = texture;
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = book.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = book.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(book.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(book.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -248,7 +248,6 @@ public class UserBooksController : MonoBehaviour
             PropertyInfo[] properties = book.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, book, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.BOOK);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -258,20 +257,20 @@ public class UserBooksController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Books currentCard = new Books();
-                currentCard = await UserBooksService.Create().GetUserBookByIdAsync(User.CurrentUserId, book.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Books currentBook = new Books();
+                currentBook = await UserBooksService.Create().GetUserBookByIdAsync(User.CurrentUserId, book.Id);
+                double totalExperiment = currentBook.Experiment;
+                int currentLevel = currentBook.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Books newCard = new Books();
+                    Books newBook = new Books();
 
-                    newCard = await UserBooksService.Create().GetNewLevelPowerAsync(book, increasePerLevel);
-                    await UserBooksService.Create().UpdateBookLevelAsync(newCard, currentLevel + 1);
+                    newBook = await UserBooksService.Create().GetNewLevelPowerAsync(book, increasePerLevel);
+                    await UserBooksService.Create().UpdateBookLevelAsync(newBook, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -286,9 +285,9 @@ public class UserBooksController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Books currentCard = await UserBooksService.Create().GetUserBookByIdAsync(User.CurrentUserId, book.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Books currentBook = await UserBooksService.Create().GetUserBookByIdAsync(User.CurrentUserId, book.Id);
+                double totalExperiment = currentBook.Experiment;
+                int currentLevel = currentBook.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -302,8 +301,8 @@ public class UserBooksController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Books newCard = await UserBooksService.Create().GetNewLevelPowerAsync(book, levelsGained * increasePerLevel);
-                    await UserBooksService.Create().UpdateBookLevelAsync(newCard, currentLevel);
+                    Books newBook = await UserBooksService.Create().GetNewLevelPowerAsync(book, levelsGained * increasePerLevel);
+                    await UserBooksService.Create().UpdateBookLevelAsync(newBook, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -337,31 +336,30 @@ public class UserBooksController : MonoBehaviour
                 object value = property.GetValue(book, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.BOOK);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (book.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (book.Star + 1).ToString();
             }
-            GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject bookObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage bookImage = bookObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
-            Texture cardTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            cardImage.texture = cardTexture;
+            Texture bookTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            bookImage.texture = bookTexture;
 
-            TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = book.Quantity.ToString() + "/" + (book.Star + 1).ToString();
+            TextMeshProUGUI bookQuantity = bookObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            bookQuantity.text = book.Quantity.ToString() + "/" + (book.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(book.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
@@ -372,16 +370,16 @@ public class UserBooksController : MonoBehaviour
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = book.Quantity >= requiredQuantity;
+                bool hasEnoughBook = book.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + book.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + book.Quantity >= requiredQuantity;
 
-                if (hasEnoughCards || hasEnoughItems)
+                if (hasEnoughBook || hasEnoughItem)
                 {
                     // Giảm số lượng thẻ bài trước
                     if (book.Quantity >= requiredQuantity)
@@ -394,32 +392,32 @@ public class UserBooksController : MonoBehaviour
                         double remainingRequired = requiredQuantity - book.Quantity;
                         book.Quantity = 0; // Dùng hết thẻ bài
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    Books newCard = new Books();
+                    Books newBook = new Books();
 
-                    newCard = await UserBooksService.Create().GetNewBreakthroughPowerAsync(book, increasePerUpgrade);
-                    await UserBooksService.Create().UpdateBookBreakthroughAsync(newCard, book.Star + 1, book.Quantity);
+                    newBook = await UserBooksService.Create().GetNewBreakthroughPowerAsync(book, increasePerUpgrade);
+                    await UserBooksService.Create().UpdateBookBreakthroughAsync(newBook, book.Star + 1, book.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

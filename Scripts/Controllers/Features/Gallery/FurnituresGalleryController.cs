@@ -43,8 +43,8 @@ public class FurnituresGalleryController : MonoBehaviour
             {
                 GameObject furnitureObject = Instantiate(FurnitureBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = furnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = furniture.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = furnitureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = furniture.Name.Replace("_", " ");
 
                 RawImage image = furnitureObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);

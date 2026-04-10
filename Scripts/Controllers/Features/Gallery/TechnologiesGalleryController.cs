@@ -43,8 +43,8 @@ public class TechnologiesGalleryController : MonoBehaviour
             {
                 GameObject technologyObject = Instantiate(TechnologyBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = technologyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = technology.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = technologyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = technology.Name.Replace("_", " ");
 
                 RawImage image = technologyObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image);

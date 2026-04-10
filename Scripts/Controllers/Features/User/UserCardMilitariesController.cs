@@ -80,13 +80,13 @@ public class UserCardMilitariesController : MonoBehaviour
         {
             GameObject cardMilitaryObject = Instantiate(CardMilitaryButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardMilitary.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardMilitary.Name.Replace("_", " ");
 
-            RawImage Image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardMilitaryObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardMilitary.Level.ToString().Replace("_", " ");
@@ -137,19 +137,19 @@ public class UserCardMilitariesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateUserCardMilitaryForSummon(List<CardMilitaries> militaries, Transform PositionPanel)
+    public void CreateUserCardMilitaryForSummon(List<CardMilitaries> cardMilitaries, Transform PositionPanel)
     {
-        foreach (var military in militaries)
+        foreach (var military in cardMilitaries)
         {
             GameObject militaryObject = Instantiate(PositionPrefab, PositionPanel);
 
-            RawImage Image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             // Chỉnh width và height
-            RectTransform rectTransform = Image.rectTransform;
+            RectTransform rectTransform = image.rectTransform;
             rectTransform.sizeDelta = new Vector2(300f, 375f);
 
             // Chỉnh vị trí cao lên 40px
@@ -239,16 +239,16 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public void CreateDetailsUI(CardMilitaries cardMilitary, GameObject currentObject)
     {
-        RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardMilitary.Name;
+        TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardMilitary.Name;
 
-        TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardMilitary.Power, false);
+        TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardMilitary.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardMilitary.level.ToString();
@@ -282,7 +282,6 @@ public class UserCardMilitariesController : MonoBehaviour
         {
             PropertyInfo[] properties = cardMilitary.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, cardMilitary, increasePerLevel, currentObject);
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_MILITARY);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -292,20 +291,20 @@ public class UserCardMilitariesController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                CardMilitaries currentCard = new CardMilitaries();
-                currentCard = await UserCardMilitariesService.Create().GetUserCardMilitaryByIdAsync(User.CurrentUserId, cardMilitary.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                CardMilitaries currentCardMilitary = new CardMilitaries();
+                currentCardMilitary = await UserCardMilitariesService.Create().GetUserCardMilitaryByIdAsync(User.CurrentUserId, cardMilitary.Id);
+                double totalExperiment = currentCardMilitary.Experiment;
+                int currentLevel = currentCardMilitary.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    CardMilitaries newCard = new CardMilitaries();
+                    CardMilitaries newCardMilitary = new CardMilitaries();
 
-                    newCard = await UserCardMilitariesService.Create().GetNewLevelPowerAsync(cardMilitary, increasePerLevel);
-                    await UserCardMilitariesService.Create().UpdateCardMilitaryLevelAsync(newCard, currentLevel + 1);
+                    newCardMilitary = await UserCardMilitariesService.Create().GetNewLevelPowerAsync(cardMilitary, increasePerLevel);
+                    await UserCardMilitariesService.Create().UpdateCardMilitaryLevelAsync(newCardMilitary, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -320,9 +319,9 @@ public class UserCardMilitariesController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                CardMilitaries currentCard = await UserCardMilitariesService.Create().GetUserCardMilitaryByIdAsync(User.CurrentUserId, cardMilitary.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                CardMilitaries currentCardMilitary = await UserCardMilitariesService.Create().GetUserCardMilitaryByIdAsync(User.CurrentUserId, cardMilitary.Id);
+                double totalExperiment = currentCardMilitary.Experiment;
+                int currentLevel = currentCardMilitary.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -336,8 +335,8 @@ public class UserCardMilitariesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CardMilitaries newCard = await UserCardMilitariesService.Create().GetNewLevelPowerAsync(cardMilitary, levelsGained * increasePerLevel);
-                    await UserCardMilitariesService.Create().UpdateCardMilitaryLevelAsync(newCard, currentLevel);
+                    CardMilitaries newCardMilitary = await UserCardMilitariesService.Create().GetNewLevelPowerAsync(cardMilitary, levelsGained * increasePerLevel);
+                    await UserCardMilitariesService.Create().UpdateCardMilitaryLevelAsync(newCardMilitary, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -387,14 +386,14 @@ public class UserCardMilitariesController : MonoBehaviour
     {
         skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
         Transform skillGroupContent = skillPanelObject.transform.Find("DictionaryCards/SkillGroup");
-        Button CloseButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button HomeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(skillPanelObject);
         });
-        HomeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -598,31 +597,30 @@ public class UserCardMilitariesController : MonoBehaviour
                 object value = property.GetValue(cardMilitary, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.CARD_MILITARY);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (cardMilitary.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (cardMilitary.Star + 1).ToString();
             }
-            GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject cardMilitaryObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage cardMilitaryImage = cardMilitaryObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
-            Texture cardTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            cardImage.texture = cardTexture;
+            Texture cardMilitaryTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            cardMilitaryImage.texture = cardMilitaryTexture;
 
-            TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = cardMilitary.Quantity.ToString() + "/" + (cardMilitary.Star + 1).ToString();
+            TextMeshProUGUI cardMilitaryQuantity = cardMilitaryObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            cardMilitaryQuantity.text = cardMilitary.Quantity.ToString() + "/" + (cardMilitary.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(cardMilitary.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
@@ -633,16 +631,16 @@ public class UserCardMilitariesController : MonoBehaviour
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = cardMilitary.Quantity >= requiredQuantity;
+                bool hasEnoughCardMilitary = cardMilitary.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + cardMilitary.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + cardMilitary.Quantity >= requiredQuantity;
 
-                if (hasEnoughCards || hasEnoughItems)
+                if (hasEnoughCardMilitary || hasEnoughItem)
                 {
                     // Giảm số lượng thẻ bài trước
                     if (cardMilitary.Quantity >= requiredQuantity)
@@ -655,32 +653,32 @@ public class UserCardMilitariesController : MonoBehaviour
                         double remainingRequired = requiredQuantity - cardMilitary.Quantity;
                         cardMilitary.Quantity = 0; // Dùng hết thẻ bài
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    CardMilitaries newCard = new CardMilitaries();
+                    CardMilitaries newCardMilitary = new CardMilitaries();
 
-                    newCard = await UserCardMilitariesService.Create().GetNewBreakthroughPowerAsync(cardMilitary, increasePerUpgrade);
-                    await UserCardMilitariesService.Create().UpdateCardMilitaryBreakthroughAsync(newCard, cardMilitary.Star + 1, cardMilitary.Quantity);
+                    newCardMilitary = await UserCardMilitariesService.Create().GetNewBreakthroughPowerAsync(cardMilitary, increasePerUpgrade);
+                    await UserCardMilitariesService.Create().UpdateCardMilitaryBreakthroughAsync(newCardMilitary, cardMilitary.Star + 1, cardMilitary.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -747,7 +745,7 @@ public class UserCardMilitariesController : MonoBehaviour
     {
         popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
         Transform contentPanel = popupSpiritBeastObject.transform.Find("Scroll View/Viewport/Content");
-        Text PageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        Text pageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
         Toggle toggle = popupSpiritBeastObject.transform.Find("Toggle").GetComponent<Toggle>();
         toggle.isOn = (statusToggle == "ALL");
         toggle.onValueChanged.AddListener(async (bool isOn) =>
@@ -756,35 +754,34 @@ public class UserCardMilitariesController : MonoBehaviour
             Destroy(popupSpiritBeastObject);
             await CreatePopupEquipmentsAsync(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
-        Button NextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        Button PreviousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        Button CloseButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.RemoveAllListeners();
-        CloseButton.onClick.AddListener(() =>
+        Button nextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
+        Button previousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+        Button closeButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupSpiritBeastObject);
         });
-        Equipments equipments = new Equipments();
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMilitariesSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
 
         int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
-        PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+        pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
-        NextButton.onClick.RemoveAllListeners();
-        PreviousButton.onClick.RemoveAllListeners();
-        NextButton.onClick.AddListener(async () =>
+        nextButton.onClick.RemoveAllListeners();
+        previousButton.onClick.RemoveAllListeners();
+        nextButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            await ChangeNextPageAsync(data, PageText, contentPanel, currentObject);
+            await ChangeNextPageAsync(data, pageText, contentPanel, currentObject);
         });
-        PreviousButton.onClick.AddListener(async () =>
+        previousButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            await ChangePreviousPageAsync(data, PageText, contentPanel, currentObject);
+            await ChangePreviousPageAsync(data, pageText, contentPanel, currentObject);
         });
     }
     public int CalculateTotalPages(int totalRecords, int pageSize)
@@ -796,28 +793,28 @@ public class UserCardMilitariesController : MonoBehaviour
     {
         foreach (var spiritBeast in spiritBeasts)
         {
-            GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, content);
+            GameObject spiritBeastObject = Instantiate(EquipmentsWearingPrefab, content);
 
-            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = spiritBeast.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = spiritBeast.Name.Replace("_", " ");
 
-            TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-            Power.text = spiritBeast.Power.ToString();
+            TextMeshProUGUI powerText = spiritBeastObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = spiritBeast.Power.ToString();
 
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = spiritBeast.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
+            RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
             rareImage.texture = rareTexture;
 
-            Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
-            EquipButton.onClick.AddListener(async () =>
+            Button equipButton = spiritBeastObject.transform.Find("EquipButton").GetComponent<Button>();
+            equipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 Destroy(popupSpiritBeastObject);

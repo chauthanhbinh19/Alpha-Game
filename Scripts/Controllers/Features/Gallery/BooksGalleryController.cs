@@ -43,8 +43,8 @@ public class BooksGalleryController : MonoBehaviour
             {
                 GameObject bookObject = Instantiate(BookBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = bookObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = book.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = bookObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = book.Name.Replace("_", " ");
 
                 RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);

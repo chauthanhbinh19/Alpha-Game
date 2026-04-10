@@ -50,8 +50,8 @@ public class UserVehiclesController : MonoBehaviour
         {
             GameObject vehicleObject = Instantiate(VehicleButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = vehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = vehicle.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = vehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = vehicle.Name.Replace("_", " ");
 
             RawImage image = vehicleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
@@ -101,7 +101,7 @@ public class UserVehiclesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowVehicleDetails(Vehicles Vehicle, GameObject currentObject, int buttonType = 1)
+    public void ShowVehicleDetails(Vehicles vehicle, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -110,40 +110,40 @@ public class UserVehiclesController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(Vehicle, currentObject);
+            GetDetails(vehicle, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(Vehicle, currentObject);
+            _=GetLevelAsync(vehicle, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(Vehicle, currentObject);
+            _=GetUpgradeAsync(vehicle, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(Vehicle, currentObject);
+                GetDetails(vehicle, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(Vehicle, currentObject);
+                _=GetLevelAsync(vehicle, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(Vehicle, currentObject);
+                GetSkills(vehicle, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(Vehicle, currentObject);
+                _=GetUpgradeAsync(vehicle, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(Vehicle, currentObject);
+                GetDetails(vehicle, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -152,33 +152,33 @@ public class UserVehiclesController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Vehicles Vehicle)
+        if (obj is Vehicles vehicle)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = Vehicle.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = vehicle.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(Vehicle.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(vehicle.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Vehicle.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{vehicle.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = Vehicle.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, Vehicle, currentObject);
+            PropertyInfo[] properties = vehicle.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, vehicle, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -188,12 +188,11 @@ public class UserVehiclesController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Vehicles Vehicle)
+        if (obj is Vehicles vehicle)
         {
-            PropertyInfo[] properties = Vehicle.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, Vehicle, increasePerLevel, currentObject);
+            PropertyInfo[] properties = vehicle.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, vehicle, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.VEHICLE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -203,20 +202,20 @@ public class UserVehiclesController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Vehicles currentCard = new Vehicles();
-                currentCard = await UserVehiclesService.Create().GetUserVehicleByIdAsync(User.CurrentUserId, Vehicle.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Vehicles currentVehicle = new Vehicles();
+                currentVehicle = await UserVehiclesService.Create().GetUserVehicleByIdAsync(User.CurrentUserId, vehicle.Id);
+                double totalExperiment = currentVehicle.Experiment;
+                int currentLevel = currentVehicle.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Vehicles newCard = new Vehicles();
+                    Vehicles newVehicle = new Vehicles();
 
-                    newCard = await UserVehiclesService.Create().GetNewLevelPowerAsync(Vehicle, increasePerLevel);
-                    await UserVehiclesService.Create().UpdateVehicleLevelAsync(newCard, currentLevel + 1);
+                    newVehicle = await UserVehiclesService.Create().GetNewLevelPowerAsync(vehicle, increasePerLevel);
+                    await UserVehiclesService.Create().UpdateVehicleLevelAsync(newVehicle, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -231,9 +230,9 @@ public class UserVehiclesController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Vehicles currentCard = await UserVehiclesService.Create().GetUserVehicleByIdAsync(User.CurrentUserId, Vehicle.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Vehicles currentVehicle = await UserVehiclesService.Create().GetUserVehicleByIdAsync(User.CurrentUserId, vehicle.Id);
+                double totalExperiment = currentVehicle.Experiment;
+                int currentLevel = currentVehicle.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -247,8 +246,8 @@ public class UserVehiclesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Vehicles newCard = await UserVehiclesService.Create().GetNewLevelPowerAsync(Vehicle, levelsGained * increasePerLevel);
-                    await UserVehiclesService.Create().UpdateVehicleLevelAsync(newCard, currentLevel);
+                    Vehicles newVehicle = await UserVehiclesService.Create().GetNewLevelPowerAsync(vehicle, levelsGained * increasePerLevel);
+                    await UserVehiclesService.Create().UpdateVehicleLevelAsync(newVehicle, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -273,110 +272,109 @@ public class UserVehiclesController : MonoBehaviour
          Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Vehicles Vehicle)
+        if (obj is Vehicles vehicle)
         {
-            PropertyInfo[] properties = Vehicle.GetType().GetProperties();
+            PropertyInfo[] properties = vehicle.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(Vehicle, null);
+                object value = property.GetValue(vehicle, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.VEHICLE);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (Vehicle.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (vehicle.Star + 1).ToString();
             }
-            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject vehicleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Vehicle.Image);
-            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            magicFormationImage.texture = magicFormationTexture;
+            RawImage vehicleImage = vehicleObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
+            Texture vehicleTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            vehicleImage.texture = vehicleTexture;
 
-            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = Vehicle.Quantity.ToString() + "/" + (Vehicle.Star + 1).ToString();
+            TextMeshProUGUI vehicleQuantity = vehicleObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            vehicleQuantity.text = vehicle.Quantity.ToString() + "/" + (vehicle.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(Vehicle.Star, currentObject);
+            UIManager.Instance.CreateStarUI(vehicle.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = Vehicle.Star + 1;
+                double requiredQuantity = vehicle.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = Vehicle.Quantity >= requiredQuantity;
+                bool hasEnoughVehicle = vehicle.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + Vehicle.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + vehicle.Quantity >= requiredQuantity;
 
-                if (hasEnoughMagicFormation || hasEnoughItems)
+                if (hasEnoughVehicle || hasEnoughItem)
                 {
                     // Giảm số lượng vòng phép trước
-                    if (Vehicle.Quantity >= requiredQuantity)
+                    if (vehicle.Quantity >= requiredQuantity)
                     {
-                        Vehicle.Quantity -= requiredQuantity;
+                        vehicle.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - Vehicle.Quantity;
-                        Vehicle.Quantity = 0; // Dùng hết vòng phép
+                        double remainingRequired = requiredQuantity - vehicle.Quantity;
+                        vehicle.Quantity = 0; // Dùng hết vòng phép
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Vehicles newVehicle = new Vehicles();
 
-                    newVehicle = await UserVehiclesService.Create().GetNewBreakthroughPowerAsync(Vehicle, increasePerUpgrade);
-                    await UserVehiclesService.Create().UpdateVehicleBreakthroughAsync(newVehicle, Vehicle.Star + 1, Vehicle.Quantity);
+                    newVehicle = await UserVehiclesService.Create().GetNewBreakthroughPowerAsync(vehicle, increasePerUpgrade);
+                    await UserVehiclesService.Create().UpdateVehicleBreakthroughAsync(newVehicle, vehicle.Star + 1, vehicle.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await VehiclesGalleryService.Create().UpdateStarVehicleGalleryAsync(Vehicle.Id, Vehicle.Star + 1);
+                    await VehiclesGalleryService.Create().UpdateStarVehicleGalleryAsync(vehicle.Id, vehicle.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(Vehicle.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(vehicle.Star, currentObject);
                 }
                 else
                 {

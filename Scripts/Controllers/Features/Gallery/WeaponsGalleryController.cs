@@ -43,8 +43,8 @@ public class WeaponsGalleryController : MonoBehaviour
             {
                 GameObject weaponObject = Instantiate(WeaponBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = weaponObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = weapon.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = weaponObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = weapon.Name.Replace("_", " ");
 
                 RawImage image = weaponObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);

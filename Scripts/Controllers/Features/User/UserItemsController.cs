@@ -44,8 +44,8 @@ public class UserItemsController : MonoBehaviour
             {
                 GameObject itemObject = Instantiate(ItemSecondButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = itemObject.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
-                Title.text = item.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = itemObject.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+                titleText.text = item.Name.Replace("_", " ");
 
                 RawImage image = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);

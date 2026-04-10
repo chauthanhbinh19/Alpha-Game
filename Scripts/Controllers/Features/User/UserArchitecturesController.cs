@@ -50,8 +50,8 @@ public class UserArchitecturesController : MonoBehaviour
         {
             GameObject architectureObject = Instantiate(ArchitectureButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = architectureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = architecture.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = architectureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = architecture.Name.Replace("_", " ");
 
             RawImage image = architectureObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
@@ -97,7 +97,7 @@ public class UserArchitecturesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowArchitectureDetails(Architectures Architectures, GameObject currentObject, int buttonType = 1)
+    public void ShowArchitectureDetails(Architectures architecture, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -106,40 +106,40 @@ public class UserArchitecturesController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(Architectures, currentObject);
+            GetDetails(architecture, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _ = GetLevelAsync(Architectures, currentObject);
+            _ = GetLevelAsync(architecture, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _ = GetUpgradeAsync(Architectures, currentObject);
+            _ = GetUpgradeAsync(architecture, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(Architectures, currentObject);
+                GetDetails(architecture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _ = GetLevelAsync(Architectures, currentObject);
+                _ = GetLevelAsync(architecture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(Architectures, currentObject);
+                GetSkills(architecture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _ = GetUpgradeAsync(Architectures, currentObject);
+                _ = GetUpgradeAsync(architecture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(Architectures, currentObject);
+                GetDetails(architecture, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -148,33 +148,33 @@ public class UserArchitecturesController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Architectures title)
+        if (obj is Architectures architecture)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = title.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = architecture.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(title.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(architecture.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{title.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{architecture.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = title.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, title, currentObject);
+            PropertyInfo[] properties = architecture.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, architecture, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -184,12 +184,11 @@ public class UserArchitecturesController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Architectures title)
+        if (obj is Architectures architecture)
         {
-            PropertyInfo[] properties = title.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
+            PropertyInfo[] properties = architecture.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, architecture, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -199,20 +198,20 @@ public class UserArchitecturesController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Architectures currentCard = new Architectures();
-                currentCard = await UserArchitecturesService.Create().GetUserArchitectureByIdAsync(User.CurrentUserId, title.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Architectures currentArchitecture = new Architectures();
+                currentArchitecture = await UserArchitecturesService.Create().GetUserArchitectureByIdAsync(User.CurrentUserId, architecture.Id);
+                double totalExperiment = currentArchitecture.Experiment;
+                int currentLevel = currentArchitecture.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Architectures newCard = new Architectures();
+                    Architectures newArchitecture = new Architectures();
 
-                    newCard = await UserArchitecturesService.Create().GetNewLevelPowerAsync(title, increasePerLevel);
-                    await UserArchitecturesService.Create().UpdateArchitectureLevelAsync(newCard, currentLevel + 1);
+                    newArchitecture = await UserArchitecturesService.Create().GetNewLevelPowerAsync(architecture, increasePerLevel);
+                    await UserArchitecturesService.Create().UpdateArchitectureLevelAsync(newArchitecture, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -227,9 +226,9 @@ public class UserArchitecturesController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Architectures currentCard = await UserArchitecturesService.Create().GetUserArchitectureByIdAsync(User.CurrentUserId, title.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Architectures currentArchitecture = await UserArchitecturesService.Create().GetUserArchitectureByIdAsync(User.CurrentUserId, architecture.Id);
+                double totalExperiment = currentArchitecture.Experiment;
+                int currentLevel = currentArchitecture.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -243,8 +242,8 @@ public class UserArchitecturesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Architectures newCard = await UserArchitecturesService.Create().GetNewLevelPowerAsync(title, levelsGained * increasePerLevel);
-                    await UserArchitecturesService.Create().UpdateArchitectureLevelAsync(newCard, currentLevel);
+                    Architectures newArchitecture = await UserArchitecturesService.Create().GetNewLevelPowerAsync(architecture, levelsGained * increasePerLevel);
+                    await UserArchitecturesService.Create().UpdateArchitectureLevelAsync(newArchitecture, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -269,110 +268,109 @@ public class UserArchitecturesController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Architectures title)
+        if (obj is Architectures architecture)
         {
-            PropertyInfo[] properties = title.GetType().GetProperties();
+            PropertyInfo[] properties = architecture.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(title, null);
+                object value = property.GetValue(architecture, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
-            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
+            items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ARCHITECTURE);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (title.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (architecture.Star + 1).ToString();
             }
-            GameObject titleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject architectureObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage titleImage = titleObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
-            Texture titleTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            titleImage.texture = titleTexture;
+            RawImage architectureImage = architectureObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
+            Texture architectureTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            architectureImage.texture = architectureTexture;
 
-            TextMeshProUGUI titleQuantity = titleObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            titleQuantity.text = title.Quantity.ToString() + "/" + (title.Star + 1).ToString();
+            TextMeshProUGUI architectureQuantity = architectureObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            architectureQuantity.text = architecture.Quantity.ToString() + "/" + (architecture.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(title.Star, currentObject);
+            UIManager.Instance.CreateStarUI(architecture.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = title.Star + 1;
+                double requiredQuantity = architecture.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
-                bool hasEnoughArchitectures = title.Quantity >= requiredQuantity;
+                bool hasEnoughArchitecture = architecture.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + title.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + architecture.Quantity >= requiredQuantity;
 
-                if (hasEnoughArchitectures || hasEnoughItems)
+                if (hasEnoughArchitecture || hasEnoughItem)
                 {
                     // Giảm số lượng danh hiệu trước
-                    if (title.Quantity >= requiredQuantity)
+                    if (architecture.Quantity >= requiredQuantity)
                     {
-                        title.Quantity -= requiredQuantity;
+                        architecture.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu danh hiệu không đủ, dùng cả danh hiệu + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - title.Quantity;
-                        title.Quantity = 0; // Dùng hết danh hiệu
+                        double remainingRequired = requiredQuantity - architecture.Quantity;
+                        architecture.Quantity = 0; // Dùng hết danh hiệu
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    Architectures newTitle = new Architectures();
+                    Architectures newArchitecture = new Architectures();
 
-                    newTitle = await UserArchitecturesService.Create().GetNewBreakthroughPowerAsync(title, increasePerUpgrade);
-                    await UserArchitecturesService.Create().UpdateArchitectureBreakthroughAsync(newTitle, title.Star + 1, title.Quantity);
+                    newArchitecture = await UserArchitecturesService.Create().GetNewBreakthroughPowerAsync(architecture, increasePerUpgrade);
+                    await UserArchitecturesService.Create().UpdateArchitectureBreakthroughAsync(newArchitecture, architecture.Star + 1, architecture.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await ArchitecturesGalleryService.Create().UpdateStarArchitectureGalleryAsync(title.Id, title.Star + 1);
+                    await ArchitecturesGalleryService.Create().UpdateStarArchitectureGalleryAsync(architecture.Id, architecture.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(title.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(architecture.Star, currentObject);
                 }
                 else
                 {

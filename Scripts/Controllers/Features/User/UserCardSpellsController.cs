@@ -80,13 +80,13 @@ public class UserCardSpellsController : MonoBehaviour
         {
             GameObject cardSpellObject = Instantiate(CardSpellButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardSpell.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardSpell.Name.Replace("_", " ");
 
-            RawImage Image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardSpellObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardSpell.Level.ToString().Replace("_", " ");
@@ -137,19 +137,19 @@ public class UserCardSpellsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateUserCardSpellForSummon(List<CardSpells> spells, Transform PositionPanel)
+    public void CreateUserCardSpellForSummon(List<CardSpells> cardSpells, Transform PositionPanel)
     {
-        foreach (var spell in spells)
+        foreach (var cardSpell in cardSpells)
         {
-            GameObject spellObject = Instantiate(PositionPrefab, PositionPanel);
+            GameObject cardSpellObject = Instantiate(PositionPrefab, PositionPanel);
 
-            RawImage Image = spellObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spell.Image);
+            RawImage image = cardSpellObject.transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             // Chỉnh width và height
-            RectTransform rectTransform = Image.rectTransform;
+            RectTransform rectTransform = image.rectTransform;
             rectTransform.sizeDelta = new Vector2(300f, 375f);
 
             // Chỉnh vị trí cao lên 40px
@@ -232,16 +232,16 @@ public class UserCardSpellsController : MonoBehaviour
     }
     public void CreateDetailsUI(CardSpells cardSpell, GameObject currentObject)
     {
-        RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardSpell.Name;
+        TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardSpell.Name;
 
-        TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardSpell.Power, false);
+        TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardSpell.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardSpell.level.ToString();
@@ -276,7 +276,6 @@ public class UserCardSpellsController : MonoBehaviour
             PropertyInfo[] properties = cardSpell.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, cardSpell, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_SPELL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -286,20 +285,20 @@ public class UserCardSpellsController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CardSpells currentCard = new CardSpells();
-                currentCard = await UserCardSpellsService.Create().GetUserCardSpellByIdAsync(User.CurrentUserId, cardSpell.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                CardSpells currentCardSpell = new CardSpells();
+                currentCardSpell = await UserCardSpellsService.Create().GetUserCardSpellByIdAsync(User.CurrentUserId, cardSpell.Id);
+                double totalExperiment = currentCardSpell.Experiment;
+                int currentLevel = currentCardSpell.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    CardSpells newCard = new CardSpells();
+                    CardSpells newCardSpell = new CardSpells();
 
-                    newCard = await UserCardSpellsService.Create().GetNewLevelPowerAsync(cardSpell, increasePerLevel);
-                    await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(newCard, currentLevel + 1);
+                    newCardSpell = await UserCardSpellsService.Create().GetNewLevelPowerAsync(cardSpell, increasePerLevel);
+                    await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(newCardSpell, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -314,9 +313,9 @@ public class UserCardSpellsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                CardSpells currentCard = await UserCardSpellsService.Create().GetUserCardSpellByIdAsync(User.CurrentUserId, cardSpell.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                CardSpells currentCardSpell = await UserCardSpellsService.Create().GetUserCardSpellByIdAsync(User.CurrentUserId, cardSpell.Id);
+                double totalExperiment = currentCardSpell.Experiment;
+                int currentLevel = currentCardSpell.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -330,8 +329,8 @@ public class UserCardSpellsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CardSpells newCard = await UserCardSpellsService.Create().GetNewLevelPowerAsync(cardSpell, levelsGained * increasePerLevel);
-                    await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(newCard, currentLevel);
+                    CardSpells newCardSpell = await UserCardSpellsService.Create().GetNewLevelPowerAsync(cardSpell, levelsGained * increasePerLevel);
+                    await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(newCardSpell, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -381,14 +380,14 @@ public class UserCardSpellsController : MonoBehaviour
     {
         skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
         Transform skillGroupContent = skillPanelObject.transform.Find("DictionaryCards/SkillGroup");
-        Button CloseButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button HomeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(skillPanelObject);
         });
-        HomeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -592,31 +591,30 @@ public class UserCardSpellsController : MonoBehaviour
                 object value = property.GetValue(cardSpell, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.CARD_SPELL);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (cardSpell.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (cardSpell.Star + 1).ToString();
             }
-            GameObject cardObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject cardSpellObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage cardImage = cardObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage cardSpellImage = cardSpellObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
-            Texture cardTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            cardImage.texture = cardTexture;
+            Texture cardSpellTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            cardSpellImage.texture = cardSpellTexture;
 
-            TextMeshProUGUI cardQuantity = cardObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardQuantity.text = cardSpell.Quantity.ToString() + "/" + (cardSpell.Star + 1).ToString();
+            TextMeshProUGUI cardSpellQuantity = cardSpellObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            cardSpellQuantity.text = cardSpell.Quantity.ToString() + "/" + (cardSpell.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(cardSpell.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
@@ -627,16 +625,16 @@ public class UserCardSpellsController : MonoBehaviour
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCards = cardSpell.Quantity >= requiredQuantity;
+                bool hasEnoughCardSpell = cardSpell.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + cardSpell.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + cardSpell.Quantity >= requiredQuantity;
 
-                if (hasEnoughCards || hasEnoughItems)
+                if (hasEnoughCardSpell || hasEnoughItem)
                 {
                     // Giảm số lượng thẻ bài trước
                     if (cardSpell.Quantity >= requiredQuantity)
@@ -649,32 +647,32 @@ public class UserCardSpellsController : MonoBehaviour
                         double remainingRequired = requiredQuantity - cardSpell.Quantity;
                         cardSpell.Quantity = 0; // Dùng hết thẻ bài
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    CardSpells newCard = new CardSpells();
+                    CardSpells newCardSpell = new CardSpells();
 
-                    newCard = await UserCardSpellsService.Create().GetNewBreakthroughPowerAsync(cardSpell, increasePerUpgrade);
-                    await UserCardSpellsService.Create().UpdateCardSpellBreakthroughAsync(newCard, cardSpell.Star + 1, cardSpell.Quantity);
+                    newCardSpell = await UserCardSpellsService.Create().GetNewBreakthroughPowerAsync(cardSpell, increasePerUpgrade);
+                    await UserCardSpellsService.Create().UpdateCardSpellBreakthroughAsync(newCardSpell, cardSpell.Star + 1, cardSpell.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -742,7 +740,7 @@ public class UserCardSpellsController : MonoBehaviour
     {
         popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
         Transform contentPanel = popupSpiritBeastObject.transform.Find("Scroll View/Viewport/Content");
-        Text PageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        Text pageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
         Toggle toggle = popupSpiritBeastObject.transform.Find("Toggle").GetComponent<Toggle>();
         toggle.isOn = (statusToggle == "ALL");
         toggle.onValueChanged.AddListener(async (bool isOn) =>
@@ -751,35 +749,34 @@ public class UserCardSpellsController : MonoBehaviour
             Destroy(popupSpiritBeastObject);
             await CreatePopupEquipmentsAsync(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
-        Button NextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        Button PreviousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        Button CloseButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.RemoveAllListeners();
-        CloseButton.onClick.AddListener(() =>
+        Button nextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
+        Button previousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
+        Button closeButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupSpiritBeastObject);
         });
-        Equipments equipments = new Equipments();
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardSpellsSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
 
         int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
         totalPage = CalculateTotalPages(totalRecord, pageSize);
 
-        PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+        pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
-        NextButton.onClick.RemoveAllListeners();
-        PreviousButton.onClick.RemoveAllListeners();
-        NextButton.onClick.AddListener(async () =>
+        nextButton.onClick.RemoveAllListeners();
+        previousButton.onClick.RemoveAllListeners();
+        nextButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            await ChangeNextPageAsync(data, PageText, contentPanel, currentObject);
+            await ChangeNextPageAsync(data, pageText, contentPanel, currentObject);
         });
-        PreviousButton.onClick.AddListener(async () =>
+        previousButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            await ChangePreviousPageAsync(data, PageText, contentPanel, currentObject);
+            await ChangePreviousPageAsync(data, pageText, contentPanel, currentObject);
         });
     }
     public int CalculateTotalPages(int totalRecords, int pageSize)
@@ -791,28 +788,28 @@ public class UserCardSpellsController : MonoBehaviour
     {
         foreach (var spiritBeast in spiritBeasts)
         {
-            GameObject equipmentObject = Instantiate(EquipmentsWearingPrefab, content);
+            GameObject spiritBeastObject = Instantiate(EquipmentsWearingPrefab, content);
 
-            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = spiritBeast.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = spiritBeast.Name.Replace("_", " ");
 
-            TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-            Power.text = spiritBeast.Power.ToString();
+            TextMeshProUGUI powerText = spiritBeastObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = spiritBeast.Power.ToString();
 
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = spiritBeast.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
+            RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
             rareImage.texture = rareTexture;
 
-            Button EquipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();
-            EquipButton.onClick.AddListener(async () =>
+            Button equipButton = spiritBeastObject.transform.Find("EquipButton").GetComponent<Button>();
+            equipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupSpiritBeastObject);

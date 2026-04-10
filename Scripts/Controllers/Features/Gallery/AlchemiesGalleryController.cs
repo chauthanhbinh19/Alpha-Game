@@ -43,8 +43,8 @@ public class AlchemiesGalleryController : MonoBehaviour
             {
                 GameObject alchemyObject = Instantiate(AlchemyBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = alchemyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = alchemy.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = alchemyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = alchemy.Name.Replace("_", " ");
 
                 RawImage image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);

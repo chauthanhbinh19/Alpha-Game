@@ -50,8 +50,8 @@ public class UserForgesController : MonoBehaviour
         {
             GameObject forgeObject = Instantiate(ForgeButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = forgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = forge.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = forgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = forge.Name.Replace("_", " ");
 
             RawImage image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
@@ -154,17 +154,17 @@ public class UserForgesController : MonoBehaviour
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
          if (obj is Forges forge)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = forge.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = forge.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(forge.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(forge.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -193,7 +193,6 @@ public class UserForgesController : MonoBehaviour
             PropertyInfo[] properties = forge.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, forge, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FORGE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -203,20 +202,20 @@ public class UserForgesController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Forges currentCard = new Forges();
-                currentCard = await UserForgesService.Create().GetUserForgeByIdAsync(User.CurrentUserId, forge.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Forges currentForge = new Forges();
+                currentForge = await UserForgesService.Create().GetUserForgeByIdAsync(User.CurrentUserId, forge.Id);
+                double totalExperiment = currentForge.Experiment;
+                int currentLevel = currentForge.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Forges newCard = new Forges();
+                    Forges newForge = new Forges();
 
-                    newCard = await UserForgesService.Create().GetNewLevelPowerAsync(forge, increasePerLevel);
-                    await UserForgesService.Create().UpdateForgeLevelAsync(newCard, currentLevel + 1);
+                    newForge = await UserForgesService.Create().GetNewLevelPowerAsync(forge, increasePerLevel);
+                    await UserForgesService.Create().UpdateForgeLevelAsync(newForge, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -231,9 +230,9 @@ public class UserForgesController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Forges currentCard = await UserForgesService.Create().GetUserForgeByIdAsync(User.CurrentUserId, forge.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Forges currentForge = await UserForgesService.Create().GetUserForgeByIdAsync(User.CurrentUserId, forge.Id);
+                double totalExperiment = currentForge.Experiment;
+                int currentLevel = currentForge.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -247,8 +246,8 @@ public class UserForgesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Forges newCard = await UserForgesService.Create().GetNewLevelPowerAsync(forge, levelsGained * increasePerLevel);
-                    await UserForgesService.Create().UpdateForgeLevelAsync(newCard, currentLevel);
+                    Forges newForge = await UserForgesService.Create().GetNewLevelPowerAsync(forge, levelsGained * increasePerLevel);
+                    await UserForgesService.Create().UpdateForgeLevelAsync(newForge, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -282,31 +281,30 @@ public class UserForgesController : MonoBehaviour
                 object value = property.GetValue(forge, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FORGE);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (forge.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (forge.Star + 1).ToString();
             }
-            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject forgeObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage forgeImage = forgeObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
-            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            magicFormationImage.texture = magicFormationTexture;
+            Texture forgeTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            forgeImage.texture = forgeTexture;
 
-            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = forge.Quantity.ToString() + "/" + (forge.Star + 1).ToString();
+            TextMeshProUGUI forgeQuantity = forgeObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            forgeQuantity.text = forge.Quantity.ToString() + "/" + (forge.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(forge.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
@@ -317,16 +315,16 @@ public class UserForgesController : MonoBehaviour
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = forge.Quantity >= requiredQuantity;
+                bool hasEnoughForge = forge.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + forge.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + forge.Quantity >= requiredQuantity;
 
-                if (hasEnoughMagicFormation || hasEnoughItems)
+                if (hasEnoughForge || hasEnoughItem)
                 {
                     // Giảm số lượng vòng phép trước
                     if (forge.Quantity >= requiredQuantity)
@@ -339,26 +337,26 @@ public class UserForgesController : MonoBehaviour
                         double remainingRequired = requiredQuantity - forge.Quantity;
                         forge.Quantity = 0; // Dùng hết vòng phép
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Forges newforge = new Forges();

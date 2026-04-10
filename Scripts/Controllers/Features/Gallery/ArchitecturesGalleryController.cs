@@ -43,8 +43,8 @@ public class ArchitecturesGalleryController : MonoBehaviour
             {
                 GameObject architectureObject = Instantiate(ArchitectureBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = architectureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = architecture.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = architectureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = architecture.Name.Replace("_", " ");
 
                 RawImage image = architectureObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);

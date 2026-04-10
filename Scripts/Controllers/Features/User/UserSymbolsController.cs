@@ -50,8 +50,8 @@ public class UserSymbolsController : MonoBehaviour
         {
             GameObject symbolObject = Instantiate(SymbolButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = symbol.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = symbol.Name.Replace("_", " ");
 
             RawImage image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
@@ -152,17 +152,17 @@ public class UserSymbolsController : MonoBehaviour
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
         if (obj is Symbols symbol)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = symbol.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = symbol.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(symbol.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(symbol.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -191,7 +191,6 @@ public class UserSymbolsController : MonoBehaviour
             PropertyInfo[] properties = symbol.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, symbol, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.SYMBOL);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -201,20 +200,20 @@ public class UserSymbolsController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Symbols currentCard = new Symbols();
-                currentCard = await UserSymbolsService.Create().GetUserSymbolByIdAsync(User.CurrentUserId, symbol.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Symbols currentSymbol = new Symbols();
+                currentSymbol = await UserSymbolsService.Create().GetUserSymbolByIdAsync(User.CurrentUserId, symbol.Id);
+                double totalExperiment = currentSymbol.Experiment;
+                int currentLevel = currentSymbol.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Symbols newCard = new Symbols();
+                    Symbols newSymbol = new Symbols();
 
-                    newCard = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, increasePerLevel);
-                    await UserSymbolsService.Create().UpdateSymbolLevelAsync(newCard, currentLevel + 1);
+                    newSymbol = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, increasePerLevel);
+                    await UserSymbolsService.Create().UpdateSymbolLevelAsync(newSymbol, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -229,9 +228,9 @@ public class UserSymbolsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Symbols currentCard = await UserSymbolsService.Create().GetUserSymbolByIdAsync(User.CurrentUserId, symbol.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Symbols currentSymbol = await UserSymbolsService.Create().GetUserSymbolByIdAsync(User.CurrentUserId, symbol.Id);
+                double totalExperiment = currentSymbol.Experiment;
+                int currentLevel = currentSymbol.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -245,8 +244,8 @@ public class UserSymbolsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Symbols newCard = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, levelsGained * increasePerLevel);
-                    await UserSymbolsService.Create().UpdateSymbolLevelAsync(newCard, currentLevel);
+                    Symbols newSymbol = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, levelsGained * increasePerLevel);
+                    await UserSymbolsService.Create().UpdateSymbolLevelAsync(newSymbol, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -280,21 +279,20 @@ public class UserSymbolsController : MonoBehaviour
                 object value = property.GetValue(symbol, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.SYMBOL);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (symbol.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (symbol.Star + 1).ToString();
             }
             GameObject symbolObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
@@ -315,16 +313,16 @@ public class UserSymbolsController : MonoBehaviour
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng biểu tượng
-                bool hasEnoughSymbols = symbol.Quantity >= requiredQuantity;
+                bool hasEnoughSymbol = symbol.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + symbol.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + symbol.Quantity >= requiredQuantity;
 
-                if (hasEnoughSymbols || hasEnoughItems)
+                if (hasEnoughSymbol || hasEnoughItem)
                 {
                     // Giảm số lượng biểu tượng trước
                     if (symbol.Quantity >= requiredQuantity)
@@ -337,26 +335,26 @@ public class UserSymbolsController : MonoBehaviour
                         double remainingRequired = requiredQuantity - symbol.Quantity;
                         symbol.Quantity = 0; // Dùng hết biểu tượng
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Symbols newSymbol = new Symbols();

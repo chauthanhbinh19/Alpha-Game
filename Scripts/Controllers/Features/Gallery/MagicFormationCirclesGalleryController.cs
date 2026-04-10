@@ -43,8 +43,8 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
             {
                 GameObject magicFormationCircleObject = Instantiate(MagicFormationCircleBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = magicFormationCircle.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = magicFormationCircleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = magicFormationCircle.Name.Replace("_", " ");
 
                 RawImage image = magicFormationCircleObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);

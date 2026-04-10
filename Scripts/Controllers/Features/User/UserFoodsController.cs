@@ -50,8 +50,8 @@ public class UserFoodsController : MonoBehaviour
         {
             GameObject foodObject = Instantiate(FoodButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = foodObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            title.text = food.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = foodObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = food.Name.Replace("_", " ");
 
             RawImage image = foodObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);
@@ -97,7 +97,7 @@ public class UserFoodsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowFoodDetails(Foods Food, GameObject currentObject, int buttonType = 1)
+    public void ShowFoodDetails(Foods food, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -106,40 +106,40 @@ public class UserFoodsController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(Food, currentObject);
+            GetDetails(food, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _ = GetLevelAsync(Food, currentObject);
+            _ = GetLevelAsync(food, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _ = GetUpgradeAsync(Food, currentObject);
+            _ = GetUpgradeAsync(food, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(Food, currentObject);
+                GetDetails(food, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _ = GetLevelAsync(Food, currentObject);
+                _ = GetLevelAsync(food, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(Food, currentObject);
+                GetSkills(food, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _ = GetUpgradeAsync(Food, currentObject);
+                _ = GetUpgradeAsync(food, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(Food, currentObject);
+                GetDetails(food, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -148,33 +148,33 @@ public class UserFoodsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Foods Food)
+        if (obj is Foods food)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Food.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = Food.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = food.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(Food.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(food.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Food.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{food.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = Food.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, Food, currentObject);
+            PropertyInfo[] properties = food.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, food, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -184,12 +184,11 @@ public class UserFoodsController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Foods Food)
+        if (obj is Foods food)
         {
-            PropertyInfo[] properties = Food.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, Food, increasePerLevel, currentObject);
+            PropertyInfo[] properties = food.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, food, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FOOD);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -199,20 +198,20 @@ public class UserFoodsController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Foods currentCard = new Foods();
-                currentCard = await UserFoodsService.Create().GetUserFoodByIdAsync(User.CurrentUserId, Food.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Foods currentFood = new Foods();
+                currentFood = await UserFoodsService.Create().GetUserFoodByIdAsync(User.CurrentUserId, food.Id);
+                double totalExperiment = currentFood.Experiment;
+                int currentLevel = currentFood.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Foods newCard = new Foods();
+                    Foods newFood = new Foods();
 
-                    newCard = await UserFoodsService.Create().GetNewLevelPowerAsync(Food, increasePerLevel);
-                    await UserFoodsService.Create().UpdateFoodLevelAsync(newCard, currentLevel + 1);
+                    newFood = await UserFoodsService.Create().GetNewLevelPowerAsync(food, increasePerLevel);
+                    await UserFoodsService.Create().UpdateFoodLevelAsync(newFood, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -227,9 +226,9 @@ public class UserFoodsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Foods currentCard = await UserFoodsService.Create().GetUserFoodByIdAsync(User.CurrentUserId, Food.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Foods currentFood = await UserFoodsService.Create().GetUserFoodByIdAsync(User.CurrentUserId, food.Id);
+                double totalExperiment = currentFood.Experiment;
+                int currentLevel = currentFood.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -243,8 +242,8 @@ public class UserFoodsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Foods newCard = await UserFoodsService.Create().GetNewLevelPowerAsync(Food, levelsGained * increasePerLevel);
-                    await UserFoodsService.Create().UpdateFoodLevelAsync(newCard, currentLevel);
+                    Foods newFood = await UserFoodsService.Create().GetNewLevelPowerAsync(food, levelsGained * increasePerLevel);
+                    await UserFoodsService.Create().UpdateFoodLevelAsync(newFood, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -269,110 +268,109 @@ public class UserFoodsController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Foods Food)
+        if (obj is Foods food)
         {
-            PropertyInfo[] properties = Food.GetType().GetProperties();
+            PropertyInfo[] properties = food.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(Food, null);
+                object value = property.GetValue(food, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FOOD);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (Food.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (food.Star + 1).ToString();
             }
-            GameObject FoodObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject foodObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage FoodImage = FoodObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Food.Image);
-            Texture FoodTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            FoodImage.texture = FoodTexture;
+            RawImage foodImage = foodObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);
+            Texture foodTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            foodImage.texture = foodTexture;
 
-            TextMeshProUGUI FoodQuantity = FoodObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            FoodQuantity.text = Food.Quantity.ToString() + "/" + (Food.Star + 1).ToString();
+            TextMeshProUGUI foodQuantity = foodObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            foodQuantity.text = food.Quantity.ToString() + "/" + (food.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(Food.Star, currentObject);
+            UIManager.Instance.CreateStarUI(food.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = Food.Star + 1;
+                double requiredQuantity = food.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
-                bool hasEnoughFoods = Food.Quantity >= requiredQuantity;
+                bool hasEnoughFood = food.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + Food.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + food.Quantity >= requiredQuantity;
 
-                if (hasEnoughFoods || hasEnoughItems)
+                if (hasEnoughFood || hasEnoughItem)
                 {
                     // Giảm số lượng danh hiệu trước
-                    if (Food.Quantity >= requiredQuantity)
+                    if (food.Quantity >= requiredQuantity)
                     {
-                        Food.Quantity -= requiredQuantity;
+                        food.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu danh hiệu không đủ, dùng cả danh hiệu + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - Food.Quantity;
-                        Food.Quantity = 0; // Dùng hết danh hiệu
+                        double remainingRequired = requiredQuantity - food.Quantity;
+                        food.Quantity = 0; // Dùng hết danh hiệu
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Foods newFood = new Foods();
 
-                    newFood = await UserFoodsService.Create().GetNewBreakthroughPowerAsync(Food, increasePerUpgrade);
-                    await UserFoodsService.Create().UpdateFoodBreakthroughAsync(newFood, Food.Star + 1, Food.Quantity);
+                    newFood = await UserFoodsService.Create().GetNewBreakthroughPowerAsync(food, increasePerUpgrade);
+                    await UserFoodsService.Create().UpdateFoodBreakthroughAsync(newFood, food.Star + 1, food.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await FoodsGalleryService.Create().UpdateStarFoodGalleryAsync(Food.Id, Food.Star + 1);
+                    await FoodsGalleryService.Create().UpdateStarFoodGalleryAsync(food.Id, food.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(Food.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(food.Star, currentObject);
                 }
                 else
                 {

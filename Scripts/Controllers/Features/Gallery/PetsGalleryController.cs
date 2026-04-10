@@ -45,8 +45,8 @@ public class PetsGalleryController : MonoBehaviour
             {
                 GameObject petsObject = Instantiate(PetBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = petsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = pet.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = petsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = pet.Name.Replace("_", " ");
 
                 RawImage image = petsObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);

@@ -43,8 +43,8 @@ public class BordersGalleryController : MonoBehaviour
             {
                 GameObject borderObject = Instantiate(BorderBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = borderObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = border.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = borderObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = border.Name.Replace("_", " ");
 
                 RawImage image = borderObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image);

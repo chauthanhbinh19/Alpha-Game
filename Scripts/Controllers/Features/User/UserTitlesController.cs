@@ -50,8 +50,8 @@ public class UserTitlesController : MonoBehaviour
         {
             GameObject titleObject = Instantiate(TitleButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = titleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = title.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = titleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = title.Name.Replace("_", " ");
 
             RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
@@ -150,17 +150,17 @@ public class UserTitlesController : MonoBehaviour
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
         if (obj is Titles title)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = title.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = title.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(title.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(title.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -189,7 +189,6 @@ public class UserTitlesController : MonoBehaviour
             PropertyInfo[] properties = title.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -199,20 +198,20 @@ public class UserTitlesController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Titles currentCard = new Titles();
-                currentCard = await UserTitlesService.Create().GetUserTitleByIdAsync(User.CurrentUserId, title.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Titles currentTitle = new Titles();
+                currentTitle = await UserTitlesService.Create().GetUserTitleByIdAsync(User.CurrentUserId, title.Id);
+                double totalExperiment = currentTitle.Experiment;
+                int currentLevel = currentTitle.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Titles newCard = new Titles();
+                    Titles newTitle = new Titles();
 
-                    newCard = await UserTitlesService.Create().GetNewLevelPowerAsync(title, increasePerLevel);
-                    await UserTitlesService.Create().UpdateTitleLevelAsync(newCard, currentLevel + 1);
+                    newTitle = await UserTitlesService.Create().GetNewLevelPowerAsync(title, increasePerLevel);
+                    await UserTitlesService.Create().UpdateTitleLevelAsync(newTitle, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -227,9 +226,9 @@ public class UserTitlesController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Titles currentCard = await UserTitlesService.Create().GetUserTitleByIdAsync(User.CurrentUserId, title.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Titles currentTitle = await UserTitlesService.Create().GetUserTitleByIdAsync(User.CurrentUserId, title.Id);
+                double totalExperiment = currentTitle.Experiment;
+                int currentLevel = currentTitle.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -243,8 +242,8 @@ public class UserTitlesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Titles newCard = await UserTitlesService.Create().GetNewLevelPowerAsync(title, levelsGained * increasePerLevel);
-                    await UserTitlesService.Create().UpdateTitleLevelAsync(newCard, currentLevel);
+                    Titles newTitle = await UserTitlesService.Create().GetNewLevelPowerAsync(title, levelsGained * increasePerLevel);
+                    await UserTitlesService.Create().UpdateTitleLevelAsync(newTitle, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -278,21 +277,20 @@ public class UserTitlesController : MonoBehaviour
                 object value = property.GetValue(title, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (title.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (title.Star + 1).ToString();
             }
             GameObject titleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
@@ -313,16 +311,16 @@ public class UserTitlesController : MonoBehaviour
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
-                bool hasEnoughTitles = title.Quantity >= requiredQuantity;
+                bool hasEnoughTitle = title.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items items1 in items)
                 {
                     totalItemQuantity += items1.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + title.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + title.Quantity >= requiredQuantity;
 
-                if (hasEnoughTitles || hasEnoughItems)
+                if (hasEnoughTitle || hasEnoughItem)
                 {
                     // Giảm số lượng danh hiệu trước
                     if (title.Quantity >= requiredQuantity)
@@ -335,26 +333,26 @@ public class UserTitlesController : MonoBehaviour
                         double remainingRequired = requiredQuantity - title.Quantity;
                         title.Quantity = 0; // Dùng hết danh hiệu
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Titles newTitle = new Titles();

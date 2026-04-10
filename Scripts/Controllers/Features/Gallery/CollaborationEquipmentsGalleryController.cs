@@ -43,8 +43,8 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
             {
                 GameObject collaborationEquipmentObject = Instantiate(CollaborationEquipmentBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = collaborationEquipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = collaborationEquipment.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = collaborationEquipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = collaborationEquipment.Name.Replace("_", " ");
 
                 RawImage image = collaborationEquipmentObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);

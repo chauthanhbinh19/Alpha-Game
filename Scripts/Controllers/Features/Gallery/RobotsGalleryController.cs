@@ -43,8 +43,8 @@ public class RobotsGalleryController : MonoBehaviour
             {
                 GameObject robotObject = Instantiate(RobotBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = robotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = robot.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = robotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = robot.Name.Replace("_", " ");
 
                 RawImage image = robotObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image);

@@ -50,8 +50,8 @@ public class UserAlchemiesController : MonoBehaviour
         {
             GameObject alchemyObject = Instantiate(AlchemyButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = alchemyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = alchemy.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = alchemyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = alchemy.Name.Replace("_", " ");
 
             RawImage image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
@@ -154,17 +154,17 @@ public class UserAlchemiesController : MonoBehaviour
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
         if (obj is Alchemies alchemy)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = alchemy.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = alchemy.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(alchemy.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(alchemy.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -193,7 +193,6 @@ public class UserAlchemiesController : MonoBehaviour
             PropertyInfo[] properties = alchemy.GetType().GetProperties();
             UIManager.Instance.CreatePropertyLevelUI(properties, alchemy, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ALCHEMY);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -203,20 +202,20 @@ public class UserAlchemiesController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Alchemies currentCard = new Alchemies();
-                currentCard = await UserAlchemiesService.Create().GetUserAlchemyByIdAsync(User.CurrentUserId, alchemy.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Alchemies currentAlchemy = new Alchemies();
+                currentAlchemy = await UserAlchemiesService.Create().GetUserAlchemyByIdAsync(User.CurrentUserId, alchemy.Id);
+                double totalExperiment = currentAlchemy.Experiment;
+                int currentLevel = currentAlchemy.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Alchemies newCard = new Alchemies();
+                    Alchemies newAlchemy = new Alchemies();
 
-                    newCard = await UserAlchemiesService.Create().GetNewLevelPowerAsync(alchemy, increasePerLevel);
-                    await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(newCard, currentLevel + 1);
+                    newAlchemy = await UserAlchemiesService.Create().GetNewLevelPowerAsync(alchemy, increasePerLevel);
+                    await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(newAlchemy, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -231,9 +230,9 @@ public class UserAlchemiesController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Alchemies currentCard = await UserAlchemiesService.Create().GetUserAlchemyByIdAsync(User.CurrentUserId, alchemy.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Alchemies currentAlchemy = await UserAlchemiesService.Create().GetUserAlchemyByIdAsync(User.CurrentUserId, alchemy.Id);
+                double totalExperiment = currentAlchemy.Experiment;
+                int currentLevel = currentAlchemy.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -247,8 +246,8 @@ public class UserAlchemiesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Alchemies newCard = await UserAlchemiesService.Create().GetNewLevelPowerAsync(alchemy, levelsGained * increasePerLevel);
-                    await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(newCard, currentLevel);
+                    Alchemies newAlchemy = await UserAlchemiesService.Create().GetNewLevelPowerAsync(alchemy, levelsGained * increasePerLevel);
+                    await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(newAlchemy, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -282,31 +281,30 @@ public class UserAlchemiesController : MonoBehaviour
                 object value = property.GetValue(alchemy, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ALCHEMY);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.Image.Replace(".png", "");
+                fileNameWithoutExtension = item.Image.Replace(".png", "");
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (alchemy.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (alchemy.Star + 1).ToString();
             }
-            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject alchemyObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage alchemyImage = alchemyObject.transform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = alchemy.Image.Replace(".png", "");
-            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            magicFormationImage.texture = magicFormationTexture;
+            Texture alchemyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            alchemyImage.texture = alchemyTexture;
 
-            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = alchemy.Quantity.ToString() + "/" + (alchemy.Star + 1).ToString();
+            TextMeshProUGUI alchemyQuantity = alchemyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            alchemyQuantity.text = alchemy.Quantity.ToString() + "/" + (alchemy.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(alchemy.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
@@ -317,16 +315,16 @@ public class UserAlchemiesController : MonoBehaviour
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = alchemy.Quantity >= requiredQuantity;
+                bool hasEnoughAlchemy = alchemy.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + alchemy.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + alchemy.Quantity >= requiredQuantity;
 
-                if (hasEnoughMagicFormation || hasEnoughItems)
+                if (hasEnoughAlchemy || hasEnoughItem)
                 {
                     // Giảm số lượng vòng phép trước
                     if (alchemy.Quantity >= requiredQuantity)
@@ -339,32 +337,32 @@ public class UserAlchemiesController : MonoBehaviour
                         double remainingRequired = requiredQuantity - alchemy.Quantity;
                         alchemy.Quantity = 0; // Dùng hết vòng phép
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    Alchemies newalchemy = new Alchemies();
+                    Alchemies newAlchemy = new Alchemies();
 
-                    newalchemy = await UserAlchemiesService.Create().GetNewBreakthroughPowerAsync(alchemy, increasePerUpgrade);
-                    await UserAlchemiesService.Create().UpdateAlchemyBreakthroughAsync(newalchemy, alchemy.Star + 1, alchemy.Quantity);
+                    newAlchemy = await UserAlchemiesService.Create().GetNewBreakthroughPowerAsync(alchemy, increasePerUpgrade);
+                    await UserAlchemiesService.Create().UpdateAlchemyBreakthroughAsync(newAlchemy, alchemy.Star + 1, alchemy.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

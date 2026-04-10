@@ -43,8 +43,8 @@ public class AvatarsGalleryController : MonoBehaviour
             {
                 GameObject avatarObject = Instantiate(AvatarBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = avatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = avatar.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = avatarObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = avatar.Name.Replace("_", " ");
 
                 RawImage image = avatarObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(avatar.Image);

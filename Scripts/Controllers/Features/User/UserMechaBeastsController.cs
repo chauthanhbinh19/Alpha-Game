@@ -50,8 +50,8 @@ public class UserMechaBeastsController : MonoBehaviour
         {
             GameObject mechaBeastObject = Instantiate(MechaBeastButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = mechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = mechaBeast.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = mechaBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = mechaBeast.Name.Replace("_", " ");
 
             RawImage image = mechaBeastObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image);
@@ -97,7 +97,7 @@ public class UserMechaBeastsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowMechaBeastDetails(MechaBeasts MechaBeasts, GameObject currentObject, int buttonType = 1)
+    public void ShowMechaBeastDetails(MechaBeasts mechaBeast, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -106,40 +106,40 @@ public class UserMechaBeastsController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(MechaBeasts, currentObject);
+            GetDetails(mechaBeast, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(MechaBeasts, currentObject);
+            _=GetLevelAsync(mechaBeast, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(MechaBeasts, currentObject);
+            _=GetUpgradeAsync(mechaBeast, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(MechaBeasts, currentObject);
+                GetDetails(mechaBeast, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(MechaBeasts, currentObject);
+                _=GetLevelAsync(mechaBeast, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(MechaBeasts, currentObject);
+                GetSkills(mechaBeast, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(MechaBeasts, currentObject);
+                _=GetUpgradeAsync(mechaBeast, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(MechaBeasts, currentObject);
+                GetDetails(mechaBeast, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -148,33 +148,33 @@ public class UserMechaBeastsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is MechaBeasts title)
+        if (obj is MechaBeasts mechaBeast)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = title.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = mechaBeast.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(title.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(mechaBeast.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{title.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{mechaBeast.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = title.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, title, currentObject);
+            PropertyInfo[] properties = mechaBeast.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, mechaBeast, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -184,12 +184,11 @@ public class UserMechaBeastsController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is MechaBeasts title)
+        if (obj is MechaBeasts mechaBeast)
         {
-            PropertyInfo[] properties = title.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, title, increasePerLevel, currentObject);
+            PropertyInfo[] properties = mechaBeast.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, mechaBeast, increasePerLevel, currentObject);
             
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -199,20 +198,20 @@ public class UserMechaBeastsController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MechaBeasts currentCard = new MechaBeasts();
-                currentCard = await UserMechaBeastsService.Create().GetUserMechaBeastByIdAsync(User.CurrentUserId, title.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                MechaBeasts currentMechaBeast = new MechaBeasts();
+                currentMechaBeast = await UserMechaBeastsService.Create().GetUserMechaBeastByIdAsync(User.CurrentUserId, mechaBeast.Id);
+                double totalExperiment = currentMechaBeast.Experiment;
+                int currentLevel = currentMechaBeast.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    MechaBeasts newCard = new MechaBeasts();
+                    MechaBeasts newMechaBeast = new MechaBeasts();
 
-                    newCard = await UserMechaBeastsService.Create().GetNewLevelPowerAsync(title, increasePerLevel);
-                    await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(newCard, currentLevel + 1);
+                    newMechaBeast = await UserMechaBeastsService.Create().GetNewLevelPowerAsync(mechaBeast, increasePerLevel);
+                    await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(newMechaBeast, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -227,9 +226,9 @@ public class UserMechaBeastsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                MechaBeasts currentCard = await UserMechaBeastsService.Create().GetUserMechaBeastByIdAsync(User.CurrentUserId, title.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                MechaBeasts currentMechaBeast = await UserMechaBeastsService.Create().GetUserMechaBeastByIdAsync(User.CurrentUserId, mechaBeast.Id);
+                double totalExperiment = currentMechaBeast.Experiment;
+                int currentLevel = currentMechaBeast.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -243,8 +242,8 @@ public class UserMechaBeastsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    MechaBeasts newCard = await UserMechaBeastsService.Create().GetNewLevelPowerAsync(title, levelsGained * increasePerLevel);
-                    await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(newCard, currentLevel);
+                    MechaBeasts newMechaBeast = await UserMechaBeastsService.Create().GetNewLevelPowerAsync(mechaBeast, levelsGained * increasePerLevel);
+                    await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(newMechaBeast, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -269,110 +268,109 @@ public class UserMechaBeastsController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is MechaBeasts title)
+        if (obj is MechaBeasts mechaBeast)
         {
-            PropertyInfo[] properties = title.GetType().GetProperties();
+            PropertyInfo[] properties = mechaBeast.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(title, null);
+                object value = property.GetValue(mechaBeast, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (title.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (mechaBeast.Star + 1).ToString();
             }
-            GameObject titleObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject mechaBeastObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage titleImage = titleObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);
-            Texture titleTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            titleImage.texture = titleTexture;
+            RawImage mechaBeastImage = mechaBeastObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image);
+            Texture mechaBeastTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            mechaBeastImage.texture = mechaBeastTexture;
 
-            TextMeshProUGUI titleQuantity = titleObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            titleQuantity.text = title.Quantity.ToString() + "/" + (title.Star + 1).ToString();
+            TextMeshProUGUI mechaBeastQuantity = mechaBeastObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            mechaBeastQuantity.text = mechaBeast.Quantity.ToString() + "/" + (mechaBeast.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(title.Star, currentObject);
+            UIManager.Instance.CreateStarUI(mechaBeast.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = title.Star + 1;
+                double requiredQuantity = mechaBeast.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
-                bool hasEnoughMechaBeasts = title.Quantity >= requiredQuantity;
+                bool hasEnoughMechaBeast = mechaBeast.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + title.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + mechaBeast.Quantity >= requiredQuantity;
 
-                if (hasEnoughMechaBeasts || hasEnoughItems)
+                if (hasEnoughMechaBeast || hasEnoughItem)
                 {
                     // Giảm số lượng danh hiệu trước
-                    if (title.Quantity >= requiredQuantity)
+                    if (mechaBeast.Quantity >= requiredQuantity)
                     {
-                        title.Quantity -= requiredQuantity;
+                        mechaBeast.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu danh hiệu không đủ, dùng cả danh hiệu + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - title.Quantity;
-                        title.Quantity = 0; // Dùng hết danh hiệu
+                        double remainingRequired = requiredQuantity - mechaBeast.Quantity;
+                        mechaBeast.Quantity = 0; // Dùng hết danh hiệu
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    MechaBeasts newTitle = new MechaBeasts();
+                    MechaBeasts newMechaBeast = new MechaBeasts();
 
-                    newTitle = await UserMechaBeastsService.Create().GetNewBreakthroughPowerAsync(title, increasePerUpgrade);
-                    await UserMechaBeastsService.Create().UpdateMechaBeastBreakthroughAsync(newTitle, title.Star + 1, title.Quantity);
+                    newMechaBeast = await UserMechaBeastsService.Create().GetNewBreakthroughPowerAsync(mechaBeast, increasePerUpgrade);
+                    await UserMechaBeastsService.Create().UpdateMechaBeastBreakthroughAsync(newMechaBeast, mechaBeast.Star + 1, mechaBeast.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await MechaBeastsGalleryService.Create().UpdateStarMechaBeastGalleryAsync(title.Id, title.Star + 1);
+                    await MechaBeastsGalleryService.Create().UpdateStarMechaBeastGalleryAsync(mechaBeast.Id, mechaBeast.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(title.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(mechaBeast.Star, currentObject);
                 }
                 else
                 {

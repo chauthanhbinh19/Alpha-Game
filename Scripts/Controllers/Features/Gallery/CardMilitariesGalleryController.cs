@@ -40,13 +40,13 @@ public class CardMilitariesGalleryController : MonoBehaviour
         {
             GameObject cardMilitaryObject = Instantiate(CardMilitaryBlockButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardMilitary.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardMilitary.Name.Replace("_", " ");
 
-            RawImage Image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardMilitaryObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardMilitary.Level.ToString().Replace("_", " ");
@@ -80,7 +80,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
             else if (cardMilitary.Status.Equals(AppConstants.Status.PENDING))
             {
@@ -100,7 +100,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
                 await militaryGalleryService.UpdateStatusCardMilitaryGalleryAsync(cardMilitary.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();

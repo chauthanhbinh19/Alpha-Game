@@ -43,8 +43,8 @@ public class SpiritCardsGalleryController : MonoBehaviour
             {
                 GameObject spiritCardObject = Instantiate(SpiritCardBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = spiritCardObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = spiritCard.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = spiritCardObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = spiritCard.Name.Replace("_", " ");
 
                 RawImage image = spiritCardObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image);

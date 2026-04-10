@@ -43,8 +43,8 @@ public class ArtworksGalleryController : MonoBehaviour
             {
                 GameObject artworkObject = Instantiate(ArtworkBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = artwork.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = artwork.Name.Replace("_", " ");
 
                 RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);

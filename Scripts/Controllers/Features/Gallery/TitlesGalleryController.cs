@@ -43,8 +43,8 @@ public class TitlesGalleryController : MonoBehaviour
             {
                 GameObject titleObject = Instantiate(TitleBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = titleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = title.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = titleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = title.Name.Replace("_", " ");
 
                 RawImage image = titleObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image);

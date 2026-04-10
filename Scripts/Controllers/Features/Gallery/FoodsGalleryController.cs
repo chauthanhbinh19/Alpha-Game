@@ -43,8 +43,8 @@ public class FoodsGalleryController : MonoBehaviour
             {
                 GameObject foodObject = Instantiate(FoodBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI title = foodObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                title.text = food.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = foodObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = food.Name.Replace("_", " ");
 
                 RawImage image = foodObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);

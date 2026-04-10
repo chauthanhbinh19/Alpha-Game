@@ -40,13 +40,13 @@ public class CardAdmiralsGalleryController : MonoBehaviour
         {
             GameObject cardAdmiralObject = Instantiate(CardAdmiralBlockButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = cardAdmiral.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = cardAdmiral.Name.Replace("_", " ");
 
-            RawImage Image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
+            image.texture = texture;
 
             TextMeshProUGUI levelText = cardAdmiralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardAdmiral.Level.ToString().Replace("_", " ");
@@ -80,7 +80,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
             {
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
             }
             else if (cardAdmiral.Status.Equals(AppConstants.Status.PENDING))
             {
@@ -100,7 +100,7 @@ public class CardAdmiralsGalleryController : MonoBehaviour
                 await admiralGalleryService.UpdateStatusCardAdmiralGalleryAsync(cardAdmiral.Id);
                 blockImage.gameObject.SetActive(false);
                 Unlock.gameObject.SetActive(false);
-                Image.color = Color.white;
+                image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
                 var teamsService = TeamsService.Create();

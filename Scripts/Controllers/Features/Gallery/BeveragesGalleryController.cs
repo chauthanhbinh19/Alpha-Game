@@ -43,8 +43,8 @@ public class BeveragesGalleryController : MonoBehaviour
             {
                 GameObject beverageObject = Instantiate(BeverageBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI title = beverageObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                title.text = beverage.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = beverageObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = beverage.Name.Replace("_", " ");
 
                 RawImage image = beverageObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image);

@@ -50,8 +50,8 @@ public class UserPlantsController : MonoBehaviour
         {
             GameObject plantObject = Instantiate(PlantButtonPrefab, contentPanel);
 
-            TextMeshProUGUI title = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            title.text = plant.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = plantObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = plant.Name.Replace("_", " ");
 
             RawImage image = plantObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);
@@ -97,7 +97,7 @@ public class UserPlantsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowPlantDetails(Plants Plant, GameObject currentObject, int buttonType = 1)
+    public void ShowPlantDetails(Plants plant, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -106,40 +106,40 @@ public class UserPlantsController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(Plant, currentObject);
+            GetDetails(plant, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _ = GetLevelAsync(Plant, currentObject);
+            _ = GetLevelAsync(plant, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _ = GetUpgradeAsync(Plant, currentObject);
+            _ = GetUpgradeAsync(plant, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(Plant, currentObject);
+                GetDetails(plant, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _ = GetLevelAsync(Plant, currentObject);
+                _ = GetLevelAsync(plant, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(Plant, currentObject);
+                GetSkills(plant, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _ = GetUpgradeAsync(Plant, currentObject);
+                _ = GetUpgradeAsync(plant, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(Plant, currentObject);
+                GetDetails(plant, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -148,33 +148,33 @@ public class UserPlantsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Plants Plant)
+        if (obj is Plants plant)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Plant.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = Plant.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = plant.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(Plant.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(plant.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Plant.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{plant.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = Plant.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, Plant, currentObject);
+            PropertyInfo[] properties = plant.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, plant, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -184,12 +184,11 @@ public class UserPlantsController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Plants Plant)
+        if (obj is Plants plant)
         {
-            PropertyInfo[] properties = Plant.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, Plant, increasePerLevel, currentObject);
+            PropertyInfo[] properties = plant.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, plant, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.PLANT);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -199,20 +198,20 @@ public class UserPlantsController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Plants currentCard = new Plants();
-                currentCard = await UserPlantsService.Create().GetUserPlantByIdAsync(User.CurrentUserId, Plant.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Plants currentPlant = new Plants();
+                currentPlant = await UserPlantsService.Create().GetUserPlantByIdAsync(User.CurrentUserId, plant.Id);
+                double totalExperiment = currentPlant.Experiment;
+                int currentLevel = currentPlant.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Plants newCard = new Plants();
+                    Plants newPlant = new Plants();
 
-                    newCard = await UserPlantsService.Create().GetNewLevelPowerAsync(Plant, increasePerLevel);
-                    await UserPlantsService.Create().UpdatePlantLevelAsync(newCard, currentLevel + 1);
+                    newPlant = await UserPlantsService.Create().GetNewLevelPowerAsync(plant, increasePerLevel);
+                    await UserPlantsService.Create().UpdatePlantLevelAsync(newPlant, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -227,9 +226,9 @@ public class UserPlantsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Plants currentCard = await UserPlantsService.Create().GetUserPlantByIdAsync(User.CurrentUserId, Plant.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Plants currentPlant = await UserPlantsService.Create().GetUserPlantByIdAsync(User.CurrentUserId, plant.Id);
+                double totalExperiment = currentPlant.Experiment;
+                int currentLevel = currentPlant.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -243,8 +242,8 @@ public class UserPlantsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Plants newCard = await UserPlantsService.Create().GetNewLevelPowerAsync(Plant, levelsGained * increasePerLevel);
-                    await UserPlantsService.Create().UpdatePlantLevelAsync(newCard, currentLevel);
+                    Plants newPlant = await UserPlantsService.Create().GetNewLevelPowerAsync(plant, levelsGained * increasePerLevel);
+                    await UserPlantsService.Create().UpdatePlantLevelAsync(newPlant, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -269,110 +268,109 @@ public class UserPlantsController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Plants Plant)
+        if (obj is Plants plant)
         {
-            PropertyInfo[] properties = Plant.GetType().GetProperties();
+            PropertyInfo[] properties = plant.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(Plant, null);
+                object value = property.GetValue(plant, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.PLANT);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (Plant.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (plant.Star + 1).ToString();
             }
-            GameObject PlantObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject plantObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage PlantImage = PlantObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Plant.Image);
-            Texture PlantTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            PlantImage.texture = PlantTexture;
+            RawImage plantImage = plantObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(plant.Image);
+            Texture plantTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            plantImage.texture = plantTexture;
 
-            TextMeshProUGUI PlantQuantity = PlantObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            PlantQuantity.text = Plant.Quantity.ToString() + "/" + (Plant.Star + 1).ToString();
+            TextMeshProUGUI plantQuantity = plantObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            plantQuantity.text = plant.Quantity.ToString() + "/" + (plant.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(Plant.Star, currentObject);
+            UIManager.Instance.CreateStarUI(plant.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = Plant.Star + 1;
+                double requiredQuantity = plant.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng danh hiệu
-                bool hasEnoughPlants = Plant.Quantity >= requiredQuantity;
+                bool hasEnoughPlant = plant.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + Plant.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + plant.Quantity >= requiredQuantity;
 
-                if (hasEnoughPlants || hasEnoughItems)
+                if (hasEnoughPlant || hasEnoughItem)
                 {
                     // Giảm số lượng danh hiệu trước
-                    if (Plant.Quantity >= requiredQuantity)
+                    if (plant.Quantity >= requiredQuantity)
                     {
-                        Plant.Quantity -= requiredQuantity;
+                        plant.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu danh hiệu không đủ, dùng cả danh hiệu + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - Plant.Quantity;
-                        Plant.Quantity = 0; // Dùng hết danh hiệu
+                        double remainingRequired = requiredQuantity - plant.Quantity;
+                        plant.Quantity = 0; // Dùng hết danh hiệu
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Plants newPlant = new Plants();
 
-                    newPlant = await UserPlantsService.Create().GetNewBreakthroughPowerAsync(Plant, increasePerUpgrade);
-                    await UserPlantsService.Create().UpdatePlantBreakthroughAsync(newPlant, Plant.Star + 1, Plant.Quantity);
+                    newPlant = await UserPlantsService.Create().GetNewBreakthroughPowerAsync(plant, increasePerUpgrade);
+                    await UserPlantsService.Create().UpdatePlantBreakthroughAsync(newPlant, plant.Star + 1, plant.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await PlantsGalleryService.Create().UpdateStarPlantGalleryAsync(Plant.Id, Plant.Star + 1);
+                    await PlantsGalleryService.Create().UpdateStarPlantGalleryAsync(plant.Id, plant.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(Plant.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(plant.Star, currentObject);
                 }
                 else
                 {

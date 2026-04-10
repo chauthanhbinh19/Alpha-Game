@@ -43,8 +43,8 @@ public class VehiclesGalleryController : MonoBehaviour
             {
                 GameObject vehicleObject = Instantiate(VehicleBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = vehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = vehicle.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = vehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = vehicle.Name.Replace("_", " ");
 
                 RawImage image = vehicleObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);

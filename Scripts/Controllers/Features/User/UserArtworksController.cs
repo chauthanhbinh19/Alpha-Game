@@ -50,8 +50,8 @@ public class UserArtworksController : MonoBehaviour
         {
             GameObject artworkObject = Instantiate(ArtworkButtonPrefab, contentPanel);
 
-            TextMeshProUGUI Title = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = artwork.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = artwork.Name.Replace("_", " ");
 
             RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
@@ -86,7 +86,7 @@ public class UserArtworksController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void ShowArtworkDetails(Artworks Artwork, GameObject currentObject, int buttonType = 1)
+    public void ShowArtworkDetails(Artworks artwork, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -95,40 +95,40 @@ public class UserArtworksController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(Artwork, currentObject);
+            GetDetails(artwork, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _ = GetLevelAsync(Artwork, currentObject);
+            _ = GetLevelAsync(artwork, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _ = GetUpgradeAsync(Artwork, currentObject);
+            _ = GetUpgradeAsync(artwork, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(Artwork, currentObject);
+                GetDetails(artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _ = GetLevelAsync(Artwork, currentObject);
+                _ = GetLevelAsync(artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(Artwork, currentObject);
+                GetSkills(artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _ = GetUpgradeAsync(Artwork, currentObject);
+                _ = GetUpgradeAsync(artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(Artwork, currentObject);
+                GetDetails(artwork, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -137,33 +137,33 @@ public class UserArtworksController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Artworks Artwork)
+        if (obj is Artworks artwork)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Artwork.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = Artwork.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = artwork.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(Artwork.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(artwork.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Artwork.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = Artwork.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, Artwork, currentObject);
+            PropertyInfo[] properties = artwork.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, artwork, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -173,12 +173,11 @@ public class UserArtworksController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Artworks Artwork)
+        if (obj is Artworks artwork)
         {
-            PropertyInfo[] properties = Artwork.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, Artwork, increasePerLevel, currentObject);
+            PropertyInfo[] properties = artwork.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, artwork, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ARTWORK);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -188,20 +187,20 @@ public class UserArtworksController : MonoBehaviour
             up1LevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Artworks currentCard = new Artworks();
-                currentCard = await UserArtworksService.Create().GetUserArtworkByIdAsync(User.CurrentUserId, Artwork.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Artworks currentArtwork = new Artworks();
+                currentArtwork = await UserArtworksService.Create().GetUserArtworkByIdAsync(User.CurrentUserId, artwork.Id);
+                double totalExperiment = currentArtwork.Experiment;
+                int currentLevel = currentArtwork.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel;
                 int maxLevel = 100000;
                 bool canLevel = MainMenuDetailsManager.Instance.UpOneLevelCondition(items, currentLevel, userMaxLevel, maxLevel, experimentCondition, totalExperiment);
                 if (canLevel)
                 {
-                    Artworks newCard = new Artworks();
+                    Artworks newArtwork = new Artworks();
 
-                    newCard = await UserArtworksService.Create().GetNewLevelPowerAsync(Artwork, increasePerLevel);
-                    await UserArtworksService.Create().UpdateArtworkLevelAsync(newCard, currentLevel + 1);
+                    newArtwork = await UserArtworksService.Create().GetNewLevelPowerAsync(artwork, increasePerLevel);
+                    await UserArtworksService.Create().UpdateArtworkLevelAsync(newArtwork, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -216,9 +215,9 @@ public class UserArtworksController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Artworks currentCard = await UserArtworksService.Create().GetUserArtworkByIdAsync(User.CurrentUserId, Artwork.Id);
-                double totalExperiment = currentCard.Experiment;
-                int currentLevel = currentCard.Level;
+                Artworks currentArtwork = await UserArtworksService.Create().GetUserArtworkByIdAsync(User.CurrentUserId, artwork.Id);
+                double totalExperiment = currentArtwork.Experiment;
+                int currentLevel = currentArtwork.Level;
                 int originalLevel = currentLevel;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
                 int userMaxLevel = User.CurrentUserLevel; // Điều kiện 1: Không vượt quá cấp độ của User
@@ -232,8 +231,8 @@ public class UserArtworksController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Artworks newCard = await UserArtworksService.Create().GetNewLevelPowerAsync(Artwork, levelsGained * increasePerLevel);
-                    await UserArtworksService.Create().UpdateArtworkLevelAsync(newCard, currentLevel);
+                    Artworks newArtwork = await UserArtworksService.Create().GetNewLevelPowerAsync(artwork, levelsGained * increasePerLevel);
+                    await UserArtworksService.Create().UpdateArtworkLevelAsync(newArtwork, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -258,110 +257,109 @@ public class UserArtworksController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Artworks Artwork)
+        if (obj is Artworks artwork)
         {
-            PropertyInfo[] properties = Artwork.GetType().GetProperties();
+            PropertyInfo[] properties = artwork.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(Artwork, null);
+                object value = property.GetValue(artwork, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ARTWORK);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = items1.Image.Replace(".png", "");
+                fileNameWithoutExtension = item.Image.Replace(".png", "");
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (Artwork.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (artwork.Star + 1).ToString();
             }
-            GameObject magicFormationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject artworkObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage magicFormationImage = magicFormationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = Artwork.Image.Replace(".png", "");
-            Texture magicFormationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            magicFormationImage.texture = magicFormationTexture;
+            RawImage artworkImage = artworkObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = artwork.Image.Replace(".png", "");
+            Texture artworkTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            artworkImage.texture = artworkTexture;
 
-            TextMeshProUGUI magicFormationQuantity = magicFormationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            magicFormationQuantity.text = Artwork.Quantity.ToString() + "/" + (Artwork.Star + 1).ToString();
+            TextMeshProUGUI artworkQuantity = artworkObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            artworkQuantity.text = artwork.Quantity.ToString() + "/" + (artwork.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(Artwork.Star, currentObject);
+            UIManager.Instance.CreateStarUI(artwork.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = Artwork.Star + 1;
+                double requiredQuantity = artwork.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng vòng phép
-                bool hasEnoughMagicFormation = Artwork.Quantity >= requiredQuantity;
+                bool hasEnoughArtwork = artwork.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + Artwork.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + artwork.Quantity >= requiredQuantity;
 
-                if (hasEnoughMagicFormation || hasEnoughItems)
+                if (hasEnoughArtwork || hasEnoughItem)
                 {
                     // Giảm số lượng vòng phép trước
-                    if (Artwork.Quantity >= requiredQuantity)
+                    if (artwork.Quantity >= requiredQuantity)
                     {
-                        Artwork.Quantity -= requiredQuantity;
+                        artwork.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu vòng phép không đủ, dùng cả vòng phép + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - Artwork.Quantity;
-                        Artwork.Quantity = 0; // Dùng hết vòng phép
+                        double remainingRequired = requiredQuantity - artwork.Quantity;
+                        artwork.Quantity = 0; // Dùng hết vòng phép
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
                     Artworks newArtwork = new Artworks();
 
-                    newArtwork = await UserArtworksService.Create().GetNewBreakthroughPowerAsync(Artwork, increasePerUpgrade);
-                    await UserArtworksService.Create().UpdateArtworkBreakthroughAsync(newArtwork, Artwork.Star + 1, Artwork.Quantity);
+                    newArtwork = await UserArtworksService.Create().GetNewBreakthroughPowerAsync(artwork, increasePerUpgrade);
+                    await UserArtworksService.Create().UpdateArtworkBreakthroughAsync(newArtwork, artwork.Star + 1, artwork.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await ArtworksGalleryService.Create().UpdateStarArtworkGalleryAsync(Artwork.Id, Artwork.Star + 1);
+                    await ArtworksGalleryService.Create().UpdateStarArtworkGalleryAsync(artwork.Id, artwork.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(Artwork.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(artwork.Star, currentObject);
                 }
                 else
                 {

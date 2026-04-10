@@ -35,19 +35,19 @@ public class EmojisGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         EmojiBlockButtonPrefab = UIManager.Instance.Get("EmojiBlockButtonPrefab");
     }
-    public void CreateEmojisGallery(List<Emojis> cores, Transform contentPanel)
+    public void CreateEmojisGallery(List<Emojis> emojis, Transform contentPanel)
     {
-        foreach (var core in cores)
+        foreach (var emoji in emojis)
         {
             try
             {
-                GameObject coreObject = Instantiate(EmojiBlockButtonPrefab, contentPanel);
+                GameObject emojiObject = Instantiate(EmojiBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = coreObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = core.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = emojiObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = emoji.Name.Replace("_", " ");
 
-                RawImage image = coreObject.transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image);
+                RawImage image = emojiObject.transform.Find("Image").GetComponent<RawImage>();
+                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -69,34 +69,34 @@ public class EmojisGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = coreObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                RawImage backgroundImage = emojiObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
                 backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CORE_BUTTON_BACKGROUND_URL);
 
-                Button button = coreObject.GetComponent<Button>();
+                Button button = emojiObject.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    PopupDetailsManager.Instance.PopupDetails(core, MainPanel);
+                    PopupDetailsManager.Instance.PopupDetails(emoji, MainPanel);
                 });
 
-                TextMeshProUGUI rareText = coreObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(core.Rare));
-                rareText.text = core.Rare;
+                TextMeshProUGUI rareText = emojiObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(emoji.Rare));
+                rareText.text = emoji.Rare;
 
-                RawImage blockImage = coreObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = coreObject.transform.Find("UnlockButton").GetComponent<Button>();
-                if (core.Status.Equals(AppConstants.Status.AVAILABLE))
+                RawImage blockImage = emojiObject.transform.Find("Block").GetComponent<RawImage>();
+                Button Unlock = emojiObject.transform.Find("UnlockButton").GetComponent<Button>();
+                if (emoji.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
-                else if (core.Status.Equals(AppConstants.Status.PENDING))
+                else if (emoji.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(true);
                 }
-                else if (core.Status.Equals(AppConstants.Status.BLOCK))
+                else if (emoji.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
                     Unlock.gameObject.SetActive(false);
@@ -106,7 +106,7 @@ public class EmojisGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var coreGalleryService = EmojisGalleryService.Create();
-                    await coreGalleryService.UpdateStatusEmojiGalleryAsync(core.Id);
+                    await coreGalleryService.UpdateStatusEmojiGalleryAsync(emoji.Id);
                     blockImage.gameObject.SetActive(false);
                     Unlock.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -121,8 +121,8 @@ public class EmojisGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = coreObject.transform.Find("UpgradeButton").GetComponent<Button>();
-                if ((core.CurrentStar < core.TempStar) && core.Status.Equals(AppConstants.Status.AVAILABLE))
+                Button Upgrade = emojiObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                if ((emoji.CurrentStar < emoji.TempStar) && emoji.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     Upgrade.gameObject.SetActive(true);
                 }
@@ -134,7 +134,7 @@ public class EmojisGalleryController : MonoBehaviour
                 Upgrade.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await EmojisGalleryService.Create().UpdateEmojiGalleryPowerAsync(core.Id);
+                    await EmojisGalleryService.Create().UpdateEmojiGalleryPowerAsync(emoji.Id);
                 });
             }
             catch (Exception ex)

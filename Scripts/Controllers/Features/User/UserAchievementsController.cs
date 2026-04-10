@@ -39,7 +39,7 @@ public class UserAchievementsController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void ShowAchievementDetails(Achievements achievements, GameObject currentObject, int buttonType = 1)
+    public void ShowAchievementDetails(Achievements achievement, GameObject currentObject, int buttonType = 1)
     {
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
         ButtonLoader.Instance.CreateButton(1, "Details", RightButtonContent);
@@ -48,40 +48,40 @@ public class UserAchievementsController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(achievements, currentObject);
+            GetDetails(achievement, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(achievements, currentObject);
+            _=GetLevelAsync(achievement, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(achievements, currentObject);
+            _=GetUpgradeAsync(achievement, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(achievements, currentObject);
+                GetDetails(achievement, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(achievements, currentObject);
+                _=GetLevelAsync(achievement, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                GetSkills(achievements, currentObject);
+                GetSkills(achievement, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(achievements, currentObject);
+                _=GetUpgradeAsync(achievement, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             default:
-                GetDetails(achievements, currentObject);
+                GetDetails(achievement, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
@@ -90,33 +90,33 @@ public class UserAchievementsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is Achievements achievements)
+        if (obj is Achievements achievement)
         {
-            RawImage Image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.Image); // Lấy giá trị của image từ đối tượng Card
+            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            Image.texture = texture;
-            ImageManager.Instance.ChangeSizeImage(Image, texture);
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI name = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-            name.text = achievements.Name;
+            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            nameText.text = achievement.Name;
 
-            TextMeshProUGUI power = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            power.text = NumberFormatter.FormatNumber(achievements.Power, false);
+            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = NumberFormatter.FormatNumber(achievement.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
             RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievements.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievement.Rare}");
             rareImage.texture = rareTexture;
 
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = achievements.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, achievements, currentObject);
+            PropertyInfo[] properties = achievement.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, achievement, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -126,12 +126,11 @@ public class UserAchievementsController : MonoBehaviour
         Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
         Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Achievements achievements)
+        if (obj is Achievements achievement)
         {
-            PropertyInfo[] properties = achievements.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, achievements, increasePerLevel, currentObject);
+            PropertyInfo[] properties = achievement.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyLevelUI(properties, achievement, increasePerLevel, currentObject);
 
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ACHIEVEMENT);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -142,7 +141,7 @@ public class UserAchievementsController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Achievements currentCard = new Achievements();
-                currentCard = await UserAchievementsService.Create().GetUserAchievementByIdAsync(User.CurrentUserId, achievements.Id);
+                currentCard = await UserAchievementsService.Create().GetUserAchievementByIdAsync(User.CurrentUserId, achievement.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int experimentCondition = currentLevel == 0 ? 100 : currentLevel * 100;
@@ -153,7 +152,7 @@ public class UserAchievementsController : MonoBehaviour
                 {
                     Achievements newCard = new Achievements();
 
-                    newCard = await UserAchievementsService.Create().GetNewLevelPowerAsync(achievements, increasePerLevel);
+                    newCard = await UserAchievementsService.Create().GetNewLevelPowerAsync(achievement, increasePerLevel);
                     await UserAchievementsService.Create().UpdateAchievementLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -169,7 +168,7 @@ public class UserAchievementsController : MonoBehaviour
             upMaxLevelButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Achievements currentCard = await UserAchievementsService.Create().GetUserAchievementByIdAsync(User.CurrentUserId, achievements.Id);
+                Achievements currentCard = await UserAchievementsService.Create().GetUserAchievementByIdAsync(User.CurrentUserId, achievement.Id);
                 double totalExperiment = currentCard.Experiment;
                 int currentLevel = currentCard.Level;
                 int originalLevel = currentLevel;
@@ -185,7 +184,7 @@ public class UserAchievementsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Achievements newCard = await UserAchievementsService.Create().GetNewLevelPowerAsync(achievements, levelsGained * increasePerLevel);
+                    Achievements newCard = await UserAchievementsService.Create().GetNewLevelPowerAsync(achievement, levelsGained * increasePerLevel);
                     await UserAchievementsService.Create().UpdateAchievementLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -211,98 +210,97 @@ public class UserAchievementsController : MonoBehaviour
         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is Achievements achievements)
+        if (obj is Achievements achievement)
         {
-            PropertyInfo[] properties = achievements.GetType().GetProperties();
+            PropertyInfo[] properties = achievement.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(achievements, null);
+                object value = property.GetValue(achievement, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
             }
-            Items item = new Items();
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ACHIEVEMENT);
             string fileNameWithoutExtension = "";
-            foreach (Items items1 in items)
+            foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(items1.Image);
+                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
                 TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = items1.Quantity.ToString() + "/" + (achievements.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (achievement.Star + 1).ToString();
             }
-            GameObject achievementsObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            GameObject achievementObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
-            RawImage achievementsImage = achievementsObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievements.Image);
-            Texture achievementsTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            achievementsImage.texture = achievementsTexture;
+            RawImage achievementImage = achievementObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
+            Texture achievementTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            achievementImage.texture = achievementTexture;
 
-            TextMeshProUGUI achievementsQuantity = achievementsObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            achievementsQuantity.text = achievements.Quantity.ToString() + "/" + (achievements.Star + 1).ToString();
+            TextMeshProUGUI achievementQuantity = achievementObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            achievementQuantity.text = achievement.Quantity.ToString() + "/" + (achievement.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(achievements.Star, currentObject);
+            UIManager.Instance.CreateStarUI(achievement.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = achievements.Star + 1;
+                double requiredQuantity = achievement.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thành tích
-                bool hasEnoughAchievements = achievements.Quantity >= requiredQuantity;
+                bool hasEnoughAchievement = achievement.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
-                foreach (Items items1 in items)
+                foreach (Items item in items)
                 {
-                    totalItemQuantity += items1.Quantity;
+                    totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItems = totalItemQuantity + achievements.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + achievement.Quantity >= requiredQuantity;
 
-                if (hasEnoughAchievements || hasEnoughItems)
+                if (hasEnoughAchievement || hasEnoughItem)
                 {
                     // Giảm số lượng thành tích trước
-                    if (achievements.Quantity >= requiredQuantity)
+                    if (achievement.Quantity >= requiredQuantity)
                     {
-                        achievements.Quantity -= requiredQuantity;
+                        achievement.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu thành tích không đủ, dùng cả thành tích + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - achievements.Quantity;
-                        achievements.Quantity = 0; // Dùng hết thành tích
+                        double remainingRequired = requiredQuantity - achievement.Quantity;
+                        achievement.Quantity = 0; // Dùng hết thành tích
 
-                        foreach (Items items1 in items)
+                        foreach (Items item in items)
                         {
                             if (remainingRequired <= 0) break; // Đã đủ vật phẩm để nâng cấp
 
-                            if (items1.Quantity >= remainingRequired)
+                            if (item.Quantity >= remainingRequired)
                             {
-                                items1.Quantity -= remainingRequired;
+                                item.Quantity -= remainingRequired;
                                 remainingRequired = 0;
                             }
                             else
                             {
-                                remainingRequired -= items1.Quantity;
-                                items1.Quantity = 0; // Dùng hết vật phẩm này
+                                remainingRequired -= item.Quantity;
+                                item.Quantity = 0; // Dùng hết vật phẩm này
                             }
                         }
                     }
 
-                    foreach (Items items1 in items)
+                    foreach (Items item in items)
                     {
-                        await userItemsService.UpdateUserItemQuantityAsync(items1);
+                        await userItemsService.UpdateUserItemQuantityAsync(item);
                     }
                     // Cập nhật cấp sao (Star)
-                    Achievements newAchievements = new Achievements();
+                    Achievements newAchievement = new Achievements();
 
-                    newAchievements = await UserAchievementsService.Create().GetNewBreakthroughPowerAsync(achievements, increasePerUpgrade);
-                    await UserAchievementsService.Create().UpdateAchievementBreakthroughAsync(newAchievements, achievements.Star + 1, achievements.Quantity);
+                    newAchievement = await UserAchievementsService.Create().GetNewBreakthroughPowerAsync(achievement, increasePerUpgrade);
+                    await UserAchievementsService.Create().UpdateAchievementBreakthroughAsync(newAchievement, achievement.Star + 1, achievement.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -312,7 +310,7 @@ public class UserAchievementsController : MonoBehaviour
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(achievements.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(achievement.Star, currentObject);
                 }
                 else
                 {

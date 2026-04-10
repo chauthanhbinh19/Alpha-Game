@@ -43,8 +43,8 @@ public class SkillsGalleryController : MonoBehaviour
             {
                 GameObject skillObject = Instantiate(SkillBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = skill.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = skill.Name.Replace("_", " ");
 
                 RawImage image = skillObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);

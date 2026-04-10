@@ -43,8 +43,8 @@ public class RunesGalleryController : MonoBehaviour
             {
                 GameObject runeObject = Instantiate(RuneBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = runeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = rune.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = runeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = rune.Name.Replace("_", " ");
 
                 RawImage image = runeObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image);

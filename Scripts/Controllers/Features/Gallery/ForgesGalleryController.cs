@@ -43,8 +43,8 @@ public class ForgesGalleryController : MonoBehaviour
             {
                 GameObject forgeObject = Instantiate(ForgeBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = forgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = forge.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = forgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = forge.Name.Replace("_", " ");
 
                 RawImage image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);

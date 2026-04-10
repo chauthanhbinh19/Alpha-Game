@@ -43,8 +43,8 @@ public class FashionsGalleryController : MonoBehaviour
             {
                 GameObject fashionObject = Instantiate(FashionBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = fashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = fashion.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = fashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = fashion.Name.Replace("_", " ");
 
                 RawImage image = fashionObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);

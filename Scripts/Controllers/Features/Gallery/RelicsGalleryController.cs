@@ -43,8 +43,8 @@ public class RelicsGalleryController : MonoBehaviour
             {
                 GameObject relicObject = Instantiate(RelicBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = relicObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = relic.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = relicObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = relic.Name.Replace("_", " ");
 
                 RawImage image = relicObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);

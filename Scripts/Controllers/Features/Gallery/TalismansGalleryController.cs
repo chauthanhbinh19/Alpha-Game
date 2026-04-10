@@ -43,8 +43,8 @@ public class TalismansGalleryController : MonoBehaviour
             {
                 GameObject talismanObject = Instantiate(TalismanBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = talismanObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = talisman.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = talismanObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = talisman.Name.Replace("_", " ");
 
                 RawImage image = talismanObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);

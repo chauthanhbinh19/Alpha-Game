@@ -43,8 +43,8 @@ public class PuppetsGalleryController : MonoBehaviour
             {
                 GameObject puppetObject = Instantiate(PuppetBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = puppetObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = puppet.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = puppetObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = puppet.Name.Replace("_", " ");
 
                 RawImage image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);

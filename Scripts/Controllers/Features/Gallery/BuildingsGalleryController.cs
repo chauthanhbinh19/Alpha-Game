@@ -43,8 +43,8 @@ public class BuildingsGalleryController : MonoBehaviour
             {
                 GameObject buildingObject = Instantiate(BuildingBlockButtonPrefab, contentPanel);
 
-                TextMeshProUGUI Title = buildingObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-                Title.text = building.Name.Replace("_", " ");
+                TextMeshProUGUI titleText = buildingObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                titleText.text = building.Name.Replace("_", " ");
 
                 RawImage image = buildingObject.transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image);
