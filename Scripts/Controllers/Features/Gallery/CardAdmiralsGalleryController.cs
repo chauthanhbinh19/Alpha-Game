@@ -36,70 +36,78 @@ public class CardAdmiralsGalleryController : MonoBehaviour
     }
     public void CreateCardAdmiralsGallery(List<CardAdmirals> cardAdmirals, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_ADMIRAL_BUTTON_BACKGROUND_URL);
+
         foreach (var cardAdmiral in cardAdmirals)
         {
             GameObject cardAdmiralObject = Instantiate(CardAdmiralBlockButtonPrefab, contentPanel);
+            Transform transform = cardAdmiralObject.transform;
 
-            TextMeshProUGUI titleText = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = cardAdmiral.Name.Replace("_", " ");
 
-            RawImage image = cardAdmiralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
-            TextMeshProUGUI levelText = cardAdmiralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardAdmiral.Level.ToString().Replace("_", " ");
 
-            TextMeshProUGUI cardText = cardAdmiralObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = "Card Admiral";
+            TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
 
-            TextMeshProUGUI typePanel = cardAdmiralObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardAdmiral.Type.ToString().Replace("_", " ");
 
-            Image rareBackground = cardAdmiralObject.transform.Find("RareBackground").GetComponent<Image>();
+            Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardAdmiral.Rare));
 
-            RawImage backgroundImage = cardAdmiralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_ADMIRAL_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = cardAdmiralObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
             });
 
-            TextMeshProUGUI rareText = cardAdmiralObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardAdmiral.Rare));
             rareText.text = cardAdmiral.Rare;
 
-            RawImage blockImage = cardAdmiralObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = cardAdmiralObject.transform.Find("UnlockButton").GetComponent<Button>();
+            RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
+            Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();
             if (cardAdmiral.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
             }
             else if (cardAdmiral.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
+                unlockButton.gameObject.SetActive(true);
             }
             else if (cardAdmiral.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
             }
 
-            Unlock.onClick.AddListener(async () =>
+            unlockButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var admiralGalleryService = CardAdmiralsGalleryService.Create();
                 await admiralGalleryService.UpdateStatusCardAdmiralGalleryAsync(cardAdmiral.Id);
                 blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
@@ -112,17 +120,17 @@ public class CardAdmiralsGalleryController : MonoBehaviour
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = cardAdmiralObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
             if ((cardAdmiral.CurrentStar < cardAdmiral.TempStar) && cardAdmiral.Status.Equals(AppConstants.Status.AVAILABLE))
             {
-                Upgrade.gameObject.SetActive(true);
+                upgradeButton.gameObject.SetActive(true);
             }
             else
             {
-                Upgrade.gameObject.SetActive(false);
+                upgradeButton.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(async () =>
+            upgradeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await CardAdmiralsGalleryService.Create().UpdateCardAdmiralGalleryPowerAsync(cardAdmiral.Id);

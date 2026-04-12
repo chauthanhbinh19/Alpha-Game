@@ -45,14 +45,22 @@ public class AlchemiesController : MonoBehaviour
     }
     public void CreateAlchemiesGallery(List<Alchemies> alchemies, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.ALCHEMY_BUTTON_BACKGROUND_URL);
+
         foreach (var alchemy in alchemies)
         {
             GameObject alchemyObject = Instantiate(AlchemyButtonPrefab, contentPanel);
+            Transform transform = alchemyObject.transform;
 
-            TextMeshProUGUI titleText = alchemyObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = alchemy.Name.Replace("_", " ");
 
-            RawImage image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -75,8 +83,8 @@ public class AlchemiesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = alchemyObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ALCHEMY_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
             // RawImage frameImage = alchemyObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = alchemyObject.GetComponent<Button>();
@@ -86,7 +94,7 @@ public class AlchemiesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(alchemy, MainPanel);
             });
 
-            TextMeshProUGUI rareText = alchemyObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(alchemy.Rare));
             rareText.text = alchemy.Rare;
 
@@ -98,21 +106,25 @@ public class AlchemiesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateAlchemiesTradeAsync(List<Alchemies> alchemies, string subType, Transform currentContent,
-    Transform currencyPanel, Transform popupPanel)
+    public async Task CreateAlchemiesTradeAsync(List<Alchemies> alchemies, string subType, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = currentContent.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
         foreach (var alchemy in alchemies)
         {
             GameObject alchemyObject = Instantiate(EquipmentShopPrefab, currentContent);
+            Transform transform = alchemyObject.transform;
 
-            TextMeshProUGUI titleText = alchemyObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = alchemy.Name.Replace("_", " ");
 
-            RawImage image = alchemyObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
-            RawImage frameImage = alchemyObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = alchemyObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = frameImage.GetComponent<Button>();
@@ -122,29 +134,29 @@ public class AlchemiesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(alchemy, MainPanel);
             });
 
-            RawImage topImage = alchemyObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = alchemyObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline bottomOutline = alchemyObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline middleOutline = alchemyObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
-            RawImage currencyImage = alchemyObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = alchemyObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(alchemy.Currency.Quantity, false);
 
-            Button buy = alchemyObject.transform.Find("Buy").GetComponent<Button>();
-            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            Button buyButton = transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
+            Image buttonBackgroundImage = buyButton.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            buy.onClick.AddListener(() =>
+            buyButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 GetQuantity(alchemy.Currency.Quantity, alchemy, subType, popupPanel, currencyPanel);

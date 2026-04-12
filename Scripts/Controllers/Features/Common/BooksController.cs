@@ -46,16 +46,24 @@ public class BooksController : MonoBehaviour
     }
     public void CreateBooksGallery(List<Books> books, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.BOOK_BUTTON_BACKGROUND_URL);
+
         foreach (var book in books)
         {
             try
             {
                 GameObject bookObject = Instantiate(BookButtonPrefab, contentPanel);
+                Transform transform = bookObject.transform;
 
-                TextMeshProUGUI titleText = bookObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 titleText.text = book.Name.Replace("_", " ");
 
-                RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage image = transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
@@ -78,17 +86,17 @@ public class BooksController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = bookObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BOOK_BUTTON_BACKGROUND_URL);
+                RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = bgTexture;
 
-                Button button = bookObject.GetComponent<Button>();
+                Button button = transform.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     PopupDetailsManager.Instance.PopupDetails(book, MainPanel);
                 });
 
-                TextMeshProUGUI rareText = bookObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
                 rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(book.Rare));
                 rareText.text = book.Rare;
             }
@@ -104,17 +112,21 @@ public class BooksController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateBooksTradeAsync(List<Books> books, string subType, Transform currentContent,
-    Transform currencyPanel, Transform popupPanel)
+    public async Task CreateBooksTradeAsync(List<Books> books, string subType, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = currentContent.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
         foreach (var book in books)
         {
             GameObject bookObject = Instantiate(EquipmentShopPrefab, currentContent);
+            Transform transform = bookObject.transform;
 
-            TextMeshProUGUI titleText = bookObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = book.Name.Replace("_", " ");
 
-            RawImage image = bookObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -137,7 +149,7 @@ public class BooksController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage frameImage = bookObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -146,29 +158,29 @@ public class BooksController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(book, MainPanel);
             });
 
-            RawImage topImage = bookObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Purple_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = bookObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
-            Outline bottomOutline = bookObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
-            Outline middleOutline = bookObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
 
-            RawImage currencyImage = bookObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = bookObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(book.Currency.Quantity, false);
 
-            Button buy = bookObject.transform.Find("Buy").GetComponent<Button>();
-            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            Button buyButton = transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
+            Image buttonBackgroundImage = buyButton.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.PURPLE_COLOR);
-            buy.onClick.AddListener(() =>
+            buyButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 GetQuantity(book.Currency.Quantity, book, subType, popupPanel, currencyPanel);

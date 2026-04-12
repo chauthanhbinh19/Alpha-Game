@@ -37,16 +37,24 @@ public class FashionsGalleryController : MonoBehaviour
     }
     public void CreateFashionsGallery(List<Fashions> fashions, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.FASHION_BUTTON_BACKGROUND_URL);
+
         foreach (var fashion in fashions)
         {
             try
             {
                 GameObject fashionObject = Instantiate(FashionBlockButtonPrefab, contentPanel);
+                Transform transform = fashionObject.transform;
 
-                TextMeshProUGUI titleText = fashionObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 titleText.text = fashion.Name.Replace("_", " ");
 
-                RawImage image = fashionObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage image = transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
@@ -69,45 +77,45 @@ public class FashionsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = fashionObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FASHION_BUTTON_BACKGROUND_URL);
+                RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = bgTexture;
 
-                Button button = fashionObject.GetComponent<Button>();
+                Button button = transform.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     PopupDetailsManager.Instance.PopupDetails(fashion, MainPanel);
                 });
 
-                TextMeshProUGUI rareText = fashionObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
                 rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(fashion.Rare));
                 rareText.text = fashion.Rare;
 
-                RawImage blockImage = fashionObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = fashionObject.transform.Find("UnlockButton").GetComponent<Button>();
+                RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
+                Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();
                 if (fashion.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
                 else if (fashion.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
-                    Unlock.gameObject.SetActive(true);
+                    unlockButton.gameObject.SetActive(true);
                 }
                 else if (fashion.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                 }
 
-                Unlock.onClick.AddListener(async () =>
+                unlockButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await FashionsGalleryService.Create().UpdateStatusFashionGalleryAsync(fashion.Id);
                     blockImage.gameObject.SetActive(false);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
 
                     var powerManagerService = PowerManagerService.Create();
@@ -120,17 +128,17 @@ public class FashionsGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = fashionObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
                 if ((fashion.CurrentStar < fashion.TempStar) && fashion.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
-                    Upgrade.gameObject.SetActive(true);
+                    upgradeButton.gameObject.SetActive(true);
                 }
                 else
                 {
-                    Upgrade.gameObject.SetActive(false);
+                    upgradeButton.gameObject.SetActive(false);
                 }
 
-                Upgrade.onClick.AddListener(async () =>
+                upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await FashionsGalleryService.Create().UpdateFashionGalleryPowerAsync(fashion.Id);

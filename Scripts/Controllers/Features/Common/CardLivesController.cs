@@ -45,41 +45,49 @@ public class CardLivesController : MonoBehaviour
     }
     public void CreateCardLivesGallery(List<CardLives> cardLives, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_LIFE_BUTTON_BACKGROUND_URL);
+
         foreach (var cardLife in cardLives)
         {
             GameObject cardLifeObject = Instantiate(CardLifeButtonPrefab, contentPanel);
+            Transform transform = cardLifeObject.transform;
 
-            TextMeshProUGUI titleText = cardLifeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = cardLife.Name.Replace("_", " ");
 
-            RawImage image = cardLifeObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
-            TextMeshProUGUI levelText = cardLifeObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardLife.Level.ToString().Replace("_", " ");
 
-            TextMeshProUGUI cardText = cardLifeObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = "Card Life";
+            TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_LIFE);
 
-            TextMeshProUGUI typePanel = cardLifeObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardLife.Type.ToString().Replace("_", " ");
 
-            Image rareBackground = cardLifeObject.transform.Find("RareBackground").GetComponent<Image>();
+            Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardLife.Rare));
 
-            RawImage backgroundImage = cardLifeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_LIFE_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = cardLifeObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(cardLife, MainPanel);
             });
 
-            TextMeshProUGUI rareText = cardLifeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardLife.Rare));
             rareText.text = cardLife.Rare;
         }
@@ -91,17 +99,21 @@ public class CardLivesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateCardLivesTradeAsync(List<CardLives> cardLives, string subType, Transform currentContent,
-    Transform currencyPanel, Transform popupPanel)
+    public async Task CreateCardLivesTradeAsync(List<CardLives> cardLives, string subType, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = currentContent.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
         foreach (var cardLife in cardLives)
         {
             GameObject cardLifeObject = Instantiate(EquipmentShopPrefab, currentContent);
+            Transform transform = cardLifeObject.transform;
 
-            TextMeshProUGUI titleText = cardLifeObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = cardLife.Name.Replace("_", " ");
 
-            RawImage image = cardLifeObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -124,7 +136,7 @@ public class CardLivesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage frameImage = cardLifeObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -133,29 +145,29 @@ public class CardLivesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(cardLife, MainPanel);
             });
 
-            RawImage topImage = cardLifeObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Pink_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = cardLifeObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
-            Outline bottomOutline = cardLifeObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
-            Outline middleOutline = cardLifeObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
 
-            RawImage currencyImage = cardLifeObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = cardLifeObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(cardLife.Currency.Quantity, false);
 
-            Button buy = cardLifeObject.transform.Find("Buy").GetComponent<Button>();
-            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            Button buyButton = transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
+            Image buttonBackgroundImage = buyButton.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.PINK_COLOR);
-            buy.onClick.AddListener(() =>
+            buyButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 GetQuantity(cardLife.Currency.Quantity, cardLife, subType, popupPanel, currencyPanel);

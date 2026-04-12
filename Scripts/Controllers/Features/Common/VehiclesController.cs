@@ -45,14 +45,22 @@ public class VehiclesController : MonoBehaviour
     }
     public void CreateVehiclesGallery(List<Vehicles> vehicles, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.VEHICLE_BUTTON_BACKGROUND_URL);
+
         foreach (var vehicle in vehicles)
         {
             GameObject vehicleObject = Instantiate(VehicleButtonPrefab, contentPanel);
+            Transform transform = vehicleObject.transform;
 
-            TextMeshProUGUI titleText = vehicleObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = vehicle.Name.Replace("_", " ");
 
-            RawImage image = vehicleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -75,19 +83,19 @@ public class VehiclesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = vehicleObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.VEHICLE_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
             // RawImage frameImage = VehicleObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
-            Button button = vehicleObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(vehicle, MainPanel);
             });
 
-            TextMeshProUGUI rareText = vehicleObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
             rareText.text = vehicle.Rare;
 
@@ -99,17 +107,21 @@ public class VehiclesController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateVehiclesTradeAsync(List<Vehicles> vehicles, string subType, Transform currentContent,
-    Transform currencyPanel, Transform popupPanel)
+    public async Task CreateVehiclesTradeAsync(List<Vehicles> vehicles, string subType, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = currentContent.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
         foreach (var vehicle in vehicles)
         {
             GameObject vehicleObject = Instantiate(EquipmentShopPrefab, currentContent);
+            Transform transform = vehicleObject.transform;
 
-            TextMeshProUGUI titleText = vehicleObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = vehicle.Name.Replace("_", " ");
 
-            RawImage image = vehicleObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -132,7 +144,7 @@ public class VehiclesController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage frameImage = vehicleObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
             // RawImage frameImage = VehicleObject.transform.Find("frameImage").GetComponent<RawImage>();
             // frameImage.gameObject.SetActive(true);
             Button button = frameImage.GetComponent<Button>();
@@ -142,29 +154,29 @@ public class VehiclesController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(vehicle, MainPanel);
             });
 
-            RawImage topImage = vehicleObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = vehicleObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline bottomOutline = vehicleObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            Outline middleOutline = vehicleObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
 
-            RawImage currencyImage = vehicleObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = vehicleObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(vehicle.Currency.Quantity, false);
 
-            Button buy = vehicleObject.transform.Find("Buy").GetComponent<Button>();
-            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            Button buyButton = transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
+            Image buttonBackgroundImage = buyButton.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.GREEN_COLOR);
-            buy.onClick.AddListener(() =>
+            buyButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 GetQuantity(vehicle.Currency.Quantity, vehicle, subType, popupPanel, currencyPanel);

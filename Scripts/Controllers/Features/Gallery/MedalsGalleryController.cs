@@ -37,16 +37,24 @@ public class MedalsGalleryController : MonoBehaviour
     }
     public void CreateMedalsGallery(List<Medals> medals, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.MEDAL_BUTTON_BACKGROUND_URL);
+
         foreach (var medal in medals)
         {
             try
             {
                 GameObject medalObject = Instantiate(MedalBlockButtonPrefab, contentPanel);
+                Transform transform = medalObject.transform;
 
-                TextMeshProUGUI titleText = medalObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 titleText.text = medal.Name.Replace("_", " ");
 
-                RawImage image = medalObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage image = transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
@@ -69,46 +77,46 @@ public class MedalsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = medalObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MEDAL_BUTTON_BACKGROUND_URL);
+                RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = bgTexture;
 
-                Button button = medalObject.GetComponent<Button>();
+                Button button = transform.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     PopupDetailsManager.Instance.PopupDetails(medal, MainPanel);
                 });
 
-                TextMeshProUGUI rareText = medalObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
                 rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(medal.Rare));
                 rareText.text = medal.Rare;
 
-                RawImage blockImage = medalObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = medalObject.transform.Find("UnlockButton").GetComponent<Button>();
+                RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
+                Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();
                 if (medal.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
                 else if (medal.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
-                    Unlock.gameObject.SetActive(true);
+                    unlockButton.gameObject.SetActive(true);
                 }
                 else if (medal.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                 }
 
-                Unlock.onClick.AddListener(async () =>
+                unlockButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var medalGalleryService = MedalsGalleryService.Create();
                     await medalGalleryService.UpdateStatusMedalGalleryAsync(medal.Id);
                     blockImage.gameObject.SetActive(false);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
 
                     var powerManagerService = PowerManagerService.Create();
@@ -121,17 +129,17 @@ public class MedalsGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = medalObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
                 if ((medal.CurrentStar < medal.TempStar) && medal.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
-                    Upgrade.gameObject.SetActive(true);
+                    upgradeButton.gameObject.SetActive(true);
                 }
                 else
                 {
-                    Upgrade.gameObject.SetActive(false);
+                    upgradeButton.gameObject.SetActive(false);
                 }
 
-                Upgrade.onClick.AddListener(async () =>
+                upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await MedalsGalleryService.Create().UpdateMedalGalleryPowerAsync(medal.Id);

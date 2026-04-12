@@ -45,14 +45,22 @@ public class SymbolsController : MonoBehaviour
     }
     public void CreateSymbolsGallery(List<Symbols> symbols, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.SYMBOL_BUTTON_BACKGROUND_URL);
+
         foreach (var symbol in symbols)
         {
             GameObject symbolObject = Instantiate(SymbolButtonPrefab, contentPanel);
+            Transform transform = symbolObject.transform;
 
-            TextMeshProUGUI titleText = symbolObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = symbol.Name.Replace("_", " ");
 
-            RawImage image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -75,10 +83,10 @@ public class SymbolsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = symbolObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SYMBOL_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = symbolObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -87,7 +95,7 @@ public class SymbolsController : MonoBehaviour
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            TextMeshProUGUI rareText = symbolObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(symbol.Rare));
             rareText.text = symbol.Rare;
         }
@@ -98,21 +106,25 @@ public class SymbolsController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public async Task CreateSymbolsTradeAsync(List<Symbols> symbols, string subType, Transform currentContent,
-    Transform currencyPanel, Transform popupPanel)
+    public async Task CreateSymbolsTradeAsync(List<Symbols> symbols, string subType, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = currentContent.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
         foreach (var symbol in symbols)
         {
             GameObject symbolObject = Instantiate(EquipmentShopPrefab, currentContent);
+            Transform transform = symbolObject.transform;
 
-            TextMeshProUGUI titleText = symbolObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = symbol.Name.Replace("_", " ");
 
-            RawImage image = symbolObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
-            RawImage frameImage = symbolObject.transform.Find("Frame").GetComponent<RawImage>();
+            RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
 
             Button button = frameImage.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -121,29 +133,29 @@ public class SymbolsController : MonoBehaviour
                 PopupDetailsManager.Instance.PopupDetails(symbol, MainPanel);
             });
 
-            RawImage topImage = symbolObject.transform.Find("TopImage").GetComponent<RawImage>();
+            RawImage topImage = transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
-            RawImage circleImage = symbolObject.transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
+            RawImage circleImage = transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
             circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline bottomOutline = symbolObject.transform.Find("BottomImage").GetComponent<Outline>();
+            Outline bottomOutline = transform.Find("BottomImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            Outline middleOutline = symbolObject.transform.Find("MiddleImage").GetComponent<Outline>();
+            Outline middleOutline = transform.Find("MiddleImage").GetComponent<Outline>();
             bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
 
-            RawImage currencyImage = symbolObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
+            RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyText = symbolObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
             currencyText.text = NumberFormatter.FormatNumber(symbol.Currency.Quantity, false);
 
-            Button buy = symbolObject.transform.Find("Buy").GetComponent<Button>();
-            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            Button buyButton = transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            Image buttonBackgroundImage = buy.transform.Find("Background").GetComponent<Image>();
+            Image buttonBackgroundImage = buyButton.transform.Find("Background").GetComponent<Image>();
             buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
-            buy.onClick.AddListener(() =>
+            buyButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 GetQuantity(symbol.Currency.Quantity, symbol, subType, popupPanel, currencyPanel);

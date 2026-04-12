@@ -37,16 +37,24 @@ public class SkillsGalleryController : MonoBehaviour
     }
     public void CreateSkillsGallery(List<Skills> skills, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.SKILL_BUTTON_BACKGROUND_URL);
+
         foreach (var skill in skills)
         {
             try
             {
                 GameObject skillObject = Instantiate(SkillBlockButtonPrefab, contentPanel);
+                Transform transform = skillObject.transform;
 
-                TextMeshProUGUI titleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 titleText.text = skill.Name.Replace("_", " ");
 
-                RawImage image = skillObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage image = transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
@@ -69,10 +77,10 @@ public class SkillsGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = skillObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SKILL_BUTTON_BACKGROUND_URL);
+                RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = bgTexture;
 
-                Button button = skillObject.GetComponent<Button>();
+                Button button = transform.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -81,36 +89,36 @@ public class SkillsGalleryController : MonoBehaviour
                 // cardImage.SetNativeSize();
                 // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-                TextMeshProUGUI rareText = skillObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
                 rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(skill.Rare));
                 rareText.text = skill.Rare;
 
-                RawImage blockImage = skillObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = skillObject.transform.Find("UnlockButton").GetComponent<Button>();
+                RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
+                Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();
                 if (skill.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
                 else if (skill.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
-                    Unlock.gameObject.SetActive(true);
+                    unlockButton.gameObject.SetActive(true);
                 }
                 else if (skill.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                 }
 
-                Unlock.onClick.AddListener(async () =>
+                unlockButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var skillGalleryService = SkillsGalleryService.Create();
                     await skillGalleryService.UpdateStatusSkillGalleryAsync(skill.Id);
                     blockImage.gameObject.SetActive(false);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
 
                     var powerManagerService = PowerManagerService.Create();
@@ -123,17 +131,17 @@ public class SkillsGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = skillObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
                 if ((skill.CurrentStar < skill.TempStar) && skill.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
-                    Upgrade.gameObject.SetActive(true);
+                    upgradeButton.gameObject.SetActive(true);
                 }
                 else
                 {
-                    Upgrade.gameObject.SetActive(false);
+                    upgradeButton.gameObject.SetActive(false);
                 }
 
-                Upgrade.onClick.AddListener(async () =>
+                upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await SkillsGalleryService.Create().UpdateSkillGalleryPowerAsync(skill.Id);

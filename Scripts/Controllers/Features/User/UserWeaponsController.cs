@@ -46,14 +46,22 @@ public class UserWeaponsController : MonoBehaviour
     }
     public void CreateUserWeapons(List<Weapons> weapons, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.WEAPON_BUTTON_BACKGROUND_URL);
+
         foreach (var weapon in weapons)
         {
             GameObject weaponObject = Instantiate(WeaponButtonPrefab, contentPanel);
+            Transform transform = weaponObject.transform;
 
-            TextMeshProUGUI titleText = weaponObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = weapon.Name.Replace("_", " ");
 
-            RawImage image = weaponObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -76,17 +84,17 @@ public class UserWeaponsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = weaponObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.WEAPON_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = weaponObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(weapon, MainPanel);
             });
 
-            TextMeshProUGUI rareText = weaponObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(weapon.Rare));
             rareText.text = weapon.Rare;
         }
@@ -148,24 +156,25 @@ public class UserWeaponsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
+        Transform transform = currentObject.transform;
         if (obj is Weapons weapon)
         {
-            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             nameText.text = weapon.Name;
 
-            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
             powerText.text = NumberFormatter.FormatNumber(weapon.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
-            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{weapon.Rare}");
             rareImage.texture = rareTexture;
 
@@ -180,10 +189,11 @@ public class UserWeaponsController : MonoBehaviour
     public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
-        Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
-        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
-        Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
-        Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button up1LevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
+        Transform LevelElementContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform LevelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Weapons weapon)
         {
             PropertyInfo[] properties = weapon.GetType().GetProperties();
@@ -265,9 +275,10 @@ public class UserWeaponsController : MonoBehaviour
     public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
-        Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
-        Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
-        Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button breakthroughButton = transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
+        Transform UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        Transform UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Weapons weapon)
         {
             PropertyInfo[] properties = weapon.GetType().GetProperties();
@@ -283,23 +294,25 @@ public class UserWeaponsController : MonoBehaviour
             foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+                Transform itemTransform = itemObject.transform;
 
-                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
-                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI eQuantity = itemTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
                 eQuantity.text = item.Quantity.ToString() + "/" + (weapon.Star + 1).ToString();
             }
             GameObject weaponObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            Transform weaponTransform = weaponObject.transform;
 
-            RawImage weaponImage = weaponObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage weaponImage = weaponTransform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
             Texture weaponTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             weaponImage.texture = weaponTexture;
 
-            TextMeshProUGUI weaponQuantity = weaponObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI weaponQuantity = weaponTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             weaponQuantity.text = weapon.Quantity.ToString() + "/" + (weapon.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(weapon.Star, currentObject);

@@ -20,6 +20,7 @@ public class TeamsManager : MonoBehaviour
     private GameObject TeamsPositionPrefab;
     private GameObject TeamTypePrefab;
     private GameObject TeamSlotPrefab;
+    private GameObject TeamSlotComponentPrefab;
     private GameObject RareButtonPrefab;
     private GameObject PositionPrefab;
     private Button closeButton;
@@ -79,6 +80,7 @@ public class TeamsManager : MonoBehaviour
         TeamsPositionPrefab = UIManager.Instance.Get("TeamsPositionPrefab");
         TeamTypePrefab = UIManager.Instance.Get("TeamTypePrefab");
         TeamSlotPrefab = UIManager.Instance.Get("TeamSlotPrefab");
+        TeamSlotComponentPrefab = UIManager.Instance.Get("TeamSlotComponentPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
 
@@ -124,242 +126,180 @@ public class TeamsManager : MonoBehaviour
     public async Task CreateTeamsPositionAsync(Transform positionTeamsPanel)
     {
         ButtonEvent.Instance.Close(positionTeamsPanel);
+
+        // 1. Lấy danh sách teams
         var userTeams = await TeamsService.Create().GetUserTeamsAsync(User.CurrentUserId);
-        foreach (var team in userTeams)
+        if (userTeams == null || userTeams.Count == 0) return;
+
+        // 2. Chuẩn bị dữ liệu: Chạy SONG SONG tất cả các task count của tất cả các teams
+        var teamDataList = userTeams.Select(team => new
         {
-            GameObject cardTeam = Instantiate(TeamsPositionPrefab, positionTeamsPanel);
-            Transform cardContent = cardTeam.transform.Find("Content");
-            RawImage cardImage = cardTeam.transform.Find("CardImage").GetComponent<RawImage>();
-            TextMeshProUGUI teamsPositionText = cardTeam.transform.Find("TeamNumberText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI teamsContentText = cardTeam.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
-            RawImage teamAvatarImage = cardTeam.transform.Find("AvatarImage").GetComponent<RawImage>();
-            RawImage teamBorderImage = cardTeam.transform.Find("BorderImage").GetComponent<RawImage>();
-            teamsPositionText.text = team.TeamNumber.ToString();
-            Texture teamAvatarTexture = TextureHelper.LoadTextureCached(team.TeamAvatar);
-            Texture teamBorderTexture = TextureHelper.LoadTextureCached(team.TeamBorder);
-            teamAvatarImage.texture = teamAvatarTexture;
-            teamBorderImage.texture = teamBorderTexture;
+            Info = team,
+            Tasks = new List<Task<int>>
+            {
+                userCardHeroesService.GetUserCardHeroesTeamsCountAsync(User.CurrentUserId, team.TeamId),
+                userCardCaptainsService.GetUserCardCaptainsTeamsCountAsync(User.CurrentUserId, team.TeamId),
+                userCardColonelsService.GetUserCardColonelsTeamsCountAsync(User.CurrentUserId, team.TeamId),
+                userCardGeneralsService.GetUserCardGeneralsTeamsCountAsync(User.CurrentUserId, team.TeamId),
+                userCardAdmiralsService.GetUserCardAdmiralsTeamsCountAsync(User.CurrentUserId, team.TeamId),
+                userCardMonstersService.GetUserCardMonstersTeamsCountAsync(User.CurrentUserId, team.TeamId),
+                userCardMilitaryService.GetUserCardMilitariesTeamsCountAsync(User.CurrentUserId, team.TeamId),
+                userCardSpellService.GetUserCardSpellsTeamsCountAsync(User.CurrentUserId, team.TeamId)
+            }
+        }).ToList();
 
-            int cardHeroQuantity = 0;
-            int cardCaptainQuantity = 0;
-            int cardColonelQuantity = 0;
-            int cardGeneralQuantity = 0;
-            int cardAdmiralQuantity = 0;
-            int cardMonsterQuantity = 0;
-            int cardMilitaryQuantity = 0;
-            int cardSpellQuantity = 0;
+        // Đợi tất cả hoàn thành (Ví dụ 5 team x 8 loại card = 40 tasks chạy cùng lúc)
+        await Task.WhenAll(teamDataList.SelectMany(t => t.Tasks));
 
-            var heroCountTask = userCardHeroesService.GetUserCardHeroesTeamsCountAsync(User.CurrentUserId, team.TeamId);
-            var captainCountTask = userCardCaptainsService.GetUserCardCaptainsTeamsCountAsync(User.CurrentUserId, team.TeamId);
-            var colonelCountTask = userCardColonelsService.GetUserCardColonelsTeamsCountAsync(User.CurrentUserId, team.TeamId);
-            var generalCountTask = userCardGeneralsService.GetUserCardGeneralsTeamsCountAsync(User.CurrentUserId, team.TeamId);
-            var admiralCountTask = userCardAdmiralsService.GetUserCardAdmiralsTeamsCountAsync(User.CurrentUserId, team.TeamId);
-            var monsterCountTask = userCardMonstersService.GetUserCardMonstersTeamsCountAsync(User.CurrentUserId, team.TeamId);
-            var militaryCountTask = userCardMilitaryService.GetUserCardMilitariesTeamsCountAsync(User.CurrentUserId, team.TeamId);
-            var spellCountTask = userCardSpellService.GetUserCardSpellsTeamsCountAsync(User.CurrentUserId, team.TeamId);
+        // 3. Khởi tạo UI
+        // Chuẩn bị dữ liệu mẫu để chạy vòng lặp cho 8 loại card
+        string[] titles = {
+            AppDisplayConstants.MainType.CARD_HEROES, AppDisplayConstants.MainType.CARD_CAPTAINS,
+            AppDisplayConstants.MainType.CARD_COLONELS, AppDisplayConstants.MainType.CARD_GENERALS,
+            AppDisplayConstants.MainType.CARD_ADMIRALS, AppDisplayConstants.MainType.CARD_MONSTERS,
+            AppDisplayConstants.MainType.CARD_MILITARIES, AppDisplayConstants.MainType.CARD_SPELLS
+        };
 
-            await Task.WhenAll(heroCountTask, captainCountTask, colonelCountTask, generalCountTask, admiralCountTask, monsterCountTask, militaryCountTask, spellCountTask);
+            string[] backgrounds = {
+            "UI/Background4/Background_V4_438", "UI/Background4/Background_V4_439",
+            "UI/Background4/Background_V4_438", "UI/Background4/Background_V4_439",
+            "UI/Background4/Background_V4_438", "UI/Background4/Background_V4_439",
+            "UI/Background4/Background_V4_438", "UI/Background4/Background_V4_439"
+        };
 
-            cardHeroQuantity = heroCountTask.Result;
-            cardCaptainQuantity = captainCountTask.Result;
-            cardColonelQuantity = colonelCountTask.Result;
-            cardGeneralQuantity = generalCountTask.Result;
-            cardAdmiralQuantity = admiralCountTask.Result;
-            cardMonsterQuantity = monsterCountTask.Result;
-            cardMilitaryQuantity = militaryCountTask.Result;
-            cardSpellQuantity = spellCountTask.Result;
+        foreach (var teamData in teamDataList)
+        {
+            var team = teamData.Info;
+            GameObject teamPositionObject = Instantiate(TeamsPositionPrefab, positionTeamsPanel);
+            Transform transform = teamPositionObject.transform;
 
-            GameObject cardHeroObject = Instantiate(TeamTypePrefab, cardContent);
-            TextMeshProUGUI cardHeroQuantityText = cardHeroObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI cardHeroTitleText = cardHeroObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            RawImage cardHeroBackground1Image = cardHeroObject.transform.Find("Background1").GetComponent<RawImage>();
-            cardHeroBackground1Image.texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_438");
-            cardHeroQuantityText.text = cardHeroQuantity.ToString();
-            cardHeroTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HEROES);
+            // Gán thông tin Team
+            transform.Find("TeamNumberText").GetComponent<TextMeshProUGUI>().text = team.TeamNumber.ToString();
+            transform.Find("AvatarImage").GetComponent<RawImage>().texture = TextureHelper.LoadTextureCached(team.TeamAvatar);
+            transform.Find("BorderImage").GetComponent<RawImage>().texture = TextureHelper.LoadTextureCached(team.TeamBorder);
 
-            GameObject cardCaptainObject = Instantiate(TeamTypePrefab, cardContent);
-            TextMeshProUGUI cardCaptainQuantityText = cardCaptainObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI cardCaptainTitleText = cardCaptainObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            RawImage cardCaptainBackground1Image = cardCaptainObject.transform.Find("Background1").GetComponent<RawImage>();
-            cardCaptainBackground1Image.texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_439");
-            cardCaptainQuantityText.text = cardCaptainQuantity.ToString();
-            cardCaptainTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAINS);
+            Transform cardContent = transform.Find("Content");
 
-            GameObject cardColonelObject = Instantiate(TeamTypePrefab, cardContent);
-            TextMeshProUGUI cardColonelQuantityText = cardColonelObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI cardColonelTitleText = cardColonelObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            RawImage cardColonelBackground1Image = cardColonelObject.transform.Find("Background1").GetComponent<RawImage>();
-            cardColonelBackground1Image.texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_438");
-            cardColonelQuantityText.text = cardColonelQuantity.ToString();
-            cardColonelTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONELS);
+            // Khởi tạo 8 loại card bằng vòng lặp
+            for (int i = 0; i < 8; i++)
+            {
+                int count = teamData.Tasks[i].Result;
+                CreateCardTypeItem(cardContent, titles[i], count, backgrounds[i]);
+            }
 
-            GameObject cardGeneralObject = Instantiate(TeamTypePrefab, cardContent);
-            TextMeshProUGUI cardGeneralQuantityText = cardGeneralObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI cardGeneralTitleText = cardGeneralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            RawImage cardGeneralBackground1Image = cardGeneralObject.transform.Find("Background1").GetComponent<RawImage>();
-            cardGeneralBackground1Image.texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_439");
-            cardGeneralQuantityText.text = cardGeneralQuantity.ToString();
-            cardGeneralTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERALS);
-
-            GameObject cardAdmiralObject = Instantiate(TeamTypePrefab, cardContent);
-            TextMeshProUGUI cardAdmiralQuantityText = cardAdmiralObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI cardAdmiralTitleText = cardAdmiralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            RawImage cardAdmiralBackground1Image = cardAdmiralObject.transform.Find("Background1").GetComponent<RawImage>();
-            cardAdmiralBackground1Image.texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_438");
-            cardAdmiralQuantityText.text = cardAdmiralQuantity.ToString();
-            cardAdmiralTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRALS);
-
-            GameObject cardMonsterObject = Instantiate(TeamTypePrefab, cardContent);
-            TextMeshProUGUI cardMonsterQuantityText = cardMonsterObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI cardMonsterTitleText = cardMonsterObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            RawImage cardMonsterBackground1Image = cardMonsterObject.transform.Find("Background1").GetComponent<RawImage>();
-            cardMonsterBackground1Image.texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_439");
-            cardMonsterQuantityText.text = cardMonsterQuantity.ToString();
-            cardMonsterTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTERS);
-
-            GameObject cardMilitaryObject = Instantiate(TeamTypePrefab, cardContent);
-            TextMeshProUGUI cardMilitaryQuantityText = cardMilitaryObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI cardMilitaryTitleText = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            RawImage cardMilitaryBackground1Image = cardMilitaryObject.transform.Find("Background1").GetComponent<RawImage>();
-            cardMilitaryBackground1Image.texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_438");
-            cardMilitaryQuantityText.text = cardMilitaryQuantity.ToString();
-            cardMilitaryTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARIES);
-
-            GameObject cardSpellObject = Instantiate(TeamTypePrefab, cardContent);
-            TextMeshProUGUI cardSpellQuantityText = cardSpellObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI cardSpellTitleText = cardSpellObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            RawImage cardSpellBackground1Image = cardSpellObject.transform.Find("Background1").GetComponent<RawImage>();
-            cardSpellBackground1Image.texture = TextureHelper.LoadTextureCached("UI/Background4/Background_V4_439");
-            cardSpellQuantityText.text = cardSpellQuantity.ToString();
-            cardSpellTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELLS);
-
-            // if (mainType.Equals(AppConstants.MainType.CardHero))
-            // {
-            //     positionNumber = userCardHeroesService.GetUserCardHeroesTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            // }
-            // else if (mainType.Equals(AppConstants.MainType.CardCaptain))
-            // {
-            //     positionNumber = userCardCaptainsService.GetUserCardCaptainsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            // }
-            // else if (mainType.Equals(AppConstants.MainType.CardColonel))
-            // {
-            //     positionNumber = userCardColonelsService.GetUserCardColonelsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            // }
-            // else if (mainType.Equals(AppConstants.MainType.CardGeneral))
-            // {
-            //     positionNumber = userCardGeneralsService.GetUserCardGeneralsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            // }
-            // else if (mainType.Equals(AppConstants.MainType.CardAdmiral))
-            // {
-            //     positionNumber = userCardAdmiralsService.GetUserCardAdmiralsTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            // }
-            // else if (mainType.Equals(AppConstants.MainType.CardMonster))
-            // {
-            //     positionNumber = userCardMonstersService.GetUserCardMonstersTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            // }
-            // else if (mainType.Equals(AppConstants.MainType.CardMilitary))
-            // {
-            //     positionNumber = userCardMilitaryService.GetUserCardMilitaryTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            // }
-            // else if (mainType.Equals(AppConstants.MainType.CardSpell))
-            // {
-            //     positionNumber = userCardSpellService.GetUserCardSpellTeamsPositionCount(User.CurrentUserId, team_id, team.team_id.ToString());
-            // }
-            // teamsContentText.text = positionNumber.ToString() + "/10";
-
-            Button changeCardButton = cardTeam.transform.Find("ChangeCardButton").GetComponent<Button>();
-
+            // Xử lý nút bấm
             string tempTeamId = team.TeamId;
-            changeCardButton.onClick.AddListener(() =>
+            transform.Find("ChangeCardButton").GetComponent<Button>().onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                teamId = tempTeamId;
+                this.teamId = tempTeamId;
                 CreatePopupTeamFirstPanel();
             });
         }
     }
+    // Hàm phụ giúp tạo các item con bên trong Team Content
+    private void CreateCardTypeItem(Transform parent, string titleKey, int quantity, string bgPath)
+    {
+        GameObject teamTypeObject = Instantiate(TeamTypePrefab, parent);
+        Transform transform = teamTypeObject.transform;
+
+        transform.Find("QuantityText").GetComponent<TextMeshProUGUI>().text = quantity.ToString();
+        transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = LocalizationManager.Get(titleKey);
+        transform.Find("Background1").GetComponent<RawImage>().texture = TextureHelper.LoadTextureCached(bgPath);
+    }
     public void CreatePopupTeamFirstPanel()
     {
-        GameObject teamsObject = Instantiate(PopupTeamFirstPrefab, MainPanel);
-        titleText = teamsObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        ScrollRect scrollRect = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition").GetComponent<ScrollRect>();
-        Transform teamSlotPanel = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
-        Transform tempLeftContent = teamsObject.transform.Find("ScrollViewLeft/Viewport/Content");
-        Transform tempRightContent = teamsObject.transform.Find("ScrollViewRight/Viewport/Content");
-        closeButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        GameObject teamObject = Instantiate(PopupTeamFirstPrefab, MainPanel);
+        titleText = teamObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        // ScrollRect scrollRect = teamObject.transform.Find("DictionaryCards/ScrollViewPosition").GetComponent<ScrollRect>();
+        Transform teamSlotPanel = teamObject.transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
+        Transform tempLeftContent = teamObject.transform.Find("ScrollViewLeft/Viewport/Content");
+        Transform tempRightContent = teamObject.transform.Find("ScrollViewRight/Viewport/Content");
+        closeButton = teamObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(teamsObject);
+            Destroy(teamObject);
             await CreateTeamsAsync();
         });
-        homeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton = teamObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        TextMeshProUGUI typeText = teamsObject.transform.Find("DictionaryCards/TypeText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI typeText = teamObject.transform.Find("DictionaryCards/TypeText").GetComponent<TextMeshProUGUI>();
 
-        CreateButton(1, AppConstants.MainType.CARD_HERO, tempLeftContent);
-        CreateButton(2, AppConstants.MainType.CARD_CAPTAIN, tempLeftContent);
-        CreateButton(3, AppConstants.MainType.CARD_COLONEL, tempLeftContent);
-        CreateButton(4, AppConstants.MainType.CARD_GENERAL, tempLeftContent);
-        CreateButton(5, AppConstants.MainType.CARD_ADMIRAL, tempLeftContent);
-        CreateButton(6, AppConstants.MainType.CARD_MONSTER, tempLeftContent);
-        CreateButton(7, AppConstants.MainType.CARD_MILITARY, tempLeftContent);
-        CreateButton(8, AppConstants.MainType.CARD_SPELL, tempLeftContent);
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", tempLeftContent, async () =>
-        {
-            mainType = AppConstants.MainType.CARD_HERO;
-            await CreateSlotAsync(teamSlotPanel);
-            typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", tempLeftContent, async () =>
-        {
-            mainType = AppConstants.MainType.CARD_CAPTAIN;
-            await CreateSlotAsync(teamSlotPanel);
-            typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", tempLeftContent, async () =>
-        {
-            mainType = AppConstants.MainType.CARD_COLONEL;
-            await CreateSlotAsync(teamSlotPanel);
-            typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", tempLeftContent, async () =>
-        {
-            mainType = AppConstants.MainType.CARD_GENERAL;
-            await CreateSlotAsync(teamSlotPanel);
-            typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", tempLeftContent, async () =>
-        {
-            mainType = AppConstants.MainType.CARD_ADMIRAL;
-            await CreateSlotAsync(teamSlotPanel);
-            typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", tempLeftContent, async () =>
-        {
-            mainType = AppConstants.MainType.CARD_MONSTER;
-            await CreateSlotAsync(teamSlotPanel);
-            typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", tempLeftContent, async () =>
-        {
-            mainType = AppConstants.MainType.CARD_MILITARY;
-            await CreateSlotAsync(teamSlotPanel);
-            typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
-        });
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", tempLeftContent, async () =>
-        {
-            mainType = AppConstants.MainType.CARD_SPELL;
-            await CreateSlotAsync(teamSlotPanel);
-            typeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
-        });
+        _ = CreateSlotAsync(teamSlotPanel);
+    }
+    public async Task CreateSlotAsync(Transform slotPanel)
+    {
+        ButtonEvent.Instance.Close(slotPanel);
 
-        _=CreateSlotAsync(teamSlotPanel);
+        var taskCardHero = userCardHeroesService.GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        var taskCardCaptain = userCardCaptainsService.GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        var taskCardColonel = userCardColonelsService.GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        var taskCardGeneral = userCardGeneralsService.GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        var taskCardAdmiral = userCardAdmiralsService.GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        var taskCardMonster = userCardMonstersService.GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        var taskCardMilitary = userCardMilitaryService.GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        var taskCardSpell = userCardSpellService.GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+
+        await Task.WhenAll(taskCardHero, taskCardCaptain, taskCardColonel, taskCardGeneral, taskCardAdmiral, taskCardMonster, taskCardMilitary, taskCardSpell);
+
+        List<CardHeroes> cardHeroList = await taskCardHero;
+        List<CardCaptains> cardCaptainList = await taskCardCaptain;
+        List<CardColonels> cardColonelList = await taskCardColonel;
+        List<CardGenerals> cardGeneralList = await taskCardGeneral;
+        List<CardAdmirals> cardAdmiralList = await taskCardAdmiral;
+        List<CardMonsters> cardMonsterList = await taskCardMonster;
+        List<CardMilitaries> cardMilitaryList = await taskCardMilitary;
+        List<CardSpells> cardSpellList = await taskCardSpell;
+
+        for (int i = 1; i <= 10; i++)
+        {
+            GameObject teamSlotComponentObject = Instantiate(TeamSlotComponentPrefab, slotPanel);
+            Transform transform = teamSlotComponentObject.transform;
+
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI quantityText = transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+
+            // Button cardHeroButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardHeroButton").GetComponent<Button>();
+            // Button cardCaptainButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardCaptainButton").GetComponent<Button>();
+            // Button cardColonelButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardColonelButton").GetComponent<Button>();
+            // Button cardGeneralButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardGeneralButton").GetComponent<Button>();
+            // Button cardAdmiralButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardAdmiralButton").GetComponent<Button>();
+            // Button cardMonsterButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardMonsterButton").GetComponent<Button>();
+            // Button cardMilitaryButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardMilitaryButton").GetComponent<Button>();
+            // Button cardSpellButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardSpellButton").GetComponent<Button>();
+
+            titleText.text = "Slot " + i.ToString();
+            quantityText.text = i.ToString();
+
+            // Tối ưu bằng cách lấy Group Transform một lần
+            Transform process = transform.Find("Process");
+            string slotPrefix = $"{i}-";
+
+            // 2. Cập nhật thủ công từng thanh để tránh dùng 'dynamic' gây lỗi CS0656
+            UpdateBarManual(process.Find("CardHeroBar"), cardHeroList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.CARD_HERO_COLOR);
+            UpdateBarManual(process.Find("CardCaptainBar"), cardCaptainList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.CARD_CAPTAIN_COLOR);
+            UpdateBarManual(process.Find("CardColonelBar"), cardColonelList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.CARD_COLONEL_COLOR);
+            UpdateBarManual(process.Find("CardGeneralBar"), cardGeneralList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.CARD_GENERAL_COLOR);
+            UpdateBarManual(process.Find("CardAdmiralBar"), cardAdmiralList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.CARD_ADMIRAL_COLOR);
+            UpdateBarManual(process.Find("CardMonsterBar"), cardMonsterList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.CARD_MONSTER_COLOR);
+            UpdateBarManual(process.Find("CardMilitaryBar"), cardMilitaryList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.CARD_MILITARY_COLOR);
+            UpdateBarManual(process.Find("CardSpellBar"), cardSpellList.Count(c => c.Position?.StartsWith(slotPrefix) == true), ColorConstants.CARD_SPELL_COLOR);
+        }
+    }
+    // Hàm hỗ trợ để không phải viết lặp đi lặp lại GetComponent
+    // Hàm này chỉ nhận giá trị đã tính toán xong, không cần biết kiểu dữ liệu Card là gì
+    private void UpdateBarManual(Transform barTransform, int count, string colorHex)
+    {
+        Slider slider = barTransform.Find("Slider").GetComponent<Slider>();
+        slider.value = count;
+        slider.fillRect.GetComponent<Image>().color = ColorHelper.ToColor(colorHex);
+        barTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>().text = count.ToString();
     }
     public async Task CreatePopupTeamSecondPanelAsync()
     {
@@ -653,201 +593,6 @@ public class TeamsManager : MonoBehaviour
         if (cardObjects != null)
         {
             CreateCardTeams(cardObjects, choseTeam);
-        }
-    }
-    public async Task CreateSlotAsync(Transform slotPanel)
-    {
-        ButtonEvent.Instance.Close(slotPanel);
-
-        List<CardHeroes> cardHeroList = null;
-        List<CardCaptains> cardCaptainList = null;
-        List<CardColonels> cardColonelList = null;
-        List<CardGenerals> cardGeneralList = null;
-        List<CardAdmirals> cardAdmiralList = null;
-        List<CardMonsters> cardMonsterList = null;
-        List<CardMilitaries> cardMilitaryList = null;
-        List<CardSpells> cardSpellList = null;
-
-        switch (mainType)
-        {
-            case AppConstants.MainType.CARD_HERO:
-                // Tải dữ liệu 1 lần duy nhất
-                cardHeroList = await userCardHeroesService.GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-                break;
-            case AppConstants.MainType.CARD_CAPTAIN:
-                // Tải dữ liệu 1 lần duy nhất
-                cardCaptainList = await userCardCaptainsService.GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-                break;
-            case AppConstants.MainType.CARD_COLONEL:
-                // Tải dữ liệu 1 lần duy nhất
-                cardColonelList = await userCardColonelsService.GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-                break;
-            case AppConstants.MainType.CARD_GENERAL:
-                // Tải dữ liệu 1 lần duy nhất
-                cardGeneralList = await userCardGeneralsService.GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-                break;
-            case AppConstants.MainType.CARD_ADMIRAL:
-                // Tải dữ liệu 1 lần duy nhất
-                cardAdmiralList = await userCardAdmiralsService.GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-                break;
-            case AppConstants.MainType.CARD_MONSTER:
-                // Tải dữ liệu 1 lần duy nhất
-                cardMonsterList = await userCardMonstersService.GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-                break;
-            case AppConstants.MainType.CARD_MILITARY:
-                // Tải dữ liệu 1 lần duy nhất
-                cardMilitaryList = await userCardMilitaryService.GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-                break;
-            case AppConstants.MainType.CARD_SPELL:
-                // Tải dữ liệu 1 lần duy nhất
-                cardSpellList = await userCardSpellService.GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-                break;
-                // ... (Tải dữ liệu cho các case khác)
-        }
-
-        for (int i = 1; i <= 10; i++)
-        {
-            GameObject teamSlotObject = Instantiate(TeamSlotPrefab, slotPanel);
-            TextMeshProUGUI titleText = teamSlotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI quantityText = teamSlotObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            Button popupButton = teamSlotObject.GetComponent<Button>();
-
-            titleText.text = "Slot " + i.ToString();
-            int tempPosition = i;
-            int countPosition = 0;
-            switch (mainType)
-            {
-                case AppConstants.MainType.CARD_HERO:
-                    if (cardHeroList != null)
-                    {
-                        countPosition = cardHeroList
-                            .Count(card => card.Position != null && card.Position.StartsWith($"{i}-"));
-                    }
-
-                    quantityText.text = countPosition.ToString();
-
-                    popupButton.onClick.AddListener(async () =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        position = tempPosition.ToString();
-                        await CreatePopupTeamSecondPanelAsync();
-                    });
-                    break;
-                case AppConstants.MainType.CARD_CAPTAIN:
-                    if (cardCaptainList != null)
-                    {
-                        countPosition = cardCaptainList
-                        .Count(card => card.Position != null && card.Position.StartsWith($"{i}-"));
-                    }
-
-                    quantityText.text = countPosition.ToString();
-
-                    popupButton.onClick.AddListener(async () =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        position = tempPosition.ToString();
-                        await CreatePopupTeamSecondPanelAsync();
-                    });
-                    break;
-                case AppConstants.MainType.CARD_COLONEL:
-                    if (cardColonelList != null)
-                    {
-                        countPosition = cardColonelList
-                        .Count(card => card.Position != null && card.Position.StartsWith($"{i}-"));
-                    }
-
-                    quantityText.text = countPosition.ToString();
-
-                    popupButton.onClick.AddListener(async () =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        position = tempPosition.ToString();
-                        await CreatePopupTeamSecondPanelAsync();
-                    });
-                    break;
-                case AppConstants.MainType.CARD_GENERAL:
-                    if (cardGeneralList != null)
-                    {
-                        countPosition = cardGeneralList
-                        .Count(card => card.Position != null && card.Position.StartsWith($"{i}-"));
-                    }
-
-                    quantityText.text = countPosition.ToString();
-
-                    popupButton.onClick.AddListener(async () =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        position = tempPosition.ToString();
-                        await CreatePopupTeamSecondPanelAsync();
-                    });
-                    break;
-                case AppConstants.MainType.CARD_ADMIRAL:
-                    if (cardAdmiralList != null)
-                    {
-                        countPosition = cardAdmiralList
-                        .Count(card => card.Position != null && card.Position.StartsWith($"{i}-"));
-                    }
-
-                    quantityText.text = countPosition.ToString();
-
-                    popupButton.onClick.AddListener(async () =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        position = tempPosition.ToString();
-                        await CreatePopupTeamSecondPanelAsync();
-                    });
-                    break;
-                case AppConstants.MainType.CARD_MONSTER:
-                    if (cardMonsterList != null)
-                    {
-                        countPosition = cardMonsterList
-                        .Count(card => card.Position != null && card.Position.StartsWith($"{i}-"));
-                    }
-
-                    quantityText.text = countPosition.ToString();
-
-                    popupButton.onClick.AddListener(async () =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        position = tempPosition.ToString();
-                        await CreatePopupTeamSecondPanelAsync();
-                    });
-                    break;
-                case AppConstants.MainType.CARD_MILITARY:
-                    if (cardMilitaryList != null)
-                    {
-                        countPosition = cardMilitaryList
-                        .Count(card => card.Position != null && card.Position.StartsWith($"{i}-"));
-                    }
-
-                    quantityText.text = countPosition.ToString();
-
-                    popupButton.onClick.AddListener(async () =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        position = tempPosition.ToString();
-                        await CreatePopupTeamSecondPanelAsync();
-                    });
-                    break;
-                case AppConstants.MainType.CARD_SPELL:
-                    if (cardSpellList != null)
-                    {
-                        countPosition = cardSpellList
-                        .Count(card => card.Position != null && card.Position.StartsWith($"{i}-"));
-                    }
-
-                    quantityText.text = countPosition.ToString();
-
-                    popupButton.onClick.AddListener(async () =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        position = tempPosition.ToString();
-                        await CreatePopupTeamSecondPanelAsync();
-                    });
-                    break;
-                default:
-                    break;
-            }
         }
     }
     public async Task CreatePositionAsync(Transform positionPanel, GameObject teamsObject)

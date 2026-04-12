@@ -103,7 +103,7 @@ public class AuthenticationManager : MonoBehaviour
             startButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
+                // AudioManager.Instance.PlayMusic(AudioConstants.Music.FANTASY_AMBIENT);
                 MainMenuManager.Instance.CreateMainPanel();
                 MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
                 FindAnyObjectByType<LoadingManager>().Loading(WaitingPanel, RootPanel);

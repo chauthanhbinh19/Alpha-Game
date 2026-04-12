@@ -37,16 +37,24 @@ public class ForgesGalleryController : MonoBehaviour
     }
     public void CreateForgesGallery(List<Forges> forges, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.FORGE_BUTTON_BACKGROUND_URL);
+
         foreach (var forge in forges)
         {
             try
             {
                 GameObject forgeObject = Instantiate(ForgeBlockButtonPrefab, contentPanel);
+                Transform transform = forgeObject.transform;
 
-                TextMeshProUGUI titleText = forgeObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 titleText.text = forge.Name.Replace("_", " ");
 
-                RawImage image = forgeObject.transform.Find("Image").GetComponent<RawImage>();
+                RawImage image = transform.Find("Image").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
@@ -69,49 +77,49 @@ public class ForgesGalleryController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                RawImage backgroundImage = forgeObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-                backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FORGE_BUTTON_BACKGROUND_URL);
+                RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+                backgroundImage.texture = bgTexture;
 
-                // RawImage frameImage = forgeObject.transform.Find("FrameImage").GetComponent<RawImage>();
+                // RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
                 // frameImage.gameObject.SetActive(true);
 
-                Button button = forgeObject.GetComponent<Button>();
+                Button button = transform.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     PopupDetailsManager.Instance.PopupDetails(forge, MainPanel);
                 });
 
-                TextMeshProUGUI rareText = forgeObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
                 rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(forge.Rare));
                 rareText.text = forge.Rare;
 
-                RawImage blockImage = forgeObject.transform.Find("Block").GetComponent<RawImage>();
-                Button Unlock = forgeObject.transform.Find("UnlockButton").GetComponent<Button>();
+                RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
+                Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();
                 if (forge.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
                     blockImage.gameObject.SetActive(false);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
                 }
                 else if (forge.Status.Equals(AppConstants.Status.PENDING))
                 {
                     blockImage.gameObject.SetActive(true);
-                    Unlock.gameObject.SetActive(true);
+                    unlockButton.gameObject.SetActive(true);
                 }
                 else if (forge.Status.Equals(AppConstants.Status.BLOCK))
                 {
                     blockImage.gameObject.SetActive(true);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                 }
 
-                Unlock.onClick.AddListener(async () =>
+                unlockButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var forgeGalleryService = ForgesGalleryService.Create();
                     await forgeGalleryService.UpdateStatusForgeGalleryAsync(forge.Id);
                     blockImage.gameObject.SetActive(false);
-                    Unlock.gameObject.SetActive(false);
+                    unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
 
                     var powerManagerService = PowerManagerService.Create();
@@ -124,17 +132,17 @@ public class ForgesGalleryController : MonoBehaviour
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
                 });
 
-                Button Upgrade = forgeObject.transform.Find("UpgradeButton").GetComponent<Button>();
+                Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
                 if ((forge.CurrentStar < forge.TempStar) && forge.Status.Equals(AppConstants.Status.AVAILABLE))
                 {
-                    Upgrade.gameObject.SetActive(true);
+                    upgradeButton.gameObject.SetActive(true);
                 }
                 else
                 {
-                    Upgrade.gameObject.SetActive(false);
+                    upgradeButton.gameObject.SetActive(false);
                 }
 
-                Upgrade.onClick.AddListener(async () =>
+                upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     await ForgesGalleryService.Create().UpdateForgeGalleryPowerAsync(forge.Id);

@@ -48,14 +48,22 @@ public class UserPetsController : MonoBehaviour
     }
     public void CreateUserPets(List<Pets> pets, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.PET_BUTTON_BACKGROUND_URL);
+
         foreach (var pet in pets)
         {
             GameObject petsObject = Instantiate(PetButtonPrefab, contentPanel);
+            Transform transform = petsObject.transform;
 
-            TextMeshProUGUI titleText = petsObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = pet.Name.Replace("_", " ");
 
-            RawImage image = petsObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -78,17 +86,17 @@ public class UserPetsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = petsObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PET_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = petsObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(pet, MainPanel);
             });
 
-            TextMeshProUGUI rareText = petsObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(pet.Rare));
             rareText.text = pet.Rare;
 
@@ -157,25 +165,26 @@ public class UserPetsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
+        Transform transform = currentObject.transform;
         if (obj is Pets pet)
         {
-            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
 
             ImageManager.Instance.ChangeSizeImage(image, texture, 700f);
             image.texture = texture;
 
-            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             nameText.text = pet.Name;
 
-            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
             powerText.text = NumberFormatter.FormatNumber(pet.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
-            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{pet.Rare}");
             rareImage.texture = rareTexture;
 
@@ -190,10 +199,11 @@ public class UserPetsController : MonoBehaviour
     public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
-        Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
-        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
-        Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
-        Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button up1LevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
+        Transform LevelElementContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform LevelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Pets pet)
         {
             PropertyInfo[] properties = pet.GetType().GetProperties();
@@ -275,9 +285,10 @@ public class UserPetsController : MonoBehaviour
     public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
-        Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
-        Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
-        Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button breakthroughButton = transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
+        Transform UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        Transform UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Pets pet)
         {
             PropertyInfo[] properties = pet.GetType().GetProperties();
@@ -293,23 +304,25 @@ public class UserPetsController : MonoBehaviour
             foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+                Transform itemTransform = itemObject.transform;
 
-                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
-                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI eQuantity = itemTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
                 eQuantity.text = item.Quantity.ToString() + "/" + (pet.Star + 1).ToString();
             }
             GameObject petObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            Transform petTransform = petObject.transform;
 
-            RawImage petImage = petObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage petImage = petTransform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
             Texture petTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             petImage.texture = petTexture;
 
-            TextMeshProUGUI petQuantity = petObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI petQuantity = petTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             petQuantity.text = pet.Quantity.ToString() + "/" + (pet.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(pet.Star, currentObject);

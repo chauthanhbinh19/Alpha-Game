@@ -46,14 +46,22 @@ public class UserPuppetsController : MonoBehaviour
     }
     public void CreateUserPuppets(List<Puppets> puppets, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.PUPPET_BUTTON_BACKGROUND_URL);
+
         foreach (var puppet in puppets)
         {
             GameObject puppetObject = Instantiate(PuppetButtonPrefab, contentPanel);
+            Transform transform = puppetObject.transform;
 
-            TextMeshProUGUI titleText = puppetObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = puppet.Name.Replace("_", " ");
 
-            RawImage image = puppetObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -76,20 +84,20 @@ public class UserPuppetsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = puppetObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PUPPET_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = puppetObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(puppet, MainPanel);
             });
 
-            RawImage frameImage = puppetObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            TextMeshProUGUI rareText = puppetObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(puppet.Rare));
             rareText.text = puppet.Rare;
 
@@ -152,6 +160,7 @@ public class UserPuppetsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
+        Transform transform = currentObject.transform;
         if (obj is Puppets puppet)
         {
             RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
@@ -160,16 +169,16 @@ public class UserPuppetsController : MonoBehaviour
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             nameText.text = puppet.Name;
 
-            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
             powerText.text = NumberFormatter.FormatNumber(puppet.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
-            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{puppet.Rare}");
             rareImage.texture = rareTexture;
 
@@ -184,10 +193,11 @@ public class UserPuppetsController : MonoBehaviour
     public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
-        Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
-        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
-        Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
-        Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button up1LevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
+        Transform LevelElementContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform LevelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Puppets puppet)
         {
             PropertyInfo[] properties = puppet.GetType().GetProperties();
@@ -269,9 +279,10 @@ public class UserPuppetsController : MonoBehaviour
     public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
-         Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
-        Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
-        Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button breakthroughButton = transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
+        Transform UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        Transform UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Puppets puppet)
         {
             PropertyInfo[] properties = puppet.GetType().GetProperties();
@@ -287,23 +298,25 @@ public class UserPuppetsController : MonoBehaviour
             foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+                Transform itemTransform = itemObject.transform;
 
-                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
-                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI eQuantity = itemTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
                 eQuantity.text = item.Quantity.ToString() + "/" + (puppet.Star + 1).ToString();
             }
             GameObject puppetObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            Transform puppetTransform = puppetObject.transform;
 
-            RawImage puppetImage = puppetObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage puppetImage = puppetTransform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
             Texture puppetTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             puppetImage.texture = puppetTexture;
 
-            TextMeshProUGUI puppetQuantity = puppetObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI puppetQuantity = puppetTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             puppetQuantity.text = puppet.Quantity.ToString() + "/" + (puppet.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(puppet.Star, currentObject);

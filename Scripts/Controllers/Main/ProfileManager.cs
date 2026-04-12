@@ -60,7 +60,8 @@ public class ProfileManager : MonoBehaviour
     public async Task CreateProfileAsync()
     {
         profileObject = Instantiate(ProfilePanelPrefab, MainPanel);
-        Transform profileTransform = profileObject.transform.Find("Scroll View/Viewport/Content");
+        Transform transform = profileObject.transform;
+        Transform profileTransform = transform.Find("Scroll View/Viewport/Content");
         // titleText = profileObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         // CloseButton = profileObject.transform.Find("CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
@@ -77,14 +78,14 @@ public class ProfileManager : MonoBehaviour
 
         // titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FEATURE);
         // ButtonLoader.Instance.CreateFeatureButton(profileTransform);
-        RawImage avatarImage = profileObject.transform.Find("Group2/AvatarImage").GetComponent<RawImage>();
-        RawImage borderImage = profileObject.transform.Find("Group2/BorderImage").GetComponent<RawImage>();
-        TextMeshProUGUI nameText = profileObject.transform.Find("Group2/NameText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI levelText = profileObject.transform.Find("Group2/LevelText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI powerText = profileObject.transform.Find("Group2/PowerText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI idText = profileObject.transform.Find("Group2/IdText").GetComponent<TextMeshProUGUI>();
-        Button editNameButton = profileObject.transform.Find("Group2/EditNameButton").GetComponent<Button>();
-        Button moreCurrencyButton = profileObject.transform.Find("Group4/MoreButton").GetComponent<Button>();
+        RawImage avatarImage = transform.Find("Group2/AvatarImage").GetComponent<RawImage>();
+        RawImage borderImage = transform.Find("Group2/BorderImage").GetComponent<RawImage>();
+        TextMeshProUGUI nameText = transform.Find("Group2/NameText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI levelText = transform.Find("Group2/LevelText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI powerText = transform.Find("Group2/PowerText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI idText = transform.Find("Group2/IdText").GetComponent<TextMeshProUGUI>();
+        Button editNameButton = transform.Find("Group2/EditNameButton").GetComponent<Button>();
+        Button moreCurrencyButton = transform.Find("Group4/MoreButton").GetComponent<Button>();
 
         avatarImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(User.CurrentUserAvatar));
         borderImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder));
@@ -98,12 +99,12 @@ public class ProfileManager : MonoBehaviour
         var gold = currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.GOLD);
         var diamond = currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.DIAMOND);
 
-        RawImage silverImage = profileObject.transform.Find("Group4/CurrencyGroup/Silver/CurrencyImage").GetComponent<RawImage>();
-        RawImage goldImage = profileObject.transform.Find("Group4/CurrencyGroup/Gold/CurrencyImage").GetComponent<RawImage>();
-        RawImage diamondImage = profileObject.transform.Find("Group4/CurrencyGroup/Diamond/CurrencyImage").GetComponent<RawImage>();
-        TextMeshProUGUI silverText = profileObject.transform.Find("Group4/CurrencyGroup/Silver/CurrencyText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI goldText = profileObject.transform.Find("Group4/CurrencyGroup/Gold/CurrencyText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI diamondText = profileObject.transform.Find("Group4/CurrencyGroup/Diamond/CurrencyText").GetComponent<TextMeshProUGUI>();
+        RawImage silverImage = transform.Find("Group4/CurrencyGroup/Silver/CurrencyImage").GetComponent<RawImage>();
+        RawImage goldImage = transform.Find("Group4/CurrencyGroup/Gold/CurrencyImage").GetComponent<RawImage>();
+        RawImage diamondImage = transform.Find("Group4/CurrencyGroup/Diamond/CurrencyImage").GetComponent<RawImage>();
+        TextMeshProUGUI silverText = transform.Find("Group4/CurrencyGroup/Silver/CurrencyText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI goldText = transform.Find("Group4/CurrencyGroup/Gold/CurrencyText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI diamondText = transform.Find("Group4/CurrencyGroup/Diamond/CurrencyText").GetComponent<TextMeshProUGUI>();
 
         silverImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(silver.Image));
         goldImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(gold.Image));
@@ -123,12 +124,12 @@ public class ProfileManager : MonoBehaviour
             await CreateCurrencyPanelAsync();
         });
 
-        Button logoutButton = profileObject.transform.Find("Group1/LogoutButton").GetComponent<Button>();
-        Button settingButton = profileObject.transform.Find("Group1/SettingButton").GetComponent<Button>();
-        Button mailButton = profileObject.transform.Find("Group1/MailButton").GetComponent<Button>();
-        Button newsButton = profileObject.transform.Find("Group1/NewsButton").GetComponent<Button>();
-        Button Photo = profileObject.transform.Find("Group1/PhotoButton").GetComponent<Button>();
-        Button FriendButton = profileObject.transform.Find("Group1/FriendButton").GetComponent<Button>();
+        Button logoutButton = transform.Find("Group1/LogoutButton").GetComponent<Button>();
+        Button settingButton = transform.Find("Group1/SettingButton").GetComponent<Button>();
+        Button mailButton = transform.Find("Group1/MailButton").GetComponent<Button>();
+        Button newsButton = transform.Find("Group1/NewsButton").GetComponent<Button>();
+        Button Photo = transform.Find("Group1/PhotoButton").GetComponent<Button>();
+        Button FriendButton = transform.Find("Group1/FriendButton").GetComponent<Button>();
 
         logoutButton.onClick.AddListener(() =>
         {
@@ -151,10 +152,11 @@ public class ProfileManager : MonoBehaviour
     public void CreateEditNamePanel()
     {
         editNamePanelObject = Instantiate(EditNamePanelPrefab, MainPanel);
-        Button closeButton = editNamePanelObject.transform.Find("CloseButton").GetComponent<Button>();
-        Button saveButton = editNamePanelObject.transform.Find("SaveButton").GetComponent<Button>();
-        TMP_InputField nameText = editNamePanelObject.transform.Find("NameText").GetComponent<TMP_InputField>();
-        Transform warningTransform = editNamePanelObject.transform.Find("Warning");
+        Transform transform = editNamePanelObject.transform;
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        Button saveButton = transform.Find("SaveButton").GetComponent<Button>();
+        TMP_InputField nameText = transform.Find("NameText").GetComponent<TMP_InputField>();
+        Transform warningTransform = transform.Find("Warning");
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -183,8 +185,9 @@ public class ProfileManager : MonoBehaviour
     public async Task CreateCurrencyPanelAsync()
     {
         GameObject currencyObject = Instantiate(CurrencyPanelPrefab, MainPanel);
-        Button closeButton = currencyObject.transform.Find("CloseButton").GetComponent<Button>();
-        Transform currencyPanel = currencyObject.transform.Find("Scroll View/Viewport/Content");
+        Transform transform = currencyObject.transform;
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        Transform currencyPanel = transform.Find("Scroll View/Viewport/Content");
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -205,9 +208,10 @@ public class ProfileManager : MonoBehaviour
     public void CreateSettingPanel()
     {
         GameObject settingObject = Instantiate(SettingPanelPrefab, MainPanel);
-        Transform settingPanel = settingObject.transform.Find("RightScrollView/Viewport/Content");
+        Transform transform = settingObject.transform;
+        Transform settingPanel = transform.Find("RightScrollView/Viewport/Content");
         ButtonEvent.Instance.Close(settingPanel);
-        Button closeButton = settingObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         GameObject graphicObject = Instantiate(SettingButtonPrefab, settingPanel);
         GameObject soundObject = Instantiate(SettingButtonPrefab, settingPanel);
         GameObject otherObject = Instantiate(SettingButtonPrefab, settingPanel);
@@ -325,8 +329,9 @@ public class ProfileManager : MonoBehaviour
     public void CreateNewsPanel()
     {
         GameObject newsObject = Instantiate(NewsPanelPrefab, MainPanel);
-        Transform newsPanel = newsObject.transform.Find("RightScrollView/Viewport/Content");
-        Button closeButton = newsObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = newsObject.transform;
+        Transform newsPanel = transform.Find("RightScrollView/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         ButtonEvent.Instance.Close(newsPanel);
 
         closeButton.onClick.AddListener(() =>
@@ -337,10 +342,11 @@ public class ProfileManager : MonoBehaviour
     }
     public void ChangeSettingButtonColor(Button button, bool status = true)
     {
-        TextMeshProUGUI iconText = button.transform.Find("IconText").GetComponent<TextMeshProUGUI>();
-        RawImage iconImage = button.transform.Find("IconImage").GetComponent<RawImage>();
-        Image background = button.transform.Find("Background").GetComponent<Image>();
-        Image frameImage = button.transform.Find("FrameImage").GetComponent<Image>();
+        Transform transform = button.transform;
+        TextMeshProUGUI iconText = transform.Find("IconText").GetComponent<TextMeshProUGUI>();
+        RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
+        Image background = transform.Find("Background").GetComponent<Image>();
+        Image frameImage = transform.Find("FrameImage").GetComponent<Image>();
 
         if (status)
         {
@@ -359,24 +365,26 @@ public class ProfileManager : MonoBehaviour
     }
     public void CreateGraphic(GameObject graphicObject)
     {
-        Transform resolutionTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/Resolution");
-        Transform textureTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/Texture");
-        Transform damageFlytextTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/DamageFlytext");
-        Transform inGameCinematicTransform = graphicObject.transform.Find("Scroll View/Viewport/Content/InGameCinematic");
+        Transform transform = graphicObject.transform;
+        Transform resolutionTransform = transform.Find("Scroll View/Viewport/Content/Resolution");
+        Transform textureTransform = transform.Find("Scroll View/Viewport/Content/Texture");
+        Transform damageFlytextTransform = transform.Find("Scroll View/Viewport/Content/DamageFlytext");
+        Transform inGameCinematicTransform = transform.Find("Scroll View/Viewport/Content/InGameCinematic");
 
         CreateResolution(resolutionTransform.gameObject);
         CreateTexture(textureTransform.gameObject);
     }
     public void CreateSound(GameObject soundObject)
     {
-        Button defaultButton = soundObject.transform.Find("Default/DefaultButton").GetComponent<Button>();
-        Slider musicSlider = soundObject.transform.Find("Scroll View/Viewport/Content/MusicSound/Slider").GetComponent<Slider>();
-        Slider sfxSlider = soundObject.transform.Find("Scroll View/Viewport/Content/SFXSound/Slider").GetComponent<Slider>();
-        Slider voiceSlider = soundObject.transform.Find("Scroll View/Viewport/Content/VoiceSound/Slider").GetComponent<Slider>();
+        Transform transform = soundObject.transform;
+        Button defaultButton = transform.Find("Default/DefaultButton").GetComponent<Button>();
+        Slider musicSlider = transform.Find("Scroll View/Viewport/Content/MusicSound/Slider").GetComponent<Slider>();
+        Slider sfxSlider = transform.Find("Scroll View/Viewport/Content/SFXSound/Slider").GetComponent<Slider>();
+        Slider voiceSlider = transform.Find("Scroll View/Viewport/Content/VoiceSound/Slider").GetComponent<Slider>();
 
-        TextMeshProUGUI musicQuantityText = soundObject.transform.Find("Scroll View/Viewport/Content/MusicSound/QuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI sfxQuantityText = soundObject.transform.Find("Scroll View/Viewport/Content/SFXSound/QuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI voiceQuantityText = soundObject.transform.Find("Scroll View/Viewport/Content/VoiceSound/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI musicQuantityText = transform.Find("Scroll View/Viewport/Content/MusicSound/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI sfxQuantityText = transform.Find("Scroll View/Viewport/Content/SFXSound/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI voiceQuantityText = transform.Find("Scroll View/Viewport/Content/VoiceSound/QuantityText").GetComponent<TextMeshProUGUI>();
 
         int musicSound = UserSettingsManager.Instance.GetInt(AppConstants.Setting.MUSIC);
         int sfxSound = UserSettingsManager.Instance.GetInt(AppConstants.Setting.SFX);
@@ -716,11 +724,12 @@ public class ProfileManager : MonoBehaviour
     }
     public void ChangeResolutionButtonColor(Button button, bool status = true)
     {
-        TextMeshProUGUI iconText = button.transform.Find("IconText").GetComponent<TextMeshProUGUI>();
-        Image topImage = button.transform.Find("TopImage").GetComponent<Image>();
-        RawImage iconImage = button.transform.Find("IconImage").GetComponent<RawImage>();
-        Outline backgroundOutline = button.GetComponent<Outline>();
-        Outline topImageOutline = button.transform.Find("TopImage").GetComponent<Outline>();
+        Transform transform = button.transform;
+        TextMeshProUGUI iconText = transform.Find("IconText").GetComponent<TextMeshProUGUI>();
+        Image topImage = transform.Find("TopImage").GetComponent<Image>();
+        RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
+        Outline backgroundOutline = GetComponent<Outline>();
+        Outline topImageOutline = transform.Find("TopImage").GetComponent<Outline>();
 
         if (status)
         {
@@ -741,10 +750,11 @@ public class ProfileManager : MonoBehaviour
     }
     public void CreateTexture(GameObject textureObject)
     {
-        Button lowButton = textureObject.transform.Find("ButtonGroup/LowButton").GetComponent<Button>();
-        Button mediumButton = textureObject.transform.Find("ButtonGroup/MediumButton").GetComponent<Button>();
-        Button highButton = textureObject.transform.Find("ButtonGroup/HighButton").GetComponent<Button>();
-        Button veryHighButton = textureObject.transform.Find("ButtonGroup/VeryHighButton").GetComponent<Button>();
+        Transform transform = textureObject.transform;
+        Button lowButton = transform.Find("ButtonGroup/LowButton").GetComponent<Button>();
+        Button mediumButton = transform.Find("ButtonGroup/MediumButton").GetComponent<Button>();
+        Button highButton = transform.Find("ButtonGroup/HighButton").GetComponent<Button>();
+        Button veryHighButton = transform.Find("ButtonGroup/VeryHighButton").GetComponent<Button>();
 
         string resolution = UserSettingsManager.Instance.GetString(AppConstants.Setting.TEXTURE);
         if (resolution.Equals("Low"))
@@ -846,10 +856,11 @@ public class ProfileManager : MonoBehaviour
     }
     public void ChangeTextureButtonColor(Button button, bool status = true)
     {
-        TextMeshProUGUI iconText = button.transform.Find("IconText").GetComponent<TextMeshProUGUI>();
-        Image background = button.transform.GetComponent<Image>();
-        RawImage iconImage = button.transform.Find("IconImage").GetComponent<RawImage>();
-        Outline backgroundOutline = button.GetComponent<Outline>();
+        Transform transform = button.transform;
+        TextMeshProUGUI iconText = transform.Find("IconText").GetComponent<TextMeshProUGUI>();
+        Image background = transform.GetComponent<Image>();
+        RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
+        Outline backgroundOutline = transform.GetComponent<Outline>();
 
         if (status)
         {

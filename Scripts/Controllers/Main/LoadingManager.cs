@@ -21,15 +21,16 @@ public class LoadingManager : MonoBehaviour
     public void Loading(Transform firstPanel, Transform secondPanel)
     {
         GameObject loadingObject = Instantiate(LoadingPanelPrefab, LoadingPanel);
-        RectTransform leftBackground = loadingObject.transform.Find("LeftBackground").GetComponent<RectTransform>();
-        RectTransform rightBackground = loadingObject.transform.Find("RightBackground").GetComponent<RectTransform>();
-        RectTransform leftPathBackground = loadingObject.transform.Find("LeftPathBackground").GetComponent<RectTransform>();
-        RectTransform rightPathBackground = loadingObject.transform.Find("RightPathBackground").GetComponent<RectTransform>();
-        RectTransform circle = loadingObject.transform.Find("Circle").GetComponent<RectTransform>();
-        RectTransform bottomLeftDecoration = loadingObject.transform.Find("BottomLeftDecoration").GetComponent<RectTransform>();
-        RectTransform bottomRightDecoration = loadingObject.transform.Find("BottomRightDecoration").GetComponent<RectTransform>();
-        RectTransform topLeftDecoration = loadingObject.transform.Find("TopLeftDecoration").GetComponent<RectTransform>();
-        RectTransform topRightDecoration = loadingObject.transform.Find("TopRightDecoration").GetComponent<RectTransform>();
+        Transform transform = loadingObject.transform;
+        RectTransform leftBackground = transform.Find("LeftBackground").GetComponent<RectTransform>();
+        RectTransform rightBackground = transform.Find("RightBackground").GetComponent<RectTransform>();
+        RectTransform leftPathBackground = transform.Find("LeftPathBackground").GetComponent<RectTransform>();
+        RectTransform rightPathBackground = transform.Find("RightPathBackground").GetComponent<RectTransform>();
+        RectTransform circle = transform.Find("Circle").GetComponent<RectTransform>();
+        RectTransform bottomLeftDecoration = transform.Find("BottomLeftDecoration").GetComponent<RectTransform>();
+        RectTransform bottomRightDecoration = transform.Find("BottomRightDecoration").GetComponent<RectTransform>();
+        RectTransform topLeftDecoration = transform.Find("TopLeftDecoration").GetComponent<RectTransform>();
+        RectTransform topRightDecoration = transform.Find("TopRightDecoration").GetComponent<RectTransform>();
 
         // Đặt vị trí ban đầu
         leftBackground.anchoredPosition = new Vector2(-1600, leftBackground.anchoredPosition.y);

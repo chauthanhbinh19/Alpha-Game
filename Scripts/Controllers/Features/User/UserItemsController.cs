@@ -38,16 +38,21 @@ public class UserItemsController : MonoBehaviour
     }
     public void CreateUserItems(List<Items> items, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
         foreach (var item in items)
         {
             try
             {
                 GameObject itemObject = Instantiate(ItemSecondButtonPrefab, contentPanel);
+                Transform transform = itemObject.transform;
 
-                TextMeshProUGUI titleText = itemObject.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI titleText = transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
                 titleText.text = item.Name.Replace("_", " ");
 
-                RawImage image = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
+                RawImage image = transform.Find("ItemImage").GetComponent<RawImage>();
                 string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
@@ -70,17 +75,17 @@ public class UserItemsController : MonoBehaviour
                 image.SetNativeSize();
                 image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-                Button button = itemObject.GetComponent<Button>();
+                Button button = transform.GetComponent<Button>();
                 button.onClick.AddListener(() =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     MainMenuDetailsManager.Instance.PopupDetails(item, MainPanel);
                 });
 
-                Image itemBackgroundImage = itemObject.transform.Find("ItemBackground").GetComponent<Image>();
+                Image itemBackgroundImage = transform.Find("ItemBackground").GetComponent<Image>();
                 itemBackgroundImage.gameObject.SetActive(true);
 
-                TextMeshProUGUI itemQuantityText = itemObject.transform.Find("ItemQuantity").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI itemQuantityText = transform.Find("ItemQuantity").GetComponent<TextMeshProUGUI>();
                 itemQuantityText.text = NumberFormatter.FormatNumber(item.Quantity, true).ToString();
             }
             catch (Exception ex)

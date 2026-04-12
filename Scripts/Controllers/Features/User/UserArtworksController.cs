@@ -46,14 +46,22 @@ public class UserArtworksController : MonoBehaviour
     }
     public void CreateUserArtworks(List<Artworks> artworks, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
+
         foreach (var artwork in artworks)
         {
             GameObject artworkObject = Instantiate(ArtworkButtonPrefab, contentPanel);
+            Transform transform = artworkObject.transform;
 
-            TextMeshProUGUI titleText = artworkObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = artwork.Name.Replace("_", " ");
 
-            RawImage image = artworkObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -62,19 +70,19 @@ public class UserArtworksController : MonoBehaviour
             RectTransform rect = image.GetComponent<RectTransform>();
             rect.sizeDelta = new Vector2(200, 130);
 
-            RawImage backgroundImage = artworkObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = artworkObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 MainMenuDetailsManager.Instance.PopupDetails(artwork, MainPanel);
             });
 
-            RawImage frameImage = artworkObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
             frameImage.gameObject.SetActive(true);
 
-            TextMeshProUGUI rareText = artworkObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(artwork.Rare));
             rareText.text = artwork.Rare;
 
@@ -137,24 +145,25 @@ public class UserArtworksController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
+        Transform transform = currentObject.transform;
         if (obj is Artworks artwork)
         {
-            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             nameText.text = artwork.Name;
 
-            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
             powerText.text = NumberFormatter.FormatNumber(artwork.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
-            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rare}");
             rareImage.texture = rareTexture;
 
@@ -169,10 +178,11 @@ public class UserArtworksController : MonoBehaviour
     public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
-        Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
-        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
-        Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
-        Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button up1LevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
+        Transform LevelElementContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform LevelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Artworks artwork)
         {
             PropertyInfo[] properties = artwork.GetType().GetProperties();
@@ -254,9 +264,10 @@ public class UserArtworksController : MonoBehaviour
     public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
-        Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
-        Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
-        Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button breakthroughButton = transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
+        Transform UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        Transform UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Artworks artwork)
         {
             PropertyInfo[] properties = artwork.GetType().GetProperties();
@@ -272,23 +283,25 @@ public class UserArtworksController : MonoBehaviour
             foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+                Transform itemTransform = itemObject.transform;
 
-                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = item.Image.Replace(".png", "");
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
-                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI eQuantity = itemTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
                 eQuantity.text = item.Quantity.ToString() + "/" + (artwork.Star + 1).ToString();
             }
             GameObject artworkObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            Transform artwrokTransform = artworkObject.transform;
 
-            RawImage artworkImage = artworkObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage artworkImage = artwrokTransform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = artwork.Image.Replace(".png", "");
             Texture artworkTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             artworkImage.texture = artworkTexture;
 
-            TextMeshProUGUI artworkQuantity = artworkObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI artworkQuantity = artwrokTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             artworkQuantity.text = artwork.Quantity.ToString() + "/" + (artwork.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(artwork.Star, currentObject);

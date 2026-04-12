@@ -46,14 +46,22 @@ public class UserCollaborationsController : MonoBehaviour
     }
     public void CreateUserCollaborations(List<Collaborations> collaborations, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.COLLABORATION_BUTTON_BACKGROUND_URL);
+
         foreach (var collaboration in collaborations)
         {
             GameObject collaborationObject = Instantiate(CollaborationButtonPrefab, contentPanel);
+            Transform transform = collaborationObject.transform;
 
-            TextMeshProUGUI titleText = collaborationObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = collaboration.Name.Replace("_", " ");
 
-            RawImage image = collaborationObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -76,14 +84,14 @@ public class UserCollaborationsController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = collaborationObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.COLLABORATION_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            TextMeshProUGUI rareText = collaborationObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(collaboration.Rare));
             rareText.text = collaboration.Rare;
 
-            Button button = collaborationObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -153,24 +161,25 @@ public class UserCollaborationsController : MonoBehaviour
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
+        Transform transform = currentObject.transform;
         if (obj is Collaborations collaboration)
         {
-            RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+            RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
 
-            TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
             nameText.text = collaboration.Name;
 
-            TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
             powerText.text = NumberFormatter.FormatNumber(collaboration.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
 
-            RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+            RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaboration.Rare}");
             rareImage.texture = rareTexture;
 
@@ -185,10 +194,11 @@ public class UserCollaborationsController : MonoBehaviour
     public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
-        Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
-        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
-        Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
-        Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button up1LevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
+        Transform LevelElementContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform LevelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Collaborations collaboration)
         {
             PropertyInfo[] properties = collaboration.GetType().GetProperties();
@@ -270,9 +280,10 @@ public class UserCollaborationsController : MonoBehaviour
     public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
-        Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
-        Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
-        Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button breakthroughButton = transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
+        Transform UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        Transform UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         if (obj is Collaborations collaboration)
         {
             PropertyInfo[] properties = collaboration.GetType().GetProperties();
@@ -288,23 +299,25 @@ public class UserCollaborationsController : MonoBehaviour
             foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+                Transform itemTransform = itemObject.transform;
 
-                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
-                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI eQuantity = itemTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
                 eQuantity.text = item.Quantity.ToString() + "/" + (collaboration.Star + 1).ToString();
             }
             GameObject collaborationObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            Transform collaborationTransform = collaborationObject.transform;
 
-            RawImage collaborationImage = collaborationObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage collaborationImage = collaborationTransform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
             Texture collaborationTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             collaborationImage.texture = collaborationTexture;
 
-            TextMeshProUGUI collaborationQuantity = collaborationObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI collaborationQuantity = collaborationTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             collaborationQuantity.text = collaboration.Quantity.ToString() + "/" + (collaboration.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(collaboration.Star, currentObject);

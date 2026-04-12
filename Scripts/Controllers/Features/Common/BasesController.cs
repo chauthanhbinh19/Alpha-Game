@@ -41,14 +41,14 @@ public class BasesController : MonoBehaviour
     {
         GameObject currentObject = Instantiate(BasePanelPrefab, MainPanel);
         Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button CloseButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        HomeButton.onClick.AddListener(() =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);

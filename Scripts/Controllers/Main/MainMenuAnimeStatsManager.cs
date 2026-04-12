@@ -14,7 +14,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     private GameObject MainMenuAnimePanelPrefab;
     private GameObject AnimeSlotPrefab;
     private GameObject TypeButtonPrefab;
-    private GameObject CurrentObject;
+    private GameObject currentObject;
     private GameObject SlotObject;
     private GameObject ElementDetails2Prefab;
     private Button upLevelButton;
@@ -123,15 +123,16 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     public async Task CreateMainMenuAnimeStatsManagerAsync(string nameType)
     {
         animeType = nameType;
-        CurrentObject = Instantiate(MainMenuAnimePanelPrefab, MainPanel);
-        TabButtonPanel = CurrentObject.transform.Find("Scroll View/Viewport/Content");
-        SlotPanel = CurrentObject.transform.Find("DictionaryCards/Slot");
-        TextMeshProUGUI titleText = CurrentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        currentObject = Instantiate(MainMenuAnimePanelPrefab, MainPanel);
+        Transform transform = currentObject.transform;
+        TabButtonPanel = transform.Find("Scroll View/Viewport/Content");
+        SlotPanel = transform.Find("DictionaryCards/Slot");
+        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(nameType);
-        upLevelButton = CurrentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        upMaxLevelButton = CurrentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
-        Button closeButton = CurrentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = CurrentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        upLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        upMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -140,10 +141,10 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(CurrentObject);
+            Destroy(currentObject);
         });
 
-        LevelCondition = CurrentObject.transform.Find("DictionaryCards/LevelCondition");
+        LevelCondition = transform.Find("DictionaryCards/LevelCondition");
 
         Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
         uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(LocalizationManager.Get(nameType));
@@ -233,7 +234,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         string itemName = animeType + " " + feature.FeatureName;
         Items item = await userItemsService.GetUserItemByNameAsync(itemName);
         SetUI(SlotObject, animeStats.Level);
-        SetMaterialUI(CurrentObject, item.Image, item.Quantity, silver.Quantity, animeStats.Level);
+        SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, animeStats.Level);
         upLevelButton.onClick.RemoveAllListeners();
         upMaxLevelButton.onClick.RemoveAllListeners();
         upLevelButton.onClick.AddListener(async () =>

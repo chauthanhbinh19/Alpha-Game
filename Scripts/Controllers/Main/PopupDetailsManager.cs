@@ -95,25 +95,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardHeroDetails(CardHeroes cardHero)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage Image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHero.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         Image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI name = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
         name.text = cardHero.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI power = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
         power.text = NumberFormatter.FormatNumber(cardHero.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI level = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         level.text = cardHero.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardHero.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -126,14 +127,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowBookDetails(Books book)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -146,20 +148,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = book.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = book.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(book.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(book.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = book.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = book.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{book.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -172,25 +174,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardCaptainDetails(CardCaptains cardCaptain)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardCaptain.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardCaptain.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardCaptain.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardCaptain.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = cardCaptain.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardCaptain.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardCaptain.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -203,14 +206,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowPetDetails(Pets pet)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -228,20 +232,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = pet.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = pet.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(pet.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(pet.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = pet.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = pet.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{pet.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -254,14 +258,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCollaborationEquipmentDetails(CollaborationEquipments collaborationEquipment)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -275,20 +280,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = collaborationEquipment.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = collaborationEquipment.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(collaborationEquipment.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(collaborationEquipment.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = collaborationEquipment.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = collaborationEquipment.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaborationEquipment.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -301,25 +306,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardMilitaryDetails(CardMilitaries cardMilitary)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardMilitary.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardMilitary.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardMilitary.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardMilitary.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = cardMilitary.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardMilitary.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMilitary.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -332,25 +338,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardSpellDetails(CardSpells cardSpell)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardSpell.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardSpell.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardSpell.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardSpell.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = cardSpell.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardSpell.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSpell.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -363,25 +370,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCollaborationDetails(Collaborations collaboration)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = collaboration.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = collaboration.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(collaboration.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(collaboration.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = collaboration.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = collaboration.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaboration.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -394,25 +402,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardMonsterDetails(CardMonsters cardMonster)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardMonster.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardMonster.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardMonster.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardMonster.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = cardMonster.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardMonster.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -425,14 +434,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowEquipmentDetails(Equipments equipment)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -446,20 +456,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = equipment.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = equipment.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(equipment.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(equipment.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = equipment.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = equipment.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -471,14 +481,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowMedalDetails(Medals medal)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -492,20 +503,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = medal.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = medal.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(medal.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(medal.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = medals.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = medal.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{medal.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -518,14 +529,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowSkillDetails(Skills skill)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -539,23 +551,23 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = skill.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = skill.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(skill.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(skill.Power, false);
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePopup(popupObject);
         });
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = skill.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{skill.Rare}");
         rareImage.texture = rareTexture;
 
@@ -565,25 +577,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowSymbolDetails(Symbols symbol)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = symbol.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = symbol.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(symbol.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(symbol.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = symbol.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{symbol.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -596,14 +609,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowTitleDetails(Titles title)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(title.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -617,20 +631,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = title.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = title.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(title.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(title.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = title.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{title.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -643,14 +657,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowBorderDetails(Borders border)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -664,20 +679,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = border.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = border.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(border.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(border.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        // TextMeshProUGUI level = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // level.text = border.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{border.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -690,14 +705,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowAchievementDetails(Achievements achievement)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -711,20 +727,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = achievement.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = achievement.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(achievement.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(achievement.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = achievement.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievement.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -737,14 +753,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowMagicFormationCircleDetails(MagicFormationCircles magicFormationCircle)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -758,20 +775,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = magicFormationCircle.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = magicFormationCircle.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(magicFormationCircle.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(magicFormationCircle.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = magicFormationCircle.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{magicFormationCircle.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -784,14 +801,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowRelicDetails(Relics relic)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -805,20 +823,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = relic.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = relic.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(relic.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(relic.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = relic.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{relic.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -831,25 +849,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardColonelDetails(CardColonels cardColonel)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonel.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardColonel.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardColonel.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardColonel.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardColonel.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardColonel.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardColonel.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -862,25 +881,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardGeneralDetails(CardGenerals cardGeneral)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardGeneral.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardGeneral.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardGeneral.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardGeneral.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardGeneral.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardGeneral.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -893,25 +913,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardAdmiralDetails(CardAdmirals cardAdmiral)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardAdmiral.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardAdmiral.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardAdmiral.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardAdmiral.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardAdmiral.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -924,14 +945,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowTalismanDetails(Talismans talisman)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -945,20 +967,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = talisman.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = talisman.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(talisman.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(talisman.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = talisman.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{talisman.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -971,14 +993,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowPuppetDetails(Puppets puppet)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -992,20 +1015,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = puppet.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = puppet.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(puppet.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(puppet.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI level = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        level.text = puppet.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{puppet.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1018,14 +1041,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowAlchemyDetails(Alchemies alchemy)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -1039,20 +1063,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = alchemy.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = alchemy.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(alchemy.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(alchemy.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = alchemy.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{alchemy.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1065,14 +1089,15 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowForgeDetails(Forges forge)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
         if (texture != null)
         {
             // Lấy RectTransform của RawImage
-            RectTransform ImageRectTransform = Image.GetComponent<RectTransform>();
+            RectTransform ImageRectTransform = image.GetComponent<RectTransform>();
 
             // Tính tỉ lệ khung hình
             float aspectRatio = (float)texture.width / texture.height;
@@ -1086,20 +1111,20 @@ public class PopupDetailsManager : MonoBehaviour
             ImageRectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = forge.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = forge.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(forge.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(forge.Power, false);
 
-        // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // level.text = skills.level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = forge.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{forge.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1112,25 +1137,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCardLifeDetails(CardLives cardLife)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardLife.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardLife.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(cardLife.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(cardLife.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = cardLife.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardLife.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardLife.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1143,25 +1169,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowArtworkDetails(Artworks artwork)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artwork.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = artwork.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = artwork.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(artwork.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(artwork.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = artwork.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = artwork.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1174,25 +1201,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowSpiritBeastDetails(SpiritBeasts spiritBeast)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = spiritBeast.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = spiritBeast.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(spiritBeast.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(spiritBeast.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = spiritBeast.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = spiritBeast.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1205,25 +1233,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowSpiritCardDetails(SpiritCards spiritCard)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = spiritCard.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = spiritCard.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(spiritCard.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(spiritCard.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = spiritCard.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = spiritCard.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritCard.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1236,25 +1265,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowArtifactDetails(Artifacts artifact)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = artifact.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = artifact.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(artifact.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(artifact.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = artifact.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = artifact.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artifact.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1267,25 +1297,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowArchitectureDetails(Architectures architecture)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = architecture.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = architecture.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(architecture.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(architecture.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = architecture.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = architecture.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{architecture.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1298,25 +1329,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowTechnologyDetails(Technologies technology)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(technology.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = technology.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = technology.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(technology.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(technology.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = technology.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = technology.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{technology.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1329,25 +1361,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowVehicleDetails(Vehicles vehicle)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = vehicle.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = vehicle.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(vehicle.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(vehicle.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = vehicle.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = vehicle.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{vehicle.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1360,25 +1393,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowCoreDetails(Cores core)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(core.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = core.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = core.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(core.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(core.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = core.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = core.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{core.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1391,25 +1425,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowWeaponDetails(Weapons weapon)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = weapon.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = weapon.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(weapon.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(weapon.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = weapon.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = weapon.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{weapon.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1422,25 +1457,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowRobotDetails(Robots robot)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = robot.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = robot.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(robot.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(robot.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = robot.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = robot.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{robot.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1453,25 +1489,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowBadgeDetails(Badges badge)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = badge.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = badge.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(badge.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(badge.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = badge.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = badge.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{badge.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1484,25 +1521,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowMechaBeastDetails(MechaBeasts mechaBeast)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(mechaBeast.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = mechaBeast.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = mechaBeast.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(mechaBeast.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(mechaBeast.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = mechaBeast.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = mechaBeast.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{mechaBeast.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1515,25 +1553,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowRuneDetails(Runes rune)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = rune.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = rune.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(rune.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(rune.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = rune.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = rune.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{rune.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1546,25 +1585,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowBuildingDetails(Buildings building)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = building.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = building.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(building.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(building.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = building.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = building.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{building.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1577,25 +1617,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowBeverageDetails(Beverages beverage)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = beverage.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = beverage.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(beverage.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(beverage.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = beverage.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = beverage.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{beverage.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1608,25 +1649,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowFoodDetails(Foods food)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = food.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = food.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(food.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(food.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = food.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = food.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{food.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1639,25 +1681,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowEmojiDetails(Emojis emoji)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = emoji.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = emoji.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(emoji.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(emoji.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = emoji.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = emoji.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{emoji.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1670,25 +1713,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowFashionDetails(Fashions fashion)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = fashion.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = fashion.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(fashion.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(fashion.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = fashion.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = fashion.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{fashion.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -1701,25 +1745,26 @@ public class PopupDetailsManager : MonoBehaviour
     }
     private void ShowFurnitureDetails(Furnitures furniture)
     {
-        RawImage Image = popupObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = popupObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = furniture.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = furniture.Name;
 
-        TextMeshProUGUI power = popupObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatter.FormatNumber(furniture.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatter.FormatNumber(furniture.Power, false);
 
-        TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = furniture.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = furniture.Level.ToString();
 
-        RawImage rareImage = popupObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{furniture.Rare}");
         rareImage.texture = rareTexture;
 
-        Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

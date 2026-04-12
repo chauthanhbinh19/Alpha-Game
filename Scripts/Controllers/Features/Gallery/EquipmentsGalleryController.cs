@@ -36,14 +36,22 @@ public class EquipmentsGalleryController : MonoBehaviour
     }
     public void CreateEquipmentsGallery(List<Equipments> equipments, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.EQUIPMENT_BUTTON_BACKGROUND_URL);
+
         foreach (var equipment in equipments)
         {
             GameObject equipmentObject = Instantiate(EquipmentBlockButtonPrefab, contentPanel);
+            Transform transform = equipmentObject.transform;
 
-            TextMeshProUGUI titleText = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = equipment.Name.Replace("_", " ");
 
-            RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -66,10 +74,10 @@ public class EquipmentsGalleryController : MonoBehaviour
             image.SetNativeSize();
             image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
 
-            RawImage backgroundImage = equipmentObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.EQUIPMENT_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = EquipmentBlockButtonPrefab.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -78,36 +86,36 @@ public class EquipmentsGalleryController : MonoBehaviour
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            TextMeshProUGUI rareText = equipmentObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(equipment.Rare));
             rareText.text = equipment.Rare;
 
-            RawImage blockImage = equipmentObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = equipmentObject.transform.Find("UnlockButton").GetComponent<Button>();
+            RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
+            Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();
             if (equipment.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
             }
             else if (equipment.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
+                unlockButton.gameObject.SetActive(true);
             }
             else if (equipment.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
             }
 
-            Unlock.onClick.AddListener(async () =>
+            unlockButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var equipmentGalleryService = EquipmentsGalleryService.Create();
                 await equipmentGalleryService.UpdateStatusEquipmentGalleryAsync(equipment.Id);
                 blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
@@ -120,17 +128,17 @@ public class EquipmentsGalleryController : MonoBehaviour
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = equipmentObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
             if ((equipment.CurrentStar < equipment.TempStar) && equipment.Status.Equals(AppConstants.Status.AVAILABLE))
             {
-                Upgrade.gameObject.SetActive(true);
+                upgradeButton.gameObject.SetActive(true);
             }
             else
             {
-                Upgrade.gameObject.SetActive(false);
+                upgradeButton.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(async () =>
+            upgradeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await EquipmentsGalleryService.Create().UpdateEquipmentGalleryPowerAsync(equipment.Id);

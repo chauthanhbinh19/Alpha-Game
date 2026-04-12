@@ -36,70 +36,78 @@ public class CardGeneralsGalleryController : MonoBehaviour
     }
     public void CreateCardGeneralsGallery(List<CardGenerals> cardGenerals, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_GENERAL_BUTTON_BACKGROUND_URL);
+
         foreach (var cardGeneral in cardGenerals)
         {
             GameObject cardGeneralObject = Instantiate(CardGeneralBlockButtonPrefab, contentPanel);
+            Transform transform = cardGeneralObject.transform;
 
-            TextMeshProUGUI titleText = cardGeneralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = cardGeneral.Name.Replace("_", " ");
 
-            RawImage image = cardGeneralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
-            TextMeshProUGUI levelText = cardGeneralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardGeneral.Level.ToString().Replace("_", " ");
 
-            TextMeshProUGUI cardText = cardGeneralObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = "Card General";
+            TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
 
-            TextMeshProUGUI typePanel = cardGeneralObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardGeneral.Type.ToString().Replace("_", " ");
 
-            Image rareBackground = cardGeneralObject.transform.Find("RareBackground").GetComponent<Image>();
+            Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardGeneral.Rare));
 
-            RawImage backgroundImage = cardGeneralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_GENERAL_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Button button = cardGeneralObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 PopupDetailsManager.Instance.PopupDetails(cardGeneral, MainPanel);
             });
 
-            TextMeshProUGUI rareText = cardGeneralObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardGeneral.Rare));
             rareText.text = cardGeneral.Rare;
 
-            RawImage blockImage = cardGeneralObject.transform.Find("Block").GetComponent<RawImage>();
-            Button Unlock = cardGeneralObject.transform.Find("UnlockButton").GetComponent<Button>();
+            RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
+            Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();
             if (cardGeneral.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
             }
             else if (cardGeneral.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(true);
+                unlockButton.gameObject.SetActive(true);
             }
             else if (cardGeneral.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
             }
 
-            Unlock.onClick.AddListener(async () =>
+            unlockButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var generalGalleryService = CardGeneralsGalleryService.Create();
                 await generalGalleryService.UpdateStatusCardGeneralGalleryAsync(cardGeneral.Id);
                 blockImage.gameObject.SetActive(false);
-                Unlock.gameObject.SetActive(false);
+                unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
 
                 var powerManagerService = PowerManagerService.Create();
@@ -112,17 +120,17 @@ public class CardGeneralsGalleryController : MonoBehaviour
                 FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
             });
 
-            Button Upgrade = cardGeneralObject.transform.Find("UpgradeButton").GetComponent<Button>();
+            Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
             if ((cardGeneral.CurrentStar < cardGeneral.TempStar) && cardGeneral.Status.Equals(AppConstants.Status.AVAILABLE))
             {
-                Upgrade.gameObject.SetActive(true);
+                upgradeButton.gameObject.SetActive(true);
             }
             else
             {
-                Upgrade.gameObject.SetActive(false);
+                upgradeButton.gameObject.SetActive(false);
             }
 
-            Upgrade.onClick.AddListener(async () =>
+            upgradeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await CardGeneralsGalleryService.Create().UpdateCardGeneralGalleryPowerAsync(cardGeneral.Id);

@@ -76,39 +76,47 @@ public class UserCardGeneralsController : MonoBehaviour
     }
     public void CreateUserCardGenerals(List<CardGenerals> cardGenerals, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_GENERAL_BUTTON_BACKGROUND_URL);
+
         foreach (var cardGeneral in cardGenerals)
         {
             GameObject cardGeneralObject = Instantiate(CardGeneralButtonPrefab, contentPanel);
+            Transform transform = cardGeneralObject.transform;
 
-            TextMeshProUGUI titleText = cardGeneralObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = cardGeneral.Name.Replace("_", " ");
 
-            RawImage image = cardGeneralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
-            TextMeshProUGUI levelText = cardGeneralObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardGeneral.Level.ToString().Replace("_", " ");
 
-            TextMeshProUGUI cardText = cardGeneralObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = "Card General";
+            TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
 
-            TextMeshProUGUI typePanel = cardGeneralObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardGeneral.Type.ToString().Replace("_", " ");
 
-            Image rareBackground = cardGeneralObject.transform.Find("RareBackground").GetComponent<Image>();
+            Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardGeneral.Rare));
 
-            RawImage backgroundImage = cardGeneralObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_GENERAL_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Transform teamPanel = cardGeneralObject.transform.Find("Team");
+            Transform teamPanel = transform.Find("Team");
             if(cardGeneral.Team.TeamNumber != 0)
             {
                 teamPanel.gameObject.SetActive(true);
-                RawImage teamBackgroundImage = cardGeneralObject.transform.Find("Team/Background").GetComponent<RawImage>();
-                TextMeshProUGUI teamTitleText = cardGeneralObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
+                RawImage teamBackgroundImage = transform.Find("Team/Background").GetComponent<RawImage>();
+                TextMeshProUGUI teamTitleText = transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
                 Texture teamBackgroundTexture = TextureHelper.LoadTextureCached(ImageConstants.Team.TEAM_BACKGROUND_4);
                 teamBackgroundImage.texture = teamBackgroundTexture;
                 teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardGeneral.Team.TeamNumber.ToString();
@@ -118,14 +126,14 @@ public class UserCardGeneralsController : MonoBehaviour
                 teamPanel.gameObject.SetActive(false);
             }
 
-            Button button = cardGeneralObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(cardGeneral, MainPanel);
             });
 
-            TextMeshProUGUI rareText = cardGeneralObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardGeneral.Rare));
             rareText.text = cardGeneral.Rare;
         }
@@ -142,8 +150,9 @@ public class UserCardGeneralsController : MonoBehaviour
         foreach (var general in cardGenerals)
         {
             GameObject cardGeneralObject = Instantiate(PositionPrefab, PositionPanel);
+            Transform transform = cardGeneralObject.transform;
 
-            RawImage image = cardGeneralObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(general.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
@@ -234,21 +243,22 @@ public class UserCardGeneralsController : MonoBehaviour
     }
     public void CreateDetailsUI(CardGenerals cardGeneral, GameObject currentObject)
     {
-        RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = currentObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         image.texture = texture;
 
-        TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = cardGeneral.Name;
 
-        TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
         powerText.text = NumberFormatter.FormatNumber(cardGeneral.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardGenerals.level.ToString();
 
-        RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardGeneral.Rare}");
         rareImage.texture = rareTexture;
     }
@@ -269,10 +279,11 @@ public class UserCardGeneralsController : MonoBehaviour
     public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
-        Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
-        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
-        Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
-        Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button up1LevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
+        Transform LevelElementContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform LevelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         if (obj is CardGenerals cardGeneral)
         {
             PropertyInfo[] properties = cardGeneral.GetType().GetProperties();
@@ -349,8 +360,9 @@ public class UserCardGeneralsController : MonoBehaviour
     public async Task GetSkillsAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
-        Transform skillContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
-        Button setUpButton = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        Transform skillContent = transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
+        Button setUpButton = transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
         if (obj is CardGenerals cardGeneral)
         {
             var skills = await UserSkillsService.Create().GetUserCardGeneralsSkillsAsync(User.CurrentUserId, cardGeneral.Id);
@@ -358,14 +370,15 @@ public class UserCardGeneralsController : MonoBehaviour
             foreach (var skill in skills)
             {
                 GameObject skillObject = Instantiate(Skill1Prefab, skillContent);
-                RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
+                Transform skillTransform = skillObject.transform;
+                RawImage skillImage = skillTransform.Find("SkillImage").GetComponent<RawImage>();
                 Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
                 skillImage.texture = skillImageTexure;
 
-                TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI skillTitleText = skillTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 skillTitleText.text = skill.Name;
 
-                RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
+                RawImage skillBackgroundImage = skillTransform.Find("Background").GetComponent<RawImage>();
                 string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
                 Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
                 skillBackgroundImage.texture = skillBackgroundImageTexture;
@@ -380,9 +393,10 @@ public class UserCardGeneralsController : MonoBehaviour
     public async Task CreateSkillPanelAsync(string cardId)
     {
         skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
-        Transform skillGroupContent = skillPanelObject.transform.Find("DictionaryCards/SkillGroup");
-        Button closeButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        Transform transform = skillPanelObject.transform;
+        Transform skillGroupContent = transform.Find("DictionaryCards/SkillGroup");
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -404,18 +418,19 @@ public class UserCardGeneralsController : MonoBehaviour
         {
             string currentType = uniqueTypes[i];
             GameObject skillGroupObject = Instantiate(SkillGroupPrefab, skillGroupContent);
+            Transform skillGroupTransform = skillGroupObject.transform;
 
-            TextMeshProUGUI skillTitleText = skillGroupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI skillTitleText = skillGroupTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             skillTitleText.text = currentType;
 
-            RawImage skillBackgroundImage = skillGroupObject.transform.Find("Background4").GetComponent<RawImage>();
+            RawImage skillBackgroundImage = skillGroupTransform.Find("Background4").GetComponent<RawImage>();
             string skillBackground = EvaluateSkill.GetBackgroundForSkill(currentType);
             Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
-            Button activeSkillButton = skillGroupObject.transform.Find("ActiveSkillButton").GetComponent<Button>();
-            Button passiveSkillButton1 = skillGroupObject.transform.Find("PassiveSkillButton1").GetComponent<Button>();
-            Button passiveSkillButton2 = skillGroupObject.transform.Find("PassiveSkillButton2").GetComponent<Button>();
+            Button activeSkillButton = skillGroupTransform.Find("ActiveSkillButton").GetComponent<Button>();
+            Button passiveSkillButton1 = skillGroupTransform.Find("PassiveSkillButton1").GetComponent<Button>();
+            Button passiveSkillButton2 = skillGroupTransform.Find("PassiveSkillButton2").GetComponent<Button>();
 
             var tempSkills = skills.Where(x => x.Type.Equals(currentType)).ToList();
             var activeSkill = tempSkills.FirstOrDefault(x => x.Position == activeSkillPosition);
@@ -493,8 +508,9 @@ public class UserCardGeneralsController : MonoBehaviour
     public async Task CreateSkillPopupAsync(int position, string cardId, string type, string skillType, Skills oldSkill = null)
     {
         GameObject skillPopupObject = Instantiate(PopupSkillsPanelPrefab, MainPanel);
-        Transform skillContent = skillPopupObject.transform.Find("Scroll View/Viewport/Content");
-        Button closeButton = skillPopupObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = skillPopupObject.transform;
+        Transform skillContent = transform.Find("Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -511,19 +527,20 @@ public class UserCardGeneralsController : MonoBehaviour
         foreach (var skill in skills)
         {
             GameObject skillObject = Instantiate(Skill2Prefab, skillContent);
-            RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
+            Transform skillTransform = skillObject.transform;
+            RawImage skillImage = skillTransform.Find("SkillImage").GetComponent<RawImage>();
             Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
             skillImage.texture = skillImageTexure;
 
-            TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI skillTitleText = skillTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             skillTitleText.text = skill.Name;
 
-            RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
+            RawImage skillBackgroundImage = skillTransform.Find("Background").GetComponent<RawImage>();
             string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
             Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
-            Button equipButton = skillObject.transform.Find("EquipButton").GetComponent<Button>();
+            Button equipButton = skillTransform.Find("EquipButton").GetComponent<Button>();
             equipButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -545,21 +562,22 @@ public class UserCardGeneralsController : MonoBehaviour
     public void CreatePopupSkillDetail(int position, string cardId, string type, string skillType, Skills skill)
     {
         GameObject popupSkillDetailObject = Instantiate(PopupSkillDetailPrefab, MainPanel);
-        Button closeButton = popupSkillDetailObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = popupSkillDetailObject.transform;
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupSkillDetailObject);
         });
 
-        RawImage skillImage = popupSkillDetailObject.transform.Find("SkillImage").GetComponent<RawImage>();
+        RawImage skillImage = transform.Find("SkillImage").GetComponent<RawImage>();
         Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
         skillImage.texture = skillImageTexure;
 
-        TextMeshProUGUI skillTitleText = popupSkillDetailObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI skillTitleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         skillTitleText.text = skill.Name;
 
-        Button removeButton = popupSkillDetailObject.transform.Find("RemoveButton").GetComponent<Button>();
+        Button removeButton = transform.Find("RemoveButton").GetComponent<Button>();
         removeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -569,7 +587,7 @@ public class UserCardGeneralsController : MonoBehaviour
             await CreateSkillPanelAsync(cardId);
         });
 
-        Button swapButton = popupSkillDetailObject.transform.Find("SwapButton").GetComponent<Button>();
+        Button swapButton = transform.Find("SwapButton").GetComponent<Button>();
         swapButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -580,9 +598,10 @@ public class UserCardGeneralsController : MonoBehaviour
     public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
-        Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
-        Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
-        Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button breakthroughButton = transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
+        Transform UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        Transform UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         if (obj is CardGenerals cardGeneral)
         {
             PropertyInfo[] properties = cardGeneral.GetType().GetProperties();
@@ -598,23 +617,25 @@ public class UserCardGeneralsController : MonoBehaviour
             foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+                Transform itemTransform = itemObject.transform;
 
-                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
-                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI eQuantity = itemTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
                 eQuantity.text = item.Quantity.ToString() + "/" + (cardGeneral.Star + 1).ToString();
             }
             GameObject cardGeneralObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            Transform cardGeneralTransform = cardGeneralObject.transform;
 
-            RawImage cardGeneralImage = cardGeneralObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage cardGeneralImage = cardGeneralTransform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
             Texture cardGeneralTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             cardGeneralImage.texture = cardGeneralTexture;
 
-            TextMeshProUGUI cardGeneralQuantity = cardGeneralObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardGeneralQuantity = cardGeneralTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardGeneralQuantity.text = cardGeneral.Quantity.ToString() + "/" + (cardGeneral.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(cardGeneral.Star, currentObject);
@@ -697,9 +718,10 @@ public class UserCardGeneralsController : MonoBehaviour
     public async Task GetSpiritBeastAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonSpiritBeastPanels();
-        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Background1").GetComponent<RawImage>();
-        Button addButton = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/AddButton").GetComponent<Button>();
-        Button removeButton = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/RemoveButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        RawImage background1Image = transform.Find("DictionaryCards/Content/SpiritBeastPanel/Background1").GetComponent<RawImage>();
+        Button addButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/AddButton").GetComponent<Button>();
+        Button removeButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/RemoveButton").GetComponent<Button>();
 
         pageSize = 100;
         offset = 0;
@@ -710,7 +732,7 @@ public class UserCardGeneralsController : MonoBehaviour
         if (obj is CardGenerals cardGeneral)
         {
             var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardGeneralSpiritBeastAsync(User.CurrentUserId, cardGeneral);
-            RawImage spiritBeastImage = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
+            RawImage spiritBeastImage = transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = userCardSpiritBeast.Image != null
                 ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image)
                 : "UI/Background4/Background_V4_352";
@@ -736,9 +758,10 @@ public class UserCardGeneralsController : MonoBehaviour
     public async Task CreatePopupEquipmentsAsync(object data, GameObject currentObject, string statusToggle = "NOT EQUIP")
     {
         popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
-        Transform contentPanel = popupSpiritBeastObject.transform.Find("Scroll View/Viewport/Content");
-        Text pageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
-        Toggle toggle = popupSpiritBeastObject.transform.Find("Toggle").GetComponent<Toggle>();
+        Transform transform = popupSpiritBeastObject.transform;
+        Transform contentPanel = transform.Find("Scroll View/Viewport/Content");
+        Text pageText = transform.Find("Pagination/Page").GetComponent<Text>();
+        Toggle toggle = transform.Find("Toggle").GetComponent<Toggle>();
         toggle.isOn = (statusToggle == "ALL");
         toggle.onValueChanged.AddListener(async (bool isOn) =>
         {
@@ -746,9 +769,9 @@ public class UserCardGeneralsController : MonoBehaviour
             Destroy(popupSpiritBeastObject);
             await CreatePopupEquipmentsAsync(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
-        Button nextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        Button previousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        Button closeButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        Button previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(() =>
         {
@@ -784,14 +807,15 @@ public class UserCardGeneralsController : MonoBehaviour
         foreach (var spiritBeast in spiritBeasts)
         {
             GameObject spiritBeastObject = Instantiate(EquipmentsWearingPrefab, content);
+            Transform transform = spiritBeastObject.transform;
 
-            TextMeshProUGUI titleText = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = spiritBeast.Name.Replace("_", " ");
 
-            TextMeshProUGUI powerText = spiritBeastObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI powerText = transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
             powerText.text = spiritBeast.Power.ToString();
 
-            RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = spiritBeast.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -799,11 +823,11 @@ public class UserCardGeneralsController : MonoBehaviour
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
+            RawImage rareImage = transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
             rareImage.texture = rareTexture;
 
-            Button equipButton = spiritBeastObject.transform.Find("EquipButton").GetComponent<Button>();
+            Button equipButton = transform.Find("EquipButton").GetComponent<Button>();
             equipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

@@ -107,30 +107,31 @@ public class MainMenuManager : MonoBehaviour
     public void CreateMainPanel()
     {
         currentObject = Instantiate(MainPanelPrefab, RootPanel);
+        Transform transform = currentObject.transform;
         // ButtonLoader.Instance.CreateMainButton(currentObject);
         // GetMainButtonEvent();
 
-        Transform content = currentObject.transform.Find("MainPanel/MainButtonGroup/SecondCircleImage");
-        Button homeButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/HomeButton").GetComponent<Button>();
-        Button inventoryButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/InventoryButton").GetComponent<Button>();
-        Button eventButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/EventButton").GetComponent<Button>();
-        Button campaignButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/CampaignButton").GetComponent<Button>();
-        Button shopButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
-        Button teamButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/TeamButton").GetComponent<Button>();
-        Button masterBoardButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/MasterBoardButton").GetComponent<Button>();
-        Button scienceFictionButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ScienceFictionButton").GetComponent<Button>();
-        Button galleryButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/GalleryButton").GetComponent<Button>();
-        Button collectionButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/CollectionButton").GetComponent<Button>();
-        Button equipmentButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/EquipmentButton").GetComponent<Button>();
-        Button featureButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/FeatureButton").GetComponent<Button>();
-        Button arenaButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/ArenaButton").GetComponent<Button>();
-        Button profileButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
-        Button missionButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
-        Button guildButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
-        Button researchButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ResearchButton").GetComponent<Button>();
-        Button archiveButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ArchiveButton").GetComponent<Button>();
-        Button universeButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/UniverseButton").GetComponent<Button>();
-        Button structureButton = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
+        Transform content = transform.Find("MainPanel/MainButtonGroup/SecondCircleImage");
+        Button homeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/HomeButton").GetComponent<Button>();
+        Button inventoryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/InventoryButton").GetComponent<Button>();
+        Button eventButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/EventButton").GetComponent<Button>();
+        Button campaignButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/CampaignButton").GetComponent<Button>();
+        Button shopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
+        Button teamButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/TeamButton").GetComponent<Button>();
+        Button masterBoardButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/MasterBoardButton").GetComponent<Button>();
+        Button scienceFictionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ScienceFictionButton").GetComponent<Button>();
+        Button galleryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/GalleryButton").GetComponent<Button>();
+        Button collectionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/CollectionButton").GetComponent<Button>();
+        Button equipmentButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/EquipmentButton").GetComponent<Button>();
+        Button featureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/FeatureButton").GetComponent<Button>();
+        Button arenaButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/ArenaButton").GetComponent<Button>();
+        Button profileButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
+        Button missionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
+        Button guildButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
+        Button researchButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ResearchButton").GetComponent<Button>();
+        Button archiveButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ArchiveButton").GetComponent<Button>();
+        Button universeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/UniverseButton").GetComponent<Button>();
+        Button structureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
 
         _=HomeManager.Instance.CreateHomePanelAsync();
 
@@ -376,24 +377,25 @@ public class MainMenuManager : MonoBehaviour
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
     {
+        Transform transform = currentObject.transform;
         // Transform userPanel = currentObject.transform.Find("User");
         // Button userButton = userPanel.GetComponent<Button>();
-        RawImage avatarImage = currentObject.transform.Find("Header/AvatarImage").GetComponent<RawImage>();
+        RawImage avatarImage = transform.Find("Header/AvatarImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
         Texture avatarTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         avatarImage.texture = avatarTexture;
 
-        RawImage borderImage = currentObject.transform.Find("Header/BorderImage").GetComponent<RawImage>();
+        RawImage borderImage = transform.Find("Header/BorderImage").GetComponent<RawImage>();
         fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
         Texture borderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 
-        RawImage userAvatarImage = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/AvatarImage").GetComponent<RawImage>();
+        RawImage userAvatarImage = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/AvatarImage").GetComponent<RawImage>();
         fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
         Texture TuserAvatarexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         userAvatarImage.texture = TuserAvatarexture;
 
-        RawImage userBorderImage = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/BorderImage").GetComponent<RawImage>();
+        RawImage userBorderImage = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/BorderImage").GetComponent<RawImage>();
         fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
         Texture userBorderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         userBorderImage.texture = userBorderTexture;
@@ -406,31 +408,31 @@ public class MainMenuManager : MonoBehaviour
         //     await ProfileManager.Instance.CreateProfileAsync();
         // });
 
-        TextMeshProUGUI userNameText = currentObject.transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/NameText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI userNameText = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/NameText").GetComponent<TextMeshProUGUI>();
         userNameText.text = authResult.User.Name;
 
-        TextMeshProUGUI nameText = currentObject.transform.Find("Header/NameText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("Header/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = authResult.User.Name;
-        // TextMeshProUGUI levelText = currentObject.transform.Find("Header/LevelText").GetComponent<TextMeshProUGUI>();
+        // TextMeshProUGUI levelText = transform.Find("Header/LevelText").GetComponent<TextMeshProUGUI>();
         // levelText.text = authResult.User.Level.ToString();
-        TextMeshProUGUI powerText = currentObject.transform.Find("Header/PowerText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI powerText = transform.Find("Header/PowerText").GetComponent<TextMeshProUGUI>();
         powerText.text = authResult.User.Power.ToString();
 
         var gold = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.GOLD);
         var silver = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.SILVER);
         var diamond = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.DIAMOND);
 
-        RawImage goldImage = currentObject.transform.Find("Header/GoldCurrency/Image").GetComponent<RawImage>();
-        RawImage silverImage = currentObject.transform.Find("Header/SilverCurrency/Image").GetComponent<RawImage>();
-        RawImage diamondImage = currentObject.transform.Find("Header/DiamondCurrency/Image").GetComponent<RawImage>();
+        RawImage goldImage = transform.Find("Header/GoldCurrency/Image").GetComponent<RawImage>();
+        RawImage silverImage = transform.Find("Header/SilverCurrency/Image").GetComponent<RawImage>();
+        RawImage diamondImage = transform.Find("Header/DiamondCurrency/Image").GetComponent<RawImage>();
 
         goldImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(gold.Image));
         silverImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(silver.Image));
         diamondImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
 
-        TextMeshProUGUI goldText = currentObject.transform.Find("Header/GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI silverText = currentObject.transform.Find("Header/SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI diamondText = currentObject.transform.Find("Header/DiamondCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI goldText = transform.Find("Header/GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI silverText = transform.Find("Header/SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI diamondText = transform.Find("Header/DiamondCurrency/TitleText").GetComponent<TextMeshProUGUI>();
 
         goldText.text = gold.Quantity.ToString();
         silverText.text = silver.Quantity.ToString();

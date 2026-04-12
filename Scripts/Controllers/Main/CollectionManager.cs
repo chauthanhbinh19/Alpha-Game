@@ -27,8 +27,8 @@ public class CollectionManager : MonoBehaviour
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
-    private Button NextButton;
-    private Button PreviousButton;
+    private Button nextButton;
+    private Button previousButton;
     private string mainType;
     private string subType;
     private TextMeshProUGUI titleText;
@@ -232,45 +232,46 @@ public class CollectionManager : MonoBehaviour
     {
         // DictionaryPanel.SetActive(true);
         GameObject mainMenuObject = Instantiate(DictionaryPanelPrefab, MainPanel);
-        DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
-        RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
-        LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
-        PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        NextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        PreviousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        TMP_Dropdown rareDropdown = mainMenuObject.transform.Find("DictionaryCards/InputGroup/RareDropdown").GetComponent<TMP_Dropdown>();
-        TMP_Dropdown typeDropdown = mainMenuObject.transform.Find("DictionaryCards/InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
-        TMP_InputField searchInputField = mainMenuObject.transform.Find("DictionaryCards/InputGroup/Search").GetComponent<TMP_InputField>();
-        Button searchButton = mainMenuObject.transform.Find("DictionaryCards/InputGroup/SearchButton").GetComponent<Button>();
-        closeButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Transform transform = mainMenuObject.transform;
+        DictionaryContentPanel = transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
+        RightScrollViewContentPanel = transform.Find("RightScrollView/Viewport/Content");
+        LeftScrollViewContentPanel = transform.Find("Scroll View/Viewport/ButtonContent");
+        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        TMP_Dropdown rareDropdown = transform.Find("DictionaryCards/InputGroup/RareDropdown").GetComponent<TMP_Dropdown>();
+        TMP_Dropdown typeDropdown = transform.Find("DictionaryCards/InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
+        TMP_InputField searchInputField = transform.Find("DictionaryCards/InputGroup/Search").GetComponent<TMP_InputField>();
+        Button searchButton = transform.Find("DictionaryCards/InputGroup/SearchButton").GetComponent<Button>();
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ClosePanel();
             Destroy(mainMenuObject);
         });
-        homeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        NextButton.onClick.AddListener(() =>
+        nextButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangeNextPage();
         });
-        PreviousButton.onClick.AddListener(() =>
+        previousButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangePreviousPage();
         });
 
-        Image topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
+        Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
         topBackgroundImage.material = UI_Green_Gradient_Radius_Mat_MaskPercent_70;
-        TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI subTitleText = transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
         subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLECTION);
 
         // Transform CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");

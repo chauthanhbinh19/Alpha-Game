@@ -76,39 +76,47 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public void CreateUserCardMilitaries(List<CardMilitaries> cardMilitaries, Transform contentPanel)
     {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_MILITARY_BUTTON_BACKGROUND_URL);
+
         foreach (var cardMilitary in cardMilitaries)
         {
             GameObject cardMilitaryObject = Instantiate(CardMilitaryButtonPrefab, contentPanel);
+            Transform transform = cardMilitaryObject.transform;
 
-            TextMeshProUGUI titleText = cardMilitaryObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = cardMilitary.Name.Replace("_", " ");
 
-            RawImage image = cardMilitaryObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
-            TextMeshProUGUI levelText = cardMilitaryObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
             levelText.text = cardMilitary.Level.ToString().Replace("_", " ");
 
-            TextMeshProUGUI cardText = cardMilitaryObject.transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
-            cardText.text = "Card Military";
+            TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
 
-            TextMeshProUGUI typePanel = cardMilitaryObject.transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
             typePanel.text = cardMilitary.Type.ToString().Replace("_", " ");
 
-            Image rareBackground = cardMilitaryObject.transform.Find("RareBackground").GetComponent<Image>();
+            Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
 
-            RawImage backgroundImage = cardMilitaryObject.transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_MILITARY_BUTTON_BACKGROUND_URL);
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
 
-            Transform teamPanel = cardMilitaryObject.transform.Find("Team");
+            Transform teamPanel = transform.Find("Team");
             if (cardMilitary.Team.TeamNumber != 0)
             {
                 teamPanel.gameObject.SetActive(true);
-                RawImage teamBackgroundImage = cardMilitaryObject.transform.Find("Team/Background").GetComponent<RawImage>();
-                TextMeshProUGUI teamTitleText = cardMilitaryObject.transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
+                RawImage teamBackgroundImage = transform.Find("Team/Background").GetComponent<RawImage>();
+                TextMeshProUGUI teamTitleText = transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
                 Texture teamBackgroundTexture = TextureHelper.LoadTextureCached(ImageConstants.Team.TEAM_BACKGROUND_5);
                 teamBackgroundImage.texture = teamBackgroundTexture;
                 teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardMilitary.Team.TeamNumber.ToString();
@@ -118,14 +126,14 @@ public class UserCardMilitariesController : MonoBehaviour
                 teamPanel.gameObject.SetActive(false);
             }
 
-            Button button = cardMilitaryObject.GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 MainMenuDetailsManager.Instance.PopupDetails(cardMilitary, MainPanel);
             });
 
-            TextMeshProUGUI rareText = cardMilitaryObject.transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
             rareText.text = cardMilitary.Rare;
         }
@@ -139,12 +147,13 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public void CreateUserCardMilitaryForSummon(List<CardMilitaries> cardMilitaries, Transform PositionPanel)
     {
-        foreach (var military in cardMilitaries)
+        foreach (var cardMilitary in cardMilitaries)
         {
-            GameObject militaryObject = Instantiate(PositionPrefab, PositionPanel);
+            GameObject cardMilitaryObject = Instantiate(PositionPrefab, PositionPanel);
+            Transform transform = cardMilitaryObject.transform;
 
-            RawImage image = militaryObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(military.Image);
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -239,21 +248,22 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public void CreateDetailsUI(CardMilitaries cardMilitary, GameObject currentObject)
     {
-        RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Transform transform = currentObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         image.texture = texture;
 
-        TextMeshProUGUI nameText = currentObject.transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = cardMilitary.Name;
 
-        TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
         powerText.text = NumberFormatter.FormatNumber(cardMilitary.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardMilitary.level.ToString();
 
-        RawImage rareImage = currentObject.transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMilitary.Rare}");
         rareImage.texture = rareTexture;
     }
@@ -274,10 +284,11 @@ public class UserCardMilitariesController : MonoBehaviour
     public async Task GetLevelAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonLevelPanels();
-        Button up1LevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
-        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
-        Transform LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
-        Transform LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button up1LevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpOneLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = transform.Find("DictionaryCards/Content/LevelPanel/UpTenLevelButton").GetComponent<Button>();
+        Transform LevelElementContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform LevelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         if (obj is CardMilitaries cardMilitary)
         {
             PropertyInfo[] properties = cardMilitary.GetType().GetProperties();
@@ -354,8 +365,9 @@ public class UserCardMilitariesController : MonoBehaviour
     public async Task GetSkillsAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonSkillsPanels();
-        Transform skillContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
-        Button setUpButton = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        Transform skillContent = transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
+        Button setUpButton = transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
         if (obj is CardMilitaries cardMilitary)
         {
             var skills = await UserSkillsService.Create().GetUserCardMilitariesSkillsAsync(User.CurrentUserId, cardMilitary.Id);
@@ -363,14 +375,15 @@ public class UserCardMilitariesController : MonoBehaviour
             foreach (var skill in skills)
             {
                 GameObject skillObject = Instantiate(Skill1Prefab, skillContent);
-                RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
+                Transform skillTransform = skillObject.transform;
+                RawImage skillImage = skillTransform.Find("SkillImage").GetComponent<RawImage>();
                 Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
                 skillImage.texture = skillImageTexure;
 
-                TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI skillTitleText = skillTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 skillTitleText.text = skill.Name;
 
-                RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
+                RawImage skillBackgroundImage = skillTransform.Find("Background").GetComponent<RawImage>();
                 string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
                 Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
                 skillBackgroundImage.texture = skillBackgroundImageTexture;
@@ -385,9 +398,10 @@ public class UserCardMilitariesController : MonoBehaviour
     public async Task CreateSkillPanelAsync(string cardId)
     {
         skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
-        Transform skillGroupContent = skillPanelObject.transform.Find("DictionaryCards/SkillGroup");
-        Button closeButton = skillPanelObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = skillPanelObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        Transform transform = skillPanelObject.transform;
+        Transform skillGroupContent = transform.Find("DictionaryCards/SkillGroup");
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -409,18 +423,19 @@ public class UserCardMilitariesController : MonoBehaviour
         {
             string currentType = uniqueTypes[i];
             GameObject skillGroupObject = Instantiate(SkillGroupPrefab, skillGroupContent);
+            Transform skillGroupTransform = skillGroupObject.transform;
 
-            TextMeshProUGUI skillTitleText = skillGroupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI skillTitleText = skillGroupTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             skillTitleText.text = currentType;
 
-            RawImage skillBackgroundImage = skillGroupObject.transform.Find("Background4").GetComponent<RawImage>();
+            RawImage skillBackgroundImage = skillGroupTransform.Find("Background4").GetComponent<RawImage>();
             string skillBackground = EvaluateSkill.GetBackgroundForSkill(currentType);
             Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
-            Button activeSkillButton = skillGroupObject.transform.Find("ActiveSkillButton").GetComponent<Button>();
-            Button passiveSkillButton1 = skillGroupObject.transform.Find("PassiveSkillButton1").GetComponent<Button>();
-            Button passiveSkillButton2 = skillGroupObject.transform.Find("PassiveSkillButton2").GetComponent<Button>();
+            Button activeSkillButton = skillGroupTransform.Find("ActiveSkillButton").GetComponent<Button>();
+            Button passiveSkillButton1 = skillGroupTransform.Find("PassiveSkillButton1").GetComponent<Button>();
+            Button passiveSkillButton2 = skillGroupTransform.Find("PassiveSkillButton2").GetComponent<Button>();
 
             var tempSkills = skills.Where(x => x.Type.Equals(currentType)).ToList();
             var activeSkill = tempSkills.FirstOrDefault(x => x.Position == activeSkillPosition);
@@ -498,8 +513,9 @@ public class UserCardMilitariesController : MonoBehaviour
     public async Task CreateSkillPopupAsync(int position, string cardId, string type, string skillType, Skills oldSkill = null)
     {
         GameObject skillPopupObject = Instantiate(PopupSkillsPanelPrefab, MainPanel);
-        Transform skillContent = skillPopupObject.transform.Find("Scroll View/Viewport/Content");
-        Button closeButton = skillPopupObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = skillPopupObject.transform;
+        Transform skillContent = transform.Find("Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -516,19 +532,20 @@ public class UserCardMilitariesController : MonoBehaviour
         foreach (var skill in skills)
         {
             GameObject skillObject = Instantiate(Skill2Prefab, skillContent);
-            RawImage skillImage = skillObject.transform.Find("SkillImage").GetComponent<RawImage>();
+            Transform skillTransform = skillObject.transform;
+            RawImage skillImage = skillTransform.Find("SkillImage").GetComponent<RawImage>();
             Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
             skillImage.texture = skillImageTexure;
 
-            TextMeshProUGUI skillTitleText = skillObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI skillTitleText = skillTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             skillTitleText.text = skill.Name;
 
-            RawImage skillBackgroundImage = skillObject.transform.Find("Background").GetComponent<RawImage>();
+            RawImage skillBackgroundImage = skillTransform.Find("Background").GetComponent<RawImage>();
             string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
             Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
-            Button equipButton = skillObject.transform.Find("EquipButton").GetComponent<Button>();
+            Button equipButton = skillTransform.Find("EquipButton").GetComponent<Button>();
             equipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -550,21 +567,22 @@ public class UserCardMilitariesController : MonoBehaviour
     public void CreatePopupSkillDetail(int position, string cardId, string type, string skillType, Skills skill)
     {
         GameObject popupSkillDetailObject = Instantiate(PopupSkillDetailPrefab, MainPanel);
-        Button closeButton = popupSkillDetailObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = popupSkillDetailObject.transform;
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupSkillDetailObject);
         });
 
-        RawImage skillImage = popupSkillDetailObject.transform.Find("SkillImage").GetComponent<RawImage>();
+        RawImage skillImage = transform.Find("SkillImage").GetComponent<RawImage>();
         Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
         skillImage.texture = skillImageTexure;
 
-        TextMeshProUGUI skillTitleText = popupSkillDetailObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI skillTitleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         skillTitleText.text = skill.Name;
 
-        Button removeButton = popupSkillDetailObject.transform.Find("RemoveButton").GetComponent<Button>();
+        Button removeButton = transform.Find("RemoveButton").GetComponent<Button>();
         removeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -574,7 +592,7 @@ public class UserCardMilitariesController : MonoBehaviour
             await CreateSkillPanelAsync(cardId);
         });
 
-        Button swapButton = popupSkillDetailObject.transform.Find("SwapButton").GetComponent<Button>();
+        Button swapButton = transform.Find("SwapButton").GetComponent<Button>();
         swapButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -585,9 +603,10 @@ public class UserCardMilitariesController : MonoBehaviour
     public async Task GetUpgradeAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonUpgradePanels();
-        Button breakthroughButton = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
-        Transform UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
-        Transform UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Button breakthroughButton = transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
+        Transform UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        Transform UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
         if (obj is CardMilitaries cardMilitary)
         {
             PropertyInfo[] properties = cardMilitary.GetType().GetProperties();
@@ -603,23 +622,25 @@ public class UserCardMilitariesController : MonoBehaviour
             foreach (Items item in items)
             {
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+                Transform itemTransform = itemObject.transform;
 
-                RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+                RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
-                TextMeshProUGUI eQuantity = itemObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI eQuantity = itemTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
                 eQuantity.text = item.Quantity.ToString() + "/" + (cardMilitary.Star + 1).ToString();
             }
             GameObject cardMilitaryObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            Transform cardMilitaryTransform = cardMilitaryObject.transform;
 
-            RawImage cardMilitaryImage = cardMilitaryObject.transform.Find("MaterialImage").GetComponent<RawImage>();
+            RawImage cardMilitaryImage = cardMilitaryTransform.Find("MaterialImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
             Texture cardMilitaryTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             cardMilitaryImage.texture = cardMilitaryTexture;
 
-            TextMeshProUGUI cardMilitaryQuantity = cardMilitaryObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI cardMilitaryQuantity = cardMilitaryTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             cardMilitaryQuantity.text = cardMilitary.Quantity.ToString() + "/" + (cardMilitary.Star + 1).ToString();
 
             UIManager.Instance.CreateStarUI(cardMilitary.Star, currentObject);
@@ -702,9 +723,10 @@ public class UserCardMilitariesController : MonoBehaviour
     public async Task GetSpiritBeastAsync(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonSpiritBeastPanels();
-        RawImage background1Image = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Background1").GetComponent<RawImage>();
-        Button addButton = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/AddButton").GetComponent<Button>();
-        Button removeButton = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/RemoveButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        RawImage background1Image = transform.Find("DictionaryCards/Content/SpiritBeastPanel/Background1").GetComponent<RawImage>();
+        Button addButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/AddButton").GetComponent<Button>();
+        Button removeButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/RemoveButton").GetComponent<Button>();
 
         pageSize = 100;
         offset = 0;
@@ -715,7 +737,7 @@ public class UserCardMilitariesController : MonoBehaviour
         if (obj is CardMilitaries cardMilitary)
         {
             var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardMilitarySpiritBeastAsync(User.CurrentUserId, cardMilitary);
-            RawImage spiritBeastImage = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
+            RawImage spiritBeastImage = transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = userCardSpiritBeast.Image != null
                 ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image)
                 : "UI/Background4/Background_V4_352";
@@ -744,9 +766,10 @@ public class UserCardMilitariesController : MonoBehaviour
     public async Task CreatePopupEquipmentsAsync(object data, GameObject currentObject, string statusToggle = "NOT EQUIP")
     {
         popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
-        Transform contentPanel = popupSpiritBeastObject.transform.Find("Scroll View/Viewport/Content");
-        Text pageText = popupSpiritBeastObject.transform.Find("Pagination/Page").GetComponent<Text>();
-        Toggle toggle = popupSpiritBeastObject.transform.Find("Toggle").GetComponent<Toggle>();
+        Transform transform = popupSpiritBeastObject.transform;
+        Transform contentPanel = transform.Find("Scroll View/Viewport/Content");
+        Text pageText = transform.Find("Pagination/Page").GetComponent<Text>();
+        Toggle toggle = transform.Find("Toggle").GetComponent<Toggle>();
         toggle.isOn = (statusToggle == "ALL");
         toggle.onValueChanged.AddListener(async (bool isOn) =>
         {
@@ -754,9 +777,9 @@ public class UserCardMilitariesController : MonoBehaviour
             Destroy(popupSpiritBeastObject);
             await CreatePopupEquipmentsAsync(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
-        Button nextButton = popupSpiritBeastObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        Button previousButton = popupSpiritBeastObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        Button closeButton = popupSpiritBeastObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        Button previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(() =>
         {
@@ -794,14 +817,15 @@ public class UserCardMilitariesController : MonoBehaviour
         foreach (var spiritBeast in spiritBeasts)
         {
             GameObject spiritBeastObject = Instantiate(EquipmentsWearingPrefab, content);
+            Transform transform = spiritBeastObject.transform;
 
-            TextMeshProUGUI titleText = spiritBeastObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = spiritBeast.Name.Replace("_", " ");
 
-            TextMeshProUGUI powerText = spiritBeastObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI powerText = transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
             powerText.text = spiritBeast.Power.ToString();
 
-            RawImage image = spiritBeastObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = spiritBeast.Image.Replace(".png", "");
             fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -809,11 +833,11 @@ public class UserCardMilitariesController : MonoBehaviour
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            RawImage rareImage = spiritBeastObject.transform.Find("Rare").GetComponent<RawImage>();
+            RawImage rareImage = transform.Find("Rare").GetComponent<RawImage>();
             Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
             rareImage.texture = rareTexture;
 
-            Button equipButton = spiritBeastObject.transform.Find("EquipButton").GetComponent<Button>();
+            Button equipButton = transform.Find("EquipButton").GetComponent<Button>();
             equipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);

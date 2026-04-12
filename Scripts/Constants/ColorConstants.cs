@@ -49,6 +49,15 @@ public static class ColorConstants
     public const string SLG_COLOR = "#82FF3C";
     public const string SLGPlus_COLOR = "#3CFF98";
     public const string SP_COLOR = "#3CE9FF";
+
+    public const string CARD_HERO_COLOR = "#FF0B06";
+    public const string CARD_CAPTAIN_COLOR = "#FF9406";
+    public const string CARD_COLONEL_COLOR = "#E1FF06";
+    public const string CARD_GENERAL_COLOR = "#4BFF06";
+    public const string CARD_ADMIRAL_COLOR = "#06FFC0";
+    public const string CARD_MONSTER_COLOR = "#0681FF";
+    public const string CARD_MILITARY_COLOR = "#6706FF";
+    public const string CARD_SPELL_COLOR = "#FF06CB";
     public static VertexGradient PHYSICAL_GRADIENT_COLOR = new VertexGradient(
         new Color32(255, 99, 71, 255),   // Top Left - Tomato
         new Color32(255, 69, 0, 255),    // Top Right - OrangeRed

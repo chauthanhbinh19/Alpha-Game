@@ -64,28 +64,29 @@ public class MainMenuDetailsManager : MonoBehaviour
     {
         MainPanel = panel;
         currentObject = Instantiate(MainMenuDetailPanel2Prefab, MainPanel);
+        Transform transform = currentObject.transform;
         // RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
-        DetailsPanel = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel");
-        LevelPanel = currentObject.transform.Find("DictionaryCards/Content/LevelPanel");
-        SkillsPanel = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel");
-        UpgradePanel = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel");
-        SpiritBeastPanel = currentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel");
-        RankPanel = currentObject.transform.Find("DictionaryCards/Content/RankPanel");
-        DetailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
+        DetailsPanel = transform.Find("DictionaryCards/Content/DetailsPanel");
+        LevelPanel = transform.Find("DictionaryCards/Content/LevelPanel");
+        SkillsPanel = transform.Find("DictionaryCards/Content/SkillsPanel");
+        UpgradePanel = transform.Find("DictionaryCards/Content/UpgradePanel");
+        SpiritBeastPanel = transform.Find("DictionaryCards/Content/SpiritBeastPanel");
+        RankPanel = transform.Find("DictionaryCards/Content/RankPanel");
+        DetailsContent = transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
         // LevelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         // LevelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        SkillsContent = currentObject.transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
-        UpgradeElementContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
-        UpgradeMaterialContent = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        SkillsContent = transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
+        UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
+        UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
+        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        buttonGroupPanel1 = currentObject.transform.Find("DictionaryCards/ButtonGroup1");
-        buttonGroupPanel2 = currentObject.transform.Find("DictionaryCards/ButtonGroup2");
-        buttonGroupPanel3 = currentObject.transform.Find("DictionaryCards/ButtonGroup3");
-        setButtonGroupPanel = currentObject.transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
-        cardBackground = currentObject.transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
-        RawImage backgroundCircle1Image = currentObject.transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
+        buttonGroupPanel1 = transform.Find("DictionaryCards/ButtonGroup1");
+        buttonGroupPanel2 = transform.Find("DictionaryCards/ButtonGroup2");
+        buttonGroupPanel3 = transform.Find("DictionaryCards/ButtonGroup3");
+        setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
+        cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
+        RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
         // HomeButton.onClick.AddListener(() =>
         // {
         //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

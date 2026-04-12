@@ -36,16 +36,17 @@ public class ResearchManager : MonoBehaviour
     public void CreateResearch()
     {
         GameObject currentObject = Instantiate(ResearchPanelPrefab, MainPanel);
-        Transform research1Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research1/Content");
-        Transform research2Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research2/Content");
-        Transform research3Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research3/Content");
-        Transform research4Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research4/Content");
-        Transform research5Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research5/Content");
-        Transform research6Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research6/Content");
-        Transform research7Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research7/Content");
-        Transform research8Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research8/Content");
-        Transform research9Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research9/Content");
-        Transform research10Panel = currentObject.transform.Find("Scroll View/Viewport/Content/Research10/Content");
+        Transform transform = currentObject.transform;
+        Transform research1Panel = transform.Find("Scroll View/Viewport/Content/Research1/Content");
+        Transform research2Panel = transform.Find("Scroll View/Viewport/Content/Research2/Content");
+        Transform research3Panel = transform.Find("Scroll View/Viewport/Content/Research3/Content");
+        Transform research4Panel = transform.Find("Scroll View/Viewport/Content/Research4/Content");
+        Transform research5Panel = transform.Find("Scroll View/Viewport/Content/Research5/Content");
+        Transform research6Panel = transform.Find("Scroll View/Viewport/Content/Research6/Content");
+        Transform research7Panel = transform.Find("Scroll View/Viewport/Content/Research7/Content");
+        Transform research8Panel = transform.Find("Scroll View/Viewport/Content/Research8/Content");
+        Transform research9Panel = transform.Find("Scroll View/Viewport/Content/Research9/Content");
+        Transform research10Panel = transform.Find("Scroll View/Viewport/Content/Research10/Content");
 
         CreateResearchButtonUI(1, AppDisplayConstants.Research.HOUSING, TextureHelper.LoadTexture2DCached(ImageConstants.Research.HOUSING_URL), research1Panel);
         CreateResearchButtonUI(2, AppDisplayConstants.Research.INFRASTRUCTURE, TextureHelper.LoadTexture2DCached(ImageConstants.Research.INFRASTRUCTURE_URL), research1Panel);
