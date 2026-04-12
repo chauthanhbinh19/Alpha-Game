@@ -62,16 +62,17 @@ public class LegendaryMarketManager : MonoBehaviour
     public async Task CreateLegendaryMarketAsync(Transform panel)
     {
         ContentPanel = panel;
-        GameObject LegendaryMarketManagerObject = Instantiate(LegendaryMarketManagerPrefab, ContentPanel);
-        Transform LegendaryMarketTransform = LegendaryMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        titleText = LegendaryMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        closeButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        GameObject legendaryMarketManagerObject = Instantiate(LegendaryMarketManagerPrefab, ContentPanel);
+        Transform transform = legendaryMarketManagerObject.transform;
+        Transform legendaryMarketTransform = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(LegendaryMarketManagerObject);
+            Destroy(legendaryMarketManagerObject);
         });
-        homeButton = LegendaryMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -86,7 +87,7 @@ public class LegendaryMarketManager : MonoBehaviour
             .ToList();
         foreach (var currency in currencies)
         {
-            GameObject currencyObject = Instantiate(LegendaryMarketButtonPrefab, LegendaryMarketTransform);
+            GameObject currencyObject = Instantiate(LegendaryMarketButtonPrefab, legendaryMarketTransform);
             TextMeshProUGUI currencyText = currencyObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
             currencyText.text = currency.Name.Replace("_", " ");
 
@@ -106,14 +107,15 @@ public class LegendaryMarketManager : MonoBehaviour
     public async Task CreateLegendaryMarketItemUIAsync(Currencies currency)
     {
         currentCurrency = currency;
-        GameObject LegendaryMarketObject = Instantiate(LegendaryMarketPrefab, ContentPanel);
-        currentContent = LegendaryMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        GameObject legendaryMarketObject = Instantiate(LegendaryMarketPrefab, ContentPanel);
+        Transform transform = legendaryMarketObject.transform;
+        currentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = LegendaryMarketObject.transform.Find("Scroll View/Viewport/Content");
-        currencyPanel = LegendaryMarketObject.transform.Find("DictionaryCards/Currency");
-        PageText = LegendaryMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        nextButton = LegendaryMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        previousButton = LegendaryMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = LegendaryMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        currencyPanel = transform.Find("DictionaryCards/Currency");
+        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
         // CloseButton = LegendaryMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {
@@ -160,7 +162,6 @@ public class LegendaryMarketManager : MonoBehaviour
 
         PageText.text = $"{currentPage}/{totalPage}";
     }
-
     public async Task ChangeNextPageAsync()
     {
         if (currentPage < totalPage)

@@ -38,16 +38,17 @@ public class MainMenuAffinityManager : MonoBehaviour
     public void CreateMainMenuAffinityManager(object data)
     {
         currentObject = Instantiate(MainMenuAffinityPanelPrefab, MainPanel);
-        MateriralPanel = currentObject.transform.Find("DictionaryCards/SetGroup/Viewport/Content");
-        mainImage = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        mainLevelText = currentObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        // SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
-        TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        Transform transform = currentObject.transform;
+        MateriralPanel = transform.Find("DictionaryCards/SetGroup/Viewport/Content");
+        mainImage = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        mainLevelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        // SlotPanel = transform.Find("DictionaryCards/Slot");
+        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.AFFINITY);
-        upLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        upMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
-        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        upLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        upMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -59,15 +60,15 @@ public class MainMenuAffinityManager : MonoBehaviour
             Destroy(currentObject);
         });
 
-        RawImage background = currentObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
+        RawImage background = transform.Find("DictionaryBackground").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BACKGROUND_53_URL);
         RawImage closeButtonBackground = closeButton.GetComponent<RawImage>();
         RawImage homeButtonBackground = homeButton.GetComponent<RawImage>();
         closeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
         homeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
-        RawImage scrollViewBackground = currentObject.transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
+        RawImage scrollViewBackground = transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
         scrollViewBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
-        RawImage titleBackground = currentObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
+        RawImage titleBackground = transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
         titleBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
 
         if (data is CardHeroes cardHeroes)

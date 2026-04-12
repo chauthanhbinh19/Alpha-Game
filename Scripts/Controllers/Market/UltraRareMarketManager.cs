@@ -64,15 +64,16 @@ public class UltraRareMarketManager : MonoBehaviour
     {
         ContentPanel = panel;
         GameObject ultraRareMarketManagerObject = Instantiate(UltraRareMarketManagerPrefab, ContentPanel);
-        Transform ultraRareMarketTransform = ultraRareMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        titleText = ultraRareMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        closeButton = ultraRareMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Transform transform = ultraRareMarketManagerObject.transform;
+        Transform ultraRareMarketTransform = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(ultraRareMarketManagerObject);
         });
-        homeButton = ultraRareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -108,13 +109,14 @@ public class UltraRareMarketManager : MonoBehaviour
     {
         currentCurrency = currency;
         GameObject ultraRareMarketObject = Instantiate(UltraRareMarketPrefab, ContentPanel);
-        currentContent = ultraRareMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        Transform transform = ultraRareMarketObject.transform;
+        currentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = ultraRareMarketObject.transform.Find("Scroll View/Viewport/Content");
-        currencyPanel = ultraRareMarketObject.transform.Find("DictionaryCards/Currency");
-        PageText = ultraRareMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        nextButton = ultraRareMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        previousButton = ultraRareMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = ultraRareMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        currencyPanel = transform.Find("DictionaryCards/Currency");
+        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
         // CloseButton = ultraRareMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {
@@ -161,7 +163,6 @@ public class UltraRareMarketManager : MonoBehaviour
 
         PageText.text = $"{currentPage}/{totalPage}";
     }
-
     public async Task ChangeNextPageAsync()
     {
         if (currentPage < totalPage)

@@ -50,15 +50,16 @@ public class MasterOfWeaponManager : MonoBehaviour
     public async Task CreateMasterOfWeaponManagerAsync(object data)
     {
         currentObject = Instantiate(MasterOfWeaponPanelPrefab, MainPanel);
-        TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
-        SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
-        TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        Transform transform = currentObject.transform;
+        TabButtonPanel = transform.Find("Scroll View/Viewport/Content");
+        SlotPanel = transform.Find("DictionaryCards/Slot");
+        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Master.MASTER_OF_WEAPON);
         parentType = AppConstants.Master.MASTER_OF_WEAPON;
-        upLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        upMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
-        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        upLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        upMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -71,7 +72,7 @@ public class MasterOfWeaponManager : MonoBehaviour
             Destroy(currentObject);
         });
 
-        LevelCondition = currentObject.transform.Find("DictionaryCards/LevelCondition");
+        LevelCondition = transform.Find("DictionaryCards/LevelCondition");
 
         Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
         uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.Master.MASTER_OF_WEAPON);

@@ -62,15 +62,16 @@ public class MysticMarketManager : MonoBehaviour
     {
         ContentPanel = panel;
         GameObject mysticMarketManagerObject = Instantiate(MysticMarketManagerPrefab, ContentPanel);
-        Transform mysticMarketTransform = mysticMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        titleText = mysticMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        closeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Transform transform = mysticMarketManagerObject.transform;
+        Transform mysticMarketTransform = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(mysticMarketManagerObject);
         });
-        homeButton = mysticMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -106,13 +107,14 @@ public class MysticMarketManager : MonoBehaviour
     {
         currentCurrency = currency;
         GameObject mysticMarketObject = Instantiate(MysticMarketPrefab, ContentPanel);
-        currentContent = mysticMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        Transform transform = mysticMarketObject.transform;
+        currentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = mysticMarketObject.transform.Find("Scroll View/Viewport/Content");
-        currencyPanel = mysticMarketObject.transform.Find("DictionaryCards/Currency");
-        PageText = mysticMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        nextButton = mysticMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        previousButton = mysticMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = mysticMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        currencyPanel = transform.Find("DictionaryCards/Currency");
+        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
         // CloseButton = mysticMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {

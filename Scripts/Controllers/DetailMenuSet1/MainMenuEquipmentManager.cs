@@ -80,36 +80,37 @@ public class MainMenuEquipmentManager : MonoBehaviour
     public async Task CreateMainMenuEquipmentManagerAsync(object data)
     {
         currentObject = Instantiate(MainMenuEquipmentPanelPrefab, MainPanel);
-        TabButtonPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
-        SlotPanel = currentObject.transform.Find("DictionaryCards/Slot");
-        TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        Transform transform = currentObject.transform;
+        TabButtonPanel = transform.Find("Scroll View/Viewport/Content");
+        SlotPanel = transform.Find("DictionaryCards/Slot");
+        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.EQUIPMENTS);
-        SetPanel = currentObject.transform.Find("DictionaryCards/SetGroup/Viewport/Content");
-        mainImage = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        Button CloseButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
+        SetPanel = transform.Find("DictionaryCards/SetGroup/Viewport/Content");
+        mainImage = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
         });
-        CloseButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        RawImage background = currentObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
+        RawImage background = transform.Find("DictionaryBackground").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BACKGROUND_58_URL);
-        RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
-        RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+        RawImage closeButtonBackground = closeButton.GetComponent<RawImage>();
+        RawImage homeButtonBackground = homeButton.GetComponent<RawImage>();
         closeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
         homeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
-        RawImage scrollViewBackground = currentObject.transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
+        RawImage scrollViewBackground = transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
         scrollViewBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SCROLLVIEW_BACKGROUND_1_URL);
-        RawImage titleBackground = currentObject.transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
+        RawImage titleBackground = transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
         titleBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
-        equipOneTypeButton = currentObject.transform.Find("DictionaryCards/EquipOneTypeButton").GetComponent<Button>();
-        equipAllTypeButton = currentObject.transform.Find("DictionaryCards/EquipAllTypeButton").GetComponent<Button>();
+        equipOneTypeButton = transform.Find("DictionaryCards/EquipOneTypeButton").GetComponent<Button>();
+        equipAllTypeButton = transform.Find("DictionaryCards/EquipAllTypeButton").GetComponent<Button>();
 
         List<string> uniqueTypes = await EquipmentsService.Create().GetUniqueEquipmentsTypesAsync();
         if (uniqueTypes.Count > 0)

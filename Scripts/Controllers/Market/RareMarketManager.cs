@@ -62,16 +62,17 @@ public class RareMarketManager : MonoBehaviour
     public async Task CreateRareMarketAsync(Transform panel)
     {
         ContentPanel = panel;
-        GameObject RareMarketManagerObject = Instantiate(RareMarketManagerPrefab, ContentPanel);
-        Transform RareMarketTransform = RareMarketManagerObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        titleText = RareMarketManagerObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        closeButton = RareMarketManagerObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        GameObject rareMarketManagerObject = Instantiate(RareMarketManagerPrefab, ContentPanel);
+        Transform transform = rareMarketManagerObject.transform;
+        Transform rareMarketTransform = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(RareMarketManagerObject);
+            Destroy(rareMarketManagerObject);
         });
-        homeButton = RareMarketManagerObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -86,7 +87,7 @@ public class RareMarketManager : MonoBehaviour
             .ToList();
         foreach (var currency in currencies)
         {
-            GameObject currencyObject = Instantiate(RareMarketButtonPrefab, RareMarketTransform);
+            GameObject currencyObject = Instantiate(RareMarketButtonPrefab, rareMarketTransform);
             TextMeshProUGUI currencyText = currencyObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
             currencyText.text = currency.Name.Replace("_", " ");
 
@@ -106,14 +107,15 @@ public class RareMarketManager : MonoBehaviour
     public async Task CreateRareMarketItemUIAsync(Currencies currency)
     {
         currentCurrency = currency;
-        GameObject RareMarketObject = Instantiate(RareMarketPrefab, ContentPanel);
-        currentContent = RareMarketObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        GameObject rareMarketObject = Instantiate(RareMarketPrefab, ContentPanel);
+        Transform transform = rareMarketObject.transform;
+        currentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = RareMarketObject.transform.Find("Scroll View/Viewport/Content");
-        currencyPanel = RareMarketObject.transform.Find("DictionaryCards/Currency");
-        PageText = RareMarketObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        nextButton = RareMarketObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        previousButton = RareMarketObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = RareMarketObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        currencyPanel = transform.Find("DictionaryCards/Currency");
+        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
         // CloseButton = RareMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {
@@ -160,7 +162,6 @@ public class RareMarketManager : MonoBehaviour
 
         PageText.text = $"{currentPage}/{totalPage}";
     }
-
     public async Task ChangeNextPageAsync()
     {
         if (currentPage < totalPage)

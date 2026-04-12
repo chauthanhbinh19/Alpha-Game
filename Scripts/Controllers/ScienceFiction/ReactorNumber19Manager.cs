@@ -48,8 +48,9 @@ public class ReactorNumber19Manager : MonoBehaviour
     public async Task CreateReactorPanelAsync()
     {
         GameObject currentObject = Instantiate(ReactorPanelNumberPrefab, MainPanel);
-        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -62,34 +63,34 @@ public class ReactorNumber19Manager : MonoBehaviour
             Destroy(currentObject);
         });
 
-        RawImage leftSideCounduit1Image = currentObject.transform.Find("DictionaryCards/Reactor/LeftSideConduit1/LeftSideConduiltImage").GetComponent<RawImage>();
-        RawImage leftSideCounduit2Image = currentObject.transform.Find("DictionaryCards/Reactor/LeftSideConduit2/LeftSideConduiltImage").GetComponent<RawImage>();
-        RawImage rightSideCounduit1Image = currentObject.transform.Find("DictionaryCards/Reactor/RightSideConduit1/RightSideConduiltImage").GetComponent<RawImage>();
-        RawImage rightSideCounduit2Image = currentObject.transform.Find("DictionaryCards/Reactor/RightSideConduit2/RightSideConduiltImage").GetComponent<RawImage>();
-        RawImage MainReactorBackgroundImage = currentObject.transform.Find("DictionaryCards/Reactor/MainReactorBackgroundCircle/MainReactorImage").GetComponent<RawImage>();
-        RawImage MainReactorImage = currentObject.transform.Find("DictionaryCards/Reactor/MainReactor/MainReactorImage").GetComponent<RawImage>();
-        RawImage MainReactorCoreImage = currentObject.transform.Find("DictionaryCards/Reactor/MainReactorBackgroundCore/MainReactorCoreImage").GetComponent<RawImage>();
-        TextMeshProUGUI ReactorLevelText = currentObject.transform.Find("DictionaryCards/Reactor/ReactorLevel/ReactorLevelText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI ReactorNumberText = currentObject.transform.Find("DictionaryCards/Reactor/ReactorLevel/ReactorNumberText").GetComponent<TextMeshProUGUI>();
-        Button upLevelButton = currentObject.transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        Button upMaxLevelButton = currentObject.transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
-        Transform material1Group = currentObject.transform.Find("DictionaryCards/MaterialNumber1");
-        Transform material2Group = currentObject.transform.Find("DictionaryCards/MaterialNumber2");
-        Transform material3Group = currentObject.transform.Find("DictionaryCards/MaterialNumber3");
-        Transform material4Group = currentObject.transform.Find("DictionaryCards/MaterialNumber4");
-        RawImage material1Image = currentObject.transform.Find("DictionaryCards/MaterialNumber1/MaterialImage").GetComponent<RawImage>();
-        RawImage material2Image = currentObject.transform.Find("DictionaryCards/MaterialNumber2/MaterialImage").GetComponent<RawImage>();
-        RawImage material3Image = currentObject.transform.Find("DictionaryCards/MaterialNumber3/MaterialImage").GetComponent<RawImage>();
-        RawImage material4Image = currentObject.transform.Find("DictionaryCards/MaterialNumber4/MaterialImage").GetComponent<RawImage>();
-        TextMeshProUGUI availableQuantity1Text = currentObject.transform.Find("DictionaryCards/MaterialNumber1/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI availableQuantity2Text = currentObject.transform.Find("DictionaryCards/MaterialNumber2/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI availableQuantity3Text = currentObject.transform.Find("DictionaryCards/MaterialNumber3/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI availableQuantity4Text = currentObject.transform.Find("DictionaryCards/MaterialNumber4/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI requiredQuantity1Text = currentObject.transform.Find("DictionaryCards/MaterialNumber1/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI requiredQuantity2Text = currentObject.transform.Find("DictionaryCards/MaterialNumber2/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI requiredQuantity3Text = currentObject.transform.Find("DictionaryCards/MaterialNumber3/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI requiredQuantity4Text = currentObject.transform.Find("DictionaryCards/MaterialNumber4/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        RawImage leftSideCounduit1Image = transform.Find("DictionaryCards/Reactor/LeftSideConduit1/LeftSideConduiltImage").GetComponent<RawImage>();
+        RawImage leftSideCounduit2Image = transform.Find("DictionaryCards/Reactor/LeftSideConduit2/LeftSideConduiltImage").GetComponent<RawImage>();
+        RawImage rightSideCounduit1Image = transform.Find("DictionaryCards/Reactor/RightSideConduit1/RightSideConduiltImage").GetComponent<RawImage>();
+        RawImage rightSideCounduit2Image = transform.Find("DictionaryCards/Reactor/RightSideConduit2/RightSideConduiltImage").GetComponent<RawImage>();
+        RawImage MainReactorBackgroundImage = transform.Find("DictionaryCards/Reactor/MainReactorBackgroundCircle/MainReactorImage").GetComponent<RawImage>();
+        RawImage MainReactorImage = transform.Find("DictionaryCards/Reactor/MainReactor/MainReactorImage").GetComponent<RawImage>();
+        RawImage MainReactorCoreImage = transform.Find("DictionaryCards/Reactor/MainReactorBackgroundCore/MainReactorCoreImage").GetComponent<RawImage>();
+        TextMeshProUGUI ReactorLevelText = transform.Find("DictionaryCards/Reactor/ReactorLevel/ReactorLevelText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI ReactorNumberText = transform.Find("DictionaryCards/Reactor/ReactorLevel/ReactorNumberText").GetComponent<TextMeshProUGUI>();
+        Button upLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        Button upMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        Transform material1Group = transform.Find("DictionaryCards/MaterialNumber1");
+        Transform material2Group = transform.Find("DictionaryCards/MaterialNumber2");
+        Transform material3Group = transform.Find("DictionaryCards/MaterialNumber3");
+        Transform material4Group = transform.Find("DictionaryCards/MaterialNumber4");
+        RawImage material1Image = transform.Find("DictionaryCards/MaterialNumber1/MaterialImage").GetComponent<RawImage>();
+        RawImage material2Image = transform.Find("DictionaryCards/MaterialNumber2/MaterialImage").GetComponent<RawImage>();
+        RawImage material3Image = transform.Find("DictionaryCards/MaterialNumber3/MaterialImage").GetComponent<RawImage>();
+        RawImage material4Image = transform.Find("DictionaryCards/MaterialNumber4/MaterialImage").GetComponent<RawImage>();
+        TextMeshProUGUI availableQuantity1Text = transform.Find("DictionaryCards/MaterialNumber1/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI availableQuantity2Text = transform.Find("DictionaryCards/MaterialNumber2/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI availableQuantity3Text = transform.Find("DictionaryCards/MaterialNumber3/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI availableQuantity4Text = transform.Find("DictionaryCards/MaterialNumber4/AvailableQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredQuantity1Text = transform.Find("DictionaryCards/MaterialNumber1/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredQuantity2Text = transform.Find("DictionaryCards/MaterialNumber2/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredQuantity3Text = transform.Find("DictionaryCards/MaterialNumber3/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI requiredQuantity4Text = transform.Find("DictionaryCards/MaterialNumber4/RequiredQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
