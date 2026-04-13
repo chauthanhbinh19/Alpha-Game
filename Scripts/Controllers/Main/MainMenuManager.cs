@@ -1767,7 +1767,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (listCount > 0)
         {
-            totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
+            totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         }
     }
@@ -1796,11 +1796,6 @@ public class MainMenuManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-    }
-    public int CalculateTotalPages(int totalRecords, int pageSize)
-    {
-        if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
-        return (int)Math.Ceiling((double)totalRecords / pageSize);
     }
     public void ChangeNextPage()
     {

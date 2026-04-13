@@ -44,14 +44,14 @@ public class MainMenuAstralVoiceManager : MonoBehaviour
         parentType = AppConstants.MainMenuSet5.ASTRAL_VOICE;
         UpLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
         UpMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
-        Button CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button HomeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(() =>
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
         });
-        CloseButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
@@ -59,8 +59,8 @@ public class MainMenuAstralVoiceManager : MonoBehaviour
 
         RawImage background = transform.Find("DictionaryBackground").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BACKGROUND_156_URL);
-        RawImage closeButtonBackground = CloseButton.GetComponent<RawImage>();
-        RawImage homeButtonBackground = HomeButton.GetComponent<RawImage>();
+        RawImage closeButtonBackground = closeButton.GetComponent<RawImage>();
+        RawImage homeButtonBackground = homeButton.GetComponent<RawImage>();
         closeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
         homeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
         RawImage scrollViewBackground = transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();

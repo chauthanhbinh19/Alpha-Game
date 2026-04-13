@@ -836,7 +836,7 @@ public class ShopManager : MonoBehaviour
             totalRecord = await AchievementsService.Create().GetAchievementsWithPriceCountAsync();
         }
 
-        totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
+        totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
     }
     public void ClearAllPrefabs()
@@ -854,11 +854,6 @@ public class ShopManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-    }
-    public int CalculateTotalPages(int totalRecords, int pageSize)
-    {
-        if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
-        return (int)Math.Ceiling((double)totalRecords / pageSize);
     }
     public void ChangeNextPage()
     {
