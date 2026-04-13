@@ -56,14 +56,15 @@ public class CommunicationManager : MonoBehaviour
     public async Task CreateCommunicationManagerAsync()
     {
         GameObject currentObject = Instantiate(PopupResearchPanelPrefab, MainPanel);
-        content = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        content = transform.Find("Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -132,15 +133,16 @@ public class CommunicationManager : MonoBehaviour
     
     private void SetupPagination(GameObject currentObject)
     {
-        nextButton = currentObject.transform
+        Transform transform = currentObject.transform;
+        nextButton = transform
             .Find("Pagination/Next")
             .GetComponent<Button>();
 
-        previousButton = currentObject.transform
+        previousButton = transform
             .Find("Pagination/Previous")
             .GetComponent<Button>();
 
-        pageText = currentObject.transform
+        pageText = transform
             .Find("Pagination/Page")
             .GetComponent<TextMeshProUGUI>();
 
@@ -196,28 +198,29 @@ public class CommunicationManager : MonoBehaviour
     public async Task CreateMainResearchPanelAsync(string featureId, string featureName)
     {
         GameObject currentObject = Instantiate(MainResearchPanelPrefab, MainPanel);
-        Button upgradeOneLevelButton = currentObject.transform.Find("UpgradeOneLevelButton").GetComponent<Button>();
-        Button upgradeMaxLevelButton = currentObject.transform.Find("UpgradeMaxLevelButton").GetComponent<Button>();
-        Transform leftSideContent = currentObject.transform.Find("LeftSideContent");
-        Transform rightSideContent = currentObject.transform.Find("RightSideContent");
-        TextMeshProUGUI levelText = currentObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        Button upgradeOneLevelButton = transform.Find("UpgradeOneLevelButton").GetComponent<Button>();
+        Button upgradeMaxLevelButton = transform.Find("UpgradeMaxLevelButton").GetComponent<Button>();
+        Transform leftSideContent = transform.Find("LeftSideContent");
+        Transform rightSideContent = transform.Find("RightSideContent");
+        TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        RawImage mapImage = currentObject.transform.Find("MapImage").GetComponent<RawImage>();
+        RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_8");
         mapImage.texture = mapTexture; 
-        RawImage rankImage = currentObject.transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
+        RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Research.COMMUNICATION}");
         rankImage.texture = rankTexture; 
 

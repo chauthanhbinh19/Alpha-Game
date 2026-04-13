@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,18 +68,15 @@ public class ArchiveManager : MonoBehaviour
     }
     private void CreateArchiveButtonUI(int index, string itemName, Texture2D _itemImage, Transform panel)
     {
-        // Tạo button từ prefab
         GameObject newButton = Instantiate(ArchiveButtonPrefab, panel);
         newButton.name = "Button_" + index;
 
-        // Gán hình ảnh cho itemImage
         RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
         if (image != null && _itemImage != null)
         {
             image.texture = _itemImage;
         }
 
-        // Gán tên cho itemName
         TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {

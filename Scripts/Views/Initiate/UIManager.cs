@@ -137,16 +137,17 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-        Transform backgroundImageTransform = gameObject.transform.Find("Background");
+        Transform transform = gameObject.transform;
+        Transform backgroundImageTransform = transform.Find("Background");
         if (backgroundImageTransform != null)
         {
-            RawImage backgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
+            RawImage backgroundImage = transform.Find("Background").GetComponent<RawImage>();
             Texture backgroundTexture = TextureHelper.LoadTextureCached($"UI/Background3/{mainType}");
             backgroundImage.texture = backgroundTexture;
             backgroundImage.rectTransform.sizeDelta = new Vector2(350, 350);
         }
 
-        Transform backgroundTransform = gameObject.transform.Find("BackgroundCircle");
+        Transform backgroundTransform = transform.Find("BackgroundCircle");
         if (backgroundTransform != null)
         {
             RawImage backgroundImageCircle = backgroundTransform.GetComponent<RawImage>();
@@ -162,7 +163,7 @@ public class UIManager : MonoBehaviour
         // Đặt tất cả kỹ năng về trạng thái mặc định (đen + text "0/1000")
         for (int i = 1; i <= totalSkills; i++)
         {
-            Transform aptitudeSkill = gameObject.transform.Find($"UpgradeSkill{i}");
+            Transform aptitudeSkill = transform.Find($"UpgradeSkill{i}");
             if (aptitudeSkill == null) continue;
 
             RawImage aptitudeImage = aptitudeSkill.Find("AptitudeImage").GetComponent<RawImage>();
@@ -179,7 +180,7 @@ public class UIManager : MonoBehaviour
         int activeSkillsCount = Mathf.Clamp((level / levelsPerSkill), 1, totalSkills);
         for (int i = 1; i <= activeSkillsCount; i++)
         {
-            Transform activeSkill = gameObject.transform.Find($"UpgradeSkill{i}");
+            Transform activeSkill = transform.Find($"UpgradeSkill{i}");
             if (activeSkill != null)
             {
                 RawImage activeImage = activeSkill.Find("AptitudeImage").GetComponent<RawImage>();
@@ -195,12 +196,13 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
-        TextMeshProUGUI totalLevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI totalLevelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         totalLevelText.text = level.ToString();
     }
     public void SetMaterialUI(GameObject gameobject, string itemImage, double itemQuantity, double currencyQuantity, int rankLevel, int maxLevel)
     {
-        Transform currencyPanel = gameobject.transform.Find("DictionaryCards/Currency");
+        Transform transform = gameObject.transform;
+        Transform currencyPanel = transform.Find("DictionaryCards/Currency");
         // List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
         ButtonEvent.Instance.Close(currencyPanel);
         GameObject itemObject = Get("ItemPrefab");
@@ -213,33 +215,33 @@ public class UIManager : MonoBehaviour
 
         var oneResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
         var maxResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
-        RawImage oneLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
-        RawImage maxLevelCurrencyImage = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
+        RawImage oneLevelCurrencyImage = transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
+        RawImage maxLevelCurrencyImage = transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         Texture oneLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
         Texture maxLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
         oneLevelCurrencyImage.texture = oneLevelCurrencyTexture;
         maxLevelCurrencyImage.texture = maxLevelCurrencyTexture;
 
-        TextMeshProUGUI oneLevelCurrencyText = gameobject.transform.Find("DictionaryCards/OneLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI maxLevelCurrencyText = gameobject.transform.Find("DictionaryCards/MaxLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI oneLevelCurrencyText = transform.Find("DictionaryCards/OneLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI maxLevelCurrencyText = transform.Find("DictionaryCards/MaxLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
         oneLevelCurrencyText.text = oneResult.totalCurrencyUsed.ToString();
         maxLevelCurrencyText.text = maxResult.totalCurrencyUsed.ToString();
 
-        RawImage oneLevelImage = gameobject.transform.Find("DictionaryCards/OneLevelMaterial/MaterialImage").GetComponent<RawImage>();
+        RawImage oneLevelImage = transform.Find("DictionaryCards/OneLevelMaterial/MaterialImage").GetComponent<RawImage>();
         Texture oneLevelTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         oneLevelImage.texture = oneLevelTexture;
 
-        TextMeshProUGUI oneLevelQuantity = gameobject.transform.Find("DictionaryCards/OneLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI oneLevelQuantity = transform.Find("DictionaryCards/OneLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
         oneLevelQuantity.text = oneResult.totalMaterialUsed.ToString();
 
         // RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
         // oneLevelRectTransform.sizeDelta = new Vector2(40, 40);
 
-        RawImage maxLevelImage = gameobject.transform.Find("DictionaryCards/MaxLevelMaterial/MaterialImage").GetComponent<RawImage>();
+        RawImage maxLevelImage = transform.Find("DictionaryCards/MaxLevelMaterial/MaterialImage").GetComponent<RawImage>();
         Texture maxLevelTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
         maxLevelImage.texture = maxLevelTexture;
 
-        TextMeshProUGUI maxLevelQuantity = gameobject.transform.Find("DictionaryCards/MaxLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI maxLevelQuantity = transform.Find("DictionaryCards/MaxLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
         maxLevelQuantity.text = maxResult.totalMaterialUsed.ToString();
 
         // RectTransform maxLevelRectTransform = maxLevelImage.GetComponent<RectTransform>();
@@ -267,8 +269,9 @@ public class UIManager : MonoBehaviour
     }
     public void CreateLevelUI(int level, GameObject currentObject)
     {
-        TextMeshProUGUI currentLevelText = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/Level/CurrentLevelText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI nextLevelText = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/Level/NextLevelText").GetComponent<TextMeshProUGUI>();
+        Transform transform = currentObject.transform;
+        TextMeshProUGUI currentLevelText = transform.Find("DictionaryCards/Content/LevelPanel/Level/CurrentLevelText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nextLevelText = transform.Find("DictionaryCards/Content/LevelPanel/Level/NextLevelText").GetComponent<TextMeshProUGUI>();
         currentLevelText.text = level.ToString();
         int nextLevel = level + 1;
         if ((int)level == 100000)
@@ -282,7 +285,8 @@ public class UIManager : MonoBehaviour
     }
     public void CreatePropertyUI(int status, PropertyInfo[] properties, object targetObject, GameObject currentObject)
     {
-        Transform detailsContent = currentObject.transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Transform detailsContent = transform.Find("DictionaryCards/Content/DetailsPanel/Scroll View/Viewport/Content");
 
         Transform generalInformationPanel = detailsContent.transform.Find("GeneralInformation");
         Transform statsInformationPanel = detailsContent.transform.Find("StatInformation");
@@ -759,7 +763,8 @@ public class UIManager : MonoBehaviour
     }
     public void CreatePropertyLevelUI(PropertyInfo[] properties, object targetObject, double increasePerLevel, GameObject currentObject)
     {
-        Transform levelElementContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Transform levelElementContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewElement/Viewport/Content");
         foreach (var property in properties)
         {
             // Lấy giá trị của thuộc tính
@@ -876,7 +881,8 @@ public class UIManager : MonoBehaviour
     }
     public void CreateMaterialUI(List<Items> items, GameObject currentObject)
     {
-        Transform levelMaterialContent = currentObject.transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Transform levelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
         foreach (Items item in items)
         {
             GameObject itemObject = Instantiate(ItemThird, levelMaterialContent);
@@ -891,8 +897,9 @@ public class UIManager : MonoBehaviour
     }
     public void CreateStarUI(int star, GameObject currentObject)
     {
-        Transform currentStar = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/Level/CurrentStar");
-        Transform nextStar = currentObject.transform.Find("DictionaryCards/Content/UpgradePanel/Level/NextStar");
+        Transform transform = currentObject.transform;
+        Transform currentStar = transform.Find("DictionaryCards/Content/UpgradePanel/Level/CurrentStar");
+        Transform nextStar = transform.Find("DictionaryCards/Content/UpgradePanel/Level/NextStar");
         int currentimageIndex = (star == 0) ? 0 : ((star - 1) % 10) + 1;
         int currentstarIndex = (star == 0) ? 0 : (star - 1) / 10;
         int newStar = (star + 1 > 100000) ? 0 : star + 1;

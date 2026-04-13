@@ -98,12 +98,13 @@ public class TeamsManager : MonoBehaviour
 
     public async Task CreateTeamsAsync()
     {
-        GameObject teamsObject = Instantiate(TeamsPanelPrefab, MainPanel);
-        Transform tempLeftContent = teamsObject.transform.Find("ScrollViewLeft/Viewport/Content");
-        Transform tempRightContent = teamsObject.transform.Find("ScrollViewRight/Viewport/Content");
-        Transform positionTeamsPanel = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
-        TextMeshProUGUI teamsTitleText = teamsObject.transform.Find("DictionaryCards/TeamsTitleText").GetComponent<TextMeshProUGUI>();
-        closeButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        GameObject teamObject = Instantiate(TeamsPanelPrefab, MainPanel);
+        Transform transform = teamObject.transform;
+        Transform tempLeftContent = transform.Find("ScrollViewLeft/Viewport/Content");
+        Transform tempRightContent = transform.Find("ScrollViewRight/Viewport/Content");
+        Transform positionTeamsPanel = transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
+        TextMeshProUGUI teamsTitleText = transform.Find("DictionaryCards/TeamsTitleText").GetComponent<TextMeshProUGUI>();
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -160,7 +161,7 @@ public class TeamsManager : MonoBehaviour
             AppDisplayConstants.MainType.CARD_MILITARIES, AppDisplayConstants.MainType.CARD_SPELLS
         };
 
-            string[] backgrounds = {
+        string[] backgrounds = {
             "UI/Background4/Background_V4_438", "UI/Background4/Background_V4_439",
             "UI/Background4/Background_V4_438", "UI/Background4/Background_V4_439",
             "UI/Background4/Background_V4_438", "UI/Background4/Background_V4_439",
@@ -265,14 +266,14 @@ public class TeamsManager : MonoBehaviour
             TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI quantityText = transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
 
-            // Button cardHeroButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardHeroButton").GetComponent<Button>();
-            // Button cardCaptainButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardCaptainButton").GetComponent<Button>();
-            // Button cardColonelButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardColonelButton").GetComponent<Button>();
-            // Button cardGeneralButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardGeneralButton").GetComponent<Button>();
-            // Button cardAdmiralButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardAdmiralButton").GetComponent<Button>();
-            // Button cardMonsterButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardMonsterButton").GetComponent<Button>();
-            // Button cardMilitaryButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardMilitaryButton").GetComponent<Button>();
-            // Button cardSpellButton = teamSlotComponentObject.transform.Find("ButtonGroup/CardSpellButton").GetComponent<Button>();
+            Button cardHeroButton = transform.Find("ButtonGroup/CardHeroButton").GetComponent<Button>();
+            Button cardCaptainButton = transform.Find("ButtonGroup/CardCaptainButton").GetComponent<Button>();
+            Button cardColonelButton = transform.Find("ButtonGroup/CardColonelButton").GetComponent<Button>();
+            Button cardGeneralButton = transform.Find("ButtonGroup/CardGeneralButton").GetComponent<Button>();
+            Button cardAdmiralButton = transform.Find("ButtonGroup/CardAdmiralButton").GetComponent<Button>();
+            Button cardMonsterButton = transform.Find("ButtonGroup/CardMonsterButton").GetComponent<Button>();
+            Button cardMilitaryButton = transform.Find("ButtonGroup/CardMilitaryButton").GetComponent<Button>();
+            Button cardSpellButton = transform.Find("ButtonGroup/CardSpellButton").GetComponent<Button>();
 
             titleText.text = "Slot " + i.ToString();
             quantityText.text = i.ToString();
@@ -303,20 +304,21 @@ public class TeamsManager : MonoBehaviour
     }
     public async Task CreatePopupTeamSecondPanelAsync()
     {
-        GameObject teamsObject = Instantiate(PopupTeamSecondPrefab, MainPanel);
-        titleText = teamsObject.transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        ScrollRect scrollRect = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition").GetComponent<ScrollRect>();
-        positionPanel = teamsObject.transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
-        Transform tempLeftContent = teamsObject.transform.Find("ScrollViewLeft/Viewport/Content");
-        Transform tempRightContent = teamsObject.transform.Find("ScrollViewRight/Viewport/Content");
-        closeButton = teamsObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        GameObject teamObject = Instantiate(PopupTeamSecondPrefab, MainPanel);
+        Transform transform = teamObject.transform;
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        ScrollRect scrollRect = transform.Find("DictionaryCards/ScrollViewPosition").GetComponent<ScrollRect>();
+        positionPanel = transform.Find("DictionaryCards/ScrollViewPosition/Viewport/Content");
+        Transform tempLeftContent = transform.Find("ScrollViewLeft/Viewport/Content");
+        Transform tempRightContent = transform.Find("ScrollViewRight/Viewport/Content");
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(teamsObject);
+            Destroy(teamObject);
             CreatePopupTeamFirstPanel();
         });
-        homeButton = teamsObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -324,14 +326,14 @@ public class TeamsManager : MonoBehaviour
         });
         // RawImage arrowUp = teamsObject.transform.Find("DictionaryCards/ScrollViewArrowUp").GetComponent<RawImage>();
         // RawImage arrowDown = teamsObject.transform.Find("DictionaryCards/ScrollViewArrowDown").GetComponent<RawImage>();
-        TMP_Dropdown dropdownType = teamsObject.transform.Find("DictionaryCards/DropdownType").GetComponent<TMP_Dropdown>();
-        TextMeshProUGUI typeText = teamsObject.transform.Find("DictionaryCards/TypeText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI teamTitleText = teamsObject.transform.Find("DictionaryCards/TeamTitleText").GetComponent<TextMeshProUGUI>();
-        powerText = teamsObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        choseTeam = teamsObject.transform.Find("DictionaryCards/ChoseTeam");
-        Button nextButton = teamsObject.transform.Find("DictionaryCards/NextButton").GetComponent<Button>();
-        Button previousButton = teamsObject.transform.Find("DictionaryCards/PreviousButton").GetComponent<Button>();
-        Text pageText = teamsObject.transform.Find("Pagination/Page").GetComponent<Text>();
+        TMP_Dropdown dropdownType = transform.Find("DictionaryCards/DropdownType").GetComponent<TMP_Dropdown>();
+        TextMeshProUGUI typeText = transform.Find("DictionaryCards/TypeText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI teamTitleText = transform.Find("DictionaryCards/TeamTitleText").GetComponent<TextMeshProUGUI>();
+        powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        choseTeam = transform.Find("DictionaryCards/ChoseTeam");
+        Button nextButton = transform.Find("DictionaryCards/NextButton").GetComponent<Button>();
+        Button previousButton = transform.Find("DictionaryCards/PreviousButton").GetComponent<Button>();
+        Text pageText = transform.Find("Pagination/Page").GetComponent<Text>();
 
         teamLimit = 10;
         teamOffset = 0;
@@ -402,7 +404,7 @@ public class TeamsManager : MonoBehaviour
         });
         typeText.text = string.Concat(mainType.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString()));
 
-        await CreatePositionAsync(positionPanel, teamsObject);
+        await CreatePositionAsync(positionPanel, teamObject);
         CreateCardTeams(cardObjects, choseTeam);
         selectedOptionName = dropdownType.options[dropdownType.value].text;
         int totalRecord = await userCardHeroesService.GetUserCardHeroesCountAsync(User.CurrentUserId, search, selectedOptionName, rare);

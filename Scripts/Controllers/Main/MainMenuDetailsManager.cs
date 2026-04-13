@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Reflection;
 using System;
 
 public class MainMenuDetailsManager : MonoBehaviour

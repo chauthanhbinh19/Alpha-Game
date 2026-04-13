@@ -1,12 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
 using System.Linq;
-using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 using System.Threading.Tasks;
 
 public class MainMenuManager : MonoBehaviour

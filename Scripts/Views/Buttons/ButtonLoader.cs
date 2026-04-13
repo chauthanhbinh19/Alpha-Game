@@ -126,10 +126,6 @@ public class ButtonLoader : MonoBehaviour
         CreateButton(17, AppConstants.Market.MYSTIC_MARKET, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Market.MYSTIC_MARKET_URL), contentPanel);
         CreateButton(18, AppConstants.MainType.CHIP, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CHIP_URL), contentPanel);
     }
-    public void CreateMoreButton(Transform moreMenuPanel)
-    {
-        moreMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
-    }
     private void CreateButton(int index, string itemName, Texture2D _itemBackground, Texture2D _subBackground, Texture2D itemImage, Transform panel)
     {
         // Tạo button từ prefab
@@ -389,16 +385,17 @@ public class ButtonLoader : MonoBehaviour
     public void CreateButtonGroup(object data)
     {
         GameObject popUpPanelGameObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
-        Transform content = popUpPanelGameObject.transform.Find("Scroll View/Viewport/Content");
+        Transform transform = popUpPanelGameObject.transform;
+        Transform content = transform.Find("Scroll View/Viewport/Content");
         content.gameObject.SetActive(true);
         GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
         gridLayout.cellSize = new Vector2(280, 450);
         // content.position = new Vector3(transform.position.x, 200f, transform.position.z);
 
-        TextMeshProUGUI titleText = popUpPanelGameObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         titleText.text = "Set " + set.ToString();
 
-        Button CloseButton = popUpPanelGameObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button CloseButton = transform.Find("CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -460,9 +457,10 @@ public class ButtonLoader : MonoBehaviour
         // Tạo button từ prefab
         GameObject newButton = Instantiate(AdvancedSubButtonPrefab, panel);
         newButton.name = "Button_" + index;
+        Transform transform = newButton.transform;
 
         // Gán màu cho itemBackground
-        RawImage background = newButton.transform.Find("Background").GetComponent<RawImage>();
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
         Texture texture = TextureHelper.LoadTextureCached($"{itemBackground}");
         if (background != null && itemBackground != null)
         {
@@ -470,14 +468,14 @@ public class ButtonLoader : MonoBehaviour
         }
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("MainImage").GetComponent<RawImage>();
+        RawImage image = transform.Find("MainImage").GetComponent<RawImage>();
         if (image != null && itemImage != null)
         {
             image.texture = itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);

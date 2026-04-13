@@ -1,12 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
-using System.Linq;
-using System.Reflection;
-using UnityEngine.EventSystems;
 using System.Threading.Tasks;
 
 public class ShopManager : MonoBehaviour

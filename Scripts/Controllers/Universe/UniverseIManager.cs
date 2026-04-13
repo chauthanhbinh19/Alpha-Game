@@ -54,14 +54,15 @@ public class UniverseIManager : MonoBehaviour
     public async Task CreateUniverseIManagerAsync()
     {
         GameObject currentObject = Instantiate(PopupUniversePanelPrefab, MainPanel);
-        content = currentObject.transform.Find("Scroll View/Viewport/Content");
-        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        content = transform.Find("Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -130,15 +131,16 @@ public class UniverseIManager : MonoBehaviour
     
     private void SetupPagination(GameObject currentObject)
     {
-        nextButton = currentObject.transform
+        Transform transform = currentObject.transform;
+        nextButton = transform
             .Find("Pagination/Next")
             .GetComponent<Button>();
 
-        previousButton = currentObject.transform
+        previousButton = transform
             .Find("Pagination/Previous")
             .GetComponent<Button>();
 
-        pageText = currentObject.transform
+        pageText = transform
             .Find("Pagination/Page")
             .GetComponent<TextMeshProUGUI>();
 
@@ -194,18 +196,19 @@ public class UniverseIManager : MonoBehaviour
     public async Task CreateMainUniversePanelAsync(string featureId, string featureName)
     {
         GameObject currentObject = Instantiate(MainUniversePanelPrefab, MainPanel);
-        Button upgradeOneLevelButton = currentObject.transform.Find("UpgradeOneLevelButton").GetComponent<Button>();
-        Button upgradeMaxLevelButton = currentObject.transform.Find("UpgradeMaxLevelButton").GetComponent<Button>();
-        Transform leftSideContent = currentObject.transform.Find("LeftSideContent");
-        Transform rightSideContent = currentObject.transform.Find("RightSideContent");
-        TextMeshProUGUI levelText = currentObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Transform transform = currentObject.transform;
+        Button upgradeOneLevelButton = transform.Find("UpgradeOneLevelButton").GetComponent<Button>();
+        Button upgradeMaxLevelButton = transform.Find("UpgradeMaxLevelButton").GetComponent<Button>();
+        Transform leftSideContent = transform.Find("LeftSideContent");
+        Transform rightSideContent = transform.Find("RightSideContent");
+        TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
