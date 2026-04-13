@@ -106,7 +106,7 @@ public class UserCardMonstersController : MonoBehaviour
             typePanel.text = cardMonster.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMonster.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardMonster.Rare));
 
             RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = bgTexture;
@@ -134,7 +134,7 @@ public class UserCardMonstersController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardMonster.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardMonster.Rare));
             rareText.text = cardMonster.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

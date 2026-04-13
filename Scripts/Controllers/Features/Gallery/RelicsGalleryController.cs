@@ -90,7 +90,7 @@ public class RelicsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(relic.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(relic.Rare));
                 rareText.text = relic.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

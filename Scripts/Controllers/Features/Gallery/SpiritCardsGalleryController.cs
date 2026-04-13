@@ -88,7 +88,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(spiritCard.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(spiritCard.Rare));
                 rareText.text = spiritCard.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

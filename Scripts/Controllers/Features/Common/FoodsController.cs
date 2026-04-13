@@ -95,7 +95,7 @@ public class FoodsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(food.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(food.Rare));
             rareText.text = food.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -154,11 +154,11 @@ public class FoodsController : MonoBehaviour
             RawImage topImage = transform.Find("TopImage").GetComponent<RawImage>();
             topImage.material = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_90");
             RawImage circleImage = transform.Find("BackgroundContent/CircleImage").GetComponent<RawImage>();
-            circleImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            circleImage.color = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
             Outline bottomOutline = transform.Find("BottomImage").GetComponent<Outline>();
-            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
             Outline middleOutline = transform.Find("MiddleImage").GetComponent<Outline>();
-            bottomOutline.effectColor = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
             fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Currency.Image);
@@ -172,7 +172,7 @@ public class FoodsController : MonoBehaviour
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
             Image buttonBackgroundImage = buyButton.transform.Find("Background").GetComponent<Image>();
-            buttonBackgroundImage.color = ColorHelper.ToColor(ColorConstants.RED_COLOR);
+            buttonBackgroundImage.color = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
             buyButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);

@@ -90,7 +90,7 @@ public class UserBooksController : MonoBehaviour
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(book.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(book.Rare));
             rareText.text = book.Rare;
 
             Button button = transform.GetComponent<Button>();

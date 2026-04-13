@@ -98,7 +98,7 @@ public class UserVehiclesController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
             rareText.text = vehicle.Rare;
 
         }

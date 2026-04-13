@@ -95,7 +95,7 @@ public class UserBadgesController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(badge.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(badge.Rare));
             rareText.text = badge.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

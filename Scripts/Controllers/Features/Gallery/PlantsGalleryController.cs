@@ -88,7 +88,7 @@ public class PlantsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(plant.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(plant.Rare));
                 rareText.text = plant.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

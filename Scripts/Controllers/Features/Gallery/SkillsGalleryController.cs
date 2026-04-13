@@ -90,7 +90,7 @@ public class SkillsGalleryController : MonoBehaviour
                 // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(skill.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(skill.Rare));
                 rareText.text = skill.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

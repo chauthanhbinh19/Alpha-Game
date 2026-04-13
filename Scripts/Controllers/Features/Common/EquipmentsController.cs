@@ -88,7 +88,7 @@ public class EquipmentsController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(equipment.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(equipment.Rare));
                 rareText.text = equipment.Rare;
             }
             catch (Exception ex)

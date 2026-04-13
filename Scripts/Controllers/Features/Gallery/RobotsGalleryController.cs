@@ -88,7 +88,7 @@ public class RobotsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(robot.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(robot.Rare));
                 rareText.text = robot.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

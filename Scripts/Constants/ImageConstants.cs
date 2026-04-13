@@ -1461,21 +1461,21 @@ public static class ImageConstants
         public const string CARD_LIFE_TOP_RANK_URL = "UI/Level/Object_Top_Rank";
         public const string CARD_LIFE_TOP_C_RANK_URL = "UI/Level/Object_Top_C_Rank";
 
-        public const string CARD_BRONZE_RANK_URL = "UI/Level/Object_Bronze_Rank";
-        public const string CARD_SILVER_RANK_URL = "UI/Level/Object_Silver_Rank";
-        public const string CARD_GOLD_RANK_URL = "UI/Level/Object_Gold_Rank";
-        public const string CARD_PLATINUM_RANK_URL = "UI/Level/Object_Platinum_Rank";
-        public const string CARD_DIAMOND_RANK_URL = "UI/Level/Object_Diamond_Rank";
-        public const string CARD_MASTER_RANK_URL = "UI/Level/Object_Master_Rank";
-        public const string CARD_GRAND_MASTER_RANK_URL = "UI/Level/Object_Grand_Master_Rank";
-        public const string CARD_PATH_OF_GLORY_RANK_URL = "UI/Level/Object_Path_Of_Glory_Rank";
-        public const string CARD_PATH_OF_GLORY_C_RANK_URL = "UI/Level/Object_Path_Of_Glory_C_Rank";
-        public const string CARD_SPIRIT_OF_GLORY_RANK_URL = "UI/Level/Object_Spirit_Of_Glory_Rank";
-        public const string CARD_SPIRIT_OF_GLORY_C_RANK_URL = "UI/Level/Object_Spirit_Of_Glory_C_Rank";
-        public const string CARD_CONQUEROR_OF_GLORY_RANK_URL = "UI/Level/Object_Conqueror_Of_Glory_Rank";
-        public const string CARD_CONQUEROR_OF_GLORY_C_RANK_URL = "UI/Level/Object_Conqueror_Of_Glory_C_Rank";
-        public const string CARD_TOP_RANK_URL = "UI/Level/Object_Top_Rank";
-        public const string CARD_TOP_C_RANK_URL = "UI/Level/Object_Top_C_Rank";
+        public const string ARTIFACT_BRONZE_RANK_URL = "UI/Level/Object_Bronze_Rank";
+        public const string ARTIFACT_SILVER_RANK_URL = "UI/Level/Object_Silver_Rank";
+        public const string ARTIFACT_GOLD_RANK_URL = "UI/Level/Object_Gold_Rank";
+        public const string ARTIFACT_PLATINUM_RANK_URL = "UI/Level/Object_Platinum_Rank";
+        public const string ARTIFACT_DIAMOND_RANK_URL = "UI/Level/Object_Diamond_Rank";
+        public const string ARTIFACT_MASTER_RANK_URL = "UI/Level/Object_Master_Rank";
+        public const string ARTIFACT_GRAND_MASTER_RANK_URL = "UI/Level/Object_Grand_Master_Rank";
+        public const string ARTIFACT_PATH_OF_GLORY_RANK_URL = "UI/Level/Object_Path_Of_Glory_Rank";
+        public const string ARTIFACT_PATH_OF_GLORY_C_RANK_URL = "UI/Level/Object_Path_Of_Glory_C_Rank";
+        public const string ARTIFACT_SPIRIT_OF_GLORY_RANK_URL = "UI/Level/Object_Spirit_Of_Glory_Rank";
+        public const string ARTIFACT_SPIRIT_OF_GLORY_C_RANK_URL = "UI/Level/Object_Spirit_Of_Glory_C_Rank";
+        public const string ARTIFACT_CONQUEROR_OF_GLORY_RANK_URL = "UI/Level/Object_Conqueror_Of_Glory_Rank";
+        public const string ARTIFACT_CONQUEROR_OF_GLORY_C_RANK_URL = "UI/Level/Object_Conqueror_Of_Glory_C_Rank";
+        public const string ARTIFACT_TOP_RANK_URL = "UI/Level/Object_Top_Rank";
+        public const string ARTIFACT_TOP_C_RANK_URL = "UI/Level/Object_Top_C_Rank";
 
         public const string COLLABORATION_EQUIPMENT_BRONZE_RANK_URL = "UI/Level/Object_Bronze_Rank";
         public const string COLLABORATION_EQUIPMENT_SILVER_RANK_URL = "UI/Level/Object_Silver_Rank";
@@ -1860,5 +1860,21 @@ public static class ImageConstants
         public const string WEAPON_CONQUEROR_OF_GLORY_C_RANK_URL = "UI/Level/Object_Conqueror_Of_Glory_C_Rank";
         public const string WEAPON_TOP_RANK_URL = "UI/Level/Object_Top_Rank";
         public const string WEAPON_TOP_C_RANK_URL = "UI/Level/Object_Top_C_Rank";
+
+        public const string EMOJi_BRONZE_RANK_URL = "UI/Level/Object_Bronze_Rank";
+        public const string EMOJi_SILVER_RANK_URL = "UI/Level/Object_Silver_Rank";
+        public const string EMOJi_GOLD_RANK_URL = "UI/Level/Object_Gold_Rank";
+        public const string EMOJi_PLATINUM_RANK_URL = "UI/Level/Object_Platinum_Rank";
+        public const string EMOJi_DIAMOND_RANK_URL = "UI/Level/Object_Diamond_Rank";
+        public const string EMOJi_MASTER_RANK_URL = "UI/Level/Object_Master_Rank";
+        public const string EMOJi_GRAND_MASTER_RANK_URL = "UI/Level/Object_Grand_Master_Rank";
+        public const string EMOJi_PATH_OF_GLORY_RANK_URL = "UI/Level/Object_Path_Of_Glory_Rank";
+        public const string EMOJi_PATH_OF_GLORY_C_RANK_URL = "UI/Level/Object_Path_Of_Glory_C_Rank";
+        public const string EMOJi_SPIRIT_OF_GLORY_RANK_URL = "UI/Level/Object_Spirit_Of_Glory_Rank";
+        public const string EMOJi_SPIRIT_OF_GLORY_C_RANK_URL = "UI/Level/Object_Spirit_Of_Glory_C_Rank";
+        public const string EMOJi_CONQUEROR_OF_GLORY_RANK_URL = "UI/Level/Object_Conqueror_Of_Glory_Rank";
+        public const string EMOJi_CONQUEROR_OF_GLORY_C_RANK_URL = "UI/Level/Object_Conqueror_Of_Glory_C_Rank";
+        public const string EMOJi_TOP_RANK_URL = "UI/Level/Object_Top_Rank";
+        public const string EMOJi_TOP_C_RANK_URL = "UI/Level/Object_Top_C_Rank";
     }
 }

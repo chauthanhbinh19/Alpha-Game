@@ -572,7 +572,7 @@ public class ProfileManager : MonoBehaviour
         if (status)
         {
             iconText.color = Color.black;
-            background.color = ColorHelper.ToColor("#FFB300");
+            background.color = ColorHelper.HexToColor("#FFB300");
         }
         else
         {
@@ -732,7 +732,7 @@ public class ProfileManager : MonoBehaviour
         if (status)
         {
             iconText.color = Color.black;
-            topImage.color = ColorHelper.ToColor("#FFB300");
+            topImage.color = ColorHelper.HexToColor("#FFB300");
             backgroundOutline.enabled = true;
             topImageOutline.enabled = true;
             iconImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Icon.ICON_ACTIVE_URL);
@@ -740,7 +740,7 @@ public class ProfileManager : MonoBehaviour
         else
         {
             iconText.color = Color.white;
-            topImage.color = ColorHelper.ToColor("#646464");
+            topImage.color = ColorHelper.HexToColor("#646464");
             backgroundOutline.enabled = false;
             topImageOutline.enabled = false;
             iconImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Icon.ICON_UNACTIVE_URL);
@@ -863,14 +863,14 @@ public class ProfileManager : MonoBehaviour
         if (status)
         {
             iconText.color = Color.black;
-            background.color = ColorHelper.ToColor("#FFB300");
+            background.color = ColorHelper.HexToColor("#FFB300");
             backgroundOutline.enabled = true;
             iconImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Icon.ICON_ACTIVE_URL);
         }
         else
         {
             iconText.color = Color.white;
-            background.color = ColorHelper.ToColor("#646464");
+            background.color = ColorHelper.HexToColor("#646464");
             backgroundOutline.enabled = false;
             iconImage.texture = TextureHelper.LoadTextureCached(ImageConstants.Icon.ICON_UNACTIVE_URL);
         }

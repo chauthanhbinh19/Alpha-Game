@@ -98,7 +98,7 @@ public class UserBuildingsController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(building.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(building.Rare));
             rareText.text = building.Rare;
 
         }

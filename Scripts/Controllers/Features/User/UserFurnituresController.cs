@@ -98,7 +98,7 @@ public class UserFurnituresController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(furniture.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(furniture.Rare));
             rareText.text = furniture.Rare;
 
         }

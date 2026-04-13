@@ -95,7 +95,7 @@ public class UserMedalsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(medal.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(medal.Rare));
             rareText.text = medal.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

@@ -88,7 +88,7 @@ public class VehiclesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
                 rareText.text = vehicle.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

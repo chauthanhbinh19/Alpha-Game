@@ -106,13 +106,13 @@ public class UserCardCaptainsController : MonoBehaviour
             typePanel.text = cardCaptain.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardCaptain.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardCaptain.Rare));
 
             RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardCaptain.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardCaptain.Rare));
             rareText.text = cardCaptain.Rare;
 
             Transform teamPanel = transform.Find("Team");

@@ -88,7 +88,7 @@ public class UserCollaborationsController : MonoBehaviour
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(collaboration.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(collaboration.Rare));
             rareText.text = collaboration.Rare;
 
             Button button = transform.GetComponent<Button>();

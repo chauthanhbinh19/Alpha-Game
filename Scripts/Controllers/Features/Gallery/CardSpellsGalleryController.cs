@@ -66,7 +66,7 @@ public class CardSpellsGalleryController : MonoBehaviour
             typePanel.text = cardSpell.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
 
             RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = bgTexture;
@@ -79,7 +79,7 @@ public class CardSpellsGalleryController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
             rareText.text = cardSpell.Rare;
 
             RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

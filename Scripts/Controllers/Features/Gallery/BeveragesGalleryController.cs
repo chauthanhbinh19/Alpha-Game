@@ -88,7 +88,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(beverage.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(beverage.Rare));
                 rareText.text = beverage.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

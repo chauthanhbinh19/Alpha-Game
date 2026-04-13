@@ -88,7 +88,7 @@ public class CollaborationsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(collaboration.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(collaboration.Rare));
                 rareText.text = collaboration.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

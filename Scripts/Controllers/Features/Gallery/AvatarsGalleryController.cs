@@ -88,7 +88,7 @@ public class AvatarsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(avatar.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(avatar.Rare));
                 rareText.text = avatar.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

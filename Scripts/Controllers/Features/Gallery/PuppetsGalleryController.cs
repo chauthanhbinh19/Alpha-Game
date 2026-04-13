@@ -91,7 +91,7 @@ public class PuppetsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(puppet.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(puppet.Rare));
                 rareText.text = puppet.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

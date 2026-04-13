@@ -299,7 +299,7 @@ public class TeamsManager : MonoBehaviour
     {
         Slider slider = barTransform.Find("Slider").GetComponent<Slider>();
         slider.value = count;
-        slider.fillRect.GetComponent<Image>().color = ColorHelper.ToColor(colorHex);
+        slider.fillRect.GetComponent<Image>().color = ColorHelper.HexToColor(colorHex);
         barTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>().text = count.ToString();
     }
     public async Task CreatePopupTeamSecondPanelAsync()

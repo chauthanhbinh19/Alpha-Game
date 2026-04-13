@@ -97,7 +97,7 @@ public class UserPetsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(pet.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(pet.Rare));
             rareText.text = pet.Rare;
 
         }

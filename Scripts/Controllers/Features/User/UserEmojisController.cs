@@ -95,7 +95,7 @@ public class UserEmojisController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(emoji.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(emoji.Rare));
             rareText.text = emoji.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

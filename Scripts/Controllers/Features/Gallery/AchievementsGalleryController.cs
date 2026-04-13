@@ -87,7 +87,7 @@ public class AchievementsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(achievement.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(achievement.Rare));
                 rareText.text = achievement.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

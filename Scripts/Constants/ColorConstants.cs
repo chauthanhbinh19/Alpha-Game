@@ -4,25 +4,23 @@ using UnityEngine;
 public static class ColorConstants
 {
     public const string DEFAULT_TEXT_COLOR = "#F9EED9";
-    public const string RARE_TEXT_COLOR = "#FFD700"; // Vàng
-    public const string EPIC_TEXT_COLOR = "#800080"; // Tím
-    public const string LEGENDARY_TEXT_COLOR = "#FF4500"; // Cam đỏ
     public const string DISABLED_TEXT_COLOR = "#AAAAAA";
-    public const string RED_COLOR       = "#FD1F41";
-    public const string GREEN_COLOR     = "#27FD1F";
-    public const string BLUE_COLOR      = "#1F24FD";
-    public const string YELLOW_COLOR    = "#FDEE1F";
-    public const string CYAN_COLOR      = "#00FFFF";
-    public const string MAGENTA_COLOR   = "#FF00FF";
-    public const string ORANGE_COLOR    = "#FD7F1F";
-    public const string PURPLE_COLOR    = "#A61FFD";
-    public const string PINK_COLOR      = "#FD1F9B";
-    public const string BROWN_COLOR     = "#A52A2A";
-    public const string GRAY_COLOR      = "#646464";
+    public const string DESCRIPTION_TEXT_COLOR = "#F9EED9";
+    public const string RED_COLOR        = "#FD1F41";
+    public const string GREEN_COLOR      = "#1ffd4b";
+    public const string BLUE_COLOR       = "#1f35fd";
+    public const string YELLOW_COLOR     = "#FDEE1F";
+    public const string CYAN_COLOR       = "#00FFFF";
+    public const string MAGENTA_COLOR    = "#ea00ff";
+    public const string ORANGE_COLOR     = "#FD7F1F";
+    public const string PURPLE_COLOR     = "#A61FFD";
+    public const string PINK_COLOR       = "#FD1F9B";
+    public const string BROWN_COLOR      = "#A52A2A";
+    public const string GRAY_COLOR       = "#646464";
     public const string LIGHT_GRAY_COLOR = "#D3D3D3";
     public const string DARK_GRAY_COLOR  = "#A9A9A9";
-    public const string BLACK_COLOR     = "#000000";
-    public const string WHITE_COLOR = "#FFFFFF";
+    public const string BLACK_COLOR      = "#000000";
+    public const string WHITE_COLOR      = "#FFFFFF";
     
     public const string RED_TRANSPARENT_COLOR       = "#c51313cc"; 
     public const string GREEN_TRANSPARENT_COLOR     = "#27b327cc";
@@ -92,8 +90,4 @@ public static class ColorConstants
         new Color32(128, 128, 128, 255), // Bottom Left - Gray
         new Color32(80, 80, 80, 255)     // Bottom Right - Charcoal
     );
-    public static class HexColor
-    {
-        public const string descriptionColor = "#F9EED9";
-    }
 }

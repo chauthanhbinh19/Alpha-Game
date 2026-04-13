@@ -74,7 +74,7 @@ public class UserArtifactsController : MonoBehaviour
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(artifact.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(artifact.Rare));
             rareText.text = artifact.Rare;
 
             Button button = transform.GetComponent<Button>();

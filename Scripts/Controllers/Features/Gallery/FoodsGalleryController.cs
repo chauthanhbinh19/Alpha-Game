@@ -88,7 +88,7 @@ public class FoodsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(food.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(food.Rare));
                 rareText.text = food.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

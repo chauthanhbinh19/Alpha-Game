@@ -88,7 +88,7 @@ public class CoresGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(core.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(core.Rare));
                 rareText.text = core.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

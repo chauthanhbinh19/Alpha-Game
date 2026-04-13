@@ -95,7 +95,7 @@ public class UserSpiritBeastsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(spiritBeast.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(spiritBeast.Rare));
             rareText.text = spiritBeast.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

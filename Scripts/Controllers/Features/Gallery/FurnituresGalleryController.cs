@@ -88,7 +88,7 @@ public class FurnituresGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(furniture.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(furniture.Rare));
                 rareText.text = furniture.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

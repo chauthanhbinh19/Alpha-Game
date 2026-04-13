@@ -95,7 +95,7 @@ public class UserCoresController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(core.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(core.Rare));
             rareText.text = core.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

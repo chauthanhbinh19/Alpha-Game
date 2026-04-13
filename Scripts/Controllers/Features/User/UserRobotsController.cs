@@ -95,7 +95,7 @@ public class UserRobotsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(robot.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(robot.Rare));
             rareText.text = robot.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

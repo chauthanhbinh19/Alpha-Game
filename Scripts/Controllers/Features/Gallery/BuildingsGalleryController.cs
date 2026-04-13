@@ -88,7 +88,7 @@ public class BuildingsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(building.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(building.Rare));
                 rareText.text = building.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

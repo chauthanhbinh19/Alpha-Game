@@ -98,7 +98,7 @@ public class UserPuppetsController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(puppet.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(puppet.Rare));
             rareText.text = puppet.Rare;
 
         }

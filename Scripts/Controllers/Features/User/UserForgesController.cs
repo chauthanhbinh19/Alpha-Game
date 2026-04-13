@@ -98,7 +98,7 @@ public class UserForgesController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(forge.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(forge.Rare));
             rareText.text = forge.Rare;
 
         }

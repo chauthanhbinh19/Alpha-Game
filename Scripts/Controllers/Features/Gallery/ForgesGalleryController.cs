@@ -91,7 +91,7 @@ public class ForgesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(forge.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(forge.Rare));
                 rareText.text = forge.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

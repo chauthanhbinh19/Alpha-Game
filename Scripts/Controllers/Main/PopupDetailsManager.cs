@@ -1815,12 +1815,7 @@ public class PopupDetailsManager : MonoBehaviour
 
                 // Bạn có thể điều chỉnh thêm các thuộc tính như màu sắc, độ đậm, v.v.
                 // Đổi màu chữ bằng mã hex #844000
-                Color color;
-                if (ColorUtility.TryParseHtmlString(ColorConstants.HexColor.descriptionColor, out color)) // Chuyển mã hex thành Color
-                {
-                    descriptionText.color = color; // Gán màu cho text
-                }
-
+                descriptionText.color = ColorHelper.HexToColor(ColorConstants.DESCRIPTION_TEXT_COLOR);
                 // Nếu bạn cần chỉnh sửa thêm chiều rộng của TextMeshProUGUI, có thể cần chỉnh sửa RectTransform của đối tượng
                 RectTransform rectTransform = descriptionText.GetComponent<RectTransform>();
                 rectTransform.sizeDelta = new Vector2(600, 500);

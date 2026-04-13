@@ -88,7 +88,7 @@ public class EmojisGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(emoji.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(emoji.Rare));
                 rareText.text = emoji.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

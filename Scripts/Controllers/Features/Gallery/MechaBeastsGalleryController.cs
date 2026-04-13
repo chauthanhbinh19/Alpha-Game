@@ -88,7 +88,7 @@ public class MechaBeastsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.ToColor(QualityEvaluator.CheckRareColor(mechaBeast.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(mechaBeast.Rare));
                 rareText.text = mechaBeast.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
